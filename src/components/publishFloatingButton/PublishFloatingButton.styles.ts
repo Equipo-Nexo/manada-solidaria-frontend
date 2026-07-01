@@ -14,8 +14,8 @@ export const FloatingButton = styled.button`
   padding: 0 20px;
   border: 0;
   border-radius: 999px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.neutral};
   box-shadow: 0 12px 24px rgb(89 65 55 / 22%);
   cursor: pointer;
   font-size: 15px;
@@ -24,7 +24,7 @@ export const FloatingButton = styled.button`
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    background: ${({ theme }) => theme.colors.secondary};
     box-shadow: 0 16px 30px rgb(89 65 55 / 28%);
     transform: translateY(-2px);
   }

@@ -35,7 +35,7 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 4px;
-  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.primary : theme.colors.text)};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.text)};
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
@@ -50,7 +50,7 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
     width: 54px;
     height: 4px;
     border-radius: 0 0 999px 999px;
-    background: ${({ $isActive, theme }) => ($isActive ? theme.colors.primary : 'transparent')};
+    background: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : 'transparent')};
     transform: translateX(-50%);
     transition: background 160ms ease;
   }
@@ -95,10 +95,10 @@ export const PublishButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 5px solid ${({ theme }) => theme.colors.primary};
+  border: 5px solid ${({ theme }) => theme.colors.secondary};
   border-radius: 999px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.neutral};
   box-shadow: 0 8px 18px rgb(169 92 40 / 28%);
   cursor: pointer;
   transform: translateX(-50%);
