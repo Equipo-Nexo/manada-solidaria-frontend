@@ -22,6 +22,7 @@ function App() {
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false)
   const isLoggedIn = location.pathname !== '/login'
   const isFullScreenMenu = location.pathname === '/menu'
+  const isFullScreenPage = isFullScreenMenu || location.pathname === '/login'
   const showAuthenticatedShell = isLoggedIn && !isFullScreenMenu
   const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
   const username = 'Usuario'
@@ -33,7 +34,7 @@ function App() {
         {showAuthenticatedShell && (
           <AppHeader username={username} onMenuClick={() => setIsDesktopMenuOpen(true)} />
         )}
-        <AppContent $isFullScreen={isFullScreenMenu}>
+        <AppContent $isFullScreen={isFullScreenPage}>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />

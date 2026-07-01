@@ -82,6 +82,31 @@ Guidance for future coding agents working in this repository.
   - `4px` wide
   - no border radius
 
+## Login UI Details
+
+- The login page is a full-screen route. In `src/App.tsx`, `/login` should remain part of the full-screen `AppContent` behavior so the login background can cover the viewport.
+- The login page background uses `theme.colors.neutral`; the login card uses `theme.colors.background`.
+- Keep the login card and footer horizontally centered. On short/mobile viewports, move the layout upward with `justify-content: flex-start`, but do not change horizontal centering with `align-items`.
+- The login card should flex to occupy the available vertical space above the footer, so the neutral background does not appear as a large bottom band.
+- The footer text sits below the card on the neutral background and should stay close to the device bottom:
+  - text: `© 2026 Manada Solidaria - Cuidando huellas juntos`
+  - color `#594137`
+  - Montserrat, 12px, weight 700, line-height 16px
+- The login card has rounded corners and an 8px bottom gradient band:
+  - `linear-gradient(90deg, #EA5F09 0%, #CBB6FF 50%, #A95C28 100%)`
+- The login form keeps the fields, forgot-password action, and submit button inside a shared container with `gap: 18px`; avoid recreating spacing between those controls with individual margins.
+- Login field labels use:
+  - color `#594137`
+  - Montserrat, 14px, weight 600, line-height 20px
+  - `letter-spacing: 0.14px`
+- Login inputs use:
+  - height `56px`
+  - padding `16.5px 24px`
+  - border radius `12px`
+  - transparent 2px border
+  - background `#FFF1EC`
+- The password field should remain a composed input with a `lucide-react` `Eye` / `EyeOff` toggle button that switches between `type="password"` and `type="text"`.
+
 ## Current Architecture Notes
 
 - `src/main.tsx` owns `ThemeProvider`, `GlobalStyle`, `BrowserRouter`, and `ToastProvider`.
