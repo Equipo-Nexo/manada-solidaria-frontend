@@ -24,7 +24,7 @@ function Navbar() {
   const location = useLocation()
 
   const handlePublish = () => {
-    toast.error({
+    toast.information({
       title: 'Error al publicar',
       description: 'Ocurrió un error al intentar publicar tu notificación.',
     })

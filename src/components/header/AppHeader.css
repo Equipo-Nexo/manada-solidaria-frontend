@@ -16,6 +16,26 @@
   gap: 14px;
 }
 
+.app-header__menu-button,
+.app-header__notifications {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #594137;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.app-header__menu-button {
+  display: none;
+}
+
 .app-header__logo {
   width: 42px;
   height: 42px;
@@ -47,35 +67,33 @@
   white-space: nowrap;
 }
 
-.app-header__notifications {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: #594137;
-  cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
-}
-
+.app-header__menu-button:hover,
 .app-header__notifications:hover {
   background: rgb(169 92 40 / 12%);
   color: #A95C28;
 }
 
+.app-header__menu-button:focus-visible,
 .app-header__notifications:focus-visible {
   outline: 3px solid rgb(169 92 40 / 35%);
   outline-offset: 2px;
 }
 
+.app-header__menu-button svg,
 .app-header__notifications svg {
   width: 24px;
   height: 24px;
   stroke-width: 2.2;
+}
+
+@media (min-width: 768px) {
+  .app-header {
+    padding: 0 32px;
+  }
+
+  .app-header__menu-button {
+    display: inline-flex;
+  }
 }
 
 @media (max-width: 420px) {

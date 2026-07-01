@@ -1,22 +1,22 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: clamp(20px, 5vw, 56px);
   box-sizing: border-box;
   background: rgb(25 18 15 / 48%);
 }
 
 .modal-card {
-  width: min(100%, 360px);
+  width: min(100%, clamp(340px, 42vw, 560px));
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  padding: 24px;
+  gap: clamp(22px, 3vw, 34px);
+  padding: clamp(24px, 4vw, 40px);
   border: 1px solid rgb(169 92 40 / 22%);
   border-radius: 16px;
   background: #F5E7D4;
@@ -28,24 +28,24 @@
 .modal-card__content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: clamp(10px, 1.6vw, 16px);
 }
 
 .modal-card__title {
   margin: 0;
   color: #594137;
   font-family: "Montserrat", Arial, sans-serif;
-  font-size: 20px;
+  font-size: clamp(20px, 2vw, 28px);
   font-weight: 800;
-  line-height: 26px;
+  line-height: 1.25;
 }
 
 .modal-card__body {
   color: rgb(89 65 55 / 82%);
   font-family: "Montserrat", Arial, sans-serif;
-  font-size: 14px;
+  font-size: clamp(14px, 1.25vw, 18px);
   font-weight: 500;
-  line-height: 20px;
+  line-height: 1.55;
 }
 
 .modal-card__body p {
@@ -55,20 +55,20 @@
 .modal-card__actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: clamp(10px, 1.5vw, 16px);
 }
 
 .modal-card__button {
   min-width: 0;
-  min-height: 44px;
+  min-height: clamp(44px, 4vw, 54px);
   box-sizing: border-box;
-  padding: 10px 12px;
+  padding: 10px clamp(12px, 2vw, 20px);
   border: 1px solid transparent;
   border-radius: 10px;
   font-family: "Montserrat", Arial, sans-serif;
-  font-size: 14px;
+  font-size: clamp(14px, 1.15vw, 16px);
   font-weight: 700;
-  line-height: 18px;
+  line-height: 1.25;
   cursor: pointer;
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
 }

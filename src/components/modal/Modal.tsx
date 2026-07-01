@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import './Modal.css'
 
 type ModalProps = {
@@ -24,7 +25,7 @@ function Modal({
     return null
   }
 
-  return (
+  return createPortal(
     <div className="modal-backdrop" role="presentation">
       <section className="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div className="modal-card__content">
@@ -43,7 +44,8 @@ function Modal({
           </button>
         </div>
       </section>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
