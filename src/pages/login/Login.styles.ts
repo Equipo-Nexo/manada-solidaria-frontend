@@ -22,6 +22,19 @@ export const LoginPanel = styled.section`
     padding-top: 10px;
     padding-bottom: 4px;
   }
+
+  @media (min-width: 768px) {
+    justify-content: center;
+    gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 6px;
+    padding-top: 6px;
+    padding-bottom: 4px;
+  }
 `
 
 export const LoginFooter = styled.p`
@@ -34,6 +47,14 @@ export const LoginFooter = styled.p`
   font-weight: 700;
   line-height: 16px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    width: min(100%, 380px);
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    width: min(100%, 340px);
+  }
 `
 
 export const LoginContainer = styled.div`
@@ -55,6 +76,15 @@ export const LoginContainer = styled.div`
 
   @media (max-width: 767px) {
     min-height: 0;
+  }
+
+  @media (min-width: 768px) {
+    width: min(100%, 380px);
+    flex: 0 1 auto;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    width: min(100%, 340px);
   }
 
   &::after {
@@ -91,6 +121,17 @@ export const LoginContent = styled.div`
     min-height: 0;
     padding-bottom: 24px;
   }
+
+  @media (min-width: 768px) {
+    min-height: 0;
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    padding-top: 12px;
+    padding-bottom: 18px;
+  }
 `
 
 export const AppLogo = styled.img`
@@ -107,6 +148,18 @@ export const AppLogo = styled.img`
   }
 
   @media (max-height: 620px) {
+    width: 88px;
+    height: 82px;
+    flex-basis: 82px;
+  }
+
+  @media (min-width: 768px) {
+    width: 124px;
+    height: 116px;
+    flex-basis: 116px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
     width: 88px;
     height: 82px;
     flex-basis: 82px;
@@ -132,6 +185,16 @@ export const AppTitle = styled.h1`
     font-size: 24px;
     line-height: 28px;
   }
+
+  @media (min-width: 768px) {
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    font-size: 24px;
+    line-height: 28px;
+  }
 `
 
 export const AppDescription = styled.p`
@@ -148,6 +211,16 @@ export const AppDescription = styled.p`
   @media (max-height: 760px) {
     font-size: 15px;
     line-height: 22px;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    font-size: 14px;
+    line-height: 20px;
   }
 `
 
@@ -168,6 +241,16 @@ export const Form = styled.form`
     gap: 12px;
     margin-top: 12px;
   }
+
+  @media (min-width: 768px) {
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 10px;
+    margin-top: 10px;
+  }
 `
 
 export const FormFields = styled.div`
@@ -183,6 +266,14 @@ export const FormFields = styled.div`
 
   @media (max-height: 620px) {
     gap: 10px;
+  }
+
+  @media (min-width: 768px) {
+    gap: 14px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 8px;
   }
 `
 
@@ -205,6 +296,16 @@ export const WelcomeTitle = styled.h2`
     font-size: 20px;
     line-height: 26px;
   }
+
+  @media (min-width: 768px) {
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 `
 
 export const WelcomeSubtitle = styled.p`
@@ -221,6 +322,16 @@ export const WelcomeSubtitle = styled.p`
     font-size: 15px;
     line-height: 22px;
   }
+
+  @media (min-width: 768px) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    font-size: 14px;
+    line-height: 20px;
+  }
 `
 
 export const Field = styled.div`
@@ -233,6 +344,10 @@ export const Field = styled.div`
 
   @media (max-height: 760px) {
     gap: 6px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 4px;
   }
 `
 
@@ -289,6 +404,18 @@ export const Input = styled.input`
     height: 44px;
     padding-top: 11.5px;
     padding-bottom: 11.5px;
+  }
+
+  @media (min-width: 768px) {
+    height: 48px;
+    padding-top: 13.5px;
+    padding-bottom: 13.5px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    height: 42px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   &::placeholder {
@@ -394,6 +521,14 @@ export const PrimaryButton = styled.button`
     height: 48px;
   }
 
+  @media (min-width: 768px) {
+    height: 48px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    height: 42px;
+  }
+
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
     transform: translateY(-1px);
@@ -417,6 +552,14 @@ export const RegisterText = styled.p`
 
   @media (max-height: 760px) {
     margin-top: 14px;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 16px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    margin-top: 10px;
   }
 `
 

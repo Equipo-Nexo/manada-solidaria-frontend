@@ -75,7 +75,7 @@ function Login() {
                     id="password"
                     name="password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="contraseña"
+                    placeholder={showPassword ? 'contraseña' : '********'}
                   />
                   <PasswordToggle
                     type="button"

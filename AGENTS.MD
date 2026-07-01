@@ -88,6 +88,11 @@ Guidance for future coding agents working in this repository.
 - The login page background uses `theme.colors.neutral`; the login card uses `theme.colors.background`.
 - Keep the login card and footer horizontally centered. On short/mobile viewports, move the layout upward with `justify-content: flex-start`, but do not change horizontal centering with `align-items`.
 - The login card should flex to occupy the available vertical space above the footer, so the neutral background does not appear as a large bottom band.
+- Desktop login sizing is intentionally narrower than the original mobile/tablet max width:
+  - normal desktop card/footer width: `min(100%, 380px)`
+  - short desktop/notebook card/footer width, for example around 710px viewport height: `min(100%, 340px)`
+  - preserve the internal form width at `284px` so fields do not become cramped
+- Short desktop/notebook viewports use a dedicated compact breakpoint: `@media (min-width: 768px) and (max-height: 720px)`. Keep this separate from general mobile height rules so desktop rules do not accidentally re-expand the layout.
 - The footer text sits below the card on the neutral background and should stay close to the device bottom:
   - text: `© 2026 Manada Solidaria - Cuidando huellas juntos`
   - color `#594137`
@@ -106,6 +111,7 @@ Guidance for future coding agents working in this repository.
   - transparent 2px border
   - background `#FFF1EC`
 - The password field should remain a composed input with a `lucide-react` `Eye` / `EyeOff` toggle button that switches between `type="password"` and `type="text"`.
+- When the password is hidden, its placeholder should look hidden, currently `********`; when visible, the placeholder can read `contraseña`.
 
 ## Current Architecture Notes
 
