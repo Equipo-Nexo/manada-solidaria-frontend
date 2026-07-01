@@ -1,4 +1,4 @@
-import { Bell, Dog, Menu } from 'lucide-react'
+import { Bell, Menu } from 'lucide-react'
 import './AppHeader.css'
 
 type AppHeaderProps = {
@@ -18,8 +18,8 @@ function AppHeader({ username, onMenuClick }: AppHeaderProps) {
         >
           <Menu aria-hidden="true" />
         </button>
-        <div className="app-header__logo" aria-label="Manada Solidaria">
-          <Dog aria-hidden="true" />
+        <div className="app-header__logo">
+          <img src="/logo.svg" alt="Manada Solidaria" />
         </div>
         <p className="app-header__greeting">Hola, {username}</p>
       </div>
