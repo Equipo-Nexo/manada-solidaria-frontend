@@ -14,8 +14,8 @@ import {
   Users,
 } from 'lucide-react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 import Modal from '../../components/modal/Modal'
-import './Menu.css'
 
 type IconProps = SVGProps<SVGSVGElement>
 
@@ -46,7 +46,7 @@ const profileImage =
 
 const sections: MenuSection[] = [
   {
-    title: 'Navegación',
+    title: 'Navegaci\u00f3n',
     items: [
       { label: 'Inicio', path: '/home', activePath: '/home', icon: House },
       { label: 'Mi perfil', path: '/home', activePath: '/mi-perfil', icon: User },
@@ -57,7 +57,7 @@ const sections: MenuSection[] = [
     ],
   },
   {
-    title: 'Colaboración',
+    title: 'Colaboraci\u00f3n',
     items: [
       { label: 'Casos urgentes', path: '/home', activePath: '/casos-urgentes', icon: Info },
       {
@@ -66,7 +66,7 @@ const sections: MenuSection[] = [
         activePath: '/animales-publicados',
         icon: PawPrint,
       },
-      { label: 'Campañas', path: '/campanias', activePath: '/campanias', icon: HandHeart },
+      { label: 'Campa\u00f1as', path: '/campanias', activePath: '/campanias', icon: HandHeart },
     ],
   },
 ]
@@ -83,26 +83,20 @@ function Menu({ username, email, onNavigate }: MenuProps) {
   }
 
   return (
-    <section className="hamburger-menu" aria-label="Menú principal">
-      <div className="hamburger-menu__profile">
-        <img
-          className="hamburger-menu__avatar"
-          src={profileImage}
-          alt={`Foto de perfil de ${username}`}
-          width="50"
-          height="50"
-        />
-        <div className="hamburger-menu__user-data">
-          <p className="hamburger-menu__username">{username}</p>
-          <p className="hamburger-menu__email">{email}</p>
-        </div>
-      </div>
+    <MenuRoot aria-label={'Men\u00fa principal'}>
+      <Profile>
+        <Avatar src={profileImage} alt={`Foto de perfil de ${username}`} width="50" height="50" />
+        <UserData>
+          <Username>{username}</Username>
+          <Email>{email}</Email>
+        </UserData>
+      </Profile>
 
-      <nav className="hamburger-menu__nav" aria-label="Opciones del menú">
+      <MenuNav aria-label={'Opciones del men\u00fa'}>
         {sections.map((section) => (
-          <div className="hamburger-menu__section" key={section.title}>
-            <h2 className="hamburger-menu__section-title">{section.title}</h2>
-            <div className="hamburger-menu__items">
+          <MenuSectionBlock key={section.title}>
+            <SectionTitle>{section.title}</SectionTitle>
+            <Items>
               {section.items.map((item) => (
                 <MenuLink
                   activePath={activePath}
@@ -111,34 +105,30 @@ function Menu({ username, email, onNavigate }: MenuProps) {
                   onNavigate={onNavigate}
                 />
               ))}
-            </div>
-          </div>
+            </Items>
+          </MenuSectionBlock>
         ))}
 
-        <button
-          className="hamburger-menu__item hamburger-menu__item--logout"
-          type="button"
-          onClick={() => setIsLogoutModalOpen(true)}
-        >
-          <span className="hamburger-menu__item-content">
+        <LogoutButton type="button" onClick={() => setIsLogoutModalOpen(true)}>
+          <ItemContent>
             <LogOut aria-hidden="true" />
-            <span>Cerrar sesión</span>
-          </span>
+            <span>{'Cerrar sesi\u00f3n'}</span>
+          </ItemContent>
           <ChevronRight aria-hidden="true" />
-        </button>
-      </nav>
+        </LogoutButton>
+      </MenuNav>
 
       <Modal
         isOpen={isLogoutModalOpen}
-        title="Cerrar sesión"
-        primaryLabel="Cerrar sesión"
+        title={'Cerrar sesi\u00f3n'}
+        primaryLabel={'Cerrar sesi\u00f3n'}
         secondaryLabel="Cancelar"
         onPrimaryAction={confirmLogout}
         onSecondaryAction={closeLogoutModal}
       >
-        <p>¿Querés salir de la aplicación?</p>
+        <p>{'\u00bfQuer\u00e9s salir de la aplicaci\u00f3n?'}</p>
       </Modal>
-    </section>
+    </MenuRoot>
   )
 }
 
@@ -155,19 +145,190 @@ function MenuLink({
   const isSelected = activePath === item.activePath
 
   return (
-    <NavLink
+    <MenuItemLink
       to={item.path}
-      className={`hamburger-menu__item${isSelected ? ' hamburger-menu__item--active' : ''}`}
+      $isSelected={isSelected}
       aria-current={isSelected ? 'page' : undefined}
       onClick={onNavigate}
     >
-      <span className="hamburger-menu__item-content">
+      <ItemContent>
         <Icon aria-hidden="true" />
         <span>{item.label}</span>
-      </span>
+      </ItemContent>
       {!isSelected && <ChevronRight aria-hidden="true" />}
-    </NavLink>
+    </MenuItemLink>
   )
 }
+
+const MenuRoot = styled.section`
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: ${({ theme }) => theme.colors.surfacePlain};
+  color: ${({ theme }) => theme.colors.text};
+  text-align: left;
+`
+
+const Profile = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 24px 18px;
+`
+
+const Avatar = styled.img`
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 999px;
+  object-fit: cover;
+`
+
+const UserData = styled.div`
+  min-width: 0;
+`
+
+const UserText = styled.p`
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+const Username = styled(UserText)`
+  color: ${({ theme }) => theme.colors.brand};
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+`
+
+const Email = styled(UserText)`
+  margin-top: 2px;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+`
+
+const MenuNav = styled.nav`
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px;
+`
+
+const MenuSectionBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  & + & {
+    margin-top: 8px;
+    padding-top: 9px;
+  }
+
+  & + &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 24px;
+    left: 24px;
+    height: 1px;
+    background: ${({ theme }) => theme.colors.border};
+  }
+`
+
+const SectionTitle = styled.h2`
+  margin: 0;
+  padding: 8px 22px;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16px;
+  text-transform: uppercase;
+`
+
+const Items = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+const menuItemStyles = `
+  position: relative;
+  width: auto;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 22px;
+  padding: 12px 16px;
+  border: 0;
+  background: transparent;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+
+  &:hover {
+    background: rgb(234 95 9 / 8%);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgb(234 95 9 / 28%);
+    outline-offset: -3px;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    stroke-width: 2.25;
+  }
+`
+
+const MenuItemLink = styled(NavLink)<{ $isSelected: boolean }>`
+  ${menuItemStyles}
+  color: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : theme.colors.text)};
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: -8px;
+    width: 4px;
+    border-radius: 0;
+    background: ${({ $isSelected, theme }) =>
+      $isSelected ? theme.colors.brand : 'transparent'};
+    transition: background 160ms ease;
+  }
+`
+
+const LogoutButton = styled.button`
+  ${menuItemStyles}
+  margin-top: 4px;
+  color: ${({ theme }) => theme.colors.error};
+`
+
+const ItemContent = styled.span`
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`
 
 export default Menu
