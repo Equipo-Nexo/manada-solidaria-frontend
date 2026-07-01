@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
+import {
+  AppContent,
+  AppShell,
+  DesktopMenuDrawer,
+  DrawerBackdrop,
+  DrawerPanel,
+} from './App.styles'
 import AppHeader from './components/header/AppHeader'
 import { InstallButton } from './components/install_button/installButton'
 import Navbar from './components/navbar/Navbar'
@@ -61,72 +67,5 @@ function App() {
     </>
   )
 }
-
-const AppShell = styled.div`
-  width: 100%;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: ${({ theme }) => theme.colors.background};
-`
-
-const AppContent = styled.main<{ $isFullScreen: boolean }>`
-  flex: 1;
-  width: ${({ $isFullScreen, theme }) =>
-    $isFullScreen ? '100%' : `min(100%, ${theme.layout.contentMaxWidth})`};
-  margin: ${({ $isFullScreen }) => ($isFullScreen ? '0' : '0 auto')};
-  display: flex;
-  align-items: ${({ $isFullScreen }) => ($isFullScreen ? 'stretch' : 'center')};
-  justify-content: ${({ $isFullScreen }) => ($isFullScreen ? 'stretch' : 'center')};
-  padding: ${({ $isFullScreen }) => ($isFullScreen ? '0' : '24px 18px 96px')};
-
-  @media (min-width: 768px) {
-    padding: ${({ $isFullScreen }) => ($isFullScreen ? '0' : '32px')};
-  }
-`
-
-const DesktopMenuDrawer = styled.div<{ $isOpen: boolean }>`
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: ${({ $isOpen }) => ($isOpen ? 'auto' : 'none')};
-  visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
-
-  @media (max-width: 767px) {
-    display: none;
-  }
-`
-
-const DrawerBackdrop = styled.button`
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgb(38 50 56 / 32%);
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity 180ms ease;
-
-  ${DesktopMenuDrawer}[aria-hidden='false'] & {
-    opacity: 1;
-  }
-`
-
-const DrawerPanel = styled.aside`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: min(380px, 88vw);
-  overflow-y: auto;
-  background: ${({ theme }) => theme.colors.surfacePlain};
-  box-shadow: 16px 0 40px rgb(89 65 55 / 18%);
-  transform: translateX(-100%);
-  transition: transform 220ms ease;
-
-  ${DesktopMenuDrawer}[aria-hidden='false'] & {
-    transform: translateX(0);
-  }
-`
 
 export default App
