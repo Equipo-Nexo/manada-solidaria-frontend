@@ -1,0 +1,155 @@
+.hamburger-menu {
+  width: 100%;
+  min-height: 100svh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  color: #594137;
+  font-family: "Montserrat", Arial, sans-serif;
+  text-align: left;
+}
+
+.hamburger-menu__profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 24px 18px;
+  box-sizing: border-box;
+}
+
+.hamburger-menu__avatar {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.hamburger-menu__user-data {
+  min-width: 0;
+}
+
+.hamburger-menu__username,
+.hamburger-menu__email {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hamburger-menu__username {
+  color: #EA5F09;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.hamburger-menu__email {
+  margin-top: 2px;
+  color: #594137;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.hamburger-menu__nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px;
+  box-sizing: border-box;
+}
+
+.hamburger-menu__section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.hamburger-menu__section + .hamburger-menu__section {
+  margin-top: 8px;
+  padding-top: 9px;
+}
+
+.hamburger-menu__section + .hamburger-menu__section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 24px;
+  left: 24px;
+  height: 1px;
+  background: rgb(89 65 55 / 18%);
+}
+
+.hamburger-menu__section-title {
+  margin: 0;
+  padding: 8px 22px;
+  color: #594137;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.hamburger-menu__items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger-menu__item {
+  width: auto;
+  height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 22px;
+  padding: 16px 8px;
+  color: #594137;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.hamburger-menu__item:hover {
+  background: rgb(234 95 9 / 8%);
+}
+
+.hamburger-menu__item:focus-visible {
+  outline: 3px solid rgb(234 95 9 / 28%);
+  outline-offset: -3px;
+}
+
+.hamburger-menu__item-content {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hamburger-menu__item-content span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hamburger-menu__item svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  stroke-width: 2.25;
+}
+
+.hamburger-menu__item--active {
+  color: #EA5F09;
+}
+
+.hamburger-menu__item--logout {
+  margin-top: 4px;
+  color: #BA1A1A;
+}
