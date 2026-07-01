@@ -1,0 +1,126 @@
+.toaster {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  z-index: 40;
+  width: min(calc(100% - 28px), 410px);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.toaster__toast {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  min-height: 76px;
+  padding: 14px 18px;
+  border: 1px solid rgb(169 92 40 / 22%);
+  border-left-width: 5px;
+  border-radius: 16px;
+  background: #F5E7D4;
+  color: #594137;
+  box-shadow: 0 12px 24px rgb(89 65 55 / 18%);
+  text-align: left;
+  animation: toast-enter 180ms ease-out;
+}
+
+.toaster__toast--success {
+  border-left-color: #A95C28;
+}
+
+.toaster__toast--error {
+  border-left-color: #E76F51;
+}
+
+.toaster__toast--information {
+  border-left-color: #594137;
+}
+
+.toaster__icon {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 4px solid rgb(245 231 212 / 92%); */
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgb(169 92 40 / 20%);
+}
+
+.toaster__toast--success .toaster__icon {
+  background: #A95C28;
+  color: #fff;
+}
+
+.toaster__toast--error .toaster__icon {
+  background: #E76F51;
+  color: #fff;
+}
+
+.toaster__toast--information .toaster__icon {
+  background: #594137;
+  color: #fff;
+}
+
+.toaster__icon svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 2.4;
+}
+
+.toaster__content {
+  min-width: 0;
+}
+
+.toaster__title {
+  margin: 0;
+  color: #594137;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21px;
+}
+
+.toaster__description {
+  margin: 3px 0 0;
+  color: rgb(89 65 55 / 82%);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 420px) {
+  .toaster {
+    top: 12px;
+    width: calc(100% - 24px);
+  }
+
+  .toaster__toast {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
+    min-height: 72px;
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .toaster__icon {
+    width: 44px;
+    height: 44px;
+  }
+}

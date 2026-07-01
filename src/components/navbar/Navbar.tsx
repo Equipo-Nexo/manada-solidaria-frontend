@@ -1,13 +1,15 @@
 import type { SVGProps } from 'react'
 import { NavLink } from 'react-router-dom'
+import { HandHeart, House, Map, Menu, PawPrint } from 'lucide-react'
+import { useToast } from '../../hooks/useToast'
 import './Navbar.css'
-import { House, HandHeart, Map, Menu, PawPrint } from 'lucide-react'
 
 type IconProps = SVGProps<SVGSVGElement>
-type NavItem = { 
-  title: string; 
-  path: string; 
-  icon: React.ComponentType<IconProps> 
+
+type NavItem = {
+  title: string
+  path: string
+  icon: React.ComponentType<IconProps>
 }
 
 const navItems: NavItem[] = [
@@ -18,8 +20,13 @@ const navItems: NavItem[] = [
 ]
 
 function Navbar() {
+  const toast = useToast()
+
   const handlePublish = () => {
-    console.log('publicar apretado')
+    toast.error({
+      title: 'Error al publicar',
+      description: 'Ocurrió un error al intentar publicar tu notificación.',
+    })
   }
 
   return (
