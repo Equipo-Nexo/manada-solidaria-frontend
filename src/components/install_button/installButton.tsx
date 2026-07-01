@@ -51,7 +51,7 @@ export const InstallButton = () => {
     <button
       onClick={installApp}
       className={`
-        fixed bottom-6 left-1/2 z-50
+        fixed bottom-36 left-1/2 z-50
         -translate-x-1/2
         rounded-full bg-primary px-15 py-3
         text-base-100 shadow-lg

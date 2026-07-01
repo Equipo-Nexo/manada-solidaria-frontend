@@ -1,0 +1,126 @@
+.bottom-navbar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.bottom-navbar__content {
+  border-radius: 16px 16px 0px 0px;
+  width: min(100%, 1126px);
+  height: 78px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  background: #F5E7D4;
+}
+
+.bottom-navbar__item {
+  position: relative;
+  width: 78px;
+  height: 60px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #594137;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.bottom-navbar__item::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 54px;
+  height: 4px;
+  border-radius: 0 0 999px 999px;
+  background: transparent;
+  transform: translateX(-50%);
+  transition: background 160ms ease;
+}
+
+.bottom-navbar__item svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+
+.bottom-navbar__item--active {
+  color: #A95C28;
+}
+
+.bottom-navbar__item--active::before {
+  background: #A95C28;
+}
+
+.bottom-navbar__publish-wrapper {
+  position: relative;
+  align-self: stretch;
+  width: 78px;
+  height: 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #594137;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.bottom-navbar__publish-wrapper span {
+  position: absolute;
+  top: 46px;
+}
+
+.bottom-navbar__publish-button {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #A95C28;
+  border-radius: 999px;
+  background: #A95C28;
+  color: #fff;
+  box-shadow: 0 8px 18px rgb(169 92 40 / 28%);
+  cursor: pointer;
+  transform: translateX(-50%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.bottom-navbar__publish-button:hover {
+  transform: translate(-50%, -2px);
+  box-shadow: 0 12px 22px rgb(169 92 40 / 32%);
+}
+
+.bottom-navbar__publish-button:focus-visible,
+.bottom-navbar__item:focus-visible {
+  outline: 3px solid rgb(169 92 40 / 35%);
+  outline-offset: 2px;
+}
+
+.bottom-navbar__publish-button svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2.5;
+}
+
+@media (max-width: 420px) {
+  .bottom-navbar__item,
+  .bottom-navbar__publish-wrapper {
+    font-size: 12px;
+  }
+}
