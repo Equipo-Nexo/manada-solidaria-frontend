@@ -1,6 +1,8 @@
 import type { ComponentType, SVGProps } from 'react'
+import { useState } from 'react'
 import { BriefcaseMedical, ChevronRight, HandHeart, Heart, House, Info, LogOut, Map, PawPrint, User, Users } from 'lucide-react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import Modal from '../../components/modal/Modal'
 import './Menu.css'
 
 type IconProps = SVGProps<SVGSVGElement>
@@ -58,7 +60,14 @@ const sections: MenuSection[] = [
 
 function Menu({ username, email }: MenuProps) {
   const location = useLocation()
+  const navigate = useNavigate()
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const activePath = (location.state as MenuLocationState | null)?.from
+  const closeLogoutModal = () => setIsLogoutModalOpen(false)
+  const confirmLogout = () => {
+    setIsLogoutModalOpen(false)
+    navigate('/login')
+  }
 
   return (
     <section className="hamburger-menu" aria-label="Menú principal">
@@ -88,14 +97,29 @@ function Menu({ username, email }: MenuProps) {
           </div>
         ))}
 
-        <NavLink to="/login" className="hamburger-menu__item hamburger-menu__item--logout">
+        <button
+          className="hamburger-menu__item hamburger-menu__item--logout"
+          type="button"
+          onClick={() => setIsLogoutModalOpen(true)}
+        >
           <span className="hamburger-menu__item-content">
             <LogOut aria-hidden="true" />
             <span>Cerrar sesión</span>
           </span>
           <ChevronRight aria-hidden="true" />
-        </NavLink>
+        </button>
       </nav>
+
+      <Modal
+        isOpen={isLogoutModalOpen}
+        title={'Cerrar sesi\u00f3n'}
+        primaryLabel={'Cerrar sesi\u00f3n'}
+        secondaryLabel="Cancelar"
+        onPrimaryAction={confirmLogout}
+        onSecondaryAction={closeLogoutModal}
+      >
+        <p>{'\u00bfQuer\u00e9s salir de la aplicaci\u00f3n?'}</p>
+      </Modal>
     </section>
   )
 }
