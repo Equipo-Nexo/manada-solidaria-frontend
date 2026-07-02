@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import {
   AppContent,
@@ -16,14 +17,19 @@ import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Map from './pages/map/Map'
 import Menu from './pages/menu/Menu'
+import { useAppSelector } from './app/store/hooks'
+
+function requireAuth(isAuthenticated: boolean, element: ReactNode) {
+  return isAuthenticated ? element : <Navigate to="/login" replace />
+}
 
 function App() {
   const location = useLocation()
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false)
-  const isLoggedIn = location.pathname !== '/login'
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
   const isFullScreenMenu = location.pathname === '/menu'
   const isFullScreenPage = isFullScreenMenu || location.pathname === '/login'
-  const showAuthenticatedShell = isLoggedIn && !isFullScreenMenu
+  const showAuthenticatedShell = isAuthenticated && !isFullScreenPage
   const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
   const username = 'Usuario'
   const userEmail = 'usuario@manadasolidaria.org'
@@ -36,12 +42,26 @@ function App() {
         )}
         <AppContent $isFullScreen={isFullScreenPage}>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/campanias" element={<Campaigns />} />
-            <Route path="/mapa" element={<Map />} />
-            <Route path="/menu" element={<Menu username={username} email={userEmail} />} />
-            <Route path="/mas" element={<Navigate to="/menu" replace />} />
+            <Route
+              path="/login"
+              element={isAuthenticated ? <Navigate to="/home" replace /> : <Login />}
+            />
+            <Route path="/home" element={requireAuth(isAuthenticated, <Home />)} />
+            <Route path="/campanias" element={requireAuth(isAuthenticated, <Campaigns />)} />
+            <Route path="/mapa" element={requireAuth(isAuthenticated, <Map />)} />
+            <Route
+              path="/menu"
+              element={requireAuth(
+                isAuthenticated,
+                <Menu username={username} email={userEmail} />,
+              )}
+            />
+            <Route
+              path="/mas"
+              element={
+                isAuthenticated ? <Navigate to="/menu" replace /> : <Navigate to="/login" replace />
+              }
+            />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </AppContent>

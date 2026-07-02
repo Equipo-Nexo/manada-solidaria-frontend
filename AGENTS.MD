@@ -16,6 +16,7 @@ Guidance for future coding agents working in this repository.
   - `npm.cmd run build`
   - `npm.cmd run lint`
   - `npm.cmd run dev`
+- When testing from a phone through a VS Code tunnel, keep the frontend API base URL pointed at the real backend URL. Do not add a Vite proxy unless explicitly requested; mobile CORS failures should be fixed in the backend CORS configuration.
 - `dist` and `dev-dist` are generated outputs and should not be linted or manually edited.
 
 ## Styling Conventions
@@ -85,6 +86,12 @@ Guidance for future coding agents working in this repository.
 ## Login UI Details
 
 - The login page is a full-screen route. In `src/App.tsx`, `/login` should remain part of the full-screen `AppContent` behavior so the login background can cover the viewport.
+- The login form uses `react-hook-form` with a Yup schema in `src/pages/login/loginSchema.ts`; keep validation rules there instead of inline in the component.
+- Use `@hookform/resolvers/yup` for Yup integration.
+- Login validation currently requires:
+  - `username`: trimmed, required, minimum 3 characters, maximum 50 characters.
+  - `password`: required, minimum 6 characters, maximum 72 characters.
+- Keep login validation errors rendered below each field through styled-components from `Login.styles.ts`.
 - The login page background uses `theme.colors.neutral`; the login card uses `theme.colors.background`.
 - Keep the login card and footer horizontally centered. On short/mobile viewports, move the layout upward with `justify-content: flex-start`, but do not change horizontal centering with `align-items`.
 - The login card should flex to occupy the available vertical space above the footer, so the neutral background does not appear as a large bottom band.
@@ -115,7 +122,18 @@ Guidance for future coding agents working in this repository.
 
 ## Current Architecture Notes
 
-- `src/main.tsx` owns `ThemeProvider`, `GlobalStyle`, `BrowserRouter`, and `ToastProvider`.
+- `src/main.tsx` owns app-level providers: `Provider` from React Redux, `ThemeProvider`, `GlobalStyle`, `BrowserRouter`, and `ToastProvider`.
+- Redux Toolkit and RTK Query are the app state/API standard.
+- App infrastructure lives under `src/app`:
+  - `src/app/store/store.ts` configures the Redux store.
+  - `src/app/store/hooks.ts` exports typed `useAppDispatch` and `useAppSelector`.
+  - `src/app/store/authSlice.ts` owns auth tokens and authentication state.
+  - `src/app/services/base/baseApi.ts` defines the shared RTK Query `baseApi` with `VITE_API_BASE_URL`.
+  - `src/app/services/apis/*.ts` contains endpoint implementations that use `baseApi.injectEndpoints`.
+- Do not create one-off `createApi` instances for each feature. Add future APIs by injecting endpoints into `baseApi`.
+- The login endpoint is implemented in `src/app/services/apis/authApi.ts`.
+- Auth login calls `POST /auth/login` with `Authorization: Basic <base64(username:password)>` and no body.
+- Login stores `accessToken` and `refreshToken` in `sessionStorage` through `authSlice`; logout must clear Redux state and `sessionStorage`.
 - Toast logic is split so Fast Refresh stays happy:
   - `src/hooks/ToastProvider.tsx`
   - `src/hooks/useToast.tsx`

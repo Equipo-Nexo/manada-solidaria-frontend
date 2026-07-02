@@ -15,6 +15,8 @@ import {
 } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Modal from '../../components/modal/Modal'
+import { logout } from '../../app/store/authSlice'
+import { useAppDispatch } from '../../app/store/hooks'
 import {
   Avatar,
   Email,
@@ -88,12 +90,14 @@ const sections: MenuSection[] = [
 function Menu({ username, email, onNavigate }: MenuProps) {
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const activePath = (location.state as MenuLocationState | null)?.from ?? location.pathname
   const closeLogoutModal = () => setIsLogoutModalOpen(false)
   const confirmLogout = () => {
     setIsLogoutModalOpen(false)
-    navigate('/login')
+    dispatch(logout())
+    navigate('/login', { replace: true })
   }
 
   return (

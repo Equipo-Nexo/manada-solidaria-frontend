@@ -375,7 +375,7 @@ export const FieldHeader = styled.label`
   }
 `
 
-export const Input = styled.input`
+export const Input = styled.input<{ $hasError?: boolean }>`
   display: flex;
   width: 100%;
   height: 56px;
@@ -383,7 +383,8 @@ export const Input = styled.input`
   align-self: stretch;
   align-items: flex-start;
   justify-content: center;
-  border: 2px solid rgba(0, 0, 0, 0);
+  border: 2px solid
+    ${({ $hasError, theme }) => ($hasError ? theme.colors.error : 'rgba(0, 0, 0, 0)')};
   border-radius: 12px;
   background: #fff1ec;
   color: ${({ theme }) => theme.colors.black};
@@ -423,9 +424,19 @@ export const Input = styled.input`
   }
 
   &:focus-visible {
-    border-color: ${({ theme }) => theme.colors.brand};
+    border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.brand)};
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }
+`
+
+export const FieldError = styled.p`
+  margin: -2px 0 0;
+  color: ${({ theme }) => theme.colors.error};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
 `
 
 export const PasswordInputWrapper = styled.div`
@@ -455,6 +466,11 @@ export const PasswordToggle = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors.brand};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
   }
 
   &:focus-visible {
@@ -532,6 +548,12 @@ export const PrimaryButton = styled.button`
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
     transform: translateY(-1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+    transform: none;
   }
 
   &:focus-visible {
