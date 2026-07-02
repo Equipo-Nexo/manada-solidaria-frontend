@@ -1,14 +1,16 @@
 import { Bell, Menu } from 'lucide-react'
-import { Brand, Greeting, Header, IconButton, Logo, MenuButton } from './AppHeader.styles'
+import useCurrentUserProfile from '../../hooks/user/useCurrentUserProfile'
+import { Brand, Greeting, HeaderRoot, IconButton, Logo, MenuButton } from './Header.styles'
 
-type AppHeaderProps = {
-  username: string
+type HeaderProps = {
   onMenuClick?: () => void
 }
 
-function AppHeader({ username, onMenuClick }: AppHeaderProps) {
+function Header({ onMenuClick }: HeaderProps) {
+  const { username } = useCurrentUserProfile()
+
   return (
-    <Header>
+    <HeaderRoot>
       <Brand>
         <MenuButton type="button" aria-label="Abrir menu" onClick={onMenuClick}>
           <Menu aria-hidden="true" />
@@ -22,8 +24,8 @@ function AppHeader({ username, onMenuClick }: AppHeaderProps) {
       <IconButton type="button" aria-label="Notificaciones">
         <Bell aria-hidden="true" />
       </IconButton>
-    </Header>
+    </HeaderRoot>
   )
 }
 
-export default AppHeader
+export default Header

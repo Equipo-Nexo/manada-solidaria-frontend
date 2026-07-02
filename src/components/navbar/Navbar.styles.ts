@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const BottomNav = styled.nav`
   position: fixed;
@@ -25,7 +25,7 @@ export const BottomNavContent = styled.div`
   background: ${({ theme }) => theme.colors.surface};
 `
 
-export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
+const bottomNavItemStyles = css<{ $isActive: boolean }>`
   position: relative;
   width: 78px;
   height: 60px;
@@ -35,7 +35,12 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 4px;
+  border: 0;
+  padding: 0;
+  background: transparent;
   color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.text)};
+  cursor: pointer;
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
@@ -65,6 +70,14 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
     height: 22px;
     stroke-width: 2;
   }
+`
+
+export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
+  ${bottomNavItemStyles}
+`
+
+export const BottomNavButton = styled.button<{ $isActive: boolean }>`
+  ${bottomNavItemStyles}
 `
 
 export const PublishWrapper = styled.div`

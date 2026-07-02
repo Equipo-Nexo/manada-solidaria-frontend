@@ -24,7 +24,7 @@ Guidance for future coding agents working in this repository.
 - Use `styled-components` for component styling.
 - Keep component structure and styles separated:
   - Component/rendering logic lives in `.tsx` files.
-  - Styled-components live in neighboring `*.styles.ts` files, for example `AppHeader.tsx` and `AppHeader.styles.ts`.
+  - Styled-components live in neighboring `*.styles.ts` files, for example `Header.tsx` and `Header.styles.ts`.
   - Export styled-components as named exports from `*.styles.ts` and import them into the component file.
   - Keep helper style fragments private to the `*.styles.ts` file unless they are intentionally shared.
 - Keep global styles in `src/styles/GlobalStyle.ts`.
@@ -135,10 +135,14 @@ Guidance for future coding agents working in this repository.
 - The login endpoint is implemented in `src/app/services/apis/authApi.ts`.
 - Auth login calls `POST /auth/login` with `Authorization: Basic <base64(username:password)>` and no body.
 - Login stores `accessToken` and `refreshToken` through `authSlice`; `redux-persist` writes the auth slice to session storage, and logout must clear the auth state.
+- Hooks are grouped by domain under `src/hooks/<domain>/`:
+  - auth state hooks live in `src/hooks/auth/`.
+  - current-user/profile hooks live in `src/hooks/user/`.
+  - toast provider/context/hooks live in `src/hooks/toast/`.
 - Toast logic is split so Fast Refresh stays happy:
-  - `src/hooks/ToastProvider.tsx`
-  - `src/hooks/useToast.tsx`
-  - `src/hooks/toastContext.ts`
+  - `src/hooks/toast/ToastProvider.tsx`
+  - `src/hooks/toast/useToast.tsx`
+  - `src/hooks/toast/toastContext.ts`
 - Shared UI uses neighboring `*.styles.ts` files for styled-components, including:
   - app shell and desktop drawer in `src/App.styles.ts`
   - header

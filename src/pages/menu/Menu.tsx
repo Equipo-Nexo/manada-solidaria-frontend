@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Modal from '../../components/modal/Modal'
 import { logout } from '../../app/store/authSlice'
 import { useAppDispatch } from '../../app/store/hooks'
+import useCurrentUserProfile from '../../hooks/user/useCurrentUserProfile'
 import {
   Avatar,
   Email,
@@ -36,8 +37,6 @@ import {
 type IconProps = SVGProps<SVGSVGElement>
 
 type MenuProps = {
-  username: string
-  email: string
   onNavigate?: () => void
 }
 
@@ -87,10 +86,11 @@ const sections: MenuSection[] = [
   },
 ]
 
-function Menu({ username, email, onNavigate }: MenuProps) {
+function Menu({ onNavigate }: MenuProps) {
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { email, username } = useCurrentUserProfile()
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const activePath = (location.state as MenuLocationState | null)?.from ?? location.pathname
   const closeLogoutModal = () => setIsLogoutModalOpen(false)

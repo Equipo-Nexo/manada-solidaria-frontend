@@ -1,9 +1,10 @@
 import type { ComponentType, SVGProps } from 'react'
 import { useLocation } from 'react-router-dom'
 import { HandHeart, House, Map, Menu, PawPrint } from 'lucide-react'
-import { useToast } from '../../hooks/useToast'
+import { useToast } from '../../hooks/toast/useToast'
 import {
   BottomNav,
+  BottomNavButton,
   BottomNavContent,
   BottomNavItem,
   PublishButton,
@@ -22,10 +23,14 @@ const navItems: NavItem[] = [
   { title: 'Inicio', path: '/home', icon: House },
   { title: 'Campa\u00f1as', path: '/campanias', icon: HandHeart },
   { title: 'Mapa', path: '/mapa', icon: Map },
-  { title: 'M\u00e1s', path: '/menu', icon: Menu },
 ]
 
-function Navbar() {
+type NavbarProps = {
+  isMenuOpen: boolean
+  onMenuClick: () => void
+}
+
+function Navbar({ isMenuOpen, onMenuClick }: NavbarProps) {
   const toast = useToast()
   const location = useLocation()
 
@@ -50,7 +55,7 @@ function Navbar() {
         </PublishWrapper>
 
         <NavbarLink item={navItems[2]} currentPath={location.pathname} />
-        <NavbarLink item={navItems[3]} currentPath={location.pathname} />
+        <NavbarMenuButton isActive={isMenuOpen} onClick={onMenuClick} />
       </BottomNavContent>
     </BottomNav>
   )
@@ -58,14 +63,27 @@ function Navbar() {
 
 function NavbarLink({ item, currentPath }: { item: NavItem; currentPath: string }) {
   const Icon = item.icon
-  const state = item.path === '/menu' ? { from: currentPath } : undefined
   const isActive = currentPath === item.path
 
   return (
-    <BottomNavItem to={item.path} state={state} $isActive={isActive}>
+    <BottomNavItem to={item.path} $isActive={isActive}>
       <Icon aria-hidden="true" />
       <span>{item.title}</span>
     </BottomNavItem>
+  )
+}
+
+function NavbarMenuButton({ isActive, onClick }: { isActive: boolean; onClick: () => void }) {
+  return (
+    <BottomNavButton
+      type="button"
+      aria-label={'Abrir men\u00fa'}
+      $isActive={isActive}
+      onClick={onClick}
+    >
+      <Menu aria-hidden="true" />
+      <span>{'M\u00e1s'}</span>
+    </BottomNavButton>
   )
 }
 

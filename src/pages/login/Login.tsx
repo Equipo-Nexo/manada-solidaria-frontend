@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../../app/services/apis/authApi'
 import { loginSuccess } from '../../app/store/authSlice'
 import { useAppDispatch } from '../../app/store/hooks'
-import { useToast } from '../../hooks/useToast'
+import { useToast } from '../../hooks/toast/useToast'
 import {
   AppDescription,
   AppLogo,
