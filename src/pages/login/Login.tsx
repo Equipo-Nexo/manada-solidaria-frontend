@@ -47,19 +47,21 @@ function Login() {
     resolver: yupResolver(loginSchema),
   })
 
-  const handleLogin = async ({ username, password }: LoginFormValues) => {
-    try {
-      const authorization = `Basic ${btoa(`${username}:${password}`)}`
-      const tokens = await login({ authorization }).unwrap()
+  const handleLogin = ({ username, password }: LoginFormValues) => {
+    const authorization = `Basic ${btoa(`${username}:${password}`)}`
 
-      dispatch(loginSuccess(tokens))
-      navigate('/home', { replace: true })
-    } catch {
-      toast.error(
-        'No pudimos iniciar sesión',
-        'Revisá tu usuario y contraseña e intentá nuevamente.',
-      )
-    }
+    return login({ authorization })
+      .unwrap()
+      .then((tokens) => {
+        dispatch(loginSuccess(tokens))
+        navigate('/home', { replace: true })
+      })
+      .catch(() => {
+        toast.error(
+          'No pudimos iniciar sesión',
+          'Revisá tu usuario y contraseña e intentá nuevamente.',
+        )
+      })
   }
 
   const handleForgotPassword = () => {

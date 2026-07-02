@@ -122,18 +122,19 @@ Guidance for future coding agents working in this repository.
 
 ## Current Architecture Notes
 
-- `src/main.tsx` owns app-level providers: `Provider` from React Redux, `ThemeProvider`, `GlobalStyle`, `BrowserRouter`, and `ToastProvider`.
+- `src/main.tsx` owns app-level providers: `Provider` from React Redux, `PersistGate` from redux-persist, `ThemeProvider`, `GlobalStyle`, `BrowserRouter`, and `ToastProvider`.
 - Redux Toolkit and RTK Query are the app state/API standard.
 - App infrastructure lives under `src/app`:
   - `src/app/store/store.ts` configures the Redux store.
   - `src/app/store/hooks.ts` exports typed `useAppDispatch` and `useAppSelector`.
   - `src/app/store/authSlice.ts` owns auth tokens and authentication state.
+  - Auth state is persisted with `redux-persist` using `storageSession`; keep reducers pure and configure persistence in `store.ts`.
   - `src/app/services/base/baseApi.ts` defines the shared RTK Query `baseApi` with `VITE_API_BASE_URL`.
   - `src/app/services/apis/*.ts` contains endpoint implementations that use `baseApi.injectEndpoints`.
 - Do not create one-off `createApi` instances for each feature. Add future APIs by injecting endpoints into `baseApi`.
 - The login endpoint is implemented in `src/app/services/apis/authApi.ts`.
 - Auth login calls `POST /auth/login` with `Authorization: Basic <base64(username:password)>` and no body.
-- Login stores `accessToken` and `refreshToken` in `sessionStorage` through `authSlice`; logout must clear Redux state and `sessionStorage`.
+- Login stores `accessToken` and `refreshToken` through `authSlice`; `redux-persist` writes the auth slice to session storage, and logout must clear the auth state.
 - Toast logic is split so Fast Refresh stays happy:
   - `src/hooks/ToastProvider.tsx`
   - `src/hooks/useToast.tsx`
