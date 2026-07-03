@@ -13,6 +13,18 @@ export const RegisterPanel = styled.section`
   gap: 8px;
   background: ${({ theme }) => theme.colors.neutral};
   padding: 48px 16px;
+
+  @media (min-width: 768px) {
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 24px 8px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 6px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+  }
 `
 
 export const RegisterContainer = styled.div`
@@ -24,7 +36,13 @@ export const RegisterContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
 
   @media (min-width: 768px) {
-    width: min(100%, 380px);
+    width: min(100%, 760px);
+    min-height: 0;
+    flex: 0 1 auto;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    width: min(100%, 720px);
   }
 
   &::after {
@@ -51,6 +69,15 @@ export const RegisterContent = styled.div`
     padding-right: 18px;
     padding-left: 18px;
   }
+
+  @media (min-width: 768px) {
+    min-height: 0;
+    padding: 18px 24px 26px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    padding: 12px 24px 18px;
+  }
 `
 
 export const AppLogo = styled.img`
@@ -59,6 +86,16 @@ export const AppLogo = styled.img`
   flex: 0 0 auto;
   display: block;
   object-fit: contain;
+
+  @media (min-width: 768px) {
+    width: 88px;
+    height: 82px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    width: 72px;
+    height: 67px;
+  }
 `
 
 export const RegisterTitle = styled.h1`
@@ -70,6 +107,23 @@ export const RegisterTitle = styled.h1`
   font-weight: 700;
   line-height: 32px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    margin-top: 2px;
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  br {
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
 `
 
 export const RegisterSubtitle = styled.p`
@@ -82,6 +136,11 @@ export const RegisterSubtitle = styled.p`
   font-weight: 400;
   line-height: 20px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    width: min(100%, 360px);
+    margin-top: 4px;
+  }
 `
 
 export const Form = styled.form`
@@ -91,6 +150,19 @@ export const Form = styled.form`
   align-items: stretch;
   gap: 24px;
   margin-top: 24px;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px 20px;
+    margin-top: 18px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 10px 16px;
+    margin-top: 10px;
+  }
 `
 
 export const Field = styled.div`
@@ -100,6 +172,39 @@ export const Field = styled.div`
   align-items: stretch;
   gap: 8px;
   text-align: left;
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 4px;
+  }
+
+  @media (min-width: 768px) {
+    grid-column: auto;
+
+    &:nth-of-type(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    &:nth-of-type(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    &:nth-of-type(3) {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    &:nth-of-type(4) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    &:nth-of-type(5) {
+      grid-column: 2;
+      grid-row: 3;
+    }
+  }
 `
 
 export const FieldLabel = styled.label`
@@ -110,6 +215,10 @@ export const FieldLabel = styled.label`
   font-weight: 600;
   line-height: 20px;
   letter-spacing: 0.14px;
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    line-height: 18px;
+  }
 `
 
 export const RequiredMark = styled.span`
@@ -133,6 +242,18 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   line-height: 20px;
   outline: none;
 
+  @media (min-width: 768px) {
+    height: 48px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    height: 42px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.textMuted};
   }
@@ -151,6 +272,10 @@ export const FieldError = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    line-height: 14px;
+  }
 `
 
 export const PasswordInputWrapper = styled.div`
@@ -203,6 +328,18 @@ export const SwitchGroup = styled.div`
   border-radius: 12px;
   background: #fff1ec;
   text-align: left;
+
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+    gap: 16px;
+    padding: 18px;
+    align-self: stretch;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    gap: 12px;
+    padding: 14px;
+  }
 `
 
 export const SwitchRow = styled.label`
@@ -217,6 +354,16 @@ export const SwitchRow = styled.label`
   font-style: normal;
   font-weight: 600;
   line-height: 20px;
+
+  @media (min-width: 768px) {
+    min-height: 56px;
+    padding: 12px 14px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    min-height: 48px;
+    padding: 8px 12px;
+  }
 `
 
 export const SwitchLabelContent = styled.span`
@@ -288,6 +435,10 @@ export const HelpText = styled.p`
   font-weight: 400;
   line-height: 16px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+  }
 `
 
 export const PrimaryButton = styled.button`
@@ -310,6 +461,16 @@ export const PrimaryButton = styled.button`
   line-height: 24px;
   text-align: center;
   transition: background 160ms ease, transform 160ms ease;
+
+  @media (min-width: 768px) {
+    width: 100%;
+    height: 48px;
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    height: 42px;
+  }
 
   svg {
     width: 18px;
@@ -344,6 +505,16 @@ export const LoginText = styled.p`
   font-weight: 400;
   line-height: 20px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    line-height: 18px;
+    margin-top: 6px;
+  }
 `
 
 export const LoginLink = styled(Link)`
@@ -370,6 +541,10 @@ export const RegisterFooter = styled.p`
   text-align: center;
 
   @media (min-width: 768px) {
-    width: min(100%, 380px);
+    width: min(100%, 760px);
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    width: min(100%, 720px);
   }
 `

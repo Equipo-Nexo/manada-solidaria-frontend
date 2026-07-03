@@ -137,8 +137,8 @@ Guidance for future coding agents working in this repository.
 - Register fields keep `8px` between label and input, and `24px` between consecutive fields.
 - Register fields are, in order:
   - `Nombre de usuario`, required.
-  - `Correo electrónico`, required.
   - `Número de teléfono`, optional.
+  - `Correo electrónico`, required.
   - `Contraseña`, required.
   - `Repetir contraseña`, required and matching the password.
 - Password fields use a composed input with a `lucide-react` `Eye` / `EyeOff` toggle button.

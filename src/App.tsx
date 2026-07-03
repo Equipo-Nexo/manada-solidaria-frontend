@@ -14,8 +14,8 @@ import PrivateRoutes from './routes/PrivateRoutes'
 function App() {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
-  const isFullScreenPage = location.pathname === '/login' || location.pathname === '/registro'
-  const showAuthenticatedShell = isAuthenticated && !isFullScreenPage
+  const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro'
+  const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
   const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
 
   return (
@@ -27,7 +27,7 @@ function App() {
             <DesktopAuthenticatedView showFloatingPublish={showFloatingPublish} />
           </>
         )}
-        <AppContent $isFullScreen={isFullScreenPage}>
+        <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
             <Route
               path="/login"

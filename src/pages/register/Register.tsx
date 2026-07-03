@@ -86,7 +86,9 @@ function Register() {
       <RegisterContainer>
         <RegisterContent>
           <AppLogo src="/logo.svg" alt="Manada Solidaria" />
-          <RegisterTitle>¡Bienvenido a la <br/> Manada!</RegisterTitle>
+          <RegisterTitle>
+            ¡Bienvenido a la <br /> Manada!
+          </RegisterTitle>
           <RegisterSubtitle>
             Formá parte de nuestra comunidad de rescatistas y voluntarios.
           </RegisterSubtitle>
@@ -113,6 +115,24 @@ function Register() {
             </Field>
 
             <Field>
+              <FieldLabel htmlFor="phone">Número de teléfono</FieldLabel>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="3534 0000-0000"
+                autoComplete="tel"
+                disabled={isLoading}
+                aria-describedby={errors.phone ? 'register-phone-error' : undefined}
+                aria-invalid={Boolean(errors.phone)}
+                $hasError={Boolean(errors.phone)}
+                {...register('phone')}
+              />
+              {errors.phone?.message && (
+                <FieldError id="register-phone-error">{errors.phone.message}</FieldError>
+              )}
+            </Field>
+
+            <Field>
               <FieldLabel htmlFor="email">
                 Correo electrónico <RequiredMark aria-hidden="true">*</RequiredMark>
               </FieldLabel>
@@ -129,24 +149,6 @@ function Register() {
               />
               {errors.email?.message && (
                 <FieldError id="register-email-error">{errors.email.message}</FieldError>
-              )}
-            </Field>
-
-            <Field>
-              <FieldLabel htmlFor="phone">Número de teléfono</FieldLabel>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="3534 0000-0000"
-                autoComplete="tel"
-                disabled={isLoading}
-                aria-describedby={errors.phone ? 'register-phone-error' : undefined}
-                aria-invalid={Boolean(errors.phone)}
-                $hasError={Boolean(errors.phone)}
-                {...register('phone')}
-              />
-              {errors.phone?.message && (
-                <FieldError id="register-phone-error">{errors.phone.message}</FieldError>
               )}
             </Field>
 
