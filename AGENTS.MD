@@ -168,7 +168,19 @@ Guidance for future coding agents working in this repository.
 - Hooks are grouped by domain under `src/hooks/<domain>/`:
   - auth state hooks live in `src/hooks/auth/`.
   - current-user/profile hooks live in `src/hooks/user/`.
+  - browser permission hooks live in `src/hooks/permissions/`.
   - toast provider/context/hooks live in `src/hooks/toast/`.
+- Browser permissions are centralized in `src/hooks/permissions/useAppPermissions.ts`.
+  - After a successful login, request geolocation and notification permissions without blocking navigation to `/home`.
+  - Use `src/hooks/geolocation/useGeolocation.ts` whenever a screen needs the user's coordinates for nearby publications.
+  - Push notifications require the browser notification permission; if the browser requires a stronger user gesture, request it from an explicit in-app action.
+  - Camera and gallery access are handled through Capacitor. Use `src/hooks/camera/useCamera.ts` whenever a screen needs to take a photo or choose from gallery.
+  - Hook usage examples live next to each hook:
+    - `src/hooks/camera/README.md`
+    - `src/hooks/geolocation/README.md`
+    - `src/hooks/permissions/README.md`
+  - `src/main.tsx` registers `@ionic/pwa-elements` so Capacitor Camera can provide a camera modal on Web/PWA instead of falling back directly to a file picker.
+  - Native Capacitor builds use `capacitor.config.ts` with `webDir: 'dist'`; run a production build before syncing native projects.
 - Toast logic is split so Fast Refresh stays happy:
   - `src/hooks/toast/ToastProvider.tsx`
   - `src/hooks/toast/useToast.tsx`

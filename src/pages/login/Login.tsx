@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../../app/services/apis/authApi'
 import { loginSuccess } from '../../app/store/authSlice'
 import { useAppDispatch } from '../../app/store/hooks'
+import { useAppPermissions } from '../../hooks/permissions/useAppPermissions'
 import { useToast } from '../../hooks/toast/useToast'
 import {
   AppDescription,
@@ -36,6 +37,7 @@ function Login() {
   const navigate = useNavigate()
   const toast = useToast()
   const dispatch = useAppDispatch()
+  const { requestLoginPermissions } = useAppPermissions()
   const [login, { isLoading }] = useLoginMutation()
   const [showPassword, setShowPassword] = useState(false)
   const {
@@ -54,6 +56,7 @@ function Login() {
       .unwrap()
       .then((tokens) => {
         dispatch(loginSuccess(tokens))
+        void requestLoginPermissions()
         navigate('/home', { replace: true })
       })
       .catch(() => {
