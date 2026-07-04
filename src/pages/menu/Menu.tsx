@@ -12,7 +12,7 @@ import {
   PawPrint,
   User,
   Users,
-} from 'lucide-react'
+} from '../../components/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Modal from '../../components/modal/Modal'
 import { logout } from '../../app/store/authSlice'

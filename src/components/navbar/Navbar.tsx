@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from 'react'
 import { useLocation } from 'react-router-dom'
-import { HandHeart, House, Map, Menu, PawPrint } from 'lucide-react'
+import { HandHeart, House, Map, Menu, PawPrint } from '../icons'
 import { useToast } from '../../hooks/toast/useToast'
 import {
   BottomNav,
