@@ -21,7 +21,7 @@ export const BottomNavContent = styled.div`
   align-items: center;
   justify-items: center;
   margin: 0 auto;
-  border-radius: 16px 16px 0 0;
+  border-radius: 25px 25px 0 0;
   background: ${({ theme }) => theme.colors.surface};
 `
 
@@ -38,7 +38,7 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
   color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.text)};
   font-size: 12px;
   font-weight: 700;
-  line-height: 16px;
+  line-height: px;
   text-decoration: none;
   transition: color 160ms ease;
 
@@ -49,7 +49,7 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
     left: 50%;
     width: 54px;
     height: 4px;
-    border-radius: 0 0 999px 999px;
+    border-radius: 999px;
     background: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : 'transparent')};
     transform: translateX(-50%);
     transition: background 160ms ease;

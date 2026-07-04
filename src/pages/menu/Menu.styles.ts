@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const MenuRoot = styled.section`
   width: 100%;
@@ -83,8 +83,8 @@ export const SectionTitle = styled.h2`
   margin: 0;
   padding: 8px 22px;
   color: ${({ theme }) => theme.colors.text};
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   letter-spacing: 0;
   line-height: 16px;
   text-transform: uppercase;
@@ -94,9 +94,10 @@ export const Items = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: 6px;
 `
 
-const menuItemStyles = `
+const menuItemStyles = css`
   position: relative;
   width: auto;
   height: 40px;
@@ -109,7 +110,7 @@ const menuItemStyles = `
   border: 0;
   background: transparent;
   font-family: Montserrat, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
@@ -120,6 +121,7 @@ const menuItemStyles = `
 
   &:hover {
     background: rgb(234 95 9 / 8%);
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
   }
 
   &:focus-visible {
@@ -137,7 +139,7 @@ const menuItemStyles = `
 
 export const MenuItemLink = styled(NavLink)<{ $isSelected: boolean }>`
   ${menuItemStyles}
-  color: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : theme.colors.text)};
+  color: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : '#594137')};
 
   &::before {
     content: '';
