@@ -1,7 +1,8 @@
 import type { ComponentType, SVGProps } from 'react'
+import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { HandHeart, House, Map, Menu, PawPrint } from 'lucide-react'
-import { useToast } from '../../hooks/toast/useToast'
+import PublishOptions from '../publishOptions/PublishOptions'
 import {
   BottomNav,
   BottomNavButton,
@@ -31,15 +32,8 @@ type NavbarProps = {
 }
 
 function Navbar({ isMenuOpen, onMenuClick }: NavbarProps) {
-  const toast = useToast()
+  const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false)
   const location = useLocation()
-
-  const handlePublish = () => {
-    toast.information({
-      title: 'Error al publicar',
-      description: 'Ocurri\u00f3 un error al intentar publicar tu notificaci\u00f3n.',
-    })
-  }
 
   return (
     <BottomNav aria-label={'Navegaci\u00f3n principal'}>
@@ -48,7 +42,12 @@ function Navbar({ isMenuOpen, onMenuClick }: NavbarProps) {
         <NavbarLink item={navItems[1]} currentPath={location.pathname} />
 
         <PublishWrapper>
-          <PublishButton type="button" aria-label="Publicar" onClick={handlePublish}>
+          <PublishButton
+            type="button"
+            aria-label="Publicar"
+            aria-expanded={isPublishOptionsOpen}
+            onClick={() => setIsPublishOptionsOpen((isOpen) => !isOpen)}
+          >
             <PawPrint aria-hidden="true" />
           </PublishButton>
           <span>Publicar</span>
@@ -57,6 +56,11 @@ function Navbar({ isMenuOpen, onMenuClick }: NavbarProps) {
         <NavbarLink item={navItems[2]} currentPath={location.pathname} />
         <NavbarMenuButton isActive={isMenuOpen} onClick={onMenuClick} />
       </BottomNavContent>
+      <PublishOptions
+        isOpen={isPublishOptionsOpen}
+        placement="mobile"
+        onClose={() => setIsPublishOptionsOpen(false)}
+      />
     </BottomNav>
   )
 }

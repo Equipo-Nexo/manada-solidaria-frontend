@@ -64,6 +64,9 @@ Guidance for future coding agents working in this repository.
   - `border-color: theme.colors.secondary` when a border is present
   - `color: theme.colors.neutral`, so the paw icon inherits the neutral color
 - Keep the desktop floating publish button and mobile navbar publish button visually aligned through these same tokens.
+- Both publish buttons open the shared `src/components/publishOptions/PublishOptions.tsx` popover.
+- Publish options use a 53x53 secondary-color icon circle and a 220x53 secondary-color text container with `10px` border radius, separated by `15px` between options.
+- Publish option routes are `/publicar/animal`, `/publicar/colecta`, and `/publicar/campania`.
 
 ## Menu UI Details
 
@@ -175,6 +178,7 @@ Guidance for future coding agents working in this repository.
   - Use `src/hooks/geolocation/useGeolocation.ts` whenever a screen needs the user's coordinates for nearby publications.
   - Push notifications require the browser notification permission; if the browser requires a stronger user gesture, request it from an explicit in-app action.
   - Camera and gallery access are handled through Capacitor. Use `src/hooks/camera/useCamera.ts` whenever a screen needs to take a photo or choose from gallery.
+  - Use the reusable image upload trigger in `src/components/imageUpload/ImageUpload.tsx` and the reusable bottom sheet in `src/components/bottomSheet/BottomSheet.tsx` for photo source selection UI; it presents as a bottom sheet on mobile and as a centered modal on desktop.
   - Hook usage examples live next to each hook:
     - `src/hooks/camera/README.md`
     - `src/hooks/geolocation/README.md`
