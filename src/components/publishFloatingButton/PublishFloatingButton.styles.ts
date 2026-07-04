@@ -35,10 +35,9 @@ export const FloatingButton = styled.button`
   }
 
   svg {
-    width: 24px;
-    height: 24px;
-    flex: 0 0 24px;
-    stroke-width: 2.5;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
   }
 
   @media (max-width: 767px) {

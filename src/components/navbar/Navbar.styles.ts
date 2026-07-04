@@ -115,8 +115,7 @@ export const PublishButton = styled.button`
   }
 
   svg {
-    width: 28px;
-    height: 28px;
-    stroke-width: 2.5;
+    width: 30px;
+    height: 30px;
   }
 `

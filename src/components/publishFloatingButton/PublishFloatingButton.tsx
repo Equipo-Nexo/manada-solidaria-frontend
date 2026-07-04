@@ -1,4 +1,4 @@
-import { PawPrint } from 'lucide-react'
+import { PawPrint } from '../icons'
 import { useToast } from '../../hooks/useToast'
 import { FloatingButton } from './PublishFloatingButton.styles'
 

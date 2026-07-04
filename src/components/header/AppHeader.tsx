@@ -1,4 +1,4 @@
-import { Bell, Menu } from 'lucide-react'
+import { Bell, Menu } from '../icons'
 import { Brand, Greeting, Header, IconButton, Logo, MenuButton } from './AppHeader.styles'
 
 type AppHeaderProps = {

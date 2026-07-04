@@ -1,4 +1,4 @@
-import { Check, CircleX, Info } from 'lucide-react'
+import { Check, CircleX, Info } from '../icons'
 import {
   ToastCard,
   ToastContent,
