@@ -102,7 +102,7 @@ export const RegisterTitle = styled.h1`
   margin: 4px 0 0;
   color: #261813;
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 24px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 700;
   line-height: 32px;

@@ -22,7 +22,7 @@ export const registerSchema = yup.object({
   password: yup
     .string()
     .required('Ingresá tu contraseña.')
-    .min(6, 'La contraseña debe tener al menos 6 caracteres.')
+    .min(4, 'La contraseña debe tener al menos 4 caracteres.')
     .max(72, 'La contraseña no puede superar los 72 caracteres.'),
   confirmPassword: yup
     .string()
