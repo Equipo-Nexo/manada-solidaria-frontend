@@ -134,6 +134,7 @@ Guidance for future coding agents working in this repository.
   - Auth state is persisted with `redux-persist` using `storageSession`; keep reducers pure and configure persistence in `store.ts`.
   - `src/app/services/base/baseApi.ts` defines the shared RTK Query `baseApi` with `VITE_API_BASE_URL`.
   - `src/app/services/apis/*.ts` contains endpoint implementations that use `baseApi.injectEndpoints`.
+  - `src/app/services/requests/*.ts` contains API request DTO/type definitions shared by service endpoints.
 - Do not create one-off `createApi` instances for each feature. Add future APIs by injecting endpoints into `baseApi`.
 - The login endpoint is implemented in `src/app/services/apis/authApi.ts`.
 - Auth login calls `POST /auth/login` with `Authorization: Basic <base64(username:password)>` and no body.

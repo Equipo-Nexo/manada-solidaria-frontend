@@ -1,9 +1,6 @@
 import type { AuthTokens } from '../../store/authSlice'
+import type { LoginRequest } from '../requests/authRequests'
 import { baseApi } from '../base/baseApi'
-
-export type LoginRequest = {
-  authorization: string
-}
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

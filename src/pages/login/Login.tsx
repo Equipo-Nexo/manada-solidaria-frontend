@@ -36,7 +36,7 @@ function Login() {
       })
       .catch(() => {
         toast.error(
-          'No pudimos iniciar sesión',
+          'No fue posible iniciar tu sesión',
           'Revisá tu usuario y contraseña e intentá nuevamente.',
         )
       })
@@ -63,7 +63,7 @@ function Login() {
 
           <S.Form onSubmit={handleSubmit(handleLogin)} aria-busy={isLoading} noValidate>
             <div>
-              <S.WelcomeTitle>¡Bienvenido!</S.WelcomeTitle>
+              <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
               <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
             </div>
 
