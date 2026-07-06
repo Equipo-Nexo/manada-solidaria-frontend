@@ -1,9 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { CarFront, Eye, EyeOff, HandHeart, PawPrint } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { useSignupMutation, type SignupRole } from '../../app/services/apis/authApi'
+import { useSignupMutation } from '../../app/services/apis/authApi'
 import { useToast } from '../../hooks/toast/useToast'
 import {
   AppLogo,
@@ -32,6 +31,9 @@ import {
   SwitchRow,
 } from './Register.styles'
 import { registerSchema, type RegisterFormValues } from './registerSchema'
+import type { Role } from '../../app/types/User.types'
+import { Eye, EyeOff, HandHeart, PawPrint } from '../../components/icons'
+import CarFront from '../../components/icons/CarFront'
 
 function Register() {
   const navigate = useNavigate()
@@ -54,7 +56,7 @@ function Register() {
   })
 
   const handleRegister = (values: RegisterFormValues) => {
-    const roles: SignupRole[] = []
+    const roles: Role[] = []
 
     if (values.isRescuer) {
       roles.push('RESCUER')

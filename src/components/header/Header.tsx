@@ -1,4 +1,4 @@
-import { Bell, Menu } from 'lucide-react'
+import { Bell, Menu } from '../icons'
 import useCurrentUserProfile from '../../hooks/user/useCurrentUserProfile'
 import { Brand, Greeting, HeaderRoot, IconButton, Logo, MenuButton } from './Header.styles'
 

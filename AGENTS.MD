@@ -26,12 +26,15 @@ Guidance for future coding agents working in this repository.
   - Component/rendering logic lives in `.tsx` files.
   - Styled-components live in neighboring `*.styles.ts` files, for example `Header.tsx` and `Header.styles.ts`.
   - Export styled-components as named exports from `*.styles.ts` and import them into the component file.
+  - For components that use many styled-components from one file, prefer a namespace import such as `import * as S from './Login.styles'` to keep imports compact and make styled elements explicit in JSX.
   - Keep helper style fragments private to the `*.styles.ts` file unless they are intentionally shared.
 - Keep global styles in `src/styles/GlobalStyle.ts`.
 - Keep theme tokens in `src/styles/theme.ts`.
 - Wrap app-level UI with `ThemeProvider` from `styled-components`.
 - Do not add new `.css` files unless the user explicitly changes the styling direction.
 - Do not use Tailwind/DaisyUI classes such as `bg-base-100`, `btn`, or `btn-primary`.
+- Do not use `lucide-react`; the project uses local SVG icon components from `src/components/icons`.
+- When new icons are needed, add them as typed SVG React components under `src/components/icons/` and export them from `src/components/icons/index.ts`.
 
 ## Design Tokens
 
@@ -117,7 +120,7 @@ Guidance for future coding agents working in this repository.
   - border radius `12px`
   - transparent 2px border
   - background `#FFF1EC`
-- The password field should remain a composed input with a `lucide-react` `Eye` / `EyeOff` toggle button that switches between `type="password"` and `type="text"`.
+- The password field should remain a composed input with local `Eye` / `EyeOff` icons from `src/components/icons` and a toggle button that switches between `type="password"` and `type="text"`.
 - When the password is hidden, its placeholder should look hidden, currently `********`; when visible, the placeholder can read `contraseña`.
 
 ## Register UI Details
@@ -161,6 +164,7 @@ Guidance for future coding agents working in this repository.
   - Auth state is persisted with `redux-persist` using `storageSession`; keep reducers pure and configure persistence in `store.ts`.
   - `src/app/services/base/baseApi.ts` defines the shared RTK Query `baseApi` with `VITE_API_BASE_URL`.
   - `src/app/services/apis/*.ts` contains endpoint implementations that use `baseApi.injectEndpoints`.
+  - `src/app/services/requests/*.ts` contains API request DTO/type definitions shared by service endpoints.
 - Do not create one-off `createApi` instances for each feature. Add future APIs by injecting endpoints into `baseApi`.
 - The login endpoint is implemented in `src/app/services/apis/authApi.ts`.
 - Auth login calls `POST /auth/login` with `Authorization: Basic <base64(username:password)>` and no body.
