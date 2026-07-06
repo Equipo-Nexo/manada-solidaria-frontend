@@ -23,6 +23,7 @@ function App() {
   const isLoggedIn = location.pathname !== '/login'
   const isFullScreenMenu = location.pathname === '/menu'
   const showAuthenticatedShell = isLoggedIn && !isFullScreenMenu
+  const showMobileNavbar = isLoggedIn
   const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
   const username = 'Usuario'
   const userEmail = 'usuario@manadasolidaria.org'
@@ -45,7 +46,7 @@ function App() {
           </Routes>
         </AppContent>
         {showFloatingPublish && <PublishFloatingButton />}
-        {showAuthenticatedShell && <Navbar />}
+        {showMobileNavbar && <Navbar />}
       </AppShell>
       {showAuthenticatedShell && (
         <DesktopMenuDrawer $isOpen={isDesktopMenuOpen} aria-hidden={!isDesktopMenuOpen}>

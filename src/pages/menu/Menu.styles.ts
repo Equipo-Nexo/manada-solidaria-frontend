@@ -4,11 +4,17 @@ import styled, { css } from 'styled-components'
 export const MenuRoot = styled.section`
   width: 100%;
   min-height: 100svh;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  padding-bottom: calc(${({ theme }) => theme.layout.mobileNavHeight} + 16px);
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.darkColor};
   text-align: left;
+
+  @media (min-width: 768px) {
+    padding-bottom: 0;
+  }
 `
 
 export const Profile = styled.div`
