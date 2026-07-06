@@ -13,12 +13,6 @@ const toastEnter = keyframes`
   }
 `
 
-const toastAccentByType = {
-  success: '#A95C28',
-  error: '#E76F51',
-  information: '#594137',
-}
-
 export const ToastRegion = styled.div`
   position: fixed;
   top: 14px;
@@ -44,10 +38,10 @@ export const ToastCard = styled.section<{ $type: ToastType }>`
   min-height: 76px;
   padding: 14px 18px;
   border: 1px solid rgb(169 92 40 / 22%);
-  border-left: 5px solid ${({ $type }) => toastAccentByType[$type]};
+  border-left: 5px solid ${({ $type, theme }) => theme.colors.toast[$type]};
   border-radius: 16px;
-  background: ${({ theme }) => theme.colors.surface};
-  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.neutral};
+  color: ${({ theme }) => theme.colors.darkColor};
   box-shadow: 0 12px 24px rgb(89 65 55 / 18%);
   text-align: left;
   animation: ${toastEnter} 180ms ease-out;
@@ -67,8 +61,8 @@ export const ToastIcon = styled.div<{ $type: ToastType }>`
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: ${({ $type }) => toastAccentByType[$type]};
-  color: #fff;
+  background: ${({ $type, theme }) => theme.colors.toast[$type]};
+  color: ${({ theme }) => theme.colors.background};
   box-shadow: 0 8px 18px rgb(169 92 40 / 20%);
 
   svg {
@@ -89,16 +83,16 @@ export const ToastContent = styled.div`
 
 export const ToastTitle = styled.h2`
   margin: 0;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 21px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.toastTitle.fontSize};
+  font-weight: ${({ theme }) => theme.typography.toastTitle.fontWeight};
+  line-height: ${({ theme }) => theme.typography.toastTitle.lineHeight};
 `
 
 export const ToastDescription = styled.p`
   margin: 3px 0 0;
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 18px;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.toastDescription.fontSize};
+  font-weight: ${({ theme }) => theme.typography.toastDescription.fontWeight};
+  line-height: ${({ theme }) => theme.typography.toastDescription.lineHeight};
 `

@@ -5,14 +5,14 @@ export const LoginPanel = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.darkColor};
 `
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1.2;
+  font-size: ${({ theme }) => theme.typography.display.fontSize};
+  font-weight: ${({ theme }) => theme.typography.display.fontWeight};
+  line-height: ${({ theme }) => theme.typography.display.lineHeight};
 `
 
 export const PrimaryButton = styled.button`
@@ -20,15 +20,15 @@ export const PrimaryButton = styled.button`
   padding: 10px 22px;
   border: 0;
   border-radius: 10px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
+  background: ${({ theme }) => theme.colors.brand};
+  color: ${({ theme }) => theme.colors.background};
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.typography.action.fontSize};
+  font-weight: ${({ theme }) => theme.typography.action.fontWeight};
   transition: background 160ms ease, transform 160ms ease;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    background: ${({ theme }) => theme.colors.brandHover};
     transform: translateY(-1px);
   }
 

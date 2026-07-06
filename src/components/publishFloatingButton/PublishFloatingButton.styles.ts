@@ -18,9 +18,9 @@ export const FloatingButton = styled.button`
   color: ${({ theme }) => theme.colors.neutral};
   box-shadow: 0 12px 24px rgb(89 65 55 / 22%);
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 20px;
+  font-size: ${({ theme }) => theme.typography.floatingAction.fontSize};
+  font-weight: ${({ theme }) => theme.typography.floatingAction.fontWeight};
+  line-height: ${({ theme }) => theme.typography.floatingAction.lineHeight};
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 
   &:hover {

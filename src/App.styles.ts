@@ -57,7 +57,7 @@ export const DrawerPanel = styled.aside`
   left: 0;
   width: min(380px, 88vw);
   overflow-y: auto;
-  background: ${({ theme }) => theme.colors.surfacePlain};
+  background: ${({ theme }) => theme.colors.background};
   box-shadow: 16px 0 40px rgb(89 65 55 / 18%);
   transform: translateX(-100%);
   transition: transform 220ms ease;

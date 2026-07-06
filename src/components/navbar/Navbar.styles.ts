@@ -22,7 +22,7 @@ export const BottomNavContent = styled.div`
   justify-items: center;
   margin: 0 auto;
   border-radius: 25px 25px 0 0;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.neutral};
 `
 
 export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
@@ -35,10 +35,10 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 4px;
-  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.text)};
-  font-size: 12px;
-  font-weight: 700;
-  line-height: px;
+  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.darkColor)};
+  font-size: ${({ theme }) => theme.typography.navLabel.fontSize};
+  font-weight: ${({ theme }) => theme.typography.navLabel.fontWeight};
+  line-height: ${({ theme }) => theme.typography.navLabel.lineHeight};
   text-decoration: none;
   transition: color 160ms ease;
 
@@ -75,10 +75,10 @@ export const PublishWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.navLabel.fontSize};
+  font-weight: ${({ theme }) => theme.typography.navLabel.fontWeight};
+  line-height: ${({ theme }) => theme.typography.navLabel.lineHeight};
 
   span {
     position: absolute;

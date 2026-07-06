@@ -12,17 +12,28 @@ import {
 
 type IconProps = SVGProps<SVGSVGElement>
 
-type NavItem = {
+type RouteNavItem = {
+  type: 'route'
   title: string
   path: string
   icon: ComponentType<IconProps>
 }
 
+type ActionNavItem = {
+  type: 'action'
+  title: string
+  icon: ComponentType<IconProps>
+  action: 'publish'
+}
+
+type NavItem = RouteNavItem | ActionNavItem
+
 const navItems: NavItem[] = [
-  { title: 'Inicio', path: '/home', icon: House },
-  { title: 'Campa\u00f1as', path: '/campanias', icon: HandHeart },
-  { title: 'Mapa', path: '/mapa', icon: Map },
-  { title: 'M\u00e1s', path: '/menu', icon: Menu },
+  { type: 'route', title: 'Inicio', path: '/home', icon: House },
+  { type: 'route', title: 'Campa\u00f1as', path: '/campanias', icon: HandHeart },
+  { type: 'action', title: 'Publicar', icon: PawPrint, action: 'publish' },
+  { type: 'route', title: 'Mapa', path: '/mapa', icon: Map },
+  { type: 'route', title: 'M\u00e1s', path: '/menu', icon: Menu },
 ]
 
 function Navbar() {
@@ -39,24 +50,36 @@ function Navbar() {
   return (
     <BottomNav aria-label={'Navegaci\u00f3n principal'}>
       <BottomNavContent>
-        <NavbarLink item={navItems[0]} currentPath={location.pathname} />
-        <NavbarLink item={navItems[1]} currentPath={location.pathname} />
-
-        <PublishWrapper>
-          <PublishButton type="button" aria-label="Publicar" onClick={handlePublish}>
-            <PawPrint aria-hidden="true" />
-          </PublishButton>
-          <span>Publicar</span>
-        </PublishWrapper>
-
-        <NavbarLink item={navItems[2]} currentPath={location.pathname} />
-        <NavbarLink item={navItems[3]} currentPath={location.pathname} />
+        {navItems.map((item) => (
+          <NavbarItem
+            key={item.title}
+            item={item}
+            currentPath={location.pathname}
+            onPublish={handlePublish}
+          />
+        ))}
       </BottomNavContent>
     </BottomNav>
   )
 }
 
-function NavbarLink({ item, currentPath }: { item: NavItem; currentPath: string }) {
+function NavbarItem({
+  item,
+  currentPath,
+  onPublish,
+}: {
+  item: NavItem
+  currentPath: string
+  onPublish: () => void
+}) {
+  if (item.type === 'action') {
+    return <NavbarAction item={item} onPublish={onPublish} />
+  }
+
+  return <NavbarLink item={item} currentPath={currentPath} />
+}
+
+function NavbarLink({ item, currentPath }: { item: RouteNavItem; currentPath: string }) {
   const Icon = item.icon
   const state = item.path === '/menu' ? { from: currentPath } : undefined
   const isActive = currentPath === item.path
@@ -66,6 +89,19 @@ function NavbarLink({ item, currentPath }: { item: NavItem; currentPath: string 
       <Icon aria-hidden="true" />
       <span>{item.title}</span>
     </BottomNavItem>
+  )
+}
+
+function NavbarAction({ item, onPublish }: { item: ActionNavItem; onPublish: () => void }) {
+  const Icon = item.icon
+
+  return (
+    <PublishWrapper>
+      <PublishButton type="button" aria-label={item.title} onClick={onPublish}>
+        <Icon aria-hidden="true" />
+      </PublishButton>
+      <span>{item.title}</span>
+    </PublishWrapper>
   )
 }
 
