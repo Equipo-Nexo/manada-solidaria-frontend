@@ -4,11 +4,17 @@ import styled, { css } from 'styled-components'
 export const MenuRoot = styled.section`
   width: 100%;
   min-height: 100svh;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: ${({ theme }) => theme.colors.surfacePlain};
-  color: ${({ theme }) => theme.colors.text};
+  padding-bottom: calc(${({ theme }) => theme.layout.mobileNavHeight} + 16px);
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.darkColor};
   text-align: left;
+
+  @media (min-width: 768px) {
+    padding-bottom: 0;
+  }
 `
 
 export const Profile = styled.div`
@@ -39,17 +45,17 @@ const UserText = styled.p`
 
 export const Username = styled(UserText)`
   color: ${({ theme }) => theme.colors.brand};
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 22px;
+  font-size: ${({ theme }) => theme.typography.profileName.fontSize};
+  font-weight: ${({ theme }) => theme.typography.profileName.fontWeight};
+  line-height: ${({ theme }) => theme.typography.profileName.lineHeight};
 `
 
 export const Email = styled(UserText)`
   margin-top: 2px;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 18px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.metadata.fontSize};
+  font-weight: ${({ theme }) => theme.typography.metadata.fontWeight};
+  line-height: ${({ theme }) => theme.typography.metadata.lineHeight};
 `
 
 export const MenuNav = styled.nav`
@@ -75,18 +81,18 @@ export const MenuSectionBlock = styled.div`
     right: 24px;
     left: 24px;
     height: 1px;
-    background: ${({ theme }) => theme.colors.border};
+    background: ${({ theme }) => theme.colors.stroke};
   }
 `
 
 export const SectionTitle = styled.h2`
   margin: 0;
   padding: 8px 22px;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   letter-spacing: 0;
-  line-height: 16px;
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
   text-transform: uppercase;
 `
 
@@ -109,15 +115,16 @@ const menuItemStyles = css`
   padding: 12px 16px;
   border: 0;
   background: transparent;
-  font-family: Montserrat, Arial, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
+  font-family: ${({ theme }) => theme.typography.menuItem.fontFamily};
+  font-size: ${({ theme }) => theme.typography.menuItem.fontSize};
+  font-style: ${({ theme }) => theme.typography.menuItem.fontStyle};
+  font-weight: ${({ theme }) => theme.typography.menuItem.fontWeight};
+  line-height: ${({ theme }) => theme.typography.menuItem.lineHeight};
   text-decoration: none;
   text-align: left;
   cursor: pointer;
   transition: background 160ms ease, color 160ms ease;
+  border-radius: 12px;
 
   &:hover {
     background: rgb(234 95 9 / 8%);
@@ -125,7 +132,7 @@ const menuItemStyles = css`
   }
 
   &:focus-visible {
-    outline: 3px solid rgb(234 95 9 / 28%);
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: -3px;
   }
 
@@ -139,7 +146,7 @@ const menuItemStyles = css`
 
 export const MenuItemLink = styled(NavLink)<{ $isSelected: boolean }>`
   ${menuItemStyles}
-  color: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : '#594137')};
+  color: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : theme.colors.darkColor)};
 
   &::before {
     content: '';

@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     min-height: 100svh;
     margin: 0;
     background: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.darkColor};
     font-family: ${({ theme }) => theme.fonts.body};
     font-size: ${({ theme }) => theme.typography.body.fontSize};
     font-style: ${({ theme }) => theme.typography.body.fontStyle};

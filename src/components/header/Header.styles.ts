@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 
+import { softInteractiveHover } from '../../styles/interactions'
+
 export const HeaderRoot = styled.header`
   width: 100%;
-  min-height: 76px;
+  min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.neutral};
 
   @media (min-width: 768px) {
     padding: 0 32px;
@@ -39,14 +41,11 @@ export const IconButton = styled.button`
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.darkColor};
   cursor: pointer;
   transition: background 160ms ease, color 160ms ease;
 
-  &:hover {
-    background: rgb(169 92 40 / 12%);
-    color: ${({ theme }) => theme.colors.primary};
-  }
+  ${softInteractiveHover}
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
@@ -93,15 +92,15 @@ export const Logo = styled.div`
 export const Greeting = styled.p`
   margin: 0;
   overflow: hidden;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 22px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.headerGreeting.fontSize};
+  font-weight: ${({ theme }) => theme.typography.headerGreeting.fontWeight};
+  line-height: ${({ theme }) => theme.typography.headerGreeting.lineHeight};
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   @media (max-width: 420px) {
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.typography.header3.fontSize};
   }
 `

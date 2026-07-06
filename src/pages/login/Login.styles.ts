@@ -420,7 +420,7 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.textMuted};
+    color: ${({ theme }) => theme.colors.darkColorMuted};
   }
 
   &:focus-visible {
@@ -522,7 +522,7 @@ export const PrimaryButton = styled.button`
   padding: 0 24px;
   border: 0;
   border-radius: 9999px;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.brand};
   color: #ffffff;
   cursor: pointer;
   font-family: ${({ theme }) => theme.fonts.montserrat};
@@ -546,7 +546,7 @@ export const PrimaryButton = styled.button`
   }
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    background: ${({ theme }) => theme.colors.brandHover};
     transform: translateY(-1px);
   }
 

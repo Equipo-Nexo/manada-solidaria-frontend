@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
-export const BottomNav = styled.nav`
+export const BottomNav = styled.nav<{ $isMenuOpen: boolean }>`
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 20;
+  z-index: ${({ $isMenuOpen }) => ($isMenuOpen ? 60 : 20)};
 
   @media (min-width: 768px) {
     display: none;
@@ -22,7 +22,7 @@ export const BottomNavContent = styled.div`
   justify-items: center;
   margin: 0 auto;
   border-radius: 25px 25px 0 0;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.neutral};
 `
 
 const bottomNavItemStyles = css<{ $isActive: boolean }>`
@@ -38,12 +38,12 @@ const bottomNavItemStyles = css<{ $isActive: boolean }>`
   border: 0;
   padding: 0;
   background: transparent;
-  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.text)};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.darkColor)};
   cursor: pointer;
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 12px;
-  font-weight: 700;
-  line-height: px;
+  font-family: ${({ theme }) => theme.typography.navLabel.fontFamily};
+  font-size: ${({ theme }) => theme.typography.navLabel.fontSize};
+  font-weight: ${({ theme }) => theme.typography.navLabel.fontWeight};
+  line-height: ${({ theme }) => theme.typography.navLabel.lineHeight};
   text-decoration: none;
   transition: color 160ms ease;
 
@@ -88,10 +88,10 @@ export const PublishWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.navLabel.fontSize};
+  font-weight: ${({ theme }) => theme.typography.navLabel.fontWeight};
+  line-height: ${({ theme }) => theme.typography.navLabel.lineHeight};
 
   span {
     position: absolute;
