@@ -116,10 +116,15 @@ export const PublishButton = styled.button`
   cursor: pointer;
   transform: translateX(-50%);
   transition: transform 160ms ease, box-shadow 160ms ease;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     transform: translate(-50%, -2px);
     box-shadow: 0 12px 22px rgb(169 92 40 / 32%);
+  }
+
+  &:active {
+    transform: translateX(-50%) scale(0.96);
   }
 
   &:focus-visible {

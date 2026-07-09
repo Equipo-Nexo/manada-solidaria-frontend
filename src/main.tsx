@@ -9,10 +9,13 @@ import { ToastProvider } from './hooks/toast/ToastProvider'
 import { persistor, store } from './app/store/store'
 import { GlobalStyle } from './styles/GlobalStyle'
 import { theme } from './styles/theme'
+import { defineCustomElements } from '@ionic/pwa-elements/loader'
 
 declare const __APP_VERSION__: string
 
 console.log(`Manada Solidaria v${__APP_VERSION__}`)
+
+void defineCustomElements(window)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

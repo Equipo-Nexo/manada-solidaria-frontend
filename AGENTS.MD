@@ -67,6 +67,9 @@ Guidance for future coding agents working in this repository.
   - `border-color: theme.colors.secondary` when a border is present
   - `color: theme.colors.neutral`, so the paw icon inherits the neutral color
 - Keep the desktop floating publish button and mobile navbar publish button visually aligned through these same tokens.
+- Both publish buttons open the shared `src/components/publishOptions/PublishOptions.tsx` popover.
+- Publish options use a 53x53 secondary-color icon circle and a 220x53 secondary-color text container with `10px` border radius, separated by `15px` between options.
+- Publish option routes are `/publicar/animal`, `/publicar/colecta`, and `/publicar/campania`.
 
 ## Menu UI Details
 
@@ -172,7 +175,20 @@ Guidance for future coding agents working in this repository.
 - Hooks are grouped by domain under `src/hooks/<domain>/`:
   - auth state hooks live in `src/hooks/auth/`.
   - current-user/profile hooks live in `src/hooks/user/`.
+  - browser permission hooks live in `src/hooks/permissions/`.
   - toast provider/context/hooks live in `src/hooks/toast/`.
+- Browser permissions are centralized in `src/hooks/permissions/useAppPermissions.ts`.
+  - After a successful login, request geolocation and notification permissions without blocking navigation to `/home`.
+  - Use `src/hooks/geolocation/useGeolocation.ts` whenever a screen needs the user's coordinates for nearby publications.
+  - Push notifications require the browser notification permission; if the browser requires a stronger user gesture, request it from an explicit in-app action.
+  - Camera and gallery access are handled through Capacitor. Use `src/hooks/camera/useCamera.ts` whenever a screen needs to take a photo or choose from gallery.
+  - Use the reusable image upload trigger in `src/components/imageUpload/ImageUpload.tsx` and the reusable bottom sheet in `src/components/bottomSheet/BottomSheet.tsx` for photo source selection UI; it presents as a bottom sheet on mobile and as a centered modal on desktop.
+  - Hook usage examples live next to each hook:
+    - `src/hooks/camera/README.md`
+    - `src/hooks/geolocation/README.md`
+    - `src/hooks/permissions/README.md`
+  - `src/main.tsx` registers `@ionic/pwa-elements` so Capacitor Camera can provide a camera modal on Web/PWA instead of falling back directly to a file picker.
+  - Native Capacitor builds use `capacitor.config.ts` with `webDir: 'dist'`; run a production build before syncing native projects.
 - Toast logic is split so Fast Refresh stays happy:
   - `src/hooks/toast/ToastProvider.tsx`
   - `src/hooks/toast/useToast.tsx`

@@ -1,22 +1,28 @@
+import { useState } from 'react'
 import { PawPrint } from '../icons'
-import { useToast } from '../../hooks/toast/useToast'
 import { FloatingButton } from './PublishFloatingButton.styles'
+import PublishOptions from '../publishOptions/PublishOptions'
 
 function PublishFloatingButton() {
-  const toast = useToast()
-
-  const handlePublish = () => {
-    toast.information({
-      title: 'Error al publicar',
-      description: 'Ocurri\u00f3 un error al intentar publicar tu notificaci\u00f3n.',
-    })
-  }
+  const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false)
 
   return (
-    <FloatingButton type="button" aria-label="Publicar" onClick={handlePublish}>
-      <PawPrint aria-hidden="true" />
-      <span>Publicar</span>
-    </FloatingButton>
+    <>
+      <FloatingButton
+        type="button"
+        aria-label="Publicar"
+        aria-expanded={isPublishOptionsOpen}
+        onClick={() => setIsPublishOptionsOpen((isOpen) => !isOpen)}
+      >
+        <PawPrint aria-hidden="true" />
+        <span>Publicar</span>
+      </FloatingButton>
+      <PublishOptions
+        isOpen={isPublishOptionsOpen}
+        placement="desktop"
+        onClose={() => setIsPublishOptionsOpen(false)}
+      />
+    </>
   )
 }
 

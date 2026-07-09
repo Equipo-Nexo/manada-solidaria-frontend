@@ -22,11 +22,16 @@ export const FloatingButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.floatingAction.fontWeight};
   line-height: ${({ theme }) => theme.typography.floatingAction.lineHeight};
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     background: ${({ theme }) => theme.colors.secondary};
     box-shadow: 0 16px 30px rgb(89 65 55 / 28%);
     transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 
   &:focus-visible {
