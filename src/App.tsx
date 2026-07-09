@@ -7,14 +7,15 @@ import Campaigns from './pages/campaigns/Campaigns'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Map from './pages/map/Map'
+import Register from './pages/register/Register'
 import useAuth from './hooks/auth/useAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
 
 function App() {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
-  const isFullScreenPage = location.pathname === '/login'
-  const showAuthenticatedShell = isAuthenticated && !isFullScreenPage
+  const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro'
+  const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
   const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
 
   return (
@@ -26,11 +27,15 @@ function App() {
             <DesktopAuthenticatedView showFloatingPublish={showFloatingPublish} />
           </>
         )}
-        <AppContent $isFullScreen={isFullScreenPage}>
+        <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
             <Route
               path="/login"
               element={isAuthenticated ? <Navigate to="/home" replace /> : <Login />}
+            />
+            <Route
+              path="/registro"
+              element={isAuthenticated ? <Navigate to="/home" replace /> : <Register />}
             />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />

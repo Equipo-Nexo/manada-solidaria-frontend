@@ -123,6 +123,36 @@ Guidance for future coding agents working in this repository.
 - The password field should remain a composed input with local `Eye` / `EyeOff` icons from `src/components/icons` and a toggle button that switches between `type="password"` and `type="text"`.
 - When the password is hidden, its placeholder should look hidden, currently `********`; when visible, the placeholder can read `contraseña`.
 
+## Register UI Details
+
+- The register page is a full-screen route at `/registro`, sharing the same unauthenticated `AppContent` behavior as `/login`.
+- Register uses `react-hook-form` with a Yup schema in `src/pages/register/registerSchema.ts`; keep validation rules there instead of inline in the component.
+- Keep register component logic in `src/pages/register/Register.tsx` and styled-components in `src/pages/register/Register.styles.ts`.
+- The signup endpoint lives in `src/app/services/apis/authApi.ts` as an injected `baseApi` mutation for `POST /auth/signup`.
+- Signup sends `username`, `password`, `repeatedPassword`, and `email`. It sends `roles` only when at least one role is selected.
+- Register maps `¿Sos rescatista?` to the `RESCUER` role and `¿Deseas ser transportista?` to the `CARRIAGE` role; both can be sent together.
+- The register page starts with `/logo.svg`, then the title `¡Bienvenido a la Manada!`, then the text `Formá parte de nuestra comunidad de rescatistas y voluntarios.`.
+- The register panel uses a white background with the same 8px bottom gradient band as login, `12px` top border radius, and square bottom corners.
+- The neutral register page background has `48px` vertical padding.
+- Keep register inputs `24px` away from the white panel's horizontal edges.
+- Register inputs use `padding: 15px 24px`.
+- Register inputs use `border-radius: 8px`, `border: 2px solid #F7DDD3`, and `background: #FDF8F4`.
+- Register fields keep `8px` between label and input, and `24px` between consecutive fields.
+- Register fields are, in order:
+  - `Nombre de usuario`, required.
+  - `Número de teléfono`, optional.
+  - `Correo electrónico`, required.
+  - `Contraseña`, required.
+  - `Repetir contraseña`, required and matching the password.
+- Password fields use a composed input with a `lucide-react` `Eye` / `EyeOff` toggle button.
+- The rounded switches ask `¿Sos rescatista?` and `¿Deseas ser transportista?`; keep them inside a container with `padding: 24px`, `gap: 24px`, `border-radius: 12px`, `border: 1px solid #F7DDD3`, and `background: #FFF1EC`.
+- The rescatista switch label includes the `lucide-react` `HandHeart` icon on the left; the transportista switch label includes `CarFront` on the left.
+- Active register switches use `theme.colors.brand`.
+- Keep the informational text below the switches: `Esta información podrás modificarla en cualquier momento desde tu perfil`.
+- The register action is `Registrarse`, spans the full form width, and includes a `lucide-react` paw icon to the right of the text.
+- The login redirect text is `¿Ya tienes cuenta? Iniciar sesión`, with `Iniciar sesión` in `#9F3D00`.
+- The register footer sits below the white panel on the neutral background and uses the same copyright text as login: `© 2026 Manada Solidaria - Cuidando huellas juntos`.
+
 ## Current Architecture Notes
 
 - `src/main.tsx` owns app-level providers: `Provider` from React Redux, `PersistGate` from redux-persist, `ThemeProvider`, `GlobalStyle`, `BrowserRouter`, and `ToastProvider`.
