@@ -10,7 +10,11 @@ function MobileAuthenticatedView() {
   return (
     <MobileViewChrome>
       <Header />
-      <Navbar isMenuOpen={isMenuOpen} onMenuClick={() => setIsMenuOpen(true)} />
+      <Navbar
+        isMenuOpen={isMenuOpen}
+        onMenuClick={() => setIsMenuOpen(true)}
+        onNavigate={() => setIsMenuOpen(false)}
+      />
       <AuthenticatedMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </MobileViewChrome>
   )

@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import type { ComponentType, SVGProps } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
-import { DollarSign, HandHeart, PawPrint } from 'lucide-react'
 import {
   OptionContent,
   OptionDescription,
@@ -12,6 +11,7 @@ import {
   OptionsList,
   OptionTitle,
 } from './PublishOptions.styles'
+import { DollarSign, HandHeart, PawPrint } from '../icons'
 
 type IconProps = SVGProps<SVGSVGElement>
 

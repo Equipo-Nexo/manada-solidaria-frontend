@@ -26,7 +26,7 @@ export const PublishFormTitle = styled.h1`
 
 export const PublishFormDescription = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.typography.body.fontFamily};
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-style: ${({ theme }) => theme.typography.body.fontStyle};
@@ -41,7 +41,7 @@ export const PublishForm = styled.form`
   gap: 18px;
   border-radius: 12px;
   padding: 24px;
-  background: ${({ theme }) => theme.colors.surfacePlain};
+  background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 14px 34px rgb(89 65 55 / 12%);
 `
 
@@ -203,7 +203,7 @@ export const PhotoSheetActionTitle = styled.span`
 
 export const PhotoSheetActionDescription = styled.span`
   overflow: hidden;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.black};
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;

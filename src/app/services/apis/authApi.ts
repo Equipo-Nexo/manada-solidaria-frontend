@@ -1,19 +1,6 @@
 import type { AuthTokens } from '../../store/authSlice'
 import { baseApi } from '../base/baseApi'
-
-export type LoginRequest = {
-  authorization: string
-}
-
-export type SignupRole = 'RESCUER' | 'CARRIAGE'
-
-export type SignupRequest = {
-  username: string
-  password: string
-  repeatedPassword: string
-  email: string
-  roles?: SignupRole[]
-}
+import type { LoginRequest, SignupRequest } from '../requests/authRequests'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

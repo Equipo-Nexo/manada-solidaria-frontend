@@ -1,37 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { CarFront, Eye, EyeOff, HandHeart, PawPrint } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { useSignupMutation, type SignupRole } from '../../app/services/apis/authApi'
+import { useSignupMutation } from '../../app/services/apis/authApi'
 import { useToast } from '../../hooks/toast/useToast'
-import {
-  AppLogo,
-  Field,
-  FieldError,
-  FieldLabel,
-  Form,
-  HelpText,
-  Input,
-  LoginLink,
-  LoginText,
-  PasswordInputWrapper,
-  PasswordToggle,
-  PrimaryButton,
-  RegisterContainer,
-  RegisterContent,
-  RegisterFooter,
-  RegisterPanel,
-  RegisterSubtitle,
-  RegisterTitle,
-  RequiredMark,
-  SwitchControl,
-  SwitchGroup,
-  SwitchInput,
-  SwitchLabelContent,
-  SwitchRow,
-} from './Register.styles'
+import * as S from './Register.styles'
 import { registerSchema, type RegisterFormValues } from './registerSchema'
+import type { Role } from '../../app/types/User.types'
+import { Eye, EyeOff, HandHeart, PawPrint } from '../../components/icons'
+import CarFront from '../../components/icons/CarFront'
 
 function Register() {
   const navigate = useNavigate()
@@ -54,7 +31,7 @@ function Register() {
   })
 
   const handleRegister = (values: RegisterFormValues) => {
-    const roles: SignupRole[] = []
+    const roles: Role[] = []
 
     if (values.isRescuer) {
       roles.push('RESCUER')
@@ -82,23 +59,23 @@ function Register() {
   }
 
   return (
-    <RegisterPanel>
-      <RegisterContainer>
-        <RegisterContent>
-          <AppLogo src="/logo.svg" alt="Manada Solidaria" />
-          <RegisterTitle>
+    <S.RegisterPanel>
+      <S.RegisterContainer>
+        <S.RegisterContent>
+          <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
+          <S.RegisterTitle>
             ¡Bienvenido a la <br /> Manada!
-          </RegisterTitle>
-          <RegisterSubtitle>
+          </S.RegisterTitle>
+          <S.RegisterSubtitle>
             Formá parte de nuestra comunidad de rescatistas y voluntarios.
-          </RegisterSubtitle>
+          </S.RegisterSubtitle>
 
-          <Form onSubmit={handleSubmit(handleRegister)} noValidate>
-            <Field>
-              <FieldLabel htmlFor="username">
-                Nombre de usuario <RequiredMark aria-hidden="true">*</RequiredMark>
-              </FieldLabel>
-              <Input
+          <S.Form onSubmit={handleSubmit(handleRegister)} noValidate>
+            <S.Field>
+              <S.FieldLabel htmlFor="username">
+                Nombre de usuario <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+              </S.FieldLabel>
+              <S.Input
                 id="username"
                 type="text"
                 placeholder="Ej: MacaRescate"
@@ -110,13 +87,13 @@ function Register() {
                 {...register('username')}
               />
               {errors.username?.message && (
-                <FieldError id="register-username-error">{errors.username.message}</FieldError>
+                <S.FieldError id="register-username-error">{errors.username.message}</S.FieldError>
               )}
-            </Field>
+            </S.Field>
 
-            <Field>
-              <FieldLabel htmlFor="phone">Número de teléfono</FieldLabel>
-              <Input
+            <S.Field>
+              <S.FieldLabel htmlFor="phone">Número de teléfono</S.FieldLabel>
+              <S.Input
                 id="phone"
                 type="tel"
                 placeholder="3534 0000-0000"
@@ -128,15 +105,15 @@ function Register() {
                 {...register('phone')}
               />
               {errors.phone?.message && (
-                <FieldError id="register-phone-error">{errors.phone.message}</FieldError>
+                <S.FieldError id="register-phone-error">{errors.phone.message}</S.FieldError>
               )}
-            </Field>
+            </S.Field>
 
-            <Field>
-              <FieldLabel htmlFor="email">
-                Correo electrónico <RequiredMark aria-hidden="true">*</RequiredMark>
-              </FieldLabel>
-              <Input
+            <S.Field>
+              <S.FieldLabel htmlFor="email">
+                Correo electrónico <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+              </S.FieldLabel>
+              <S.Input
                 id="email"
                 type="email"
                 placeholder="tu@email.com"
@@ -148,16 +125,16 @@ function Register() {
                 {...register('email')}
               />
               {errors.email?.message && (
-                <FieldError id="register-email-error">{errors.email.message}</FieldError>
+                <S.FieldError id="register-email-error">{errors.email.message}</S.FieldError>
               )}
-            </Field>
+            </S.Field>
 
-            <Field>
-              <FieldLabel htmlFor="password">
-                Contraseña <RequiredMark aria-hidden="true">*</RequiredMark>
-              </FieldLabel>
-              <PasswordInputWrapper>
-                <Input
+            <S.Field>
+              <S.FieldLabel htmlFor="password">
+                Contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+              </S.FieldLabel>
+              <S.PasswordInputWrapper>
+                <S.Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder={showPassword ? 'contraseña' : '********'}
@@ -168,26 +145,26 @@ function Register() {
                   $hasError={Boolean(errors.password)}
                   {...register('password')}
                 />
-                <PasswordToggle
+                <S.PasswordToggle
                   type="button"
                   aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                   disabled={isLoading}
                   onClick={() => setShowPassword((currentValue) => !currentValue)}
                 >
                   {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
-                </PasswordToggle>
-              </PasswordInputWrapper>
+                </S.PasswordToggle>
+              </S.PasswordInputWrapper>
               {errors.password?.message && (
-                <FieldError id="register-password-error">{errors.password.message}</FieldError>
+                <S.FieldError id="register-password-error">{errors.password.message}</S.FieldError>
               )}
-            </Field>
+            </S.Field>
 
-            <Field>
-              <FieldLabel htmlFor="confirmPassword">
-                Repetir contraseña <RequiredMark aria-hidden="true">*</RequiredMark>
-              </FieldLabel>
-              <PasswordInputWrapper>
-                <Input
+            <S.Field>
+              <S.FieldLabel htmlFor="confirmPassword">
+                Repetir contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+              </S.FieldLabel>
+              <S.PasswordInputWrapper>
+                <S.Input
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder={showConfirmPassword ? 'contraseña' : '********'}
@@ -200,7 +177,7 @@ function Register() {
                   $hasError={Boolean(errors.confirmPassword)}
                   {...register('confirmPassword')}
                 />
-                <PasswordToggle
+                <S.PasswordToggle
                   type="button"
                   aria-label={
                     showConfirmPassword ? 'Ocultar repetir contraseña' : 'Mostrar repetir contraseña'
@@ -209,51 +186,51 @@ function Register() {
                   onClick={() => setShowConfirmPassword((currentValue) => !currentValue)}
                 >
                   {showConfirmPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
-                </PasswordToggle>
-              </PasswordInputWrapper>
+                </S.PasswordToggle>
+              </S.PasswordInputWrapper>
               {errors.confirmPassword?.message && (
-                <FieldError id="register-confirm-password-error">
+                <S.FieldError id="register-confirm-password-error">
                   {errors.confirmPassword.message}
-                </FieldError>
+                </S.FieldError>
               )}
-            </Field>
+            </S.Field>
 
-            <SwitchGroup>
-              <SwitchRow>
-                <SwitchLabelContent>
+            <S.SwitchGroup>
+              <S.SwitchRow>
+                <S.SwitchLabelContent>
                   <HandHeart aria-hidden="true" />
                   <span>¿Sos rescatista?</span>
-                </SwitchLabelContent>
-                <SwitchInput type="checkbox" disabled={isLoading} {...register('isRescuer')} />
-                <SwitchControl aria-hidden="true" />
-              </SwitchRow>
-              <SwitchRow>
-                <SwitchLabelContent>
+                </S.SwitchLabelContent>
+                <S.SwitchInput type="checkbox" disabled={isLoading} {...register('isRescuer')} />
+                <S.SwitchControl aria-hidden="true" />
+              </S.SwitchRow>
+              <S.SwitchRow>
+                <S.SwitchLabelContent>
                   <CarFront aria-hidden="true" />
                   <span>¿Deseas ser transportista?</span>
-                </SwitchLabelContent>
-                <SwitchInput type="checkbox" disabled={isLoading} {...register('wantsTransporter')} />
-                <SwitchControl aria-hidden="true" />
-              </SwitchRow>
-            </SwitchGroup>
+                </S.SwitchLabelContent>
+                <S.SwitchInput type="checkbox" disabled={isLoading} {...register('wantsTransporter')} />
+                <S.SwitchControl aria-hidden="true" />
+              </S.SwitchRow>
+            </S.SwitchGroup>
 
-            <HelpText>
+            <S.HelpText>
               Esta información podrás modificarla en cualquier momento desde tu perfil
-            </HelpText>
+            </S.HelpText>
 
-            <PrimaryButton type="submit" disabled={isLoading}>
+            <S.PrimaryButton type="submit" disabled={isLoading}>
               {isLoading ? 'Registrando...' : 'Registrarse'}
               <PawPrint aria-hidden="true" />
-            </PrimaryButton>
+            </S.PrimaryButton>
 
-            <LoginText>
-              ¿Ya tienes cuenta? <LoginLink to="/login">Inicia sesión</LoginLink>
-            </LoginText>
-          </Form>
-        </RegisterContent>
-      </RegisterContainer>
-      <RegisterFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</RegisterFooter>
-    </RegisterPanel>
+            <S.LoginText>
+              ¿Ya tienes cuenta? <S.LoginLink to="/login">Inicia sesión</S.LoginLink>
+            </S.LoginText>
+          </S.Form>
+        </S.RegisterContent>
+      </S.RegisterContainer>
+      <S.RegisterFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.RegisterFooter>
+    </S.RegisterPanel>
   )
 }
 

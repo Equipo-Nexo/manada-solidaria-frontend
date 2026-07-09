@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { X } from 'lucide-react'
 import {
   BottomSheetBackdrop,
   BottomSheetCloseButton,
@@ -9,6 +8,7 @@ import {
   BottomSheetHandle,
   BottomSheetPanel,
 } from './BottomSheet.styles'
+import X from '../icons/X'
 
 type BottomSheetProps = {
   children: ReactNode

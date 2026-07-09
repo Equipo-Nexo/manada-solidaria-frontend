@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { PawPrint } from 'lucide-react'
-import PublishOptions from '../publishOptions/PublishOptions'
+import { PawPrint } from '../icons'
 import { FloatingButton } from './PublishFloatingButton.styles'
+import PublishOptions from '../publishOptions/PublishOptions'
 
 function PublishFloatingButton() {
   const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false)

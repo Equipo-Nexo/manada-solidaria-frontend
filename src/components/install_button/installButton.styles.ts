@@ -9,13 +9,13 @@ export const InstallPromptButton = styled.button<{ $isVisible: boolean }>`
   padding: 0.5rem 1.25rem;
   border: 1px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 999px;
-  background: ${({ theme }) => theme.colors.tertiary};
-  color: ${({ theme }) => theme.colors.darkColor};
-  box-shadow: 0 10px 18px rgb(89 65 55 / 16%);
+  background: ${({ theme }) => theme.colors.brand};
+  color: ${({ theme }) => theme.colors.background};
+  box-shadow: 0 10px 15px rgb(0 0 0 / 18%);
   cursor: pointer;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 13px;
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   line-height: 18px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   pointer-events: ${({ $isVisible }) => ($isVisible ? 'auto' : 'none')};

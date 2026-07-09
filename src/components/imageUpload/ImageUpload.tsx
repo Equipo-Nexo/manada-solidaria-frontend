@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { Camera } from 'lucide-react'
 import BottomSheet from '../bottomSheet/BottomSheet'
 import {
   ImageUploadButton,
@@ -8,6 +7,7 @@ import {
   ImageUploadLabel,
   ImageUploadPreview,
 } from './ImageUpload.styles'
+import { Camera } from '../icons'
 
 type SheetChildren = ReactNode | ((controls: { close: () => void }) => ReactNode)
 

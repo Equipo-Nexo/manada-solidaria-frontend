@@ -1,4 +1,4 @@
-import { Camera, ChevronRight, ImagePlus } from 'lucide-react'
+import { ChevronRight, Camera, ImagePlus } from '../../components/icons'
 import ImageUpload from '../../components/imageUpload/ImageUpload'
 import { useCamera } from '../../hooks/camera/useCamera'
 import {

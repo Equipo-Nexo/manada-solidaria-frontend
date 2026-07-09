@@ -53,8 +53,8 @@ export const MenuPanel = styled.aside`
   left: 0;
   width: 100%;
   overflow-y: auto;
-  background: ${({ theme }) => theme.colors.surfacePlain};
-  box-shadow: none;
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: 16px 0 40px rgb(89 65 55 / 18%);
   transform: translateX(-100%);
   transition: transform 220ms ease;
 

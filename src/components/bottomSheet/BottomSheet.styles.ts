@@ -53,7 +53,7 @@ export const BottomSheetPanel = styled.div`
   width: min(100%, ${({ theme }) => theme.layout.contentMaxWidth});
   border-radius: 20px 20px 0 0;
   padding: 10px 18px calc(18px + env(safe-area-inset-bottom));
-  background: ${({ theme }) => theme.colors.surfacePlain};
+  background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 -16px 40px rgb(89 65 55 / 22%);
   animation: ${panelEnter} 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 

@@ -1,36 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Eye, EyeOff, Lock, User } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { Eye, EyeOff, Lock, User } from '../../components/icons'
 import { useLoginMutation } from '../../app/services/apis/authApi'
 import { loginSuccess } from '../../app/store/authSlice'
 import { useAppDispatch } from '../../app/store/hooks'
 import { useAppPermissions } from '../../hooks/permissions/useAppPermissions'
 import { useToast } from '../../hooks/toast/useToast'
-import {
-  AppDescription,
-  AppLogo,
-  AppTitle,
-  Field,
-  FieldError,
-  FieldHeader,
-  FormFields,
-  Form,
-  Input,
-  LoginContainer,
-  LoginContent,
-  LoginFooter,
-  LoginPanel,
-  PasswordInputWrapper,
-  PasswordToggle,
-  PrimaryButton,
-  RecoveryButton,
-  RegisterLink,
-  RegisterText,
-  WelcomeSubtitle,
-  WelcomeTitle,
-} from './Login.styles'
+import * as S from './Login.styles'
 import { loginSchema, type LoginFormValues } from './loginSchema'
 
 function Login() {
@@ -61,7 +39,7 @@ function Login() {
       })
       .catch(() => {
         toast.error(
-          'No pudimos iniciar sesión',
+          'No fue posible iniciar tu sesión',
           'Revisá tu usuario y contraseña e intentá nuevamente.',
         )
       })
@@ -72,33 +50,33 @@ function Login() {
   }
 
   return (
-    <LoginPanel>
-      <LoginContainer>
-        <LoginContent>
-          <AppLogo src="/logo.svg" alt="Manada Solidaria" />
-          <AppTitle>
+    <S.LoginPanel>
+      <S.LoginContainer>
+        <S.LoginContent>
+          <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
+          <S.AppTitle>
             Manada
             <br />
             Solidaria
-          </AppTitle>
-          <AppDescription>
+          </S.AppTitle>
+          <S.AppDescription>
             Ayudemos juntos a quienes más <br />
             lo necesitan.
-          </AppDescription>
+          </S.AppDescription>
 
-          <Form onSubmit={handleSubmit(handleLogin)} aria-busy={isLoading} noValidate>
+          <S.Form onSubmit={handleSubmit(handleLogin)} aria-busy={isLoading} noValidate>
             <div>
-              <WelcomeTitle>¡Bienvenido!</WelcomeTitle>
-              <WelcomeSubtitle>Inicia sesión para seguir ayudando</WelcomeSubtitle>
+              <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
+              <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
             </div>
 
-            <FormFields>
-              <Field>
-                <FieldHeader htmlFor="username">
+            <S.FormFields>
+              <S.Field>
+                <S.FieldHeader htmlFor="username">
                   <User aria-hidden="true" />
                   <span>Usuario</span>
-                </FieldHeader>
-                <Input
+                </S.FieldHeader>
+                <S.Input
                   id="username"
                   type="text"
                   placeholder="usuario"
@@ -110,17 +88,17 @@ function Login() {
                   {...register('username')}
                 />
                 {errors.username?.message && (
-                  <FieldError id="username-error">{errors.username.message}</FieldError>
+                  <S.FieldError id="username-error">{errors.username.message}</S.FieldError>
                 )}
-              </Field>
+              </S.Field>
 
-              <Field>
-                <FieldHeader htmlFor="password">
+              <S.Field>
+                <S.FieldHeader htmlFor="password">
                   <Lock aria-hidden="true" />
                   <span>Contraseña</span>
-                </FieldHeader>
-                <PasswordInputWrapper>
-                  <Input
+                </S.FieldHeader>
+                <S.PasswordInputWrapper>
+                  <S.Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder={showPassword ? 'contraseña' : '********'}
@@ -131,37 +109,37 @@ function Login() {
                     $hasError={Boolean(errors.password)}
                     {...register('password')}
                   />
-                  <PasswordToggle
+                  <S.PasswordToggle
                     type="button"
                     aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                     disabled={isLoading}
                     onClick={() => setShowPassword((currentValue) => !currentValue)}
                   >
                     {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
-                  </PasswordToggle>
-                </PasswordInputWrapper>
+                  </S.PasswordToggle>
+                </S.PasswordInputWrapper>
                 {errors.password?.message && (
-                  <FieldError id="password-error">{errors.password.message}</FieldError>
+                  <S.FieldError id="password-error">{errors.password.message}</S.FieldError>
                 )}
-              </Field>
+              </S.Field>
 
-              <RecoveryButton type="button" onClick={handleForgotPassword}>
+              <S.RecoveryButton type="button" onClick={handleForgotPassword}>
                 Olvidé mi contraseña
-              </RecoveryButton>
+              </S.RecoveryButton>
 
-              <PrimaryButton type="submit" disabled={isLoading}>
+              <S.PrimaryButton type="submit" disabled={isLoading}>
                 {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
-              </PrimaryButton>
-            </FormFields>
-          </Form>
+              </S.PrimaryButton>
+            </S.FormFields>
+          </S.Form>
 
-          <RegisterText>
-            ¿No tienes cuenta? <RegisterLink href="/registro">Regístrate</RegisterLink>
-          </RegisterText>
-        </LoginContent>
-      </LoginContainer>
-      <LoginFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</LoginFooter>
-    </LoginPanel>
+          <S.RegisterText>
+            ¿No tienes cuenta? <S.RegisterLink href="/registro">Regístrate</S.RegisterLink>
+          </S.RegisterText>
+        </S.LoginContent>
+      </S.LoginContainer>
+      <S.LoginFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.LoginFooter>
+    </S.LoginPanel>
   )
 }
 
