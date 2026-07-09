@@ -1,20 +1,142 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { LoginPanel, PrimaryButton, Title } from './Login.styles'
+import { Eye, EyeOff, Lock, User } from '../../components/icons'
+import { useLoginMutation } from '../../app/services/apis/authApi'
+import { loginSuccess } from '../../app/store/authSlice'
+import { useAppDispatch } from '../../app/store/hooks'
+import { useToast } from '../../hooks/toast/useToast'
+import * as S from './Login.styles'
+import { loginSchema, type LoginFormValues } from './loginSchema'
 
 function Login() {
   const navigate = useNavigate()
+  const toast = useToast()
+  const dispatch = useAppDispatch()
+  const [login, { isLoading }] = useLoginMutation()
+  const [showPassword, setShowPassword] = useState(false)
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+  } = useForm<LoginFormValues>({
+    mode: 'onTouched',
+    resolver: yupResolver(loginSchema),
+  })
 
-  const handleLogin = () => {
-    navigate('/home')
+  const handleLogin = ({ username, password }: LoginFormValues) => {
+    const authorization = `Basic ${btoa(`${username}:${password}`)}`
+
+    return login({ authorization })
+      .unwrap()
+      .then((tokens) => {
+        dispatch(loginSuccess(tokens))
+        navigate('/home', { replace: true })
+      })
+      .catch(() => {
+        toast.error(
+          'No fue posible iniciar tu sesión',
+          'Revisá tu usuario y contraseña e intentá nuevamente.',
+        )
+      })
+  }
+
+  const handleForgotPassword = () => {
+    console.log('Olvidé mi contraseña')
   }
 
   return (
-    <LoginPanel>
-      <Title>Login</Title>
-      <PrimaryButton type="button" onClick={handleLogin}>
-        {'Iniciar sesi\u00f3n'}
-      </PrimaryButton>
-    </LoginPanel>
+    <S.LoginPanel>
+      <S.LoginContainer>
+        <S.LoginContent>
+          <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
+          <S.AppTitle>
+            Manada
+            <br />
+            Solidaria
+          </S.AppTitle>
+          <S.AppDescription>
+            Ayudemos juntos a quienes más <br />
+            lo necesitan.
+          </S.AppDescription>
+
+          <S.Form onSubmit={handleSubmit(handleLogin)} aria-busy={isLoading} noValidate>
+            <div>
+              <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
+              <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
+            </div>
+
+            <S.FormFields>
+              <S.Field>
+                <S.FieldHeader htmlFor="username">
+                  <User aria-hidden="true" />
+                  <span>Usuario</span>
+                </S.FieldHeader>
+                <S.Input
+                  id="username"
+                  type="text"
+                  placeholder="usuario"
+                  autoComplete="username"
+                  disabled={isLoading}
+                  aria-describedby={errors.username ? 'username-error' : undefined}
+                  aria-invalid={Boolean(errors.username)}
+                  $hasError={Boolean(errors.username)}
+                  {...register('username')}
+                />
+                {errors.username?.message && (
+                  <S.FieldError id="username-error">{errors.username.message}</S.FieldError>
+                )}
+              </S.Field>
+
+              <S.Field>
+                <S.FieldHeader htmlFor="password">
+                  <Lock aria-hidden="true" />
+                  <span>Contraseña</span>
+                </S.FieldHeader>
+                <S.PasswordInputWrapper>
+                  <S.Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder={showPassword ? 'contraseña' : '********'}
+                    autoComplete="current-password"
+                    disabled={isLoading}
+                    aria-describedby={errors.password ? 'password-error' : undefined}
+                    aria-invalid={Boolean(errors.password)}
+                    $hasError={Boolean(errors.password)}
+                    {...register('password')}
+                  />
+                  <S.PasswordToggle
+                    type="button"
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                    disabled={isLoading}
+                    onClick={() => setShowPassword((currentValue) => !currentValue)}
+                  >
+                    {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
+                  </S.PasswordToggle>
+                </S.PasswordInputWrapper>
+                {errors.password?.message && (
+                  <S.FieldError id="password-error">{errors.password.message}</S.FieldError>
+                )}
+              </S.Field>
+
+              <S.RecoveryButton type="button" onClick={handleForgotPassword}>
+                Olvidé mi contraseña
+              </S.RecoveryButton>
+
+              <S.PrimaryButton type="submit" disabled={isLoading}>
+                {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
+              </S.PrimaryButton>
+            </S.FormFields>
+          </S.Form>
+
+          <S.RegisterText>
+            ¿No tienes cuenta? <S.RegisterLink href="/registro">Regístrate</S.RegisterLink>
+          </S.RegisterText>
+        </S.LoginContent>
+      </S.LoginContainer>
+      <S.LoginFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.LoginFooter>
+    </S.LoginPanel>
   )
 }
 

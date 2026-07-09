@@ -1,5 +1,5 @@
 import { PawPrint } from '../icons'
-import { useToast } from '../../hooks/useToast'
+import { useToast } from '../../hooks/toast/useToast'
 import { FloatingButton } from './PublishFloatingButton.styles'
 
 function PublishFloatingButton() {

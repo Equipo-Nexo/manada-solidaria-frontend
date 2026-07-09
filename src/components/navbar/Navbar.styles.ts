@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-export const BottomNav = styled.nav`
+export const BottomNav = styled.nav<{ $isMenuOpen: boolean }>`
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 20;
+  z-index: ${({ $isMenuOpen }) => ($isMenuOpen ? 60 : 20)};
 
   @media (min-width: 768px) {
     display: none;
@@ -25,7 +25,7 @@ export const BottomNavContent = styled.div`
   background: ${({ theme }) => theme.colors.neutral};
 `
 
-export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
+const bottomNavItemStyles = css<{ $isActive: boolean }>`
   position: relative;
   width: 78px;
   height: 60px;
@@ -35,7 +35,12 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 4px;
+  border: 0;
+  padding: 0;
+  background: transparent;
   color: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : theme.colors.darkColor)};
+  cursor: pointer;
+  font-family: ${({ theme }) => theme.typography.navLabel.fontFamily};
   font-size: ${({ theme }) => theme.typography.navLabel.fontSize};
   font-weight: ${({ theme }) => theme.typography.navLabel.fontWeight};
   line-height: ${({ theme }) => theme.typography.navLabel.lineHeight};
@@ -65,6 +70,14 @@ export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
     height: 22px;
     stroke-width: 2;
   }
+`
+
+export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
+  ${bottomNavItemStyles}
+`
+
+export const BottomNavButton = styled.button<{ $isActive: boolean }>`
+  ${bottomNavItemStyles}
 `
 
 export const PublishWrapper = styled.div`

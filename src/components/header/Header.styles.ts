@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { softInteractiveHover } from '../../styles/interactions'
 
-export const Header = styled.header`
+export const HeaderRoot = styled.header`
   width: 100%;
   min-height: 72px;
   display: flex;
