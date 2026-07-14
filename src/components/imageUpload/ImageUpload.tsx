@@ -1,25 +1,32 @@
-import { useState } from 'react'
-import type { ReactNode } from 'react'
-import BottomSheet from '../bottomSheet/BottomSheet'
+import { useState } from "react";
+import type { ReactNode } from "react";
+import BottomSheet from "../bottomSheet/BottomSheet";
 import {
   ImageUploadButton,
   ImageUploadIcon,
   ImageUploadLabel,
   ImageUploadPreview,
-} from './ImageUpload.styles'
-import { Camera } from '../icons'
+} from "./ImageUpload.styles";
+import { Camera } from "../icons";
 
-type SheetChildren = ReactNode | ((controls: { close: () => void }) => ReactNode)
+type SheetChildren =
+  | ReactNode
+  | ((controls: { close: () => void }) => ReactNode);
 
 type ImageUploadProps = {
-  children: SheetChildren
-  imageUrl?: string
-  label?: string
-}
+  children: SheetChildren;
+  imageUrl?: string;
+  label?: string;
+  hint?: string;
+};
 
-function ImageUpload({ children, imageUrl, label = 'Seleccionar foto' }: ImageUploadProps) {
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const closeSheet = () => setIsSheetOpen(false)
+function ImageUpload({
+  children,
+  imageUrl,
+  label = "Seleccionar foto",
+}: ImageUploadProps) {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const closeSheet = () => setIsSheetOpen(false);
 
   return (
     <>
@@ -40,10 +47,12 @@ function ImageUpload({ children, imageUrl, label = 'Seleccionar foto' }: ImageUp
         ariaLabel="Seleccionar origen de foto"
         onClose={closeSheet}
       >
-        {typeof children === 'function' ? children({ close: closeSheet }) : children}
+        {typeof children === "function"
+          ? children({ close: closeSheet })
+          : children}
       </BottomSheet>
     </>
-  )
+  );
 }
 
-export default ImageUpload
+export default ImageUpload;

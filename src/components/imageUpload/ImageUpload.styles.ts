@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const ImageUploadButton = styled.button`
   width: 100%;
@@ -12,7 +12,7 @@ export const ImageUploadButton = styled.button`
   border: 2px dashed ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
   padding: 18px;
-  background: #fdf8f4;
+  background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.secondary};
   cursor: pointer;
   font-family: ${({ theme }) => theme.fonts.body};
@@ -22,34 +22,30 @@ export const ImageUploadButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const ImageUploadIcon = styled.span`
-  width: 48px;
-  height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.colors.neutral};
-
   svg {
     width: 26px;
     height: 26px;
     stroke-width: 2.4;
+    color: ${({ theme }) => theme.colors.darkColor};
   }
-`
+`;
 
 export const ImageUploadLabel = styled.span`
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.darkColor};
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 20px;
-`
+`;
 
 export const ImageUploadPreview = styled.img`
   width: 100%;
   height: 100%;
   min-height: 154px;
   object-fit: cover;
-`
+`;

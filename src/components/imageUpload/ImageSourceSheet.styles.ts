@@ -1,0 +1,91 @@
+import styled from "styled-components";
+
+export const PhotoSheetHeader = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  margin-bottom: 24px;
+  margin-top: 42px;
+`;
+
+export const PhotoSheetTitle = styled.h2`
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-weight: ${({ theme }) => theme.typography.header2.fontWeight};
+  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+`;
+
+export const PhotoSheetDescription = styled.p`
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  font-weight: ${({ theme }) => theme.typography.body.fontWeight};
+  line-height: ${({ theme }) => theme.typography.body.lineHeight};
+`;
+
+export const PhotoSheetActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const PhotoSheetAction = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  border-radius: 16px;
+  background: ${({ theme }) => theme.colors.neutral};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.brand};
+    background: ${({ theme }) => theme.colors.secondaryHoverSoft};
+  }
+`;
+
+export const PhotoSheetActionIcon = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.background};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const PhotoSheetActionCopy = styled.div`
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  text-align: left;
+`;
+
+export const PhotoSheetActionTitle = styled.span`
+  color: ${({ theme }) => theme.colors.secondary};
+  font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  font-weight: ${({ theme }) => theme.typography.header3.fontWeight};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+`;
+
+export const PhotoSheetActionDescription = styled.span`
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  font-weight: ${({ theme }) => theme.typography.descriptive.fontWeight};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`;
