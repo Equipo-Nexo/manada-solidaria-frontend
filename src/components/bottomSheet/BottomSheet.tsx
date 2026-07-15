@@ -13,7 +13,7 @@ import X from '../icons/X'
 type BottomSheetProps = {
   children: ReactNode
   isOpen: boolean
-  ariaLabel: string
+  ariaLabel?: string
   onClose: () => void
 }
 

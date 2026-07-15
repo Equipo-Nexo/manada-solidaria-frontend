@@ -2,9 +2,7 @@ import styled from 'styled-components'
 
 export const MyPostsRoot = styled.section`
     display: flex;
-    padding: 0;
     width: 100%;
-    min-height: 100dvh;
     flex-direction: column;
 `;
 
@@ -241,4 +239,38 @@ export const Status = styled.div<{ $backgroundColor: string, $fontColor: string 
     font-weight: 700;
     line-height: 19.5px;
     margin-top: 10px
+`
+
+export const BottomSheetContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+`
+
+export const BottomSheetTitle = styled.h2`
+`
+
+export const BottomSheetDescription = styled.p`
+`
+
+export const PostTitle = styled.span`
+    font-weight: bold;
+`
+
+export const BottomSheetButtonContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+`
+export const BottomSheetButton = styled.button<{$primary: boolean}>`
+    width: 100%;
+    background: ${({$primary, theme}) => $primary ? theme.colors.error : theme.colors.background };
+    color: ${({$primary, theme}) => $primary ? theme.colors.background : theme.colors.darkColor };
+    border: ${({$primary, theme}) => $primary ? 'none' : `2px solid ${theme.colors.stroke}` };
+    padding: 16px 8px;
+    border-radius: 12px;
+
 `

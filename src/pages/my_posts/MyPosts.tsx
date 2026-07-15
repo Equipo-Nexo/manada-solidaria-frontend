@@ -7,6 +7,7 @@ import { useDeleteCampaignMutation } from "../../app/services/apis/campaignApi";
 import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostApi";
 import { useToast } from "../../hooks/toast/useToast";
 import { UserPostUtil } from "../../utils/UserPostUtils";
+import BottomSheet from "../../components/bottomSheet/BottomSheet";
 
 function MyPosts() {
     const navigate = useNavigate()
@@ -15,6 +16,8 @@ function MyPosts() {
     const { data: userPosts, isLoading } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
+    const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
+    const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
     const NOT_FOUND_IMAGE_URL = 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg';
 
     const handleBackButtonClick = () => {
@@ -25,7 +28,17 @@ function MyPosts() {
         // Handle edit button click logic here
     }
 
-    const handleDeleteButton = async (post: GetUserPostsResponse) => {
+    const handleDeleteButton = (post: GetUserPostsResponse) => {
+        setSelectedPost(post)
+        setOpenBottomSheet(true)
+    }
+
+    const closeBottomSheet = () => {
+        setSelectedPost(null)
+        setOpenBottomSheet(false)        
+    }
+
+    const handleAcceptDelete = async (post: GetUserPostsResponse) => {
         const deletePostByType: Record<string, (postId: string) => Promise<void>> = {
             campaign: (postId) => deleteCampaign(postId).unwrap(),
             animal: (postId) => deleteAnimalPost(postId).unwrap(),
@@ -43,11 +56,32 @@ function MyPosts() {
                 'No pudimos eliminar la publicación',
                 'Intentá nuevamente en unos minutos.'
             )
+        } finally {
+            closeBottomSheet()
         }
     }
 
   return (
     <S.MyPostsRoot>
+        <BottomSheet
+            isOpen={openBottomSheet}
+            onClose={() => setOpenBottomSheet(false)}
+        >
+            <S.BottomSheetContent>
+                <S.BottomSheetTitle>Eliminar publicación</S.BottomSheetTitle>
+                <S.BottomSheetDescription>¿Estás seguro de eliminar {<S.PostTitle>{selectedPost?.title}</S.PostTitle>}? No podrás volver atrás esta acción</S.BottomSheetDescription>
+            </S.BottomSheetContent>
+            <S.BottomSheetButtonContainer>
+                <S.BottomSheetButton
+                    $primary
+                    onClick={() => selectedPost && handleAcceptDelete(selectedPost)}
+                >Si, eliminar</S.BottomSheetButton>
+                <S.BottomSheetButton
+                    $primary={false}
+                    onClick={closeBottomSheet}
+                >No, cancelar</S.BottomSheetButton>
+            </S.BottomSheetButtonContainer>
+        </BottomSheet>
         <S.HeaderContainer>
             <S.BackRowButton onClick={handleBackButtonClick}>
                 <ArrowLeft />
