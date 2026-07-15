@@ -13,6 +13,7 @@ import PublishCollection from './pages/publish/PublishCollection'
 import Register from './pages/register/Register'
 import useAuth from './hooks/auth/useAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
+import MyPosts from './pages/my_posts/MyPosts'
 
 function App() {
   const location = useLocation()
@@ -44,6 +45,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
               <Route path="/mapa" element={<Map />} />
+              <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<PublishAnimal />} />
               <Route path="/publicar/colecta" element={<PublishCollection />} />
               <Route path="/publicar/campania" element={<PublishCampaign />} />

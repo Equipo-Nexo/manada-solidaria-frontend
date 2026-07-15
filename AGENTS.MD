@@ -166,9 +166,11 @@ Guidance for future coding agents working in this repository.
   - `src/app/store/authSlice.ts` owns auth tokens and authentication state.
   - Auth state is persisted with `redux-persist` using `storageSession`; keep reducers pure and configure persistence in `store.ts`.
   - `src/app/services/base/baseApi.ts` defines the shared RTK Query `baseApi` with `VITE_API_BASE_URL`.
-  - `src/app/services/apis/*.ts` contains endpoint implementations that use `baseApi.injectEndpoints`.
+  - `src/app/services/base/baseAuthenticatedApi.ts` defines the RTK Query base for authenticated endpoints and injects the current access token as `Authorization: Bearer <token>`.
+  - `src/app/services/apis/*.ts` contains endpoint implementations that inject into the appropriate public or authenticated base API.
   - `src/app/services/requests/*.ts` contains API request DTO/type definitions shared by service endpoints.
 - Do not create one-off `createApi` instances for each feature. Add future APIs by injecting endpoints into `baseApi`.
+- Public endpoints inject into `baseApi`; endpoints that require a logged-in user inject into `baseAuthenticatedApi`.
 - The login endpoint is implemented in `src/app/services/apis/authApi.ts`.
 - Auth login calls `POST /auth/login` with `Authorization: Basic <base64(username:password)>` and no body.
 - Login stores `accessToken` and `refreshToken` through `authSlice`; `redux-persist` writes the auth slice to session storage, and logout must clear the auth state.
