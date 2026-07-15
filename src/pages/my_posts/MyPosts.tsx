@@ -15,6 +15,8 @@ function MyPosts() {
     const { data: userPosts, isLoading } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
+    const NOT_FOUND_IMAGE_URL = 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg';
+
     const handleBackButtonClick = () => {
         navigate('/home', { replace: true })
     }
@@ -88,7 +90,7 @@ function MyPosts() {
                 {userPosts?.map((post) => {
                     return (
                         <S.Card key={post.id}>
-                            <S.CardImage src={'https://pub-5a96b6f532a84093aad74b71706eddd4.r2.dev/development/1113630f-d565-4715-bed1-8e6ff89d6178'} alt={post.title} />
+                            <S.CardImage src={post.imageUrl || NOT_FOUND_IMAGE_URL} alt={post.title} />
                             <S.CardContent>
                                 <S.CardInformationContainer>
                                     <S.CardTitle>{post.title}</S.CardTitle>
