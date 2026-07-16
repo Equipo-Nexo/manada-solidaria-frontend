@@ -12,12 +12,12 @@ import PublishCollection from './pages/publish/PublishCollection'
 import Register from './pages/register/Register'
 import useAuth from './hooks/auth/useAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
-import NewAnimalPostForm from './pages/newAnimalPost/newAnimalPostForm'
+import NewAnimalPostForm from './pages/newAnimalPost/Form'
 
 function App() {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
-  const isAnimalPublish = location.pathname === '/publicar/animal' || location.pathname === '/nuevo-animal'
+  const isAnimalPublish = location.pathname === '/publicar/animal'
   const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro' || isAnimalPublish
   const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
   const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
@@ -41,11 +41,6 @@ function App() {
               path="/registro"
               element={isAuthenticated ? <Navigate to="/home" replace /> : <Register />}
             />
-            <Route
-              path="/nuevo-animal"
-              element={<NewAnimalPostForm />}
-            />
-
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />

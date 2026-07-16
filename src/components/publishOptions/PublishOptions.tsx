@@ -24,7 +24,7 @@ type PublishOption = {
 
 const publishOptions: PublishOption[] = [
   {
-    title: 'Publicar un animal',
+    title: 'Publicar caso de animal',
     description: 'Perdidos, encontrados, en adopción o en la calle.',
     icon: PawPrint,
     path: '/publicar/animal',

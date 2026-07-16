@@ -1,5 +1,5 @@
-import { Check } from '../../components/icons'
-import * as S from './newAnimalPostForm.styles'
+import { Check } from '../icons'
+import * as S from './Inputs.styles'
 
 interface OptionsComponentProps<T extends string> {
   name?: string

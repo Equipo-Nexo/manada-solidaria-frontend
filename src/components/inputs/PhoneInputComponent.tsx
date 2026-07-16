@@ -1,16 +1,21 @@
-import type { UseFormRegisterReturn } from 'react-hook-form'
-import { Phone } from '../../components/icons'
-import * as S from './newAnimalPostForm.styles'
+import type { InputHTMLAttributes, Ref } from 'react'
+import { Phone } from '../icons'
+import * as S from './Inputs.styles'
+import FormErrorMessage from '../error/ErrorMessage'
 
 interface PhoneInputProps {
-  areaCodeRegistration: UseFormRegisterReturn<'areaCode'>
-  phoneNumberRegistration: UseFormRegisterReturn<'phoneNumber'>
+  areaCodeProps: InputHTMLAttributes<HTMLInputElement>
+  phoneNumberProps: InputHTMLAttributes<HTMLInputElement>
+  areaCodeRef?: Ref<HTMLInputElement>
+  phoneNumberRef?: Ref<HTMLInputElement>
   error?: string
 }
 
 function PhoneInputComponent({
-  areaCodeRegistration,
-  phoneNumberRegistration,
+  areaCodeProps,
+  phoneNumberProps,
+  areaCodeRef,
+  phoneNumberRef,
   error,
 }: PhoneInputProps) {
   return (
@@ -19,22 +24,24 @@ function PhoneInputComponent({
         <S.AreaCodeWrapper>
           <S.PhoneGlyph><Phone aria-hidden="true" /></S.PhoneGlyph>
           <S.AreaCode
+            ref={areaCodeRef}
             aria-label="Código de área"
             inputMode="numeric"
             placeholder="353"
             aria-invalid={Boolean(error)}
-            {...areaCodeRegistration}
+            {...areaCodeProps}
           />
         </S.AreaCodeWrapper>
         <S.PhoneNumber
+          ref={phoneNumberRef}
           aria-label="Número de teléfono"
           inputMode="numeric"
           placeholder="56523551"
           aria-invalid={Boolean(error)}
-          {...phoneNumberRegistration}
+          {...phoneNumberProps}
         />
       </S.PhoneNumberContainer>
-      {error && <S.ErrorMessage role="alert">{error}</S.ErrorMessage>}
+      <FormErrorMessage message={error} />
     </>
   )
 }
