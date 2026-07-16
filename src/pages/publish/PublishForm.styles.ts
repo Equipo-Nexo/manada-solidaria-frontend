@@ -16,7 +16,11 @@ export const PublishFormPage = styled.section`
     padding-bottom: 96px;
   }
 `;
-
+export const ErrorMessage = styled.span`
+  margin-top: 4px;
+  color: ${({ theme }) => theme.colors.error};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+`;
 export const PublishFormHeader = styled.header`
   min-height: 60px;
   display: flex;
@@ -41,7 +45,6 @@ export const PublishBackButton = styled.button`
     width: 20px;
     height: 20px;
   }
-
   &:hover {
     opacity: 0.8;
   }
@@ -68,8 +71,10 @@ export const PublishForm = styled.form`
   background: ${({ theme }) => theme.colors.background};
 `;
 
-export const PublishField = styled.label`
-  display: flex;
+export const PublishField = styled.div<{
+  $hidden?: boolean;
+}>`
+  display: ${({ $hidden }) => ($hidden ? "none" : "flex")};
   flex-direction: column;
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
@@ -160,31 +165,56 @@ export const CategoryOptions = styled.div`
   align-content: flex-start;
   gap: 12px 22px;
 `;
-
 export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   height: 44px;
-  border: 2px solid ${({ theme }) => theme.colors.stroke};
-  border-radius: 999px;
   padding: 8px 18px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.black};
+  border-radius: 999px;
+
+  border: 2px solid
+    ${({ theme, $isSelected }) =>
+      $isSelected ? theme.colors.secondary : theme.colors.stroke};
+
+  background: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.colors.secondary : theme.colors.background};
+
+  color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.colors.background : theme.colors.black};
+
   cursor: pointer;
+
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.typography.body.fontWeight};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+
   box-shadow: ${({ $isSelected, theme }) =>
     $isSelected
-      ? `0 4px 6px -1px ${theme.colors.black}1a, 0 2px 4px -2px ${theme.colors.black}1a`
+      ? `0 4px 6px -1px ${theme.colors.black}1a,
+         0 2px 4px -2px ${theme.colors.black}1a`
       : "none"};
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
+
+  &:hover:not(:disabled) {
+    border-color: ${({ theme }) => theme.colors.secondary};
+
+    background: ${({ theme, $isSelected }) =>
+      $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
+  }
 `;
 
-export const TwoColumnFields = styled.div`
-  display: grid;
+export const TwoColumnFields = styled.div<{
+  $hidden?: boolean;
+}>`
+  display: ${({ $hidden }) => ($hidden ? "none" : "grid")};
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 8px;
 `;
@@ -236,34 +266,65 @@ export const PhoneFields = styled.div`
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 8px;
 `;
-
 export const DonationNeeds = styled.fieldset`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.stroke};
-  border-radius: 12px;
-  padding: 16px;
-  background: ${({ theme }) => theme.colors.neutral};
+  gap: 20px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
 `;
 
-export const DonationLegend = styled.legend`
-  padding: 0 6px;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+export const DonationGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 48px;
+  row-gap: 24px;
 `;
-
 export const DonationOption = styled.label`
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.body.fontSize};
-  line-height: ${({ theme }) => theme.typography.body.lineHeight};
-`;
+  gap: 16px;
+  cursor: pointer;
 
+  span {
+    color: ${({ theme }) => theme.colors.black};
+    font-size: ${({ theme }) => theme.typography.body.fontSize};
+    line-height: ${({ theme }) => theme.typography.body.lineHeight};
+  }
+`;
+export const DonationCheckbox = styled.input.attrs({
+  type: "checkbox",
+})`
+  appearance: none;
+
+  width: 20px;
+  height: 20px;
+
+  border: 2px solid ${({ theme }) => theme.colors.stroke};
+  border-radius: 2px;
+  background: ${({ theme }) => theme.colors.background};
+
+  cursor: pointer;
+
+  &:checked {
+    background: ${({ theme }) => theme.colors.secondary};
+    border-color: ${({ theme }) => theme.colors.secondary};
+  }
+
+  &:checked::after {
+    content: "✓";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${({ theme }) => theme.colors.background};
+    font-size: 12px;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+  }
+`;
 export const MapPreview = styled.div`
   height: 201px;
   position: relative;

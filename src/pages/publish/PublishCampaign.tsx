@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { publishCampaignSchema } from "./PublishCampaignSchema";
 import { Info } from "../../components/icons";
 import * as S from "./PublishForm.styles";
 import ImageUpload from "../../components/imageUpload/ImageUpload";
@@ -8,7 +11,21 @@ import Phone from "../../components/icons/Phone";
 import Calendar from "../../components/icons/Calendar";
 import Search from "../../components/icons/Search";
 import Arrow from "../../components/icons/Arrow";
-
+import { useCreateCampaignMutation } from "../../app/services/apis/campaignApi";
+import { useToast } from "../../hooks/toast/useToast";
+import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
+type PublishCampaignForm = {
+  title: string;
+  category: string;
+  description: string;
+  startDate?: string;
+  endDate?: string;
+  startTime?: string;
+  endTime?: string;
+  phoneAreaCode: string;
+  phone: string;
+  location: string;
+};
 const campaignCategories = [
   "Donación",
   "Castración",
@@ -17,19 +34,60 @@ const campaignCategories = [
   "Otro",
 ];
 const donationNeeds = [
+  "Ropa",
   "Alimento",
+  "Accesorios",
   "Medicamentos",
-  "Insumos veterinarios",
-  "Otros",
+  "Camas",
+  "Otro",
 ];
 type CampaignCategory = (typeof campaignCategories)[number];
 
 function PublishCampaign() {
   const navigate = useNavigate();
+  const [createCampaign] = useCreateCampaignMutation();
+  const toast = useToast();
   const [selectedCategory, setSelectedCategory] =
-    useState<CampaignCategory>("Castración");
-  const showDonationNeeds = selectedCategory === "Donación";
+    useState<CampaignCategory | null>(null);
+  const isDonation = selectedCategory === "Donación";
 
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(publishCampaignSchema),
+  });
+  const onSubmit = async (data: PublishCampaignForm) => {
+    try {
+      await createCampaign({
+        type: data.category,
+        title: data.title,
+        description: data.description,
+        imageId: "",
+
+        location: {
+          name: "",
+          address: "",
+          number: 0,
+          latitude: 0,
+          longitude: 0,
+        },
+      }).unwrap();
+
+      toast.success(
+        "Campaña publicada",
+        "La campaña se publicó correctamente.",
+      );
+    } catch {
+      toast.error(
+        "No pudimos publicar la campaña",
+        "Intentá nuevamente en unos minutos.",
+      );
+    }
+  };
   return (
     <S.PublishFormPage>
       <S.PublishFormHeader>
@@ -43,16 +101,19 @@ function PublishCampaign() {
         <S.PublishFormTitle>Publicar Campaña</S.PublishFormTitle>
       </S.PublishFormHeader>
 
-      <S.PublishForm onSubmit={(event) => event.preventDefault()}>
+      <S.PublishForm onSubmit={handleSubmit(onSubmit)}>
         <S.PublishField>
           <S.PublishLabel>
             Título de la campaña <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <S.PublishInput
             type="text"
-            name="title"
+            {...register("title")}
             placeholder="Ej: castraciones gratuitas"
           />
+          {errors.title && (
+            <S.ErrorMessage>{errors.title.message}</S.ErrorMessage>
+          )}
         </S.PublishField>
 
         <S.PublishField as="div">
@@ -66,23 +127,34 @@ function PublishCampaign() {
                 type="button"
                 $isSelected={selectedCategory === category}
                 aria-pressed={selectedCategory === category}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setValue("category", category, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
               >
                 {category}
               </S.CategoryOption>
             ))}
           </S.CategoryOptions>
+          {errors.category && (
+            <S.ErrorMessage>{errors.category.message}</S.ErrorMessage>
+          )}
         </S.PublishField>
 
-        {showDonationNeeds && (
+        {isDonation && (
           <S.DonationNeeds>
-            <S.DonationLegend>¿Qué necesitás recolectar?</S.DonationLegend>
-            {donationNeeds.map((need) => (
-              <S.DonationOption key={need}>
-                <input type="checkbox" value={need} />
-                {need}
-              </S.DonationOption>
-            ))}
+            <S.PublishLabel>¿Qué necesitás recolectar?</S.PublishLabel>
+            <S.DonationGrid>
+              {donationNeeds.map((need) => (
+                <S.DonationOption key={need}>
+                  <S.DonationCheckbox type="checkbox" value={need} />
+                  {need}
+                </S.DonationOption>
+              ))}
+            </S.DonationGrid>
           </S.DonationNeeds>
         )}
 
@@ -91,22 +163,35 @@ function PublishCampaign() {
             Descripción de la campaña <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <S.PublishTextarea
-            name="description"
+            {...register("description")}
             placeholder="Contanos por qué es importante esta campaña y a quiénes ayudará..."
           />
+          {errors.description && (
+            <S.ErrorMessage>{errors.description.message}</S.ErrorMessage>
+          )}
         </S.PublishField>
 
-        <S.PublishField>
+        <S.PublishField $hidden={isDonation}>
           <S.PublishLabel>
             Fecha Inicio <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <S.InputWithIcon>
-            <S.IconInput
-              type="text"
+            <Controller
+              control={control}
               name="startDate"
-              placeholder="dd/mm/yyyy"
-              $hasRightIcon
+              render={({ field }) => (
+                <StyledMaskedInput
+                  {...field}
+                  type="fecha"
+                  placeholder="dd/mm/yyyy"
+                  $hasRightIcon
+                  onAccept={(value) => field.onChange(value)}
+                />
+              )}
             />
+            {errors.startDate && (
+              <S.ErrorMessage>{errors.startDate.message}</S.ErrorMessage>
+            )}
             <S.FieldIcon aria-hidden="true" $position="right">
               <Calendar />
             </S.FieldIcon>
@@ -118,26 +203,66 @@ function PublishCampaign() {
             Fecha fin <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <S.InputWithIcon>
-            <S.IconInput
-              type="text"
+            <Controller
+              control={control}
               name="endDate"
-              placeholder="dd/mm/yyyy"
-              $hasRightIcon
+              render={({ field }) => (
+                <StyledMaskedInput
+                  {...field}
+                  type="fecha"
+                  placeholder="dd/mm/yyyy"
+                  $hasRightIcon
+                  onAccept={(value) => field.onChange(value)}
+                />
+              )}
             />
+            {errors.endDate && (
+              <S.ErrorMessage>{errors.endDate.message}</S.ErrorMessage>
+            )}
             <S.FieldIcon aria-hidden="true" $position="right">
               <Calendar />
             </S.FieldIcon>
           </S.InputWithIcon>
         </S.PublishField>
 
-        <S.TwoColumnFields>
+        <S.TwoColumnFields $hidden={isDonation}>
           <S.PublishField>
-            Hora inicio
-            <S.IconInput type="text" name="startTime" placeholder="09:00 hs" />
+            <S.PublishLabel>
+              Hora inicio
+              <Controller
+                control={control}
+                name="startTime"
+                render={({ field }) => (
+                  <StyledMaskedInput
+                    {...field}
+                    type="hora"
+                    placeholder="09:00 hs"
+                  />
+                )}
+              />
+            </S.PublishLabel>
+            {errors.startTime && (
+              <S.ErrorMessage>{errors.startTime.message}</S.ErrorMessage>
+            )}
           </S.PublishField>
           <S.PublishField>
-            Hora Fin
-            <S.IconInput type="text" name="endTime" placeholder="15:00 hs" />
+            <S.PublishLabel>
+              Hora Fin
+              <Controller
+                control={control}
+                name="endTime"
+                render={({ field }) => (
+                  <StyledMaskedInput
+                    {...field}
+                    type="hora"
+                    placeholder="15:00 hs"
+                  />
+                )}
+              />
+            </S.PublishLabel>
+            {errors.endTime && (
+              <S.ErrorMessage>{errors.endTime.message}</S.ErrorMessage>
+            )}
           </S.PublishField>
         </S.TwoColumnFields>
 
@@ -147,18 +272,39 @@ function PublishCampaign() {
           </S.PublishLabel>
           <S.PhoneFields>
             <S.InputWithIcon>
-              <S.IconInput
-                type="text"
+              <Controller
+                control={control}
                 name="phoneAreaCode"
-                placeholder="353"
-                $hasLeftIcon
+                render={({ field }) => (
+                  <StyledMaskedInput
+                    {...field}
+                    type="areaCode"
+                    placeholder="353"
+                    $hasLeftIcon
+                    onAccept={(value) => field.onChange(value)}
+                  />
+                )}
               />
               <S.FieldIcon aria-hidden="true">
                 <Phone />
               </S.FieldIcon>
             </S.InputWithIcon>
-            <S.PublishInput type="tel" name="phone" placeholder="56523551" />
+            <Controller
+              control={control}
+              name="phone"
+              render={({ field }) => (
+                <StyledMaskedInput
+                  {...field}
+                  type="phoneNumber"
+                  placeholder="56523551"
+                  onAccept={(value) => field.onChange(value)}
+                />
+              )}
+            />
           </S.PhoneFields>
+          {errors.phone && (
+            <S.ErrorMessage>{errors.phone.message}</S.ErrorMessage>
+          )}
           <S.HelpText>
             El número es requerido para coordinar consultas o turnos.
           </S.HelpText>
@@ -171,10 +317,13 @@ function PublishCampaign() {
           <S.InputWithIcon>
             <S.IconInput
               type="text"
-              name="location"
+              {...register("location")}
               placeholder="¿Dónde se realizará la campaña?"
               $hasLeftIcon
             />
+            {errors.location && (
+              <S.ErrorMessage>{errors.location.message}</S.ErrorMessage>
+            )}
             <S.FieldIcon aria-hidden="true">
               <Search />
             </S.FieldIcon>
