@@ -3,6 +3,7 @@ import type { SVGProps } from "react";
 function Search(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
+      {...props}
       width="18"
       height="18"
       viewBox="0 0 18 18"

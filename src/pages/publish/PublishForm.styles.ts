@@ -142,12 +142,6 @@ export const PublishSubmitButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.action.fontWeight};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
 
-  &::after {
-    content: ">";
-    font-size: 20px;
-    line-height: 1;
-  }
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;

@@ -3,6 +3,7 @@ import type { SVGProps } from "react";
 function Calendar(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
+      {...props}
       width="18"
       height="20"
       viewBox="0 0 18 20"

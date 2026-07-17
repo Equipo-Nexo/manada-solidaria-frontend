@@ -6,14 +6,14 @@ import { publishCampaignSchema } from "./PublishCampaignSchema";
 import { Info } from "../../components/icons";
 import * as S from "./PublishForm.styles";
 import ImageUpload from "../../components/imageUpload/ImageUpload";
-import ImageSourceSheet from "../../components/imageUpload/ImageSourceSheet";
 import Phone from "../../components/icons/Phone";
-import Calendar from "../../components/icons/Calendar";
 import Search from "../../components/icons/Search";
 import Arrow from "../../components/icons/Arrow";
 import { useCreateCampaignMutation } from "../../app/services/apis/campaignApi";
 import { useToast } from "../../hooks/toast/useToast";
 import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
+import DatePicker from "../../components/datePicker/DatePicker";
+import PublishButton from "../../components/icons/PublishButton";
 type PublishCampaignForm = {
   title: string;
   category: string;
@@ -50,7 +50,6 @@ function PublishCampaign() {
   const [selectedCategory, setSelectedCategory] =
     useState<CampaignCategory | null>(null);
   const isDonation = selectedCategory === "Donación";
-
   const {
     register,
     handleSubmit,
@@ -175,54 +174,20 @@ function PublishCampaign() {
           <S.PublishLabel>
             Fecha Inicio <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
-          <S.InputWithIcon>
-            <Controller
-              control={control}
-              name="startDate"
-              render={({ field }) => (
-                <StyledMaskedInput
-                  {...field}
-                  type="fecha"
-                  placeholder="dd/mm/yyyy"
-                  $hasRightIcon
-                  onAccept={(value) => field.onChange(value)}
-                />
-              )}
-            />
-            {errors.startDate && (
-              <S.ErrorMessage>{errors.startDate.message}</S.ErrorMessage>
-            )}
-            <S.FieldIcon aria-hidden="true" $position="right">
-              <Calendar />
-            </S.FieldIcon>
-          </S.InputWithIcon>
+          <DatePicker control={control} name="startDate" />
+          {errors.startDate && (
+            <S.ErrorMessage>{errors.startDate.message}</S.ErrorMessage>
+          )}
         </S.PublishField>
 
         <S.PublishField>
           <S.PublishLabel>
             Fecha fin <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
-          <S.InputWithIcon>
-            <Controller
-              control={control}
-              name="endDate"
-              render={({ field }) => (
-                <StyledMaskedInput
-                  {...field}
-                  type="fecha"
-                  placeholder="dd/mm/yyyy"
-                  $hasRightIcon
-                  onAccept={(value) => field.onChange(value)}
-                />
-              )}
-            />
-            {errors.endDate && (
-              <S.ErrorMessage>{errors.endDate.message}</S.ErrorMessage>
-            )}
-            <S.FieldIcon aria-hidden="true" $position="right">
-              <Calendar />
-            </S.FieldIcon>
-          </S.InputWithIcon>
+          <DatePicker control={control} name="endDate" />
+          {errors.endDate && (
+            <S.ErrorMessage>{errors.endDate.message}</S.ErrorMessage>
+          )}
         </S.PublishField>
 
         <S.TwoColumnFields $hidden={isDonation}>
@@ -340,18 +305,7 @@ function PublishCampaign() {
         <S.PublishField as="div">
           <S.PublishLabel>Foto de la campaña</S.PublishLabel>
 
-          <ImageUpload>
-            {({ close }) => (
-              <ImageSourceSheet
-                onCamera={() => {
-                  close();
-                }}
-                onGallery={() => {
-                  close();
-                }}
-              />
-            )}
-          </ImageUpload>
+          <ImageUpload />
         </S.PublishField>
 
         <S.AdvisoryCard>
@@ -370,6 +324,7 @@ function PublishCampaign() {
 
         <S.PublishSubmitButton type="submit">
           Publicar Campaña
+          <PublishButton aria-hidden="true" />
         </S.PublishSubmitButton>
       </S.PublishForm>
     </S.PublishFormPage>

@@ -11,7 +11,7 @@ const PRESETS = {
 
   toUpperCase: {
     mask: /^[a-zA-ZÁÉÍÓÚÑáéíóúñ\s]*$/,
-    prepare: (str: string, masked: any) => {
+    prepare: (str: string, masked: { value: string }) => {
       const isFirst = masked.value.length === 0;
       const isAfterSpace = masked.value.endsWith(" ");
 

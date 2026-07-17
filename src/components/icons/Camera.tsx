@@ -3,6 +3,7 @@ import type { SVGProps } from "react";
 function Camera(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
+      {...props}
       width="20"
       height="18"
       viewBox="0 0 20 18"
