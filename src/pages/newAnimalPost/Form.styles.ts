@@ -80,26 +80,6 @@ export const Required = styled.span`
   color: ${({ theme }) => theme.colors.error
   };`
 
-export const UploadImageButton = styled.button`
-  position: relative;
-  width: 100%;
-  min-height: 164px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  overflow: hidden;
-  border: 2px dashed ${({ theme }) => theme.colors.stroke};
-  border-radius: ${FORM_STYLE_VALUES.borderRadius};
-  padding: 0;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.secondary};
-  cursor: pointer;
-  font-family: ${({ theme }) => theme.fonts.body};
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
-`
-
 export const OptionsGroup = styled.div`
   display: flex; 
   flex-direction: column; 

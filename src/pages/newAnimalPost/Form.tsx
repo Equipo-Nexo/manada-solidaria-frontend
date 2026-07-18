@@ -1,5 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Controller, useForm, useWatch, type UseFormRegisterReturn } from 'react-hook-form'
+import {
+  Controller,
+  useController,
+  useForm,
+  useWatch,
+  type UseFormRegisterReturn,
+} from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, ColorPalet, Publish, Search } from '../../components/icons'
 import AdviceComponent from '../../components/advice/AdviceComponent'
@@ -26,6 +32,7 @@ import { newAnimalPostDefaultValues } from './utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '../../app/services/apis/animalPostApi'
 import type { CreateAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
 import { useToast } from '../../hooks/toast/useToast'
+import ImageUpload from '../../components/imageUpload/ImageUpload'
 
 const TEMPORARY_IMAGE_ID = 'cf-image-123'
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
@@ -200,9 +207,15 @@ function NewAnimalPostForm() {
   })
 
   const selectedReason = useWatch({ control, name: 'publicationReason' })
-  const { ref: areaCodeRef, ...areaCodeProps } = register('areaCode')
-  const { ref: phoneNumberRef, ...phoneNumberProps } = register('phoneNumber')
   const { ref: rewardInputRef, ...rewardInputProps } = register('rewardAmount')
+  const { field: areaCodeField, fieldState: areaCodeState } = useController({
+    control,
+    name: 'areaCode',
+  })
+  const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
+    control,
+    name: 'phoneNumber',
+  })
 
   const handlePublicationReasonChange = (
     value: PublicationReason,
@@ -272,12 +285,21 @@ function NewAnimalPostForm() {
         noValidate
       >
         <S.FieldGroup>
-          <S.UploadImageButton
-            type="button"
-            aria-describedby={errors.photo ? 'photo-error' : undefined}
-          >
-          </S.UploadImageButton>
-          <FormErrorMessage id="photo-error" message={errors.photo?.message} />
+          <Controller
+            name="photo"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <ImageUpload
+                  label="Seleccionar foto"
+                  ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
+                  hasError={Boolean(fieldState.error)}
+                  onImageSelected={(photo) => field.onChange(photo.file)}
+                />
+                <FormErrorMessage id="photo-error" message={fieldState.error?.message} />
+              </>
+            )}
+          />
         </S.FieldGroup>
         <AdviceComponent
           advice={"Una buena foto hace la diferencia. Procurá que se vea el animal completo, con buena luz y sin filtros."}
@@ -447,11 +469,15 @@ function NewAnimalPostForm() {
             {selectedReason !== PublicationReason.Street && <S.Required> *</S.Required>}
           </S.Label>
           <PhoneInputComponent
-            areaCodeProps={areaCodeProps}
-            areaCodeRef={areaCodeRef}
-            phoneNumberProps={phoneNumberProps}
-            phoneNumberRef={phoneNumberRef}
-            error={errors.areaCode?.message ?? errors.phoneNumber?.message}
+            areaCodeValue={areaCodeField.value}
+            phoneNumberValue={phoneNumberField.value}
+            onAreaCodeChange={areaCodeField.onChange}
+            onPhoneNumberChange={phoneNumberField.onChange}
+            onAreaCodeBlur={areaCodeField.onBlur}
+            onPhoneNumberBlur={phoneNumberField.onBlur}
+            areaCodeRef={areaCodeField.ref}
+            phoneNumberRef={phoneNumberField.ref}
+            error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
           />
           <S.Suggestion>
             {selectedReason === PublicationReason.Street

@@ -9,7 +9,7 @@ import {
 import { PublicationReason } from './utils/PublicationReason'
 
 export const newAnimalPostSchema = yup.object({
-  photo: yup.mixed<File>().nullable().defined().default(null),
+  photo: yup.mixed<File>().required('Seleccioná una foto del animal.'),
   publicationReason: yup
     .mixed<PublicationReason>()
     .oneOf(Object.values(PublicationReason))

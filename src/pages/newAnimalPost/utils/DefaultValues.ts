@@ -2,7 +2,7 @@ import type { DefaultValues } from 'react-hook-form'
 import type { NewAnimalPostFormValues } from '../Form.schema'
 
 export const newAnimalPostDefaultValues: DefaultValues<NewAnimalPostFormValues> = {
-  photo: null,
+  photo: undefined,
   publicationReason: undefined,
   animalType: undefined,
   animalSex: undefined,
