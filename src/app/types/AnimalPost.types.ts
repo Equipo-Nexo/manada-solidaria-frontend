@@ -1,14 +1,6 @@
-export enum PublicationReason {
+export enum AnimalPostType {
   Adoption = 'ADOPTION',
   Lost = 'LOST',
-  Street = 'STREET',
-  Foster = 'FOSTER',
-}
-
-export enum AnimalSize {
-  Small = 'SMALL',
-  Medium = 'MEDIUM',
-  Large = 'LARGE',
 }
 
 export enum AnimalType {
@@ -17,13 +9,10 @@ export enum AnimalType {
   Other = 'OTHER',
 }
 
-export enum AnimalColor {
-  Gray = 'GRAY',
-  Black = 'BLACK',
-  Blonde = 'BLONDE',
-  Brown = 'BROWN',
-  White = 'WHITE',
-  Other = 'OTHER',
+export enum AnimalSize {
+  Small = 'SMALL',
+  Medium = 'MEDIUM',
+  Large = 'LARGE',
 }
 
 export enum AnimalSex {
@@ -37,4 +26,13 @@ export enum AnimalAge {
   Adult = 'ADULT',
   Senior = 'SENIOR',
   Unknown = 'UNKNOWN',
+}
+
+export enum AnimalColor {
+  Gray = 'GRAY',
+  Black = 'BLACK',
+  Blonde = 'BLONDE',
+  Brown = 'BROWN',
+  White = 'WHITE',
+  Other = 'OTHER',
 }

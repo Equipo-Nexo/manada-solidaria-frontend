@@ -13,7 +13,15 @@ import perroImage from '../../components/images/Perro.png'
 import gatoImage from '../../components/images/Gato.png'
 import otroImage from '../../components/images/Otro.png'
 import ConditionalSwitchComponent from './components/ConditionalSwitchComponent'
-import { AnimalColor, AnimalSize, AnimalType, PublicationReason, AnimalAge, AnimalSex } from './utils/Enums.types'
+import {
+  AnimalAge,
+  AnimalColor,
+  AnimalPostType,
+  AnimalSex,
+  AnimalSize,
+  AnimalType,
+} from '../../app/types/AnimalPost.types'
+import { PublicationReason } from './utils/PublicationReason'
 import { newAnimalPostDefaultValues } from './utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '../../app/services/apis/animalPostApi'
 import type { CreateAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
@@ -27,7 +35,6 @@ const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   latitude: -34.6,
   longitude: -58.4,
 }
-
 
 const animalSexOptions: ReadonlyArray<SelectorOption<AnimalSex>> = [
   { value: AnimalSex.Male, label: 'Macho' },
@@ -51,7 +58,7 @@ const publicationReasons: Array<{
     { value: PublicationReason.Adoption, title: 'En adopción', description: 'Busca familia o tránsito (hogar provisorio)', textArea: '¿Cómo es su personalidad? ¿Cómo lo/la encontraste?...' },
     { value: PublicationReason.Lost, title: 'Perdido', description: 'Es mi mascota y la estoy buscando', textArea: '¿Cómo es? Proporcioná una descripción detallada para que sea fácilmente reconocible..' },
     { value: PublicationReason.Street, title: 'En la calle', description: 'Lo vi suelto y sin dueño aparente', textArea: '¿Dónde lo viste? ¿Es un animal comunitario? ¿Se encuentra herido? ....' },
-    { value: PublicationReason.Foster, title: 'En tránsito', description: 'Está bajo cuidado temporal y busca un hogar', textArea: '¿Durante cuánto tiempo tiene tránsito? ¿Cómo es su personalidad? ¿Dónde lo/la encontraste? ....' },
+    { value: PublicationReason.Transit, title: 'En tránsito', description: 'Está bajo cuidado temporal y busca un hogar', textArea: '¿Durante cuánto tiempo tiene tránsito? ¿Cómo es su personalidad? ¿Dónde lo/la encontraste? ....' },
   ]
 
 const animalSize: Array<{
@@ -212,8 +219,7 @@ function NewAnimalPostForm() {
       ? Number(values.rewardAmount.replace(',', '.'))
       : undefined
 
-    const request: CreateAnimalPostRequest = {
-      type: values.publicationReason,
+    const commonRequest = {
       title: values.name.trim(),
       description: values.story.trim(),
       imageId: TEMPORARY_IMAGE_ID,
@@ -226,9 +232,22 @@ function NewAnimalPostForm() {
       },
       location: TEMPORARY_LOCATION,
       phoneNumber: `${values.areaCode}${values.phoneNumber}`,
-      inTransit: values.publicationReason === PublicationReason.Adoption && values.needsTransport,
       ...(reward !== undefined ? { reward } : {}),
     }
+
+    const request: CreateAnimalPostRequest =
+      values.publicationReason === PublicationReason.Lost ||
+        values.publicationReason === PublicationReason.Street
+        ? {
+          ...commonRequest,
+          type: AnimalPostType.Lost,
+          hasOwner: values.publicationReason === PublicationReason.Lost,
+        }
+        : {
+          ...commonRequest,
+          type: AnimalPostType.Adoption,
+          inTransit: values.publicationReason === PublicationReason.Transit,
+        }
 
     try {
       await createAnimalPost(request).unwrap()
@@ -423,7 +442,10 @@ function NewAnimalPostForm() {
           />
         </S.FieldGroup>
         <S.FieldGroup>
-          <S.Label>Número de teléfono <S.Required>*</S.Required></S.Label>
+          <S.Label>
+            Número de teléfono
+            {selectedReason !== PublicationReason.Street && <S.Required> *</S.Required>}
+          </S.Label>
           <PhoneInputComponent
             areaCodeProps={areaCodeProps}
             areaCodeRef={areaCodeRef}
@@ -432,7 +454,9 @@ function NewAnimalPostForm() {
             error={errors.areaCode?.message ?? errors.phoneNumber?.message}
           />
           <S.Suggestion>
-            Es obligatorio para que adoptantes o colaboradores puedan contactarte
+            {selectedReason === PublicationReason.Street
+              ? 'Es opcional, sirve para que adoptantes o colaboradores puedan contactarte'
+              : 'Es obligatorio para que adoptantes o colaboradores puedan contactarte'}
           </S.Suggestion>
         </S.FieldGroup>
         <S.FieldGroup>

@@ -5,8 +5,8 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-  PublicationReason,
-} from './utils/Enums.types'
+} from '../../app/types/AnimalPost.types'
+import { PublicationReason } from './utils/PublicationReason'
 
 export const newAnimalPostSchema = yup.object({
   photo: yup.mixed<File>().nullable().defined().default(null),
@@ -39,12 +39,33 @@ export const newAnimalPostSchema = yup.object({
     .default(null),
   areaCode: yup
     .string()
-    .required('Ingresá la característica telefónica.')
-    .matches(/^\d+$/, 'La característica debe contener solo números.'),
+    .defined()
+    .default('')
+    .when('publicationReason', {
+      is: PublicationReason.Street,
+      then: (schema) =>
+        schema.matches(/^\d*$/, 'La característica debe contener solo números.'),
+      otherwise: (schema) =>
+        schema
+          .required('Ingresá la característica telefónica.')
+          .matches(/^\d+$/, 'La característica debe contener solo números.'),
+    }),
   phoneNumber: yup
     .string()
-    .required('Ingresá el número de teléfono.')
-    .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
+    .defined()
+    .default('')
+    .when('publicationReason', {
+      is: PublicationReason.Street,
+      then: (schema) =>
+        schema.matches(
+          /^(?:\d{7})?$/,
+          'El número de teléfono debe tener exactamente 7 números.',
+        ),
+      otherwise: (schema) =>
+        schema
+          .required('Ingresá el número de teléfono.')
+          .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
+    }),
   story: yup.string().trim().required('Contanos la historia del animal.'),
   needsTransport: yup.boolean().default(false),
   offersReward: yup.boolean().default(false),

@@ -1,9 +1,11 @@
-export type AnimalPostType = 'ADOPTION' | 'LOST' | 'STREET' | 'FOSTER'
-export type AnimalType = 'DOG' | 'CAT' | 'OTHER'
-export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'
-export type AnimalGender = 'MALE' | 'FEMALE' | 'UNKNOWN'
-export type AnimalAge = 'PUPPY' | 'ADULT' | 'SENIOR' | 'UNKNOWN'
-export type AnimalColor = 'GRAY' | 'BLACK' | 'BLONDE' | 'BROWN' | 'WHITE' | 'OTHER'
+import {
+  AnimalAge,
+  AnimalColor,
+  AnimalPostType,
+  AnimalSex,
+  AnimalSize,
+  AnimalType,
+} from '../../types/AnimalPost.types'
 
 export interface AnimalPostLocationRequest {
   name: string
@@ -13,20 +15,31 @@ export interface AnimalPostLocationRequest {
   longitude: number
 }
 
-export interface CreateAnimalPostRequest {
-  type: AnimalPostType
+interface CreateAnimalPostBaseRequest {
   title: string
   description: string
   imageId: string
   animal: {
     type: AnimalType
     size: AnimalSize
-    gender: AnimalGender
+    gender: AnimalSex
     age: AnimalAge
     color: AnimalColor | null
   }
   location: AnimalPostLocationRequest
   phoneNumber: string
-  inTransit: boolean
   reward?: number
 }
+
+export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
+  | {
+      type: AnimalPostType.Lost
+      hasOwner: boolean
+      inTransit?: never
+    }
+  | {
+      type: AnimalPostType.Adoption
+      inTransit: boolean
+      hasOwner?: never
+    }
+)

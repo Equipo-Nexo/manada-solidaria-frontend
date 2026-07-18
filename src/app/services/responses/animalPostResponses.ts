@@ -1,11 +1,11 @@
 import type {
   AnimalAge,
   AnimalColor,
-  AnimalGender,
   AnimalPostType,
+  AnimalSex,
   AnimalSize,
   AnimalType,
-} from '../requests/animalPostRequests'
+} from '../../types/AnimalPost.types'
 
 export interface AnimalPostResponse {
   id: string
@@ -17,7 +17,7 @@ export interface AnimalPostResponse {
     id: string
     type: AnimalType
     size: AnimalSize
-    gender: AnimalGender
+    gender: AnimalSex
     color: AnimalColor | null
     breed: string | null
     fur: string | null
