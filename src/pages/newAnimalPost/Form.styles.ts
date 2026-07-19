@@ -189,6 +189,7 @@ export const Color = styled.button.attrs({ type: 'button' }) <{ $color: string; 
   width: 40px;
   height: 40px;
   display: inline-flex;
+  cursor:pointer;
   align-items: center;
   justify-content: center;
   border: 2px solid ${({ $color, theme }) => $color === '#FFFFFF' ? theme.colors.stroke : $color};
