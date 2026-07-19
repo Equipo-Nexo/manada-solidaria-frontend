@@ -16,7 +16,7 @@ export interface AnimalPostLocationRequest {
 }
 
 interface CreateAnimalPostBaseRequest {
-  title: string
+  name: string
   description: string
   imageId: string
   animal: {
@@ -33,13 +33,13 @@ interface CreateAnimalPostBaseRequest {
 
 export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
   | {
-      type: AnimalPostType.Lost
-      hasOwner: boolean
-      inTransit?: never
-    }
+    type: AnimalPostType.Lost
+    hasOwner: boolean
+    inTransit?: never
+  }
   | {
-      type: AnimalPostType.Adoption
-      inTransit: boolean
-      hasOwner?: never
-    }
+    type: AnimalPostType.Adoption
+    inTransit: boolean
+    hasOwner?: never
+  }
 )
