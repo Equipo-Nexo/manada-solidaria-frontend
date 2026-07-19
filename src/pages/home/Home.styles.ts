@@ -33,7 +33,7 @@ export const SectionTitle = styled.h2`
   font-family: ${({ theme }) => theme.typography.header2.fontFamily};
   font-size: ${({ theme }) => theme.typography.header2.fontSize};
   font-style: ${({ theme }) => theme.typography.header2.fontStyle};
-  font-weight: ${({ theme }) => theme.typography.header2.fontWeight};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.header2.lineHeight};
   text-align: left;
 `

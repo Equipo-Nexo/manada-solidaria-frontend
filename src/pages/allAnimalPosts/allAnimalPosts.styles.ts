@@ -5,11 +5,13 @@ export const Page = styled.section`
   max-width: ${({ theme }) => theme.layout.contentMaxWidth};
   min-height: 100svh;
   margin: 0 auto;
-  padding:16px;
+  padding: 0 0 16px;
   color: ${({ theme }) => theme.colors.darkColor};
   background: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.fonts.body};
-  @media (min-width: 600px) { padding: 28px 24px 48px; }
+  @media (min-width: 600px) {
+    padding: 28px 24px 48px;
+  }
   display:flex;
   flex-direction:column;
 `
@@ -19,15 +21,15 @@ export const Header = styled.header`
   min-height: 48px;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
   margin-bottom: 16px;
 `
 
 export const BackButton = styled.button`
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 40px;
   display: inline-flex;
-  flex: 0 0 48px;
+  flex: 0 0 32px;
   align-items: center;
   justify-content: center;
   border: 0;
@@ -36,7 +38,22 @@ export const BackButton = styled.button`
   background: transparent;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
-  svg { width: 30px; height: 30px; stroke-width: 2.7; }
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.7;
+  }
+
+  @media (min-width: 600px) {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
 `
 
@@ -53,7 +70,9 @@ export const PageTitle = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.header2};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
+  white-space: nowrap;
 `
 
 export const PageSubtitle = styled.p`
@@ -78,8 +97,8 @@ export const FilterButton = styled.button`
   cursor: pointer;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
   }
 
   &:focus-visible {
@@ -93,8 +112,7 @@ export const CategoriesSelectorContainer = styled.div`
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   width: 100%;
-  margin-bottom: 16px;
-
+  margin-bottom: 24px;
   @media (max-width: 420px) {
     gap: 2px;
   }
