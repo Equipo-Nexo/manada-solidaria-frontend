@@ -13,6 +13,8 @@ import PublishCollection from './pages/publish/PublishCollection'
 import Register from './pages/register/Register'
 import useAuth from './hooks/auth/useAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
+import Card from './components/animalPostCard/animalPostCard'
+import AllAnimalsPage from './pages/allAnimalPosts/AllAnimalsPage'
 
 function App() {
   const location = useLocation()
@@ -40,6 +42,7 @@ function App() {
               path="/registro"
               element={isAuthenticated ? <Navigate to="/home" replace /> : <Register />}
             />
+            <Route path="/card" element={<Card />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
@@ -47,6 +50,7 @@ function App() {
               <Route path="/publicar/animal" element={<PublishAnimal />} />
               <Route path="/publicar/colecta" element={<PublishCollection />} />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
+              <Route path="/animales" element={<AllAnimalsPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

@@ -32,6 +32,11 @@ export const theme = {
     brandHover: feedbackColors.brandHover,
     error: feedbackColors.error,
     errorSoft: feedbackColors.errorSoft,
+    statusStreetBackground: '#C5BFBF',
+    statusStreetText: '#49454F',
+    statusLostBackground: '#FFA49F',
+    statusFoundBackground: '#CCF59B',
+    statusAdoptionText: '#4F378A',
     focus: 'rgb(234 95 9 / 28%)',
     toast: {
       success: uxColors.success,
