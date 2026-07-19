@@ -25,7 +25,6 @@ export enum AnimalAge {
   Puppy = 'PUPPY',
   Adult = 'ADULT',
   Senior = 'SENIOR',
-  Unknown = 'UNKNOWN',
 }
 
 export enum AnimalColor {
