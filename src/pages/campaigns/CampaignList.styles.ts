@@ -5,3 +5,9 @@ export const List = styled.div`
   gap: 16px;
   padding: 16px;
 `;
+export const EmptyState = styled.div`
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

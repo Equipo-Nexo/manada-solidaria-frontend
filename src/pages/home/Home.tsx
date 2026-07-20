@@ -4,7 +4,7 @@ import CampaignCarousel from "./campaignCarousel/CampaignCarousel";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const { data } = useGetCampaignsQuery();
+  const { data } = useGetCampaignsQuery({});
   const navigate = useNavigate();
 
   const campaigns = data?.content ?? [];

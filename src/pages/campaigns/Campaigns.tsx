@@ -7,10 +7,21 @@ import { useState } from "react";
 import Arrow from "../../components/icons/Arrow";
 
 function Campaigns() {
-  const { data } = useGetCampaignsQuery();
   const navigate = useNavigate();
+  const [selectedFilter, setSelectedFilter] =
+    useState<keyof typeof filterMap>("Todos");
+  const filterMap = {
+    Todos: undefined,
+    Donación: "DONATION",
+    Castración: "CASTRATION",
+    Vacunación: "VACCINATION",
+  } as const;
+  const { data } = useGetCampaignsQuery({
+    category: filterMap[selectedFilter],
+  });
   const campaigns = data?.content ?? [];
   const totalResults = data?.totalElements ?? 0;
+
   const campaignCards: CampaignCardData[] = campaigns.map((campaign) => ({
     id: campaign.id,
     title: campaign.title,
@@ -19,9 +30,8 @@ function Campaigns() {
     imageUrl: "https://placehold.co/600x400",
     type: campaign.type,
   }));
-  const filters = ["Todos", "Castración", "Donación", "Vacunación"];
+  const filters = Object.keys(filterMap) as (keyof typeof filterMap)[];
 
-  const [selectedFilter, setSelectedFilter] = useState("Todos");
   return (
     <div>
       <S.Header>
@@ -41,7 +51,7 @@ function Campaigns() {
           <S.FilterButton
             key={filter}
             $active={filter === selectedFilter}
-            onClick={() => setSelectedFilter(filter)} // llamar al endpoint cuando el back esté listo
+            onClick={() => setSelectedFilter(filter)}
           >
             {filter}
           </S.FilterButton>

@@ -40,7 +40,7 @@ export const CampaignImage = styled.img`
 
 export const ShareButton = styled.button`
   position: absolute;
-  top: 24px;
+  top: 12px;
   right: 15px;
   width: 40px;
   height: 40px;

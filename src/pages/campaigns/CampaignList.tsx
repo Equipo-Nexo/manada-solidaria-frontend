@@ -7,6 +7,10 @@ type CampaignListProps = {
 };
 
 function CampaignList({ campaigns }: CampaignListProps) {
+  if (campaigns.length === 0) {
+    return <S.EmptyState>No hay campañas para esta categoría.</S.EmptyState>;
+  }
+
   return (
     <S.List>
       {campaigns.map((campaign) => (
