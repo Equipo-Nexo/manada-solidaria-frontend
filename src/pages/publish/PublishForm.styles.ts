@@ -348,76 +348,6 @@ export const MapPreview = styled.div`
   opacity: 0.86;
 `;
 
-export const MapPin = styled.span`
-  width: 24px;
-  height: 30px;
-  position: absolute;
-  top: 82px;
-  left: 50%;
-  border-radius: 50% 50% 50% 0;
-  background: ${({ theme }) => theme.colors.error};
-  transform: translateX(-50%) rotate(-45deg);
-
-  &::after {
-    width: 6px;
-    height: 6px;
-    content: "";
-    position: absolute;
-    top: 9px;
-    left: 9px;
-    border-radius: 999px;
-    background: ${({ theme }) => theme.colors.background};
-  }
-`;
-
-export const LocateButton = styled.button`
-  width: 32px;
-  height: 32px;
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  border: 1px solid ${({ theme }) => theme.colors.stroke};
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.darkColor};
-  box-shadow: ${({ theme }) =>
-    `0 4px 6px -1px ${theme.colors.black}1a, 0 2px 4px -2px ${theme.colors.black}1a`};
-  cursor: pointer;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    border-radius: 999px;
-  }
-
-  &::before {
-    width: 16px;
-    height: 16px;
-    top: 7px;
-    left: 7px;
-    border: 2px solid currentColor;
-  }
-
-  &::after {
-    width: 6px;
-    height: 6px;
-    top: 12px;
-    left: 12px;
-    background: currentColor;
-    box-shadow:
-      0 -8px 0 -2px currentColor,
-      0 8px 0 -2px currentColor,
-      -8px 0 0 -2px currentColor,
-      8px 0 0 -2px currentColor;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 3px;
-  }
-`;
-
 export const UploadHint = styled.span`
   margin-top: 8px;
   color: ${({ theme }) => theme.colors.darkColor};
@@ -428,43 +358,40 @@ export const UploadHint = styled.span`
 export const AdvisoryCard = styled.aside`
   display: grid;
   text-align: left;
-  grid-template-columns: 36px minmax(0, 1fr);
-  gap: 24px;
-  border-radius: 16px;
-  padding: 24px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  border-radius: 12px;
+  padding: 16px;
   background: ${({ theme }) => theme.colors.neutral};
+  border: 2px solid ${({ theme }) => theme.colors.stroke};
 `;
 
 export const AdvisoryIcon = styled.span`
-  width: 36px;
-  height: 36px;
+  width: 20px;
+  height: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.colors.secondary};
-  color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const AdvisoryContent = styled.div`
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
 `;
 
 export const AdvisoryTitle = styled.h2`
   margin: 0;
-  color: ${({ theme }) => theme.colors.secondary};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
 `;
 
 export const AdvisoryText = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.typography.body.fontWeight};
-  line-height: 26px;
+  line-height: 20px;
 `;

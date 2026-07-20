@@ -1,4 +1,3 @@
-import ImageSourceSheet from "../../components/imageUpload/ImageSourceSheet";
 import ImageUpload from "../../components/imageUpload/ImageUpload";
 import { useCamera } from "../../hooks/camera/useCamera";
 import {
@@ -21,20 +20,7 @@ function PublishAnimal() {
         <PublishFormTitle>Publicar un animal</PublishFormTitle>
       </PublishFormHeader>
       <PublishForm onSubmit={(event) => event.preventDefault()}>
-        <ImageUpload imageUrl={capturedPhoto?.url}>
-          {({ close }) => (
-            <ImageSourceSheet
-              onCamera={() => {
-                close();
-                void takePhoto();
-              }}
-              onGallery={() => {
-                close();
-                void chooseFromGallery();
-              }}
-            />
-          )}
-        </ImageUpload>
+        <ImageUpload imageUrl={capturedPhoto?.url}></ImageUpload>
         <PublishField>
           Nombre o referencia
           <PublishInput type="text" name="name" />
