@@ -7,10 +7,10 @@ type CampaignTypeProps = {
 };
 
 const badgeBackground = {
-  donacion: "#B293FF",
-  castracion: "#A95C28",
-  vacunacion: "#EA5F09",
-  desparasitacion: "#594137",
+  donation: "#B293FF",
+  castration: "#A95C28",
+  vaccination: "#EA5F09",
+  deworming: "#594137",
 } satisfies Record<CampaignType, string>;
 
 export const Card = styled.article`

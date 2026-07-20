@@ -17,7 +17,7 @@ function Campaigns() {
     description: campaign.description,
     location: campaign.location.name,
     imageUrl: "https://placehold.co/600x400",
-    type: "donacion",
+    type: campaign.type,
   }));
   const filters = ["Todos", "Castración", "Donación", "Vacunación"];
 

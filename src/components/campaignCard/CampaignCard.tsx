@@ -2,10 +2,10 @@ import * as S from "./CampaignCard.styles";
 import { LocationPin, Share2 } from "../icons";
 
 export type CampaignType =
-  | "donacion"
-  | "castracion"
-  | "vacunacion"
-  | "desparasitacion";
+  | "donation"
+  | "castration"
+  | "vaccination"
+  | "deworming";
 
 export type CampaignCardData = {
   id?: string | number;
@@ -26,10 +26,10 @@ type CampaignCardProps = {
 };
 
 const campaignTypeLabels: Record<CampaignType, string> = {
-  donacion: "Donación",
-  castracion: "Castración",
-  vacunacion: "Vacunación",
-  desparasitacion: "Desparasitación",
+  donation: "Donación",
+  castration: "Castración",
+  vaccination: "Vacunación",
+  deworming: "Desparasitación",
 };
 
 function CampaignCard({

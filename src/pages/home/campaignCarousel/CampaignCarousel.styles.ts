@@ -6,16 +6,16 @@ export const Container = styled.section`
 
 export const Header = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px;
   margin-bottom: 16px;
 `;
-
 export const Title = styled.h2`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
 `;
 
 export const SeeAllButton = styled.button`
@@ -27,6 +27,7 @@ export const SeeAllButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 16px;
+  white-space: nowrap;
 `;
 
 export const Carousel = styled.div`

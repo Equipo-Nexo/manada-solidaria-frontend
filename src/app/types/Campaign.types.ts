@@ -1,6 +1,8 @@
+import type { CampaignType } from "../../components/campaignCard/CampaignCard";
+
 export type CampaignResponse = {
   id: string;
-  type: string;
+  type: CampaignType;
   title: string;
   description: string;
   imageId: string;

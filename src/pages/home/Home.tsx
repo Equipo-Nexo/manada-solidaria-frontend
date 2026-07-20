@@ -15,7 +15,7 @@ function Home() {
     description: campaign.description,
     location: campaign.location.name,
     imageUrl: "https://placehold.co/600x400",
-    type: "donacion",
+    type: campaign.type,
   }));
 
   return (
