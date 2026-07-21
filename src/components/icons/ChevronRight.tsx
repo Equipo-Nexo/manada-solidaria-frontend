@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function ChevronRight(props: SVGProps<SVGSVGElement>) {
   return (
@@ -10,9 +10,12 @@ function ChevronRight(props: SVGProps<SVGSVGElement>) {
       fill="none"
       {...props}
     >
-      <path d="M6 5L1.13514 10L0 8.83333L3.72973 5L0 1.16667L1.13514 0L6 5Z" fill="currentColor" />
+      <path
+        d="M6 5L1.13514 10L0 8.83333L3.72973 5L0 1.16667L1.13514 0L6 5Z"
+        fill="currentColor"
+      />
     </svg>
-  )
+  );
 }
 
-export default ChevronRight
+export default ChevronRight;
