@@ -1,49 +1,114 @@
-import { useState } from 'react'
-import type { ReactNode } from 'react'
-import BottomSheet from '../bottomSheet/BottomSheet'
-import {
-  ImageUploadButton,
-  ImageUploadIcon,
-  ImageUploadLabel,
-  ImageUploadPreview,
-} from './ImageUpload.styles'
-import { Camera } from '../icons'
-
-type SheetChildren = ReactNode | ((controls: { close: () => void }) => ReactNode)
+import { useState } from "react";
+import BottomSheet from "../bottomSheet/BottomSheet";
+import { Camera as CameraIcon, ChevronRight } from "../icons";
+import Gallery from "../icons/Gallery";
+import { useCamera, type CapturedPhoto } from "../../hooks/camera/useCamera";
+import * as S from "./ImageUpload.styles";
 
 type ImageUploadProps = {
-  children: SheetChildren
-  imageUrl?: string
-  label?: string
-}
+  imageUrl?: string;
+  label?: string;
+  onImageSelected?: (photo: CapturedPhoto) => void;
+};
 
-function ImageUpload({ children, imageUrl, label = 'Seleccionar foto' }: ImageUploadProps) {
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const closeSheet = () => setIsSheetOpen(false)
+function ImageUpload({
+  imageUrl,
+  label = "Seleccionar foto",
+  onImageSelected,
+}: ImageUploadProps) {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
+
+  const closeSheet = () => setIsSheetOpen(false);
+
+  const preview = imageUrl ?? capturedPhoto?.url;
+
+  const handleTakePhoto = async () => {
+    const photo = await takePhoto();
+
+    if (photo) {
+      onImageSelected?.(photo);
+      closeSheet();
+    }
+  };
+
+  const handleChooseGallery = async () => {
+    const photo = await chooseFromGallery();
+
+    if (photo) {
+      onImageSelected?.(photo);
+      closeSheet();
+    }
+  };
 
   return (
     <>
-      <ImageUploadButton type="button" onClick={() => setIsSheetOpen(true)}>
-        {imageUrl ? (
-          <ImageUploadPreview src={imageUrl} alt="" />
+      <S.ImageUploadButton type="button" onClick={() => setIsSheetOpen(true)}>
+        {preview ? (
+          <S.ImageUploadPreview src={preview} alt="" />
         ) : (
           <>
-            <ImageUploadIcon>
-              <Camera aria-hidden="true" />
-            </ImageUploadIcon>
-            <ImageUploadLabel>{label}</ImageUploadLabel>
+            <S.ImageUploadIcon>
+              <CameraIcon aria-hidden="true" />
+            </S.ImageUploadIcon>
+
+            <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
           </>
         )}
-      </ImageUploadButton>
+      </S.ImageUploadButton>
+
       <BottomSheet
         isOpen={isSheetOpen}
         ariaLabel="Seleccionar origen de foto"
         onClose={closeSheet}
       >
-        {typeof children === 'function' ? children({ close: closeSheet }) : children}
+        <S.PhotoSheetHeader>
+          <S.PhotoSheetTitle>Seleccionar origen</S.PhotoSheetTitle>
+
+          <S.PhotoSheetDescription>
+            ¿Desde dónde quieres subir la foto?
+          </S.PhotoSheetDescription>
+        </S.PhotoSheetHeader>
+
+        <S.PhotoSheetActions>
+          <S.PhotoSheetAction type="button" onClick={handleTakePhoto}>
+            <S.PhotoSheetActionIcon>
+              <CameraIcon />
+            </S.PhotoSheetActionIcon>
+
+            <S.PhotoSheetActionCopy>
+              <S.PhotoSheetActionTitle>Tomar foto</S.PhotoSheetActionTitle>
+
+              <S.PhotoSheetActionDescription>
+                Usa la cámara de tu celular
+              </S.PhotoSheetActionDescription>
+            </S.PhotoSheetActionCopy>
+
+            <ChevronRight />
+          </S.PhotoSheetAction>
+
+          <S.PhotoSheetAction type="button" onClick={handleChooseGallery}>
+            <S.PhotoSheetActionIcon>
+              <Gallery />
+            </S.PhotoSheetActionIcon>
+
+            <S.PhotoSheetActionCopy>
+              <S.PhotoSheetActionTitle>
+                Elegir de la galería
+              </S.PhotoSheetActionTitle>
+
+              <S.PhotoSheetActionDescription>
+                Busca en tus fotos guardadas
+              </S.PhotoSheetActionDescription>
+            </S.PhotoSheetActionCopy>
+
+            <ChevronRight />
+          </S.PhotoSheetAction>
+        </S.PhotoSheetActions>
       </BottomSheet>
     </>
-  )
+  );
 }
 
-export default ImageUpload
+export default ImageUpload;
