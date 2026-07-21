@@ -8,7 +8,6 @@ import type {
 import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
 import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
 import ArrowLeft from '../../components/icons/ArrowLeft'
-import { FilterIcon } from '../../components/icons'
 import * as S from './allAnimalPosts.styles'
 
 type Category = 'Todos' | 'Adopción' | 'Perdidos' | 'En la calle'
@@ -57,9 +56,6 @@ function AllAnimalsPage() {
             {isLoading ? 'Cargando resultados...' : `${totalElements} resultados`}
           </S.PageSubtitle>
         </S.TitlesContainer>
-        <S.FilterButton type="button" aria-label="Abrir filtros">
-          <FilterIcon aria-hidden="true" />
-        </S.FilterButton>
       </S.Header>
 
       <S.CategoriesSelectorContainer aria-label="Filtrar publicaciones por categoría">

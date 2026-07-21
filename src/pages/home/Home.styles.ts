@@ -80,10 +80,13 @@ export const Carousel = styled.div`
   padding: 2px 2px 14px;
   scroll-padding-inline: 2px;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: ${({ theme }) => theme.colors.stroke} transparent;
+  scrollbar-width: none;
   overscroll-behavior-inline: contain;
   -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   & > * {
     scroll-snap-align: start;

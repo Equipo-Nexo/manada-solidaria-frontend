@@ -26,10 +26,10 @@ export const Header = styled.header`
 `
 
 export const BackButton = styled.button`
-  width: 32px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   display: inline-flex;
-  flex: 0 0 32px;
+  flex: 0 0 48px;
   align-items: center;
   justify-content: center;
   border: 0;
@@ -39,20 +39,8 @@ export const BackButton = styled.button`
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
   svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 2.7;
-  }
-
-  @media (min-width: 600px) {
     width: 48px;
     height: 48px;
-    flex-basis: 48px;
-
-    svg {
-      width: 30px;
-      height: 30px;
-    }
   }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
 `
