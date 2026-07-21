@@ -186,6 +186,8 @@ export const theme = {
   layout: {
     contentMaxWidth: '1126px',
     mobileNavHeight: '78px',
+    publicationCardWidth: '325px',
+    publicationCardHeight: '400px',
   },
 }
 

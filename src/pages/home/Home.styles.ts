@@ -94,7 +94,6 @@ export const Carousel = styled.div`
 `
 
 export const AnimalCardSlot = styled.div`
-  width: min(345px, calc(100vw - 54px));
   flex: 0 0 auto;
 
   & > * {

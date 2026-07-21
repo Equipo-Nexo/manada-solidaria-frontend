@@ -44,13 +44,14 @@ const getStatusVariants = (theme: AppTheme): Record<
 })
 
 export const CardContainer = styled.article`
-  width: 325px;
-  height: 400px;
+  width: ${({ theme }) => theme.layout.publicationCardWidth};
+  height: ${({ theme }) => theme.layout.publicationCardHeight};
   overflow: hidden;
   border: 1px solid rgb(190 202 191 / 30%);
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.fonts.body};
+  text-align: left;
   box-shadow: 0 8px 24px -4px rgb(0 109 65 / 8%);
 `
 
@@ -97,7 +98,7 @@ export const ShareButton = styled.button`
 `
 
 export const Content = styled.div`
-  padding: 10px 13px 14px;
+  padding: 10px 13px 6px;
 `
 
 export const MainInfoContainer = styled.div`
@@ -108,6 +109,8 @@ export const MainInfoContainer = styled.div`
 `
 
 export const Title = styled.h2`
+  min-width: 0;
+  flex: 1;
   margin: 0;
   color: ${({ theme }) => theme.colors.brand};
   font-family: ${({ theme }) => theme.typography.header1.fontFamily};
@@ -115,12 +118,13 @@ export const Title = styled.h2`
   font-style: ${({ theme }) => theme.typography.header1.fontStyle};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: ${({ theme }) => theme.typography.header1.lineHeight};
+  text-align: left;
 `
 
 export const StatusContainer = styled.span<StatusContainerProps>`
   flex-shrink: 0;
-  width:112px;
-  padding:4px 0px 4px 0px;
+  width: 112px;
+  padding: 4px 0;
   border-radius: 999px;
   color: ${({ theme, $status }) => getStatusVariants(theme)[$status].color};
   background: ${({ theme, $status }) => getStatusVariants(theme)[$status].background};
@@ -128,6 +132,7 @@ export const StatusContainer = styled.span<StatusContainerProps>`
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
+  text-align: center;
 `
 
 export const Location = styled.div`
@@ -188,7 +193,9 @@ export const ButtonsContainer = styled.div<{ $amount: number }>`
 `
 
 export const ActionButton = styled.button<{ $variant: 'primary' | 'secondary' }>`
+  min-width: 0;
   height: 48px;
+  padding-inline: 8px;
   border: 0;
   border-radius: 999px;
   color: ${({ theme, $variant }) =>
@@ -200,6 +207,7 @@ export const ActionButton = styled.button<{ $variant: 'primary' | 'secondary' }>
   font-style: ${({ theme }) => theme.typography.action.fontStyle};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.action.lineHeight};
+  text-align: center;
   cursor: pointer;
   transition:
     color 160ms ease,

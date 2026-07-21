@@ -4,15 +4,28 @@ import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
 import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
 import { ChevronRight } from '../../components/icons'
 import * as S from './Home.styles'
+import { useGetCampaignsQuery } from "../../app/services/apis/campaignApi";
+import type { CampaignCardData } from "../../components/campaignCard/CampaignCard";
+import CampaignCarousel from "./campaignCarousel/CampaignCarousel";
 
 const MAX_POSTS_PER_SECTION = 10
 
 function Home() {
   const navigate = useNavigate()
-  const { data, isError, isLoading, refetch } = useGetAnimalPostsQuery({
+  const { data: animalPostsData, isError, isLoading, refetch } = useGetAnimalPostsQuery({
     size: MAX_POSTS_PER_SECTION,
   })
-  const recentAnimals = data?.content ?? []
+  const { data: campaignsData } = useGetCampaignsQuery({})
+  const recentAnimals = animalPostsData?.content ?? []
+  const campaigns = campaignsData?.content ?? []
+  const campaignCards: CampaignCardData[] = campaigns.map((campaign) => ({
+    id: campaign.id,
+    title: campaign.title,
+    description: campaign.description,
+    location: campaign.location.name,
+    imageUrl: "https://placehold.co/600x400",
+    type: campaign.type,
+  }))
 
   return (
     <S.HomePage>
@@ -64,20 +77,14 @@ function Home() {
       </S.Section>
 
       <S.Section aria-labelledby="news-title">
-        <S.SectionHeader>
-          <S.SectionTitle id="news-title">
-            Enterate de las novedades
-          </S.SectionTitle>
-          <S.ViewAllButton type="button" aria-label="Ver todas las novedades">
-            <span>Ver todos</span>
-            <ChevronRight aria-hidden="true" />
-          </S.ViewAllButton>
-        </S.SectionHeader>
-        <S.Carousel aria-label="Campañas y novedades">
-        </S.Carousel>
+        <CampaignCarousel
+          title="Enterate de las novedades"
+          campaigns={campaignCards}
+          onSeeAll={() => navigate("/campanias")}
+        />
       </S.Section>
     </S.HomePage>
   )
 }
 
-export default Home
+export default Home;
