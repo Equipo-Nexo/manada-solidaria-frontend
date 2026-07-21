@@ -172,6 +172,7 @@ function PublishCampaign() {
     };
     try {
       await createCampaign(request).unwrap();
+      navigate("/home");
       toast.success(
         "Campaña publicada",
         "La campaña se publicó correctamente.",

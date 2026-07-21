@@ -12,7 +12,7 @@ export const publishCampaignSchema = yup.object({
   description: yup.string().required("Ingresá una descripción.").max(200),
 
   startDate: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de inicio.")
@@ -29,7 +29,7 @@ export const publishCampaignSchema = yup.object({
   }),
 
   endDate: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de fin.")
@@ -41,18 +41,29 @@ export const publishCampaignSchema = yup.object({
             const today = new Date().toISOString().split("T")[0];
             return value >= today;
           },
+        )
+        .test(
+          "not-before-start-date",
+          "La fecha de fin debe ser mayor o igual a la fecha de inicio.",
+          function (endDate) {
+            const { startDate } = this.parent;
+
+            if (!startDate || !endDate) return true;
+
+            return endDate >= startDate;
+          },
         ),
     otherwise: (schema) => schema.notRequired(),
   }),
 
   startTime: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) => schema.required("Ingresá una hora de inicio."),
     otherwise: (schema) => schema.notRequired(),
   }),
 
   endTime: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) => schema.required("Ingresá una hora de fin."),
     otherwise: (schema) => schema.notRequired(),
   }),
