@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { focusVisible } from "../../styles/interactions";
 
 export const PublishFormPage = styled.section`
   width: min(100%, 390px);
@@ -99,8 +100,8 @@ export const PublishInput = styled.input`
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.secondary};
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
   }
+  ${focusVisible}
 `;
 
 export const PublishTextarea = styled.textarea`
@@ -114,16 +115,14 @@ export const PublishTextarea = styled.textarea`
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.typography.body.fontWeight};
   line-height: 24px;
-
   &::placeholder {
     color: ${({ theme }) => theme.colors.black};
     opacity: 0.5;
   }
-
   &:focus {
     border-color: ${({ theme }) => theme.colors.secondary};
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
   }
+  ${focusVisible}
 `;
 
 export const PublishSubmitButton = styled.button`
@@ -141,14 +140,13 @@ export const PublishSubmitButton = styled.button`
   font-size: ${({ theme }) => theme.typography.action.fontSize};
   font-weight: ${({ theme }) => theme.typography.action.fontWeight};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 3px;
-  }
+  ${focusVisible}
 `;
 
-export const RequiredMark = styled.span`
+export const RequiredMark = styled.span<{
+  $hidden?: boolean;
+}>`
+  visibility: ${({ $hidden }) => ($hidden ? "hidden" : "visible")};
   color: ${({ theme }) => theme.colors.brand};
 `;
 
@@ -163,43 +161,30 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   height: 44px;
   padding: 8px 18px;
   border-radius: 999px;
-
   border: 2px solid
     ${({ theme, $isSelected }) =>
       $isSelected ? theme.colors.secondary : theme.colors.stroke};
-
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.secondary : theme.colors.background};
-
   color: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.background : theme.colors.black};
-
   cursor: pointer;
-
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.typography.body.fontWeight};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
-
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
     color 0.2s ease,
     box-shadow 0.2s ease;
-
   box-shadow: ${({ $isSelected, theme }) =>
     $isSelected
       ? `0 4px 6px -1px ${theme.colors.black}1a,
          0 2px 4px -2px ${theme.colors.black}1a`
       : "none"};
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 3px;
-  }
-
+  ${focusVisible}
   &:hover:not(:disabled) {
     border-color: ${({ theme }) => theme.colors.secondary};
-
     background: ${({ theme, $isSelected }) =>
       $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
   }
@@ -323,6 +308,7 @@ export const MapPreview = styled.div`
   height: 201px;
   position: relative;
   overflow: hidden;
+  margin-top: 4px;
   border: 1px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
   background:

@@ -13,7 +13,18 @@ export const publishCampaignSchema = yup.object({
 
   startDate: yup.string().when("category", {
     is: (category: string) => category !== "Donación",
-    then: (schema) => schema.required("Seleccioná una fecha de inicio."),
+    then: (schema) =>
+      schema
+        .required("Seleccioná una fecha de inicio.")
+        .test(
+          "not-before-today",
+          "La fecha de inicio no puede ser anterior a hoy.",
+          (value) => {
+            if (!value) return true;
+            const today = new Date().toISOString().split("T")[0];
+            return value >= today;
+          },
+        ),
     otherwise: (schema) => schema.notRequired(),
   }),
 
@@ -49,4 +60,10 @@ export const publishCampaignSchema = yup.object({
   phone: yup.string().required("Ingresá un número de teléfono."),
 
   location: yup.string().required("Ingresá una ubicación."),
+  donationNeeds: yup.array().when("category", {
+    is: "Donación",
+    then: (schema) =>
+      schema.min(1, "Seleccioná al menos un elemento para recolectar."),
+    otherwise: (schema) => schema.notRequired(),
+  }),
 });

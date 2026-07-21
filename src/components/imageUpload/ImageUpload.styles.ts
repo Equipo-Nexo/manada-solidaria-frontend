@@ -17,7 +17,6 @@ export const ImageUploadButton = styled.button`
   cursor: pointer;
   font-family: ${({ theme }) => theme.fonts.body};
   -webkit-tap-highlight-color: transparent;
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
@@ -90,7 +89,6 @@ export const PhotoSheetAction = styled.button`
   background: ${({ theme }) => theme.colors.neutral};
   cursor: pointer;
   transition: all 0.2s ease;
-
   &:hover {
     border-color: ${({ theme }) => theme.colors.brand};
     background: ${({ theme }) => theme.colors.secondaryHoverSoft};
@@ -103,13 +101,10 @@ export const PhotoSheetActionIcon = styled.div`
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.secondary};
   color: ${({ theme }) => theme.colors.background};
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   svg {
     width: 20px;
     height: 20px;
@@ -118,11 +113,9 @@ export const PhotoSheetActionIcon = styled.div`
 
 export const PhotoSheetActionCopy = styled.div`
   flex: 1;
-
   display: flex;
   flex-direction: column;
   gap: 4px;
-
   text-align: left;
 `;
 

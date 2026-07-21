@@ -1,7 +1,8 @@
-export type CampaignType = "NEWS" | "FUNDRAISING";
+import type { DonationNeedCategory } from "../../../pages/publish/PublishCampaign";
+
+export type CampaignType = "NEWS" | "FUNDRAISING" | "DONATION";
 
 export type CampaignCategory =
-  | "DONATION"
   | "CASTRATION"
   | "VACCINATION"
   | "DEWORMING"
@@ -9,12 +10,10 @@ export type CampaignCategory =
 
 export interface CreateCampaignRequest {
   type: CampaignType;
-  category: CampaignCategory;
-
+  category: CampaignCategory | null;
   title: string;
   description: string;
   imageId?: string;
-
   location: {
     name: string;
     address: string;
@@ -22,11 +21,13 @@ export interface CreateCampaignRequest {
     latitude: number;
     longitude: number;
   };
-
+  items?: {
+    category: DonationNeedCategory;
+  }[];
+  phoneNumber: string;
   accountAlias?: string | null;
   amountToBeCollected?: number | null;
   campaignEndDate?: string | null;
-
   newsStartDateTime?: string | null;
   newsEndDateTime?: string | null;
 }

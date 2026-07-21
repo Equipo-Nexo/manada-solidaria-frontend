@@ -14,7 +14,10 @@ import { useToast } from "../../hooks/toast/useToast";
 import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
 import DatePicker from "../../components/datePicker/DatePicker";
 import PublishButton from "../../components/icons/PublishButton";
-import type { CreateCampaignRequest } from "../../app/services/requests/createCampaignRequest";
+import type {
+  CampaignType,
+  CreateCampaignRequest,
+} from "../../app/services/requests/createCampaignRequest";
 import type { CampaignCategory } from "../../app/services/requests/createCampaignRequest";
 function buildDateTime(date?: string, time?: string) {
   if (!date || !time) return null;
@@ -39,6 +42,7 @@ type PublishCampaignForm = {
   phoneAreaCode: string;
   phone: string;
   location: string;
+  donationNeeds?: DonationNeedCategory[];
 };
 
 const campaignCategories: PublishCampaignCategory[] = [
@@ -49,21 +53,64 @@ const campaignCategories: PublishCampaignCategory[] = [
   "Otro",
 ];
 
+export type DonationNeedCategory =
+  | "FOOD"
+  | "MEDICINE"
+  | "SHELTER_AND_BEDDING"
+  | "TOYS_AND_ACCESSORIES"
+  | "CLOTHING_AND_BLANKETS"
+  | "OTHER";
+
+export interface DonationNeedRequest {
+  category: DonationNeedCategory;
+}
 const donationNeeds = [
   "Ropa",
-  "Alimento",
+  "Balanceado",
   "Accesorios",
   "Medicamentos",
   "Camas",
   "Otro",
-];
+] as const;
 
-const categoryMap: Record<PublishCampaignCategory, CampaignCategory> = {
-  Donación: "DONATION",
-  Castración: "CASTRATION",
-  Vacunación: "VACCINATION",
-  Desparasitación: "DEWORMING",
+const donationNeedCategoryMap: Record<
+  (typeof donationNeeds)[number],
+  DonationNeedCategory
+> = {
+  Ropa: "CLOTHING_AND_BLANKETS",
+  Balanceado: "FOOD",
+  Accesorios: "TOYS_AND_ACCESSORIES",
+  Medicamentos: "MEDICINE",
+  Camas: "SHELTER_AND_BEDDING",
   Otro: "OTHER",
+};
+const campaignMap: Record<
+  PublishCampaignCategory,
+  {
+    type: CampaignType;
+    category: CampaignCategory | null;
+  }
+> = {
+  Donación: {
+    type: "DONATION",
+    category: null,
+  },
+  Castración: {
+    type: "NEWS",
+    category: "CASTRATION",
+  },
+  Vacunación: {
+    type: "NEWS",
+    category: "VACCINATION",
+  },
+  Desparasitación: {
+    type: "NEWS",
+    category: "DEWORMING",
+  },
+  Otro: {
+    type: "NEWS",
+    category: "OTHER",
+  },
 };
 
 function PublishCampaign() {
@@ -85,33 +132,46 @@ function PublishCampaign() {
     resolver: yupResolver(publishCampaignSchema),
   });
   const onSubmit = async (data: PublishCampaignForm) => {
+    const selectedCampaign = campaignMap[data.category];
+    const phoneNumber = `${data.phoneAreaCode}${data.phone}`;
     const request: CreateCampaignRequest = {
-      type: "NEWS",
-      category: categoryMap[data.category],
-
+      type: selectedCampaign.type,
+      category: selectedCampaign.category,
       title: data.title,
       description: data.description,
-      imageId: "",
-
+      imageId: "abc123",
+      phoneNumber,
       location: {
         name: data.location,
         address: "",
-        number: null,
+        number: 12,
         latitude: 0,
         longitude: 0,
       },
-
+      items:
+        selectedCampaign.type === "DONATION"
+          ? (data.donationNeeds ?? []).map((category) => ({
+              category,
+            }))
+          : undefined,
       accountAlias: null,
       amountToBeCollected: null,
-      campaignEndDate: null,
+      campaignEndDate:
+        selectedCampaign.type === "DONATION" && data.endDate
+          ? data.endDate
+          : undefined,
+      newsStartDateTime:
+        selectedCampaign.type === "NEWS"
+          ? buildDateTime(data.startDate, data.startTime)
+          : undefined,
 
-      newsStartDateTime: buildDateTime(data.startDate, data.startTime),
-      newsEndDateTime: buildDateTime(data.endDate, data.endTime),
+      newsEndDateTime:
+        selectedCampaign.type === "NEWS"
+          ? buildDateTime(data.endDate, data.endTime)
+          : undefined,
     };
-
     try {
       await createCampaign(request).unwrap();
-
       toast.success(
         "Campaña publicada",
         "La campaña se publicó correctamente.",
@@ -123,6 +183,7 @@ function PublishCampaign() {
       );
     }
   };
+
   return (
     <S.PublishFormPage>
       <S.PublishFormHeader>
@@ -182,10 +243,15 @@ function PublishCampaign() {
         {isDonation && (
           <S.DonationNeeds>
             <S.PublishLabel>¿Qué necesitás recolectar?</S.PublishLabel>
+
             <S.DonationGrid>
               {donationNeeds.map((need) => (
                 <S.DonationOption key={need}>
-                  <S.DonationCheckbox type="checkbox" value={need} />
+                  <S.DonationCheckbox
+                    type="checkbox"
+                    value={donationNeedCategoryMap[need]}
+                    {...register("donationNeeds")}
+                  />
                   {need}
                 </S.DonationOption>
               ))}
