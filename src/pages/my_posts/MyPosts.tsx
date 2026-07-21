@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowLeft, Pencil, Trash } from "../../components/icons"
+import { useState, type ReactNode } from "react";
+import { ArrowLeft, HandHeart, PawPrint, Pencil, Trash } from "../../components/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery, type GetUserPostsResponse } from "../../app/services/apis/usersApi";
 import { useNavigate } from "react-router-dom";
@@ -8,17 +8,26 @@ import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostA
 import { useToast } from "../../hooks/toast/useToast";
 import { UserPostUtil } from "../../utils/UserPostUtils";
 import BottomSheet from "../../components/bottomSheet/BottomSheet";
+import { theme } from "../../styles/theme";
+
+type PostFilter = '' | 'animal' | 'campaign';
 
 function MyPosts() {
     const navigate = useNavigate()
     const toast = useToast()
-    const [selectedFilter, setSelectedFilter] = useState<string>('');
+    const [selectedFilter, setSelectedFilter] = useState<PostFilter>('');
     const { data: userPosts, isLoading } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
     const NOT_FOUND_IMAGE_URL = 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg';
+    const ICON_BY_FILTER: Record<PostFilter, ReactNode> = {
+        '': <PawPrint width={50} height={50} color={theme.colors.secondary}/>,
+        'animal': <PawPrint width={50} height={50} color={theme.colors.secondary} />,
+        'campaign': <HandHeart width={50} height={50} color={theme.colors.secondary} />
+    }
+
 
     const handleBackButtonClick = () => {
         navigate('/home', { replace: true })
@@ -115,9 +124,9 @@ function MyPosts() {
             <S.CardsContainer>
                 {!isLoading && userPosts?.length === 0 && (
                     <S.EmptyState>
-                        <S.EmptyStateTitle>No se encontraron publicaciones</S.EmptyStateTitle>
+                        { ICON_BY_FILTER[selectedFilter] }
                         <S.EmptyStateDescription>
-                            Cuando realices una publicación, aparecerá en esta sección.
+                            Aún no realizaste publicaciones, aparecerán aquí una vez creadas
                         </S.EmptyStateDescription>
                     </S.EmptyState>
                 )}

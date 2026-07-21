@@ -4,12 +4,9 @@ import PublishFloatingButton from '../publishFloatingButton/PublishFloatingButto
 import AuthenticatedMenuOverlay from './AuthenticatedMenuOverlay'
 import { DesktopViewChrome } from './AuthenticatedView.styles'
 
-type DesktopAuthenticatedViewProps = {
-  showFloatingPublish: boolean
-}
-
-function DesktopAuthenticatedView({ showFloatingPublish }: DesktopAuthenticatedViewProps) {
+function DesktopAuthenticatedView() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const showFloatingPublish = location.pathname === '/home' || location.pathname === '/mis-publicaciones'
 
   return (
     <DesktopViewChrome>

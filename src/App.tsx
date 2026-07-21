@@ -20,7 +20,6 @@ function App() {
   const { isAuthenticated } = useAuth()
   const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro'
   const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
-  const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
 
   return (
     <>
@@ -28,7 +27,7 @@ function App() {
         {showAuthenticatedShell && (
           <>
             <MobileAuthenticatedView />
-            <DesktopAuthenticatedView showFloatingPublish={showFloatingPublish} />
+            <DesktopAuthenticatedView />
           </>
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>

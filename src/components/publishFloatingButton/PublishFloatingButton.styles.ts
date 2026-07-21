@@ -44,8 +44,4 @@ export const FloatingButton = styled.button`
     height: 30px;
     flex: 0 0 30px;
   }
-
-  @media (max-width: 767px) {
-    display: none;
-  }
 `
