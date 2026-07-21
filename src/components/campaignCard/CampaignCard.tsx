@@ -5,7 +5,8 @@ export type CampaignType =
   | "donation"
   | "castration"
   | "vaccination"
-  | "deworming";
+  | "deworming"
+  | "other";
 
 export type CampaignCardData = {
   id?: string | number;
@@ -30,6 +31,7 @@ const campaignTypeLabels: Record<CampaignType, string> = {
   castration: "Castración",
   vaccination: "Vacunación",
   deworming: "Desparasitación",
+  other: "General",
 };
 
 function CampaignCard({

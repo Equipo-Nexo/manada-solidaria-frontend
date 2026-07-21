@@ -11,6 +11,7 @@ const badgeBackground = {
   castration: "#A95C28",
   vaccination: "#EA5F09",
   deworming: "#594137",
+  other: "#E1BFB2",
 } satisfies Record<CampaignType, string>;
 
 export const Card = styled.article`
