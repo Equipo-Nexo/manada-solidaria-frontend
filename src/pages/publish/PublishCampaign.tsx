@@ -14,9 +14,23 @@ import { useToast } from "../../hooks/toast/useToast";
 import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
 import DatePicker from "../../components/datePicker/DatePicker";
 import PublishButton from "../../components/icons/PublishButton";
+import type { CreateCampaignRequest } from "../../app/services/requests/createCampaignRequest";
+import type { CampaignCategory } from "../../app/services/requests/createCampaignRequest";
+function buildDateTime(date?: string, time?: string) {
+  if (!date || !time) return null;
+  return `${date}T${time}:00`;
+}
+
+export type PublishCampaignCategory =
+  | "Donación"
+  | "Castración"
+  | "Vacunación"
+  | "Desparasitación"
+  | "Otro";
+
 type PublishCampaignForm = {
   title: string;
-  category: string;
+  category: PublishCampaignCategory;
   description: string;
   startDate?: string;
   endDate?: string;
@@ -26,13 +40,15 @@ type PublishCampaignForm = {
   phone: string;
   location: string;
 };
-const campaignCategories = [
+
+const campaignCategories: PublishCampaignCategory[] = [
   "Donación",
   "Castración",
   "Vacunación",
   "Desparasitación",
   "Otro",
 ];
+
 const donationNeeds = [
   "Ropa",
   "Alimento",
@@ -41,15 +57,24 @@ const donationNeeds = [
   "Camas",
   "Otro",
 ];
-type CampaignCategory = (typeof campaignCategories)[number];
+
+const categoryMap: Record<PublishCampaignCategory, CampaignCategory> = {
+  Donación: "DONATION",
+  Castración: "CASTRATION",
+  Vacunación: "VACCINATION",
+  Desparasitación: "DEWORMING",
+  Otro: "OTHER",
+};
 
 function PublishCampaign() {
   const navigate = useNavigate();
   const [createCampaign] = useCreateCampaignMutation();
   const toast = useToast();
   const [selectedCategory, setSelectedCategory] =
-    useState<CampaignCategory | null>(null);
+    useState<PublishCampaignCategory | null>(null);
+
   const isDonation = selectedCategory === "Donación";
+
   const {
     register,
     handleSubmit,
@@ -60,21 +85,32 @@ function PublishCampaign() {
     resolver: yupResolver(publishCampaignSchema),
   });
   const onSubmit = async (data: PublishCampaignForm) => {
-    try {
-      await createCampaign({
-        type: data.category,
-        title: data.title,
-        description: data.description,
-        imageId: "",
+    const request: CreateCampaignRequest = {
+      type: "NEWS",
+      category: categoryMap[data.category],
 
-        location: {
-          name: "",
-          address: "",
-          number: 0,
-          latitude: 0,
-          longitude: 0,
-        },
-      }).unwrap();
+      title: data.title,
+      description: data.description,
+      imageId: "",
+
+      location: {
+        name: data.location,
+        address: "",
+        number: null,
+        latitude: 0,
+        longitude: 0,
+      },
+
+      accountAlias: null,
+      amountToBeCollected: null,
+      campaignEndDate: null,
+
+      newsStartDateTime: buildDateTime(data.startDate, data.startTime),
+      newsEndDateTime: buildDateTime(data.endDate, data.endTime),
+    };
+
+    try {
+      await createCampaign(request).unwrap();
 
       toast.success(
         "Campaña publicada",
@@ -286,17 +322,14 @@ function PublishCampaign() {
               placeholder="¿Dónde se realizará la campaña?"
               $hasLeftIcon
             />
-            {errors.location && (
-              <S.ErrorMessage>{errors.location.message}</S.ErrorMessage>
-            )}
             <S.FieldIcon aria-hidden="true">
               <Search />
             </S.FieldIcon>
           </S.InputWithIcon>
-          <S.MapPreview aria-hidden="true">
-            <S.MapPin />
-            <S.LocateButton type="button" aria-label="Usar mi ubicación" />
-          </S.MapPreview>
+          {errors.location && (
+            <S.ErrorMessage>{errors.location.message}</S.ErrorMessage>
+          )}
+          <S.MapPreview aria-hidden="true" />
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
           </S.HelpText>

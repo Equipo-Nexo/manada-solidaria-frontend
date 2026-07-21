@@ -1,9 +1,13 @@
 import * as yup from "yup";
+import type { PublishCampaignCategory } from "./PublishCampaign";
 
 export const publishCampaignSchema = yup.object({
   title: yup.string().required("Ingresá un título para la campaña.").max(100),
 
-  category: yup.string().required("Seleccioná una categoría."),
+  category: yup
+    .mixed<PublishCampaignCategory>()
+    .oneOf(["Donación", "Castración", "Vacunación", "Desparasitación", "Otro"])
+    .required("Seleccioná una categoría"),
 
   description: yup.string().required("Ingresá una descripción.").max(200),
 
@@ -15,7 +19,18 @@ export const publishCampaignSchema = yup.object({
 
   endDate: yup.string().when("category", {
     is: (category: string) => category !== "Donación",
-    then: (schema) => schema.required("Seleccioná una fecha de fin."),
+    then: (schema) =>
+      schema
+        .required("Seleccioná una fecha de fin.")
+        .test(
+          "not-before-today",
+          "La fecha de fin no puede ser anterior a hoy.",
+          (value) => {
+            if (!value) return true;
+            const today = new Date().toISOString().split("T")[0];
+            return value >= today;
+          },
+        ),
     otherwise: (schema) => schema.notRequired(),
   }),
 
