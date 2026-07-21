@@ -15,7 +15,10 @@ export interface GetCampaignsRequest {
 
 export const campaignApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCampaigns: builder.query<CampaignPageResponse, GetCampaignsRequest | void>({
+    getCampaigns: builder.query<
+      CampaignPageResponse,
+      GetCampaignsRequest | undefined
+    >({
       query: (params) => ({
         url: "/campaigns",
         method: "GET",
@@ -34,7 +37,4 @@ export const campaignApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const {
-  useGetCampaignsQuery,
-  useCreateCampaignMutation,
-} = campaignApi;
+export const { useGetCampaignsQuery, useCreateCampaignMutation } = campaignApi;
