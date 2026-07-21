@@ -53,6 +53,7 @@ const animalAgeOptions: ReadonlyArray<SelectorOption<AnimalAge>> = [
   { value: AnimalAge.Puppy, label: 'Cachorro' },
   { value: AnimalAge.Adult, label: 'Adulto' },
   { value: AnimalAge.Senior, label: 'Anciano' },
+  { value: AnimalAge.Unknown, label: 'Desconocido' },
 ]
 
 const publicationReasons: Array<{
