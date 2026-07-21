@@ -10,29 +10,44 @@ function MobileAuthenticatedView() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
   
-  const showNavbar = location.pathname !== '/mis-publicaciones'
   const showFloatingButton = location.pathname === '/mis-publicaciones'
-
+  const showHeader = '/mis-publicaciones'
+  
+  const routesWithoutNavigation = [
+    "/publicar/campania",
+    "/publicar/animal",
+    "/publicar/colecta",
+    '/mis-publicaciones'
+  ];
+  
+  const hideNavigation = routesWithoutNavigation.includes(location.pathname);
+  
   return (
     <MobileViewChrome>
-      <Header />
-      {
-        showNavbar && (
-          <Navbar
-            isMenuOpen={isMenuOpen}
-            onMenuClick={() => setIsMenuOpen(true)}
-            onNavigate={() => setIsMenuOpen(false)}
-          />
-        )
-      }
+      { (!hideNavigation || showHeader) && <Header /> }
+
       {
         showFloatingButton && (
           <PublishFloatingButton />
         )
       }
+
       <AuthenticatedMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+
+      {(!hideNavigation) && (
+        <Navbar
+          isMenuOpen={isMenuOpen}
+          onMenuClick={() => setIsMenuOpen(true)}
+          onNavigate={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      <AuthenticatedMenuOverlay
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      />
     </MobileViewChrome>
-  )
+  );
 }
 
-export default MobileAuthenticatedView
+export default MobileAuthenticatedView;

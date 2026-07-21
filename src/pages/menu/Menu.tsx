@@ -79,8 +79,8 @@ const sections: MenuSection[] = [
       { label: 'Casos urgentes', path: '/home', activePath: '/casos-urgentes', icon: Info },
       {
         label: 'Animales publicados',
-        path: '/home',
-        activePath: '/animales-publicados',
+        path: '/animales',
+        activePath: '/animales',
         icon: PawPrint,
       },
       { label: 'Campa\u00f1as', path: '/campanias', activePath: '/campanias', icon: HandHeart },

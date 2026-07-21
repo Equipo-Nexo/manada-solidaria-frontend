@@ -137,6 +137,10 @@ export const OptionIcon = styled.span`
     height: 25px;
     stroke-width: 2.4;
   }
+
+  svg path {
+    fill: ${({ theme }) => theme.colors.neutral};
+  }
 `
 
 export const OptionContent = styled.span`

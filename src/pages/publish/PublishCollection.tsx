@@ -1,23 +1,19 @@
 import {
   PublishField,
   PublishForm,
-  PublishFormDescription,
   PublishFormHeader,
   PublishFormPage,
   PublishFormTitle,
   PublishInput,
   PublishSubmitButton,
   PublishTextarea,
-} from './PublishForm.styles'
+} from "./PublishForm.styles";
 
 function PublishCollection() {
   return (
     <PublishFormPage>
       <PublishFormHeader>
         <PublishFormTitle>Publicar colecta de dinero</PublishFormTitle>
-        <PublishFormDescription>
-          Gastos veterinarios, tratamientos, cirugías o insumos.
-        </PublishFormDescription>
       </PublishFormHeader>
       <PublishForm onSubmit={(event) => event.preventDefault()}>
         <PublishField>
@@ -35,7 +31,7 @@ function PublishCollection() {
         <PublishSubmitButton type="submit">Publicar</PublishSubmitButton>
       </PublishForm>
     </PublishFormPage>
-  )
+  );
 }
 
-export default PublishCollection
+export default PublishCollection;

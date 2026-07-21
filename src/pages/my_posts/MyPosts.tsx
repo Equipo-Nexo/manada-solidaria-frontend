@@ -93,7 +93,7 @@ function MyPosts() {
         </BottomSheet>
         <S.HeaderContainer>
             <S.BackRowButton onClick={handleBackButtonClick}>
-                <ArrowLeft />
+                <ArrowLeft width={48} height={48}/>
             </S.BackRowButton>
             <S.HeaderTextContainer>
                 <S.HeaderTitle>Mis Publicaciones</S.HeaderTitle>
