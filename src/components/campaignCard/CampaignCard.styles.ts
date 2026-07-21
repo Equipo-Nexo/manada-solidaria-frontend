@@ -15,8 +15,8 @@ const badgeBackground = {
 } satisfies Record<CampaignType, string>;
 
 export const Card = styled.article`
-  width: 325px;
-  height: 400px;
+  width: ${({ theme }) => theme.layout.publicationCardWidth};
+  height: ${({ theme }) => theme.layout.publicationCardHeight};
   overflow: hidden;
   border: 1px solid rgb(190 202 191 / 30%);
   border-radius: 12px;

@@ -1,45 +1,73 @@
-import {
-  AnimalAge,
-  AnimalColor,
-  AnimalPostType,
-  AnimalSex,
-  AnimalSize,
-  AnimalType,
-} from '../../types/AnimalPost.types'
+export type AnimalPostBackendStatus =
+  | 'CREATED'
+  | 'SEARCHING_ADOPT_AND_TRANSIT'
+  | 'SEARCHING_ADOPT'
 
-export interface AnimalPostLocationRequest {
-  name: string
-  address: string
-  number: number
-  latitude: number
-  longitude: number
-}
+export type AnimalPostType = 'ADOPTION' | 'LOST'
+export type AnimalType = 'DOG' | 'CAT'
+export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'
+export type AnimalGender = 'MALE' | 'FEMALE'
+export type AnimalAge = 'PUPPY' | 'ADULT' | 'SENIOR'
 
-interface CreateAnimalPostBaseRequest {
-  name: string
+export type AnimalPost = {
+  id: string
+  type: AnimalPostType
+  name: string | null
   description: string
-  imageId: string
+  imageUrl: string
   animal: {
+    id: string
     type: AnimalType
     size: AnimalSize
-    gender: AnimalSex
+    gender: AnimalGender
+    color: string | null
     age: AnimalAge
-    color: AnimalColor | null
   }
-  location: AnimalPostLocationRequest
-  phoneNumber: string
-  reward?: number
+  location: {
+    id: string
+    name: string
+    address: string
+    number: number
+    latitude: number
+    longitude: number
+  }
+  status: AnimalPostBackendStatus
+  createdAt: string
+  ownerId: string
+  phoneNumber: string | null
+  reward: number | null
 }
 
-export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
-  | {
-    type: AnimalPostType.Lost
-    hasOwner: boolean
-    inTransit?: never
+type SortMetadata = {
+  empty: boolean
+  sorted: boolean
+  unsorted: boolean
+}
+
+export type AnimalPostsPage = {
+  content: AnimalPost[]
+  empty: boolean
+  first: boolean
+  last: boolean
+  number: number
+  numberOfElements: number
+  pageable: {
+    offset: number
+    pageNumber: number
+    pageSize: number
+    paged: boolean
+    sort: SortMetadata
+    unpaged: boolean
   }
-  | {
-    type: AnimalPostType.Adoption
-    inTransit: boolean
-    hasOwner?: never
-  }
-)
+  size: number
+  sort: SortMetadata
+  totalElements: number
+  totalPages: number
+}
+
+export type GetAnimalPostsRequest = {
+  status?: AnimalPostBackendStatus
+  type?: AnimalPostType
+  page?: number
+  size?: number
+}

@@ -46,6 +46,10 @@ export const Carousel = styled.div`
 `;
 
 export const Item = styled.div`
-  flex: 0 0 320px;
+  flex: 0 0 ${({ theme }) => theme.layout.publicationCardWidth};
   scroll-snap-align: start;
+
+  & > article {
+    width: 100%;
+  }
 `;
