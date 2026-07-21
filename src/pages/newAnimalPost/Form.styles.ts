@@ -28,26 +28,30 @@ export const Header = styled.header`
 `
 
 export const BackButton = styled.button`
-  width: 48px;
-  height: 48px;
-  display: inline-flex;
-  flex: 0 0 48px;
+  width: 40px;
+  height: 40px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border: 0;
-  border-radius: 50%;
-  padding: 0;
+  border: none;
   background: transparent;
-  color: ${({ theme }) => theme.colors.black};
+  padding: 0;
   cursor: pointer;
-  svg { width: 30px; height: 30px; stroke-width: 2.7; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
-`
+  color: ${({ theme }) => theme.colors.black};
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 export const PageTitle = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.typography.header2};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
 `
 
@@ -77,7 +81,7 @@ export const Label = styled.label`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
 `
 export const Required = styled.span`
-  color: ${({ theme }) => theme.colors.error
+  color: ${({ theme }) => theme.colors.brand
   };`
 
 export const OptionsGroup = styled.div`
@@ -222,7 +226,7 @@ export const TextArea = styled.textarea`
 `
 export const SubmitButton = styled.button`
   width: 100%;
-  height: 50px;
+  height: 56px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -231,9 +235,13 @@ export const SubmitButton = styled.button`
   border-radius: 999px;
   background: ${({ theme }) => theme.colors.secondary};
   color: ${({ theme }) => theme.colors.background};
-  box-shadow: 0 8px 14px rgb(89 65 55 / 20%);
   cursor: pointer;
-  ${({ theme }) => theme.typography.body};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
-  svg { width: 18px; height: 18px; }
-`
+  font-size: ${({ theme }) => theme.typography.action.fontSize};
+  font-weight: ${({ theme }) => theme.typography.action.fontWeight};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
+`;

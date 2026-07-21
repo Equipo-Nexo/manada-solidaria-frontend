@@ -7,7 +7,7 @@ import {
   type UseFormRegisterReturn,
 } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ColorPalet, Publish, Search } from '../../components/icons'
+import { ColorPalet, Publish, Search } from '../../components/icons'
 import AdviceComponent from '../../components/advice/AdviceComponent'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from './Form.schema'
 import * as S from './Form.styles'
@@ -33,6 +33,7 @@ import { useCreateAnimalPostMutation } from '../../app/services/apis/animalPostA
 import type { CreateAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
 import { useToast } from '../../hooks/toast/useToast'
 import ImageUpload from '../../components/imageUpload/ImageUpload'
+import Arrow from '../../components/icons/Arrow'
 
 const TEMPORARY_IMAGE_ID = 'cf-image-123'
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
@@ -275,7 +276,7 @@ function NewAnimalPostForm() {
     <S.Page>
       <S.Header>
         <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
-          <ArrowLeft aria-hidden="true" />
+          <Arrow aria-hidden="true" />
         </S.BackButton>
         <S.PageTitle>Publicar un animal</S.PageTitle>
       </S.Header>
