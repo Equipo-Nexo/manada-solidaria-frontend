@@ -12,7 +12,7 @@ export const publishCampaignSchema = yup.object({
   description: yup.string().required("Ingresá una descripción.").max(200),
 
   startDate: yup.string().when("category", {
-    is: (category: string) => category !== "DONATION",
+    is: (category: string) => category !== "Donación",
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de inicio.")
@@ -29,7 +29,7 @@ export const publishCampaignSchema = yup.object({
   }),
 
   endDate: yup.string().when("category", {
-    is: (category: string) => category !== "DONATION",
+    is: (category: string) => category !== "Donación",
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de fin.")
@@ -57,13 +57,13 @@ export const publishCampaignSchema = yup.object({
   }),
 
   startTime: yup.string().when("category", {
-    is: (category: string) => category !== "DONATION",
+    is: (category: string) => category !== "Donación",
     then: (schema) => schema.required("Ingresá una hora de inicio."),
     otherwise: (schema) => schema.notRequired(),
   }),
 
   endTime: yup.string().when("category", {
-    is: (category: string) => category !== "DONATION",
+    is: (category: string) => category !== "Donación",
     then: (schema) => schema.required("Ingresá una hora de fin."),
     otherwise: (schema) => schema.notRequired(),
   }),

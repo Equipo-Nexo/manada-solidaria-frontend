@@ -172,11 +172,11 @@ function PublishCampaign() {
     };
     try {
       await createCampaign(request).unwrap();
-      navigate("/home");
       toast.success(
         "Campaña publicada",
         "La campaña se publicó correctamente.",
       );
+      navigate("/home");
     } catch {
       toast.error(
         "No pudimos publicar la campaña",
@@ -285,7 +285,7 @@ function PublishCampaign() {
 
         <S.PublishField>
           <S.PublishLabel>
-            Fecha fin <S.RequiredMark>*</S.RequiredMark>
+            Fecha fin <S.RequiredMark $hidden={isDonation}>*</S.RequiredMark>
           </S.PublishLabel>
           <DatePicker control={control} name="endDate" />
           {errors.endDate && (
