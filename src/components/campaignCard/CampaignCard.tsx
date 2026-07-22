@@ -1,5 +1,6 @@
 import * as S from "./CampaignCard.styles";
 import { LocationPin, Share2 } from "../icons";
+import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
 
 export type CampaignType =
   | "donation"
@@ -41,12 +42,17 @@ function CampaignCard({
   onMoreInfo,
   onShare,
 }: CampaignCardProps) {
-  const imageAlt = campaign.imageAlt ?? campaign.title;
-
   return (
     <S.Card className={className}>
       <S.ImageSection>
-        <S.CampaignImage src={campaign.imageUrl} alt={imageAlt} />
+        <S.CampaignImage 
+          src={campaign.imageUrl} 
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null; 
+            currentTarget.src = NOT_FOUND_IMAGE_URL;
+          }}
+          alt={campaign.title}
+        />
         <S.ShareButton
           type="button"
           aria-label={`Compartir campaña ${campaign.title}`}

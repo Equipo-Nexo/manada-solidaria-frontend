@@ -1,4 +1,4 @@
-import { baseApi } from "../base/baseApi";
+import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
 import type { CampaignPageResponse } from "../../types/Campaign.types";
 import type { CreateCampaignRequest } from "../requests/createCampaignRequest";
 
@@ -13,8 +13,15 @@ export interface GetCampaignsRequest {
   category?: CampaignCategory;
 }
 
-export const campaignApi = baseApi.injectEndpoints({
+export const campaignApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
+    deleteCampaign: builder.mutation<void, string>({
+      query: (postId) => ({
+        url: `/campaigns/${postId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['userPosts']
+    }),
     getCampaigns: builder.query<
       CampaignPageResponse,
       GetCampaignsRequest | undefined
@@ -25,7 +32,6 @@ export const campaignApi = baseApi.injectEndpoints({
         params,
       }),
     }),
-
     createCampaign: builder.mutation<void, CreateCampaignRequest>({
       query: (body) => ({
         url: "/campaigns",
@@ -35,6 +41,6 @@ export const campaignApi = baseApi.injectEndpoints({
     }),
   }),
   overrideExisting: false,
-});
+})
 
-export const { useGetCampaignsQuery, useCreateCampaignMutation } = campaignApi;
+export const { useDeleteCampaignMutation, useGetCampaignsQuery, useCreateCampaignMutation } = campaignApi;

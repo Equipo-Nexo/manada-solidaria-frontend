@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import {
   BottomSheetBackdrop,
   BottomSheetCloseButton,
+  BottomSheetCloseButtonContainer,
   BottomSheetContent,
   BottomSheetHandle,
   BottomSheetPanel,
@@ -13,7 +14,7 @@ import X from '../icons/X'
 type BottomSheetProps = {
   children: ReactNode
   isOpen: boolean
-  ariaLabel: string
+  ariaLabel?: string
   onClose: () => void
 }
 
@@ -49,10 +50,14 @@ function BottomSheet({ children, isOpen, ariaLabel, onClose }: BottomSheetProps)
         onClick={(event) => event.stopPropagation()}
       >
         <BottomSheetHandle aria-hidden="true" />
-        <BottomSheetCloseButton type="button" aria-label="Cerrar" onClick={onClose}>
-          <X aria-hidden="true" />
-        </BottomSheetCloseButton>
-        <BottomSheetContent>{children}</BottomSheetContent>
+        <BottomSheetContent>
+          <BottomSheetCloseButtonContainer>
+            <BottomSheetCloseButton type="button" aria-label="Cerrar" onClick={onClose}>
+              <X aria-hidden="true" />
+            </BottomSheetCloseButton>
+          </BottomSheetCloseButtonContainer>
+          {children}
+        </BottomSheetContent>
       </BottomSheetPanel>
     </BottomSheetBackdrop>,
     document.body,

@@ -9,6 +9,7 @@ import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
 import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
 import ArrowLeft from '../../components/icons/ArrowLeft'
 import * as S from './allAnimalPosts.styles'
+import { AnimalPostType } from '../../app/types/AnimalPost.types'
 
 type Category = 'Todos' | 'Adopción' | 'Perdidos' | 'En la calle'
 
@@ -19,7 +20,7 @@ const getRequestFilters = (
   category: Category,
 ): Pick<GetAnimalPostsRequest, 'status' | 'type'> => {
   if (category === 'Adopción') {
-    return { type: 'ADOPTION' }
+    return { type: AnimalPostType.Adoption }
   }
 
   if (category === 'Perdidos' || category === 'En la calle') {

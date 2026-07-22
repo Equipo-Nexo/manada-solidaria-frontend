@@ -1,9 +1,10 @@
+import type { AnimalColor, AnimalSex, AnimalPostType } from "../../types/AnimalPost.types"
+
 export type AnimalPostBackendStatus =
   | 'CREATED'
   | 'SEARCHING_ADOPT_AND_TRANSIT'
   | 'SEARCHING_ADOPT'
 
-export type AnimalPostType = 'ADOPTION' | 'LOST'
 export type AnimalType = 'DOG' | 'CAT'
 export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'
 export type AnimalGender = 'MALE' | 'FEMALE'
@@ -71,3 +72,41 @@ export type GetAnimalPostsRequest = {
   page?: number
   size?: number
 }
+
+
+export interface AnimalPostLocationRequest {
+  name: string
+  address: string
+  number: number
+  latitude: number
+  longitude: number
+}
+
+interface CreateAnimalPostBaseRequest {
+  name: string
+  description: string
+  imageId: string
+  animal: {
+    type: AnimalType
+    size: AnimalSize
+    gender: AnimalSex
+    age: AnimalAge
+    color: AnimalColor | null
+  }
+  location: AnimalPostLocationRequest
+  phoneNumber: string
+  reward?: number
+}
+
+export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
+  | {
+    type: AnimalPostType.Lost
+    hasOwner: boolean
+    inTransit?: never
+  }
+  | {
+    type: AnimalPostType.Adoption
+    inTransit: boolean
+    hasOwner?: never
+  }
+)

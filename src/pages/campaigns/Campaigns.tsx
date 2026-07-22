@@ -27,7 +27,7 @@ function Campaigns() {
     title: campaign.title,
     description: campaign.description,
     location: campaign.location.name,
-    imageUrl: "https://placehold.co/600x400",
+    imageUrl: campaign.imageId,
     type: campaign.type,
   }));
   const filters = Object.keys(filterMap) as (keyof typeof filterMap)[];

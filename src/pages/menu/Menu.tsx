@@ -5,6 +5,7 @@ import {
   ChevronRight,
   HandHeart,
   Heart,
+  History,
   House,
   Info,
   LogOut,
@@ -65,6 +66,7 @@ const sections: MenuSection[] = [
     items: [
       { label: 'Inicio', path: '/home', activePath: '/home', icon: House },
       { label: 'Mi perfil', path: '/home', activePath: '/mi-perfil', icon: User },
+      { label: 'Mis publicaciones', path: '/mis-publicaciones', activePath: '/mis-publicaciones', icon: History },
       { label: 'Servicios', path: '/home', activePath: '/servicios', icon: BriefcaseMedical },
       { label: 'Comunidad', path: '/home', activePath: '/comunidad', icon: Users },
       { label: 'Mapa', path: '/mapa', activePath: '/mapa', icon: Map },

@@ -1,9 +1,16 @@
-import { baseApi } from '../base/baseApi'
+import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
 import type { CreateAnimalPostRequest } from '../requests/animalPostRequests'
 import type { AnimalPostResponse } from '../responses/animalPostResponses'
 
-export const animalPostApi = baseApi.injectEndpoints({
+export const animalPostApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
+    deleteAnimalPost: builder.mutation<void, string>({
+      query: (postId) => ({
+        url: `/animal-posts/${postId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['userPosts']
+    }),
     createAnimalPost: builder.mutation<AnimalPostResponse, CreateAnimalPostRequest>({
       query: (body) => ({
         url: '/animal-posts',
@@ -15,4 +22,4 @@ export const animalPostApi = baseApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useCreateAnimalPostMutation } = animalPostApi
+export const { useDeleteAnimalPostMutation, useCreateAnimalPostMutation } = animalPostApi;

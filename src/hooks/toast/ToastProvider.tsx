@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Toaster, { type ToastNotification, type ToastType } from '../../components/toaster/Toaster'
 import { ToastContext, type ToastInput, type ToastProviderProps } from './toastContext'
+import { subscribeToToastEvents } from './toastEvents'
 
 const DEFAULT_TOAST_TIME = 2000
 
@@ -43,6 +44,12 @@ export function ToastProvider({ children }: ToastProviderProps) {
     }),
     [showToast],
   )
+
+  useEffect(() => {
+    return subscribeToToastEvents(({ type, toast: toastInput }) => {
+      showToast(type, toastInput)
+    })
+  }, [showToast])
 
   useEffect(() => {
     if (!notification) {

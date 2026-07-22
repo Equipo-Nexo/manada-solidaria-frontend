@@ -12,6 +12,7 @@ import PublishCollection from './pages/publish/PublishCollection'
 import Register from './pages/register/Register'
 import useAuth from './hooks/auth/useAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
+import MyPosts from './pages/my_posts/MyPosts'
 import Card from './components/animalPostCard/animalPostCard'
 import AllAnimalsPage from './pages/allAnimalPosts/AllAnimalsPage'
 import NewAnimalPostForm from './pages/newAnimalPost/Form'
@@ -22,7 +23,6 @@ function App() {
   const isAnimalPublish = location.pathname === '/publicar/animal'
   const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro' || isAnimalPublish
   const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
-  const showFloatingPublish = showAuthenticatedShell && location.pathname === '/home'
 
   return (
     <>
@@ -30,7 +30,7 @@ function App() {
         {showAuthenticatedShell && (
           <>
             <MobileAuthenticatedView />
-            <DesktopAuthenticatedView showFloatingPublish={showFloatingPublish} />
+            <DesktopAuthenticatedView />
           </>
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>
@@ -48,6 +48,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
               <Route path="/mapa" element={<Map />} />
+              <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/publicar/colecta" element={<PublishCollection />} />
               <Route path="/publicar/campania" element={<PublishCampaign />} />

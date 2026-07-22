@@ -66,7 +66,6 @@ export const BottomSheetPanel = styled.div`
 `
 
 export const BottomSheetCloseButton = styled.button`
-  position: absolute;
   top: 16px;
   right: 18px;
   width: 36px;
@@ -91,6 +90,12 @@ export const BottomSheetCloseButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
+`
+
+export const BottomSheetCloseButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
 `
 
 export const BottomSheetHandle = styled.div`
