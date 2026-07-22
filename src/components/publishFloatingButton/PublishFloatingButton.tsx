@@ -4,7 +4,7 @@ import { FloatingButton } from './PublishFloatingButton.styles'
 import PublishOptions from '../publishOptions/PublishOptions'
 
 interface PublishFloatingButtonProps {
-  showText: boolean;
+  showText?: boolean;
 }
 
 function PublishFloatingButton({ showText = true }: PublishFloatingButtonProps) {

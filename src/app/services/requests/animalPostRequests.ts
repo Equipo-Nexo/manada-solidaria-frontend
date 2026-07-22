@@ -5,10 +5,10 @@ export type AnimalPostBackendStatus =
   | 'SEARCHING_ADOPT_AND_TRANSIT'
   | 'SEARCHING_ADOPT'
 
-export type AnimalType = 'DOG' | 'CAT'
+export type AnimalType = 'DOG' | 'CAT' | 'OTHER'
 export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'
 export type AnimalGender = 'MALE' | 'FEMALE'
-export type AnimalAge = 'PUPPY' | 'ADULT' | 'SENIOR'
+export type AnimalAge = 'PUPPY' | 'ADULT' | 'SENIOR' | 'UNKNOWN'
 
 export type AnimalPost = {
   id: string
