@@ -29,10 +29,5 @@ export const UserPostUtil: Record<string, PostUtil> = {
         text: 'Adoptado',
         backgroundColor: '#F5E7D4',
         fontColor: '#A95C28'
-    },
-    'CREATED': {
-        text: 'Creado',
-        backgroundColor: '#F5E7D4',
-        fontColor: '#A95C28'
     }
 }

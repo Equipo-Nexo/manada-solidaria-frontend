@@ -62,7 +62,15 @@ export const Content = styled.div`
 export const FiltersContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+`
+
+export const CreatedSinceContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4px
 `
 
 export const Filter = styled.button<{ $isSelected: boolean }>`
@@ -235,6 +243,12 @@ export const Button = styled.button`
     height: 40px;
     cursor: pointer;
 
+    @media (min-width: 600px) {
+        width: 60px;
+        height: 60px;
+        font-size: 50px;
+    }
+
     &:hover {
         background: ${({ theme }) => theme.colors.secondaryHoverSoft};
     }
@@ -268,6 +282,7 @@ export const BottomSheetContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 8px;
 
 `
 
@@ -285,6 +300,7 @@ export const PostTitle = styled.span`
 `
 
 export const BottomSheetButtonContainer = styled.div`
+    margin-top: 12px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -300,4 +316,6 @@ export const BottomSheetButton = styled.button<{$primary: boolean}>`
     border-radius: 12px;
     text-align: left;
     font-weight: bold;
+    height: 62px;
+    cursor: pointer;
 `

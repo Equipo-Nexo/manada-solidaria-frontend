@@ -3,7 +3,11 @@ import { PawPrint } from '../icons'
 import { FloatingButton } from './PublishFloatingButton.styles'
 import PublishOptions from '../publishOptions/PublishOptions'
 
-function PublishFloatingButton() {
+interface PublishFloatingButtonProps {
+  showText: boolean;
+}
+
+function PublishFloatingButton({ showText = true }: PublishFloatingButtonProps) {
   const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false)
 
   return (
@@ -13,9 +17,10 @@ function PublishFloatingButton() {
         aria-label="Publicar"
         aria-expanded={isPublishOptionsOpen}
         onClick={() => setIsPublishOptionsOpen((isOpen) => !isOpen)}
+        $showText={showText}
       >
         <PawPrint aria-hidden="true" />
-        <span>Publicar</span>
+        { showText && <span>Publicar</span> }
       </FloatingButton>
       <PublishOptions
         isOpen={isPublishOptionsOpen}

@@ -28,7 +28,7 @@ function MobileAuthenticatedView() {
 
       {
         showFloatingButton && (
-          <PublishFloatingButton />
+          <PublishFloatingButton showText={false}/>
         )
       }
 

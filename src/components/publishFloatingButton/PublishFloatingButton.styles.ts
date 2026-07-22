@@ -1,17 +1,17 @@
 import styled from 'styled-components'
 
-export const FloatingButton = styled.button`
+export const FloatingButton = styled.button<{ $showText?: boolean }>`
   position: fixed;
   right: 24px;
   bottom: 96px;
   z-index: 30;
-  min-width: 58px;
-  min-height: 58px;
+  min-width: 78px;
+  min-height: 78px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 0 20px;
+  padding: ${props => props.$showText ? '0 20px' : '0px'};
   border: 0;
   border-radius: 999px;
   background: ${({ theme }) => theme.colors.secondary};

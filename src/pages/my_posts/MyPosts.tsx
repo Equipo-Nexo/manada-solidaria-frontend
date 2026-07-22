@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { ArrowLeft, HandHeart, PawPrint, Pencil, Trash } from "../../components/icons"
 import * as S from "./MyPosts.styles"
-import { useGetUserPostsQuery, type GetUserPostsResponse } from "../../app/services/apis/usersApi";
+import { useGetUserPostsQuery } from "../../app/services/apis/usersApi";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "../../app/services/apis/campaignApi";
 import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostApi";
@@ -9,6 +9,9 @@ import { useToast } from "../../hooks/toast/useToast";
 import { UserPostUtil } from "../../utils/UserPostUtils";
 import BottomSheet from "../../components/bottomSheet/BottomSheet";
 import { theme } from "../../styles/theme";
+import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
+import type { GetUserPostsResponse } from "../../app/services/responses/userResponses";
+import Clock from "../../components/icons/Clock";
 
 type PostFilter = '' | 'animal' | 'campaign';
 
@@ -21,7 +24,7 @@ function MyPosts() {
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
-    const NOT_FOUND_IMAGE_URL = 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg';
+    
     const ICON_BY_FILTER: Record<PostFilter, ReactNode> = {
         '': <PawPrint width={50} height={50} color={theme.colors.secondary}/>,
         'animal': <PawPrint width={50} height={50} color={theme.colors.secondary} />,
@@ -101,6 +104,7 @@ function MyPosts() {
             </S.HeaderTextContainer>
         </S.HeaderContainer>
         <S.Content>
+            
             <S.FiltersContainer>
                 <S.Filter
                     $isSelected={selectedFilter === ''}
@@ -137,9 +141,12 @@ function MyPosts() {
                             <S.CardContent>
                                 <S.CardInformationContainer>
                                     <S.CardTitle>{post.title}</S.CardTitle>
-                                    <S.CreatedSince>{post.createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${post.createdSince} días`}</S.CreatedSince>
+                                    <S.CreatedSinceContainer>
+                                        <Clock />
+                                        <S.CreatedSince>{post.createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${post.createdSince} días`}</S.CreatedSince>
+                                    </S.CreatedSinceContainer>
                                     {
-                                        post.status && (
+                                        (post.status && post.status != 'CREATED') && (
                                             <S.Status
                                                 $backgroundColor={UserPostUtil[post.status] && UserPostUtil[post.status].backgroundColor}
                                                 $fontColor={UserPostUtil[post.status] && UserPostUtil[post.status].fontColor}
@@ -149,10 +156,10 @@ function MyPosts() {
                                 </S.CardInformationContainer>
                                 <S.ButtonsContainer>
                                     <S.Button onClick={handleEditButton}>
-                                        <Pencil />
+                                        <Pencil width={17} height={17}/>
                                     </S.Button>
                                     <S.Button onClick={() => handleDeleteButton(post)}>
-                                        <Trash />
+                                        <Trash width={17} height={17} />
                                     </S.Button>
                                 </S.ButtonsContainer>
                             </S.CardContent>
