@@ -35,7 +35,6 @@ import { useToast } from '../../hooks/toast/useToast'
 import ImageUpload from '../../components/imageUpload/ImageUpload'
 import Arrow from '../../components/icons/Arrow'
 
-const TEMPORARY_IMAGE_ID = 'cf-image-123'
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
   address: 'Av. Patricias',

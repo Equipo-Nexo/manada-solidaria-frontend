@@ -1,5 +1,5 @@
 import { baseApi } from '../base/baseApi';
-import type { UploadImageRequest } from '../requests/PresignedUrlRequest';
+import type { UploadImageRequest } from '../requests/presignedUrlRequest';
 
 export const imagesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

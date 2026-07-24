@@ -1,5 +1,5 @@
 import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { GetPresignedUrlRequest } from '../requests/PresignedUrlRequest';
+import type { GetPresignedUrlRequest } from '../requests/presignedUrlRequest';
 import type { PresignedUrlResponse } from '../responses/imageResponses';
 
 export const imagesApi = baseAuthenticatedApi.injectEndpoints({
