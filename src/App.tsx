@@ -20,8 +20,10 @@ import NewAnimalPostForm from './pages/newAnimalPost/Form'
 function App() {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
-  const isAnimalPublish = location.pathname === '/publicar/animal'
-  const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro' || isAnimalPublish
+  const isFullScreenPublish =
+    location.pathname === '/publicar/animal' || location.pathname === '/publicar/campania'
+  const usesFullScreenLayout =
+    location.pathname === '/login' || location.pathname === '/registro' || isFullScreenPublish
   const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
 
   return (

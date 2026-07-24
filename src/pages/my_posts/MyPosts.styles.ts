@@ -59,46 +59,12 @@ export const Content = styled.div`
     flex-direction: column;
 `
 
-export const FiltersContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-`
-
 export const CreatedSinceContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 4px
-`
-
-export const Filter = styled.button<{ $isSelected: boolean }>`
-    display: flex;
-    width: 80px;
-    height: 38px;
-    padding: 12px 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    color: ${({ theme }) => theme.colors.black};
-    font-family: ${({ theme }) => theme.typography.body.fontFamily};
-    font-size: ${({ theme }) => theme.typography.body.fontSize};
-    font-style: ${({ theme }) => theme.typography.body.fontStyle};
-    font-weight: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.fontWeights.semibold : theme.typography.body.fontWeight};
-    line-height: ${({ theme }) => theme.typography.body.lineHeight};
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid
-        ${({ $isSelected, theme }) => $isSelected ? theme.colors.darkColor : 'transparent'};
-    cursor: pointer;
-
-    &:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.colors.focus};
-        outline-offset: 2px;
-    }
 `
 
 export const CardsContainer = styled.div`

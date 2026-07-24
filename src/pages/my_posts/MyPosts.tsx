@@ -12,8 +12,16 @@ import { theme } from "../../styles/theme";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
 import type { GetUserPostsResponse } from "../../app/services/responses/userResponses";
 import Clock from "../../components/icons/Clock";
+import CategorySelector from "../../components/categorySelector/CategorySelector";
 
 type PostFilter = '' | 'animal' | 'campaign';
+
+const POST_FILTERS: PostFilter[] = ['', 'animal', 'campaign']
+const POST_FILTER_LABELS: Record<PostFilter, string> = {
+    '': 'Todos',
+    animal: 'Animales',
+    campaign: 'Campañas',
+}
 
 function MyPosts() {
     const navigate = useNavigate()
@@ -105,26 +113,13 @@ function MyPosts() {
         </S.HeaderContainer>
         <S.Content>
             
-            <S.FiltersContainer>
-                <S.Filter
-                    $isSelected={selectedFilter === ''}
-                    onClick={() => setSelectedFilter('')}
-                >
-                    Todos
-                </S.Filter>
-                <S.Filter
-                    $isSelected={selectedFilter === 'animal'}
-                    onClick={() => setSelectedFilter('animal')}
-                >
-                    Animales
-                </S.Filter>
-                <S.Filter
-                    $isSelected={selectedFilter === 'campaign'}
-                    onClick={() => setSelectedFilter('campaign')}
-                >
-                    Campañas
-                </S.Filter>
-            </S.FiltersContainer>
+            <CategorySelector
+                categories={POST_FILTERS}
+                selectedCategory={selectedFilter}
+                onCategoryChange={setSelectedFilter}
+                getCategoryLabel={(filter) => POST_FILTER_LABELS[filter]}
+                ariaLabel="Filtrar mis publicaciones por categoría"
+            />
             <S.CardsContainer>
                 {!isLoading && userPosts?.length === 0 && (
                     <S.EmptyState>

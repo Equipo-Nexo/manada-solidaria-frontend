@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { publishCampaignSchema } from "./PublishCampaignSchema";
-import { Info } from "../../components/icons";
 import * as S from "./PublishForm.styles";
+import AdviceComponent from "../../components/advice/AdviceComponent";
 import ImageUpload from "../../components/imageUpload/ImageUpload";
 import Phone from "../../components/icons/Phone";
 import Search from "../../components/icons/Search";
@@ -408,19 +408,7 @@ function PublishCampaign() {
           <ImageUpload />
         </S.PublishField>
 
-        <S.AdvisoryCard>
-          <S.AdvisoryIcon>
-            <Info aria-hidden="true" />
-          </S.AdvisoryIcon>
-          <S.AdvisoryContent>
-            <S.AdvisoryTitle>Consejo</S.AdvisoryTitle>
-            <S.AdvisoryText>
-              Las campañas con metas claras y fotos nítidas suelen completarse
-              un 40% más rápido. Asegurate de incluir toda la información
-              relevante.
-            </S.AdvisoryText>
-          </S.AdvisoryContent>
-        </S.AdvisoryCard>
+        <AdviceComponent advice="Las campañas con metas claras y fotos nítidas suelen completarse un 40% más rápido. Asegurate de incluir toda la información relevante." />
 
         <S.PublishSubmitButton type="submit">
           Publicar Campaña

@@ -7,6 +7,7 @@ import type {
 } from '../../app/services/requests/animalPostRequests'
 import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
 import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
+import CategorySelector from '../../components/categorySelector/CategorySelector'
 import ArrowLeft from '../../components/icons/ArrowLeft'
 import * as S from './allAnimalPosts.styles'
 import { AnimalPostType } from '../../app/types/AnimalPost.types'
@@ -54,24 +55,19 @@ function AllAnimalsPage() {
         <S.TitlesContainer>
           <S.PageTitle>Animales publicados</S.PageTitle>
           <S.PageSubtitle>
-            {isLoading ? 'Cargando resultados...' : `${totalElements} resultados`}
+            {isLoading
+              ? 'Cargando resultados...'
+              : `${totalElements} ${totalElements === 1 ? 'resultado' : 'resultados'}`}
           </S.PageSubtitle>
         </S.TitlesContainer>
       </S.Header>
 
-      <S.CategoriesSelectorContainer aria-label="Filtrar publicaciones por categoría">
-        {categories.map((category) => (
-          <S.Category
-            key={category}
-            type="button"
-            $isSelected={category === selectedCategory}
-            aria-pressed={category === selectedCategory}
-            onClick={() => setSelectedCategory(category)}
-          >
-            {category}
-          </S.Category>
-        ))}
-      </S.CategoriesSelectorContainer>
+      <CategorySelector
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+        ariaLabel="Filtrar publicaciones por categoría"
+      />
 
       <S.PublicationsContainer aria-live="polite">
         {isLoading && <S.StateMessage>Cargando publicaciones...</S.StateMessage>}

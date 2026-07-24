@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import { useGetAnimalPostsQuery } from '../../app/services/apis/animalPostsApi'
+import { useGetCampaignsQuery } from '../../app/services/apis/campaignApi'
 import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
 import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
-import { ChevronRight } from '../../components/icons'
+import CampaignCard, { type CampaignCardData } from '../../components/campaignCard/CampaignCard'
+import Carousel from '../../components/carrousel/Carousel'
+import Message from '../../components/message/message'
 import * as S from './Home.styles'
-import { useGetCampaignsQuery } from "../../app/services/apis/campaignApi";
-import type { CampaignCardData } from "../../components/campaignCard/CampaignCard";
-import CampaignCarousel from "./campaignCarousel/CampaignCarousel";
 
 const MAX_POSTS_PER_SECTION = 10
 
 function Home() {
   const navigate = useNavigate()
-  const { data: animalPostsData, isError, isLoading, refetch } = useGetAnimalPostsQuery({
+  const { data: animalPostsData, isError, isLoading } = useGetAnimalPostsQuery({
     size: MAX_POSTS_PER_SECTION,
   })
   const { data: campaignsData } = useGetCampaignsQuery({})
@@ -29,62 +29,36 @@ function Home() {
 
   return (
     <S.HomePage>
-      <S.Section aria-labelledby="urgent-cases-title">
-        <S.SectionHeader>
-          <S.SectionTitle id="urgent-cases-title">Casos urgentes</S.SectionTitle>
-          <S.ViewAllButton type="button" aria-label="Ver todos los casos urgentes">
-            <span>Ver todos</span>
-            <ChevronRight aria-hidden="true" />
-          </S.ViewAllButton>
-        </S.SectionHeader>
-        <S.Carousel aria-label="Casos urgentes">
-        </S.Carousel>
-      </S.Section>
+      <Carousel title="Casos urgentes">
+        <S.MessageContainer>
+          <Message message="Aún no se realizaron publicaciones." iconName="pawPrint" />
+        </S.MessageContainer>
+      </Carousel>
 
-      <S.Section aria-labelledby="recent-animals-title">
-        <S.SectionHeader>
-          <S.SectionTitle id="recent-animals-title">
-            Últimos animales publicados
-          </S.SectionTitle>
-          <S.ViewAllButton
-            type="button"
-            aria-label="Ver todos los animales publicados"
-            onClick={() => navigate('/animales')}
-          >
-            <span>Ver todos</span>
-            <ChevronRight aria-hidden="true" />
-          </S.ViewAllButton>
-        </S.SectionHeader>
-        <S.Carousel aria-label="Últimos animales publicados">
-          {isLoading && <S.CarouselMessage>Cargando publicaciones...</S.CarouselMessage>}
-          {isError && (
-            <S.CarouselMessage role="alert">
-              No pudimos cargar las publicaciones.
-              <S.RetryButton type="button" onClick={() => void refetch()}>
-                Reintentar
-              </S.RetryButton>
-            </S.CarouselMessage>
-          )}
-          {!isLoading && !isError && recentAnimals.length === 0 && (
-            <S.CarouselMessage>No hay publicaciones recientes.</S.CarouselMessage>
-          )}
-          {!isLoading && !isError && recentAnimals.map((animal) => (
-            <S.AnimalCardSlot key={animal.id}>
-              <AnimalPostCard {...mapAnimalPostToCardProps(animal)} />
-            </S.AnimalCardSlot>
-          ))}
-        </S.Carousel>
-      </S.Section>
+      <Carousel title="Últimos animales publicados" onSeeAll={() => navigate('/animales')}>
+        {isLoading && <S.CarouselMessage>Cargando publicaciones...</S.CarouselMessage>}
+        {!isLoading && isError && (
+          <S.MessageContainer role="alert">
+            <Message message="Ha ocurrido un error, intenta recargar" iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
+        {!isLoading && !isError && recentAnimals.length === 0 && (
+          <S.MessageContainer>
+            <Message message="No hay publicaciones recientes de animales aún" iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
+        {!isLoading && !isError && recentAnimals.map((animal) => (
+          <AnimalPostCard key={animal.id} {...mapAnimalPostToCardProps(animal)} />
+        ))}
+      </Carousel>
 
-      <S.Section aria-labelledby="news-title">
-        <CampaignCarousel
-          title="Enterate de las novedades"
-          campaigns={campaignCards}
-          onSeeAll={() => navigate("/campanias")}
-        />
-      </S.Section>
+      <Carousel title="Enterate de las novedades" onSeeAll={() => navigate('/campanias')}>
+        {campaignCards.map((campaign) => (
+          <CampaignCard key={campaign.id} campaign={campaign} />
+        ))}
+      </Carousel>
     </S.HomePage>
   )
 }
 
-export default Home;
+export default Home

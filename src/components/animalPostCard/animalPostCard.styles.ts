@@ -50,14 +50,11 @@ export const CardContainer = styled.article`
   border: 1px solid rgb(190 202 191 / 30%);
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
-  font-family: ${({ theme }) => theme.fonts.body};
-  text-align: left;
   box-shadow: 0 8px 24px -4px rgb(0 109 65 / 8%);
 `
 
 export const PhotoContainer = styled.div`
   position: relative;
-  width: 100%;
   height: 204px;
   overflow: hidden;
 `
@@ -72,30 +69,34 @@ export const Photo = styled.img`
 
 export const ShareButton = styled.button`
   position: absolute;
-  top: 11px;
-  right: 10px;
-  display: grid;
-  width: 43px;
-  height: 43px;
-  padding: 0;
-  place-items: center;
+  top: 12px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
-  border-radius: 50%;
-  color: ${({ theme }) => theme.colors.black};
+  border-radius: 999px;
   background: ${({ theme }) => theme.colors.background};
-  box-shadow: 0 2px 5px rgb(89 65 55 / 25%);
+  color: ${({ theme }) => theme.colors.black};
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
   cursor: pointer;
+  backdrop-filter: blur(2px);
+  -webkit-tap-highlight-color: transparent;
 
   svg {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
   }
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
-`
+`;
 
 export const Content = styled.div`
   padding: 10px 13px 6px;
@@ -111,6 +112,7 @@ export const MainInfoContainer = styled.div`
 export const Title = styled.h2`
   min-width: 0;
   flex: 1;
+  overflow: hidden;
   margin: 0;
   color: ${({ theme }) => theme.colors.brand};
   font-family: ${({ theme }) => theme.typography.header1.fontFamily};
@@ -119,6 +121,8 @@ export const Title = styled.h2`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: ${({ theme }) => theme.typography.header1.lineHeight};
   text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 export const StatusContainer = styled.span<StatusContainerProps>`
@@ -145,16 +149,18 @@ export const Location = styled.div`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.body.lineHeight};
   svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
   }
+
 `
 
 export const Description = styled.p`
   display: -webkit-box;
   overflow: hidden;
   margin: 0px;
+  min-height:40px;
   max-height: calc(${({ theme }) => theme.typography.body.lineHeight} * 2);
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.typography.body.fontFamily};
@@ -167,6 +173,7 @@ export const Description = styled.p`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   text-align:left;
+  justify-content:center;
 `
 
 export const ViewMore = styled.button`
@@ -211,7 +218,9 @@ export const ActionButton = styled.button<{ $variant: 'primary' | 'secondary' }>
   cursor: pointer;
   transition:
     color 160ms ease,
-    background-color 160ms ease;
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
@@ -219,16 +228,22 @@ export const ActionButton = styled.button<{ $variant: 'primary' | 'secondary' }>
   @media (hover: hover) {
     &:hover {
       color: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.brand : theme.colors.background};
+    $variant === 'primary' ? theme.colors.background : theme.colors.secondary};
       background: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.neutral : theme.colors.brand};
+    $variant === 'primary' ? theme.colors.brandHover : theme.colors.neutral};
+      box-shadow: ${({ $variant }) =>
+    $variant === 'primary'
+      ? '0 6px 14px rgb(234 95 9 / 24%)'
+      : '0 4px 12px rgb(169 92 40 / 14%)'};
+      transform: translateY(-1px);
     }
   }
 
   &:active {
     color: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.brand : theme.colors.background};
+    $variant === 'primary' ? theme.colors.background : theme.colors.secondary};
     background: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.neutral : theme.colors.brand};
+    $variant === 'primary' ? theme.colors.brandHover : theme.colors.neutral};
+    transform: translateY(0) scale(0.98);
   }
 `

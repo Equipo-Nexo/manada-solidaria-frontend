@@ -100,8 +100,8 @@ export const Location = styled.div`
   `}
 
   svg {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     flex: 0 0 auto;
   }
 
@@ -144,6 +144,9 @@ export const Content = styled.div`
 export const Title = styled.h3`
   margin: 0;
   overflow: hidden;
+  width:280px;
+  display:flex;
+  text-align:left;
   color: ${theme.colors.secondary};
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -203,6 +206,10 @@ export const ConsultButton = styled.button`
   background: ${({ theme }) => theme.colors.neutral};
   color: ${({ theme }) => theme.colors.brand};
   cursor: pointer;
+  transition:
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
   ${({ theme }) => css`
     font-family: ${theme.fonts.body};
     font-size: 14px;
@@ -210,8 +217,16 @@ export const ConsultButton = styled.button`
     line-height: 19.5px;
   `}
 
+  @media (hover: hover) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.secondary};
+      box-shadow: 0 4px 12px rgb(169 92 40 / 14%);
+      transform: translateY(-1px);
+    }
+  }
+
   &:active {
-    transform: scale(0.99);
+    transform: translateY(0) scale(0.98);
   }
 
   &:focus-visible {

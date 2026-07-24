@@ -4,7 +4,8 @@ import CampaignList from "./CampaignList";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Campaigns.styles";
 import { useState } from "react";
-import Arrow from "../../components/icons/Arrow";
+import CategorySelector from "../../components/categorySelector/CategorySelector";
+import { ArrowLeft } from "../../components/icons";
 
 function Campaigns() {
   const navigate = useNavigate();
@@ -16,11 +17,11 @@ function Campaigns() {
     Castración: "CASTRATION",
     Vacunación: "VACCINATION",
   } as const;
-  const { data } = useGetCampaignsQuery({
+  const { data, isLoading } = useGetCampaignsQuery({
     category: filterMap[selectedFilter],
   });
   const campaigns = data?.content ?? [];
-  const totalResults = data?.totalElements ?? 0;
+  const totalElements = data?.totalElements ?? 0;
 
   const campaignCards: CampaignCardData[] = campaigns.map((campaign) => ({
     id: campaign.id,
@@ -33,32 +34,28 @@ function Campaigns() {
   const filters = Object.keys(filterMap) as (keyof typeof filterMap)[];
 
   return (
-    <div>
+    <S.Page>
       <S.Header>
-        <S.BackButton onClick={() => navigate(-1)}>
-          <Arrow />
+        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+          <ArrowLeft aria-hidden="true" />
         </S.BackButton>
-
-        <S.HeaderContent>
-          <S.Title>Campañas</S.Title>
-          <S.Subtitle>
-            {totalResults} {totalResults === 1 ? "resultado" : "resultados"}
-          </S.Subtitle>
-        </S.HeaderContent>
+        <S.TitlesContainer>
+          <S.PageTitle>Campañas</S.PageTitle>
+          <S.PageSubtitle>
+            {isLoading
+              ? 'Cargando resultados...'
+              : `${totalElements} ${totalElements === 1 ? 'resultado' : 'resultados'}`}
+          </S.PageSubtitle>
+        </S.TitlesContainer>
       </S.Header>
-      <S.Filters>
-        {filters.map((filter) => (
-          <S.FilterButton
-            key={filter}
-            $active={filter === selectedFilter}
-            onClick={() => setSelectedFilter(filter)}
-          >
-            {filter}
-          </S.FilterButton>
-        ))}
-      </S.Filters>
+      <CategorySelector
+        categories={filters}
+        selectedCategory={selectedFilter}
+        onCategoryChange={setSelectedFilter}
+        ariaLabel="Filtrar campañas por categoría"
+      />
       <CampaignList campaigns={campaignCards} />
-    </div>
+    </S.Page>
   );
 }
 

@@ -2,19 +2,17 @@ import styled from "styled-components";
 import { focusVisible } from "../../styles/interactions";
 
 export const PublishFormPage = styled.section`
-  width: min(100%, 390px);
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  align-self: flex-start;
-  overflow: hidden;
+  width: min(100%, 560px);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 16px;
+  color: ${({ theme }) => theme.colors.darkColor};
   background: ${({ theme }) => theme.colors.background};
+  font-family: ${({ theme }) => theme.fonts.body};
   text-align: left;
 
-  @media (max-width: 480px) {
-    width: calc(100% + 36px);
-    margin: -24px -18px -96px;
-    padding-bottom: 96px;
+  @media (min-width: 600px) {
+    padding: 28px 24px 48px;
   }
 `;
 export const ErrorMessage = styled.span`
@@ -23,13 +21,11 @@ export const ErrorMessage = styled.span`
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
 `;
 export const PublishFormHeader = styled.header`
-  min-height: 60px;
+  min-height: 48px;
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 8px 16px;
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: ${({ theme }) => `0 1px 2px ${theme.colors.black}0d`};
+  gap: 2px;
+  margin-bottom: 16px;
 `;
 export const PublishBackButton = styled.button`
   width: 40px;
@@ -53,8 +49,10 @@ export const PublishBackButton = styled.button`
 export const PublishFormTitle = styled.h2`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  line-height: ${({ theme }) => theme.typography.header1.lineHeight};
+  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+  text-align: left;
 `;
 export const PublishLabel = styled.label`
   color: ${({ theme }) => theme.colors.black};
@@ -68,7 +66,6 @@ export const PublishForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 24px 16px 42px;
   background: ${({ theme }) => theme.colors.background};
 `;
 
@@ -341,43 +338,3 @@ export const UploadHint = styled.span`
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `;
 
-export const AdvisoryCard = styled.aside`
-  display: grid;
-  text-align: left;
-  grid-template-columns: 32px minmax(0, 1fr);
-  border-radius: 12px;
-  padding: 16px;
-  background: ${({ theme }) => theme.colors.neutral};
-  border: 2px solid ${({ theme }) => theme.colors.stroke};
-`;
-
-export const AdvisoryIcon = styled.span`
-  width: 20px;
-  height: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.secondary};
-`;
-
-export const AdvisoryContent = styled.div`
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const AdvisoryTitle = styled.h2`
-  margin: 0;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.body.fontSize};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
-`;
-
-export const AdvisoryText = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.colors.darkColor};
-  font-size: ${({ theme }) => theme.typography.body.fontSize};
-  font-weight: ${({ theme }) => theme.typography.body.fontWeight};
-  line-height: 20px;
-`;
