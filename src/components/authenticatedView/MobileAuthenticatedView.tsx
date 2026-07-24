@@ -20,8 +20,6 @@ function MobileAuthenticatedView() {
     '/mis-publicaciones'
   ];
 
-  console.log('in view', isMenuOpen)
-  
   const hideNavigation = routesWithoutNavigation.includes(location.pathname);
   
   return (

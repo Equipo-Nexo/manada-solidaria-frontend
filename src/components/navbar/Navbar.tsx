@@ -79,7 +79,6 @@ function NavbarLink({
   isMenuOpen: boolean
 }) {
   const Icon = item.icon
-  console.log('isMenuOpen', isMenuOpen)
   const isActive = (currentPath === item.path) && !isMenuOpen
 
   return (
