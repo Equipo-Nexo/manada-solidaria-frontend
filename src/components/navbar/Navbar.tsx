@@ -30,7 +30,7 @@ const navItems: RouteNavItem[] = [
 type NavbarProps = {
   isMenuOpen: boolean
   onMenuClick: () => void
-  onNavigate?: () => void
+  onNavigate: () => void
 }
 
 function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
@@ -48,7 +48,10 @@ function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
             type="button"
             aria-label="Publicar"
             aria-expanded={isPublishOptionsOpen}
-            onClick={() => setIsPublishOptionsOpen((isOpen) => !isOpen)}
+            onClick={() => {
+              onNavigate()
+              setIsPublishOptionsOpen((isOpen) => !isOpen)
+            }}
           >
             <PawPrint aria-hidden="true" />
           </PublishButton>
