@@ -19,6 +19,7 @@ import type {
   CreateCampaignRequest,
 } from "../../app/services/requests/createCampaignRequest";
 import type { CampaignCategory } from "../../app/services/requests/createCampaignRequest";
+import type { Maybe } from "yup";
 function buildDateTime(date?: string, time?: string) {
   if (!date || !time) return null;
   return `${date}T${time}:00`;
@@ -42,6 +43,7 @@ type PublishCampaignForm = {
   phoneAreaCode: string;
   phone: string;
   location: string;
+  imageId?: Maybe<string | undefined>;
   donationNeeds?: DonationNeedCategory[];
 };
 
@@ -139,7 +141,7 @@ function PublishCampaign() {
       category: selectedCampaign.category,
       title: data.title,
       description: data.description,
-      imageId: "abc123",
+      imageId: data.imageId,
       phoneNumber,
       location: {
         name: data.location,
@@ -404,8 +406,14 @@ function PublishCampaign() {
 
         <S.PublishField as="div">
           <S.PublishLabel>Foto de la campaña</S.PublishLabel>
-
-          <ImageUpload />
+            <Controller
+              control={control}
+              name="imageId"
+              render={({ field }) => (
+                <ImageUpload onImageSelected={(imageId) => field.onChange(imageId)} />
+              )}
+            />
+          
         </S.PublishField>
 
         <S.AdvisoryCard>

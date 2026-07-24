@@ -2,13 +2,15 @@ import { useState } from "react";
 import BottomSheet from "../bottomSheet/BottomSheet";
 import { Camera as CameraIcon, ChevronRight } from "../icons";
 import Gallery from "../icons/Gallery";
-import { useCamera, type CapturedPhoto } from "../../hooks/camera/useCamera";
+import { useCamera } from "../../hooks/camera/useCamera";
 import * as S from "./ImageUpload.styles";
+import { useGetPresignedUrlMutation } from "../../app/services/apis/imagesApi";
+import { useUploadImageMutation } from "../../app/services/apis/cloudflareApi";
 
 type ImageUploadProps = {
   imageUrl?: string;
   label?: string;
-  onImageSelected?: (photo: CapturedPhoto) => void;
+  onImageSelected?: (savedImageId: string) => void;
   ariaDescribedBy?: string;
   hasError?: boolean;
 };
@@ -21,8 +23,9 @@ function ImageUpload({
   hasError = false,
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
+  const [ getPresignedUrl ] = useGetPresignedUrlMutation();
+  const [ uploadImage ] = useUploadImageMutation();
 
   const closeSheet = () => setIsSheetOpen(false);
 
@@ -30,21 +33,28 @@ function ImageUpload({
 
   const handleTakePhoto = async () => {
     const photo = await takePhoto();
-
-    if (photo) {
-      onImageSelected?.(photo);
-      closeSheet();
-    }
+    if (!photo || !photo.file) return null;
+    uploadPhoto({ file: photo.file })
   };
 
   const handleChooseGallery = async () => {
     const photo = await chooseFromGallery();
-
-    if (photo) {
-      onImageSelected?.(photo);
-      closeSheet();
-    }
+    if (!photo || !photo.file) return null;
+    uploadPhoto({ file: photo.file })
   };
+
+  const uploadPhoto = async (photo: {
+    file: File
+  }) => {
+    const request = { contentType: photo.file.type, fileSize: photo.file.size}
+    const response = await getPresignedUrl(request)
+    
+    if (!response.data) return null;
+    await uploadImage({ url: response.data?.uploadUrl, image: photo.file, contentType: photo.file.type })
+
+    onImageSelected?.(response.data.imageId);
+    closeSheet();    
+  }
 
   return (
     <>

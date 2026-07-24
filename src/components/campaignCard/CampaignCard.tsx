@@ -45,8 +45,8 @@ function CampaignCard({
   return (
     <S.Card className={className}>
       <S.ImageSection>
-        <S.CampaignImage 
-          src={campaign.imageUrl} 
+        <S.CampaignImage
+          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${campaign.imageUrl}`} 
           onError={({ currentTarget }) => {
             currentTarget.onerror = null; 
             currentTarget.src = NOT_FOUND_IMAGE_URL;

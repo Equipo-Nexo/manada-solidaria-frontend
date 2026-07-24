@@ -1,8 +1,8 @@
 import type { AuthTokens } from '../../store/authSlice'
-import { baseApi } from '../base/baseApi'
+import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
 import type { LoginRequest, SignupRequest } from '../requests/authRequests'
 
-export const authApi = baseApi.injectEndpoints({
+export const authApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthTokens, LoginRequest>({
       query: ({ authorization }) => ({

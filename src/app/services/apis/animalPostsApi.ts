@@ -1,10 +1,10 @@
-import { baseApi } from '../base/baseApi'
+import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
 import type {
   AnimalPostsPage,
   GetAnimalPostsRequest,
 } from '../requests/animalPostRequests'
 
-export const animalPostsApi = baseApi.injectEndpoints({
+export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
     getAnimalPosts: builder.query<AnimalPostsPage, GetAnimalPostsRequest>({
       query: ({ status, type, page = 0, size = 10 }) => ({

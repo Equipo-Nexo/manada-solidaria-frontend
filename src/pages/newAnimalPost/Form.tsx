@@ -236,7 +236,7 @@ function NewAnimalPostForm() {
     const commonRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
-      imageId: TEMPORARY_IMAGE_ID,
+      imageId: values.imageId,
       animal: {
         type: values.animalType,
         size: values.animalSize,
@@ -287,7 +287,7 @@ function NewAnimalPostForm() {
       >
         <S.FieldGroup>
           <Controller
-            name="photo"
+            name="imageId"
             control={control}
             render={({ field, fieldState }) => (
               <>
@@ -295,7 +295,7 @@ function NewAnimalPostForm() {
                   label="Seleccionar foto"
                   ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
                   hasError={Boolean(fieldState.error)}
-                  onImageSelected={(photo) => field.onChange(photo.file)}
+                  onImageSelected={(imageId) => field.onChange(imageId)}
                 />
                 <FormErrorMessage id="photo-error" message={fieldState.error?.message} />
               </>
