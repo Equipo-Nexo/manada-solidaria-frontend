@@ -18,14 +18,26 @@ const PRESETS = {
       return isFirst || isAfterSpace ? str.toUpperCase() : str.toLowerCase();
     },
   },
-
+  money: {
+    mask: Number,
+    scale: 0,
+    signed: false,
+    thousandsSeparator: ".",
+    radix: ",",
+    mapToRadix: ["."],
+    normalizeZeros: true,
+    padFractionalZeros: false,
+    min: 0,
+    lazy: false,
+    unmask: true,
+  },
   areaCode: {
     mask: "0000",
     lazy: true,
   },
 
   phoneNumber: {
-    mask: "00000000",
+    mask: "0000000",
     lazy: true,
   },
   fecha: {
@@ -84,14 +96,13 @@ const PRESETS = {
 };
 type MaskType = keyof typeof PRESETS;
 
-type MaskedInputProps = IMaskInputProps<HTMLInputElement> & {
-  type?: MaskType;
+type MaskedInputProps = Omit<IMaskInputProps<HTMLInputElement>, "mask"> & {
+  maskType?: MaskType;
 };
 
-function MaskedInput({ type, ...props }: MaskedInputProps) {
-  const config = type ? PRESETS[type] : {};
+function MaskedInput({ maskType, ...props }: MaskedInputProps) {
+  const config = maskType ? PRESETS[maskType] : {};
 
   return <IMaskInput {...config} {...props} />;
 }
-
 export default MaskedInput;

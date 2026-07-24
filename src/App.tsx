@@ -1,29 +1,33 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { AppContent, AppShell } from './App.styles'
-import DesktopAuthenticatedView from './components/authenticatedView/DesktopAuthenticatedView'
-import MobileAuthenticatedView from './components/authenticatedView/MobileAuthenticatedView'
-import { InstallButton } from './components/install_button/installButton'
-import Campaigns from './pages/campaigns/Campaigns'
-import Home from './pages/home/Home'
-import Login from './pages/login/Login'
-import Map from './pages/map/Map'
-import PublishCampaign from './pages/publish/PublishCampaign'
-import PublishCollection from './pages/publish/PublishCollection'
-import Register from './pages/register/Register'
-import useAuth from './hooks/auth/useAuth'
-import PrivateRoutes from './routes/PrivateRoutes'
-import MyPosts from './pages/my_posts/MyPosts'
-import AllAnimalsPage from './pages/allAnimalPosts/AllAnimalsPage'
-import NewAnimalPostForm from './pages/newAnimalPost/Form'
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { AppContent, AppShell } from "./App.styles";
+import DesktopAuthenticatedView from "./components/authenticatedView/DesktopAuthenticatedView";
+import MobileAuthenticatedView from "./components/authenticatedView/MobileAuthenticatedView";
+import { InstallButton } from "./components/install_button/installButton";
+import Campaigns from "./pages/campaigns/Campaigns";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import Map from "./pages/map/Map";
+import PublishCampaign from "./pages/publish/PublishCampaign";
+import PublishFundraising from "./pages/publish/PublishFundraising";
+import Register from "./pages/register/Register";
+import useAuth from "./hooks/auth/useAuth";
+import PrivateRoutes from "./routes/PrivateRoutes";
+import MyPosts from "./pages/my_posts/MyPosts";
+import AllAnimalsPage from "./pages/allAnimalPosts/AllAnimalsPage";
+import NewAnimalPostForm from "./pages/newAnimalPost/Form";
 
 function App() {
-  const location = useLocation()
-  const { isAuthenticated } = useAuth()
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
-    location.pathname === '/publicar/animal' || location.pathname === '/publicar/campania'
+    location.pathname === "/publicar/animal" ||
+    location.pathname === "/publicar/campania" ||
+    location.pathname === "/publicar/colecta";
   const usesFullScreenLayout =
-    location.pathname === '/login' || location.pathname === '/registro' || isFullScreenPublish
-  const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
+    location.pathname === "/login" ||
+    location.pathname === "/registro" ||
+    isFullScreenPublish;
+  const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout;
 
   return (
     <>
@@ -38,11 +42,15 @@ function App() {
           <Routes>
             <Route
               path="/login"
-              element={isAuthenticated ? <Navigate to="/home" replace /> : <Login />}
+              element={
+                isAuthenticated ? <Navigate to="/home" replace /> : <Login />
+              }
             />
             <Route
               path="/registro"
-              element={isAuthenticated ? <Navigate to="/home" replace /> : <Register />}
+              element={
+                isAuthenticated ? <Navigate to="/home" replace /> : <Register />
+              }
             />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
@@ -50,7 +58,10 @@ function App() {
               <Route path="/mapa" element={<Map />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
-              <Route path="/publicar/colecta" element={<PublishCollection />} />
+              <Route
+                path="/publicar/colecta"
+                element={<PublishFundraising />}
+              />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
             </Route>
@@ -60,7 +71,7 @@ function App() {
       </AppShell>
       <InstallButton />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
