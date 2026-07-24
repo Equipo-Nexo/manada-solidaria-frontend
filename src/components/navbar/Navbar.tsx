@@ -40,8 +40,8 @@ function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
   return (
     <BottomNav aria-label={'Navegaci\u00f3n principal'} $isMenuOpen={isMenuOpen}>
       <BottomNavContent>
-        <NavbarLink item={navItems[0]} currentPath={location.pathname} onNavigate={onNavigate} />
-        <NavbarLink item={navItems[1]} currentPath={location.pathname} onNavigate={onNavigate} />
+        <NavbarLink item={navItems[0]} currentPath={location.pathname} onNavigate={onNavigate} isMenuOpen />
+        <NavbarLink item={navItems[1]} currentPath={location.pathname} onNavigate={onNavigate} isMenuOpen />
 
         <PublishWrapper>
           <PublishButton
@@ -55,7 +55,7 @@ function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
           <span>Publicar</span>
         </PublishWrapper>
 
-        <NavbarLink item={navItems[2]} currentPath={location.pathname} onNavigate={onNavigate} />
+        <NavbarLink item={navItems[2]} currentPath={location.pathname} onNavigate={onNavigate} isMenuOpen />
         <NavbarMenuButton isActive={isMenuOpen} onClick={onMenuClick} />
       </BottomNavContent>
       <PublishOptions
@@ -71,13 +71,15 @@ function NavbarLink({
   item,
   currentPath,
   onNavigate,
+  isMenuOpen
 }: {
   item: RouteNavItem
   currentPath: string
   onNavigate?: () => void
+  isMenuOpen: boolean
 }) {
   const Icon = item.icon
-  const isActive = currentPath === item.path
+  const isActive = (currentPath === item.path) && !isMenuOpen
 
   return (
     <BottomNavItem to={item.path} $isActive={isActive} onClick={onNavigate}>
