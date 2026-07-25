@@ -14,6 +14,7 @@ import { useToast } from "../../hooks/toast/useToast";
 import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
 import DatePicker from "../../components/datePicker/DatePicker";
 import PublishButton from "../../components/icons/PublishButton";
+import FormErrorMessage from "../../components/error/ErrorMessage";
 import type {
   CampaignType,
   CreateCampaignRequest,
@@ -208,9 +209,7 @@ function PublishCampaign() {
             {...register("title")}
             placeholder="Ej: castraciones gratuitas"
           />
-          {errors.title && (
-            <S.ErrorMessage>{errors.title.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.title?.message} />
         </S.PublishField>
 
         <S.PublishField as="div">
@@ -236,9 +235,7 @@ function PublishCampaign() {
               </S.CategoryOption>
             ))}
           </S.CategoryOptions>
-          {errors.category && (
-            <S.ErrorMessage>{errors.category.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.category?.message} />
         </S.PublishField>
 
         {isDonation && (
@@ -268,9 +265,7 @@ function PublishCampaign() {
             {...register("description")}
             placeholder="Contanos por qué es importante esta campaña y a quiénes ayudará..."
           />
-          {errors.description && (
-            <S.ErrorMessage>{errors.description.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.description?.message} />
         </S.PublishField>
 
         <S.PublishField $hidden={isDonation}>
@@ -278,9 +273,7 @@ function PublishCampaign() {
             Fecha Inicio <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <DatePicker control={control} name="startDate" />
-          {errors.startDate && (
-            <S.ErrorMessage>{errors.startDate.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.startDate?.message} />
         </S.PublishField>
 
         <S.PublishField>
@@ -288,9 +281,7 @@ function PublishCampaign() {
             Fecha fin <S.RequiredMark $hidden={isDonation}>*</S.RequiredMark>
           </S.PublishLabel>
           <DatePicker control={control} name="endDate" />
-          {errors.endDate && (
-            <S.ErrorMessage>{errors.endDate.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.endDate?.message} />
         </S.PublishField>
 
         <S.TwoColumnFields $hidden={isDonation}>
@@ -309,9 +300,7 @@ function PublishCampaign() {
                 )}
               />
             </S.PublishLabel>
-            {errors.startTime && (
-              <S.ErrorMessage>{errors.startTime.message}</S.ErrorMessage>
-            )}
+            <FormErrorMessage message={errors.startTime?.message} />
           </S.PublishField>
           <S.PublishField>
             <S.PublishLabel>
@@ -328,9 +317,7 @@ function PublishCampaign() {
                 )}
               />
             </S.PublishLabel>
-            {errors.endTime && (
-              <S.ErrorMessage>{errors.endTime.message}</S.ErrorMessage>
-            )}
+            <FormErrorMessage message={errors.endTime?.message} />
           </S.PublishField>
         </S.TwoColumnFields>
 
@@ -370,9 +357,7 @@ function PublishCampaign() {
               )}
             />
           </S.PhoneFields>
-          {errors.phone && (
-            <S.ErrorMessage>{errors.phone.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.phone?.message} />
           <S.HelpText>
             El número es requerido para coordinar consultas o turnos.
           </S.HelpText>
@@ -393,9 +378,7 @@ function PublishCampaign() {
               <Search />
             </S.FieldIcon>
           </S.InputWithIcon>
-          {errors.location && (
-            <S.ErrorMessage>{errors.location.message}</S.ErrorMessage>
-          )}
+          <FormErrorMessage message={errors.location?.message} />
           <S.MapPreview aria-hidden="true" />
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.

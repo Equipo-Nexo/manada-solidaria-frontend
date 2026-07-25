@@ -20,7 +20,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         url: `/campaigns/${postId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['userPosts']
+      invalidatesTags: ['userPosts', 'Campaigns']
     }),
     getCampaigns: builder.query<
       CampaignPageResponse,
@@ -31,6 +31,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         method: "GET",
         params,
       }),
+      providesTags: ['Campaigns'],
     }),
     createCampaign: builder.mutation<void, CreateCampaignRequest>({
       query: (body) => ({
@@ -38,6 +39,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ['Campaigns', 'userPosts'],
     }),
   }),
   overrideExisting: false,

@@ -12,7 +12,6 @@ export const MainContainer = styled.div`
   border: 1px dashed ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
   color: ${({ theme }) => theme.colors.secondary};
-  background-color:${({ theme }) => theme.colors.neutral},
 `
 
 export const Message = styled.p`
@@ -42,6 +41,4 @@ export const Icon = styled.span`
     height: 18px;
   }
 `
-
-
 

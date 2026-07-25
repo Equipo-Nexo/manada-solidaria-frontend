@@ -17,7 +17,7 @@ function Campaigns() {
     Castración: "CASTRATION",
     Vacunación: "VACCINATION",
   } as const;
-  const { data, isLoading } = useGetCampaignsQuery({
+  const { data, isError, isLoading, refetch } = useGetCampaignsQuery({
     category: filterMap[selectedFilter],
   });
   const campaigns = data?.content ?? [];
@@ -54,7 +54,12 @@ function Campaigns() {
         onCategoryChange={setSelectedFilter}
         ariaLabel="Filtrar campañas por categoría"
       />
-      <CampaignList campaigns={campaignCards} />
+      <CampaignList
+        campaigns={campaignCards}
+        isError={isError}
+        isLoading={isLoading}
+        onRetry={() => void refetch()}
+      />
     </S.Page>
   );
 }

@@ -16,6 +16,7 @@ export const animalPostsApi = baseApi.injectEndpoints({
           size,
         },
       }),
+      providesTags: ['AnimalPosts'],
     }),
   }),
   overrideExisting: false,

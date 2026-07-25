@@ -2,7 +2,9 @@ import styled from 'styled-components'
 
 export const Section = styled.section`
   width: 100%;
+  max-width: 100%;
   min-width: 0;
+  align-self: stretch;
 `
 
 export const Header = styled.div`
@@ -52,6 +54,9 @@ export const SeeAllButton = styled.button`
 
 export const Content = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   gap: 12px;
   overflow-x: auto;
   overflow-y: hidden;

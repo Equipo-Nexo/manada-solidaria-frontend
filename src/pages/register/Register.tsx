@@ -9,6 +9,7 @@ import { registerSchema, type RegisterFormValues } from './registerSchema'
 import type { Role } from '../../app/types/User.types'
 import { Eye, EyeOff, HandHeart, PawPrint } from '../../components/icons'
 import CarFront from '../../components/icons/CarFront'
+import FormErrorMessage from '../../components/error/ErrorMessage'
 
 function Register() {
   const navigate = useNavigate()
@@ -86,9 +87,10 @@ function Register() {
                 $hasError={Boolean(errors.username)}
                 {...register('username')}
               />
-              {errors.username?.message && (
-                <S.FieldError id="register-username-error">{errors.username.message}</S.FieldError>
-              )}
+              <FormErrorMessage
+                id="register-username-error"
+                message={errors.username?.message}
+              />
             </S.Field>
 
             <S.Field>
@@ -104,9 +106,7 @@ function Register() {
                 $hasError={Boolean(errors.phone)}
                 {...register('phone')}
               />
-              {errors.phone?.message && (
-                <S.FieldError id="register-phone-error">{errors.phone.message}</S.FieldError>
-              )}
+              <FormErrorMessage id="register-phone-error" message={errors.phone?.message} />
             </S.Field>
 
             <S.Field>
@@ -124,9 +124,7 @@ function Register() {
                 $hasError={Boolean(errors.email)}
                 {...register('email')}
               />
-              {errors.email?.message && (
-                <S.FieldError id="register-email-error">{errors.email.message}</S.FieldError>
-              )}
+              <FormErrorMessage id="register-email-error" message={errors.email?.message} />
             </S.Field>
 
             <S.Field>
@@ -154,9 +152,10 @@ function Register() {
                   {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
-              {errors.password?.message && (
-                <S.FieldError id="register-password-error">{errors.password.message}</S.FieldError>
-              )}
+              <FormErrorMessage
+                id="register-password-error"
+                message={errors.password?.message}
+              />
             </S.Field>
 
             <S.Field>
@@ -188,11 +187,10 @@ function Register() {
                   {showConfirmPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
-              {errors.confirmPassword?.message && (
-                <S.FieldError id="register-confirm-password-error">
-                  {errors.confirmPassword.message}
-                </S.FieldError>
-              )}
+              <FormErrorMessage
+                id="register-confirm-password-error"
+                message={errors.confirmPassword?.message}
+              />
             </S.Field>
 
             <S.SwitchGroup>

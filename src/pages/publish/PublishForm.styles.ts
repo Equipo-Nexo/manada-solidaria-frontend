@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { focusVisible } from "../../styles/interactions";
+import { fieldFocusVisible, focusVisible } from "../../styles/interactions";
 
 export const PublishFormPage = styled.section`
   width: min(100%, 560px);
@@ -14,11 +14,6 @@ export const PublishFormPage = styled.section`
   @media (min-width: 600px) {
     padding: 28px 24px 48px;
   }
-`;
-export const ErrorMessage = styled.span`
-  margin-top: 4px;
-  color: ${({ theme }) => theme.colors.error};
-  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
 `;
 export const PublishFormHeader = styled.header`
   min-height: 48px;
@@ -76,6 +71,10 @@ export const PublishField = styled.div<{
   flex-direction: column;
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
+
+  > [role='alert'] {
+    margin-top: 12px;
+  }
 `;
 
 export const PublishInput = styled.input`
@@ -91,14 +90,11 @@ export const PublishInput = styled.input`
   line-height: ${({ theme }) => theme.typography.body.lineHeight};
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.black};
-    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+    opacity: 1;
   }
 
-  &:focus {
-    border-color: ${({ theme }) => theme.colors.secondary};
-  }
-  ${focusVisible}
+  ${fieldFocusVisible}
 `;
 
 export const PublishTextarea = styled.textarea`
@@ -113,13 +109,10 @@ export const PublishTextarea = styled.textarea`
   font-weight: ${({ theme }) => theme.typography.body.fontWeight};
   line-height: 24px;
   &::placeholder {
-    color: ${({ theme }) => theme.colors.black};
-    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+    opacity: 1;
   }
-  &:focus {
-    border-color: ${({ theme }) => theme.colors.secondary};
-  }
-  ${focusVisible}
+  ${fieldFocusVisible}
 `;
 
 export const PublishSubmitButton = styled.button`
@@ -300,6 +293,8 @@ export const DonationCheckbox = styled.input.attrs({
     width: 100%;
     height: 100%;
   }
+
+  ${focusVisible}
 `;
 export const MapPreview = styled.div`
   height: 201px;

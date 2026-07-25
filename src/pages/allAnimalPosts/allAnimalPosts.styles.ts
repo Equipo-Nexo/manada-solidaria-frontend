@@ -75,24 +75,20 @@ export const PublicationsContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
   justify-content: center;
   gap: 16px;
-
   & > article {
     width: 100%;
   }
 `
 
-export const StateMessage = styled.div`
+export const MessageContainer = styled.div`
   display: flex;
   width: 100%;
-  min-height: 120px;
-  flex-direction: column;
+  height:180px;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  color: ${({ theme }) => theme.colors.darkColor};
-  font-size: ${({ theme }) => theme.typography.body.fontSize};
-  line-height: ${({ theme }) => theme.typography.body.lineHeight};
   text-align: center;
+  flex-direction: column;
+  gap:16px;
 `
 
 export const RetryButton = styled.button`

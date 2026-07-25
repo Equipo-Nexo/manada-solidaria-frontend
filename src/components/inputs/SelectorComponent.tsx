@@ -35,6 +35,7 @@ function SelectorComponent<T extends string>({
   return (
     <S.SelectField>
       <S.Select
+        $hasValue={Boolean(value)}
         ref={inputRef}
         name={name}
         aria-label={ariaLabel}

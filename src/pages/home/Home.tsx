@@ -7,15 +7,27 @@ import CampaignCard, { type CampaignCardData } from '../../components/campaignCa
 import Carousel from '../../components/carrousel/Carousel'
 import Message from '../../components/message/message'
 import * as S from './Home.styles'
+import { publicationMessages } from '../../utils/Messages'
 
 const MAX_POSTS_PER_SECTION = 10
 
 function Home() {
   const navigate = useNavigate()
-  const { data: animalPostsData, isError, isLoading } = useGetAnimalPostsQuery({
-    size: MAX_POSTS_PER_SECTION,
-  })
-  const { data: campaignsData } = useGetCampaignsQuery({})
+  const { data: animalPostsData, isError, isLoading, refetch } = useGetAnimalPostsQuery(
+    {
+      size: MAX_POSTS_PER_SECTION,
+    },
+    { refetchOnMountOrArgChange: true },
+  )
+  const {
+    data: campaignsData,
+    isError: isCampaignsError,
+    isLoading: isCampaignsLoading,
+    refetch: refetchCampaigns,
+  } = useGetCampaignsQuery(
+    {},
+    { refetchOnMountOrArgChange: true },
+  )
   const recentAnimals = animalPostsData?.content ?? []
   const campaigns = campaignsData?.content ?? []
   const campaignCards: CampaignCardData[] = campaigns.map((campaign) => ({
@@ -31,20 +43,27 @@ function Home() {
     <S.HomePage>
       <Carousel title="Casos urgentes">
         <S.MessageContainer>
-          <Message message="Aún no se realizaron publicaciones." iconName="pawPrint" />
+          <Message message={publicationMessages.emptyUrgent} iconName="pawPrint" />
         </S.MessageContainer>
       </Carousel>
 
       <Carousel title="Últimos animales publicados" onSeeAll={() => navigate('/animales')}>
-        {isLoading && <S.CarouselMessage>Cargando publicaciones...</S.CarouselMessage>}
+        {isLoading && (
+          <S.MessageContainer>
+            <Message message={publicationMessages.loading} iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
         {!isLoading && isError && (
           <S.MessageContainer role="alert">
-            <Message message="Ha ocurrido un error, intenta recargar" iconName="pawPrint" />
+            <Message message={publicationMessages.loadError} iconName="pawPrint" />
+            <S.RetryButton type="button" onClick={() => void refetch()}>
+              Reintentar
+            </S.RetryButton>
           </S.MessageContainer>
         )}
         {!isLoading && !isError && recentAnimals.length === 0 && (
           <S.MessageContainer>
-            <Message message="No hay publicaciones recientes de animales aún" iconName="pawPrint" />
+            <Message message={publicationMessages.emptyAnimals} iconName="pawPrint" />
           </S.MessageContainer>
         )}
         {!isLoading && !isError && recentAnimals.map((animal) => (
@@ -53,7 +72,25 @@ function Home() {
       </Carousel>
 
       <Carousel title="Enterate de las novedades" onSeeAll={() => navigate('/campanias')}>
-        {campaignCards.map((campaign) => (
+        {isCampaignsLoading && (
+          <S.MessageContainer>
+            <Message message={publicationMessages.loading} iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
+        {!isCampaignsLoading && isCampaignsError && (
+          <S.MessageContainer role="alert">
+            <Message message={publicationMessages.loadError} iconName="pawPrint" />
+            <S.RetryButton type="button" onClick={() => void refetchCampaigns()}>
+              Reintentar
+            </S.RetryButton>
+          </S.MessageContainer>
+        )}
+        {!isCampaignsLoading && !isCampaignsError && campaignCards.length === 0 && (
+          <S.MessageContainer>
+            <Message message={publicationMessages.emptyCampaigns} iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
+        {!isCampaignsLoading && !isCampaignsError && campaignCards.map((campaign) => (
           <CampaignCard key={campaign.id} campaign={campaign} />
         ))}
       </Carousel>

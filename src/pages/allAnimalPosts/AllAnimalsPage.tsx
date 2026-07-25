@@ -11,6 +11,8 @@ import CategorySelector from '../../components/categorySelector/CategorySelector
 import ArrowLeft from '../../components/icons/ArrowLeft'
 import * as S from './allAnimalPosts.styles'
 import { AnimalPostType } from '../../app/types/AnimalPost.types'
+import Message from '../../components/message/message'
+import { publicationMessages } from '../../utils/Messages'
 
 type Category = 'Todos' | 'Adopción' | 'Perdidos' | 'En la calle'
 
@@ -70,19 +72,25 @@ function AllAnimalsPage() {
       />
 
       <S.PublicationsContainer aria-live="polite">
-        {isLoading && <S.StateMessage>Cargando publicaciones...</S.StateMessage>}
+        {isLoading && (
+          <S.MessageContainer>
+            <Message message={publicationMessages.loading} iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
 
         {isError && (
-          <S.StateMessage role="alert">
-            No pudimos cargar las publicaciones.
+          <S.MessageContainer role="alert">
+            <Message message={publicationMessages.loadError} iconName="pawPrint" />
             <S.RetryButton type="button" onClick={() => void refetch()}>
               Reintentar
             </S.RetryButton>
-          </S.StateMessage>
+          </S.MessageContainer>
         )}
 
         {!isLoading && !isError && posts.length === 0 && (
-          <S.StateMessage>No hay publicaciones para esta categoría.</S.StateMessage>
+          <S.MessageContainer>
+            <Message message={publicationMessages.emptyCategory} iconName="pawPrint" />
+          </S.MessageContainer>
         )}
 
         {!isLoading &&
