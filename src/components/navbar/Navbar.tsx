@@ -1,6 +1,6 @@
-import type { ComponentType, SVGProps } from 'react'
+import type { ComponentType, MouseEvent, SVGProps } from 'react'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { HandHeart, House, Map, Menu, PawPrint } from '../icons'
 import {
   BottomNav,
@@ -80,9 +80,16 @@ function NavbarLink({
 }) {
   const Icon = item.icon
   const isActive = (currentPath === item.path) && !isMenuOpen
+  const navigate = useNavigate()
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    navigate(item.path)
+    onNavigate?.()
+  }
 
   return (
-    <BottomNavItem to={item.path} $isActive={isActive} onClick={onNavigate}>
+    <BottomNavItem to={item.path} $isActive={isActive} onClick={handleClick}>
       <Icon aria-hidden="true" />
       <span>{item.title}</span>
     </BottomNavItem>

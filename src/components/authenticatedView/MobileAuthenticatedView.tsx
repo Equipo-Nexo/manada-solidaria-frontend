@@ -32,8 +32,6 @@ function MobileAuthenticatedView() {
         )
       }
 
-      <AuthenticatedMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-
       {(!hideNavigation) && (
         <Navbar
           isMenuOpen={isMenuOpen}

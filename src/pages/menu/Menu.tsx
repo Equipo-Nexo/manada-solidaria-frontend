@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from 'react'
+import type { ComponentType, MouseEvent, SVGProps } from 'react'
 import { useState } from 'react'
 import {
   BriefcaseMedical,
@@ -163,13 +163,20 @@ function MenuLink({
 }) {
   const Icon = item.icon
   const isSelected = activePath === item.activePath
+  const navigate = useNavigate()
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    navigate(item.path)
+    onNavigate?.()
+  }
 
   return (
     <MenuItemLink
       to={item.path}
       $isSelected={isSelected}
       aria-current={isSelected ? 'page' : undefined}
-      onClick={onNavigate}
+      onClick={handleClick}
     >
       <ItemContent>
         <Icon aria-hidden="true" />
