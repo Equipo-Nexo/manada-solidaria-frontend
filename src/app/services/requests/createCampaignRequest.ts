@@ -14,7 +14,7 @@ export interface CreateCampaignRequest {
   title: string;
   description: string;
   imageId?: string;
-  location: {
+  location?: {
     name: string;
     address: string;
     number: number | null;

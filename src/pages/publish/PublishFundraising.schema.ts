@@ -36,5 +36,5 @@ export const publishFundraisingSchema = yup.object({
 
   phone: yup.string().required("Ingresá un número de teléfono."),
 
-  location: yup.string().trim().required("Ingresá una ubicación."),
+  location: yup.string(),
 });

@@ -22,7 +22,7 @@ export interface PublishFundraisingForm {
   description: string;
   phoneAreaCode: string;
   phone: string;
-  location: string;
+  location?: string;
 }
 function PublishFundraising() {
   const navigate = useNavigate();
@@ -45,13 +45,15 @@ function PublishFundraising() {
       description: data.description,
       imageId: "abc123",
       phoneNumber,
-      location: {
-        name: data.location,
-        address: "",
-        number: 12,
-        latitude: 0,
-        longitude: 0,
-      },
+      location: data.location
+        ? {
+            name: data.location,
+            address: "",
+            number: 12,
+            latitude: 0,
+            longitude: 0,
+          }
+        : undefined,
       items: undefined,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected,
@@ -198,9 +200,7 @@ function PublishFundraising() {
         </S.PublishField>
 
         <S.PublishField as="div">
-          <S.PublishLabel>
-            Ubicación <S.RequiredMark>*</S.RequiredMark>
-          </S.PublishLabel>
+          <S.PublishLabel>Ubicación</S.PublishLabel>
           <S.InputWithIcon>
             <S.IconInput
               type="text"

@@ -21,7 +21,6 @@ const PRESETS = {
   money: {
     mask: Number,
     scale: 0,
-    signed: false,
     thousandsSeparator: ".",
     radix: ",",
     mapToRadix: ["."],
