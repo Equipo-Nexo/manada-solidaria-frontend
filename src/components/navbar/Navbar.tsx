@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from 'react'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { HandHeart, House, Map, Menu, PawPrint } from '../icons'
 import {
   BottomNav,
@@ -27,21 +27,17 @@ const navItems: RouteNavItem[] = [
   { type: 'route', title: 'Mapa', path: '/mapa', icon: Map },
 ]
 
-type NavbarProps = {
-  isMenuOpen: boolean
-  onMenuClick: () => void
-  onNavigate: () => void
-}
-
-function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
+function Navbar() {
   const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const isMenuRoute = location.pathname === '/menu'
 
   return (
-    <BottomNav aria-label={'Navegaci\u00f3n principal'} $isMenuOpen={isMenuOpen}>
+    <BottomNav aria-label={'Navegaci\u00f3n principal'} $isMenuOpen={isMenuRoute}>
       <BottomNavContent>
-        <NavbarLink item={navItems[0]} currentPath={location.pathname} onNavigate={onNavigate} />
-        <NavbarLink item={navItems[1]} currentPath={location.pathname} onNavigate={onNavigate} />
+        <NavbarLink item={navItems[0]} currentPath={location.pathname} />
+        <NavbarLink item={navItems[1]} currentPath={location.pathname} />
 
         <PublishWrapper>
           <PublishButton
@@ -49,7 +45,6 @@ function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
             aria-label="Publicar"
             aria-expanded={isPublishOptionsOpen}
             onClick={() => {
-              onNavigate()
               setIsPublishOptionsOpen((isOpen) => !isOpen)
             }}
           >
@@ -58,8 +53,8 @@ function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
           <span>Publicar</span>
         </PublishWrapper>
 
-        <NavbarLink item={navItems[2]} currentPath={location.pathname} onNavigate={onNavigate} />
-        <NavbarMenuButton isActive={isMenuOpen} onClick={onMenuClick} />
+        <NavbarLink item={navItems[2]} currentPath={location.pathname} />
+        <NavbarMenuButton isActive={isMenuRoute} onClick={() => navigate('/menu')} />
       </BottomNavContent>
       <PublishOptions
         isOpen={isPublishOptionsOpen}
@@ -73,17 +68,15 @@ function Navbar({ isMenuOpen, onMenuClick, onNavigate }: NavbarProps) {
 function NavbarLink({
   item,
   currentPath,
-  onNavigate,
 }: {
   item: RouteNavItem
   currentPath: string
-  onNavigate?: () => void
 }) {
   const Icon = item.icon
   const isActive = currentPath === item.path
 
   return (
-    <BottomNavItem to={item.path} $isActive={isActive} onClick={onNavigate}>
+    <BottomNavItem to={item.path} $isActive={isActive}>
       <Icon aria-hidden="true" />
       <span>{item.title}</span>
     </BottomNavItem>
