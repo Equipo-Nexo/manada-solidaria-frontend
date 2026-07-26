@@ -37,9 +37,6 @@ function MyPosts() {
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
 
-    const handleBackButtonClick = () => {
-        navigate('/home', { replace: true })
-    }
 
     const handleEditButton = () => {
         // Handle edit button click logic here
@@ -99,15 +96,19 @@ function MyPosts() {
                     >No, cancelar</S.BottomSheetButton>
                 </S.BottomSheetButtonContainer>
             </BottomSheet>
-            <S.HeaderContainer>
-                <S.BackRowButton onClick={handleBackButtonClick}>
-                    <ArrowLeft width={48} height={48} />
-                </S.BackRowButton>
-                <S.HeaderTextContainer>
-                    <S.HeaderTitle>Mis Publicaciones</S.HeaderTitle>
-                    <S.ResultsCount>{userPosts?.length ?? 0} resultados</S.ResultsCount>
-                </S.HeaderTextContainer>
-            </S.HeaderContainer>
+            <S.Header>
+                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+                    <ArrowLeft aria-hidden="true" />
+                </S.BackButton>
+                <S.TitlesContainer>
+                    <S.PageTitle>Mis publicaciones</S.PageTitle>
+                    <S.PageSubtitle>
+                        {isLoading
+                            ? 'Cargando resultados...'
+                            : `${userPosts?.length} ${userPosts?.length === 1 ? 'resultado' : 'resultados'}`}
+                    </S.PageSubtitle>
+                </S.TitlesContainer>
+            </S.Header>
             <S.Content>
 
                 <CategorySelector

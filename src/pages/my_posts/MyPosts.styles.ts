@@ -7,50 +7,57 @@ export const MyPostsRoot = styled.section`
     flex-direction: column;
 `;
 
-export const HeaderContainer = styled.header`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    height: 48px;
+export const Header = styled.header`
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
 `
-export const BackRowButton = styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: ${({ theme }) => theme.colors.darkColor};
-    background: transparent;
-    border: none;
-    cursor: pointer;
 
-    &:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.colors.focus};
-        outline-offset: 2px;
-    }
+export const BackButton = styled.button`
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.black};
+  cursor: pointer;
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
 `
-export const HeaderTextContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+
+export const TitlesContainer = styled.div`
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 `
-export const HeaderTitle = styled.h1`
-    color: ${({ theme }) => theme.colors.black};
-    font-family: ${({ theme }) => theme.typography.header2.fontFamily};
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    font-style: ${({ theme }) => theme.typography.header2.fontStyle};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+
+export const PageTitle = styled.h1`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  ${({ theme }) => theme.typography.header2};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
+  white-space: nowrap;
 `
-export const ResultsCount = styled.p`
-    color: ${({ theme }) => theme.colors.black};
-    text-align: center;
-    font-family: ${({ theme }) => theme.typography.body.fontFamily};
-    font-size: ${({ theme }) => theme.typography.body.fontSize};
-    font-style: ${({ theme }) => theme.typography.body.fontStyle};
-    font-weight: ${({ theme }) => theme.typography.body.fontWeight};
-    line-height: ${({ theme }) => theme.typography.body.lineHeight};
+
+export const PageSubtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `
 
 export const Content = styled.div`

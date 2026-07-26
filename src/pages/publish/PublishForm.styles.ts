@@ -141,7 +141,6 @@ export const RequiredMark = styled.span<{
 `;
 
 export const CategoryOptions = styled.div`
-  min-height: 156px;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -153,7 +152,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   border-radius: 999px;
   border: 2px solid
     ${({ theme, $isSelected }) =>
-      $isSelected ? theme.colors.secondary : theme.colors.stroke};
+    $isSelected ? theme.colors.secondary : theme.colors.stroke};
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.secondary : theme.colors.background};
   color: ${({ theme, $isSelected }) =>
@@ -176,7 +175,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   &:hover:not(:disabled) {
     border-color: ${({ theme }) => theme.colors.secondary};
     background: ${({ theme, $isSelected }) =>
-      $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
+    $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
   }
 `;
 
@@ -192,7 +191,7 @@ export const InputWithIcon = styled.div`
   position: relative;
 `;
 
-export const IconInput = styled(PublishInput)<{
+export const IconInput = styled(PublishInput) <{
   $hasLeftIcon?: boolean;
   $hasRightIcon?: boolean;
 }>`
