@@ -11,3 +11,12 @@ export const focusVisible = css`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
   }
 `;
+
+export const fieldFocusVisible = css`
+  &:focus,
+  &:focus-visible {
+    border-color: ${({ theme }) => theme.colors.brand};
+    outline: none;
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
+  }
+`;

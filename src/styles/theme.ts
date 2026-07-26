@@ -184,7 +184,7 @@ export const theme = {
     },
   },
   layout: {
-    contentMaxWidth: '1126px',
+    contentMaxWidth: '1400px',
     mobileNavHeight: '78px',
     publicationCardWidth: '325px',
     publicationCardHeight: '400px',

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { fieldFocusVisible } from '../../styles/interactions'
 
 const FORM_STYLE_VALUES = {
   borderRadius: '12px',
@@ -101,6 +102,7 @@ export const Input = styled.input`
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
   &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; }
+  ${fieldFocusVisible}
 `
 export const IconInputWrapper = styled.div`
   position: relative;
@@ -222,7 +224,8 @@ export const TextArea = styled.textarea`
   padding: ${FORM_STYLE_VALUES.contentPadding};
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.body};
-  &::placeholder { color: ${({ theme }) => theme.colors.darkColor}; }
+  &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; }
+  ${fieldFocusVisible}
 `
 export const SubmitButton = styled.button`
   width: 100%;

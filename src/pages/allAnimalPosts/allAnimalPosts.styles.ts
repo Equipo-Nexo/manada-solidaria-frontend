@@ -70,100 +70,25 @@ export const PageSubtitle = styled.p`
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `
 
-export const FilterButton = styled.button`
-  display: flex;
-  width: 56px;
-  height: 40px;
-  flex: 0 0 56px;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border: 2px solid ${({ theme }) => theme.colors.black};
-  border-radius: 9999px;
-  color: ${({ theme }) => theme.colors.black};
-  background: transparent;
-  cursor: pointer;
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
-  }
-`
-
-export const CategoriesSelectorContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  width: 100%;
-  margin-bottom: 24px;
-  @media (max-width: 420px) {
-    gap: 2px;
-  }
-`
-
-interface CategoryProps {
-    $isSelected: boolean
-}
-
-export const Category = styled.button<CategoryProps>`
-  height: 40px;
-  min-width: 0;
-  padding: 0 4px;
-  border: 0;
-  border-bottom: 3px solid
-    ${({ $isSelected, theme }) => ($isSelected ? theme.colors.black : '#F4F1F4')};
-  color: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.colors.black : '#625B71'};
-  background: transparent;
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
-  font-style: normal;
-  font-weight: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.fontWeights.bold : theme.fontWeights.regular};
-  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
-  white-space: nowrap;
-  cursor: pointer;
-
-  @media (max-width: 420px) {
-    padding-inline: 1px;
-    font-size: clamp(11px, 3.7vw, 15px);
-  }
-
-  &:focus-visible {
-    border-radius: 4px 4px 0 0;
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
-  }
-`
-
 export const PublicationsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
   justify-content: center;
   gap: 16px;
-
   & > article {
     width: 100%;
   }
 `
 
-export const StateMessage = styled.div`
+export const MessageContainer = styled.div`
   display: flex;
   width: 100%;
-  min-height: 120px;
-  flex-direction: column;
+  height:180px;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  color: ${({ theme }) => theme.colors.darkColor};
-  font-size: ${({ theme }) => theme.typography.body.fontSize};
-  line-height: ${({ theme }) => theme.typography.body.lineHeight};
   text-align: center;
+  flex-direction: column;
+  gap:16px;
 `
 
 export const RetryButton = styled.button`

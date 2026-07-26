@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MaskedInput from "./maskedInput";
+import { fieldFocusVisible } from "../../styles/interactions";
 export const StyledMaskedInput = styled(MaskedInput)<{
   $hasLeftIcon?: boolean;
   $hasRightIcon?: boolean;
@@ -17,12 +18,9 @@ export const StyledMaskedInput = styled(MaskedInput)<{
   padding-left: ${({ $hasLeftIcon }) => ($hasLeftIcon ? "50px" : "18px")};
   padding-right: ${({ $hasRightIcon }) => ($hasRightIcon ? "50px" : "18px")};
   &::placeholder {
-    color: ${({ theme }) => theme.colors.black};
-    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+    opacity: 1;
   }
 
-  &:focus {
-    border-color: ${({ theme }) => theme.colors.secondary};
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-  }
+  ${fieldFocusVisible}
 `;

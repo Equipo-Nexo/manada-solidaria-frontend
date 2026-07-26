@@ -7,62 +7,63 @@ export const MyPostsRoot = styled.section`
     flex-direction: column;
 `;
 
-export const HeaderContainer = styled.header`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    height: 48px;
+export const Header = styled.header`
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
 `
-export const BackRowButton = styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: ${({ theme }) => theme.colors.darkColor};
-    background: transparent;
-    border: none;
-    cursor: pointer;
 
-    &:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.colors.focus};
-        outline-offset: 2px;
-    }
+export const BackButton = styled.button`
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.black};
+  cursor: pointer;
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
 `
-export const HeaderTextContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+
+export const TitlesContainer = styled.div`
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 `
-export const HeaderTitle = styled.h1`
-    color: ${({ theme }) => theme.colors.black};
-    font-family: ${({ theme }) => theme.typography.header2.fontFamily};
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    font-style: ${({ theme }) => theme.typography.header2.fontStyle};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+
+export const PageTitle = styled.h1`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  ${({ theme }) => theme.typography.header2};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
+  white-space: nowrap;
 `
-export const ResultsCount = styled.p`
-    color: ${({ theme }) => theme.colors.black};
-    text-align: center;
-    font-family: ${({ theme }) => theme.typography.body.fontFamily};
-    font-size: ${({ theme }) => theme.typography.body.fontSize};
-    font-style: ${({ theme }) => theme.typography.body.fontStyle};
-    font-weight: ${({ theme }) => theme.typography.body.fontWeight};
-    line-height: ${({ theme }) => theme.typography.body.lineHeight};
+
+export const PageSubtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `
 
 export const Content = styled.div`
     display: flex;
     flex: 1;
     flex-direction: column;
-`
-
-export const FiltersContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
 `
 
 export const CreatedSinceContainer = styled.div`
@@ -73,34 +74,6 @@ export const CreatedSinceContainer = styled.div`
     gap: 4px
 `
 
-export const Filter = styled.button<{ $isSelected: boolean }>`
-    display: flex;
-    width: 80px;
-    height: 38px;
-    padding: 12px 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    color: ${({ theme }) => theme.colors.black};
-    font-family: ${({ theme }) => theme.typography.body.fontFamily};
-    font-size: ${({ theme }) => theme.typography.body.fontSize};
-    font-style: ${({ theme }) => theme.typography.body.fontStyle};
-    font-weight: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.fontWeights.semibold : theme.typography.body.fontWeight};
-    line-height: ${({ theme }) => theme.typography.body.lineHeight};
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid
-        ${({ $isSelected, theme }) => $isSelected ? theme.colors.darkColor : 'transparent'};
-    cursor: pointer;
-
-    &:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.colors.focus};
-        outline-offset: 2px;
-    }
-`
-
 export const CardsContainer = styled.div`
     display: flex;
     flex: 1;
@@ -109,43 +82,48 @@ export const CardsContainer = styled.div`
 
     @media (min-width: 768px) {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         align-content: start;
-        gap: 16px;
+        gap: 20px;
+    }
+
+    @media (min-width: 1238px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 `
 
-export const EmptyState = styled.div`
+export const MessageContainer = styled.div`
     display: flex;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: min(100%, 480px);
-    padding: 32px 24px;
-    transform: translate(-50%, -50%);
+    width: min(100%, 325px);
+    height: 180px;
+    margin: 0 auto;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 16px;
     text-align: center;
+
+    @media (min-width: 768px) {
+        grid-column: 1 / -1;
+    }
 `
 
-export const EmptyStateTitle = styled.h2`
-    color: ${({ theme }) => theme.colors.darkColor};
-    font-family: ${({ theme }) => theme.typography.header3.fontFamily};
-    font-size: ${({ theme }) => theme.typography.header3.fontSize};
-    font-style: ${({ theme }) => theme.typography.header3.fontStyle};
-    font-weight: ${({ theme }) => theme.typography.header3.fontWeight};
-    line-height: ${({ theme }) => theme.typography.header3.lineHeight};
-`
-
-export const EmptyStateDescription = styled.p`
-    color: ${({ theme }) => theme.colors.secondary};
-    font-family: ${({ theme }) => theme.typography.body.fontFamily};
+export const RetryButton = styled.button`
+    min-height: 40px;
+    padding: 8px 20px;
+    border: 0;
+    border-radius: 999px;
+    color: ${({ theme }) => theme.colors.background};
+    background: ${({ theme }) => theme.colors.brand};
+    font-family: ${({ theme }) => theme.fonts.body};
     font-size: ${({ theme }) => theme.typography.body.fontSize};
-    font-style: ${({ theme }) => theme.typography.body.fontStyle};
-    font-weight: ${({ theme }) => theme.typography.body.fontWeight};
-    line-height: ${({ theme }) => theme.typography.body.lineHeight};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 3px solid ${({ theme }) => theme.colors.focus};
+        outline-offset: 2px;
+    }
 `
 
 export const Card = styled.div`
@@ -161,6 +139,18 @@ export const Card = styled.div`
     @media (min-width: 768px) {
         height: 144px;
         margin-bottom: 0;
+
+        &:only-child {
+            width: calc((100% - 20px) / 2);
+            grid-column: 1 / -1;
+            justify-self: center;
+        }
+    }
+
+    @media (min-width: 1238px) {
+        &:only-child {
+            width: calc((100% - 40px) / 3);
+        }
     }
 `
 
@@ -229,7 +219,7 @@ export const ButtonsContainer = styled.div`
     gap: 8px;
     align-items: center;
 `
-    
+
 export const Button = styled.button`
     display: inline-flex;
     align-items: center;
@@ -307,11 +297,11 @@ export const BottomSheetButtonContainer = styled.div`
     gap: 8px;
 
 `
-export const BottomSheetButton = styled.button<{$primary: boolean}>`
+export const BottomSheetButton = styled.button<{ $primary: boolean }>`
     width: 100%;
-    background: ${({$primary, theme}) => $primary ? theme.colors.error : theme.colors.background };
-    color: ${({$primary, theme}) => $primary ? theme.colors.background : theme.colors.darkColor };
-    border: ${({$primary, theme}) => $primary ? 'none' : `2px solid ${theme.colors.stroke}` };
+    background: ${({ $primary, theme }) => $primary ? theme.colors.error : theme.colors.background};
+    color: ${({ $primary, theme }) => $primary ? theme.colors.background : theme.colors.darkColor};
+    border: ${({ $primary, theme }) => $primary ? 'none' : `2px solid ${theme.colors.stroke}`};
     padding: 16px 16px;
     border-radius: 12px;
     text-align: left;

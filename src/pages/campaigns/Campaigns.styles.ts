@@ -1,68 +1,72 @@
 import styled from "styled-components";
 
-export const Header = styled.header`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 24px 16px 16px;
-`;
-
-export const BackButton = styled.button`
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.background};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-export const HeaderContent = styled.div`
+export const Page = styled.section`
+  width: 100%;
+  max-width: ${({ theme }) => theme.layout.contentMaxWidth};
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-`;
+  margin: 0 auto;
+  padding: 0 0 16px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  background: ${({ theme }) => theme.colors.background};
+  font-family: ${({ theme }) => theme.fonts.body};
 
-export const Title = styled.h1`
-  margin: 0;
-  font-size: 20px;
-  color: ${({ theme }) => theme.colors.black};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-`;
-
-export const Subtitle = styled.p`
-  margin: 0;
-  text-align: left;
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.black};
-`;
-export const Filters = styled.div`
-  display: flex;
-  gap: 20px;
-  padding: 0 16px;
-  margin-bottom: 16px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
+  @media (min-width: 600px) {
+    padding: 28px 24px 48px;
   }
 `;
-export const FilterButton = styled.button<{ $active: boolean }>`
-  background: none;
-  border: none;
 
-  padding: 0 0 8px;
 
-  white-space: nowrap;
+export const Header = styled.header`
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+`
+
+export const BackButton = styled.button`
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
+`
 
-  font-weight: ${({ $active }) => ($active ? 700 : 400)};
+export const TitlesContainer = styled.div`
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+`
 
-  color: ${({ theme, $active }) =>
-    $active ? theme.colors.black : theme.colors.black};
+export const PageTitle = styled.h1`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  ${({ theme }) => theme.typography.header2};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
+  white-space: nowrap;
+`
 
-  border-bottom: ${({ $active, theme }) =>
-    $active ? `2px solid ${theme.colors.black}` : "2px solid transparent"};
-`;
+export const PageSubtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`
