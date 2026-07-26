@@ -1,33 +1,42 @@
+import {
+    ANIMAL_POST_STATUS_LABELS,
+    getAnimalPostStatus,
+} from '../app/types/AnimalPost.types'
+import type { AnimalPostBackendStatus, AnimalPostStatus } from '../app/types/AnimalPost.types'
+
 type PostUtil = {
-    text: string;
     backgroundColor: string;
     fontColor: string;
 }
 
-export const UserPostUtil: Record<string, PostUtil> = {
-    'SEARCHING': {
-        text: 'Perdido',
+type UserPostDisplayStatus = PostUtil & { text: AnimalPostStatus }
+
+export const UserPostUtil: Partial<Record<AnimalPostStatus, PostUtil>> = {
+    [ANIMAL_POST_STATUS_LABELS.LOST]: {
         backgroundColor: '#FFA49F',
         fontColor: '#B3261E'
     },
-    'FOUND': {
-        text: 'Encontrado',
+    [ANIMAL_POST_STATUS_LABELS.FOUND]: {
         backgroundColor: '#CCF59B',
         fontColor: '#60B100'
     },
-    'SEARCHING_ADOPT_AND_TRANSIT': {
-        text: 'En tránsito',
+    [ANIMAL_POST_STATUS_LABELS.SEARCHING_ADOPT]: {
         backgroundColor: '#F5E7D4',
         fontColor: '#EA5F09'
     },
-    'SEARCHING_ADOPT': {
-        text: 'En adopción',
+    [ANIMAL_POST_STATUS_LABELS.ADOPTION]: {
         backgroundColor: '#CBB6FF',
         fontColor: '#4F378A'
     },
-    'ADOPTED': {
-        text: 'Adoptado',
+    [ANIMAL_POST_STATUS_LABELS.ADOPTED]: {
         backgroundColor: '#F5E7D4',
         fontColor: '#A95C28'
     }
+}
+
+export const getUserPostStatus = (backendStatus: string): UserPostDisplayStatus | undefined => {
+    const status = getAnimalPostStatus(undefined, backendStatus as AnimalPostBackendStatus)
+    const styles = status ? UserPostUtil[status] : undefined
+
+    return status && styles ? { text: status, ...styles } : undefined
 }

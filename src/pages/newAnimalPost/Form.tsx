@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import type { ChangeEvent } from 'react'
 import {
   Controller,
   useController,
@@ -28,6 +29,7 @@ import {
   AnimalType,
 } from '../../app/types/AnimalPost.types'
 import { PublicationReason } from './utils/PublicationReason'
+import { formatRewardAmount, parseRewardAmount } from './utils/rewardAmount'
 import { newAnimalPostDefaultValues } from './utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '../../app/services/apis/animalPostsApi'
 import type { CreateAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
@@ -208,7 +210,11 @@ function NewAnimalPostForm() {
   })
 
   const selectedReason = useWatch({ control, name: 'publicationReason' })
-  const { ref: rewardInputRef, ...rewardInputProps } = register('rewardAmount')
+  const {
+    ref: rewardInputRef,
+    onChange: onRewardAmountChange,
+    ...rewardInputProps
+  } = register('rewardAmount')
   const { field: areaCodeField, fieldState: areaCodeState } = useController({
     control,
     name: 'areaCode',
@@ -228,9 +234,14 @@ function NewAnimalPostForm() {
     resetField('rewardAmount', { defaultValue: '' })
   }
 
+  const handleRewardAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.target.value = formatRewardAmount(event.target.value)
+    void onRewardAmountChange(event)
+  }
+
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
     const reward = values.offersReward
-      ? Number(values.rewardAmount.replace(',', '.'))
+      ? parseRewardAmount(values.rewardAmount)
       : undefined
 
     const commonRequest = {
@@ -250,18 +261,23 @@ function NewAnimalPostForm() {
     }
 
     const request: CreateAnimalPostRequest =
-      values.publicationReason === PublicationReason.Lost ||
-        values.publicationReason === PublicationReason.Street
+      values.publicationReason === PublicationReason.Lost
         ? {
           ...commonRequest,
           type: AnimalPostType.Lost,
-          hasOwner: values.publicationReason === PublicationReason.Lost,
+          hasOwner: true,
         }
-        : {
-          ...commonRequest,
-          type: AnimalPostType.Adoption,
-          inTransit: values.publicationReason === PublicationReason.Transit,
-        }
+        : values.publicationReason === PublicationReason.Street
+          ? {
+            ...commonRequest,
+            type: AnimalPostType.Lost,
+            hasOwner: false,
+          }
+          : {
+            ...commonRequest,
+            type: AnimalPostType.Adoption,
+            inTransit: values.publicationReason === PublicationReason.Transit,
+          }
 
     try {
       await createAnimalPost(request).unwrap()
@@ -521,7 +537,10 @@ function NewAnimalPostForm() {
                   field.onChange(checked)
                   if (!checked) resetField('rewardAmount', { defaultValue: '' })
                 }}
-                rewardInputProps={rewardInputProps}
+                rewardInputProps={{
+                  ...rewardInputProps,
+                  onChange: handleRewardAmountChange,
+                }}
                 rewardInputRef={rewardInputRef}
                 rewardError={errors.rewardAmount?.message}
               />

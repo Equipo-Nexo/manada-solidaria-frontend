@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "../../app/services/apis/campaignApi";
 import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostsApi";
 import { useToast } from "../../hooks/toast/useToast";
-import { UserPostUtil } from "../../utils/UserPostUtils";
+import { getUserPostStatus } from "../../utils/UserPostUtils";
 import BottomSheet from "../../components/bottomSheet/BottomSheet";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
 import type {
@@ -141,6 +141,8 @@ function MyPosts() {
                         </S.MessageContainer>
                     )}
                     {!isLoading && !isError && userPosts?.map((post) => {
+                        const displayStatus = getUserPostStatus(post.status)
+
                         return (
                             <S.Card key={post.id}>
                                 <S.CardImage src={post.imageUrl || NOT_FOUND_IMAGE_URL} alt={post.title} />
@@ -151,14 +153,12 @@ function MyPosts() {
                                             <Clock />
                                             <S.CreatedSince>{post.createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${post.createdSince} días`}</S.CreatedSince>
                                         </S.CreatedSinceContainer>
-                                        {
-                                            (post.status && post.status != 'CREATED') && (
-                                                <S.Status
-                                                    $backgroundColor={UserPostUtil[post.status] && UserPostUtil[post.status].backgroundColor}
-                                                    $fontColor={UserPostUtil[post.status] && UserPostUtil[post.status].fontColor}
-                                                >{UserPostUtil[post.status] && UserPostUtil[post.status].text}</S.Status>
-                                            )
-                                        }
+                                        {displayStatus && (
+                                            <S.Status
+                                                $backgroundColor={displayStatus.backgroundColor}
+                                                $fontColor={displayStatus.fontColor}
+                                            >{displayStatus.text}</S.Status>
+                                        )}
                                     </S.CardInformationContainer>
                                     <S.ButtonsContainer>
                                         <S.Button onClick={handleEditButton}>

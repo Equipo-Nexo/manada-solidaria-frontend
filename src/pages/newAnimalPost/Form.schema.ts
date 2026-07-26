@@ -7,6 +7,7 @@ import {
   AnimalType,
 } from '../../app/types/AnimalPost.types'
 import { PublicationReason } from './utils/PublicationReason'
+import { parseRewardAmount } from './utils/rewardAmount'
 
 export const newAnimalPostSchema = yup.object({
   photo: yup.mixed<File>().required('Seleccioná una foto del animal.'),
@@ -74,9 +75,9 @@ export const newAnimalPostSchema = yup.object({
       publicationReason === PublicationReason.Lost && offersReward,
     then: (schema) => schema
       .required('Ingresá el monto de la recompensa.')
-      .matches(/^\d+(?:[.,]\d{1,2})?$/, 'Ingresá un monto válido.')
+      .matches(/^\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?$/, 'Ingresá un monto válido.')
       .test('positive-reward', 'El monto debe ser mayor a cero.', (value) =>
-        value ? Number(value.replace(',', '.')) > 0 : false),
+        value ? parseRewardAmount(value) > 0 : false),
     otherwise: (schema) => schema.default(''),
   }),
 })
