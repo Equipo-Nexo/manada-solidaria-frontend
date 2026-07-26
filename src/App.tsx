@@ -13,6 +13,7 @@ import Register from "./pages/register/Register";
 import useAuth from "./hooks/auth/useAuth";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import MyPosts from "./pages/my_posts/MyPosts";
+import Card from "./components/animalPostCard/animalPostCard";
 import AllAnimalsPage from "./pages/allAnimalPosts/AllAnimalsPage";
 import NewAnimalPostForm from "./pages/newAnimalPost/Form";
 import Fundraising from "./pages/fundraising/Fundraising";
