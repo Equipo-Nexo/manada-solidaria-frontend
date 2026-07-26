@@ -3,6 +3,7 @@ export { default as BriefcaseMedical } from './BriefcaseMedical'
 export { default as Check } from './Check'
 export { default as ChevronRight } from './ChevronRight'
 export { default as CircleX } from './CircleX'
+export { default as Error } from './Error';
 export { default as Eye } from './Eye'
 export { default as EyeOff } from './EyeOff'
 export { default as FilterIcon } from './FilterIcon'
