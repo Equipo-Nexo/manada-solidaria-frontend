@@ -1,5 +1,5 @@
-import { CircleX } from '../icons'
-import * as S from '../inputs/Inputs.styles'
+import { Error } from '../icons'
+import * as S from './ErrorMessage.styles'
 
 interface FormErrorMessageProps {
   id?: string
@@ -11,7 +11,7 @@ function FormErrorMessage({ id, message }: FormErrorMessageProps) {
 
   return (
     <S.FormErrorMessage id={id} role="alert">
-      <CircleX aria-hidden="true" />
+      <Error aria-hidden="true" />
       <span>{message}</span>
     </S.FormErrorMessage>
   )

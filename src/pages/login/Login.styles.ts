@@ -59,6 +59,7 @@ export const LoginFooter = styled.p`
 
 export const LoginContainer = styled.div`
   position: relative;
+  gap:200px;
   width: min(100%, 430px);
   flex: 1 1 auto;
   min-height: 0;
@@ -348,6 +349,10 @@ export const Field = styled.div`
 
   @media (min-width: 768px) and (max-height: 720px) {
     gap: 4px;
+  }
+
+  > [role='alert'] {
+    margin-top: 4px;
   }
 `
 
