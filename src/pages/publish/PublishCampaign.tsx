@@ -14,7 +14,7 @@ import { useToast } from "../../hooks/toast/useToast";
 import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
 import DatePicker from "../../components/datePicker/DatePicker";
 import PublishButton from "../../components/icons/PublishButton";
-import FormErrorMessage from "../../components/error/ErrorMessage";
+import FormErrorMessage from "../../components/errors/ErrorMessage";
 import type {
   CampaignType,
   CreateCampaignRequest,
@@ -152,8 +152,8 @@ function PublishCampaign() {
       items:
         selectedCampaign.type === "DONATION"
           ? (data.donationNeeds ?? []).map((category) => ({
-              category,
-            }))
+            category,
+          }))
           : undefined,
       accountAlias: null,
       amountToBeCollected: null,

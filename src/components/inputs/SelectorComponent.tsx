@@ -1,6 +1,6 @@
 import type { FocusEventHandler, Ref } from 'react'
 import * as S from './Inputs.styles'
-import FormErrorMessage from '../error/ErrorMessage'
+import FormErrorMessage from '../errors/ErrorMessage'
 
 export interface SelectorOption<T extends string> {
   value: T

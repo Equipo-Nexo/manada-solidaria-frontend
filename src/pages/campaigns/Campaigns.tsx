@@ -1,5 +1,5 @@
 import { useGetCampaignsQuery } from "../../app/services/apis/campaignApi";
-import type { CampaignCardData } from "../../components/campaignCard/CampaignCard";
+import { mapCampaignToCardData } from "../../components/campaignCard/mapCampaignToCardData";
 import CampaignList from "./CampaignList";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Campaigns.styles";
@@ -23,14 +23,7 @@ function Campaigns() {
   const campaigns = data?.content ?? [];
   const totalElements = data?.totalElements ?? 0;
 
-  const campaignCards: CampaignCardData[] = campaigns.map((campaign) => ({
-    id: campaign.id,
-    title: campaign.title,
-    description: campaign.description,
-    location: campaign.location.name,
-    imageUrl: campaign.imageId,
-    type: campaign.type,
-  }));
+  const campaignCards = campaigns.map(mapCampaignToCardData);
   const filters = Object.keys(filterMap) as (keyof typeof filterMap)[];
 
   return (

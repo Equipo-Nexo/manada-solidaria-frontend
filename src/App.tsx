@@ -13,7 +13,6 @@ import Register from './pages/register/Register'
 import useAuth from './hooks/auth/useAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
 import MyPosts from './pages/my_posts/MyPosts'
-import Card from './components/animalPostCard/animalPostCard'
 import AllAnimalsPage from './pages/allAnimalPosts/AllAnimalsPage'
 import NewAnimalPostForm from './pages/newAnimalPost/Form'
 
@@ -45,7 +44,6 @@ function App() {
               path="/registro"
               element={isAuthenticated ? <Navigate to="/home" replace /> : <Register />}
             />
-            <Route path="/card" element={<Card />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />

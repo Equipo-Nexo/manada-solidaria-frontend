@@ -4,12 +4,15 @@ import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "../../app/services/apis/usersApi";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "../../app/services/apis/campaignApi";
-import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostApi";
+import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostsApi";
 import { useToast } from "../../hooks/toast/useToast";
 import { UserPostUtil } from "../../utils/UserPostUtils";
 import BottomSheet from "../../components/bottomSheet/BottomSheet";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
-import type { GetUserPostsResponse } from "../../app/services/responses/userResponses";
+import type {
+    GetUserPostsResponse,
+    UserPostType,
+} from "../../app/services/responses/userResponses";
 import Clock from "../../components/icons/Clock";
 import CategorySelector from "../../components/categorySelector/CategorySelector";
 import Message from "../../components/message/message";
@@ -53,7 +56,7 @@ function MyPosts() {
     }
 
     const handleAcceptDelete = async (post: GetUserPostsResponse) => {
-        const deletePostByType: Record<string, (postId: string) => Promise<void>> = {
+        const deletePostByType: Record<UserPostType, (postId: string) => Promise<void>> = {
             campaign: (postId) => deleteCampaign(postId).unwrap(),
             animal: (postId) => deleteAnimalPost(postId).unwrap(),
         }

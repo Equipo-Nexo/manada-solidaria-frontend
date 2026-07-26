@@ -11,6 +11,7 @@ export type CampaignCategory =
 
 export interface GetCampaignsRequest {
   category?: CampaignCategory;
+  size?: number;
 }
 
 export const campaignApi = baseAuthenticatedApi.injectEndpoints({
@@ -22,6 +23,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       invalidatesTags: ['userPosts', 'Campaigns']
     }),
+
     getCampaigns: builder.query<
       CampaignPageResponse,
       GetCampaignsRequest | undefined
@@ -33,6 +35,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ['Campaigns'],
     }),
+
     createCampaign: builder.mutation<void, CreateCampaignRequest>({
       query: (body) => ({
         url: "/campaigns",

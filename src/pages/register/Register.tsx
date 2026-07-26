@@ -9,7 +9,7 @@ import { registerSchema, type RegisterFormValues } from './registerSchema'
 import type { Role } from '../../app/types/User.types'
 import { Eye, EyeOff, HandHeart, PawPrint } from '../../components/icons'
 import CarFront from '../../components/icons/CarFront'
-import FormErrorMessage from '../../components/error/ErrorMessage'
+import FormErrorMessage from '../../components/errors/ErrorMessage'
 
 function Register() {
   const navigate = useNavigate()

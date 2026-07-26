@@ -34,6 +34,13 @@ export const Select = styled.select<{ $hasValue: boolean }>`
     $hasValue ? theme.colors.darkColor : theme.colors.darkColorMuted};
   ${({ theme }) => theme.typography.body};
   ${fieldFocusVisible}
+
+  &:focus,
+  &:focus-visible {
+    border-color: ${({ theme }) => theme.colors.brand};
+    outline: none;
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
+  }
 `
 
 export const OptionLabel = styled.label<{ $selected: boolean }>`
@@ -48,6 +55,7 @@ export const OptionLabel = styled.label<{ $selected: boolean }>`
   background: ${({ $selected, theme }) => $selected ? theme.colors.neutral : theme.colors.background};
   cursor: pointer;
 
+  &:focus-within,
   &:has(input:focus-visible) {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
