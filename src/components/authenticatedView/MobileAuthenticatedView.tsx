@@ -1,17 +1,13 @@
-import { useState } from 'react'
 import Header from '../header/Header'
 import Navbar from '../navbar/Navbar'
-import AuthenticatedMenuOverlay from './AuthenticatedMenuOverlay'
 import { MobileViewChrome } from './AuthenticatedView.styles'
 import { useLocation } from 'react-router-dom'
 import PublishFloatingButton from '../publishFloatingButton/PublishFloatingButton'
 
 function MobileAuthenticatedView() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
   
   const showFloatingButton = location.pathname === '/mis-publicaciones'
-  const showHeader = '/mis-publicaciones'
   
   const routesWithoutNavigation = [
     "/publicar/campania",
@@ -21,10 +17,13 @@ function MobileAuthenticatedView() {
   ];
   
   const hideNavigation = routesWithoutNavigation.includes(location.pathname);
+  const showHeader =
+    location.pathname !== '/menu' &&
+    (!hideNavigation || location.pathname === '/mis-publicaciones')
   
   return (
     <MobileViewChrome>
-      { (!hideNavigation || showHeader) && <Header /> }
+      {showHeader && <Header />}
 
       {
         showFloatingButton && (
@@ -32,20 +31,9 @@ function MobileAuthenticatedView() {
         )
       }
 
-      <AuthenticatedMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-
       {(!hideNavigation) && (
-        <Navbar
-          isMenuOpen={isMenuOpen}
-          onMenuClick={() => setIsMenuOpen(true)}
-          onNavigate={() => setIsMenuOpen(false)}
-        />
+        <Navbar />
       )}
-
-      <AuthenticatedMenuOverlay
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-      />
     </MobileViewChrome>
   );
 }

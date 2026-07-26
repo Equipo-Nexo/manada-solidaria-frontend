@@ -16,13 +16,19 @@ import MyPosts from './pages/my_posts/MyPosts'
 import Card from './components/animalPostCard/animalPostCard'
 import AllAnimalsPage from './pages/allAnimalPosts/AllAnimalsPage'
 import NewAnimalPostForm from './pages/newAnimalPost/Form'
+import Menu from './pages/menu/Menu'
 
 function App() {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
   const isAnimalPublish = location.pathname === '/publicar/animal'
-  const usesFullScreenLayout = location.pathname === '/login' || location.pathname === '/registro' || isAnimalPublish
-  const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout
+  const isMobileMenu = location.pathname === '/menu'
+  const usesFullScreenLayout =
+    location.pathname === '/login' ||
+    location.pathname === '/registro' ||
+    isAnimalPublish ||
+    isMobileMenu
+  const showAuthenticatedShell = isAuthenticated && (!usesFullScreenLayout || isMobileMenu)
 
   return (
     <>
@@ -53,6 +59,7 @@ function App() {
               <Route path="/publicar/colecta" element={<PublishCollection />} />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
+              <Route path="/menu" element={<Menu />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
