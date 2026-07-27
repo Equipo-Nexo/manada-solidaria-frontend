@@ -14,10 +14,11 @@ import ImageUpload from "../../components/imageUpload/ImageUpload";
 import PublishButton from "../../components/icons/PublishButton";
 import AdviceComponent from "../../components/advice/AdviceComponent";
 import FormErrorMessage from "../../components/errors/ErrorMessage";
+import PhoneInputComponent from "../../components/inputs/PhoneInputComponent";
 export interface PublishFundraisingForm {
   title: string;
   accountAlias: string;
-  amountToBeCollected: number;
+  amountToBeCollected?: number;
   endDate?: string;
   description: string;
   phoneAreaCode: string;
@@ -114,9 +115,7 @@ function PublishFundraising() {
         </S.PublishField>
 
         <S.PublishField>
-          <S.PublishLabel>
-            Meta de recaudación <S.RequiredMark>*</S.RequiredMark>
-          </S.PublishLabel>
+          <S.PublishLabel>Meta de recaudación</S.PublishLabel>
           <S.InputWithIcon>
             <S.FieldIcon>$</S.FieldIcon>
             <Controller
@@ -158,45 +157,36 @@ function PublishFundraising() {
           <S.PublishLabel>
             Número de teléfono <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
-          <S.PhoneFields>
-            <S.InputWithIcon>
+
+          <Controller
+            control={control}
+            name="phoneAreaCode"
+            render={({ field: areaCodeField }) => (
               <Controller
                 control={control}
-                name="phoneAreaCode"
-                render={({ field }) => (
-                  <StyledMaskedInput
-                    {...field}
-                    type="areaCode"
-                    placeholder="353"
-                    $hasLeftIcon
-                    onAccept={(value) => field.onChange(value)}
+                name="phone"
+                render={({ field: phoneField }) => (
+                  <PhoneInputComponent
+                    areaCodeValue={areaCodeField.value ?? ""}
+                    phoneNumberValue={phoneField.value ?? ""}
+                    onAreaCodeChange={areaCodeField.onChange}
+                    onPhoneNumberChange={phoneField.onChange}
+                    onAreaCodeBlur={areaCodeField.onBlur}
+                    onPhoneNumberBlur={phoneField.onBlur}
+                    areaCodeRef={areaCodeField.ref}
+                    phoneNumberRef={phoneField.ref}
+                    error={
+                      errors.phoneAreaCode?.message ?? errors.phone?.message
+                    }
                   />
                 )}
               />
-              <S.FieldIcon aria-hidden="true">
-                <Phone />
-              </S.FieldIcon>
-            </S.InputWithIcon>
-            <Controller
-              control={control}
-              name="phone"
-              render={({ field }) => (
-                <StyledMaskedInput
-                  {...field}
-                  type="phoneNumber"
-                  placeholder="56523551"
-                  onAccept={(value) => field.onChange(value)}
-                />
-              )}
-            />
-          </S.PhoneFields>
+            )}
+          />
           <S.HelpText>
             El número es requerido para envío de comprobante de pago o para
             consultas.
           </S.HelpText>
-          <FormErrorMessage
-            message={errors.phoneAreaCode?.message ?? errors.phone?.message}
-          />
         </S.PublishField>
 
         <S.PublishField as="div">

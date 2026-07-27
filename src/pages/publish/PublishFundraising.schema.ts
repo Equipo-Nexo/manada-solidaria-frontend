@@ -13,9 +13,7 @@ export const publishFundraisingSchema = yup.object({
   amountToBeCollected: yup
     .number()
     .typeError("Ingresá un monto.")
-    .positive("La meta debe ser mayor a 0.")
-    .required("Ingresá una meta de recaudación."),
-
+    .positive("La meta debe ser mayor a 0."),
   endDate: yup
     .string()
     .test(
