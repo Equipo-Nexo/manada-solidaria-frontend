@@ -191,6 +191,21 @@ export const InputWithIcon = styled.div`
   position: relative;
 `;
 
+export const MapWrapper = styled.div`
+  width: 100%;
+  height: min(620px, calc(100svh - 250px));
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgb(89 65 55 / 12%);
+
+  @media (max-width: 767px) {
+    height: calc(100svh - 600px);
+    min-height: 360px;
+  }
+`
+
 export const IconInput = styled(PublishInput) <{
   $hasLeftIcon?: boolean;
   $hasRightIcon?: boolean;
@@ -222,7 +237,7 @@ export const FieldIcon = styled.span<{
 `;
 
 export const HelpText = styled.p`
-  margin: 0;
+  margin-top: 5px;
   color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   font-weight: ${({ theme }) => theme.typography.descriptive.fontWeight};

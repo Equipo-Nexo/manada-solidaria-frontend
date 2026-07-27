@@ -20,6 +20,7 @@ import type {
   CreateCampaignRequest,
 } from "../../app/services/requests/createCampaignRequest";
 import type { CampaignCategory } from "../../app/services/requests/createCampaignRequest";
+import Map from "../../components/map/Map";
 function buildDateTime(date?: string, time?: string) {
   if (!date || !time) return null;
   return `${date}T${time}:00`;
@@ -379,7 +380,9 @@ function PublishCampaign() {
             </S.FieldIcon>
           </S.InputWithIcon>
           <FormErrorMessage message={errors.location?.message} />
-          <S.MapPreview aria-hidden="true" />
+          <S.MapWrapper >
+            <Map onPointSelect={(point) => console.log(point)}/>
+          </S.MapWrapper>
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
           </S.HelpText>
