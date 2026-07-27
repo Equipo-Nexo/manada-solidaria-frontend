@@ -10,10 +10,15 @@ export type MapPoint = { lng: number; lat: number }
 
 interface MapProps {
   markPoints?: MapPoint[]
+  enableMarkerOnClick?: boolean
   onPointSelect?: (point: MapPoint) => void
 }
 
-function Map({ markPoints, onPointSelect }: MapProps) {
+function Map({
+  markPoints,
+  enableMarkerOnClick = true,
+  onPointSelect,
+}: MapProps) {
   const { coordinates, requestCoordinates } = useGeolocation()
   const frameRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
@@ -57,6 +62,16 @@ function Map({ markPoints, onPointSelect }: MapProps) {
   useEffect(() => {
     if (!map) return
 
+    if (enableMarkerOnClick) {
+      map.doubleClickZoom.disable()
+    } else {
+      map.doubleClickZoom.enable()
+    }
+  }, [enableMarkerOnClick, map])
+
+  useEffect(() => {
+    if (!map || !enableMarkerOnClick) return
+
     const selectPoint = (event: MapMouseEvent) => {
       const newPoint = { lng: event.lngLat.lng, lat: event.lngLat.lat }
       setSelectedPoint(newPoint)
@@ -73,14 +88,19 @@ function Map({ markPoints, onPointSelect }: MapProps) {
       map.off('dblclick', handleDoubleClick)
       map.off('click', handleTap)
     }
-  }, [map, onPointSelect])
+  }, [enableMarkerOnClick, map, onPointSelect])
 
     return (
       <S.MapFrame ref={frameRef}>
-        <MapCN center={point} zoom={16} doubleClickZoom={false} onMapReady={setMap}>
+        <MapCN
+          center={point}
+          zoom={16}
+          doubleClickZoom={!enableMarkerOnClick}
+          onMapReady={setMap}
+        >
           <MapCNControls showLocate />
-          {markPoints?.map(({ lng, lat }) => (
-            <MapCNMarker key={`${lng}-${lat}`} longitude={lng} latitude={lat} />
+          {markPoints?.map(({ lng, lat }, index) => (
+            <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
           ))}
           {selectedPoint && (
             <MapCNMarker longitude={selectedPoint.lng} latitude={selectedPoint.lat} />

@@ -1,10 +1,14 @@
+import { useGetAnimalPostsQuery } from '../../app/services/apis/animalPostsApi'
 import Map from '../../components/map/Map'
 import * as S from './AllPublicationsMap.styles'
 
-const DEFAULT_POINT = [{ lng: -63.2435, lat: -32.4106 }]
-
 function AllPublicationsMap() {
 
+  const { data } = useGetAnimalPostsQuery({})
+  const points = data && data.content.map((animalPost) => ({ 
+    lat: animalPost.location.latitude, 
+    lng: animalPost.location.longitude 
+  }))
 
   return (
     <S.Page>
@@ -12,7 +16,7 @@ function AllPublicationsMap() {
         <h1>Mapa</h1>
       </S.Header>
       <S.MapFrame>
-        <Map markPoints={DEFAULT_POINT}/>
+        <Map markPoints={points} enableMarkerOnClick={false} />
       </S.MapFrame>
     </S.Page>
   )
