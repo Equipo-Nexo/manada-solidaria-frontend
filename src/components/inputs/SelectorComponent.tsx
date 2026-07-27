@@ -1,6 +1,6 @@
 import type { FocusEventHandler, Ref } from 'react'
 import * as S from './Inputs.styles'
-import FormErrorMessage from '../error/ErrorMessage'
+import FormErrorMessage from '../errors/ErrorMessage'
 
 export interface SelectorOption<T extends string> {
   value: T
@@ -35,6 +35,7 @@ function SelectorComponent<T extends string>({
   return (
     <S.SelectField>
       <S.Select
+        $hasValue={Boolean(value)}
         ref={inputRef}
         name={name}
         aria-label={ariaLabel}

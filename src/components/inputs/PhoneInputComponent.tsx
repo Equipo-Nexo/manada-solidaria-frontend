@@ -1,7 +1,7 @@
 import type { FocusEventHandler, Ref } from 'react'
 import { Phone } from '../icons'
 import * as S from './Inputs.styles'
-import FormErrorMessage from '../error/ErrorMessage'
+import FormErrorMessage from '../errors/ErrorMessage'
 import { StyledMaskedInput } from '../maskedInput/maskedInput.styles'
 
 interface PhoneInputProps {

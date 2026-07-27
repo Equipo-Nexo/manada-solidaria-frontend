@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { fieldFocusVisible } from '../../../styles/interactions'
 
 const BORDER_RADIUS = '12px'
 const TRANSITION_DURATION = '160ms'
@@ -80,6 +81,11 @@ export const SwitchControl = styled.span`
   ${SwitchInput}:checked + &::after {
     transform: translateX(18px);
   }
+
+  ${SwitchInput}:focus-visible + & {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
 `
 
 export const SwitchHelpText = styled.p`
@@ -122,6 +128,7 @@ export const RewardInput = styled.input`
   ${({ theme }) => theme.typography.body};
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.darkColor};
+    color: ${({ theme }) => theme.colors.darkColorMuted};
   }
+  ${fieldFocusVisible}
 `

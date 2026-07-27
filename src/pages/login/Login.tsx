@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, User } from '../../components/icons'
+import FormErrorMessage from '../../components/errors/ErrorMessage'
 import { useLoginMutation } from '../../app/services/apis/authApi'
 import { loginSuccess } from '../../app/store/authSlice'
 import { useAppDispatch } from '../../app/store/hooks'
@@ -87,9 +88,7 @@ function Login() {
                   $hasError={Boolean(errors.username)}
                   {...register('username')}
                 />
-                {errors.username?.message && (
-                  <S.FieldError id="username-error">{errors.username.message}</S.FieldError>
-                )}
+                <FormErrorMessage id="username-error" message={errors.username?.message} />
               </S.Field>
 
               <S.Field>
@@ -118,9 +117,7 @@ function Login() {
                     {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                   </S.PasswordToggle>
                 </S.PasswordInputWrapper>
-                {errors.password?.message && (
-                  <S.FieldError id="password-error">{errors.password.message}</S.FieldError>
-                )}
+                <FormErrorMessage id="password-error" message={errors.password?.message} />
               </S.Field>
 
               <S.RecoveryButton type="button" onClick={handleForgotPassword}>

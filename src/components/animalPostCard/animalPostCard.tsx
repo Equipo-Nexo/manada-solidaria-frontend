@@ -1,5 +1,5 @@
 import { NOT_FOUND_IMAGE_URL } from '../../utils/CommonUtils'
-import { MapPin, Share } from '../icons'
+import { LocationPin, Share } from '../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import type { AnimalPostActionId } from './animalPostActions'
 import * as S from './animalPostCard.styles'
@@ -33,13 +33,13 @@ function AnimalPostCard({
   return (
     <S.CardContainer>
       <S.PhotoContainer>
-        <S.Photo 
-          src={imageUrl} 
+        <S.Photo
+          src={imageUrl}
           alt={name}
           onError={({ currentTarget }) => {
-            currentTarget.onerror = null; 
+            currentTarget.onerror = null;
             currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }} 
+          }}
         />
         <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={onShare}>
           <Share aria-hidden="true" />
@@ -53,7 +53,7 @@ function AnimalPostCard({
         </S.MainInfoContainer>
 
         <S.Location>
-          <MapPin aria-hidden="true" />
+          <LocationPin aria-hidden="true" />
           <span>{location}</span>
         </S.Location>
 
