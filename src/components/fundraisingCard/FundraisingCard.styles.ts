@@ -7,7 +7,6 @@ type ProgressValueProps = {
 export const Card = styled.article`
   width: 329px;
   max-width: 100%;
-  height: 337px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -53,13 +52,14 @@ export const ProgressValue = styled.div<ProgressValueProps>`
 
 export const CaseCard = styled.article`
   display: flex;
-  width: calc(100% + 40px);
+  width: calc(100% + 20px);
   height: 132px;
-  margin-inline: -20px;
+  align-items: center;
   overflow: hidden;
   border: 1px solid rgb(225 191 178 / 20%);
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
+  margin-inline: -10px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
 `;
 
@@ -106,7 +106,7 @@ export const Description = styled.p`
   overflow: hidden;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 10px;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 14px;
   -webkit-box-orient: vertical;
@@ -121,7 +121,7 @@ export const StoryButton = styled.button`
   background: transparent;
   color: ${({ theme }) => theme.colors.secondary};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 10px;
+  font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
   text-decoration: underline;

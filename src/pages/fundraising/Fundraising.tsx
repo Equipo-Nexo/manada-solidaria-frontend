@@ -40,10 +40,13 @@ function Fundraising() {
           </S.PageSubtitle>
         </S.TitlesContainer>
       </S.Header>
-      <AdviceComponent
-        title="Información importante"
-        advice="El progreso de la colecta no se actualiza en tiempo real. Se refleja cuando la rescatista verifica las transferencias."
-      />
+      <S.AdviceContainer>
+        <AdviceComponent
+          title="Información importante"
+          advice="El progreso de la colecta no se actualiza en tiempo real. Se refleja cuando la rescatista verifica las transferencias."
+        />
+      </S.AdviceContainer>
+
       <FundraisingList
         fundraisings={fundraisingCards}
         isLoading={isLoading}

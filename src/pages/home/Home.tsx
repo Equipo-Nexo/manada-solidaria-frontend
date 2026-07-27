@@ -103,6 +103,7 @@ function Home() {
             <FundraisingCard
               key={fundraising.id}
               fundraising={mapFundraisingToCardData(fundraising)}
+              showAlias={false}
             />
           ))}
       </Carousel>

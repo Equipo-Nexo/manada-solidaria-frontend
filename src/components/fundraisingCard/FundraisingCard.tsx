@@ -21,6 +21,7 @@ type FundraisingCardProps = {
   className?: string;
   onCopyAlias?: (fundraising: FundraisingCardData) => void;
   onViewStory?: (fundraising: FundraisingCardData) => void;
+  showAlias?: boolean;
 };
 
 const formatAmount = (amount: number | string) => {
@@ -40,6 +41,7 @@ function FundraisingCard({
   className,
   onCopyAlias,
   onViewStory,
+  showAlias = true,
 }: FundraisingCardProps) {
   const storyLabel = fundraising.storyLabel ?? "Conocé su historia";
   const progress = 0;
@@ -97,15 +99,15 @@ function FundraisingCard({
           </S.StoryButton>
         </S.CaseContent>
       </S.CaseCard>
-
-      <S.AliasBox>
-        <Transfer aria-hidden="true" />
-        <S.AliasContent>
-          <S.AliasLabel>ALIAS PARA TRANSFERIR</S.AliasLabel>
-          <S.AliasValue>{fundraising.accountAlias}</S.AliasValue>
-        </S.AliasContent>
-      </S.AliasBox>
-
+      {showAlias && (
+        <S.AliasBox>
+          <Transfer aria-hidden="true" />
+          <S.AliasContent>
+            <S.AliasLabel>ALIAS PARA TRANSFERIR</S.AliasLabel>
+            <S.AliasValue>{fundraising.accountAlias}</S.AliasValue>
+          </S.AliasContent>
+        </S.AliasBox>
+      )}
       <S.CopyButton type="button" onClick={handleCopyAlias}>
         {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
         {copied ? "Alias copiado" : "Copiar alias"}

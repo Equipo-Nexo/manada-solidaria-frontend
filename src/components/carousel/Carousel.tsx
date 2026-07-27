@@ -34,7 +34,8 @@ function Carousel({
           </S.SeeAllButton>
         )}
       </S.Header>
-      {headerContent}
+      <S.HeaderContent>{headerContent}</S.HeaderContent>
+
       <S.Content aria-label={title}>{children}</S.Content>
     </S.Section>
   );
