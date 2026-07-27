@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { fieldFocusVisible } from "../../styles/interactions";
 
 
 export const Input = styled.input`
@@ -11,6 +12,7 @@ export const Input = styled.input`
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
   &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; }
+  ${fieldFocusVisible}
 `
 
 export const PhoneNumberContainer = styled.div`display: flex; gap: 6px;`
@@ -20,7 +22,7 @@ export const AreaCode = styled(Input)`width: 100%; padding-left: 40px;`
 export const PhoneNumber = styled(Input)`min-width: 0;`
 
 export const SelectField = styled.div`min-width: 0; width: 100%; display: flex; flex-direction: column; gap: 8px;`
-export const Select = styled.select`
+export const Select = styled.select<{ $hasValue: boolean }>`
   width: 100%;
   height: 56px;
   min-width: 0;
@@ -28,8 +30,17 @@ export const Select = styled.select`
   border-radius: 10px;
   padding: 8px 10px;
   background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.darkColor};
+  color: ${({ $hasValue, theme }) =>
+    $hasValue ? theme.colors.darkColor : theme.colors.darkColorMuted};
   ${({ theme }) => theme.typography.body};
+  ${fieldFocusVisible}
+
+  &:focus,
+  &:focus-visible {
+    border-color: ${({ theme }) => theme.colors.brand};
+    outline: none;
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
+  }
 `
 
 export const OptionLabel = styled.label<{ $selected: boolean }>`
@@ -43,6 +54,12 @@ export const OptionLabel = styled.label<{ $selected: boolean }>`
   padding: 0px 16px 0px 16px;
   background: ${({ $selected, theme }) => $selected ? theme.colors.neutral : theme.colors.background};
   cursor: pointer;
+
+  &:focus-within,
+  &:has(input:focus-visible) {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
 `
 export const RadioInput = styled.input`
   position: absolute; 

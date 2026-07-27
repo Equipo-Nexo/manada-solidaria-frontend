@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes, Ref } from 'react'
 import { CarFront, DollarSign, Money } from '../../../components/icons'
-import FormErrorMessage from '../../../components/error/ErrorMessage'
+import FormErrorMessage from '../../../components/errors/ErrorMessage'
 import * as S from './ConditionalSwitchComponent.styles'
 
 interface ConditionalSwitchProps {

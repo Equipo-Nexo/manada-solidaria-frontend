@@ -1,5 +1,5 @@
 import * as S from "./CampaignCard.styles";
-import { LocationPin, Share2 } from "../icons";
+import { LocationPin, Share } from "../icons";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
 
 export type CampaignType =
@@ -48,7 +48,7 @@ function CampaignCard({
         <S.CampaignImage
           src={`${import.meta.env.VITE_CLOUDFLARE_URL}${campaign.imageUrl}`} 
           onError={({ currentTarget }) => {
-            currentTarget.onerror = null; 
+            currentTarget.onerror = null;
             currentTarget.src = NOT_FOUND_IMAGE_URL;
           }}
           alt={campaign.title}
@@ -58,7 +58,7 @@ function CampaignCard({
           aria-label={`Compartir campaña ${campaign.title}`}
           onClick={() => onShare?.(campaign)}
         >
-          <Share2 aria-hidden="true" />
+          <Share aria-hidden="true" />
         </S.ShareButton>
       </S.ImageSection>
 

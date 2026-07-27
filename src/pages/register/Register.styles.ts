@@ -255,26 +255,13 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.darkColorMuted};
   }
 
   &:focus-visible {
     border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.brand)};
+    outline: none;
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
-  }
-`
-
-export const FieldError = styled.p`
-  margin: -2px 0 0;
-  color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16px;
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    line-height: 14px;
   }
 `
 

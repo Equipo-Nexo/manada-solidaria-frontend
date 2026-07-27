@@ -1,10 +1,11 @@
 import { useGetCampaignsQuery } from "../../app/services/apis/campaignApi";
-import type { CampaignCardData } from "../../components/campaignCard/CampaignCard";
+import { mapCampaignToCardData } from "../../components/campaignCard/mapCampaignToCardData";
 import CampaignList from "./CampaignList";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Campaigns.styles";
 import { useState } from "react";
-import Arrow from "../../components/icons/Arrow";
+import CategorySelector from "../../components/categorySelector/CategorySelector";
+import { ArrowLeft } from "../../components/icons";
 
 function Campaigns() {
   const navigate = useNavigate();
@@ -16,49 +17,43 @@ function Campaigns() {
     Castración: "CASTRATION",
     Vacunación: "VACCINATION",
   } as const;
-  const { data } = useGetCampaignsQuery({
+  const { data, isError, isLoading, refetch } = useGetCampaignsQuery({
     category: filterMap[selectedFilter],
   });
   const campaigns = data?.content ?? [];
-  const totalResults = data?.totalElements ?? 0;
+  const totalElements = data?.totalElements ?? 0;
 
-  const campaignCards: CampaignCardData[] = campaigns.map((campaign) => ({
-    id: campaign.id,
-    title: campaign.title,
-    description: campaign.description,
-    location: campaign.location.name,
-    imageUrl: campaign.imageId,
-    type: campaign.type,
-  }));
+  const campaignCards = campaigns.map(mapCampaignToCardData);
   const filters = Object.keys(filterMap) as (keyof typeof filterMap)[];
 
   return (
-    <div>
+    <S.Page>
       <S.Header>
-        <S.BackButton onClick={() => navigate(-1)}>
-          <Arrow />
+        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+          <ArrowLeft aria-hidden="true" />
         </S.BackButton>
-
-        <S.HeaderContent>
-          <S.Title>Campañas</S.Title>
-          <S.Subtitle>
-            {totalResults} {totalResults === 1 ? "resultado" : "resultados"}
-          </S.Subtitle>
-        </S.HeaderContent>
+        <S.TitlesContainer>
+          <S.PageTitle>Campañas</S.PageTitle>
+          <S.PageSubtitle>
+            {isLoading
+              ? 'Cargando resultados...'
+              : `${totalElements} ${totalElements === 1 ? 'resultado' : 'resultados'}`}
+          </S.PageSubtitle>
+        </S.TitlesContainer>
       </S.Header>
-      <S.Filters>
-        {filters.map((filter) => (
-          <S.FilterButton
-            key={filter}
-            $active={filter === selectedFilter}
-            onClick={() => setSelectedFilter(filter)}
-          >
-            {filter}
-          </S.FilterButton>
-        ))}
-      </S.Filters>
-      <CampaignList campaigns={campaignCards} />
-    </div>
+      <CategorySelector
+        categories={filters}
+        selectedCategory={selectedFilter}
+        onCategoryChange={setSelectedFilter}
+        ariaLabel="Filtrar campañas por categoría"
+      />
+      <CampaignList
+        campaigns={campaignCards}
+        isError={isError}
+        isLoading={isLoading}
+        onRetry={() => void refetch()}
+      />
+    </S.Page>
   );
 }
 
