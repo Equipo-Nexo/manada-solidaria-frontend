@@ -3,7 +3,7 @@ import type { PublishCampaignCategory } from "./PublishCampaign";
 
 export const publishCampaignSchema = yup.object({
   title: yup.string().required("Ingresá un título para la campaña.").max(100),
-
+  imageId: yup.string().notRequired(),
   category: yup
     .mixed<PublishCampaignCategory>()
     .oneOf(["Donación", "Castración", "Vacunación", "Desparasitación", "Otro"])
