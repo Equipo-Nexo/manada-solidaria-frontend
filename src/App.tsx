@@ -24,11 +24,14 @@ function App() {
   const isFullScreenPublish =
     location.pathname === "/publicar/animal" ||
     location.pathname === "/publicar/campania";
+
+  const isMobileMenu = location.pathname === "/menu";
   const usesFullScreenLayout =
     location.pathname === "/login" ||
     location.pathname === "/registro" ||
-    isFullScreenPublish;
-  const isMobileMenu = location.pathname === "/menu";
+    isFullScreenPublish ||
+    isMobileMenu;
+
   const showAuthenticatedShell =
     isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
 
