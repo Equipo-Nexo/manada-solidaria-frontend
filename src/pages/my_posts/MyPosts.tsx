@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "../../app/services/apis/campaignApi";
 import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostsApi";
 import { useToast } from "../../hooks/toast/useToast";
-import { UserPostUtil } from "../../utils/UserPostUtils";
+import { AnimalPostStatus } from "../../utils/AnimalPostUtils";
 import BottomSheet from "../../components/bottomSheet/BottomSheet";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
 import type {
@@ -140,23 +140,23 @@ function MyPosts() {
                             />
                         </S.MessageContainer>
                     )}
-                    {!isLoading && !isError && userPosts?.map((post) => {
+                    {!isLoading && !isError && userPosts?.map(({ id, imageUrl, title, createdSince, status, postType}) => {
                         return (
-                            <S.Card key={post.id}>
-                                <S.CardImage src={post.imageUrl || NOT_FOUND_IMAGE_URL} alt={post.title} />
+                            <S.Card key={id}>
+                                <S.CardImage src={imageUrl || NOT_FOUND_IMAGE_URL} alt={title} />
                                 <S.CardContent>
                                     <S.CardInformationContainer>
-                                        <S.CardTitle>{post.title}</S.CardTitle>
+                                        <S.CardTitle>{title}</S.CardTitle>
                                         <S.CreatedSinceContainer>
                                             <Clock />
-                                            <S.CreatedSince>{post.createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${post.createdSince} días`}</S.CreatedSince>
+                                            <S.CreatedSince>{createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${createdSince} días`}</S.CreatedSince>
                                         </S.CreatedSinceContainer>
                                         {
-                                            (post.status && post.status != 'CREATED') && (
+                                            status && (
                                                 <S.Status
-                                                    $backgroundColor={UserPostUtil[post.status] && UserPostUtil[post.status].backgroundColor}
-                                                    $fontColor={UserPostUtil[post.status] && UserPostUtil[post.status].fontColor}
-                                                >{UserPostUtil[post.status] && UserPostUtil[post.status].text}</S.Status>
+                                                    $backgroundColor={AnimalPostStatus[status].backgroundColor}
+                                                    $fontColor={AnimalPostStatus[status].fontColor}
+                                                >{AnimalPostStatus[status].text}</S.Status>
                                             )
                                         }
                                     </S.CardInformationContainer>
@@ -164,7 +164,7 @@ function MyPosts() {
                                         <S.Button onClick={handleEditButton}>
                                             <Pencil width={17} height={17} />
                                         </S.Button>
-                                        <S.Button onClick={() => handleDeleteButton(post)}>
+                                        <S.Button onClick={() => handleDeleteButton({ id, imageUrl, title, createdSince, status, postType })}>
                                             <Trash width={17} height={17} />
                                         </S.Button>
                                     </S.ButtonsContainer>

@@ -1,13 +1,13 @@
+import { AnimalPostStatus } from '../../utils/AnimalPostUtils'
 import { NOT_FOUND_IMAGE_URL } from '../../utils/CommonUtils'
 import { LocationPin, Share } from '../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import type { AnimalPostActionId } from './animalPostActions'
 import * as S from './animalPostCard.styles'
-import type { AnimalPostStatus } from './animalPostCard.styles'
 
 export type AnimalPostCardProps = {
   name?: string
-  status?: AnimalPostStatus
+  status?: string
   location?: string
   description?: string
   imageUrl?: string
@@ -28,7 +28,7 @@ function AnimalPostCard({
   onViewMore,
   actionHandlers,
 }: AnimalPostCardProps) {
-  const visibleActions = status ? getAnimalPostActions(status, contactPhone) : []
+  const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status], contactPhone) : []
 
   return (
     <S.CardContainer>
@@ -49,7 +49,11 @@ function AnimalPostCard({
       <S.Content>
         <S.MainInfoContainer>
           <S.Title>{name}</S.Title>
-          {status && <S.StatusContainer $status={status}>{status}</S.StatusContainer>}
+          {status && <S.StatusContainer 
+            $color={AnimalPostStatus[status].fontColor} 
+            $background={AnimalPostStatus[status].backgroundColor}
+            >{AnimalPostStatus[status].text}</S.StatusContainer>
+          }
         </S.MainInfoContainer>
 
         <S.Location>

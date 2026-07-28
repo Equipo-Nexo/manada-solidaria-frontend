@@ -1,47 +1,4 @@
 import styled from 'styled-components'
-import type { AppTheme } from '../../styles/theme'
-
-export type AnimalPostStatus =
-  | 'En adopción'
-  | 'En tránsito'
-  | 'En la calle'
-  | 'Perdido'
-  | 'Adoptado'
-  | 'Encontrado'
-
-type StatusContainerProps = {
-  $status: AnimalPostStatus
-}
-
-const getStatusVariants = (theme: AppTheme): Record<
-  AnimalPostStatus,
-  { background: string; color: string }
-> => ({
-  'En adopción': {
-    background: theme.colors.tertiary,
-    color: theme.colors.statusAdoptionText,
-  },
-  'En tránsito': {
-    background: theme.colors.neutral,
-    color: theme.colors.brand,
-  },
-  'En la calle': {
-    background: theme.colors.statusStreetBackground,
-    color: theme.colors.statusStreetText,
-  },
-  Perdido: {
-    background: theme.colors.statusLostBackground,
-    color: theme.colors.error,
-  },
-  Adoptado: {
-    background: theme.colors.neutral,
-    color: theme.colors.secondary,
-  },
-  Encontrado: {
-    background: theme.colors.statusFoundBackground,
-    color: theme.colors.success,
-  },
-})
 
 export const CardContainer = styled.article`
   width: ${({ theme }) => theme.layout.publicationCardWidth};
@@ -125,13 +82,13 @@ export const Title = styled.h2`
   white-space: nowrap;
 `
 
-export const StatusContainer = styled.span<StatusContainerProps>`
+export const StatusContainer = styled.span<{ $color: string, $background: string}>`
   flex-shrink: 0;
   width: 112px;
   padding: 4px 0;
   border-radius: 999px;
-  color: ${({ theme, $status }) => getStatusVariants(theme)[$status].color};
-  background: ${({ theme, $status }) => getStatusVariants(theme)[$status].background};
+  color: ${({ $color }) => $color};
+  background: ${({ $background }) => $background};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};

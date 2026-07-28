@@ -32,7 +32,7 @@ export const mapAnimalPostToCardProps = (
   context: AnimalPostDisplayContext = 'default',
 ): AnimalPostCardProps => ({
   name: getName(post),
-  status: getStatus(post, context),
+  status: post.status,
   location: post.location.name,
   description: post.description,
   imageUrl: post.imageUrl,
