@@ -9,6 +9,7 @@ type FundraisingListProps = {
   isError: boolean;
   isLoading: boolean;
   onRetry: () => void;
+  advice?: React.ReactNode;
 };
 
 function FundraisingList({
@@ -16,6 +17,7 @@ function FundraisingList({
   isError,
   isLoading,
   onRetry,
+  advice,
 }: FundraisingListProps) {
   if (isLoading) {
     return (
@@ -49,6 +51,7 @@ function FundraisingList({
 
   return (
     <S.List>
+      {advice && <S.AdviceItem>{advice}</S.AdviceItem>}
       {fundraisings.map((fundraising) => (
         <FundraisingCard key={fundraising.id} fundraising={fundraising} />
       ))}

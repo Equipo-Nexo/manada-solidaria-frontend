@@ -40,18 +40,17 @@ function Fundraising() {
           </S.PageSubtitle>
         </S.TitlesContainer>
       </S.Header>
-      <S.AdviceContainer>
-        <AdviceComponent
-          title="Información importante"
-          advice="El progreso de la colecta no se actualiza en tiempo real. Se refleja cuando la rescatista verifica las transferencias."
-        />
-      </S.AdviceContainer>
-
       <FundraisingList
         fundraisings={fundraisingCards}
         isLoading={isLoading}
         isError={isError}
         onRetry={() => void refetch()}
+        advice={
+          <AdviceComponent
+            title="Información importante"
+            advice="El progreso de la colecta no se actualiza en tiempo real. Se refleja cuando la rescatista verifica las transferencias."
+          />
+        }
       />
     </S.Page>
   );
