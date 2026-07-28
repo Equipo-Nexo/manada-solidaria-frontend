@@ -3,8 +3,9 @@ import Arrow from "../../components/icons/Arrow";
 import * as S from "./PublishForm.styles";
 import DatePicker from "../../components/datePicker/DatePicker";
 import { StyledMaskedInput } from "../../components/maskedInput/maskedInput.styles";
-import { Phone, Search } from "../../components/icons";
-import { Controller, useForm } from "react-hook-form";
+import { Search } from "../../components/icons";
+import { Controller, useController, useForm } from "react-hook-form";
+import type { InferType, Maybe } from "yup";
 import type { CreateCampaignRequest } from "../../app/services/requests/createCampaignRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useToast } from "../../hooks/toast/useToast";
@@ -15,37 +16,50 @@ import PublishButton from "../../components/icons/PublishButton";
 import AdviceComponent from "../../components/advice/AdviceComponent";
 import FormErrorMessage from "../../components/errors/ErrorMessage";
 import PhoneInputComponent from "../../components/inputs/PhoneInputComponent";
-export interface PublishFundraisingForm {
+
+export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
+
+type PublishFundraisingFormInput = {
   title: string;
   accountAlias: string;
-  amountToBeCollected?: number;
-  endDate?: string;
+  amountToBeCollected: Maybe<number | undefined>;
+  endDate: Maybe<string | undefined>;
   description: string;
   phoneAreaCode: string;
   phone: string;
-  location?: string;
-}
+  location: Maybe<string | undefined>;
+};
 function PublishFundraising() {
   const navigate = useNavigate();
   const [createCampaign] = useCreateCampaignMutation();
   const toast = useToast();
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<PublishFundraisingFormInput, unknown, PublishFundraisingForm>({
     resolver: yupResolver(publishFundraisingSchema),
+    defaultValues: {
+      title: "",
+      accountAlias: "",
+      amountToBeCollected: undefined,
+      endDate: "",
+      description: "",
+      phoneAreaCode: "",
+      phone: "",
+      location: "",
+    },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {
-    const phoneNumber = `${data.phoneAreaCode}${data.phone}`;
     const request: CreateCampaignRequest = {
       type: "FUNDRAISING",
       category: null,
       title: data.title,
       description: data.description,
       imageId: "abc123",
-      phoneNumber,
+      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
       location: data.location
         ? {
             name: data.location,
@@ -57,8 +71,8 @@ function PublishFundraising() {
         : undefined,
       items: undefined,
       accountAlias: data.accountAlias,
-      amountToBeCollected: data.amountToBeCollected,
-      campaignEndDate: data.endDate,
+      amountToBeCollected: data.amountToBeCollected ?? undefined,
+      campaignEndDate: data.endDate ?? undefined,
       newsStartDateTime: undefined,
       newsEndDateTime: undefined,
     };
@@ -69,13 +83,22 @@ function PublishFundraising() {
         "La colecta se publicó correctamente.",
       );
       navigate("/home");
-    } catch (error) {
+    } catch {
       toast.error(
         "No pudimos publicar la colecta",
         "Intentá nuevamente en unos minutos.",
       );
     }
   };
+  const { field: areaCodeField, fieldState: areaCodeState } = useController({
+    control,
+    name: "phoneAreaCode",
+  });
+  const { field: phoneNumberField, fieldState: phoneNumberState } =
+    useController({
+      control,
+      name: "phone",
+    });
   return (
     <S.PublishFormPage>
       <S.PublishFormHeader>
@@ -158,30 +181,18 @@ function PublishFundraising() {
             Número de teléfono <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
 
-          <Controller
-            control={control}
-            name="phoneAreaCode"
-            render={({ field: areaCodeField }) => (
-              <Controller
-                control={control}
-                name="phone"
-                render={({ field: phoneField }) => (
-                  <PhoneInputComponent
-                    areaCodeValue={areaCodeField.value ?? ""}
-                    phoneNumberValue={phoneField.value ?? ""}
-                    onAreaCodeChange={areaCodeField.onChange}
-                    onPhoneNumberChange={phoneField.onChange}
-                    onAreaCodeBlur={areaCodeField.onBlur}
-                    onPhoneNumberBlur={phoneField.onBlur}
-                    areaCodeRef={areaCodeField.ref}
-                    phoneNumberRef={phoneField.ref}
-                    error={
-                      errors.phoneAreaCode?.message ?? errors.phone?.message
-                    }
-                  />
-                )}
-              />
-            )}
+          <PhoneInputComponent
+            areaCodeValue={areaCodeField.value}
+            phoneNumberValue={phoneNumberField.value}
+            onAreaCodeChange={areaCodeField.onChange}
+            onPhoneNumberChange={phoneNumberField.onChange}
+            onAreaCodeBlur={areaCodeField.onBlur}
+            onPhoneNumberBlur={phoneNumberField.onBlur}
+            areaCodeRef={areaCodeField.ref}
+            phoneNumberRef={phoneNumberField.ref}
+            error={
+              areaCodeState.error?.message ?? phoneNumberState.error?.message
+            }
           />
           <S.HelpText>
             El número es requerido para envío de comprobante de pago o para

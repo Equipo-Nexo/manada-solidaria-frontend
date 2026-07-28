@@ -36,7 +36,7 @@ function PhoneInputComponent({
           </S.PhoneGlyph>
           <StyledMaskedInput
             inputRef={areaCodeRef}
-            type="areaCode"
+            maskType="areaCode"
             value={areaCodeValue}
             aria-label="Código de área"
             inputMode="numeric"
@@ -49,7 +49,7 @@ function PhoneInputComponent({
         </S.AreaCodeWrapper>
         <StyledMaskedInput
           inputRef={phoneNumberRef}
-          type="phoneNumber"
+          maskType="phoneNumber"
           value={phoneNumberValue}
           aria-label="Número de teléfono"
           inputMode="numeric"
