@@ -13,10 +13,10 @@ import Register from "./pages/register/Register";
 import useAuth from "./hooks/auth/useAuth";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import MyPosts from "./pages/my_posts/MyPosts";
-import Card from "./components/animalPostCard/animalPostCard";
 import AllAnimalsPage from "./pages/allAnimalPosts/AllAnimalsPage";
 import NewAnimalPostForm from "./pages/newAnimalPost/Form";
 import Fundraising from "./pages/fundraising/Fundraising";
+import Menu from "./pages/menu/Menu";
 
 function App() {
   const location = useLocation();
@@ -28,7 +28,9 @@ function App() {
     location.pathname === "/login" ||
     location.pathname === "/registro" ||
     isFullScreenPublish;
-  const showAuthenticatedShell = isAuthenticated && !usesFullScreenLayout;
+  const isMobileMenu = location.pathname === "/menu";
+  const showAuthenticatedShell =
+    isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
 
   return (
     <>
@@ -63,6 +65,7 @@ function App() {
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
+              <Route path="/menu" element={<Menu />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
