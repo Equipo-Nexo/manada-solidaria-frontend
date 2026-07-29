@@ -15,7 +15,7 @@ export interface CreateCampaignRequest {
   title: string;
   description: string;
   imageId?: Maybe<string | undefined>;
-  location: {
+  location?: {
     name: string;
     address: string;
     number: number | null;

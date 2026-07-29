@@ -154,8 +154,8 @@ function PublishCampaign() {
       items:
         selectedCampaign.type === "DONATION"
           ? (data.donationNeeds ?? []).map((category) => ({
-            category,
-          }))
+              category,
+            }))
           : undefined,
       accountAlias: null,
       amountToBeCollected: null,
@@ -296,7 +296,7 @@ function PublishCampaign() {
                 render={({ field }) => (
                   <StyledMaskedInput
                     {...field}
-                    type="hora"
+                    maskType="hora"
                     placeholder="09:00 hs"
                   />
                 )}
@@ -313,7 +313,7 @@ function PublishCampaign() {
                 render={({ field }) => (
                   <StyledMaskedInput
                     {...field}
-                    type="hora"
+                    maskType="hora"
                     placeholder="15:00 hs"
                   />
                 )}
@@ -335,7 +335,7 @@ function PublishCampaign() {
                 render={({ field }) => (
                   <StyledMaskedInput
                     {...field}
-                    type="areaCode"
+                    maskType="areaCode"
                     placeholder="353"
                     $hasLeftIcon
                     onAccept={(value) => field.onChange(value)}
@@ -352,7 +352,7 @@ function PublishCampaign() {
               render={({ field }) => (
                 <StyledMaskedInput
                   {...field}
-                  type="phoneNumber"
+                  maskType="phoneNumber"
                   placeholder="56523551"
                   onAccept={(value) => field.onChange(value)}
                 />
