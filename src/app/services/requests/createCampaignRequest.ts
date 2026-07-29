@@ -1,3 +1,4 @@
+import type { Maybe } from "yup";
 import type { DonationNeedCategory } from "../../../pages/publish/PublishCampaign";
 
 export type CampaignType = "NEWS" | "FUNDRAISING" | "DONATION";
