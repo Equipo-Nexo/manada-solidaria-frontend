@@ -224,7 +224,15 @@ function PublishFundraising() {
 
         <S.PublishField as="div">
           <S.PublishLabel>Foto de la colecta</S.PublishLabel>
-          <ImageUpload />
+          <Controller
+            control={control}
+            name="imageId"
+            render={({ field }) => (
+              <ImageUpload
+                onImageSelected={(imageId) => field.onChange(imageId)}
+              />
+            )}
+          />
           <FormErrorMessage message={errors.imageId?.message} />
         </S.PublishField>
         <AdviceComponent
