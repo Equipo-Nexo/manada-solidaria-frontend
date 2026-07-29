@@ -27,6 +27,7 @@ type PublishFundraisingFormInput = {
   description: string;
   phoneAreaCode: string;
   phone: string;
+  imageId: Maybe<string | undefined>;
   location: Maybe<string | undefined>;
 };
 function PublishFundraising() {
@@ -49,6 +50,7 @@ function PublishFundraising() {
       description: "",
       phoneAreaCode: "",
       phone: "",
+      imageId: undefined,
       location: "",
     },
   });
@@ -58,7 +60,7 @@ function PublishFundraising() {
       category: null,
       title: data.title,
       description: data.description,
-      imageId: "abc123",
+      imageId: data.imageId,
       phoneNumber: `${data.phoneAreaCode}${data.phone}`,
       location: data.location
         ? {
@@ -167,7 +169,7 @@ function PublishFundraising() {
         <S.PublishField>
           <S.PublishLabel>
             Descripción de la colecta
-            <S.RequiredMark>*</S.RequiredMark>
+            <S.RequiredMark> *</S.RequiredMark>
           </S.PublishLabel>
           <S.PublishTextarea
             {...register("description")}
@@ -223,6 +225,7 @@ function PublishFundraising() {
         <S.PublishField as="div">
           <S.PublishLabel>Foto de la colecta</S.PublishLabel>
           <ImageUpload />
+          <FormErrorMessage message={errors.imageId?.message} />
         </S.PublishField>
         <AdviceComponent
           advice="Las campañas con metas claras y fotos nítidas suelen completarse
