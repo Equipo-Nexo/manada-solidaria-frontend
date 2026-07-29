@@ -110,3 +110,32 @@ export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
     hasOwner?: never
   }
 )
+
+export type EditAnimalPostRequest = {
+  name: string | null
+  description: string
+  imageId: string
+  animal: {
+    id: string
+    type: AnimalType
+    size: AnimalSize
+    gender: AnimalSex
+    color: string | null
+    age: AnimalAge
+  }
+  location: {
+    name: string
+    address: string
+    number: number
+    latitude: number
+    longitude: number
+  }
+  phoneNumber: string | null
+  reward: number | null
+}
+
+export type EditAnimalPostMutationRequest = {
+  postId: string
+  body: EditAnimalPostRequest
+}
+

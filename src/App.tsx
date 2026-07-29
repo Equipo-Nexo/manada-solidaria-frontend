@@ -15,6 +15,8 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 import MyPosts from "./pages/my_posts/MyPosts";
 import AllAnimalsPage from "./pages/allAnimalPosts/AllAnimalsPage";
 import NewAnimalPostForm from "./pages/newAnimalPost/Form";
+import EditAnimalPostForm from "./pages/editAnimalPost/editAnimalPost";
+import EditAnimalPostSuccess from "./pages/editAnimalPost/EditAnimalPostSuccess";
 import Menu from "./pages/menu/Menu";
 
 function App() {
@@ -23,7 +25,8 @@ function App() {
   const isFullScreenPublish =
     location.pathname === "/publicar/animal" ||
     location.pathname === "/publicar/campania" ||
-    location.pathname === "/publicar/colecta";
+    location.pathname === "/publicar/colecta" ||
+    location.pathname.startsWith("/editar/animal/");
   const isMobileMenu = location.pathname === "/menu";
 
   const usesFullScreenLayout =
@@ -63,6 +66,11 @@ function App() {
               <Route path="/mapa" element={<Map />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
+              <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
+              <Route
+                path="/editar/animal/:postId/exito"
+                element={<EditAnimalPostSuccess />}
+              />
               <Route
                 path="/publicar/colecta"
                 element={<PublishFundraising />}

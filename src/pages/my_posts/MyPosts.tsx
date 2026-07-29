@@ -38,8 +38,8 @@ function MyPosts() {
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
 
 
-    const handleEditButton = () => {
-        // Handle edit button click logic here
+    const handleEditButton = (post: GetUserPostsResponse) => {
+        navigate(`/editar/animal/${post.id}`)
     }
 
     const handleDeleteButton = (post: GetUserPostsResponse) => {
@@ -143,8 +143,8 @@ function MyPosts() {
                     {!isLoading && !isError && userPosts?.map((post) => {
                         return (
                             <S.Card key={post.id}>
-                                <S.CardImage 
-                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${post.imageId}`}  
+                                <S.CardImage
+                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${post.imageId}`}
                                     alt={post.title}
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
@@ -168,7 +168,11 @@ function MyPosts() {
                                         }
                                     </S.CardInformationContainer>
                                     <S.ButtonsContainer>
-                                        <S.Button onClick={handleEditButton}>
+                                        <S.Button
+                                            type="button"
+                                            aria-label={`Editar ${post.title}`}
+                                            onClick={() => handleEditButton(post)}
+                                        >
                                             <Pencil width={17} height={17} />
                                         </S.Button>
                                         <S.Button onClick={() => handleDeleteButton(post)}>

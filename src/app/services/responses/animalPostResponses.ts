@@ -10,7 +10,7 @@ import type {
 export interface AnimalPostResponse {
   id: string
   type: AnimalPostType
-  title: string
+  name: string | null
   description: string
   imageUrl: string
   animal: {
