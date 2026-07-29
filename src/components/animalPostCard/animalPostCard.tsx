@@ -33,8 +33,8 @@ function AnimalPostCard({
   return (
     <S.CardContainer>
       <S.PhotoContainer>
-        <S.Photo
-          src={imageUrl}
+        <S.Photo 
+          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`} 
           alt={name}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;

@@ -142,8 +142,15 @@ function MyPosts() {
                     )}
                     {!isLoading && !isError && userPosts?.map(({ id, imageUrl, title, createdSince, status, postType}) => {
                         return (
-                            <S.Card key={id}>
-                                <S.CardImage src={imageUrl || NOT_FOUND_IMAGE_URL} alt={title} />
+                            <S.Card key={post.id}>
+                                <S.CardImage 
+                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${post.imageId}`}  
+                                    alt={post.title}
+                                    onError={({ currentTarget }) => {
+                                        currentTarget.onerror = null;
+                                        currentTarget.src = NOT_FOUND_IMAGE_URL;
+                                    }}
+                                />
                                 <S.CardContent>
                                     <S.CardInformationContainer>
                                         <S.CardTitle>{title}</S.CardTitle>

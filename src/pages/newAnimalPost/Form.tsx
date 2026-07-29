@@ -35,7 +35,6 @@ import { useToast } from '../../hooks/toast/useToast'
 import ImageUpload from '../../components/imageUpload/ImageUpload'
 import Arrow from '../../components/icons/Arrow'
 
-const TEMPORARY_IMAGE_ID = 'cf-image-123'
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
   address: 'Av. Patricias',
@@ -236,7 +235,7 @@ function NewAnimalPostForm() {
     const commonRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
-      imageId: TEMPORARY_IMAGE_ID,
+      imageId: values.imageId,
       animal: {
         type: values.animalType,
         size: values.animalSize,
@@ -287,7 +286,7 @@ function NewAnimalPostForm() {
       >
         <S.FieldGroup>
           <Controller
-            name="photo"
+            name="imageId"
             control={control}
             render={({ field, fieldState }) => (
               <>
@@ -295,7 +294,7 @@ function NewAnimalPostForm() {
                   label="Seleccionar foto"
                   ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
                   hasError={Boolean(fieldState.error)}
-                  onImageSelected={(photo) => field.onChange(photo.file)}
+                  onImageSelected={(imageId) => field.onChange(imageId)}
                 />
                 <FormErrorMessage id="photo-error" message={fieldState.error?.message} />
               </>
