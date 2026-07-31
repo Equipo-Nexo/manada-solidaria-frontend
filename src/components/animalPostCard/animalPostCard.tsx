@@ -29,12 +29,11 @@ function AnimalPostCard({
   actionHandlers,
 }: AnimalPostCardProps) {
   const visibleActions = status ? getAnimalPostActions(status, contactPhone) : []
-
   return (
     <S.CardContainer>
       <S.PhotoContainer>
-        <S.Photo
-          src={imageUrl}
+        <S.Photo 
+          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`} 
           alt={name}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;

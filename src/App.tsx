@@ -8,7 +8,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Map from "./pages/map/Map";
 import PublishCampaign from "./pages/publish/PublishCampaign";
-import PublishCollection from "./pages/publish/PublishCollection";
+import PublishFundraising from "./pages/publish/PublishFundraising";
 import Register from "./pages/register/Register";
 import useAuth from "./hooks/auth/useAuth";
 import PrivateRoutes from "./routes/PrivateRoutes";
@@ -23,15 +23,15 @@ function App() {
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
     location.pathname === "/publicar/animal" ||
-    location.pathname === "/publicar/campania";
-
+    location.pathname === "/publicar/campania" ||
+    location.pathname === "/publicar/colecta";
   const isMobileMenu = location.pathname === "/menu";
+
   const usesFullScreenLayout =
     location.pathname === "/login" ||
     location.pathname === "/registro" ||
     isFullScreenPublish ||
     isMobileMenu;
-
   const showAuthenticatedShell =
     isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
 
@@ -64,7 +64,10 @@ function App() {
               <Route path="/mapa" element={<Map />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
-              <Route path="/publicar/colecta" element={<PublishCollection />} />
+              <Route
+                path="/publicar/colecta"
+                element={<PublishFundraising />}
+              />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
