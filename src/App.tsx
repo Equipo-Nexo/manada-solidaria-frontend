@@ -15,6 +15,7 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 import MyPosts from "./pages/my_posts/MyPosts";
 import AllAnimalsPage from "./pages/allAnimalPosts/AllAnimalsPage";
 import NewAnimalPostForm from "./pages/newAnimalPost/Form";
+import Fundraising from "./pages/fundraising/Fundraising";
 import Menu from "./pages/menu/Menu";
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
               />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
+              <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
