@@ -140,12 +140,12 @@ function MyPosts() {
                             />
                         </S.MessageContainer>
                     )}
-                    {!isLoading && !isError && userPosts?.map(({ id, imageUrl, title, createdSince, status, postType}) => {
+                    {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType}) => {
                         return (
-                            <S.Card key={post.id}>
+                            <S.Card key={id}>
                                 <S.CardImage 
-                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${post.imageId}`}  
-                                    alt={post.title}
+                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}  
+                                    alt={title}
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
                                         currentTarget.src = NOT_FOUND_IMAGE_URL;
@@ -171,7 +171,7 @@ function MyPosts() {
                                         <S.Button onClick={handleEditButton}>
                                             <Pencil width={17} height={17} />
                                         </S.Button>
-                                        <S.Button onClick={() => handleDeleteButton({ id, imageUrl, title, createdSince, status, postType })}>
+                                        <S.Button onClick={() => handleDeleteButton({ id, imageId, title, createdSince, status, postType })}>
                                             <Trash width={17} height={17} />
                                         </S.Button>
                                     </S.ButtonsContainer>
