@@ -1,5 +1,17 @@
 import styled from "styled-components";
 
+export const ImageUploadLoadingState = styled.div`
+  width: 100%;
+  min-height: 154px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed ${({ theme }) => theme.colors.stroke};
+  border-radius: 12px;
+  padding: 18px;
+  background: ${({ theme }) => theme.colors.background};
+`;
+
 export const ImageUploadButton = styled.button`
   width: 100%;
   min-height: 154px;
