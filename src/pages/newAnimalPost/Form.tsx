@@ -34,6 +34,7 @@ import type { CreateAnimalPostRequest } from '../../app/services/requests/animal
 import { useToast } from '../../hooks/toast/useToast'
 import ImageUpload from '../../components/imageUpload/ImageUpload'
 import Arrow from '../../components/icons/Arrow'
+import Map from '../../components/map/Map'
 
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
@@ -344,7 +345,9 @@ function NewAnimalPostForm() {
             <S.Input placeholder="¿En dónde se encuentra el animal?" />
           </S.IconInputWrapper>
           <S.MapContainer>
-            <S.MapPlaceholder></S.MapPlaceholder>
+            <S.MapWrapper >
+              <Map onPointSelect={(point) => console.log(point)}/>
+            </S.MapWrapper>
             <S.Suggestion>
               Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
               compartir tu dirección exacta.
