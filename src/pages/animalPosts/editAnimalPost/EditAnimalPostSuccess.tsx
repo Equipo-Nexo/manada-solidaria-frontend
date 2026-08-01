@@ -1,5 +1,5 @@
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
-import UpdateSuccess from '../../components/updateSuccess/UpdateSuccess'
+import UpdateSuccess from '../../../components/updateSuccess/UpdateSuccess'
 
 interface EditSuccessState {
   imageUrl: string

@@ -3,52 +3,47 @@ import { useMemo } from 'react'
 import {
     Controller,
     useController,
-    useForm,
-    type UseFormRegisterReturn,
+    useForm
 } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ColorPalet, Publish, Search } from '../../components/icons'
-import AdviceComponent from '../../components/advice/AdviceComponent'
-import { newAnimalPostSchema, type NewAnimalPostFormValues } from '../newAnimalPost/Form.schema'
-import * as S from '../newAnimalPost/Form.styles'
-import OptionsComponent from '../../components/inputs/OptionsComponent'
-import PhoneInputComponent from '../../components/inputs/PhoneInputComponent'
-import FormErrorMessage from '../../components/errors/ErrorMessage'
-import SelectorComponent, { type SelectorOption } from '../../components/inputs/SelectorComponent'
+import { ColorPalet, Publish, Search } from '../../../components/icons'
+import AdviceComponent from '../../../components/advice/AdviceComponent'
+import {
+    editAnimalPostSchema,
+    type EditAnimalPostFormValues,
+} from './editAnimalPost.schema'
+import * as S from './editAnimalPost.styles'
+import OptionsComponent from '../../../components/inputs/OptionsComponent'
+import PhoneInputComponent from '../../../components/inputs/PhoneInputComponent'
+import FormErrorMessage from '../../../components/errors/ErrorMessage'
+import SelectorComponent, { type SelectorOption } from '../../../components/inputs/SelectorComponent'
 import {
     AnimalAge,
     AnimalColor,
     AnimalPostType,
     AnimalSex,
     AnimalSize,
-} from '../../app/types/AnimalPost.types'
-import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '../../app/services/apis/animalPostsApi'
-import type { EditAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
-import type { AnimalPostResponse } from '../../app/services/responses/animalPostResponses'
-import { useToast } from '../../hooks/toast/useToast'
-import ImageUpload from '../../components/imageUpload/ImageUpload'
-import Arrow from '../../components/icons/Arrow'
-import { PublicationReason } from '../newAnimalPost/utils/PublicationReason'
-import * as E from './editAnimalPost.styles'
+} from '../../../app/types/AnimalPost.types'
+import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '../../../app/services/apis/animalPostsApi'
+import type { EditAnimalPostRequest } from '../../../app/services/requests/animalPostRequests'
+import type { AnimalPostResponse } from '../../../app/services/responses/animalPostResponses'
+import { useToast } from '../../../hooks/toast/useToast'
+import ImageUpload from '../../../components/imageUpload/ImageUpload'
+import Arrow from '../../../components/icons/Arrow'
+import { PublicationReason } from '../utils/PublicationReason'
 
-type EditAnimalPostFormValues = Omit<
-    NewAnimalPostFormValues,
-    'publicationReason' | 'animalType' | 'needsTransport' | 'offersReward'
->
-
-const editAnimalPostSchema = newAnimalPostSchema.omit([
-    'publicationReason',
-    'animalType',
-    'needsTransport',
-    'offersReward',
-])
+const getPublicationReason = (type: AnimalPostType): PublicationReason => {
+    if (type === AnimalPostType.InStreet) return PublicationReason.Street
+    if (type === AnimalPostType.Lost) return PublicationReason.Lost
+    return PublicationReason.Adoption
+}
 
 const EditAnimalPostDefaultValues = (
     animalPost: AnimalPostResponse,
 ): EditAnimalPostFormValues => {
     const phoneNumber = animalPost.phoneNumber ?? ''
-
     return {
+        publicationReason: getPublicationReason(animalPost.type),
         imageId: animalPost.imageUrl,
         animalSex: animalPost.animal.gender,
         animalAge: animalPost.animal.age,
@@ -58,7 +53,6 @@ const EditAnimalPostDefaultValues = (
         areaCode: phoneNumber.slice(0, -7),
         phoneNumber: phoneNumber.slice(-7),
         story: animalPost.description,
-        rewardAmount: animalPost.reward?.toString() ?? '',
     }
 }
 
@@ -121,40 +115,15 @@ function ColorSelectorComponent({ selected, onSelect }: ColorSelectorProps) {
     )
 }
 
-
-
-interface DescriptionComponentProps {
-    publicationReason: PublicationReason
-    registration: UseFormRegisterReturn<'story'>
-    defaultValue?: string
-}
-
 const getImagePreviewUrl = (imageUrl?: string) => {
     if (!imageUrl) return undefined
     if (/^https?:\/\//i.test(imageUrl)) return imageUrl
-
     return `${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`
 }
 
-function DescriptionComponent({
-    publicationReason,
-    registration,
-    defaultValue,
-}: DescriptionComponentProps) {
-    const placeholder = publicationReason === PublicationReason.Lost
-        ? '¿Cómo es? Proporcioná una descripción detallada para que sea fácilmente reconocible.'
-        : '¿Cómo es su personalidad? ¿Cómo lo/la encontraste?'
 
-    return (
-        <S.TextArea
-            placeholder={defaultValue || placeholder}
-            {...registration}
-        />
-    )
-}
 
 function NewAnimalPostForm() {
-
     const navigate = useNavigate()
     const { postId } = useParams<{ postId: string }>()
     const toast = useToast()
@@ -178,9 +147,7 @@ function NewAnimalPostForm() {
         values: defaultValues,
     })
 
-    const publicationReason = animalPostData?.type === AnimalPostType.Lost
-        ? PublicationReason.Lost
-        : PublicationReason.Adoption
+    const publicationReason = defaultValues?.publicationReason ?? PublicationReason.Adoption
     const { field: areaCodeField, fieldState: areaCodeState } = useController({
         control,
         name: 'areaCode',
@@ -192,7 +159,6 @@ function NewAnimalPostForm() {
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
         if (!postId || !animalPostData) return
-
         const request: EditAnimalPostRequest = {
             name: values.name.trim() || null,
             description: values.story.trim(),
@@ -216,7 +182,7 @@ function NewAnimalPostForm() {
                 replace: true,
                 state: {
                     imageUrl: getImagePreviewUrl(values.imageId),
-                    name: values.name.trim() || animalPostData.name || 'El animal',
+                    name: values.name.trim() || 'de tu animal',
                 },
             })
         } catch {
@@ -232,7 +198,7 @@ function NewAnimalPostForm() {
                 </S.BackButton>
                 <S.PageTitle>Publicar un animal</S.PageTitle>
             </S.Header>
-            <E.MainContainer
+            <S.MainContainer
                 onSubmit={handleSubmit(handleEditAnimalPost)}
                 aria-busy={isLoading}
                 noValidate
@@ -281,7 +247,7 @@ function NewAnimalPostForm() {
                 <S.FieldGroup>
                     <S.Label>Nombre</S.Label>
                     <S.Input
-                        placeholder={defaultValues?.name || 'Si no lo sabés, podés dejarlo vacío'}
+                        placeholder={defaultValues?.name ? '' : 'Si no lo sabés, podés dejarlo vacío'}
                         aria-invalid={Boolean(errors.name)}
                         {...register('name')}
                     />
@@ -374,7 +340,7 @@ function NewAnimalPostForm() {
                 <S.FieldGroup>
                     <S.Label>
                         Número de teléfono
-                        <S.Required> *</S.Required>
+                        {publicationReason !== PublicationReason.Street && <S.Required> *</S.Required>}
                     </S.Label>
                     <PhoneInputComponent
                         areaCodeValue={areaCodeField.value}
@@ -385,28 +351,28 @@ function NewAnimalPostForm() {
                         onPhoneNumberBlur={phoneNumberField.onBlur}
                         areaCodeRef={areaCodeField.ref}
                         phoneNumberRef={phoneNumberField.ref}
-                        areaCodePlaceholder={defaultValues?.areaCode}
-                        phoneNumberPlaceholder={defaultValues?.phoneNumber}
+                        areaCodePlaceholder={defaultValues?.areaCode ? '' : '353'}
+                        phoneNumberPlaceholder={defaultValues?.phoneNumber ? '' : '5652355'}
                         error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
                     />
                     <S.Suggestion>
-                        Es obligatorio para que adoptantes o colaboradores puedan contactarte
+                        {publicationReason === PublicationReason.Street
+                            ? 'Es opcional si el animal se encuentra en la calle'
+                            : 'Es obligatorio para que adoptantes o colaboradores puedan contactarte'}
                     </S.Suggestion>
                 </S.FieldGroup>
                 <S.FieldGroup>
                     <S.Label>Contanos su historia <S.Required>*</S.Required></S.Label>
-                    <DescriptionComponent
-                        publicationReason={publicationReason}
-                        registration={register('story')}
-                        defaultValue={defaultValues?.story}
-                    />
+                    <S.TextArea
+                        placeholder=""
+                        {...register('story')} />
                     <FormErrorMessage message={errors.story?.message} />
                 </S.FieldGroup>
                 <S.SubmitButton type="submit" disabled={isLoading}>
                     {isLoading ? 'Guardando...' : 'Guardar cambios'}
                     <Publish aria-hidden="true" />
                 </S.SubmitButton>
-            </E.MainContainer>
+            </S.MainContainer>
         </S.Page>
     )
 }

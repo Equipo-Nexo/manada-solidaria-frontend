@@ -13,10 +13,10 @@ import Register from "./pages/register/Register";
 import useAuth from "./hooks/auth/useAuth";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import MyPosts from "./pages/my_posts/MyPosts";
-import AllAnimalsPage from "./pages/allAnimalPosts/AllAnimalsPage";
-import NewAnimalPostForm from "./pages/newAnimalPost/Form";
-import EditAnimalPostForm from "./pages/editAnimalPost/editAnimalPost";
-import EditAnimalPostSuccess from "./pages/editAnimalPost/EditAnimalPostSuccess";
+import AllAnimalsPage from "./pages/animalPosts/allAnimalPosts/AllAnimalsPage";
+import NewAnimalPostForm from "./pages/animalPosts/newAnimalPost/Form";
+import EditAnimalPostForm from "./pages/animalPosts/editAnimalPost/editAnimalPost";
+import EditAnimalPostSuccess from "./pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
 import Menu from "./pages/menu/Menu";
 
 function App() {

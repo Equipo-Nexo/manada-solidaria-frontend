@@ -1,5 +1,20 @@
 import styled from 'styled-components'
-import { fieldFocusVisible } from '../../styles/interactions'
+import { MainContainer as BaseMainContainer } from '../newAnimalPost/Form.styles'
+import { fieldFocusVisible } from '../../../styles/interactions'
+
+export const MainContainer = styled(BaseMainContainer)`
+  input,
+  select,
+  textarea {
+    color: ${({ theme }) => theme.colors.black};
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+    opacity: 1;
+  }
+`
 
 const FORM_STYLE_VALUES = {
   borderRadius: '12px',
@@ -54,14 +69,6 @@ export const PageTitle = styled.h1`
   font-size: ${({ theme }) => theme.typography.header2.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
-`
-
-export const MainContainer = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  gap: ${FORM_STYLE_VALUES.contentGap};
 `
 
 export const FieldGroup = styled.div`
@@ -135,39 +142,7 @@ export const Suggestion = styled.p`
   text-align: left
 ;`
 
-export const AnimalItemContainer = styled.div`
-  display: flex; 
-  width: 100%; 
-  gap: ${FORM_STYLE_VALUES.contentGap};
-`
 
-export const AnimalItem = styled.button<{ $selected: boolean }>`
-  min-width: 0;
-  width: 100%;
-  height: 144px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: ${FORM_STYLE_VALUES.contentGap};
-  border: 2px solid ${({ $selected, theme }) => $selected ? theme.colors.darkColor : theme.colors.neutral};
-  border-radius: ${FORM_STYLE_VALUES.borderRadius};
-  padding: 12px;
-  background: ${({ theme }) => theme.colors.neutral};
-  cursor: pointer;
-`
-export const AnimalImage = styled.img`
-  width: 80px; 
-  max-width: 100%; 
-  height: 80px; 
-  object-fit: contain; 
-  border-radius: ${FORM_STYLE_VALUES.borderRadius}; 
-  background: ${({ theme }) => theme.colors.background};
-`
-export const AnimalTitle = styled.span`
-  color: ${({ theme }) => theme.colors.darkColor}; 
-  ${({ theme }) => theme.typography.navLabel};
-`
 //Colors component
 export const ColorsContainer = styled.div`
   display: flex; 

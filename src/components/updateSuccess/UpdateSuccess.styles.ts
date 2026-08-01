@@ -7,7 +7,6 @@ export const Container = styled.section`
   justify-content: center;
   padding: clamp(56px, 12vh, 104px) 24px 48px;
   background: ${({ theme }) => `${theme.colors.neutral}40`};
-
   @media (max-height: 650px) {
     padding-top: 36px;
   }

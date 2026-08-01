@@ -35,6 +35,6 @@ export interface AnimalPostResponse {
   status: string
   createdAt: string
   ownerId: string
-  phoneNumber: string
+  phoneNumber: string | null
   reward: number | null
 }

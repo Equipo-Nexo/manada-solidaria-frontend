@@ -5,8 +5,8 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '../../app/types/AnimalPost.types'
-import { PublicationReason } from './utils/PublicationReason'
+} from '../../../app/types/AnimalPost.types'
+import { PublicationReason } from '../utils/PublicationReason'
 
 export const newAnimalPostSchema = yup.object({
   imageId: yup.string().required('Seleccioná una foto del animal.'),
