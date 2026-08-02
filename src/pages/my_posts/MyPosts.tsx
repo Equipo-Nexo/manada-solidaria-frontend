@@ -57,6 +57,7 @@ function MyPosts() {
         const deletePostByType: Record<UserPostType, (postId: string) => Promise<void>> = {
             campaign: (postId) => deleteCampaign(postId).unwrap(),
             animal: (postId) => deleteAnimalPost(postId).unwrap(),
+            fundraising: (postId) => deleteCampaign(postId).unwrap()
         }
         const deletePost = deletePostByType[post.postType]
 
