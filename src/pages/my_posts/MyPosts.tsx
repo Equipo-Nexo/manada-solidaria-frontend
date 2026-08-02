@@ -18,13 +18,14 @@ import CategorySelector from "../../components/categorySelector/CategorySelector
 import Message from "../../components/message/message";
 import { publicationMessages } from "../../utils/Messages";
 
-type PostFilter = '' | 'animal' | 'campaign';
+type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
 
-const POST_FILTERS: PostFilter[] = ['', 'animal', 'campaign']
+const POST_FILTERS: PostFilter[] = ['', 'animal', 'campaign', 'fundraising']
 const POST_FILTER_LABELS: Record<PostFilter, string> = {
     '': 'Todos',
     animal: 'Animales',
     campaign: 'Campañas',
+    fundraising: 'Colectas'
 }
 
 function MyPosts() {
