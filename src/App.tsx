@@ -6,7 +6,6 @@ import { InstallButton } from "./components/install_button/installButton";
 import Campaigns from "./pages/campaigns/Campaigns";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
-import Map from "./pages/map/Map";
 import PublishCampaign from "./pages/publish/PublishCampaign";
 import PublishFundraising from "./pages/publish/PublishFundraising";
 import Register from "./pages/register/Register";
@@ -17,7 +16,9 @@ import AllAnimalsPage from "./pages/animalPosts/allAnimalPosts/AllAnimalsPage";
 import NewAnimalPostForm from "./pages/animalPosts/newAnimalPost/Form";
 import EditAnimalPostForm from "./pages/animalPosts/editAnimalPost/editAnimalPost";
 import EditAnimalPostSuccess from "./pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
+import Fundraising from "./pages/fundraising/Fundraising";
 import Menu from "./pages/menu/Menu";
+import AllPublicationsMap from "./pages/all_publications_map/AllPublicationsMap";
 
 function App() {
   const location = useLocation();
@@ -63,7 +64,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
-              <Route path="/mapa" element={<Map />} />
+              <Route path="/mapa" element={<AllPublicationsMap />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
@@ -77,6 +78,7 @@ function App() {
               />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
+              <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />

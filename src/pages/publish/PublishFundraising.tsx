@@ -16,6 +16,7 @@ import PublishButton from "../../components/icons/PublishButton";
 import AdviceComponent from "../../components/advice/AdviceComponent";
 import FormErrorMessage from "../../components/errors/ErrorMessage";
 import PhoneInputComponent from "../../components/inputs/PhoneInputComponent";
+import Map from "../../components/map/Map";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -215,7 +216,9 @@ function PublishFundraising() {
               <Search />
             </S.FieldIcon>
           </S.InputWithIcon>
-          <S.MapPreview aria-hidden="true" />
+          <S.MapWrapper >
+            <Map onPointSelect={(point) => console.log(point)}/>
+          </S.MapWrapper>
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
           </S.HelpText>
