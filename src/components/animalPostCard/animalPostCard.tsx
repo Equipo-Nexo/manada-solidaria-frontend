@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import { AnimalPostStatus } from '../../utils/AnimalPostUtils'
 import { NOT_FOUND_IMAGE_URL } from '../../utils/CommonUtils'
 import { ANIMAL_POST_STATUS_LABELS } from '../../app/types/AnimalPost.types'
-import type { AnimalPostStatus } from '../../app/types/AnimalPost.types'
 import { LocationPin, Share } from '../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import type { AnimalPostActionId } from './animalPostActions'
@@ -9,7 +9,7 @@ import * as S from './animalPostCard.styles'
 
 export type AnimalPostCardProps = {
   name?: string
-  status?: AnimalPostStatus
+  status?: string
   location?: string
   description?: string
   imageUrl?: string
@@ -33,7 +33,6 @@ function AnimalPostCard({
   actionHandlers,
 }: AnimalPostCardProps) {
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
-  const visibleActions = status ? getAnimalPostActions(status, contactPhone) : []
   const hasReward =
     status === ANIMAL_POST_STATUS_LABELS.LOST &&
     typeof reward === 'number' &&
@@ -41,17 +40,18 @@ function AnimalPostCard({
     reward > 0
   const formattedReward = hasReward
     ? new Intl.NumberFormat('es-AR', {
-        style: 'currency',
-        currency: 'ARS',
-        maximumFractionDigits: 0,
-      }).format(reward)
+      style: 'currency',
+      currency: 'ARS',
+      maximumFractionDigits: 0,
+    }).format(reward)
     : undefined
+  const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status].text, contactPhone) : []
 
   return (
     <S.CardContainer>
       <S.PhotoContainer>
         <S.Photo
-          src={imageUrl}
+          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`}
           alt={name}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
@@ -84,8 +84,8 @@ function AnimalPostCard({
               </S.RewardInfo>
             )}
             {status && (
-              <S.StatusContainer $status={status}>
-                {status}
+              <S.StatusContainer $color={AnimalPostStatus[status].fontColor} $background={AnimalPostStatus[status].backgroundColor}>
+                {AnimalPostStatus[status].text}
               </S.StatusContainer>
             )}
           </S.BadgesContainer>

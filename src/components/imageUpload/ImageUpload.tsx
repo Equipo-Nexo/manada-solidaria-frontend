@@ -1,16 +1,21 @@
 import { useState } from "react";
 import BottomSheet from "../bottomSheet/BottomSheet";
-import { Camera as CameraIcon, ChevronRight } from "../icons";
+import { Camera as CameraIcon, ChevronRight, Pencil, Trash } from "../icons";
 import Gallery from "../icons/Gallery";
-import { useCamera, type CapturedPhoto } from "../../hooks/camera/useCamera";
+import { useCamera } from "../../hooks/camera/useCamera";
 import * as S from "./ImageUpload.styles";
+import { useGetPresignedUrlMutation } from "../../app/services/apis/imagesApi";
+import { useUploadImageMutation } from "../../app/services/apis/cloudflareApi";
+import { useToast } from "../../hooks/toast/useToast";
+import PawLoader from "../pawLoader/PawLoader";
 
 type ImageUploadProps = {
   imageUrl?: string;
   label?: string;
-  onImageSelected?: (photo: CapturedPhoto) => void;
+  onImageSelected?: (savedImageId: string) => void;
   ariaDescribedBy?: string;
   hasError?: boolean;
+  onImageRemoved?: () => void;
 };
 
 function ImageUpload({
@@ -19,53 +24,103 @@ function ImageUpload({
   onImageSelected,
   ariaDescribedBy,
   hasError = false,
+  onImageRemoved,
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
+  const [isImageRemoved, setIsImageRemoved] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
-
+  const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
+  const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
+  const toaster = useToast()
 
-  const preview = imageUrl ?? capturedPhoto?.url;
+  const preview = isImageRemoved ? undefined : (imageUrl ?? capturedPhoto?.url);
+  const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
+  const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
   const handleTakePhoto = async () => {
     const photo = await takePhoto();
-
-    if (photo) {
-      onImageSelected?.(photo);
-      closeSheet();
-    }
+    if (!photo || !photo.file) return null;
+    uploadPhoto({ file: photo.file })
   };
 
   const handleChooseGallery = async () => {
     const photo = await chooseFromGallery();
-
-    if (photo) {
-      onImageSelected?.(photo);
-      closeSheet();
-    }
+    if (!photo || !photo.file) return null;
+    uploadPhoto({ file: photo.file })
   };
+
+  const uploadPhoto = async (photo: {
+    file: File
+  }) => {
+    const request = { contentType: photo.file.type, fileSize: photo.file.size}
+    getPresignedUrl(request)
+      .unwrap()
+      .then((response) => {
+        uploadImage({ url: response.uploadUrl, image: photo.file, contentType: photo.file.type })
+          .unwrap()
+          .catch(() => {
+            toaster.error("Hubo un error cargando la imagen")          
+          })
+        setIsImageRemoved(false);
+        onImageSelected?.(response.imageId);
+      })
+      .catch(() => {
+        toaster.error("Hubo un error cargando la imagen")          
+      })
+      .finally(() => closeSheet())
+  }
+
+  const handleRemoveImage = () => {
+    setIsImageRemoved(true);
+    onImageRemoved?.();
+  };
+
+  if (isLoading) {
+    return (
+      <S.ImageUploadLoadingState aria-busy="true">
+        <PawLoader label="Cargando imagen..." />
+      </S.ImageUploadLoadingState>
+    )
+  }
 
   return (
     <>
-      <S.ImageUploadButton
-        type="button"
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={hasError}
-        onClick={() => setIsSheetOpen(true)}
-      >
-        {preview ? (
-          <S.ImageUploadPreview src={preview} alt="" />
-        ) : (
-          <>
-            <S.ImageUploadIcon>
-              <CameraIcon aria-hidden="true" />
-            </S.ImageUploadIcon>
+      <S.ImageUploadContainer>
+        <S.ImageUploadButton
+          type="button"
+          aria-describedby={ariaDescribedBy}
+          aria-invalid={hasError}
+          onClick={() => setIsSheetOpen(true)}
+        >
+          {preview && !isError ? (
+            <>
+              <S.ImageUploadPreview src={preview} alt="" />
+              <S.EditImageIndicator aria-hidden="true">
+                <Pencil />
+              </S.EditImageIndicator>
+            </>
+          ) : (
+            <>
+              <S.ImageUploadIcon>
+                <CameraIcon aria-hidden="true" />
+              </S.ImageUploadIcon>
 
-            <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
-          </>
+              <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
+            </>
+          )}
+        </S.ImageUploadButton>
+
+        {preview && !isError && onImageRemoved && (
+          <S.RemoveImageButton
+            type="button"
+            aria-label="Eliminar foto"
+            onClick={handleRemoveImage}
+          >
+            <Trash aria-hidden="true" />
+          </S.RemoveImageButton>
         )}
-      </S.ImageUploadButton>
+      </S.ImageUploadContainer>
 
       <BottomSheet
         isOpen={isSheetOpen}

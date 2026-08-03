@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fieldFocusVisible } from '../../styles/interactions'
+import { fieldFocusVisible } from '../../../styles/interactions'
 
 const FORM_STYLE_VALUES = {
   borderRadius: '12px',
@@ -115,6 +115,21 @@ export const MapContainer = styled.div`
   flex-direction: column; 
   width: 100%; 
   gap: 8px;
+`
+
+export const MapWrapper = styled.div`
+  width: 100%;
+  height: min(620px, calc(100svh - 250px));
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgb(89 65 55 / 12%);
+
+  @media (max-width: 767px) {
+    height: calc(100svh - 600px);
+    min-height: 360px;
+  }
 `
 
 export const MapPlaceholder = styled.div`

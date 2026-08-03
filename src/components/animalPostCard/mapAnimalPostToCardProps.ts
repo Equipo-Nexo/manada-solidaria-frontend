@@ -1,5 +1,4 @@
 import type { AnimalPost } from '../../app/services/requests/animalPostRequests'
-import { getAnimalPostStatus } from '../../app/types/AnimalPost.types'
 import type { AnimalPostCardProps } from './animalPostCard'
 
 const getName = (post: AnimalPost) => {
@@ -14,7 +13,7 @@ export const mapAnimalPostToCardProps = (
   post: AnimalPost,
 ): AnimalPostCardProps => ({
   name: getName(post),
-  status: getAnimalPostStatus(post.type, post.status),
+  status: post.status,
   location: post.location.name,
   description: post.description,
   imageUrl: post.imageUrl,

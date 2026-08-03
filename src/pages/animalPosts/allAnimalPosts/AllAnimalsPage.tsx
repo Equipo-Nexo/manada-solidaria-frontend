@@ -1,18 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetAnimalPostsQuery } from '../../app/services/apis/animalPostsApi'
-import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
-import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
-import CategorySelector from '../../components/categorySelector/CategorySelector'
-import ArrowLeft from '../../components/icons/ArrowLeft'
+import AnimalPostCard from '../../../components/animalPostCard/animalPostCard'
+import { mapAnimalPostToCardProps } from '../../../components/animalPostCard/mapAnimalPostToCardProps'
+import CategorySelector from '../../../components/categorySelector/CategorySelector'
+import ArrowLeft from '../../../components/icons/ArrowLeft'
 import * as S from './allAnimalPosts.styles'
-import {
-  ANIMAL_POST_CATEGORIES,
-  ANIMAL_POST_CATEGORY_LABELS,
-} from '../../app/types/AnimalPost.types'
-import type { AnimalPostCategory } from '../../app/types/AnimalPost.types'
-import Message from '../../components/message/message'
-import { publicationMessages } from '../../utils/Messages'
+import Message from '../../../components/message/message'
+import { publicationMessages } from '../../../utils/Messages'
+import { ANIMAL_POST_CATEGORIES, ANIMAL_POST_CATEGORY_LABELS, type AnimalPostCategory } from '../../../app/types/AnimalPost.types'
+import { useGetAnimalPostsQuery } from '../../../app/services/apis/animalPostsApi'
 
 const PAGE_SIZE = 10
 
@@ -79,9 +75,14 @@ function AllAnimalsPage() {
 
         {!isLoading &&
           !isError &&
-          posts.map((post) => (
-            <AnimalPostCard key={post.id} {...mapAnimalPostToCardProps(post)} />
-          ))}
+          posts.map((post) => {
+            return (
+              <AnimalPostCard
+                key={post.id}
+                {...mapAnimalPostToCardProps(post)}
+              />
+            )
+          })}
       </S.PublicationsContainer>
     </S.Page>
   )

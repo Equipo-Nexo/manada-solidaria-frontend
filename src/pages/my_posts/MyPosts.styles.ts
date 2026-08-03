@@ -135,6 +135,7 @@ export const Card = styled.div`
     border: 1px solid ${({ theme }) => `${theme.colors.stroke}33`};
     box-shadow: 0 4px 12px 0 ${({ theme }) => `${theme.colors.black}14`};
     overflow: hidden;
+    height: 130px;
 
     @media (min-width: 768px) {
         height: 144px;

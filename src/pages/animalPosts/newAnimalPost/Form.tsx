@@ -8,18 +8,18 @@ import {
   type UseFormRegisterReturn,
 } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { ColorPalet, Publish, Search } from '../../components/icons'
-import AdviceComponent from '../../components/advice/AdviceComponent'
+import { ColorPalet, Publish, Search } from '../../../components/icons'
+import AdviceComponent from '../../../components/advice/AdviceComponent'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from './Form.schema'
 import * as S from './Form.styles'
-import OptionsComponent from '../../components/inputs/OptionsComponent'
-import PhoneInputComponent from '../../components/inputs/PhoneInputComponent'
-import FormErrorMessage from '../../components/errors/ErrorMessage'
-import SelectorComponent, { type SelectorOption } from '../../components/inputs/SelectorComponent'
-import perroImage from '../../components/images/Perro.png'
-import gatoImage from '../../components/images/Gato.png'
-import otroImage from '../../components/images/Otro.png'
-import ConditionalSwitchComponent from './components/ConditionalSwitchComponent'
+import OptionsComponent from '../../../components/inputs/OptionsComponent'
+import PhoneInputComponent from '../../../components/inputs/PhoneInputComponent'
+import FormErrorMessage from '../../../components/errors/ErrorMessage'
+import SelectorComponent, { type SelectorOption } from '../../../components/inputs/SelectorComponent'
+import perroImage from '../../../components/images/Perro.png'
+import gatoImage from '../../../components/images/Gato.png'
+import otroImage from '../../../components/images/Otro.png'
+import ConditionalSwitchComponent from '../components/ConditionalSwitchComponent'
 import {
   AnimalAge,
   AnimalColor,
@@ -27,17 +27,17 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '../../app/types/AnimalPost.types'
-import { PublicationReason } from './utils/PublicationReason'
-import { formatRewardAmount, parseRewardAmount } from './utils/rewardAmount'
-import { newAnimalPostDefaultValues } from './utils/DefaultValues'
-import { useCreateAnimalPostMutation } from '../../app/services/apis/animalPostsApi'
-import type { CreateAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
-import { useToast } from '../../hooks/toast/useToast'
-import ImageUpload from '../../components/imageUpload/ImageUpload'
-import Arrow from '../../components/icons/Arrow'
+} from '../../../app/types/AnimalPost.types'
+import { PublicationReason } from '../utils/PublicationReason'
+import { newAnimalPostDefaultValues } from '../utils/DefaultValues'
+import { useCreateAnimalPostMutation } from '../../../app/services/apis/animalPostsApi'
+import type { CreateAnimalPostRequest } from '../../../app/services/requests/animalPostRequests'
+import { useToast } from '../../../hooks/toast/useToast'
+import ImageUpload from '../../../components/imageUpload/ImageUpload'
+import Arrow from '../../../components/icons/Arrow'
+import Map from '../../../components/map/Map'
+import { formatRewardAmount, parseRewardAmount } from '../utils/rewardAmount'
 
-const TEMPORARY_IMAGE_ID = 'cf-image-123'
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
   address: 'Av. Patricias',
@@ -247,7 +247,7 @@ function NewAnimalPostForm() {
     const commonRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
-      imageId: TEMPORARY_IMAGE_ID,
+      imageId: values.imageId,
       animal: {
         type: values.animalType,
         size: values.animalSize,
@@ -270,7 +270,7 @@ function NewAnimalPostForm() {
         : values.publicationReason === PublicationReason.Street
           ? {
             ...commonRequest,
-            type: AnimalPostType.Lost,
+            type: AnimalPostType.InStreet,
             hasOwner: false,
           }
           : {
@@ -303,7 +303,7 @@ function NewAnimalPostForm() {
       >
         <S.FieldGroup>
           <Controller
-            name="photo"
+            name="imageId"
             control={control}
             render={({ field, fieldState }) => (
               <>
@@ -311,7 +311,7 @@ function NewAnimalPostForm() {
                   label="Seleccionar foto"
                   ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
                   hasError={Boolean(fieldState.error)}
-                  onImageSelected={(photo) => field.onChange(photo.file)}
+                  onImageSelected={(imageId) => field.onChange(imageId)}
                 />
                 <FormErrorMessage id="photo-error" message={fieldState.error?.message} />
               </>
@@ -361,7 +361,9 @@ function NewAnimalPostForm() {
             <S.Input placeholder="¿En dónde se encuentra el animal?" />
           </S.IconInputWrapper>
           <S.MapContainer>
-            <S.MapPlaceholder></S.MapPlaceholder>
+            <S.MapWrapper >
+              <Map onPointSelect={(point) => console.log(point)} />
+            </S.MapWrapper>
             <S.Suggestion>
               Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
               compartir tu dirección exacta.

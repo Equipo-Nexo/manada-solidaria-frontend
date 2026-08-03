@@ -38,6 +38,7 @@ export const theme = {
     statusFoundBackground: '#CCF59B',
     statusRewardText: '#356400',
     statusAdoptionText: '#4F378A',
+    statusSearchingtext: '#B3261E',
     focus: 'rgb(234 95 9 / 28%)',
     toast: {
       success: uxColors.success,

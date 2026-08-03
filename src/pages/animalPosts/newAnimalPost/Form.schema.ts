@@ -5,12 +5,12 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '../../app/types/AnimalPost.types'
-import { PublicationReason } from './utils/PublicationReason'
-import { parseRewardAmount } from './utils/rewardAmount'
+} from '../../../app/types/AnimalPost.types'
+import { PublicationReason } from '../utils/PublicationReason'
+import { parseRewardAmount } from '../utils/rewardAmount'
 
 export const newAnimalPostSchema = yup.object({
-  photo: yup.mixed<File>().required('Seleccioná una foto del animal.'),
+  imageId: yup.string().required('Seleccioná una foto del animal.'),
   publicationReason: yup
     .mixed<PublicationReason>()
     .oneOf(Object.values(PublicationReason))

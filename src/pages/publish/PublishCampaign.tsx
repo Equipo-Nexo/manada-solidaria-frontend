@@ -20,6 +20,9 @@ import type {
   CreateCampaignRequest,
 } from "../../app/services/requests/createCampaignRequest";
 import type { CampaignCategory } from "../../app/services/requests/createCampaignRequest";
+import Map from "../../components/map/Map";
+import type { Maybe } from "yup";
+
 function buildDateTime(date?: string, time?: string) {
   if (!date || !time) return null;
   return `${date}T${time}:00`;
@@ -43,6 +46,7 @@ type PublishCampaignForm = {
   phoneAreaCode: string;
   phone: string;
   location: string;
+  imageId?: Maybe<string | undefined>;
   donationNeeds?: DonationNeedCategory[];
 };
 
@@ -140,7 +144,7 @@ function PublishCampaign() {
       category: selectedCampaign.category,
       title: data.title,
       description: data.description,
-      imageId: "abc123",
+      imageId: data.imageId,
       phoneNumber,
       location: {
         name: data.location,
@@ -152,8 +156,8 @@ function PublishCampaign() {
       items:
         selectedCampaign.type === "DONATION"
           ? (data.donationNeeds ?? []).map((category) => ({
-            category,
-          }))
+              category,
+            }))
           : undefined,
       accountAlias: null,
       amountToBeCollected: null,
@@ -294,7 +298,7 @@ function PublishCampaign() {
                 render={({ field }) => (
                   <StyledMaskedInput
                     {...field}
-                    type="hora"
+                    maskType="hora"
                     placeholder="09:00 hs"
                   />
                 )}
@@ -311,7 +315,7 @@ function PublishCampaign() {
                 render={({ field }) => (
                   <StyledMaskedInput
                     {...field}
-                    type="hora"
+                    maskType="hora"
                     placeholder="15:00 hs"
                   />
                 )}
@@ -333,7 +337,7 @@ function PublishCampaign() {
                 render={({ field }) => (
                   <StyledMaskedInput
                     {...field}
-                    type="areaCode"
+                    maskType="areaCode"
                     placeholder="353"
                     $hasLeftIcon
                     onAccept={(value) => field.onChange(value)}
@@ -350,7 +354,7 @@ function PublishCampaign() {
               render={({ field }) => (
                 <StyledMaskedInput
                   {...field}
-                  type="phoneNumber"
+                  maskType="phoneNumber"
                   placeholder="56523551"
                   onAccept={(value) => field.onChange(value)}
                 />
@@ -379,7 +383,9 @@ function PublishCampaign() {
             </S.FieldIcon>
           </S.InputWithIcon>
           <FormErrorMessage message={errors.location?.message} />
-          <S.MapPreview aria-hidden="true" />
+          <S.MapWrapper >
+            <Map onPointSelect={(point) => console.log(point)}/>
+          </S.MapWrapper>
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
           </S.HelpText>
@@ -387,8 +393,14 @@ function PublishCampaign() {
 
         <S.PublishField as="div">
           <S.PublishLabel>Foto de la campaña</S.PublishLabel>
-
-          <ImageUpload />
+            <Controller
+              control={control}
+              name="imageId"
+              render={({ field }) => (
+                <ImageUpload onImageSelected={(imageId) => field.onChange(imageId)} />
+              )}
+            />
+          
         </S.PublishField>
 
         <AdviceComponent advice="Las campañas con metas claras y fotos nítidas suelen completarse un 40% más rápido. Asegurate de incluir toda la información relevante." />
