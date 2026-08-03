@@ -1,6 +1,10 @@
 import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
 import type { CampaignDetailsResponse, CampaignPageResponse } from "../../types/Campaign.types";
-import type { CreateCampaignRequest, EditCampaignMutationRequest } from "../requests/createCampaignRequest";
+import type { EditCampaignMutationRequest } from "../requests/createCampaignRequest";
+import type {
+  CampaignType,
+  CreateCampaignRequest,
+} from "../requests/createCampaignRequest";
 
 export type CampaignCategory =
   | "DONATION"
@@ -12,6 +16,7 @@ export type CampaignCategory =
 export interface GetCampaignsRequest {
   category?: CampaignCategory;
   size?: number;
+  type?: CampaignType;
 }
 
 export const campaignApi = baseAuthenticatedApi.injectEndpoints({
@@ -21,7 +26,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         url: `/campaigns/${campaignId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['userPosts', 'Campaigns']
+      invalidatesTags: ["userPosts", "Campaigns"],
     }),
 
     getCampaigns: builder.query<
@@ -33,7 +38,13 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         method: "GET",
         params,
       }),
-      providesTags: ['Campaigns'],
+      providesTags: ["Campaigns"],
+    }),
+    getFundraisingCampaigns: builder.query<CampaignPageResponse, void>({
+      query: () => ({
+        url: "/campaigns/fundraising_campaigns",
+        method: "GET",
+      }),
     }),
 
     getCampaign: builder.query<CampaignDetailsResponse, string>({
@@ -56,11 +67,11 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ['Campaigns', 'userPosts'],
+      invalidatesTags: ["Campaigns", "userPosts"],
     }),
   }),
   overrideExisting: false,
-})
+});
 
 export const {
   useCreateCampaignMutation,
@@ -68,4 +79,5 @@ export const {
   useEditCampaignMutation,
   useGetCampaignQuery,
   useGetCampaignsQuery,
+  useGetFundraisingCampaignsQuery,
 } = campaignApi;

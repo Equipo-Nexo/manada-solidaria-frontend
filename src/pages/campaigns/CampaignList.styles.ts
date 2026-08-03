@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const List = styled.div`
   display: grid;
@@ -9,8 +9,10 @@ export const List = styled.div`
   & > article {
     width: 100%;
   }
-`
-
+`;
+export const AdviceItem = styled.div`
+  grid-column: 1 / -1;
+`;
 export const MessageContainer = styled.div`
   display: flex;
   width: min(100%, 325px);
@@ -21,7 +23,7 @@ export const MessageContainer = styled.div`
   justify-content: center;
   gap: 16px;
   text-align: center;
-`
+`;
 
 export const RetryButton = styled.button`
   min-height: 40px;
@@ -39,4 +41,4 @@ export const RetryButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
-`
+`;
