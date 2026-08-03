@@ -3,9 +3,9 @@ import type { ObjectSchema } from "yup";
 import type { Location } from "../app/services/responses/Location";
 
 export const locationSchema: ObjectSchema<Location> = yup.object({
-  name: yup.string().required("Seleccioná una ubicación."),
-  address: yup.string().required("Ingresá una dirección."),
-  number: yup.number().required(),
-  latitude: yup.number().required(),
-  longitude: yup.number().required(),
+  name: yup.string().notRequired(),
+  address: yup.string().notRequired(),
+  number: yup.number().notRequired(),
+  latitude: yup.number().notRequired(),
+  longitude: yup.number().notRequired(),
 });

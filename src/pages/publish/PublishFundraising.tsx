@@ -53,7 +53,13 @@ function PublishFundraising() {
       phoneAreaCode: "",
       phone: "",
       imageId: undefined,
-      location: undefined,
+      location: {
+        name: "asdasd",
+        address: "",
+        number: 0,
+        latitude: 0,
+        longitude: 0,
+      },
     },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {
@@ -101,6 +107,7 @@ function PublishFundraising() {
       control,
       name: "phone",
     });
+
   return (
     <S.PublishFormPage>
       <S.PublishFormHeader>
@@ -207,7 +214,7 @@ function PublishFundraising() {
           <S.InputWithIcon>
             <S.IconInput
               type="text"
-              {...register("location")}
+              {...register("location.address")}
               placeholder="¿Dónde se realizará la campaña?"
               $hasLeftIcon
             />

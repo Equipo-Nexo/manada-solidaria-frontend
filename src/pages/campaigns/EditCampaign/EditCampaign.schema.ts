@@ -54,7 +54,7 @@ export const editCampaignSchema = yup.object({
     .string()
     .required('Ingresá un número de teléfono.')
     .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
-  // location: locationSchema.nullable(),
+  location: locationSchema.nullable(),
   imageId: yup.string().defined().default(''),
 })
 

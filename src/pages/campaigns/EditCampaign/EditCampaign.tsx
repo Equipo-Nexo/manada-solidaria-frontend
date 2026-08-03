@@ -279,7 +279,7 @@ function EditCampaign() {
             Ubicación <S.Required>*</S.Required>
           </S.Label>
           <S.InputWithIcon>
-            <S.Input id="edit-campaign-location" {...register('location')} />
+            <S.Input id="edit-campaign-location" {...register('location.address')} />
             <S.FieldIcon aria-hidden="true"><Search /></S.FieldIcon>
           </S.InputWithIcon>
           <FormErrorMessage message={errors.location?.message} />

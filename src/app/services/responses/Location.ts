@@ -1,7 +1,9 @@
+import type { Maybe } from "yup";
+
 export interface Location {
-  name: string;
-  address: string;
-  number: number;
-  latitude: number;
-  longitude: number;
+  name: Maybe<string | undefined>;
+  address: Maybe<string | undefined>;
+  number: Maybe<number | undefined>;
+  latitude: Maybe<number | undefined>;
+  longitude: Maybe<number | undefined>;
 }
