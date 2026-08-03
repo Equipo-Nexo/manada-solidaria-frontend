@@ -1,7 +1,13 @@
 import type { Maybe } from "yup";
-import type { DonationNeedCategory } from "../../../pages/publish/PublishCampaign";
-
 export type CampaignType = "NEWS" | "FUNDRAISING" | "DONATION";
+
+export type DonationNeedCategory =
+  | "FOOD"
+  | "MEDICINE"
+  | "SHELTER_AND_BEDDING"
+  | "TOYS_AND_ACCESSORIES"
+  | "CLOTHING_AND_BLANKETS"
+  | "OTHER";
 
 export type CampaignCategory =
   | "CASTRATION"
@@ -31,4 +37,9 @@ export interface CreateCampaignRequest {
   campaignEndDate?: string | null;
   newsStartDateTime?: string | null;
   newsEndDateTime?: string | null;
+}
+
+export type EditCampaignMutationRequest = {
+  campaignId: string
+  body: CreateCampaignRequest
 }

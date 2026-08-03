@@ -39,7 +39,10 @@ function MyPosts() {
 
 
     const handleEditButton = (post: GetUserPostsResponse) => {
-        navigate(`/editar/animal/${post.id}`)
+        const editPath = post.postType === 'campaign'
+            ? `/editar/campania/${post.id}`
+            : `/editar/animal/${post.id}`
+        navigate(editPath)
     }
 
     const handleDeleteButton = (post: GetUserPostsResponse) => {
