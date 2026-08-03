@@ -15,6 +15,7 @@ export const ImageUploadLoadingState = styled.div`
 export const ImageUploadButton = styled.button`
   width: 100%;
   min-height: 154px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,6 +60,37 @@ export const ImageUploadPreview = styled.img`
   height: 100%;
   min-height: 154px;
   object-fit: cover;
+`;
+
+export const EditImageIndicator = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid ${({ theme }) => `${theme.colors.background}80`};
+  border-radius: 50%;
+  background: ${({ theme }) => `${theme.colors.background}80`};
+  color: ${({ theme }) => theme.colors.darkColor};
+  box-shadow: 0 6px 18px ${({ theme }) => `${theme.colors.black}33`};
+  pointer-events: none;
+  backdrop-filter: blur(1.5px);
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  ${ImageUploadButton}:hover & {
+    background: ${({ theme }) => `${theme.colors.background}B3`};
+    color: ${({ theme }) => theme.colors.secondary};
+    transform: translate(-50%, -50%) scale(1.05);
+  }
 `;
 
 export const PhotoSheetHeader = styled.header`

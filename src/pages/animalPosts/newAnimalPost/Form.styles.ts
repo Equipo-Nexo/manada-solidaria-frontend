@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fieldFocusVisible } from '../../styles/interactions'
+import { fieldFocusVisible } from '../../../styles/interactions'
 
 const FORM_STYLE_VALUES = {
   borderRadius: '12px',

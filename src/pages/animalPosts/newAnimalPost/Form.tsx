@@ -7,18 +7,18 @@ import {
   type UseFormRegisterReturn,
 } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { ColorPalet, Publish, Search } from '../../components/icons'
-import AdviceComponent from '../../components/advice/AdviceComponent'
+import { ColorPalet, Publish, Search } from '../../../components/icons'
+import AdviceComponent from '../../../components/advice/AdviceComponent'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from './Form.schema'
 import * as S from './Form.styles'
-import OptionsComponent from '../../components/inputs/OptionsComponent'
-import PhoneInputComponent from '../../components/inputs/PhoneInputComponent'
-import FormErrorMessage from '../../components/errors/ErrorMessage'
-import SelectorComponent, { type SelectorOption } from '../../components/inputs/SelectorComponent'
-import perroImage from '../../components/images/Perro.png'
-import gatoImage from '../../components/images/Gato.png'
-import otroImage from '../../components/images/Otro.png'
-import ConditionalSwitchComponent from './components/ConditionalSwitchComponent'
+import OptionsComponent from '../../../components/inputs/OptionsComponent'
+import PhoneInputComponent from '../../../components/inputs/PhoneInputComponent'
+import FormErrorMessage from '../../../components/errors/ErrorMessage'
+import SelectorComponent, { type SelectorOption } from '../../../components/inputs/SelectorComponent'
+import perroImage from '../../../components/images/Perro.png'
+import gatoImage from '../../../components/images/Gato.png'
+import otroImage from '../../../components/images/Otro.png'
+import ConditionalSwitchComponent from '../components/ConditionalSwitchComponent'
 import {
   AnimalAge,
   AnimalColor,
@@ -26,15 +26,15 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '../../app/types/AnimalPost.types'
-import { PublicationReason } from './utils/PublicationReason'
-import { newAnimalPostDefaultValues } from './utils/DefaultValues'
-import { useCreateAnimalPostMutation } from '../../app/services/apis/animalPostsApi'
-import type { CreateAnimalPostRequest } from '../../app/services/requests/animalPostRequests'
-import { useToast } from '../../hooks/toast/useToast'
-import ImageUpload from '../../components/imageUpload/ImageUpload'
-import Arrow from '../../components/icons/Arrow'
-import Map from '../../components/map/Map'
+} from '../../../app/types/AnimalPost.types'
+import { PublicationReason } from '../utils/PublicationReason'
+import { newAnimalPostDefaultValues } from '../utils/DefaultValues'
+import { useCreateAnimalPostMutation } from '../../../app/services/apis/animalPostsApi'
+import type { CreateAnimalPostRequest } from '../../../app/services/requests/animalPostRequests'
+import { useToast } from '../../../hooks/toast/useToast'
+import ImageUpload from '../../../components/imageUpload/ImageUpload'
+import Arrow from '../../../components/icons/Arrow'
+import Map from '../../../components/map/Map'
 
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
@@ -346,7 +346,7 @@ function NewAnimalPostForm() {
           </S.IconInputWrapper>
           <S.MapContainer>
             <S.MapWrapper >
-              <Map onPointSelect={(point) => console.log(point)}/>
+              <Map onPointSelect={(point) => console.log(point)} />
             </S.MapWrapper>
             <S.Suggestion>
               Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá

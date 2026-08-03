@@ -1,6 +1,7 @@
 export enum AnimalPostType {
   Adoption = 'ADOPTION',
   Lost = 'LOST',
+  InStreet = 'IN_STREET',
 }
 
 export enum AnimalType {

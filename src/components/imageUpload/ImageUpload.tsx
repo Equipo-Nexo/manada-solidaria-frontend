@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BottomSheet from "../bottomSheet/BottomSheet";
-import { Camera as CameraIcon, ChevronRight } from "../icons";
+import { Camera as CameraIcon, ChevronRight, Pencil } from "../icons";
 import Gallery from "../icons/Gallery";
 import { useCamera } from "../../hooks/camera/useCamera";
 import * as S from "./ImageUpload.styles";
@@ -84,7 +84,12 @@ function ImageUpload({
         onClick={() => setIsSheetOpen(true)}
       >
         {preview && !isError ? (
-          <S.ImageUploadPreview src={preview} alt="" />
+          <>
+            <S.ImageUploadPreview src={preview} alt="" />
+            <S.EditImageIndicator aria-hidden="true">
+              <Pencil />
+            </S.EditImageIndicator>
+          </>
         ) : (
           <>
             <S.ImageUploadIcon>
