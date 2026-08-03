@@ -21,6 +21,7 @@ import PublishButton from '../../../components/icons/PublishButton'
 import Search from '../../../components/icons/Search'
 import { StyledMaskedInput } from '../../../components/maskedInput/maskedInput.styles'
 import { useToast } from '../../../hooks/toast/useToast'
+import { NOT_FOUND_IMAGE_URL } from '../../../utils/CommonUtils'
 import { editCampaignSchema, type EditCampaignFormValues } from './EditCampaign.schema'
 import * as S from './EditCampaign.styles'
 
@@ -113,7 +114,7 @@ function EditCampaign() {
       category: requestType.category,
       title: values.title.trim(),
       description: values.description.trim(),
-      imageId: values.imageId || campaign.imageId || campaign.imageUrl,
+      imageId: values.imageId || null,
       location: {
         name: values.location.trim(),
         address: campaign.location?.address ?? '',
@@ -141,7 +142,7 @@ function EditCampaign() {
       navigate(`/editar/campania/${campaignId}/exito`, {
         replace: true,
         state: {
-          imageUrl: getImagePreviewUrl(values.imageId),
+          imageUrl: getImagePreviewUrl(values.imageId) ?? NOT_FOUND_IMAGE_URL,
           name: values.title.trim(),
         },
       })
@@ -303,6 +304,7 @@ function EditCampaign() {
                   ariaDescribedBy={fieldState.error ? 'campaign-image-error' : undefined}
                   hasError={Boolean(fieldState.error)}
                   onImageSelected={field.onChange}
+                  onImageRemoved={() => field.onChange('')}
                 />
                 <FormErrorMessage
                   id="campaign-image-error"

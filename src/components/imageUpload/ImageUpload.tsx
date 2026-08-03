@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BottomSheet from "../bottomSheet/BottomSheet";
-import { Camera as CameraIcon, ChevronRight, Pencil } from "../icons";
+import { Camera as CameraIcon, ChevronRight, Pencil, Trash } from "../icons";
 import Gallery from "../icons/Gallery";
 import { useCamera } from "../../hooks/camera/useCamera";
 import * as S from "./ImageUpload.styles";
@@ -15,6 +15,7 @@ type ImageUploadProps = {
   onImageSelected?: (savedImageId: string) => void;
   ariaDescribedBy?: string;
   hasError?: boolean;
+  onImageRemoved?: () => void;
 };
 
 function ImageUpload({
@@ -23,6 +24,7 @@ function ImageUpload({
   onImageSelected,
   ariaDescribedBy,
   hasError = false,
+  onImageRemoved,
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
@@ -77,29 +79,41 @@ function ImageUpload({
 
   return (
     <>
-      <S.ImageUploadButton
-        type="button"
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={hasError}
-        onClick={() => setIsSheetOpen(true)}
-      >
-        {preview && !isError ? (
-          <>
-            <S.ImageUploadPreview src={preview} alt="" />
-            <S.EditImageIndicator aria-hidden="true">
-              <Pencil />
-            </S.EditImageIndicator>
-          </>
-        ) : (
-          <>
-            <S.ImageUploadIcon>
-              <CameraIcon aria-hidden="true" />
-            </S.ImageUploadIcon>
+      <S.ImageUploadContainer>
+        <S.ImageUploadButton
+          type="button"
+          aria-describedby={ariaDescribedBy}
+          aria-invalid={hasError}
+          onClick={() => setIsSheetOpen(true)}
+        >
+          {preview && !isError ? (
+            <>
+              <S.ImageUploadPreview src={preview} alt="" />
+              <S.EditImageIndicator aria-hidden="true">
+                <Pencil />
+              </S.EditImageIndicator>
+            </>
+          ) : (
+            <>
+              <S.ImageUploadIcon>
+                <CameraIcon aria-hidden="true" />
+              </S.ImageUploadIcon>
 
-            <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
-          </>
+              <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
+            </>
+          )}
+        </S.ImageUploadButton>
+
+        {preview && !isError && onImageRemoved && (
+          <S.RemoveImageButton
+            type="button"
+            aria-label="Eliminar foto"
+            onClick={onImageRemoved}
+          >
+            <Trash aria-hidden="true" />
+          </S.RemoveImageButton>
         )}
-      </S.ImageUploadButton>
+      </S.ImageUploadContainer>
 
       <BottomSheet
         isOpen={isSheetOpen}
