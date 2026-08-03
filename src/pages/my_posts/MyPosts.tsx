@@ -38,8 +38,11 @@ function MyPosts() {
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
 
 
-    const handleEditButton = () => {
-        // Handle edit button click logic here
+    const handleEditButton = (post: GetUserPostsResponse) => {
+        const editPath = post.postType === 'campaign'
+            ? `/editar/campania/${post.id}`
+            : `/editar/animal/${post.id}`
+        navigate(editPath)
     }
 
     const handleDeleteButton = (post: GetUserPostsResponse) => {
@@ -168,7 +171,11 @@ function MyPosts() {
                                         }
                                     </S.CardInformationContainer>
                                     <S.ButtonsContainer>
-                                        <S.Button onClick={handleEditButton}>
+                                        <S.Button
+                                            type="button"
+                                            aria-label={`Editar ${title}`}
+                                            onClick={() => handleEditButton({ id, imageId, title, createdSince, status, postType })}
+                                        >
                                             <Pencil width={17} height={17} />
                                         </S.Button>
                                         <S.Button onClick={() => handleDeleteButton({ id, imageId, title, createdSince, status, postType })}>

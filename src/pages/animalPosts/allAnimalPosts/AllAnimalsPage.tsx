@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetAnimalPostsQuery } from '../../app/services/apis/animalPostsApi'
+import { useGetAnimalPostsQuery } from '../../../app/services/apis/animalPostsApi'
 import type {
   AnimalPostBackendStatus,
   GetAnimalPostsRequest,
-} from '../../app/services/requests/animalPostRequests'
-import AnimalPostCard from '../../components/animalPostCard/animalPostCard'
-import { mapAnimalPostToCardProps } from '../../components/animalPostCard/mapAnimalPostToCardProps'
-import CategorySelector from '../../components/categorySelector/CategorySelector'
-import ArrowLeft from '../../components/icons/ArrowLeft'
+} from '../../../app/services/requests/animalPostRequests'
+import AnimalPostCard from '../../../components/animalPostCard/animalPostCard'
+import { mapAnimalPostToCardProps } from '../../../components/animalPostCard/mapAnimalPostToCardProps'
+import CategorySelector from '../../../components/categorySelector/CategorySelector'
+import ArrowLeft from '../../../components/icons/ArrowLeft'
 import * as S from './allAnimalPosts.styles'
-import { AnimalPostType } from '../../app/types/AnimalPost.types'
-import Message from '../../components/message/message'
-import { publicationMessages } from '../../utils/Messages'
+import { AnimalPostType } from '../../../app/types/AnimalPost.types'
+import Message from '../../../components/message/message'
+import { publicationMessages } from '../../../utils/Messages'
 
 type Category = 'Todos' | 'Adopción' | 'Perdidos' | 'En la calle'
 

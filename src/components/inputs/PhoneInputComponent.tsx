@@ -13,6 +13,8 @@ interface PhoneInputProps {
   onPhoneNumberBlur?: FocusEventHandler<HTMLInputElement>;
   areaCodeRef?: Ref<HTMLInputElement>;
   phoneNumberRef?: Ref<HTMLInputElement>;
+  areaCodePlaceholder?: string;
+  phoneNumberPlaceholder?: string;
   error?: string;
 }
 
@@ -25,6 +27,8 @@ function PhoneInputComponent({
   onPhoneNumberBlur,
   areaCodeRef,
   phoneNumberRef,
+  areaCodePlaceholder = "353",
+  phoneNumberPlaceholder = "5652355",
   error,
 }: PhoneInputProps) {
   return (
@@ -40,7 +44,7 @@ function PhoneInputComponent({
             value={areaCodeValue}
             aria-label="Código de área"
             inputMode="numeric"
-            placeholder="353"
+            placeholder={areaCodePlaceholder}
             $hasLeftIcon
             aria-invalid={Boolean(error)}
             onAccept={(value) => onAreaCodeChange(String(value))}
@@ -53,7 +57,7 @@ function PhoneInputComponent({
           value={phoneNumberValue}
           aria-label="Número de teléfono"
           inputMode="numeric"
-          placeholder="5652355"
+          placeholder={phoneNumberPlaceholder}
           aria-invalid={Boolean(error)}
           onAccept={(value) => onPhoneNumberChange(String(value))}
           onBlur={onPhoneNumberBlur}

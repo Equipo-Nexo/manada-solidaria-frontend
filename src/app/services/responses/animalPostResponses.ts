@@ -10,7 +10,7 @@ import type {
 export interface AnimalPostResponse {
   id: string
   type: AnimalPostType
-  title: string
+  name: string | null
   description: string
   imageUrl: string
   animal: {
@@ -35,6 +35,6 @@ export interface AnimalPostResponse {
   status: string
   createdAt: string
   ownerId: string
-  phoneNumber: string
+  phoneNumber: string | null
   reward: number | null
 }
