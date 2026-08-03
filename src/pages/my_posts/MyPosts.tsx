@@ -40,7 +40,12 @@ function MyPosts() {
 
 
     const handleEditButton = (post: GetUserPostsResponse) => {
-        navigate(`/editar/animal/${post.id}`)
+        const editByPostType: Record<UserPostType, (postId: string) => void> = {
+            campaign: (postId) => navigate(`/editar/campana/${postId}`),
+            animal: (postId) => navigate(`/editar/animal/${postId}`),
+            fundraising: (postId) => navigate(`/editar/colecta/${postId}`)
+        }
+        editByPostType[post.postType](post.id)
     }
 
     const handleDeleteButton = (post: GetUserPostsResponse) => {
@@ -99,7 +104,7 @@ function MyPosts() {
                 </S.BottomSheetButtonContainer>
             </BottomSheet>
             <S.Header>
-                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+                <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
                     <ArrowLeft aria-hidden="true" />
                 </S.BackButton>
                 <S.TitlesContainer>

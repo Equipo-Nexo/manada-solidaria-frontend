@@ -16,7 +16,7 @@ function MobileAuthenticatedView() {
     '/mis-publicaciones'
   ];
   
-  const hideNavigation = routesWithoutNavigation.includes(location.pathname);
+  const hideNavigation = routesWithoutNavigation.includes(location.pathname) || location.pathname.startsWith("/editar/colecta");
   const showHeader =
     location.pathname !== '/menu' &&
     (!hideNavigation || location.pathname === '/mis-publicaciones')

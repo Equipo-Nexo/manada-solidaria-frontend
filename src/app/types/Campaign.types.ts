@@ -1,4 +1,5 @@
 import type { CampaignType } from "../../components/campaignCard/CampaignCard";
+import type { Location } from "../services/responses/Location";
 
 export type CampaignResponse = {
   id: string;
@@ -6,15 +7,16 @@ export type CampaignResponse = {
   title: string;
   description: string;
   imageId: string;
-  location: {
-    id: string;
-    name: string;
-    address: string;
-    number: number;
-    latitude: number;
-    longitude: number;
-  };
+  location: Location | undefined;
 };
+
+export type FundraisingCampaignResponse = CampaignResponse & {
+  accountAlias: string;
+  amountToBeCollected: number;
+  amountCollected: number;
+  phoneNumber: string;
+  campaignEndDate: string;
+}
 
 export type CampaignPageResponse = {
   content: CampaignResponse[];

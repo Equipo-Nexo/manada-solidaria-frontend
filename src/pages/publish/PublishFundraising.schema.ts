@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { locationSchema } from "../../utils/Location.schema";
 
 export const publishFundraisingSchema = yup.object({
   title: yup.string().trim().required("Ingresá un título."),
@@ -31,5 +32,5 @@ export const publishFundraisingSchema = yup.object({
   phoneAreaCode: yup.string().required("Ingresá el código de área."),
   phone: yup.string().required("Ingresá un número de teléfono."),
   imageId: yup.string().notRequired(),
-  location: yup.string().notRequired(),
+  location: locationSchema.notRequired(),
 });

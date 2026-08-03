@@ -18,6 +18,7 @@ import NewAnimalPostForm from "./pages/animalPosts/newAnimalPost/Form";
 import EditAnimalPostForm from "./pages/animalPosts/editAnimalPost/editAnimalPost";
 import EditAnimalPostSuccess from "./pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
 import Menu from "./pages/menu/Menu";
+import EditFundraising from "./pages/campaigns/editFundraisingCampaign/EditFundraisingCampaign";
 
 function App() {
   const location = useLocation();
@@ -67,6 +68,7 @@ function App() {
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
+              <Route path="/editar/colecta/:fundraisingId" element={<EditFundraising />} />
               <Route
                 path="/editar/animal/:postId/exito"
                 element={<EditAnimalPostSuccess />}

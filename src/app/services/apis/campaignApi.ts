@@ -1,6 +1,7 @@
 import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { CampaignPageResponse } from "../../types/Campaign.types";
+import type { CampaignPageResponse, FundraisingCampaignResponse } from "../../types/Campaign.types";
 import type { CreateCampaignRequest } from "../requests/createCampaignRequest";
+import type { UpdateFundraisingCampaignRequest } from '../requests/updateCampaignRequest';
 
 export type CampaignCategory =
   | "DONATION"
@@ -36,6 +37,23 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       providesTags: ['Campaigns'],
     }),
 
+    getFundraisingById: builder.query<FundraisingCampaignResponse, string>({
+      query: (postId) => ({
+        url: `/campaigns/${postId}`,
+        method: "GET",
+      }),
+      providesTags: ['Campaigns'],
+    }),
+
+    updateFundraisingCampaign: builder.mutation<void, { postId: string; body: UpdateFundraisingCampaignRequest }>({
+      query: ({ postId, body }) => ({
+        url: `/campaigns/${postId}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ['Campaigns', 'userPosts'],
+    }),
+
     createCampaign: builder.mutation<void, CreateCampaignRequest>({
       query: (body) => ({
         url: "/campaigns",
@@ -48,4 +66,10 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useDeleteCampaignMutation, useGetCampaignsQuery, useCreateCampaignMutation } = campaignApi;
+export const { 
+  useDeleteCampaignMutation,
+  useGetCampaignsQuery,
+  useCreateCampaignMutation,
+  useGetFundraisingByIdQuery,
+  useUpdateFundraisingCampaignMutation
+} = campaignApi;

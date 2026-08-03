@@ -6,6 +6,7 @@ import type {
   AnimalSize,
   AnimalType,
 } from '../../types/AnimalPost.types'
+import type { Location } from './Location'
 
 export interface AnimalPostResponse {
   id: string
@@ -24,14 +25,7 @@ export interface AnimalPostResponse {
     age: AnimalAge
     description: string | null
   }
-  location: {
-    id: string
-    name: string
-    address: string
-    number: number
-    latitude: number
-    longitude: number
-  }
+  location: Location
   status: string
   createdAt: string
   ownerId: string
