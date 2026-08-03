@@ -62,34 +62,72 @@ export const ImageUploadPreview = styled.img`
   object-fit: cover;
 `;
 
+export const ImageUploadContainer = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
 export const EditImageIndicator = styled.span`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 58px;
-  height: 58px;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transform: translate(-50%, -50%);
-  border: 1px solid ${({ theme }) => `${theme.colors.background}80`};
+  border: 2px solid ${({ theme }) => theme.colors.background};
   border-radius: 50%;
-  background: ${({ theme }) => `${theme.colors.background}80`};
-  color: ${({ theme }) => theme.colors.darkColor};
-  box-shadow: 0 6px 18px ${({ theme }) => `${theme.colors.black}33`};
+  background: ${({ theme }) => `${theme.colors.background}D9`};
+  color: ${({ theme }) => theme.colors.secondary};
+  box-shadow: 0 4px 14px ${({ theme }) => `${theme.colors.black}80`};
   pointer-events: none;
-  backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(4px);
   transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 
   ${ImageUploadButton}:hover & {
-    background: ${({ theme }) => `${theme.colors.background}B3`};
-    color: ${({ theme }) => theme.colors.secondary};
-    transform: translate(-50%, -50%) scale(1.05);
+    background: ${({ theme }) => `${theme.colors.background}F2`};
+    color: ${({ theme }) => theme.colors.darkColor};
+    transform: scale(1.05);
+  }
+`;
+
+export const RemoveImageButton = styled.button`
+  position: absolute;
+  top: 64px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid ${({ theme }) => theme.colors.background};
+  border-radius: 50%;
+  background: ${({ theme }) => `${theme.colors.background}D9`};
+  color: ${({ theme }) => theme.colors.brand};
+  box-shadow: 0 4px 14px ${({ theme }) => `${theme.colors.black}80`};
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform 160ms ease, background-color 160ms ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: ${({ theme }) => `${theme.colors.background}F2`};
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
   }
 `;
 

@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import type { ChangeEvent } from 'react'
 import {
   Controller,
   useController,
@@ -34,6 +35,8 @@ import type { CreateAnimalPostRequest } from '../../../app/services/requests/ani
 import { useToast } from '../../../hooks/toast/useToast'
 import ImageUpload from '../../../components/imageUpload/ImageUpload'
 import Arrow from '../../../components/icons/Arrow'
+import Map from '../../../components/map/Map'
+import { formatRewardAmount, parseRewardAmount } from '../utils/rewardAmount'
 
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
@@ -207,7 +210,11 @@ function NewAnimalPostForm() {
   })
 
   const selectedReason = useWatch({ control, name: 'publicationReason' })
-  const { ref: rewardInputRef, ...rewardInputProps } = register('rewardAmount')
+  const {
+    ref: rewardInputRef,
+    onChange: onRewardAmountChange,
+    ...rewardInputProps
+  } = register('rewardAmount')
   const { field: areaCodeField, fieldState: areaCodeState } = useController({
     control,
     name: 'areaCode',
@@ -227,9 +234,14 @@ function NewAnimalPostForm() {
     resetField('rewardAmount', { defaultValue: '' })
   }
 
+  const handleRewardAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.target.value = formatRewardAmount(event.target.value)
+    void onRewardAmountChange(event)
+  }
+
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
     const reward = values.offersReward
-      ? Number(values.rewardAmount.replace(',', '.'))
+      ? parseRewardAmount(values.rewardAmount)
       : undefined
 
     const commonRequest = {
@@ -249,18 +261,23 @@ function NewAnimalPostForm() {
     }
 
     const request: CreateAnimalPostRequest =
-      values.publicationReason === PublicationReason.Lost ||
-        values.publicationReason === PublicationReason.Street
+      values.publicationReason === PublicationReason.Lost
         ? {
           ...commonRequest,
           type: AnimalPostType.Lost,
-          hasOwner: values.publicationReason === PublicationReason.Lost,
+          hasOwner: true,
         }
-        : {
-          ...commonRequest,
-          type: AnimalPostType.Adoption,
-          inTransit: values.publicationReason === PublicationReason.Transit,
-        }
+        : values.publicationReason === PublicationReason.Street
+          ? {
+            ...commonRequest,
+            type: AnimalPostType.InStreet,
+            hasOwner: false,
+          }
+          : {
+            ...commonRequest,
+            type: AnimalPostType.Adoption,
+            inTransit: values.publicationReason === PublicationReason.Transit,
+          }
 
     try {
       await createAnimalPost(request).unwrap()
@@ -344,7 +361,9 @@ function NewAnimalPostForm() {
             <S.Input placeholder="¿En dónde se encuentra el animal?" />
           </S.IconInputWrapper>
           <S.MapContainer>
-            <S.MapPlaceholder></S.MapPlaceholder>
+            <S.MapWrapper >
+              <Map onPointSelect={(point) => console.log(point)} />
+            </S.MapWrapper>
             <S.Suggestion>
               Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
               compartir tu dirección exacta.
@@ -520,7 +539,10 @@ function NewAnimalPostForm() {
                   field.onChange(checked)
                   if (!checked) resetField('rewardAmount', { defaultValue: '' })
                 }}
-                rewardInputProps={rewardInputProps}
+                rewardInputProps={{
+                  ...rewardInputProps,
+                  onChange: handleRewardAmountChange,
+                }}
                 rewardInputRef={rewardInputRef}
                 rewardError={errors.rewardAmount?.message}
               />

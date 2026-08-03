@@ -1,9 +1,5 @@
-import type { AnimalColor, AnimalSex, AnimalPostType } from "../../types/AnimalPost.types"
+import type { AnimalColor, AnimalPostBackendStatus, AnimalSex, AnimalPostType } from "../../types/AnimalPost.types"
 
-export type AnimalPostBackendStatus =
-  | 'CREATED'
-  | 'SEARCHING_ADOPT_AND_TRANSIT'
-  | 'SEARCHING_ADOPT'
 
 export type AnimalType = 'DOG' | 'CAT' | 'OTHER'
 export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'
@@ -101,13 +97,18 @@ interface CreateAnimalPostBaseRequest {
 export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
   | {
     type: AnimalPostType.Lost
-    hasOwner: boolean
+    hasOwner: true
     inTransit?: never
   }
   | {
     type: AnimalPostType.Adoption
     inTransit: boolean
     hasOwner?: never
+  }
+  | {
+    type: AnimalPostType.InStreet
+    hasOwner: false
+    inTransit?: never
   }
 )
 

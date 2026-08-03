@@ -1,6 +1,6 @@
 import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { CampaignPageResponse, FundraisingCampaignResponse } from "../../types/Campaign.types";
-import type { CreateCampaignRequest } from "../requests/createCampaignRequest";
+import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignResponse } from "../../types/Campaign.types";
+import type { CampaignType, CreateCampaignRequest, EditCampaignMutationRequest } from "../requests/createCampaignRequest";
 import type { UpdateFundraisingCampaignRequest } from '../requests/updateCampaignRequest';
 
 export type CampaignCategory =
@@ -13,16 +13,17 @@ export type CampaignCategory =
 export interface GetCampaignsRequest {
   category?: CampaignCategory;
   size?: number;
+  type?: CampaignType;
 }
 
 export const campaignApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
     deleteCampaign: builder.mutation<void, string>({
-      query: (postId) => ({
-        url: `/campaigns/${postId}`,
+      query: (campaignId) => ({
+        url: `/campaigns/${campaignId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['userPosts', 'Campaigns']
+      invalidatesTags: ["userPosts", "Campaigns"],
     }),
 
     getCampaigns: builder.query<
@@ -34,6 +35,17 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         method: "GET",
         params,
       }),
+      providesTags: ["Campaigns"],
+    }),
+    getFundraisingCampaigns: builder.query<CampaignPageResponse, void>({
+      query: () => ({
+        url: "/campaigns/fundraising_campaigns",
+        method: "GET",
+      }),
+    }),
+
+    getCampaign: builder.query<CampaignDetailsResponse, string>({
+      query: (campaignId) => `/campaigns/${campaignId}`,
       providesTags: ['Campaigns'],
     }),
 
@@ -53,6 +65,15 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       invalidatesTags: ['Campaigns', 'userPosts'],
     }),
+    
+    editCampaign: builder.mutation<void, EditCampaignMutationRequest>({
+      query: ({ campaignId, body }) => ({
+        url: `/campaigns/${campaignId}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Campaigns', 'userPosts'],
+    }),
 
     createCampaign: builder.mutation<void, CreateCampaignRequest>({
       query: (body) => ({
@@ -60,16 +81,19 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ['Campaigns', 'userPosts'],
+      invalidatesTags: ["Campaigns", "userPosts"],
     }),
   }),
   overrideExisting: false,
-})
+});
 
 export const { 
   useDeleteCampaignMutation,
-  useGetCampaignsQuery,
-  useCreateCampaignMutation,
   useGetFundraisingByIdQuery,
-  useUpdateFundraisingCampaignMutation
+  useUpdateFundraisingCampaignMutation,
+  useCreateCampaignMutation,
+  useEditCampaignMutation,
+  useGetCampaignQuery,
+  useGetCampaignsQuery,
+  useGetFundraisingCampaignsQuery,
 } = campaignApi;

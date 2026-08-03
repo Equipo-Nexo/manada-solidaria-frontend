@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BottomSheet from "../bottomSheet/BottomSheet";
-import { Camera as CameraIcon, ChevronRight, Pencil } from "../icons";
+import { Camera as CameraIcon, ChevronRight, Pencil, Trash } from "../icons";
 import Gallery from "../icons/Gallery";
 import { useCamera } from "../../hooks/camera/useCamera";
 import * as S from "./ImageUpload.styles";
@@ -22,7 +22,7 @@ function ImageUpload({
   label = "Seleccionar foto",
   onImageSelected,
   ariaDescribedBy,
-  hasError = false,
+  hasError = false
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
@@ -30,25 +30,33 @@ function ImageUpload({
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
   const [updated, setUpdated] = useState(false);
+  const [isImageRemoved, setIsImageRemoved] = useState(false);
   const toaster = useToast()
 
-  const preview = capturedPhoto?.url;
+  const preview = isImageRemoved
+    ? undefined
+    : updated
+      ? capturedPhoto?.url
+      : imageUrl ?? capturedPhoto?.url;
+  const previewSource = preview && !updated && !/^(https?:|blob:|data:)/i.test(preview)
+    ? `${import.meta.env.VITE_CLOUDFLARE_URL}${preview}`
+    : preview;
   const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
   const handleTakePhoto = async () => {
-    setUpdated(true);
-
     const photo = await takePhoto();
     if (!photo || !photo.file) return null;
+    setIsImageRemoved(false);
+    setUpdated(true);
     uploadPhoto({ file: photo.file })
   };
 
   const handleChooseGallery = async () => {
-    setUpdated(true);
-
     const photo = await chooseFromGallery();
     if (!photo || !photo.file) return null;
+    setIsImageRemoved(false);
+    setUpdated(true);
     uploadPhoto({ file: photo.file })
   };
 
@@ -72,6 +80,11 @@ function ImageUpload({
       .finally(() => closeSheet())
   }
 
+  const handleRemoveImage = () => {
+    setIsImageRemoved(true);
+    onImageSelected?.("");
+  };
+
   if (isLoading) {
     return (
       <S.ImageUploadLoadingState aria-busy="true">
@@ -82,32 +95,44 @@ function ImageUpload({
 
   return (
     <>
-      <S.ImageUploadButton
-        type="button"
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={hasError}
-        onClick={() => setIsSheetOpen(true)}
-      >
-        {(imageUrl || preview) && !isError ? (
-          <>
-            <S.ImageUploadPreview 
-              src={imageUrl && !updated? `${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}` : preview } 
-              alt="" 
-            />
-            <S.EditImageIndicator aria-hidden="true">
-              <Pencil />
-            </S.EditImageIndicator>
-          </>
-        ) : (
-          <>
-            <S.ImageUploadIcon>
-              <CameraIcon aria-hidden="true" />
-            </S.ImageUploadIcon>
+      <S.ImageUploadContainer>
+        <S.ImageUploadButton
+          type="button"
+          aria-describedby={ariaDescribedBy}
+          aria-invalid={hasError}
+          onClick={() => setIsSheetOpen(true)}
+        >
+          {preview && !isError ? (
+            <>
+              <S.ImageUploadPreview 
+                src={previewSource}
+                alt="" 
+              />
+              <S.EditImageIndicator aria-hidden="true">
+                <Pencil />
+              </S.EditImageIndicator>
+            </>
+          ) : (
+            <>
+              <S.ImageUploadIcon>
+                <CameraIcon aria-hidden="true" />
+              </S.ImageUploadIcon>
 
-            <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
-          </>
+                <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
+              </>
+            )}
+        </S.ImageUploadButton>
+
+        {preview && !isError && (
+          <S.RemoveImageButton
+            type="button"
+            aria-label="Eliminar foto"
+            onClick={handleRemoveImage}
+          >
+            <Trash aria-hidden="true" />
+          </S.RemoveImageButton>
         )}
-      </S.ImageUploadButton>
+      </S.ImageUploadContainer>
 
       <BottomSheet
         isOpen={isSheetOpen}

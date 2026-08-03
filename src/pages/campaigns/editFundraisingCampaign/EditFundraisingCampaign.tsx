@@ -31,7 +31,7 @@ type EditFundraisingFormInput = {
   phoneAreaCode: string;
   phone: string;
   imageId: Maybe<string | undefined>;
-  location: Maybe<Location | undefined>;
+  location: Location;
 };
 
 function EditFundraising() {
@@ -83,7 +83,7 @@ function EditFundraising() {
       title: data.title,
       description: data.description,
       imageId: data.imageId,
-      location: data.location || null,
+      location: data.location,
       phoneNumber: `${data.phoneAreaCode}${data.phone}`,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected || null,

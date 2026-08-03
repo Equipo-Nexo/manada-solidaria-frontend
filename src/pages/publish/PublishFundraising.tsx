@@ -16,6 +16,8 @@ import PublishButton from "../../components/icons/PublishButton";
 import AdviceComponent from "../../components/advice/AdviceComponent";
 import FormErrorMessage from "../../components/errors/ErrorMessage";
 import PhoneInputComponent from "../../components/inputs/PhoneInputComponent";
+import Map from "../../components/map/Map";
+import type { Location } from "../../app/services/responses/Location";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -28,7 +30,7 @@ type PublishFundraisingFormInput = {
   phoneAreaCode: string;
   phone: string;
   imageId: Maybe<string | undefined>;
-  location: Maybe<string | undefined>;
+  location: Location;
 };
 function PublishFundraising() {
   const navigate = useNavigate();
@@ -51,7 +53,7 @@ function PublishFundraising() {
       phoneAreaCode: "",
       phone: "",
       imageId: undefined,
-      location: "",
+      location: undefined,
     },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {
@@ -62,15 +64,13 @@ function PublishFundraising() {
       description: data.description,
       imageId: data.imageId,
       phoneNumber: `${data.phoneAreaCode}${data.phone}`,
-      location: data.location
-        ? {
-            name: data.location,
-            address: "",
-            number: 12,
-            latitude: 0,
-            longitude: 0,
-          }
-        : undefined,
+      location: {
+        name: data.location.name,
+        address: "",
+        number: 12,
+        latitude: 0,
+        longitude: 0,
+      },
       items: undefined,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected ?? undefined,
@@ -215,7 +215,9 @@ function PublishFundraising() {
               <Search />
             </S.FieldIcon>
           </S.InputWithIcon>
-          <S.MapPreview aria-hidden="true" />
+          <S.MapWrapper >
+            <Map onPointSelect={(point) => console.log(point)}/>
+          </S.MapWrapper>
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
           </S.HelpText>

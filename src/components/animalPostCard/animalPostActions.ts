@@ -1,4 +1,5 @@
-import type { AnimalPostStatus } from './animalPostCard.styles'
+import { ANIMAL_POST_STATUS_LABELS } from '../../app/types/AnimalPost.types'
+import type { AnimalPostStatusText } from "../../utils/AnimalPostUtils"
 
 export type AnimalPostActionId =
   | 'foster'
@@ -15,34 +16,34 @@ export type AnimalPostAction = {
 }
 
 export type AnimalPostActionsByStatus = {
-  status: AnimalPostStatus
+  status: AnimalPostStatusText
   actions: AnimalPostAction[]
 }
 
 export const animalPostActions: AnimalPostActionsByStatus[] = [
   {
-    status: 'En adopción',
+    status: ANIMAL_POST_STATUS_LABELS.ADOPTION,
     actions: [
       { id: 'foster', label: 'Transitar', variant: 'secondary' },
       { id: 'adopt', label: 'Adoptar', variant: 'primary' },
     ],
   },
   {
-    status: 'En tránsito',
+    status: ANIMAL_POST_STATUS_LABELS.SEARCHING_ADOPT,
     actions: [
       { id: 'collaborate', label: 'Colaborar', variant: 'secondary' },
       { id: 'adopt', label: 'Adoptar', variant: 'primary' },
     ],
   },
   {
-    status: 'Perdido',
+    status: ANIMAL_POST_STATUS_LABELS.LOST,
     actions: [
       { id: 'view-map', label: 'Ver en el mapa', variant: 'secondary' },
       { id: 'share-info', label: 'Tengo info', variant: 'primary' },
     ],
   },
   {
-    status: 'En la calle',
+    status: ANIMAL_POST_STATUS_LABELS.IN_STREET,
     actions: [
       { id: 'view-map', label: 'Ver en el mapa', variant: 'secondary' },
       {
@@ -56,7 +57,7 @@ export const animalPostActions: AnimalPostActionsByStatus[] = [
 ]
 
 export const getAnimalPostActions = (
-  status: AnimalPostStatus,
+  status: AnimalPostStatusText,
   contactPhone?: string,
 ): AnimalPostAction[] => {
   const actions = animalPostActions.find((item) => item.status === status)?.actions ?? []

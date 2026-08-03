@@ -1,7 +1,14 @@
 import type { Maybe } from "yup";
-import type { DonationNeedCategory } from "../../../pages/publish/PublishCampaign";
-
+import type { Location } from "../responses/Location";
 export type CampaignType = "NEWS" | "FUNDRAISING" | "DONATION";
+
+export type DonationNeedCategory =
+  | "FOOD"
+  | "MEDICINE"
+  | "SHELTER_AND_BEDDING"
+  | "TOYS_AND_ACCESSORIES"
+  | "CLOTHING_AND_BLANKETS"
+  | "OTHER";
 
 export type CampaignCategory =
   | "CASTRATION"
@@ -15,13 +22,7 @@ export interface CreateCampaignRequest {
   title: string;
   description: string;
   imageId?: Maybe<string | undefined>;
-  location?: {
-    name: string;
-    address: string;
-    number: number | null;
-    latitude: number;
-    longitude: number;
-  };
+  location?: Location | null;
   items?: {
     category: DonationNeedCategory;
   }[];
@@ -31,4 +32,9 @@ export interface CreateCampaignRequest {
   campaignEndDate?: string | null;
   newsStartDateTime?: string | null;
   newsEndDateTime?: string | null;
+}
+
+export type EditCampaignMutationRequest = {
+  campaignId: string
+  body: CreateCampaignRequest
 }

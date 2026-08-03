@@ -196,7 +196,7 @@ function NewAnimalPostForm() {
                 <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
                     <Arrow aria-hidden="true" />
                 </S.BackButton>
-                <S.PageTitle>Publicar un animal</S.PageTitle>
+                <S.PageTitle>Editar post de animal</S.PageTitle>
             </S.Header>
             <S.MainContainer
                 onSubmit={handleSubmit(handleEditAnimalPost)}

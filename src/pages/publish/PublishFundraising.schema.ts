@@ -32,5 +32,5 @@ export const publishFundraisingSchema = yup.object({
   phoneAreaCode: yup.string().required("Ingresá el código de área."),
   phone: yup.string().required("Ingresá un número de teléfono."),
   imageId: yup.string().notRequired(),
-  location: locationSchema.notRequired(),
+  location: locationSchema.required("Ingresá una ubicación."),
 });

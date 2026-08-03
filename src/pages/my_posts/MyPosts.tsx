@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "../../app/services/apis/campaignApi";
 import { useDeleteAnimalPostMutation } from "../../app/services/apis/animalPostsApi";
 import { useToast } from "../../hooks/toast/useToast";
-import { UserPostUtil } from "../../utils/UserPostUtils";
+import { AnimalPostStatus } from "../../utils/AnimalPostUtils";
 import BottomSheet from "../../components/bottomSheet/BottomSheet";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
 import type {
@@ -41,7 +41,7 @@ function MyPosts() {
 
     const handleEditButton = (post: GetUserPostsResponse) => {
         const editByPostType: Record<UserPostType, (postId: string) => void> = {
-            campaign: (postId) => navigate(`/editar/campana/${postId}`),
+            campaign: (postId) => navigate(`/editar/campania/${postId}`),
             animal: (postId) => navigate(`/editar/animal/${postId}`),
             fundraising: (postId) => navigate(`/editar/colecta/${postId}`)
         }
@@ -147,12 +147,12 @@ function MyPosts() {
                             />
                         </S.MessageContainer>
                     )}
-                    {!isLoading && !isError && userPosts?.map((post) => {
+                    {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType }) => {
                         return (
-                            <S.Card key={post.id}>
+                            <S.Card key={id}>
                                 <S.CardImage
-                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${post.imageId}`}
-                                    alt={post.title}
+                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}
+                                    alt={title}
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
                                         currentTarget.src = NOT_FOUND_IMAGE_URL;
@@ -160,29 +160,29 @@ function MyPosts() {
                                 />
                                 <S.CardContent>
                                     <S.CardInformationContainer>
-                                        <S.CardTitle>{post.title}</S.CardTitle>
+                                        <S.CardTitle>{title}</S.CardTitle>
                                         <S.CreatedSinceContainer>
                                             <Clock />
-                                            <S.CreatedSince>{post.createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${post.createdSince} días`}</S.CreatedSince>
+                                            <S.CreatedSince>{createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${createdSince} días`}</S.CreatedSince>
                                         </S.CreatedSinceContainer>
                                         {
-                                            (post.status && post.status != 'CREATED') && (
+                                            status && (
                                                 <S.Status
-                                                    $backgroundColor={UserPostUtil[post.status] && UserPostUtil[post.status].backgroundColor}
-                                                    $fontColor={UserPostUtil[post.status] && UserPostUtil[post.status].fontColor}
-                                                >{UserPostUtil[post.status] && UserPostUtil[post.status].text}</S.Status>
+                                                    $backgroundColor={AnimalPostStatus[status].backgroundColor}
+                                                    $fontColor={AnimalPostStatus[status].fontColor}
+                                                >{AnimalPostStatus[status].text}</S.Status>
                                             )
                                         }
                                     </S.CardInformationContainer>
                                     <S.ButtonsContainer>
                                         <S.Button
                                             type="button"
-                                            aria-label={`Editar ${post.title}`}
-                                            onClick={() => handleEditButton(post)}
+                                            aria-label={`Editar ${title}`}
+                                            onClick={() => handleEditButton({ id, imageId, title, createdSince, status, postType })}
                                         >
                                             <Pencil width={17} height={17} />
                                         </S.Button>
-                                        <S.Button onClick={() => handleDeleteButton(post)}>
+                                        <S.Button onClick={() => handleDeleteButton({ id, imageId, title, createdSince, status, postType })}>
                                             <Trash width={17} height={17} />
                                         </S.Button>
                                     </S.ButtonsContainer>

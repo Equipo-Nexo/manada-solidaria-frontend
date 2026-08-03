@@ -17,14 +17,13 @@ export const Page = styled.section`
   }
 `;
 
-
 export const Header = styled.header`
   min-height: 48px;
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
-`
+`;
 
 export const BackButton = styled.button`
   width: 48px;
@@ -43,8 +42,10 @@ export const BackButton = styled.button`
     width: 48px;
     height: 48px;
   }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
-`
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+  }
+`;
 
 export const TitlesContainer = styled.div`
   display: flex;
@@ -53,7 +54,7 @@ export const TitlesContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-`
+`;
 
 export const PageTitle = styled.h1`
   margin: 0;
@@ -62,11 +63,15 @@ export const PageTitle = styled.h1`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
   white-space: nowrap;
-`
+`;
 
 export const PageSubtitle = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.darkColorMuted};
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
-`
+`;
+export const AdviceContainer = styled.div`
+  width: 100%;
+  margin-bottom: 16px;
+`;

@@ -1,52 +1,31 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetAnimalPostsQuery } from '../../../app/services/apis/animalPostsApi'
-import type {
-  AnimalPostBackendStatus,
-  GetAnimalPostsRequest,
-} from '../../../app/services/requests/animalPostRequests'
 import AnimalPostCard from '../../../components/animalPostCard/animalPostCard'
 import { mapAnimalPostToCardProps } from '../../../components/animalPostCard/mapAnimalPostToCardProps'
 import CategorySelector from '../../../components/categorySelector/CategorySelector'
 import ArrowLeft from '../../../components/icons/ArrowLeft'
 import * as S from './allAnimalPosts.styles'
-import { AnimalPostType } from '../../../app/types/AnimalPost.types'
 import Message from '../../../components/message/message'
 import { publicationMessages } from '../../../utils/Messages'
+import { ANIMAL_POST_CATEGORIES, ANIMAL_POST_CATEGORY_LABELS, type AnimalPostCategory } from '../../../app/types/AnimalPost.types'
+import { useGetAnimalPostsQuery } from '../../../app/services/apis/animalPostsApi'
 
-type Category = 'Todos' | 'Adopción' | 'Perdidos' | 'En la calle'
-
-const categories: Category[] = ['Todos', 'Adopción', 'Perdidos', 'En la calle']
 const PAGE_SIZE = 10
-
-const getRequestFilters = (
-  category: Category,
-): Pick<GetAnimalPostsRequest, 'status' | 'type'> => {
-  if (category === 'Adopción') {
-    return { type: AnimalPostType.Adoption }
-  }
-
-  if (category === 'Perdidos' || category === 'En la calle') {
-    return { status: 'CREATED' satisfies AnimalPostBackendStatus }
-  }
-
-  return {}
-}
 
 function AllAnimalsPage() {
   const navigate = useNavigate()
-  const [selectedCategory, setSelectedCategory] = useState<Category>('Todos')
+  const [selectedCategory, setSelectedCategory] = useState<AnimalPostCategory>('')
   const {
-    data,
+    data: animalPosts,
     isError,
     isLoading,
     refetch,
   } = useGetAnimalPostsQuery({
-    ...getRequestFilters(selectedCategory),
+    type: selectedCategory || undefined,
     size: PAGE_SIZE,
   })
-  const posts = data?.content ?? []
-  const totalElements = data?.totalElements ?? 0
+  const posts = animalPosts?.content ?? []
+  const totalElements = animalPosts?.totalElements ?? 0
 
   return (
     <S.Page>
@@ -65,9 +44,10 @@ function AllAnimalsPage() {
       </S.Header>
 
       <CategorySelector
-        categories={categories}
+        categories={ANIMAL_POST_CATEGORIES}
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
+        getCategoryLabel={(category) => ANIMAL_POST_CATEGORY_LABELS[category]}
         ariaLabel="Filtrar publicaciones por categoría"
       />
 
@@ -96,12 +76,10 @@ function AllAnimalsPage() {
         {!isLoading &&
           !isError &&
           posts.map((post) => {
-            const displayContext = selectedCategory === 'En la calle' ? 'street' : 'default'
-
             return (
               <AnimalPostCard
                 key={post.id}
-                {...mapAnimalPostToCardProps(post, displayContext)}
+                {...mapAnimalPostToCardProps(post)}
               />
             )
           })}

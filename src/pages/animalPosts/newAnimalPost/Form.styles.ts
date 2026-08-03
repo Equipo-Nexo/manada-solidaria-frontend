@@ -117,6 +117,21 @@ export const MapContainer = styled.div`
   gap: 8px;
 `
 
+export const MapWrapper = styled.div`
+  width: 100%;
+  height: min(620px, calc(100svh - 250px));
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgb(89 65 55 / 12%);
+
+  @media (max-width: 767px) {
+    height: calc(100svh - 600px);
+    min-height: 360px;
+  }
+`
+
 export const MapPlaceholder = styled.div`
   position: relative;
   width: 100%;
