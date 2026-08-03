@@ -1,4 +1,4 @@
-export type UserPostType = 'animal' | 'campaign'
+export type UserPostType = 'animal' | 'campaign' | 'fundraising';
 
 export type GetUserPostsResponse = {
   id: string;
