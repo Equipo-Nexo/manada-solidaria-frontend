@@ -97,7 +97,6 @@ function AllAnimalsPage() {
           !isError &&
           posts.map((post) => {
             const displayContext = selectedCategory === 'En la calle' ? 'street' : 'default'
-
             return (
               <AnimalPostCard
                 key={post.id}

@@ -1,4 +1,4 @@
-import type { AnimalPostStatus } from './animalPostCard.styles'
+import type { AnimalPostStatusText } from "../../utils/AnimalPostUtils"
 
 export type AnimalPostActionId =
   | 'foster'
@@ -15,7 +15,7 @@ export type AnimalPostAction = {
 }
 
 export type AnimalPostActionsByStatus = {
-  status: AnimalPostStatus
+  status: AnimalPostStatusText
   actions: AnimalPostAction[]
 }
 
@@ -56,7 +56,7 @@ export const animalPostActions: AnimalPostActionsByStatus[] = [
 ]
 
 export const getAnimalPostActions = (
-  status: AnimalPostStatus,
+  status: AnimalPostStatusText,
   contactPhone?: string,
 ): AnimalPostAction[] => {
   const actions = animalPostActions.find((item) => item.status === status)?.actions ?? []
