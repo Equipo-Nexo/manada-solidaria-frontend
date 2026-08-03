@@ -116,14 +116,12 @@ export const IconInputWrapper = styled.div`
   svg { position: absolute; z-index: 1; top: 18px; left: 12px; width: 20px; height: 20px; color: ${({ theme }) => theme.colors.darkColor}; }
   ${Input} { padding-left: 42px; }
 `
-
 export const MapContainer = styled.div`
   display: flex; 
   flex-direction: column; 
   width: 100%; 
   gap: 8px;
 `
-
 export const MapPlaceholder = styled.div`
   position: relative;
   width: 100%;

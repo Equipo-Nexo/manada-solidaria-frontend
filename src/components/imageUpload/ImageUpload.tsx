@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BottomSheet from "../bottomSheet/BottomSheet";
-import { Camera as CameraIcon, ChevronRight, Pencil } from "../icons";
+import { Camera as CameraIcon, ChevronRight, Pencil, Trash } from "../icons";
 import Gallery from "../icons/Gallery";
 import { useCamera } from "../../hooks/camera/useCamera";
 import * as S from "./ImageUpload.styles";
@@ -15,6 +15,7 @@ type ImageUploadProps = {
   onImageSelected?: (savedImageId: string) => void;
   ariaDescribedBy?: string;
   hasError?: boolean;
+  onImageRemoved?: () => void;
 };
 
 function ImageUpload({
@@ -23,15 +24,17 @@ function ImageUpload({
   onImageSelected,
   ariaDescribedBy,
   hasError = false,
+  onImageRemoved,
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isImageRemoved, setIsImageRemoved] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
   const toaster = useToast()
 
-  const preview = imageUrl ?? capturedPhoto?.url;
+  const preview = isImageRemoved ? undefined : (imageUrl ?? capturedPhoto?.url);
   const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
@@ -59,6 +62,7 @@ function ImageUpload({
           .catch(() => {
             toaster.error("Hubo un error cargando la imagen")          
           })
+        setIsImageRemoved(false);
         onImageSelected?.(response.imageId);
       })
       .catch(() => {
@@ -66,6 +70,11 @@ function ImageUpload({
       })
       .finally(() => closeSheet())
   }
+
+  const handleRemoveImage = () => {
+    setIsImageRemoved(true);
+    onImageRemoved?.();
+  };
 
   if (isLoading) {
     return (
@@ -77,29 +86,41 @@ function ImageUpload({
 
   return (
     <>
-      <S.ImageUploadButton
-        type="button"
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={hasError}
-        onClick={() => setIsSheetOpen(true)}
-      >
-        {preview && !isError ? (
-          <>
-            <S.ImageUploadPreview src={preview} alt="" />
-            <S.EditImageIndicator aria-hidden="true">
-              <Pencil />
-            </S.EditImageIndicator>
-          </>
-        ) : (
-          <>
-            <S.ImageUploadIcon>
-              <CameraIcon aria-hidden="true" />
-            </S.ImageUploadIcon>
+      <S.ImageUploadContainer>
+        <S.ImageUploadButton
+          type="button"
+          aria-describedby={ariaDescribedBy}
+          aria-invalid={hasError}
+          onClick={() => setIsSheetOpen(true)}
+        >
+          {preview && !isError ? (
+            <>
+              <S.ImageUploadPreview src={preview} alt="" />
+              <S.EditImageIndicator aria-hidden="true">
+                <Pencil />
+              </S.EditImageIndicator>
+            </>
+          ) : (
+            <>
+              <S.ImageUploadIcon>
+                <CameraIcon aria-hidden="true" />
+              </S.ImageUploadIcon>
 
-            <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
-          </>
+              <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
+            </>
+          )}
+        </S.ImageUploadButton>
+
+        {preview && !isError && onImageRemoved && (
+          <S.RemoveImageButton
+            type="button"
+            aria-label="Eliminar foto"
+            onClick={handleRemoveImage}
+          >
+            <Trash aria-hidden="true" />
+          </S.RemoveImageButton>
         )}
-      </S.ImageUploadButton>
+      </S.ImageUploadContainer>
 
       <BottomSheet
         isOpen={isSheetOpen}

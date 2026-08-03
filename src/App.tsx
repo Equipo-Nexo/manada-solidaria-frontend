@@ -18,6 +18,8 @@ import EditAnimalPostForm from "./pages/animalPosts/editAnimalPost/editAnimalPos
 import EditAnimalPostSuccess from "./pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
 import Fundraising from "./pages/fundraising/Fundraising";
 import Menu from "./pages/menu/Menu";
+import EditCampaign from "./pages/campaigns/EditCampaign/EditCampaign";
+import EditCampaignSuccess from "./pages/campaigns/EditCampaign/EditCampaignSuccess";
 import AllPublicationsMap from "./pages/all_publications_map/AllPublicationsMap";
 
 function App() {
@@ -27,7 +29,8 @@ function App() {
     location.pathname === "/publicar/animal" ||
     location.pathname === "/publicar/campania" ||
     location.pathname === "/publicar/colecta" ||
-    location.pathname.startsWith("/editar/animal/");
+    location.pathname.startsWith("/editar/animal/") ||
+    location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
 
   const usesFullScreenLayout =
@@ -71,6 +74,11 @@ function App() {
               <Route
                 path="/editar/animal/:postId/exito"
                 element={<EditAnimalPostSuccess />}
+              />
+              <Route path="/editar/campania/:campaignId" element={<EditCampaign />} />
+              <Route
+                path="/editar/campania/:campaignId/exito"
+                element={<EditCampaignSuccess />}
               />
               <Route
                 path="/publicar/colecta"
