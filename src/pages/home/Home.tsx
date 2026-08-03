@@ -50,7 +50,6 @@ function Home() {
   const recentAnimals = animalPostsData?.content ?? [];
   const campaigns = campaignsData?.content ?? [];
   const fundraisings = fundraisingData?.content ?? [];
-
   return (
     <S.HomePage>
       <Carousel

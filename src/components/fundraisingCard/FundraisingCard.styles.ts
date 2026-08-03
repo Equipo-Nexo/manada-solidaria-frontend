@@ -3,13 +3,16 @@ import styled from "styled-components";
 type ProgressValueProps = {
   $progress: number;
 };
-
-export const Card = styled.article`
+type CardProps = {
+  $showAlias: boolean;
+};
+export const Card = styled.article<CardProps>`
   width: 329px;
   max-width: 100%;
+  height: ${({ $showAlias }) => ($showAlias ? "337px" : "240px")};
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   overflow: hidden;
   padding: 27px 20px 20px;
   border-radius: 20px;
@@ -21,6 +24,7 @@ export const Card = styled.article`
 
 export const ProgressSection = styled.div`
   display: flex;
+  flex: 0 0 34px;
   flex-direction: column;
   gap: 5px;
   width: 100%;
@@ -52,8 +56,9 @@ export const ProgressValue = styled.div<ProgressValueProps>`
 
 export const CaseCard = styled.article`
   display: flex;
+  flex: 1 1 0;
   width: calc(100% + 20px);
-  height: 132px;
+  min-height: 0;
   align-items: center;
   overflow: hidden;
   border: 1px solid rgb(225 191 178 / 20%);
@@ -62,7 +67,6 @@ export const CaseCard = styled.article`
   margin-inline: -10px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
 `;
-
 export const ImageContainer = styled.div`
   flex: 0 0 120px;
   width: 120px;
@@ -79,6 +83,7 @@ export const CaseImage = styled.img`
 
 export const CaseContent = styled.div`
   min-width: 0;
+  height: 100%;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -109,8 +114,6 @@ export const Description = styled.p`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 14px;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
 `;
 
 export const StoryButton = styled.button`
@@ -126,7 +129,6 @@ export const StoryButton = styled.button`
   line-height: 20px;
   text-decoration: underline;
   cursor: pointer;
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;

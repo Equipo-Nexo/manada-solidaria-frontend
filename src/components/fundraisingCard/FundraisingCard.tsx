@@ -44,6 +44,7 @@ function FundraisingCard({
   showAlias = true,
 }: FundraisingCardProps) {
   const storyLabel = fundraising.storyLabel ?? "Conocé su historia";
+  const hasGoal = fundraising.amountToBeCollected != null;
   const progress = 0;
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<number | null>(null);
@@ -65,17 +66,7 @@ function FundraisingCard({
     }, 1000);
   };
   return (
-    <S.Card className={className}>
-      <S.ProgressSection>
-        <S.GoalText>
-          Meta a recaudar: {formatAmount(fundraising.amountToBeCollected ?? "")}
-        </S.GoalText>
-
-        <S.ProgressTrack aria-label={`Progreso de la colecta: ${progress}%`}>
-          <S.ProgressValue $progress={progress} />
-        </S.ProgressTrack>
-      </S.ProgressSection>
-
+    <S.Card className={className} $showAlias={showAlias}>
       <S.CaseCard>
         <S.ImageContainer>
           <S.CaseImage
@@ -99,6 +90,17 @@ function FundraisingCard({
           </S.StoryButton>
         </S.CaseContent>
       </S.CaseCard>
+      {hasGoal && (
+        <S.ProgressSection>
+          <S.GoalText>
+            Meta a recaudar: {formatAmount(fundraising.amountToBeCollected!)}
+          </S.GoalText>
+
+          <S.ProgressTrack aria-label={`Progreso de la colecta: ${progress}%`}>
+            <S.ProgressValue $progress={progress} />
+          </S.ProgressTrack>
+        </S.ProgressSection>
+      )}
       {showAlias && (
         <S.AliasBox>
           <Transfer aria-hidden="true" />
