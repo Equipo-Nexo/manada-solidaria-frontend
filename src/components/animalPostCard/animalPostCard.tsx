@@ -28,7 +28,7 @@ function AnimalPostCard({
   onViewMore,
   actionHandlers,
 }: AnimalPostCardProps) {
-  const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status], contactPhone) : []
+  const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status].text, contactPhone) : []
 
   return (
     <S.CardContainer>
