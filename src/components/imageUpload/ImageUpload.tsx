@@ -27,13 +27,14 @@ function ImageUpload({
   onImageRemoved,
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isImageRemoved, setIsImageRemoved] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
   const toaster = useToast()
 
-  const preview = imageUrl ?? capturedPhoto?.url;
+  const preview = isImageRemoved ? undefined : (imageUrl ?? capturedPhoto?.url);
   const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
@@ -61,6 +62,7 @@ function ImageUpload({
           .catch(() => {
             toaster.error("Hubo un error cargando la imagen")          
           })
+        setIsImageRemoved(false);
         onImageSelected?.(response.imageId);
       })
       .catch(() => {
@@ -68,6 +70,11 @@ function ImageUpload({
       })
       .finally(() => closeSheet())
   }
+
+  const handleRemoveImage = () => {
+    setIsImageRemoved(true);
+    onImageRemoved?.();
+  };
 
   if (isLoading) {
     return (
@@ -108,7 +115,7 @@ function ImageUpload({
           <S.RemoveImageButton
             type="button"
             aria-label="Eliminar foto"
-            onClick={onImageRemoved}
+            onClick={handleRemoveImage}
           >
             <Trash aria-hidden="true" />
           </S.RemoveImageButton>
