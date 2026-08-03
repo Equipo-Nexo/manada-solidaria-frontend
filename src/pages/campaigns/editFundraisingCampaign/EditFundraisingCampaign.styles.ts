@@ -2,7 +2,12 @@ import styled from "styled-components";
 import { fieldFocusVisible, focusVisible } from "../../../styles/interactions";
 
 export const EditFormContainer = styled.div`
-    width: 100%;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: min(100%, 640px);
+    margin: 0 auto;
+  }
 `
 
 export const Header = styled.header`
@@ -10,6 +15,10 @@ export const Header = styled.header`
     flex-direction: row;
     align-items: center;
     gap: 11px;
+
+  @media (min-width: 768px) {
+    gap: 8px;
+  }
 `
 
 export const BackButton = styled.button`
@@ -30,13 +39,30 @@ export const BackButton = styled.button`
     height: 48px;
   }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
+
+  @media (min-width: 768px) {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `
 
 export const FormTitle = styled.h1`
+    margin: 0;
     color: ${({ theme }) => theme.colors.black};
     font-size: ${({ theme }) => theme.typography.header1.fontSize};
     font-weight: ${({ theme }) => theme.typography.header1.fontWeight};
     line-height: ${({ theme }) => theme.typography.header1.lineHeight};
+
+  @media (min-width: 768px) {
+    font-size: ${({ theme }) => theme.typography.header2.fontSize};
+    line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+  }
 `
 
 export const Form = styled.form`
@@ -46,6 +72,11 @@ export const Form = styled.form`
     text-align: left;
     gap: 16px;
     margin-top: 17px;
+
+  @media (min-width: 768px) {
+    gap: 14px;
+    margin-top: 20px;
+  }
 `
 
 export const PublishLabel = styled.label`
@@ -88,6 +119,12 @@ export const PublishInput = styled.input`
   }
 
   ${fieldFocusVisible}
+
+  @media (min-width: 768px) {
+    height: 48px;
+    border-radius: 10px;
+    padding: 11px 16px;
+  }
 `;
 
 export const PublishTextarea = styled.textarea`
@@ -106,6 +143,12 @@ export const PublishTextarea = styled.textarea`
     opacity: 1;
   }
   ${fieldFocusVisible}
+
+  @media (min-width: 768px) {
+    min-height: 120px;
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
 `;
 
 export const PublishSubmitButton = styled.button`
@@ -124,6 +167,12 @@ export const PublishSubmitButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.action.fontWeight};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   ${focusVisible}
+
+  @media (min-width: 768px) {
+    width: min(100%, 280px);
+    height: 48px;
+    align-self: flex-end;
+  }
 `;
 
 export const RequiredMark = styled.span<{
@@ -188,7 +237,6 @@ export const IconInput = styled(PublishInput) <{
   $hasLeftIcon?: boolean;
   $hasRightIcon?: boolean;
 }>`
-  height: 56px;
   padding-left: ${({ $hasLeftIcon }) => ($hasLeftIcon ? "50px" : "18px")};
   padding-right: ${({ $hasRightIcon }) => ($hasRightIcon ? "50px" : "18px")};
 `;
@@ -316,6 +364,10 @@ export const MapPreview = styled.div`
     ),
     ${({ theme }) => theme.colors.neutral};
   opacity: 0.86;
+
+  @media (min-width: 768px) {
+    height: 160px;
+  }
 `;
 
 export const UploadHint = styled.span`
