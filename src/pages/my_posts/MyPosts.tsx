@@ -145,11 +145,11 @@ function MyPosts() {
                             />
                         </S.MessageContainer>
                     )}
-                    {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType}) => {
+                    {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType }) => {
                         return (
                             <S.Card key={id}>
-                                <S.CardImage 
-                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}  
+                                <S.CardImage
+                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}
                                     alt={title}
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;

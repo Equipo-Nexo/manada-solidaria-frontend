@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { AnimalPostStatus } from '../../utils/AnimalPostUtils'
 import { NOT_FOUND_IMAGE_URL } from '../../utils/CommonUtils'
+import { ANIMAL_POST_STATUS_LABELS } from '../../app/types/AnimalPost.types'
 import { LocationPin, Share } from '../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import type { AnimalPostActionId } from './animalPostActions'
@@ -12,6 +14,7 @@ export type AnimalPostCardProps = {
   description?: string
   imageUrl?: string
   contactPhone?: string
+  reward?: number
   onShare?: () => void
   onViewMore?: () => void
   actionHandlers?: Partial<Record<AnimalPostActionId, () => void>>
@@ -24,17 +27,31 @@ function AnimalPostCard({
   description,
   imageUrl,
   contactPhone,
+  reward,
   onShare,
   onViewMore,
   actionHandlers,
 }: AnimalPostCardProps) {
+  const [isRewardExpanded, setIsRewardExpanded] = useState(false)
+  const hasReward =
+    status === ANIMAL_POST_STATUS_LABELS.LOST &&
+    typeof reward === 'number' &&
+    Number.isFinite(reward) &&
+    reward > 0
+  const formattedReward = hasReward
+    ? new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS',
+      maximumFractionDigits: 0,
+    }).format(reward)
+    : undefined
   const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status].text, contactPhone) : []
 
   return (
     <S.CardContainer>
       <S.PhotoContainer>
-        <S.Photo 
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`} 
+        <S.Photo
+          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`}
           alt={name}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
@@ -49,11 +66,29 @@ function AnimalPostCard({
       <S.Content>
         <S.MainInfoContainer>
           <S.Title>{name}</S.Title>
-          {status && <S.StatusContainer 
-            $color={AnimalPostStatus[status].fontColor} 
-            $background={AnimalPostStatus[status].backgroundColor}
-            >{AnimalPostStatus[status].text}</S.StatusContainer>
-          }
+          <S.BadgesContainer>
+            {formattedReward && (
+              <S.RewardInfo
+                type="button"
+                $expanded={isRewardExpanded}
+                aria-expanded={isRewardExpanded}
+                aria-label={
+                  isRewardExpanded
+                    ? `Ocultar recompensa de ${formattedReward}`
+                    : `Mostrar recompensa de ${formattedReward}`
+                }
+                title={`Se ofrece una recompensa de ${formattedReward}`}
+                onClick={() => setIsRewardExpanded((isExpanded) => !isExpanded)}
+              >
+                <span>{isRewardExpanded ? formattedReward : '$'}</span>
+              </S.RewardInfo>
+            )}
+            {status && (
+              <S.StatusContainer $color={AnimalPostStatus[status].fontColor} $background={AnimalPostStatus[status].backgroundColor}>
+                {AnimalPostStatus[status].text}
+              </S.StatusContainer>
+            )}
+          </S.BadgesContainer>
         </S.MainInfoContainer>
 
         <S.Location>

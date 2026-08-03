@@ -55,6 +55,48 @@ export const ShareButton = styled.button`
   }
 `;
 
+export const RewardInfo = styled.button<{ $expanded: boolean }>`
+  display: inline-flex;
+  width: ${({ $expanded }) => ($expanded ? '112px' : '32px')};
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.statusFoundBackground};
+  color: ${({ theme }) => theme.colors.statusRewardText};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 20px;
+  cursor: pointer;
+  transition:
+    width 180ms ease,
+    box-shadow 180ms ease;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: 0 2px 8px rgb(53 100 0 / 20%);
+    }
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`
+
 export const Content = styled.div`
   padding: 10px 13px 6px;
 `
@@ -64,6 +106,13 @@ export const MainInfoContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+`
+
+export const BadgesContainer = styled.div`
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
 `
 
 export const Title = styled.h2`
@@ -82,10 +131,9 @@ export const Title = styled.h2`
   white-space: nowrap;
 `
 
-export const StatusContainer = styled.span<{ $color: string, $background: string}>`
+export const StatusContainer = styled.span<{ $color: string, $background: string }>`
   flex-shrink: 0;
-  width: 112px;
-  padding: 4px 0;
+  padding: 4px 16px 4px 16px;
   border-radius: 999px;
   color: ${({ $color }) => $color};
   background: ${({ $background }) => $background};
@@ -98,6 +146,8 @@ export const StatusContainer = styled.span<{ $color: string, $background: string
 
 export const Location = styled.div`
   display: flex;
+  min-width: 0;
+  flex: 1;
   align-items: center;
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
@@ -109,6 +159,12 @@ export const Location = styled.div`
     width: 14px;
     height: 14px;
     flex: 0 0 auto;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
 `

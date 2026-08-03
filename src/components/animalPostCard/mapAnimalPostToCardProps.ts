@@ -1,23 +1,5 @@
 import type { AnimalPost } from '../../app/services/requests/animalPostRequests'
 import type { AnimalPostCardProps } from './animalPostCard'
-import type { AnimalPostStatus } from './animalPostCard.styles'
-
-export type AnimalPostDisplayContext = 'default' | 'street'
-
-const getStatus = (
-  post: AnimalPost,
-  context: AnimalPostDisplayContext,
-): AnimalPostStatus => {
-  if (context === 'street') {
-    return 'En la calle'
-  }
-
-  if (post.type === 'LOST') {
-    return 'Perdido'
-  }
-
-  return post.status === 'SEARCHING_ADOPT' ? 'En tránsito' : 'En adopción'
-}
 
 const getName = (post: AnimalPost) => {
   if (post.name?.trim()) {
@@ -29,7 +11,6 @@ const getName = (post: AnimalPost) => {
 
 export const mapAnimalPostToCardProps = (
   post: AnimalPost,
-  context: AnimalPostDisplayContext = 'default',
 ): AnimalPostCardProps => ({
   name: getName(post),
   status: post.status,
@@ -37,4 +18,5 @@ export const mapAnimalPostToCardProps = (
   description: post.description,
   imageUrl: post.imageUrl,
   contactPhone: post.phoneNumber ?? undefined,
+  reward: post.reward ?? undefined,
 })
