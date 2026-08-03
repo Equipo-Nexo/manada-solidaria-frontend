@@ -259,6 +259,7 @@ function EditFundraising() {
             render={({ field }) => (
               <ImageUpload
                 onImageSelected={(imageId) => field.onChange(imageId)}
+                imageUrl={campaign.imageId}
               />
             )}
           />

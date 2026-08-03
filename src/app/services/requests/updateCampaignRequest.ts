@@ -9,7 +9,6 @@ export interface UpdateCampaignRequest {
     imageId?: Maybe<string | undefined>;
     location?: Location | null;
     phoneNumber: string;
-    accountAlias?: string | null;
     amountToBeCollected?: number | null;
     campaignEndDate?: string | null;
     newsStartDateTime?: string | null;
@@ -20,4 +19,5 @@ export interface UpdateFundraisingCampaignRequest extends UpdateCampaignRequest 
     amountToBeCollected: number | null;
     amountCollected: number | null;
     campaignEndDate: string | null;
+    accountAlias: string;
 }

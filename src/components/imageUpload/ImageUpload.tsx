@@ -29,19 +29,24 @@ function ImageUpload({
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
+  const [updated, setUpdated] = useState(false);
   const toaster = useToast()
 
-  const preview = imageUrl ?? capturedPhoto?.url;
+  const preview = capturedPhoto?.url;
   const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
   const handleTakePhoto = async () => {
+    setUpdated(true);
+
     const photo = await takePhoto();
     if (!photo || !photo.file) return null;
     uploadPhoto({ file: photo.file })
   };
 
   const handleChooseGallery = async () => {
+    setUpdated(true);
+
     const photo = await chooseFromGallery();
     if (!photo || !photo.file) return null;
     uploadPhoto({ file: photo.file })
@@ -83,9 +88,12 @@ function ImageUpload({
         aria-invalid={hasError}
         onClick={() => setIsSheetOpen(true)}
       >
-        {preview && !isError ? (
+        {(imageUrl || preview) && !isError ? (
           <>
-            <S.ImageUploadPreview src={preview} alt="" />
+            <S.ImageUploadPreview 
+              src={imageUrl && !updated? `${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}` : preview } 
+              alt="" 
+            />
             <S.EditImageIndicator aria-hidden="true">
               <Pencil />
             </S.EditImageIndicator>
