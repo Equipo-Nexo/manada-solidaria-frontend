@@ -9,6 +9,7 @@ export type CampaignResponse = {
   imageId: string;
   accountAlias?: string;
   amountToBeCollected?: number;
+  amountCollected?: number;
   location: {
     id: string;
     name: string;

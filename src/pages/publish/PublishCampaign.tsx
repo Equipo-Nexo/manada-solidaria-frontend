@@ -291,7 +291,7 @@ function PublishCampaign() {
         <S.TwoColumnFields $hidden={isDonation}>
           <S.PublishField>
             <S.PublishLabel>
-              Hora inicio
+              Hora inicio<S.RequiredMark> *</S.RequiredMark>
               <Controller
                 control={control}
                 name="startTime"
@@ -308,7 +308,7 @@ function PublishCampaign() {
           </S.PublishField>
           <S.PublishField>
             <S.PublishLabel>
-              Hora Fin
+              Hora Fin<S.RequiredMark> *</S.RequiredMark>
               <Controller
                 control={control}
                 name="endTime"
@@ -383,8 +383,8 @@ function PublishCampaign() {
             </S.FieldIcon>
           </S.InputWithIcon>
           <FormErrorMessage message={errors.location?.message} />
-          <S.MapWrapper >
-            <Map onPointSelect={(point) => console.log(point)}/>
+          <S.MapWrapper>
+            <Map onPointSelect={(point) => console.log(point)} />
           </S.MapWrapper>
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
@@ -393,14 +393,15 @@ function PublishCampaign() {
 
         <S.PublishField as="div">
           <S.PublishLabel>Foto de la campaña</S.PublishLabel>
-            <Controller
-              control={control}
-              name="imageId"
-              render={({ field }) => (
-                <ImageUpload onImageSelected={(imageId) => field.onChange(imageId)} />
-              )}
-            />
-          
+          <Controller
+            control={control}
+            name="imageId"
+            render={({ field }) => (
+              <ImageUpload
+                onImageSelected={(imageId) => field.onChange(imageId)}
+              />
+            )}
+          />
         </S.PublishField>
 
         <AdviceComponent advice="Las campañas con metas claras y fotos nítidas suelen completarse un 40% más rápido. Asegurate de incluir toda la información relevante." />
