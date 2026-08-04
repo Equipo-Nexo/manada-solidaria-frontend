@@ -102,6 +102,7 @@ export const Title = styled.h3`
   line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-bottom: 4px;
 `;
 
 export const Description = styled.p`
@@ -113,7 +114,8 @@ export const Description = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 14px;
+  line-height: 18px;
+  padding-bottom: 4px;
 `;
 
 export const StoryButton = styled.button`

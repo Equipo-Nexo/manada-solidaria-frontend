@@ -12,7 +12,8 @@ export type FundraisingCardData = {
   imageUrl?: string;
   imageAlt?: string;
   accountAlias: string;
-  amountToBeCollected?: number | string;
+  amountToBeCollected?: number | null;
+  amountCollected?: number | null;
   storyLabel?: string;
 };
 
@@ -24,17 +25,12 @@ type FundraisingCardProps = {
   showAlias?: boolean;
 };
 
-const formatAmount = (amount: number | string) => {
-  if (typeof amount === "string") {
-    return amount;
-  }
-
-  return new Intl.NumberFormat("es-AR", {
+const formatAmount = (amount: number) =>
+  new Intl.NumberFormat("es-AR", {
     style: "currency",
     currency: "ARS",
     maximumFractionDigits: 0,
   }).format(amount);
-};
 
 function FundraisingCard({
   fundraising,
@@ -44,8 +40,13 @@ function FundraisingCard({
   showAlias = true,
 }: FundraisingCardProps) {
   const storyLabel = fundraising.storyLabel ?? "Conocé su historia";
-  const hasGoal = fundraising.amountToBeCollected != null;
-  const progress = 0;
+  const goal = fundraising.amountToBeCollected;
+  const collected = fundraising.amountCollected ?? 0;
+  const hasGoal = goal != null && goal > 0;
+
+  const progress = hasGoal
+    ? Math.min(100, Math.round((collected / goal) * 100))
+    : 0;
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<number | null>(null);
   const handleCopyAlias = async () => {
@@ -92,9 +93,7 @@ function FundraisingCard({
       </S.CaseCard>
       {hasGoal && (
         <S.ProgressSection>
-          <S.GoalText>
-            Meta a recaudar: {formatAmount(fundraising.amountToBeCollected!)}
-          </S.GoalText>
+          <S.GoalText>Meta a recaudar: {formatAmount(goal)}</S.GoalText>
 
           <S.ProgressTrack aria-label={`Progreso de la colecta: ${progress}%`}>
             <S.ProgressValue $progress={progress} />

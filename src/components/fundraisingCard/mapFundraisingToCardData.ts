@@ -10,4 +10,5 @@ export const mapFundraisingToCardData = (
   imageUrl: campaign.imageId,
   accountAlias: campaign.accountAlias ?? "",
   amountToBeCollected: campaign.amountToBeCollected,
+  amountCollected: campaign.amountCollected,
 });
