@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import type { CampaignDetailsType } from '../../../app/types/Campaign.types'
+import { locationSchema } from '../../../utils/Location.schema'
 
 export const editCampaignSchema = yup.object({
   campaignType: yup
@@ -53,7 +54,7 @@ export const editCampaignSchema = yup.object({
     .string()
     .required('Ingresá un número de teléfono.')
     .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
-  location: yup.string().trim().required('Ingresá una ubicación.'),
+  location: locationSchema.nullable(),
   imageId: yup.string().defined().default(''),
 })
 

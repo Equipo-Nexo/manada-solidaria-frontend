@@ -8,6 +8,6 @@ export const mapCampaignToCardData = (
   type: campaign.type,
   title: campaign.title,
   description: campaign.description,
-  location: campaign.location.name,
+  location: campaign.location,
   imageUrl: campaign.imageId,
 })

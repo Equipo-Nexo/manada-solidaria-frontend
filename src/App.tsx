@@ -18,6 +18,7 @@ import EditAnimalPostForm from "./pages/animalPosts/editAnimalPost/editAnimalPos
 import EditAnimalPostSuccess from "./pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
 import Fundraising from "./pages/fundraising/Fundraising";
 import Menu from "./pages/menu/Menu";
+import EditFundraising from "./pages/campaigns/editFundraisingCampaign/EditFundraisingCampaign";
 import EditCampaign from "./pages/campaigns/EditCampaign/EditCampaign";
 import EditCampaignSuccess from "./pages/campaigns/EditCampaign/EditCampaignSuccess";
 import AllPublicationsMap from "./pages/all_publications_map/AllPublicationsMap";
@@ -71,6 +72,7 @@ function App() {
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
+              <Route path="/editar/colecta/:fundraisingId" element={<EditFundraising />} />
               <Route
                 path="/editar/animal/:postId/exito"
                 element={<EditAnimalPostSuccess />}

@@ -1,4 +1,5 @@
 import type { CampaignType } from "../../components/campaignCard/CampaignCard";
+import type { Location } from "../services/responses/Location";
 import type { DonationNeedCategory } from "../services/requests/createCampaignRequest";
 
 export type CampaignResponse = {
@@ -9,19 +10,26 @@ export type CampaignResponse = {
   imageId: string;
   accountAlias?: string;
   amountToBeCollected?: number;
-  amountCollected?: number;
-  location: {
-    id: string;
-    name: string;
-    address: string;
-    number: number;
-    latitude: number;
-    longitude: number;
-  };
+  location: Location | undefined;
 };
+
+export type FundraisingCampaignResponse = CampaignResponse & {
+  accountAlias: string;
+  amountToBeCollected: number;
+  amountCollected: number;
+  phoneNumber: string;
+  campaignEndDate: string;
+  location: Location;
+}
 
 export type CampaignPageResponse = {
   content: CampaignResponse[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+};
+export type FundraisingCampaignPageResponse = {
+  content: FundraisingCampaignResponse[];
   totalElements: number;
   totalPages: number;
   number: number;
@@ -36,14 +44,7 @@ export type CampaignDetailsResponse = {
   description: string;
   imageId?: string;
   imageUrl?: string;
-  location?: {
-    id: string;
-    name: string;
-    address: string;
-    number: number | null;
-    latitude: number;
-    longitude: number;
-  };
+  location?: Location;
   items?: { category: DonationNeedCategory }[];
   phoneNumber: string;
   accountAlias?: string | null;

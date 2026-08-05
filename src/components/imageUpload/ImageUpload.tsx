@@ -15,7 +15,6 @@ type ImageUploadProps = {
   onImageSelected?: (savedImageId: string) => void;
   ariaDescribedBy?: string;
   hasError?: boolean;
-  onImageRemoved?: () => void;
 };
 
 function ImageUpload({
@@ -23,30 +22,41 @@ function ImageUpload({
   label = "Seleccionar foto",
   onImageSelected,
   ariaDescribedBy,
-  hasError = false,
-  onImageRemoved,
+  hasError = false
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [isImageRemoved, setIsImageRemoved] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
+  const [updated, setUpdated] = useState(false);
+  const [isImageRemoved, setIsImageRemoved] = useState(false);
   const toaster = useToast()
 
-  const preview = isImageRemoved ? undefined : (imageUrl ?? capturedPhoto?.url);
+  const preview = isImageRemoved
+    ? undefined
+    : updated
+      ? capturedPhoto?.url
+      : imageUrl ?? capturedPhoto?.url;
+  const previewSource = preview && !updated && !/^(https?:|blob:|data:)/i.test(preview)
+    ? `${import.meta.env.VITE_CLOUDFLARE_URL}${preview}`
+    : preview;
   const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
   const handleTakePhoto = async () => {
     const photo = await takePhoto();
     if (!photo || !photo.file) return null;
+    setIsImageRemoved(false);
+    setUpdated(true);
     uploadPhoto({ file: photo.file })
   };
 
   const handleChooseGallery = async () => {
     const photo = await chooseFromGallery();
     if (!photo || !photo.file) return null;
+    setIsImageRemoved(false);
+    setUpdated(true);
     uploadPhoto({ file: photo.file })
   };
 
@@ -62,7 +72,6 @@ function ImageUpload({
           .catch(() => {
             toaster.error("Hubo un error cargando la imagen")          
           })
-        setIsImageRemoved(false);
         onImageSelected?.(response.imageId);
       })
       .catch(() => {
@@ -73,7 +82,7 @@ function ImageUpload({
 
   const handleRemoveImage = () => {
     setIsImageRemoved(true);
-    onImageRemoved?.();
+    onImageSelected?.("");
   };
 
   if (isLoading) {
@@ -95,7 +104,10 @@ function ImageUpload({
         >
           {preview && !isError ? (
             <>
-              <S.ImageUploadPreview src={preview} alt="" />
+              <S.ImageUploadPreview 
+                src={previewSource}
+                alt="" 
+              />
               <S.EditImageIndicator aria-hidden="true">
                 <Pencil />
               </S.EditImageIndicator>
@@ -106,12 +118,12 @@ function ImageUpload({
                 <CameraIcon aria-hidden="true" />
               </S.ImageUploadIcon>
 
-              <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
-            </>
-          )}
+                <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
+              </>
+            )}
         </S.ImageUploadButton>
 
-        {preview && !isError && onImageRemoved && (
+        {preview && !isError && (
           <S.RemoveImageButton
             type="button"
             aria-label="Eliminar foto"

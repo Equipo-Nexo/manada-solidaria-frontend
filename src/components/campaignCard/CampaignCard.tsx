@@ -1,6 +1,7 @@
 import * as S from "./CampaignCard.styles";
 import { LocationPin, Share } from "../icons";
 import { NOT_FOUND_IMAGE_URL } from "../../utils/CommonUtils";
+import type { Location } from "../../app/services/responses/Location";
 
 export type CampaignType =
   | "donation"
@@ -14,7 +15,7 @@ export type CampaignCardData = {
   type: CampaignType;
   title: string;
   description: string;
-  location: string;
+  location?: Location;
   imageUrl: string;
   imageAlt?: string;
 };
@@ -66,7 +67,7 @@ function CampaignCard({
         <S.MetaRow>
           <S.Location>
             <LocationPin aria-hidden="true" />
-            <span>{campaign.location}</span>
+            <span>{campaign.location?.name}</span>
           </S.Location>
           <S.TypeBadge $campaignType={campaign.type}>
             {campaignTypeLabels[campaign.type]}

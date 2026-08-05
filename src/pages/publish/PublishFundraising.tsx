@@ -17,6 +17,7 @@ import AdviceComponent from "../../components/advice/AdviceComponent";
 import FormErrorMessage from "../../components/errors/ErrorMessage";
 import PhoneInputComponent from "../../components/inputs/PhoneInputComponent";
 import Map from "../../components/map/Map";
+import type { Location } from "../../app/services/responses/Location";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -29,7 +30,7 @@ type PublishFundraisingFormInput = {
   phoneAreaCode: string;
   phone: string;
   imageId: Maybe<string | undefined>;
-  location: Maybe<string | undefined>;
+  location: Location;
 };
 function PublishFundraising() {
   const navigate = useNavigate();
@@ -52,7 +53,13 @@ function PublishFundraising() {
       phoneAreaCode: "",
       phone: "",
       imageId: undefined,
-      location: "",
+      location: {
+        name: "asdasd",
+        address: "",
+        number: 0,
+        latitude: 0,
+        longitude: 0,
+      },
     },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {
@@ -63,15 +70,13 @@ function PublishFundraising() {
       description: data.description,
       imageId: data.imageId,
       phoneNumber: `${data.phoneAreaCode}${data.phone}`,
-      location: data.location
-        ? {
-            name: data.location,
-            address: "",
-            number: 12,
-            latitude: 0,
-            longitude: 0,
-          }
-        : undefined,
+      location: {
+        name: data.location.name,
+        address: "",
+        number: 12,
+        latitude: 0,
+        longitude: 0,
+      },
       items: undefined,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected ?? undefined,
@@ -103,6 +108,7 @@ function PublishFundraising() {
       control,
       name: "phone",
     });
+
   return (
     <S.PublishFormPage>
       <S.PublishFormHeader>
@@ -217,7 +223,7 @@ function PublishFundraising() {
           <S.InputWithIcon>
             <S.IconInput
               type="text"
-              {...register("location")}
+              {...register("location.address")}
               placeholder="¿Dónde se realizará la campaña?"
               $hasLeftIcon
             />

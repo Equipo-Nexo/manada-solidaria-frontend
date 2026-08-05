@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import type {
   CampaignDetailsResponse,
   CampaignDetailsType,
@@ -70,7 +70,7 @@ const getDefaultValues = (
     endTime: end.time,
     phoneAreaCode: phoneNumber.slice(0, -7),
     phone: phoneNumber.slice(-7),
-    location: campaign.location?.name ?? '',
+    location: campaign.location || null,
     imageId: currentImageId,
   }
 }
@@ -100,10 +100,6 @@ function EditCampaign() {
     values: defaultValues,
   })
 
-  if (campaign?.type === 'fundraising') {
-    return <Navigate to="/mis-publicaciones" replace />
-  }
-
   const handleEditCampaign = async (values: EditCampaignFormValues) => {
     if (!campaign || !campaignId || campaign.type === 'fundraising') return
 
@@ -115,12 +111,12 @@ function EditCampaign() {
       title: values.title.trim(),
       description: values.description.trim(),
       imageId: values.imageId || null,
-      location: {
-        name: values.location.trim(),
-        address: campaign.location?.address ?? '',
-        number: campaign.location?.number ?? null,
-        latitude: campaign.location?.latitude ?? 0,
-        longitude: campaign.location?.longitude ?? 0,
+      location: campaign.location && {
+        name: campaign.location.name,
+        address: campaign.location.address,
+        number: campaign.location.number,
+        latitude: campaign.location.latitude,
+        longitude: campaign.location.longitude,
       },
       items: campaign.items,
       phoneNumber: `${values.phoneAreaCode}${values.phone}`,
@@ -283,7 +279,7 @@ function EditCampaign() {
             Ubicación <S.Required>*</S.Required>
           </S.Label>
           <S.InputWithIcon>
-            <S.Input id="edit-campaign-location" {...register('location')} />
+            <S.Input id="edit-campaign-location" {...register('location.address')} />
             <S.FieldIcon aria-hidden="true"><Search /></S.FieldIcon>
           </S.InputWithIcon>
           <FormErrorMessage message={errors.location?.message} />
@@ -304,7 +300,6 @@ function EditCampaign() {
                   ariaDescribedBy={fieldState.error ? 'campaign-image-error' : undefined}
                   hasError={Boolean(fieldState.error)}
                   onImageSelected={field.onChange}
-                  onImageRemoved={() => field.onChange('')}
                 />
                 <FormErrorMessage
                   id="campaign-image-error"

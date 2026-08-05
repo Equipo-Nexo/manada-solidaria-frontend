@@ -1,4 +1,5 @@
 import type { Maybe } from "yup";
+import type { Location } from "../responses/Location";
 export type CampaignType = "NEWS" | "FUNDRAISING" | "DONATION";
 
 export type DonationNeedCategory =
@@ -21,13 +22,7 @@ export interface CreateCampaignRequest {
   title: string;
   description: string;
   imageId?: Maybe<string | undefined>;
-  location?: {
-    name: string;
-    address: string;
-    number: number | null;
-    latitude: number;
-    longitude: number;
-  };
+  location?: Location | null;
   items?: {
     category: DonationNeedCategory;
   }[];
