@@ -6,8 +6,8 @@ import {
   type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react'
 import { dispatchToast } from '@hooks/toast/toastEvents'
-import { logout } from '../../store/authSlice'
-import type { RootState } from '../../store/store'
+import { logout } from '@store/authSlice'
+import type { RootState } from '@store/store'
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL ?? '',

@@ -1,4 +1,4 @@
-import type { AuthTokens } from '../../store/authSlice'
+import type { AuthTokens } from '@store/authSlice'
 import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
 import type { LoginRequest, SignupRequest } from '../requests/authRequests'
 
