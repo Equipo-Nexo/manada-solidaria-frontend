@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, User } from '@icons/index.ts'
 import { ErrorMessage } from '@components/index.ts'
-import { useLoginMutation } from '@services/apis/authApi'
+import { useLoginMutation } from '@auth/app/api/authApi'
 import { loginSuccess } from '@store/authSlice'
 import { useAppDispatch } from '@store/hooks'
 import { useAppPermissions } from '@hooks/permissions/useAppPermissions'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Login.styles'
-import { loginSchema, type LoginFormValues } from './loginSchema'
+import { loginSchema, type LoginFormValues } from '../../app/schemas/loginSchema'
 
 function Login() {
   const navigate = useNavigate()

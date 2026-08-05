@@ -35,6 +35,8 @@
       "@animals/*": ["./src/animals/*"],
       "@campaigns/*": ["./src/campaigns/*"],
       "@fundraisings/*": ["./src/fundraisings/*"],
+      "@auth/*": ["./src/auth/*"],
+      "@users/*": ["./src/users/*"],
       "@common/*": ["./src/common/*"],
     }
   },

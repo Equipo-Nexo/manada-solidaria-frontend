@@ -1,4 +1,4 @@
-import type { Role } from "../../types/User.types"
+import type { Role } from "@users/app/types/User.types"
 
 export type LoginRequest = {
   authorization: string

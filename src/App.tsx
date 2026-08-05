@@ -1,14 +1,14 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import { DesktopAuthenticatedView, MobileAuthenticatedView, InstallButton } from "@components/index.ts"
-import Login from "./login/Login";
+import Login from "./auth/pages/login/Login";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
-import Register from "./register/Register";
+import Register from "./auth/pages/register/Register";
 import useAuth from "@hooks/auth/useAuth";
-import PrivateRoutes from "./routes/PrivateRoutes";
-import MyPosts from "./my_posts/MyPosts";
+import PrivateRoutes from "./common/components/routes/PrivateRoutes";
+import MyPosts from "./users/pages/my_posts/MyPosts";
 import Fundraising from "./fundraisings/pages/all_fundraisings/Fundraising";
-import Menu from "./menu/Menu";
+import Menu from "./common/components/menu/Menu";
 import Home from "./home/Home";
 import Campaigns from "@campaigns/pages/all_campaigns/Campaigns";
 import AllPublicationsMap from "./all_publications_map/pages/AllPublicationsMap";

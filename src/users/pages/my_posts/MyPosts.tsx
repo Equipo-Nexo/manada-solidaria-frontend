@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ArrowLeft, Pencil, Trash } from "../common/icons"
+import { ArrowLeft, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
-import { useGetUserPostsQuery } from "@services/apis/usersApi";
+import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";

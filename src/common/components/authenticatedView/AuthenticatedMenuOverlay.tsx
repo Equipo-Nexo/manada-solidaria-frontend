@@ -1,5 +1,5 @@
 import { MenuBackdrop, MenuOverlay, MenuPanel } from '../../../App.styles'
-import Menu from '../../../menu/Menu'
+import Menu from '../menu/Menu'
 
 type AuthenticatedMenuOverlayProps = {
   isOpen: boolean

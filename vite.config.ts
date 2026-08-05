@@ -26,6 +26,8 @@ export default defineConfig({
       "@animals": fileURLToPath(new URL("./src/animals", import.meta.url)),
       "@campaigns": fileURLToPath(new URL("./src/campaigns", import.meta.url)),
       "@fundraisings": fileURLToPath(new URL("./src/fundraisings", import.meta.url)),
+      "@auth": fileURLToPath(new URL("./src/auth", import.meta.url)),
+      "@users": fileURLToPath(new URL("./src/users", import.meta.url)),
       "@common": fileURLToPath(new URL("./src/common", import.meta.url)),
     },
   },

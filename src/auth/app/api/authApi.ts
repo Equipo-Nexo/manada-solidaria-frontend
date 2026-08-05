@@ -1,6 +1,6 @@
 import type { AuthTokens } from '@store/authSlice'
-import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { LoginRequest, SignupRequest } from '../requests/authRequests'
+import { baseAuthenticatedApi } from '@app/services/base/baseAuthenticatedApi'
+import type { LoginRequest, SignupRequest } from '@auth/app/api/requests/authRequests'
 
 export const authApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({

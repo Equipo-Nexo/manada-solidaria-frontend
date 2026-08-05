@@ -1,5 +1,5 @@
-import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { GetUserPostsResponse } from '../responses/userResponses';
+import { baseAuthenticatedApi } from '../../../common/app/services/base/baseAuthenticatedApi'
+import type { GetUserPostsResponse } from '../../../common/app/services/responses/userResponses';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
