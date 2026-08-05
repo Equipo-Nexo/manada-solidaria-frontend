@@ -1,4 +1,4 @@
-import type { AnimalPost } from '@services/requests/animalPostRequests'
+import type { AnimalPost } from '@/animals/app/api/requests/animalPostRequests'
 import type { AnimalPostCardProps } from './animalPostCard'
 
 const getName = (post: AnimalPost) => {

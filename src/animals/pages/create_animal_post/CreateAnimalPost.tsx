@@ -22,11 +22,11 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '@models/AnimalPost.types'
+} from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@utils/PublicationReason'
 import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
-import { useCreateAnimalPostMutation } from '@services/apis/animalPostsApi'
-import type { CreateAnimalPostRequest } from '@services/requests/animalPostRequests'
+import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
+import type { CreateAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
 import Arrow from '@icons/Arrow'
 import { formatRewardAmount, parseRewardAmount } from '@utils/rewardAmount'

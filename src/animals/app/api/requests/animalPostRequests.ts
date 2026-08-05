@@ -1,5 +1,5 @@
 import type { AnimalColor, AnimalPostBackendStatus, AnimalSex, AnimalPostType } from "../../types/AnimalPost.types"
-import type { Location } from "../../services/responses/Location"
+import type { Location } from "../../../../common/app/services/responses/Location"
 
 export type AnimalType = 'DOG' | 'CAT' | 'OTHER'
 export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'

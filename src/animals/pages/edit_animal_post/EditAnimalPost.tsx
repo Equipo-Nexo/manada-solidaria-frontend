@@ -11,7 +11,7 @@ import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUploa
 import {
     editAnimalPostSchema,
     type EditAnimalPostFormValues,
-} from '@animals/app/schemas/editAnimalPost.schema'
+} from '@animals/app/schemas/EditAnimalPost.schema'
 import * as S from './EditAnimalPost.styles'
 import { type SelectorOption } from '@components/inputs/SelectorComponent'
 import {
@@ -20,10 +20,10 @@ import {
     AnimalPostType,
     AnimalSex,
     AnimalSize,
-} from '@models/AnimalPost.types'
-import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@services/apis/animalPostsApi'
-import type { EditAnimalPostRequest } from '@services/requests/animalPostRequests'
-import type { AnimalPostResponse } from '@services/responses/animalPostResponses'
+} from '@/animals/app/types/AnimalPost.types'
+import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@animals/app/api/animalPostsApi'
+import type { EditAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
+import type { AnimalPostResponse } from '@animals/app/api/responses/animalPostResponses'
 import { useToast } from '@hooks/toast/useToast'
 import { PublicationReason } from '@utils/PublicationReason'
 

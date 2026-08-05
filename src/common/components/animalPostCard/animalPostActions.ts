@@ -1,4 +1,4 @@
-import { ANIMAL_POST_STATUS_LABELS } from '@models/AnimalPost.types'
+import { ANIMAL_POST_STATUS_LABELS } from '@/animals/app/types/AnimalPost.types'
 import type { AnimalPostStatusText } from "@utils/AnimalPostUtils"
 
 export type AnimalPostActionId =

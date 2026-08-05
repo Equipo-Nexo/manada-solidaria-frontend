@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useGetAnimalPostsQuery } from "@services/apis/animalPostsApi";
+import { useGetAnimalPostsQuery } from "@animals/app/api/animalPostsApi";
 import {
   useGetCampaignsQuery,
   useGetFundraisingCampaignsQuery,

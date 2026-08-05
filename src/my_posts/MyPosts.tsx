@@ -4,7 +4,7 @@ import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@services/apis/usersApi";
 import { useNavigate } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@services/apis/campaignApi";
-import { useDeleteAnimalPostMutation } from "@services/apis/animalPostsApi";
+import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
 import { BottomSheet, CategorySelector, Message } from "@components/index.ts";

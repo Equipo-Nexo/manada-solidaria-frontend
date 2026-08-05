@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimalPostCard, CategorySelector, Message } from '@components/index.ts'
 import { mapAnimalPostToCardProps } from '@components/animalPostCard/mapAnimalPostToCardProps'
-import ArrowLeft from '@/common/icons/ArrowLeft'
+import { ArrowLeft } from '@icons/index.ts'
 import * as S from './allAnimalPosts.styles'
 import { publicationMessages } from '@utils/Messages'
-import { ANIMAL_POST_CATEGORIES, ANIMAL_POST_CATEGORY_LABELS, type AnimalPostCategory } from '@models/AnimalPost.types'
-import { useGetAnimalPostsQuery } from '@services/apis/animalPostsApi'
+import { ANIMAL_POST_CATEGORIES, ANIMAL_POST_CATEGORY_LABELS, type AnimalPostCategory } from '@animals/app/types/AnimalPost.types'
+import { useGetAnimalPostsQuery } from '@animals/app/api/animalPostsApi'
 
 const PAGE_SIZE = 10
 

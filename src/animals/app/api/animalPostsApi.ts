@@ -1,11 +1,11 @@
-import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
+import { baseAuthenticatedApi } from '@common/app/services/base/baseAuthenticatedApi'
 import type {
   AnimalPostsPage,
   CreateAnimalPostRequest,
   EditAnimalPostMutationRequest,
   GetAnimalPostsRequest,
-} from '../requests/animalPostRequests'
-import type { AnimalPostResponse } from '../responses/animalPostResponses'
+} from './requests/animalPostRequests'
+import type { AnimalPostResponse } from './responses/animalPostResponses'
 
 export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({

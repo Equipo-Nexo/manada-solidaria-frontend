@@ -4,7 +4,7 @@ import {
     AnimalColor,
     AnimalSex,
     AnimalSize
-} from '@models/AnimalPost.types'
+} from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@utils/PublicationReason'
 
 export const editAnimalPostSchema = yup.object({

@@ -5,7 +5,7 @@ import type {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '../../types/AnimalPost.types'
+} from '../../../../animals/app/types/AnimalPost.types'
 import type { Location } from './Location'
 
 export interface AnimalPostResponse {

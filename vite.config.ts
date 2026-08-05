@@ -24,6 +24,7 @@ export default defineConfig({
       "@store": fileURLToPath(new URL("./src/common/app/store", import.meta.url)),
       "@app": fileURLToPath(new URL("./src/common/app", import.meta.url)),
       "@animals": fileURLToPath(new URL("./src/animals", import.meta.url)),
+      "@common": fileURLToPath(new URL("./src/common", import.meta.url)),
     },
   },
   plugins: [

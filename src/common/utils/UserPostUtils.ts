@@ -1,8 +1,8 @@
 import {
     ANIMAL_POST_STATUS_LABELS,
     getAnimalPostStatus,
-} from '@models/AnimalPost.types'
-import type { AnimalPostBackendStatus, AnimalPostStatus } from '@models/AnimalPost.types'
+} from '@/animals/app/types/AnimalPost.types'
+import type { AnimalPostBackendStatus, AnimalPostStatus } from '@/animals/app/types/AnimalPost.types'
 
 type PostUtil = {
     backgroundColor: string;

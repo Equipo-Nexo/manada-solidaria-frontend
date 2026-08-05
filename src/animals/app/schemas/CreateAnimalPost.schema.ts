@@ -5,7 +5,7 @@ import {
   AnimalSex,
   AnimalSize,
   AnimalType,
-} from '@models/AnimalPost.types'
+} from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@utils/PublicationReason'
 import { parseRewardAmount } from '@utils/rewardAmount'
 

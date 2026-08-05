@@ -1,4 +1,4 @@
-import { useGetAnimalPostsQuery } from '@services/apis/animalPostsApi'
+import { useGetAnimalPostsQuery } from '@animals/app/api/animalPostsApi'
 import { Map } from '@components/index.ts'
 import * as S from './AllPublicationsMap.styles'
 
