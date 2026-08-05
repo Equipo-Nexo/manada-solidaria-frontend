@@ -25,6 +25,7 @@ export default defineConfig({
       "@app": fileURLToPath(new URL("./src/common/app", import.meta.url)),
       "@animals": fileURLToPath(new URL("./src/animals", import.meta.url)),
       "@campaigns": fileURLToPath(new URL("./src/campaigns", import.meta.url)),
+      "@fundraisings": fileURLToPath(new URL("./src/fundraisings", import.meta.url)),
       "@common": fileURLToPath(new URL("./src/common", import.meta.url)),
     },
   },

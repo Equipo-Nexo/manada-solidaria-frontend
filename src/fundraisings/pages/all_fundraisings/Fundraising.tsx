@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetFundraisingCampaignsQuery } from "@campaigns/app/api/campaignApi";
 import { mapFundraisingToCardData } from "@components/fundraisingCard/mapFundraisingToCardData";
 import FundraisingList from "./FundraisingList";
-import * as S from "../campaigns/pages/all_campaigns/Campaigns.styles";
+import * as S from "@campaigns/pages/all_campaigns/Campaigns.styles";
 import { ArrowLeft } from "@icons/index.ts";
 import { Advice } from "@components/index.ts";
 

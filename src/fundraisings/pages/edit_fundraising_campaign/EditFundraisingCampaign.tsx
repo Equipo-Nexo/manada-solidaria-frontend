@@ -6,7 +6,7 @@ import * as S from "./EditFundraisingCampaign.styles";
 import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { InferType, Maybe } from "yup";
-import { editFundraisingSchema } from "./EditFundraisingCampaign.schema";
+import { editFundraisingSchema } from "@fundraisings/app/schemas/EditFundraisingCampaign.schema";
 import { useGetFundraisingByIdQuery, useUpdateFundraisingCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useEffect } from "react";
 import type { Location } from "@services/responses/Location";

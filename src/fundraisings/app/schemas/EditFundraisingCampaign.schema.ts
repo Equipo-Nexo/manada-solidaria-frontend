@@ -1,4 +1,4 @@
-import { publishFundraisingSchema } from "@/fundraising/publishg_fundraising_campaign/PublishFundraising.schema";
+import { publishFundraisingSchema } from "@/fundraisings/app/schemas/PublishFundraising.schema";
 import * as yup from "yup";
 
 export const editFundraisingSchema = publishFundraisingSchema.shape({
