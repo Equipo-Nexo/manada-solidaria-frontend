@@ -1,27 +1,25 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
-import DesktopAuthenticatedView from "./components/authenticatedView/DesktopAuthenticatedView";
-import MobileAuthenticatedView from "./components/authenticatedView/MobileAuthenticatedView";
-import { InstallButton } from "./components/install_button/installButton";
-import Campaigns from "./pages/campaigns/Campaigns";
-import Home from "./pages/home/Home";
-import Login from "./pages/login/Login";
-import PublishCampaign from "./pages/publish/PublishCampaign";
-import PublishFundraising from "./pages/publish/PublishFundraising";
-import Register from "./pages/register/Register";
-import useAuth from "./hooks/auth/useAuth";
+import { DesktopAuthenticatedView, MobileAuthenticatedView, InstallButton } from "@components/index.ts"
+import Login from "./login/Login";
+import PublishFundraising from "./fundraising/publishg_fundraising_campaign/PublishFundraising";
+import Register from "./register/Register";
+import useAuth from "@hooks/auth/useAuth";
 import PrivateRoutes from "./routes/PrivateRoutes";
-import MyPosts from "./pages/my_posts/MyPosts";
-import AllAnimalsPage from "./pages/animalPosts/allAnimalPosts/AllAnimalsPage";
-import NewAnimalPostForm from "./pages/animalPosts/newAnimalPost/Form";
-import EditAnimalPostForm from "./pages/animalPosts/editAnimalPost/editAnimalPost";
-import EditAnimalPostSuccess from "./pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
-import Fundraising from "./pages/fundraising/Fundraising";
-import Menu from "./pages/menu/Menu";
-import EditFundraising from "./pages/campaigns/editFundraisingCampaign/EditFundraisingCampaign";
-import EditCampaign from "./pages/campaigns/EditCampaign/EditCampaign";
-import EditCampaignSuccess from "./pages/campaigns/EditCampaign/EditCampaignSuccess";
-import AllPublicationsMap from "./pages/all_publications_map/AllPublicationsMap";
+import MyPosts from "./my_posts/MyPosts";
+import Fundraising from "./fundraising/Fundraising";
+import Menu from "./menu/Menu";
+import Home from "./home/Home";
+import Campaigns from "./campaigns/Campaigns";
+import AllPublicationsMap from "./all_publications_map/AllPublicationsMap";
+import NewAnimalPostForm from "./animals/pages/animalPosts/newAnimalPost/Form";
+import EditFundraising from "./campaigns/editFundraisingCampaign/EditFundraisingCampaign";
+import EditAnimalPostSuccess from "./animals/pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
+import EditCampaign from "./campaigns/EditCampaign/EditCampaign";
+import EditCampaignSuccess from "./campaigns/EditCampaign/EditCampaignSuccess";
+import PublishCampaign from "./campaigns/publish_campaign/PublishCampaign";
+import AllAnimalsPage from "./animals/pages/allAnimalPosts/AllAnimalsPage";
+import EditAnimalPostForm from "./animals/pages/animalPosts/editAnimalPost/editAnimalPost";
 
 function App() {
   const location = useLocation();

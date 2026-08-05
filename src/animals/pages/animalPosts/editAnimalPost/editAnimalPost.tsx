@@ -1,0 +1,380 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMemo } from 'react'
+import {
+    Controller,
+    useController,
+    useForm
+} from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
+import { ColorPalet, Publish, Search } from '@/common/icons'
+import AdviceComponent from '@components/advice/AdviceComponent'
+import {
+    editAnimalPostSchema,
+    type EditAnimalPostFormValues,
+} from './editAnimalPost.schema'
+import * as S from './editAnimalPost.styles'
+import OptionsComponent from '@components/inputs/OptionsComponent'
+import PhoneInputComponent from '@components/inputs/PhoneInputComponent'
+import FormErrorMessage from '@components/errors/ErrorMessage'
+import SelectorComponent, { type SelectorOption } from '@components/inputs/SelectorComponent'
+import {
+    AnimalAge,
+    AnimalColor,
+    AnimalPostType,
+    AnimalSex,
+    AnimalSize,
+} from '@models/AnimalPost.types'
+import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@services/apis/animalPostsApi'
+import type { EditAnimalPostRequest } from '@services/requests/animalPostRequests'
+import type { AnimalPostResponse } from '@services/responses/animalPostResponses'
+import { useToast } from '@hooks/toast/useToast'
+import ImageUpload from '@components/imageUpload/ImageUpload'
+import { Arrow } from '@/common/icons'
+import { PublicationReason } from '@utils/PublicationReason'
+
+const getPublicationReason = (type: AnimalPostType): PublicationReason => {
+    if (type === AnimalPostType.InStreet) return PublicationReason.Street
+    if (type === AnimalPostType.Lost) return PublicationReason.Lost
+    return PublicationReason.Adoption
+}
+
+const EditAnimalPostDefaultValues = (
+    animalPost: AnimalPostResponse,
+): EditAnimalPostFormValues => {
+    const phoneNumber = animalPost.phoneNumber ?? ''
+    return {
+        publicationReason: getPublicationReason(animalPost.type),
+        imageId: animalPost.imageUrl,
+        animalSex: animalPost.animal.gender,
+        animalAge: animalPost.animal.age,
+        animalSize: animalPost.animal.size,
+        color: animalPost.animal.color,
+        name: animalPost.name ?? '',
+        areaCode: phoneNumber.slice(0, -7),
+        phoneNumber: phoneNumber.slice(-7),
+        story: animalPost.description,
+    }
+}
+
+const animalSexOptions: ReadonlyArray<SelectorOption<AnimalSex>> = [
+    { value: AnimalSex.Male, label: 'Macho' },
+    { value: AnimalSex.Female, label: 'Hembra' },
+    { value: AnimalSex.Unknown, label: 'Desconocido' },
+]
+
+const animalAgeOptions: ReadonlyArray<SelectorOption<AnimalAge>> = [
+    { value: AnimalAge.Puppy, label: 'Cachorro' },
+    { value: AnimalAge.Adult, label: 'Adulto' },
+    { value: AnimalAge.Senior, label: 'Anciano' },
+    { value: AnimalAge.Unknown, label: 'Desconocido' },
+]
+
+const animalSize: Array<{
+    value: AnimalSize
+    title: string
+    description: string
+}> = [
+        { value: AnimalSize.Small, title: 'Pequeño', description: 'Menos de 10 kg' },
+        { value: AnimalSize.Medium, title: 'Mediano', description: 'Entre 10 y 25 kg' },
+        { value: AnimalSize.Large, title: 'Grande', description: 'Más de 25 kg' },
+    ]
+
+const colors: Array<{ value: AnimalColor; label: string; hex: string }> = [
+    { value: AnimalColor.Gray, label: 'Gris', hex: '#8C8C8C' },
+    { value: AnimalColor.Black, label: 'Negro', hex: '#1A1A1A' },
+    { value: AnimalColor.Blonde, label: 'Rubio', hex: '#E9C98D' },
+    { value: AnimalColor.Brown, label: 'Marrón', hex: '#A0522D' },
+    { value: AnimalColor.White, label: 'Blanco', hex: '#FFFFFF' },
+    { value: AnimalColor.Other, label: 'Otro', hex: '#FFFFFF' },
+]
+
+interface ColorSelectorProps {
+    selected?: AnimalColor
+    onSelect: (color: AnimalColor) => void
+}
+
+function ColorSelectorComponent({ selected, onSelect }: ColorSelectorProps) {
+    return (
+        <S.ColorsContainer role="radiogroup" aria-label="Color predominante">
+            {colors.map(({ value, label, hex }) => (
+                <S.ColorItem key={value}>
+                    <S.Color
+                        $color={hex}
+                        $selected={selected === value}
+                        role="radio"
+                        aria-checked={selected === value}
+                        aria-label={label}
+                        onClick={() => onSelect(value)}
+                    >
+                        {value === AnimalColor.Other && <ColorPalet aria-hidden="true" />}
+                    </S.Color>
+                    <S.ColorName $selected={selected === value}>{label}</S.ColorName>
+                </S.ColorItem>
+            ))}
+        </S.ColorsContainer>
+    )
+}
+
+const getImagePreviewUrl = (imageUrl?: string) => {
+    if (!imageUrl) return undefined
+    if (/^https?:\/\//i.test(imageUrl)) return imageUrl
+    return `${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`
+}
+
+
+
+function EditAnimalPostForm() {
+    const navigate = useNavigate()
+    const { postId } = useParams<{ postId: string }>()
+    const toast = useToast()
+    const [editAnimalPost, { isLoading }] = useEditAnimalPostMutation()
+    const { data: animalPostData } = useGetAnimalPostQuery(postId ?? '', {
+        skip: !postId,
+    })
+    const defaultValues = useMemo(
+        () => animalPostData ? EditAnimalPostDefaultValues(animalPostData) : undefined,
+        [animalPostData],
+    )
+
+    const {
+        control,
+        formState: { errors },
+        handleSubmit,
+        register,
+    } = useForm<EditAnimalPostFormValues>({
+        resolver: yupResolver(editAnimalPostSchema),
+        mode: 'onTouched',
+        values: defaultValues,
+    })
+
+    const publicationReason = defaultValues?.publicationReason ?? PublicationReason.Adoption
+    const { field: areaCodeField, fieldState: areaCodeState } = useController({
+        control,
+        name: 'areaCode',
+    })
+    const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
+        control,
+        name: 'phoneNumber',
+    })
+
+    const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
+        if (!postId || !animalPostData) return
+        const request: EditAnimalPostRequest = {
+            name: values.name.trim() || null,
+            description: values.story.trim(),
+            imageId: values.imageId,
+            animal: {
+                id: animalPostData.animal.id,
+                type: animalPostData.animal.type,
+                size: values.animalSize,
+                gender: values.animalSex,
+                age: values.animalAge,
+                color: values.color,
+            },
+            location: animalPostData.location,
+            phoneNumber: `${values.areaCode}${values.phoneNumber}` || null,
+            reward: animalPostData.reward,
+        }
+
+        try {
+            await editAnimalPost({ postId, body: request }).unwrap()
+            navigate(`/editar/animal/${postId}/exito`, {
+                replace: true,
+                state: {
+                    imageUrl: getImagePreviewUrl(values.imageId),
+                    name: values.name.trim() || 'de tu animal',
+                },
+            })
+        } catch {
+            toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
+        }
+    }
+
+    return (
+        <S.Page>
+            <S.Header>
+                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+                    <Arrow aria-hidden="true" />
+                </S.BackButton>
+                <S.PageTitle>Editar post de animal</S.PageTitle>
+            </S.Header>
+            <S.MainContainer
+                onSubmit={handleSubmit(handleEditAnimalPost)}
+                aria-busy={isLoading}
+                noValidate
+            >
+                <S.FieldGroup>
+                    <Controller
+                        name="imageId"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <>
+                                <ImageUpload
+                                    imageUrl={getImagePreviewUrl(field.value)}
+                                    label="Seleccionar foto"
+                                    ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
+                                    hasError={Boolean(fieldState.error)}
+                                    onImageSelected={(imageId) => field.onChange(imageId)}
+                                />
+                                <FormErrorMessage id="photo-error" message={fieldState.error?.message} />
+                            </>
+                        )}
+                    />
+                </S.FieldGroup>
+                <AdviceComponent
+                    advice={"Una buena foto hace la diferencia. Procurá que se vea el animal completo, con buena luz y sin filtros."}
+                />
+                <S.FieldGroup>
+                    <S.Label>Ubicación</S.Label>
+                    <S.IconInputWrapper>
+                        <Search aria-hidden="true" />
+                        <S.Input
+                            placeholder={
+                                animalPostData?.location.name
+                                || animalPostData?.location.address
+                                || '¿En dónde se encuentra el animal?'
+                            }
+                        />
+                    </S.IconInputWrapper>
+                    <S.MapContainer>
+                        <S.MapPlaceholder></S.MapPlaceholder>
+                        <S.Suggestion>
+                            Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
+                            compartir tu dirección exacta.
+                        </S.Suggestion>
+                    </S.MapContainer>
+                </S.FieldGroup>
+                <S.FieldGroup>
+                    <S.Label>Nombre</S.Label>
+                    <S.Input
+                        placeholder={defaultValues?.name ? '' : 'Si no lo sabés, podés dejarlo vacío'}
+                        aria-invalid={Boolean(errors.name)}
+                        {...register('name')}
+                    />
+                    <FormErrorMessage message={errors.name?.message} />
+                </S.FieldGroup>
+                <S.FieldGroup>
+                    <S.Label>Sexo y edad <S.Required>*</S.Required></S.Label>
+                    <S.CompactSelectorsContainer>
+                        <Controller
+                            name="animalSex"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <SelectorComponent
+                                    name={field.name}
+                                    ariaLabel="Sexo"
+                                    placeholder="Seleccioná uno"
+                                    options={animalSexOptions}
+                                    value={field.value}
+                                    error={fieldState.error?.message}
+                                    errorId="animal-sex-error"
+                                    onChange={field.onChange}
+                                    onBlur={field.onBlur}
+                                    inputRef={field.ref}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="animalAge"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <SelectorComponent
+                                    name={field.name}
+                                    ariaLabel="Edad"
+                                    placeholder="Seleccioná uno"
+                                    options={animalAgeOptions}
+                                    value={field.value}
+                                    error={fieldState.error?.message}
+                                    errorId="animal-age-error"
+                                    onChange={field.onChange}
+                                    onBlur={field.onBlur}
+                                    inputRef={field.ref}
+                                />
+                            )}
+                        />
+                    </S.CompactSelectorsContainer>
+                </S.FieldGroup>
+                <S.FieldGroup>
+                    <S.Label id="animal-size-label">Tamaño del animal <S.Required>*</S.Required></S.Label>
+                    <Controller
+                        name="animalSize"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <>
+                                <S.OptionsGroup
+                                    role="radiogroup"
+                                    aria-labelledby="animal-size-label"
+                                    aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
+                                    aria-invalid={Boolean(fieldState.error)}
+                                >
+                                    {animalSize.map((size) => (
+                                        <OptionsComponent
+                                            key={size.value}
+                                            name={field.name}
+                                            title={size.title}
+                                            description={size.description}
+                                            value={size.value}
+                                            selected={field.value === size.value}
+                                            onSelect={field.onChange}
+                                        />
+                                    ))}
+                                </S.OptionsGroup>
+                                <FormErrorMessage id="animal-size-error" message={fieldState.error?.message} />
+                            </>
+                        )}
+                    />
+                </S.FieldGroup>
+                <S.FieldGroup>
+                    <S.Label>Color predominante</S.Label>
+                    <Controller
+                        name="color"
+                        control={control}
+                        render={({ field }) => (
+                            <ColorSelectorComponent
+                                selected={field.value ?? undefined}
+                                onSelect={field.onChange}
+                            />
+                        )}
+                    />
+                </S.FieldGroup>
+                <S.FieldGroup>
+                    <S.Label>
+                        Número de teléfono
+                        {publicationReason !== PublicationReason.Street && <S.Required> *</S.Required>}
+                    </S.Label>
+                    <PhoneInputComponent
+                        areaCodeValue={areaCodeField.value}
+                        phoneNumberValue={phoneNumberField.value}
+                        onAreaCodeChange={areaCodeField.onChange}
+                        onPhoneNumberChange={phoneNumberField.onChange}
+                        onAreaCodeBlur={areaCodeField.onBlur}
+                        onPhoneNumberBlur={phoneNumberField.onBlur}
+                        areaCodeRef={areaCodeField.ref}
+                        phoneNumberRef={phoneNumberField.ref}
+                        areaCodePlaceholder={defaultValues?.areaCode ? '' : '353'}
+                        phoneNumberPlaceholder={defaultValues?.phoneNumber ? '' : '5652355'}
+                        error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
+                    />
+                    <S.Suggestion>
+                        {publicationReason === PublicationReason.Street
+                            ? 'Es opcional si el animal se encuentra en la calle'
+                            : 'Es obligatorio para que adoptantes o colaboradores puedan contactarte'}
+                    </S.Suggestion>
+                </S.FieldGroup>
+                <S.FieldGroup>
+                    <S.Label>Contanos su historia <S.Required>*</S.Required></S.Label>
+                    <S.TextArea
+                        placeholder=""
+                        {...register('story')} />
+                    <FormErrorMessage message={errors.story?.message} />
+                </S.FieldGroup>
+                <S.SubmitButton type="submit" disabled={isLoading}>
+                    {isLoading ? 'Guardando...' : 'Guardar cambios'}
+                    <Publish aria-hidden="true" />
+                </S.SubmitButton>
+            </S.MainContainer>
+        </S.Page>
+    )
+}
+
+export default EditAnimalPostForm

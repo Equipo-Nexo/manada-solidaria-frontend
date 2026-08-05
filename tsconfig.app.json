@@ -19,7 +19,20 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/common/components/*"],
+      "@hooks/*": ["./src/common/hooks/*"],
+      "@services/*": ["./src/common/app/services/*"],
+      "@utils/*": ["./src/common/utils/*"],
+      "@models/*": ["./src/common/app/types/*"],
+      "@icons/*": ["./src/common/icons/*"],
+      "@styles/*": ["./src/common/styles/*"],
+      "@images/*": ["./src/common/assets/images/*"],
+      "@store/*": ["./src/common/app/store/*"],
+      "@app/*": ["./src/common/app/*"]
+    }
   },
   "include": ["src"]
 }
