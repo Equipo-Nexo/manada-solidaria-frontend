@@ -18,7 +18,7 @@ import type {
   StyleSpecification,
 } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
+import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { LocationPin, MapPin } from '../icons'
 import * as S from './MapCN.styles'
 import type { MapControlPosition } from './MapCN.styles'
