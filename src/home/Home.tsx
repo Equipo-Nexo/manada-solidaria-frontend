@@ -3,7 +3,7 @@ import { useGetAnimalPostsQuery } from "@animals/app/api/animalPostsApi";
 import {
   useGetCampaignsQuery,
   useGetFundraisingCampaignsQuery,
-} from "@services/apis/campaignApi";
+} from "@campaigns/app/api/campaignApi";
 import { AnimalPostCard, CampaignCard, FundraisingCard, Carousel, Message, Advice } from "@components/index.ts";
 import { mapAnimalPostToCardProps } from "@components/animalPostCard/mapAnimalPostToCardProps";
 import { mapCampaignToCardData } from "@components/campaignCard/mapCampaignToCardData";

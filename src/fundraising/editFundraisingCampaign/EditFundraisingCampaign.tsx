@@ -7,7 +7,7 @@ import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { InferType, Maybe } from "yup";
 import { editFundraisingSchema } from "./EditFundraisingCampaign.schema";
-import { useGetFundraisingByIdQuery, useUpdateFundraisingCampaignMutation } from "@services/apis/campaignApi";
+import { useGetFundraisingByIdQuery, useUpdateFundraisingCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useEffect } from "react";
 import type { Location } from "@services/responses/Location";
 import type { UpdateFundraisingCampaignRequest } from "@services/requests/updateCampaignRequest";

@@ -1,6 +1,6 @@
 import type { FundraisingCardData } from "@components/fundraisingCard/FundraisingCard";
 import { FundraisingCard, Message } from "@components/index.ts";
-import * as S from "../campaigns/CampaignList.styles";
+import * as S from "@campaigns/components/campaign_list/CampaignList.styles";
 import { publicationMessages } from "@utils/Messages";
 
 type FundraisingListProps = {

@@ -1,12 +1,18 @@
 import * as yup from "yup";
-import type { PublishCampaignCategory } from "./PublishCampaign";
+import { type PublishCampaignCategory } from "@campaigns/pages/create_campaign/PublishCampaign";
 
 export const publishCampaignSchema = yup.object({
   title: yup.string().required("Ingresá un título para la campaña.").max(100),
   imageId: yup.string().notRequired(),
   category: yup
     .mixed<PublishCampaignCategory>()
-    .oneOf(["Donación", "Castración", "Vacunación", "Desparasitación", "Otro"])
+    .oneOf([
+      "Donación",
+      "Castración",
+      "Vacunación",
+      "Desparasitación",
+      "Otro",
+    ])
     .required("Seleccioná una categoría"),
 
   description: yup.string().required("Ingresá una descripción.").max(200),

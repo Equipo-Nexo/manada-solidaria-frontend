@@ -1,6 +1,6 @@
-import { useGetCampaignsQuery } from "@services/apis/campaignApi";
+import { useGetCampaignsQuery } from "@campaigns/app/api/campaignApi";
 import { mapCampaignToCardData } from "@components/campaignCard/mapCampaignToCardData";
-import CampaignList from "./CampaignList";
+import CampaignList from "@campaigns/components/campaign_list/CampaignList";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Campaigns.styles";
 import { useState } from "react";

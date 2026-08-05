@@ -6,7 +6,7 @@ import type {
   AnimalSize,
   AnimalType,
 } from '../../../../animals/app/types/AnimalPost.types'
-import type { Location } from './Location'
+import type { Location } from '@services/responses/Location'
 
 export interface AnimalPostResponse {
   id: string

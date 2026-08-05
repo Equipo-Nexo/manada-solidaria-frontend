@@ -1,7 +1,7 @@
-import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignPageResponse, FundraisingCampaignResponse } from "../../types/Campaign.types";
-import type { CampaignType, CreateCampaignRequest, EditCampaignMutationRequest } from "../requests/createCampaignRequest";
-import type { UpdateFundraisingCampaignRequest } from '../requests/updateCampaignRequest';
+import { baseAuthenticatedApi } from '@services/base/baseAuthenticatedApi'
+import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignPageResponse, FundraisingCampaignResponse } from "@app/types/Campaign.types";
+import type { CampaignType, CreateCampaignRequest, EditCampaignMutationRequest } from "@services/requests/createCampaignRequest";
+import type { UpdateFundraisingCampaignRequest } from '@services/requests/updateCampaignRequest';
 
 export type CampaignCategory =
   | "DONATION"

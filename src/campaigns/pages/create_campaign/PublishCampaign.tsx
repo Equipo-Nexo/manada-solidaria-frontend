@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { publishCampaignSchema } from "./PublishCampaignSchema";
+import { publishCampaignSchema } from "@campaigns/app/schemas/PublishCampaignSchema";
 import * as S from "./PublishForm.styles";
 import { Advice, ImageUpload, DatePicker, ErrorMessage, Map } from "@components/index.ts";
 import { Phone, Search, Arrow, PublishButton } from "@icons/index.ts";
-import { useCreateCampaignMutation } from "@services/apis/campaignApi";
+import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useToast } from "@hooks/toast/useToast";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import type {
@@ -43,7 +43,7 @@ type PublishCampaignForm = {
   donationNeeds?: DonationNeedCategory[];
 };
 
-const campaignCategories: PublishCampaignCategory[] = [
+export const campaignCategories: PublishCampaignCategory[] = [
   "Donación",
   "Castración",
   "Vacunación",

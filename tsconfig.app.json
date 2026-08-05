@@ -33,6 +33,7 @@
       "@store/*": ["./src/common/app/store/*"],
       "@app/*": ["./src/common/app/*"],
       "@animals/*": ["./src/animals/*"],
+      "@campaigns/*": ["./src/campaigns/*"],
       "@common/*": ["./src/common/*"],
     }
   },

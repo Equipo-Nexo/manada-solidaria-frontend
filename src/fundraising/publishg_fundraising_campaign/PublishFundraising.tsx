@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { Arrow, Search, PublishButton } from "@icons/index.ts";
 import { DatePicker, ImageUpload, Advice, ErrorMessage, PhoneInputComponent, Map } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
-import * as S from "../../campaigns/publish_campaign/PublishForm.styles";
+import * as S from "../../campaigns/pages/create_campaign/PublishForm.styles";
 import { Controller, useController, useForm } from "react-hook-form";
 import type { InferType, Maybe } from "yup";
 import type { CreateCampaignRequest } from "@services/requests/createCampaignRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useToast } from "@hooks/toast/useToast";
 import { publishFundraisingSchema } from "./PublishFundraising.schema";
-import { useCreateCampaignMutation } from "@services/apis/campaignApi";
+import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import type { Location } from "@services/responses/Location";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;

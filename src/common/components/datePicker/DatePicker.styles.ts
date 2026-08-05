@@ -4,7 +4,7 @@ import {
   InputWithIcon,
   IconInput,
   FieldIcon,
-} from "../../../campaigns/publish_campaign/PublishForm.styles";
+} from "../../../campaigns/pages/create_campaign/PublishForm.styles";
 import { createGlobalStyle } from "styled-components";
 
 export const CallyStyles = createGlobalStyle`

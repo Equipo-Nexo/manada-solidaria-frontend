@@ -3,7 +3,7 @@ import { ArrowLeft, Pencil, Trash } from "../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@services/apis/usersApi";
 import { useNavigate } from "react-router-dom";
-import { useDeleteCampaignMutation } from "@services/apis/campaignApi";
+import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
