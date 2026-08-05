@@ -9,13 +9,12 @@ import {
 } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { ColorPalet, Publish, Search } from '@/common/icons'
-import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent } from '@components/index.ts'
+import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch } from '@components/index.ts'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from './Form.schema'
 import * as S from './Form.styles'
 import perroImage from '@images/Perro.png'
 import gatoImage from '@images/Gato.png'
 import otroImage from '@images/Otro.png'
-import ConditionalSwitchComponent from '@components/ConditionalSwitch/ConditionalSwitchComponent'
 import {
   AnimalAge,
   AnimalColor,
@@ -512,7 +511,7 @@ function NewAnimalPostForm() {
             name="needsTransport"
             control={control}
             render={({ field }) => (
-              <ConditionalSwitchComponent
+              <ConditionalSwitch
                 label="¿Necesitás transporte?"
                 variant="transport"
                 checked={field.value}
@@ -526,7 +525,7 @@ function NewAnimalPostForm() {
             name="offersReward"
             control={control}
             render={({ field }) => (
-              <ConditionalSwitchComponent
+              <ConditionalSwitch
                 label="¿Ofrecés recompensa?"
                 variant="reward"
                 checked={field.value}

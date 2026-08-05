@@ -6,17 +6,14 @@ import {
     useForm
 } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ColorPalet, Publish, Search } from '@/common/icons'
-import AdviceComponent from '@components/advice/AdviceComponent'
+import { ColorPalet, Publish, Search, Arrow } from '@icons/index.ts'
+import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent } from '@components/index.ts'
 import {
     editAnimalPostSchema,
     type EditAnimalPostFormValues,
 } from './editAnimalPost.schema'
 import * as S from './editAnimalPost.styles'
-import OptionsComponent from '@components/inputs/OptionsComponent'
-import PhoneInputComponent from '@components/inputs/PhoneInputComponent'
-import FormErrorMessage from '@components/errors/ErrorMessage'
-import SelectorComponent, { type SelectorOption } from '@components/inputs/SelectorComponent'
+import { type SelectorOption } from '@components/inputs/SelectorComponent'
 import {
     AnimalAge,
     AnimalColor,
@@ -28,8 +25,6 @@ import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@services/apis
 import type { EditAnimalPostRequest } from '@services/requests/animalPostRequests'
 import type { AnimalPostResponse } from '@services/responses/animalPostResponses'
 import { useToast } from '@hooks/toast/useToast'
-import ImageUpload from '@components/imageUpload/ImageUpload'
-import { Arrow } from '@/common/icons'
 import { PublicationReason } from '@utils/PublicationReason'
 
 const getPublicationReason = (type: AnimalPostType): PublicationReason => {
@@ -216,12 +211,12 @@ function EditAnimalPostForm() {
                                     hasError={Boolean(fieldState.error)}
                                     onImageSelected={(imageId) => field.onChange(imageId)}
                                 />
-                                <FormErrorMessage id="photo-error" message={fieldState.error?.message} />
+                                <ErrorMessage id="photo-error" message={fieldState.error?.message} />
                             </>
                         )}
                     />
                 </S.FieldGroup>
-                <AdviceComponent
+                <Advice
                     advice={"Una buena foto hace la diferencia. Procurá que se vea el animal completo, con buena luz y sin filtros."}
                 />
                 <S.FieldGroup>
@@ -251,7 +246,7 @@ function EditAnimalPostForm() {
                         aria-invalid={Boolean(errors.name)}
                         {...register('name')}
                     />
-                    <FormErrorMessage message={errors.name?.message} />
+                    <ErrorMessage message={errors.name?.message} />
                 </S.FieldGroup>
                 <S.FieldGroup>
                     <S.Label>Sexo y edad <S.Required>*</S.Required></S.Label>
@@ -319,7 +314,7 @@ function EditAnimalPostForm() {
                                         />
                                     ))}
                                 </S.OptionsGroup>
-                                <FormErrorMessage id="animal-size-error" message={fieldState.error?.message} />
+                                <ErrorMessage id="animal-size-error" message={fieldState.error?.message} />
                             </>
                         )}
                     />
@@ -366,7 +361,7 @@ function EditAnimalPostForm() {
                     <S.TextArea
                         placeholder=""
                         {...register('story')} />
-                    <FormErrorMessage message={errors.story?.message} />
+                    <ErrorMessage message={errors.story?.message} />
                 </S.FieldGroup>
                 <S.SubmitButton type="submit" disabled={isLoading}>
                     {isLoading ? 'Guardando...' : 'Guardar cambios'}

@@ -1,5 +1,5 @@
 import { useGetAnimalPostsQuery } from '@services/apis/animalPostsApi'
-import Map from '@components/map/Map'
+import { Map } from '@components/index.ts'
 import * as S from './AllPublicationsMap.styles'
 
 function AllPublicationsMap() {
