@@ -23,6 +23,7 @@ export default defineConfig({
       "@images": fileURLToPath(new URL("./src/common/assets/images", import.meta.url)),
       "@store": fileURLToPath(new URL("./src/common/app/store", import.meta.url)),
       "@app": fileURLToPath(new URL("./src/common/app", import.meta.url)),
+      "@animals": fileURLToPath(new URL("./src/animals", import.meta.url)),
     },
   },
   plugins: [

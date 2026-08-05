@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { MainContainer as BaseMainContainer } from '../newAnimalPost/Form.styles'
+import { MainContainer as BaseMainContainer } from '../create_animal_post/CreateAnimalPost.styles'
 import { fieldFocusVisible } from '@styles/interactions'
 
 export const MainContainer = styled(BaseMainContainer)`

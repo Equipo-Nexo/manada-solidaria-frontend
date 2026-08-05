@@ -11,8 +11,8 @@ import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUploa
 import {
     editAnimalPostSchema,
     type EditAnimalPostFormValues,
-} from './editAnimalPost.schema'
-import * as S from './editAnimalPost.styles'
+} from '@animals/app/schemas/editAnimalPost.schema'
+import * as S from './EditAnimalPost.styles'
 import { type SelectorOption } from '@components/inputs/SelectorComponent'
 import {
     AnimalAge,

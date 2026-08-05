@@ -10,8 +10,8 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { ColorPalet, Publish, Search } from '@/common/icons'
 import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch } from '@components/index.ts'
-import { newAnimalPostSchema, type NewAnimalPostFormValues } from './Form.schema'
-import * as S from './Form.styles'
+import { newAnimalPostSchema, type NewAnimalPostFormValues } from '../../app/schemas/CreateAnimalPost.schema'
+import * as S from './CreateAnimalPost.styles'
 import perroImage from '@images/Perro.png'
 import gatoImage from '@images/Gato.png'
 import otroImage from '@images/Otro.png'
@@ -185,7 +185,7 @@ function DescriptionComponent({
   )
 }
 
-function NewAnimalPostForm() {
+function CreateAnimalPost() {
 
   const navigate = useNavigate()
   const toast = useToast()
@@ -552,4 +552,4 @@ function NewAnimalPostForm() {
   )
 }
 
-export default NewAnimalPostForm
+export default CreateAnimalPost

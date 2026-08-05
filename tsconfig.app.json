@@ -31,7 +31,8 @@
       "@styles/*": ["./src/common/styles/*"],
       "@images/*": ["./src/common/assets/images/*"],
       "@store/*": ["./src/common/app/store/*"],
-      "@app/*": ["./src/common/app/*"]
+      "@app/*": ["./src/common/app/*"],
+      "@animals/*": ["./src/animals/*"]
     }
   },
   "include": ["src"]

@@ -11,15 +11,15 @@ import Fundraising from "./fundraising/Fundraising";
 import Menu from "./menu/Menu";
 import Home from "./home/Home";
 import Campaigns from "./campaigns/Campaigns";
-import AllPublicationsMap from "./all_publications_map/AllPublicationsMap";
-import NewAnimalPostForm from "./animals/pages/animalPosts/newAnimalPost/Form";
+import AllPublicationsMap from "./all_publications_map/pages/AllPublicationsMap";
+import NewAnimalPostForm from "./animals/pages/create_animal_post/CreateAnimalPost";
 import EditFundraising from "./campaigns/editFundraisingCampaign/EditFundraisingCampaign";
-import EditAnimalPostSuccess from "./animals/pages/animalPosts/editAnimalPost/EditAnimalPostSuccess";
+import EditAnimalPostSuccess from "./animals/components/EditAnimalPostSuccess";
 import EditCampaign from "./campaigns/EditCampaign/EditCampaign";
 import EditCampaignSuccess from "./campaigns/EditCampaign/EditCampaignSuccess";
 import PublishCampaign from "./campaigns/publish_campaign/PublishCampaign";
-import AllAnimalsPage from "./animals/pages/allAnimalPosts/AllAnimalsPage";
-import EditAnimalPostForm from "./animals/pages/animalPosts/editAnimalPost/editAnimalPost";
+import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
+import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 
 function App() {
   const location = useLocation();
