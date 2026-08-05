@@ -34,10 +34,6 @@ export const BackButton = styled.button`
   background: transparent;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
-  svg {
-    width: 48px;
-    height: 48px;
-  }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
 
   @media (min-width: 768px) {
@@ -169,7 +165,6 @@ export const PublishSubmitButton = styled.button`
   ${focusVisible}
 
   @media (min-width: 768px) {
-    width: min(100%, 280px);
     height: 48px;
     align-self: flex-end;
   }

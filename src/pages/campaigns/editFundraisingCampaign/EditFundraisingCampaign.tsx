@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Search } from "../../../components/icons";
+import { Arrow, Search } from "../../../components/icons";
 import * as S from "./EditFundraisingCampaign.styles";
 import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -56,8 +56,8 @@ function EditFundraising() {
     if (campaign) {
       setValue("title", campaign.title);
       setValue("accountAlias", campaign.accountAlias);
-      setValue("amountToBeCollected", campaign.amountToBeCollected);
-      setValue("collectedAmount", campaign.amountCollected);
+      setValue("amountToBeCollected", campaign.amountToBeCollected || null);
+      setValue("collectedAmount", campaign.amountCollected || null);
       setValue("endDate", campaign.campaignEndDate);
       setValue("description", campaign.description);
       setValue("phoneAreaCode", campaign.phoneNumber.substring(0, 3))
@@ -110,7 +110,7 @@ function EditFundraising() {
     <S.EditFormContainer>
       <S.Header>
         <S.BackButton onClick={() => navigate(-1)}>
-          <ArrowLeft aria-hidden="true" />
+          <Arrow aria-hidden="true" />
         </S.BackButton>
         <S.FormTitle>Editar Colecta de Dinero</S.FormTitle>
       </S.Header>
@@ -154,7 +154,6 @@ function EditFundraising() {
                     {...field}
                     maskType="money"
                     value={field.value?.toString() ?? ""}
-                    placeholder="350.000"
                     onAccept={(value) => field.onChange(Number(value))}
                   />
                 )}
@@ -162,7 +161,9 @@ function EditFundraising() {
             </S.InputWithIcon>
             <FormErrorMessage message={errors.amountToBeCollected?.message} />
           </S.PublishField>
-
+          <AdviceComponent
+            advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar."
+          />
           <S.PublishField>
             <S.PublishLabel>Monto recaudado actual</S.PublishLabel>
             <S.InputWithIcon>
@@ -175,7 +176,6 @@ function EditFundraising() {
                     {...field}
                     maskType="money"
                     value={field.value?.toString() ?? ""}
-                    placeholder="350.000"
                     onAccept={(value) => field.onChange(Number(value))}
                   />
                 )}
@@ -262,7 +262,7 @@ function EditFundraising() {
             <FormErrorMessage message={errors.imageId?.message} />
           </S.PublishField>
           <AdviceComponent
-            advice="Las campañas con metas claras y fotos nítidas suelen completarse
+            advice="Las metas de recaudación con metas claras y fotos nítidas suelen completarse
                 un 40% más rápido. Asegurate de incluir toda la información
                 relevante."
           />
