@@ -98,6 +98,7 @@ function PublishFundraising() {
       );
     }
   };
+
   const { field: areaCodeField, fieldState: areaCodeState } = useController({
     control,
     name: "phoneAreaCode",
@@ -159,12 +160,20 @@ function PublishFundraising() {
                   maskType="money"
                   value={field.value?.toString() ?? ""}
                   placeholder="350.000"
-                  onAccept={(value) => field.onChange(Number(value))}
+                  onAccept={(value) => {
+                    if (value === "" || value == null) {
+                      field.onChange(undefined);
+                      return;
+                    }
+
+                    field.onChange(Number(value));
+                  }}
                 />
               )}
             />
           </S.InputWithIcon>
           <FormErrorMessage message={errors.amountToBeCollected?.message} />
+          <AdviceComponent advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar." />
         </S.PublishField>
 
         <S.PublishField>
@@ -222,8 +231,8 @@ function PublishFundraising() {
               <Search />
             </S.FieldIcon>
           </S.InputWithIcon>
-          <S.MapWrapper >
-            <Map onPointSelect={(point) => console.log(point)}/>
+          <S.MapWrapper>
+            <Map onPointSelect={(point) => console.log(point)} />
           </S.MapWrapper>
           <S.HelpText>
             Buscá una dirección o tocá el mapa para marcar el punto.
@@ -244,11 +253,7 @@ function PublishFundraising() {
           />
           <FormErrorMessage message={errors.imageId?.message} />
         </S.PublishField>
-        <AdviceComponent
-          advice="Las campañas con metas claras y fotos nítidas suelen completarse
-              un 40% más rápido. Asegurate de incluir toda la información
-              relevante."
-        />
+
         <S.PublishSubmitButton type="submit">
           Publicar Colecta de Dinero
           <PublishButton aria-hidden="true" />

@@ -1,5 +1,5 @@
 import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignResponse } from "../../types/Campaign.types";
+import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignPageResponse, FundraisingCampaignResponse } from "../../types/Campaign.types";
 import type { CampaignType, CreateCampaignRequest, EditCampaignMutationRequest } from "../requests/createCampaignRequest";
 import type { UpdateFundraisingCampaignRequest } from '../requests/updateCampaignRequest';
 
@@ -37,7 +37,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ["Campaigns"],
     }),
-    getFundraisingCampaigns: builder.query<CampaignPageResponse, void>({
+    getFundraisingCampaigns: builder.query<FundraisingCampaignPageResponse, void>({
       query: () => ({
         url: "/campaigns/fundraising_campaigns",
         method: "GET",

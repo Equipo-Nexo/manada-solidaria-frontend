@@ -28,6 +28,12 @@ export type CampaignPageResponse = {
   totalPages: number;
   number: number;
 };
+export type FundraisingCampaignPageResponse = {
+  content: FundraisingCampaignResponse[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+};
 
 export type CampaignDetailsType = CampaignType | "fundraising";
 

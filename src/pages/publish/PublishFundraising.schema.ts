@@ -11,6 +11,9 @@ export const publishFundraisingSchema = yup.object({
     .max(20, "El alias debe tener entre 6 y 20 caracteres."),
   amountToBeCollected: yup
     .number()
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value,
+    )
     .notRequired()
     .typeError("Ingresá un monto.")
     .positive("La meta debe ser mayor a 0."),
