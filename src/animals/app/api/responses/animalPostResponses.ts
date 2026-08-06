@@ -1,34 +1,13 @@
-import type {
-  AnimalAge,
-  AnimalColor,
-  AnimalPostType,
-  AnimalSex,
-  AnimalSize,
-  AnimalType,
-} from '../../../../animals/app/types/AnimalPost.types'
-import type { Location } from '@services/responses/Location'
+import type { AnimalPost } from "../../types/AnimalPost.types";
 
-export interface AnimalPostResponse {
-  id: string
-  type: AnimalPostType
-  name: string | null
-  description: string
-  imageUrl: string
-  animal: {
-    id: string
-    type: AnimalType
-    size: AnimalSize
-    gender: AnimalSex
-    color: AnimalColor | null
-    breed: string | null
-    fur: string | null
-    age: AnimalAge
-    description: string | null
-  }
-  location: Location
-  status: string
-  createdAt: string
-  ownerId: string
-  phoneNumber: string | null
-  reward: number | null
-}
+export type AnimalPostResponse = AnimalPost
+
+export const animalPostStatuses = [
+    'CREATED',
+    'SEARCHING',
+    'FOUND',
+    'SEARCHING_ADOPT_AND_TRANSIT',
+    'SEARCHING_ADOPT',
+    'ADOPTED'
+] as const
+export type AnimalPostStatus = typeof animalPostStatuses[number]

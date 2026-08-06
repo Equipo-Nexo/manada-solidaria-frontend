@@ -1,4 +1,3 @@
-import { ANIMAL_POST_STATUS_LABELS } from '@/animals/app/types/AnimalPost.types'
 import type { AnimalPostStatusText } from "@utils/AnimalPostUtils"
 
 export type AnimalPostActionId =
@@ -22,28 +21,28 @@ export type AnimalPostActionsByStatus = {
 
 export const animalPostActions: AnimalPostActionsByStatus[] = [
   {
-    status: ANIMAL_POST_STATUS_LABELS.ADOPTION,
+    status: 'En adopción',
     actions: [
       { id: 'foster', label: 'Transitar', variant: 'secondary' },
       { id: 'adopt', label: 'Adoptar', variant: 'primary' },
     ],
   },
   {
-    status: ANIMAL_POST_STATUS_LABELS.SEARCHING_ADOPT,
+    status: 'En tránsito',
     actions: [
       { id: 'collaborate', label: 'Colaborar', variant: 'secondary' },
       { id: 'adopt', label: 'Adoptar', variant: 'primary' },
     ],
   },
   {
-    status: ANIMAL_POST_STATUS_LABELS.LOST,
+    status: 'Perdido',
     actions: [
       { id: 'view-map', label: 'Ver en el mapa', variant: 'secondary' },
       { id: 'share-info', label: 'Tengo info', variant: 'primary' },
     ],
   },
   {
-    status: ANIMAL_POST_STATUS_LABELS.IN_STREET,
+    status: 'En la calle',
     actions: [
       { id: 'view-map', label: 'Ver en el mapa', variant: 'secondary' },
       {
@@ -60,6 +59,7 @@ export const getAnimalPostActions = (
   status: AnimalPostStatusText,
   contactPhone?: string,
 ): AnimalPostAction[] => {
+  console.log(status)
   const actions = animalPostActions.find((item) => item.status === status)?.actions ?? []
   const hasContactPhone = Boolean(contactPhone?.trim())
 

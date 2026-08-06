@@ -1,28 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import type { ChangeEvent } from 'react'
-import {
-  Controller,
-  useController,
-  useForm,
-  useWatch,
-  type UseFormRegisterReturn,
-} from 'react-hook-form'
+import { Controller, useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { ColorPalet, Publish, Search } from '@/common/icons'
+import { Publish, Search } from '@/common/icons'
 import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch } from '@components/index.ts'
-import { newAnimalPostSchema, type NewAnimalPostFormValues } from '../../app/schemas/CreateAnimalPost.schema'
+import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
-import perroImage from '@images/Perro.png'
-import gatoImage from '@images/Gato.png'
-import otroImage from '@images/Otro.png'
-import {
-  AnimalAge,
-  AnimalColor,
-  AnimalPostType,
-  AnimalSex,
-  AnimalSize,
-  AnimalType,
-} from '@/animals/app/types/AnimalPost.types'
+import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@utils/PublicationReason'
 import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
@@ -30,7 +14,11 @@ import type { CreateAnimalPostRequest } from '@/animals/app/api/requests/animalP
 import { useToast } from '@hooks/toast/useToast'
 import Arrow from '@icons/Arrow'
 import { formatRewardAmount, parseRewardAmount } from '@utils/rewardAmount'
-import type { SelectorOption } from '@components/inputs/SelectorComponent'
+import { DescriptionComponent, publicationReasons } from '@/animals/components/DescriptionComponent'
+import { AnimalSelectorComponent } from '@/animals/components/AnimalSelectorComponent'
+import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
+import { recordToOptions } from '@/common/utils/RecordToOptions'
+import { ColorSelectorComponent } from '@/animals/components/ColorSelectorComponent'
 
 const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   name: 'Parque Centenario',
@@ -38,151 +26,6 @@ const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   number: 100,
   latitude: -34.6,
   longitude: -58.4,
-}
-
-const animalSexOptions: ReadonlyArray<SelectorOption<AnimalSex>> = [
-  { value: AnimalSex.Male, label: 'Macho' },
-  { value: AnimalSex.Female, label: 'Hembra' },
-  { value: AnimalSex.Unknown, label: 'Desconocido' },
-]
-
-const animalAgeOptions: ReadonlyArray<SelectorOption<AnimalAge>> = [
-  { value: AnimalAge.Puppy, label: 'Cachorro' },
-  { value: AnimalAge.Adult, label: 'Adulto' },
-  { value: AnimalAge.Senior, label: 'Anciano' },
-  { value: AnimalAge.Unknown, label: 'Desconocido' },
-]
-
-const publicationReasons: Array<{
-  value: PublicationReason
-  title: string
-  description: string
-  textArea: string
-}> = [
-    { value: PublicationReason.Adoption, title: 'En adopción', description: 'Busca familia o tránsito (hogar provisorio)', textArea: '¿Cómo es su personalidad? ¿Cómo lo/la encontraste?...' },
-    { value: PublicationReason.Lost, title: 'Perdido', description: 'Es mi mascota y la estoy buscando', textArea: '¿Cómo es? Proporcioná una descripción detallada para que sea fácilmente reconocible..' },
-    { value: PublicationReason.Street, title: 'En la calle', description: 'Lo vi suelto y sin dueño aparente', textArea: '¿Dónde lo viste? ¿Es un animal comunitario? ¿Se encuentra herido? ....' },
-    { value: PublicationReason.Transit, title: 'En tránsito', description: 'Está bajo cuidado temporal y busca un hogar', textArea: '¿Durante cuánto tiempo tiene tránsito? ¿Cómo es su personalidad? ¿Dónde lo/la encontraste? ....' },
-  ]
-
-const animalSize: Array<{
-  value: AnimalSize
-  title: string
-  description: string
-}> = [
-    { value: AnimalSize.Small, title: 'Pequeño', description: 'Menos de 10 kg' },
-    { value: AnimalSize.Medium, title: 'Mediano', description: 'Entre 10 y 25 kg' },
-    { value: AnimalSize.Large, title: 'Grande', description: 'Más de 25 kg' },
-  ]
-
-interface AnimalSelectorOption {
-  value: AnimalType
-  label: string
-  imageSrc: string
-}
-
-const animalKinds: ReadonlyArray<AnimalSelectorOption> = [
-  { value: AnimalType.Dog, label: 'Perro', imageSrc: perroImage },
-  { value: AnimalType.Cat, label: 'Gato', imageSrc: gatoImage },
-  { value: AnimalType.Other, label: 'Otro', imageSrc: otroImage },
-]
-
-interface AnimalSelectorProps {
-  options: ReadonlyArray<AnimalSelectorOption>
-  selected?: AnimalType
-  errorId?: string
-  hasError?: boolean
-  onSelect: (type: AnimalType) => void
-}
-
-function AnimalSelectorComponent({
-  options,
-  selected,
-  errorId,
-  hasError = false,
-  onSelect,
-}: AnimalSelectorProps) {
-  return (
-    <S.AnimalItemContainer
-      role="radiogroup"
-      aria-label="Tipo de animal"
-      aria-describedby={hasError ? errorId : undefined}
-      aria-invalid={hasError}
-    >
-      {options.map((animal) => (
-        <S.AnimalItem
-          key={animal.value}
-          type="button"
-          role="radio"
-          aria-checked={selected === animal.value}
-          $selected={selected === animal.value}
-          onClick={() => onSelect(animal.value)}
-        >
-          <S.AnimalImage src={animal.imageSrc} alt="" />
-          <S.AnimalTitle>{animal.label}</S.AnimalTitle>
-        </S.AnimalItem>
-      ))}
-    </S.AnimalItemContainer>
-  )
-}
-
-const colors: Array<{ value: AnimalColor; label: string; hex: string }> = [
-  { value: AnimalColor.Gray, label: 'Gris', hex: '#8C8C8C' },
-  { value: AnimalColor.Black, label: 'Negro', hex: '#1A1A1A' },
-  { value: AnimalColor.Blonde, label: 'Rubio', hex: '#E9C98D' },
-  { value: AnimalColor.Brown, label: 'Marrón', hex: '#A0522D' },
-  { value: AnimalColor.White, label: 'Blanco', hex: '#FFFFFF' },
-  { value: AnimalColor.Other, label: 'Otro', hex: '#FFFFFF' },
-]
-
-interface ColorSelectorProps {
-  selected?: AnimalColor
-  onSelect: (color: AnimalColor) => void
-}
-
-function ColorSelectorComponent({ selected, onSelect }: ColorSelectorProps) {
-  return (
-    <S.ColorsContainer role="radiogroup" aria-label="Color predominante">
-      {colors.map(({ value, label, hex }) => (
-        <S.ColorItem key={value}>
-          <S.Color
-            $color={hex}
-            $selected={selected === value}
-            role="radio"
-            aria-checked={selected === value}
-            aria-label={label}
-            onClick={() => onSelect(value)}
-          >
-            {value === AnimalColor.Other && <ColorPalet aria-hidden="true" />}
-          </S.Color>
-          <S.ColorName $selected={selected === value}>{label}</S.ColorName>
-        </S.ColorItem>
-      ))}
-    </S.ColorsContainer>
-  )
-}
-
-
-
-interface DescriptionComponentProps {
-  publicationReason?: PublicationReason
-  registration: UseFormRegisterReturn<'story'>
-}
-
-function DescriptionComponent({
-  publicationReason,
-  registration,
-}: DescriptionComponentProps) {
-  const placeholder = publicationReasons.find(
-    ({ value }) => value === publicationReason,
-  )?.textArea ?? 'Contanos la historia del animal'
-
-  return (
-    <S.TextArea
-      placeholder={placeholder}
-      {...registration}
-    />
-  )
 }
 
 function CreateAnimalPost() {
@@ -258,18 +101,18 @@ function CreateAnimalPost() {
       values.publicationReason === PublicationReason.Lost
         ? {
           ...commonRequest,
-          type: AnimalPostType.Lost,
+          type: 'LOST',
           hasOwner: true,
         }
         : values.publicationReason === PublicationReason.Street
           ? {
             ...commonRequest,
-            type: AnimalPostType.InStreet,
+            type: 'LOST',
             hasOwner: false,
           }
           : {
             ...commonRequest,
-            type: AnimalPostType.Adoption,
+            type: 'ADOPTION',
             inTransit: values.publicationReason === PublicationReason.Transit,
           }
 
@@ -403,7 +246,7 @@ function CreateAnimalPost() {
                   name={field.name}
                   ariaLabel="Sexo"
                   placeholder="Seleccioná uno"
-                  options={animalSexOptions}
+                  options={recordToOptions(animalSexLabels)}
                   value={field.value}
                   error={fieldState.error?.message}
                   errorId="animal-sex-error"
@@ -421,7 +264,7 @@ function CreateAnimalPost() {
                   name={field.name}
                   ariaLabel="Edad"
                   placeholder="Seleccioná uno"
-                  options={animalAgeOptions}
+                  options={recordToOptions(animalAgeLabels)}
                   value={field.value}
                   error={fieldState.error?.message}
                   errorId="animal-age-error"

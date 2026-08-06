@@ -1,10 +1,15 @@
 import * as yup from 'yup'
 import {
-  AnimalAge,
-  AnimalColor,
-  AnimalSex,
-  AnimalSize,
-  AnimalType,
+  animalAges,
+  animalColors,
+  animalSexes,
+  animalSizes,
+  animalTypes,
+  type AnimalAge,
+  type AnimalColor,
+  type AnimalSex,
+  type AnimalSize,
+  type AnimalType,
 } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@utils/PublicationReason'
 import { parseRewardAmount } from '@utils/rewardAmount'
@@ -17,24 +22,24 @@ export const newAnimalPostSchema = yup.object({
     .required('Seleccioná un motivo de publicación.'),
   animalType: yup
     .mixed<AnimalType>()
-    .oneOf(Object.values(AnimalType))
+    .oneOf(animalTypes)
     .required('Seleccioná el tipo de animal.'),
   name: yup.string().trim().max(30, 'El nombre no puede superar los 30 caracteres.').default(''),
   animalSex: yup
     .mixed<AnimalSex>()
-    .oneOf(Object.values(AnimalSex))
+    .oneOf(animalSexes)
     .required('Seleccioná el sexo del animal.'),
   animalAge: yup
     .mixed<AnimalAge>()
-    .oneOf(Object.values(AnimalAge))
+    .oneOf(animalAges)
     .required('Seleccioná la edad del animal.'),
   animalSize: yup
     .mixed<AnimalSize>()
-    .oneOf(Object.values(AnimalSize))
+    .oneOf(animalSizes)
     .required('Seleccioná el tamaño del animal.'),
   color: yup
     .mixed<AnimalColor>()
-    .oneOf(Object.values(AnimalColor))
+    .oneOf(animalColors)
     .nullable()
     .defined()
     .default(null),

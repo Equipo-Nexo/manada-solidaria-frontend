@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
 import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
-import { ANIMAL_POST_STATUS_LABELS } from '@/animals/app/types/AnimalPost.types'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import type { AnimalPostActionId } from './animalPostActions'
 import * as S from './animalPostCard.styles'
+import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 
 export type AnimalPostCardProps = {
   name?: string

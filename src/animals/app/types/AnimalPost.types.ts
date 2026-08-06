@@ -1,88 +1,119 @@
-export enum AnimalPostType {
-  Adoption = 'ADOPTION',
-  Lost = 'LOST',
-  InStreet = 'IN_STREET',
-}
+import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils"
+import type { Location } from "@/common/app/services/responses/Location"
 
-export const ANIMAL_POST_STATUS_LABELS = {
-  ADOPTION: 'En adopción',
-  LOST: 'Perdido',
-  IN_STREET: 'En la calle',
-  CREATED: undefined,
-  SEARCHING: 'Perdido',
-  FOUND: 'Encontrado',
-  SEARCHING_ADOPT_AND_TRANSIT: 'En adopción',
-  SEARCHING_ADOPT: 'En tránsito',
-  ADOPTED: 'Adoptado',
-} as const
 
-export type AnimalPostCategory = '' | AnimalPostType
 
-export const ANIMAL_POST_CATEGORIES = [
-  '',
-  ...Object.values(AnimalPostType),
-] as AnimalPostCategory[]
-
-export const ANIMAL_POST_CATEGORY_LABELS: Record<AnimalPostCategory, string> = {
-  '': 'Todos',
-  [AnimalPostType.Adoption]: ANIMAL_POST_STATUS_LABELS.ADOPTION,
-  [AnimalPostType.Lost]: `${ANIMAL_POST_STATUS_LABELS.LOST}s`,
-  [AnimalPostType.InStreet]: ANIMAL_POST_STATUS_LABELS.IN_STREET,
-}
-
-type AnimalPostCode = keyof typeof ANIMAL_POST_STATUS_LABELS
-export type AnimalPostBackendStatus = Exclude<AnimalPostCode, `${AnimalPostType}`>
-export type AnimalPostStatus = Exclude<
-  (typeof ANIMAL_POST_STATUS_LABELS)[AnimalPostCode],
-  undefined
->
 
 export const getAnimalPostStatus = (
-  type?: AnimalPostType,
-  backendStatus?: AnimalPostBackendStatus,
-): AnimalPostStatus | undefined => {
-  if (type === AnimalPostType.InStreet) return ANIMAL_POST_STATUS_LABELS.IN_STREET
-  if (type === AnimalPostType.Lost) return ANIMAL_POST_STATUS_LABELS.LOST
-
-  if (type === AnimalPostType.Adoption) {
-    return backendStatus === 'SEARCHING_ADOPT_AND_TRANSIT'
-      ? ANIMAL_POST_STATUS_LABELS.ADOPTION
-      : ANIMAL_POST_STATUS_LABELS.SEARCHING_ADOPT
-  }
-
-  return backendStatus ? ANIMAL_POST_STATUS_LABELS[backendStatus] : undefined
+  backendStatus: AnimalPostStatus
+): string | undefined => {
+    return ANIMAL_POST_STATUS_LABELS[backendStatus]
 }
 
-export enum AnimalType {
-  Dog = 'DOG',
-  Cat = 'CAT',
-  Other = 'OTHER',
+
+
+
+export type AnimalPostStatus = "CREATED" | "SEARCHING" | "FOUND" | "SEARCHING_ADOPT_AND_TRANSIT" | "SEARCHING_ADOPT" | "ADOPTED"
+export type AnimalGender = 'MALE' | 'FEMALE'
+
+export const animalTypes = [ 'DOG', 'CAT', 'OTHER'] as const
+export type AnimalType = typeof animalTypes[number]
+
+
+
+export const animalPostTypes = ['ADOPTION', 'LOST', 'IN_STREET'] as const;
+export type AnimalPostType = typeof animalPostTypes[number]
+
+export const animalPostFilters = ['', ...animalPostTypes]
+export type AnimalPostFilter = typeof animalPostFilters[number]
+
+export const animalSizes = [
+  "SMALL",
+  "MEDIUM",
+  "LARGE",
+] as const;
+
+export type AnimalSize = typeof animalSizes[number];
+
+export const animalSizeLabels: Record<AnimalSize, string> = {
+  SMALL: "Pequeño",
+  MEDIUM: "Mediano",
+  LARGE: "Grande",
+};
+
+
+export const animalAges = [
+  "PUPPY",
+  "ADULT",
+  "SENIOR",
+  "UNKNOWN",
+] as const;
+
+export type AnimalAge = typeof animalAges[number];
+
+export const animalAgeLabels: Record<AnimalAge, string> = {
+  PUPPY: "Cachorro",
+  ADULT: "Adulto",
+  SENIOR: "Adulto mayor",
+  UNKNOWN: "Desconocida",
+};
+
+
+export const animalSexes = [
+  "MALE",
+  "FEMALE",
+  "UNKNOWN",
+] as const;
+
+export type AnimalSex = typeof animalSexes[number];
+
+export const animalSexLabels: Record<AnimalSex, string> = {
+  MALE: "Macho",
+  FEMALE: "Hembra",
+  UNKNOWN: "Desconocido",
+};
+
+
+export const animalColors = [
+  "GRAY",
+  "BLACK",
+  "BLONDE",
+  "BROWN",
+  "WHITE",
+  "OTHER",
+] as const;
+
+export type AnimalColor = typeof animalColors[number];
+
+export const animalColorLabels: Record<AnimalColor, string> = {
+  GRAY: "Gris",
+  BLACK: "Negro",
+  BLONDE: "Dorado",
+  BROWN: "Marrón",
+  WHITE: "Blanco",
+  OTHER: "Otro",
+};
+
+export type AnimalPost = {
+  id: string
+  type: AnimalPostType
+  name: string | null
+  description: string
+  imageUrl: string
+  animal: Animal
+  location: Location
+  status: AnimalPostStatus
+  createdAt: string
+  ownerId: string
+  phoneNumber: string | null
+  reward: number | null
 }
 
-export enum AnimalSize {
-  Small = 'SMALL',
-  Medium = 'MEDIUM',
-  Large = 'LARGE',
-}
-
-export enum AnimalSex {
-  Male = 'MALE',
-  Female = 'FEMALE',
-  Unknown = 'UNKNOWN',
-}
-
-export enum AnimalAge {
-  Puppy = 'PUPPY',
-  Adult = 'ADULT',
-  Senior = 'SENIOR',
-  Unknown = 'UNKNOWN',
-}
-
-export enum AnimalColor {
-  Gray = 'GRAY',
-  Black = 'BLACK',
-  Blonde = 'BLONDE',
-  Brown = 'BROWN',
-  White = 'WHITE',
-  Other = 'OTHER',
+export type Animal = {
+  id: string
+  type: AnimalType
+  size: AnimalSize
+  gender: AnimalSex
+  color: AnimalColor | null
+  age: AnimalAge
 }

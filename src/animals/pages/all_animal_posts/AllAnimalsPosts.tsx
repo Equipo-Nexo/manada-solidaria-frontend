@@ -5,21 +5,24 @@ import { mapAnimalPostToCardProps } from '@components/animalPostCard/mapAnimalPo
 import { ArrowLeft } from '@icons/index.ts'
 import * as S from './AllAnimalPosts.styles'
 import { publicationMessages } from '@utils/Messages'
-import { ANIMAL_POST_CATEGORIES, ANIMAL_POST_CATEGORY_LABELS, type AnimalPostCategory } from '@animals/app/types/AnimalPost.types'
+import { animalPostFilters, type AnimalPostFilter } from '@animals/app/types/AnimalPost.types'
 import { useGetAnimalPostsQuery } from '@animals/app/api/animalPostsApi'
+import { ANIMAL_POST_FILTER_LABELS, animalPostTypeToFilter } from '@/animals/utils/AnimalFormUtils'
 
 const PAGE_SIZE = 10
 
+
+
 function AllAnimalsPage() {
   const navigate = useNavigate()
-  const [selectedCategory, setSelectedCategory] = useState<AnimalPostCategory>('')
+  const [selectedCategory, setSelectedCategory] = useState<AnimalPostFilter>('')
   const {
     data: animalPosts,
     isError,
     isLoading,
     refetch,
   } = useGetAnimalPostsQuery({
-    type: selectedCategory || undefined,
+    type: animalPostTypeToFilter(selectedCategory),
     size: PAGE_SIZE,
   })
   const posts = animalPosts?.content ?? []
@@ -42,10 +45,10 @@ function AllAnimalsPage() {
       </S.Header>
 
       <CategorySelector
-        categories={ANIMAL_POST_CATEGORIES}
+        categories={animalPostFilters}
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
-        getCategoryLabel={(category) => ANIMAL_POST_CATEGORY_LABELS[category]}
+        getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
         ariaLabel="Filtrar publicaciones por categoría"
       />
 

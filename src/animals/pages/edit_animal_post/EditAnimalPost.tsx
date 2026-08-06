@@ -6,30 +6,30 @@ import {
     useForm
 } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ColorPalet, Publish, Search, Arrow } from '@icons/index.ts'
+import { Publish, Search, Arrow } from '@icons/index.ts'
 import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent } from '@components/index.ts'
 import {
     editAnimalPostSchema,
     type EditAnimalPostFormValues,
 } from '@animals/app/schemas/EditAnimalPost.schema'
 import * as S from './EditAnimalPost.styles'
-import { type SelectorOption } from '@components/inputs/SelectorComponent'
 import {
-    AnimalAge,
-    AnimalColor,
-    AnimalPostType,
-    AnimalSex,
-    AnimalSize,
+    animalAgeLabels,
+    animalSexLabels,
+    type AnimalPostType,
 } from '@/animals/app/types/AnimalPost.types'
 import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@animals/app/api/animalPostsApi'
 import type { EditAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import type { AnimalPostResponse } from '@animals/app/api/responses/animalPostResponses'
 import { useToast } from '@hooks/toast/useToast'
 import { PublicationReason } from '@utils/PublicationReason'
+import { recordToOptions } from '@/common/utils/RecordToOptions'
+import { animalSize } from '@/animals/utils/AnimalFormUtils'
+import { ColorSelectorComponent } from '@/animals/components/ColorSelectorComponent'
 
 const getPublicationReason = (type: AnimalPostType): PublicationReason => {
-    if (type === AnimalPostType.InStreet) return PublicationReason.Street
-    if (type === AnimalPostType.Lost) return PublicationReason.Lost
+    if (type === 'IN_STREET') return PublicationReason.Street
+    if (type === 'LOST') return PublicationReason.Lost
     return PublicationReason.Adoption
 }
 
@@ -49,65 +49,6 @@ const EditAnimalPostDefaultValues = (
         phoneNumber: phoneNumber.slice(-7),
         story: animalPost.description,
     }
-}
-
-const animalSexOptions: ReadonlyArray<SelectorOption<AnimalSex>> = [
-    { value: AnimalSex.Male, label: 'Macho' },
-    { value: AnimalSex.Female, label: 'Hembra' },
-    { value: AnimalSex.Unknown, label: 'Desconocido' },
-]
-
-const animalAgeOptions: ReadonlyArray<SelectorOption<AnimalAge>> = [
-    { value: AnimalAge.Puppy, label: 'Cachorro' },
-    { value: AnimalAge.Adult, label: 'Adulto' },
-    { value: AnimalAge.Senior, label: 'Anciano' },
-    { value: AnimalAge.Unknown, label: 'Desconocido' },
-]
-
-const animalSize: Array<{
-    value: AnimalSize
-    title: string
-    description: string
-}> = [
-        { value: AnimalSize.Small, title: 'Pequeño', description: 'Menos de 10 kg' },
-        { value: AnimalSize.Medium, title: 'Mediano', description: 'Entre 10 y 25 kg' },
-        { value: AnimalSize.Large, title: 'Grande', description: 'Más de 25 kg' },
-    ]
-
-const colors: Array<{ value: AnimalColor; label: string; hex: string }> = [
-    { value: AnimalColor.Gray, label: 'Gris', hex: '#8C8C8C' },
-    { value: AnimalColor.Black, label: 'Negro', hex: '#1A1A1A' },
-    { value: AnimalColor.Blonde, label: 'Rubio', hex: '#E9C98D' },
-    { value: AnimalColor.Brown, label: 'Marrón', hex: '#A0522D' },
-    { value: AnimalColor.White, label: 'Blanco', hex: '#FFFFFF' },
-    { value: AnimalColor.Other, label: 'Otro', hex: '#FFFFFF' },
-]
-
-interface ColorSelectorProps {
-    selected?: AnimalColor
-    onSelect: (color: AnimalColor) => void
-}
-
-function ColorSelectorComponent({ selected, onSelect }: ColorSelectorProps) {
-    return (
-        <S.ColorsContainer role="radiogroup" aria-label="Color predominante">
-            {colors.map(({ value, label, hex }) => (
-                <S.ColorItem key={value}>
-                    <S.Color
-                        $color={hex}
-                        $selected={selected === value}
-                        role="radio"
-                        aria-checked={selected === value}
-                        aria-label={label}
-                        onClick={() => onSelect(value)}
-                    >
-                        {value === AnimalColor.Other && <ColorPalet aria-hidden="true" />}
-                    </S.Color>
-                    <S.ColorName $selected={selected === value}>{label}</S.ColorName>
-                </S.ColorItem>
-            ))}
-        </S.ColorsContainer>
-    )
 }
 
 const getImagePreviewUrl = (imageUrl?: string) => {
@@ -259,7 +200,7 @@ function EditAnimalPostForm() {
                                     name={field.name}
                                     ariaLabel="Sexo"
                                     placeholder="Seleccioná uno"
-                                    options={animalSexOptions}
+                                    options={recordToOptions(animalSexLabels)}
                                     value={field.value}
                                     error={fieldState.error?.message}
                                     errorId="animal-sex-error"
@@ -277,7 +218,7 @@ function EditAnimalPostForm() {
                                     name={field.name}
                                     ariaLabel="Edad"
                                     placeholder="Seleccioná uno"
-                                    options={animalAgeOptions}
+                                    options={recordToOptions(animalAgeLabels)}
                                     value={field.value}
                                     error={fieldState.error?.message}
                                     errorId="animal-age-error"

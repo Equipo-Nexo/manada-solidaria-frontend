@@ -1,15 +1,15 @@
 import { baseAuthenticatedApi } from '@common/app/services/base/baseAuthenticatedApi'
 import type {
-  AnimalPostsPage,
   CreateAnimalPostRequest,
   EditAnimalPostMutationRequest,
   GetAnimalPostsRequest,
 } from './requests/animalPostRequests'
 import type { AnimalPostResponse } from './responses/animalPostResponses'
+import type { Page } from '@/common/app/types/Page'
 
 export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAnimalPosts: builder.query<AnimalPostsPage, GetAnimalPostsRequest>({
+    getAnimalPosts: builder.query<Page<AnimalPostResponse>, GetAnimalPostsRequest>({
       query: ({ status, type, page = 0, size = 10 }) => ({
         url: '/animal-posts',
         params: {

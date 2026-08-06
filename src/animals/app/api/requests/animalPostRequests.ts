@@ -1,66 +1,5 @@
-import type { AnimalColor, AnimalPostBackendStatus, AnimalSex, AnimalPostType } from "../../types/AnimalPost.types"
-import type { Location } from "../../../../common/app/services/responses/Location"
-
-export type AnimalType = 'DOG' | 'CAT' | 'OTHER'
-export type AnimalSize = 'SMALL' | 'MEDIUM' | 'LARGE'
-export type AnimalGender = 'MALE' | 'FEMALE'
-export type AnimalAge = 'PUPPY' | 'ADULT' | 'SENIOR' | 'UNKNOWN'
-
-export type AnimalPost = {
-  id: string
-  type: AnimalPostType
-  name: string | null
-  description: string
-  imageUrl: string
-  animal: {
-    id: string
-    type: AnimalType
-    size: AnimalSize
-    gender: AnimalGender
-    color: string | null
-    age: AnimalAge
-  }
-  location: {
-    id: string
-    name: string
-    address: string
-    number: number
-    latitude: number
-    longitude: number
-  }
-  status: AnimalPostBackendStatus
-  createdAt: string
-  ownerId: string
-  phoneNumber: string | null
-  reward: number | null
-}
-
-type SortMetadata = {
-  empty: boolean
-  sorted: boolean
-  unsorted: boolean
-}
-
-export type AnimalPostsPage = {
-  content: AnimalPost[]
-  empty: boolean
-  first: boolean
-  last: boolean
-  number: number
-  numberOfElements: number
-  pageable: {
-    offset: number
-    pageNumber: number
-    pageSize: number
-    paged: boolean
-    sort: SortMetadata
-    unpaged: boolean
-  }
-  size: number
-  sort: SortMetadata
-  totalElements: number
-  totalPages: number
-}
+import type { Animal, AnimalPostBackendStatus, AnimalPostType } from "@animals/app/types/AnimalPost.types"
+import type { Location } from "@services/responses/Location"
 
 export type GetAnimalPostsRequest = {
   status?: AnimalPostBackendStatus
@@ -68,7 +7,6 @@ export type GetAnimalPostsRequest = {
   page?: number
   size?: number
 }
-
 
 export interface AnimalPostLocationRequest {
   name: string
@@ -82,13 +20,7 @@ interface CreateAnimalPostBaseRequest {
   name: string
   description: string
   imageId: string
-  animal: {
-    type: AnimalType
-    size: AnimalSize
-    gender: AnimalSex
-    age: AnimalAge
-    color: AnimalColor | null
-  }
+  animal: Animal
   location: AnimalPostLocationRequest
   phoneNumber: string
   reward?: number
@@ -96,17 +28,17 @@ interface CreateAnimalPostBaseRequest {
 
 export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
   | {
-    type: AnimalPostType.Lost
+    type: 'LOST'
     hasOwner: true
     inTransit?: never
   }
   | {
-    type: AnimalPostType.Adoption
+    type: 'ADOPTION'
     inTransit: boolean
     hasOwner?: never
   }
   | {
-    type: AnimalPostType.InStreet
+    type: 'IN_STREET'
     hasOwner: false
     inTransit?: never
   }
@@ -116,14 +48,7 @@ export type EditAnimalPostRequest = {
   name: string | null
   description: string
   imageId: string
-  animal: {
-    id: string
-    type: AnimalType
-    size: AnimalSize
-    gender: AnimalSex
-    color: string | null
-    age: AnimalAge
-  }
+  animal: Animal
   location: Location
   phoneNumber: string | null
   reward: number | null
