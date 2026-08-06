@@ -25,12 +25,12 @@ export const AnimalPostStatus: Record<string, StatusUtil> = {
         backgroundColor: theme.colors.statusFoundBackground,
         fontColor: theme.colors.success
     },
-    'SEARCHING_ADOPT_AND_TRANSIT': {
+    'SEARCHING_ADOPT': {
         text: 'En tránsito',
         backgroundColor: theme.colors.neutral,
         fontColor: theme.colors.brand
     },
-    'SEARCHING_ADOPT': {
+    'SEARCHING_ADOPT_AND_TRANSIT': {
         text: 'En adopción',
         backgroundColor: theme.colors.tertiary,
         fontColor: theme.colors.statusAdoptionText

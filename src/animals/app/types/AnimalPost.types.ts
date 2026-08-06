@@ -21,10 +21,10 @@ export type AnimalType = typeof animalTypes[number]
 
 
 
-export const animalPostTypes = ['ADOPTION', 'LOST', 'IN_STREET'] as const;
+export const animalPostTypes = ['ADOPTION', 'LOST'] as const;
 export type AnimalPostType = typeof animalPostTypes[number]
 
-export const animalPostFilters = ['', ...animalPostTypes]
+export const animalPostFilters = ['', 'IN_STREET', ...animalPostTypes]
 export type AnimalPostFilter = typeof animalPostFilters[number]
 
 export const animalSizes = [

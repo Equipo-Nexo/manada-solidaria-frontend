@@ -1,23 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMemo } from 'react'
-import {
-    Controller,
-    useController,
-    useForm
-} from 'react-hook-form'
+import { Controller, useController, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Publish, Search, Arrow } from '@icons/index.ts'
 import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent } from '@components/index.ts'
-import {
-    editAnimalPostSchema,
-    type EditAnimalPostFormValues,
-} from '@animals/app/schemas/EditAnimalPost.schema'
+import { editAnimalPostSchema, type EditAnimalPostFormValues } from '@animals/app/schemas/EditAnimalPost.schema'
 import * as S from './EditAnimalPost.styles'
-import {
-    animalAgeLabels,
-    animalSexLabels,
-    type AnimalPostType,
-} from '@/animals/app/types/AnimalPost.types'
+import { animalAgeLabels, animalSexLabels, type AnimalPostFilter } from '@/animals/app/types/AnimalPost.types'
 import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@animals/app/api/animalPostsApi'
 import type { EditAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import type { AnimalPostResponse } from '@animals/app/api/responses/animalPostResponses'
@@ -27,7 +16,7 @@ import { recordToOptions } from '@/common/utils/RecordToOptions'
 import { animalSize } from '@/animals/utils/AnimalFormUtils'
 import { ColorSelectorComponent } from '@/animals/components/ColorSelectorComponent'
 
-const getPublicationReason = (type: AnimalPostType): PublicationReason => {
+const getPublicationReason = (type: AnimalPostFilter): PublicationReason => {
     if (type === 'IN_STREET') return PublicationReason.Street
     if (type === 'LOST') return PublicationReason.Lost
     return PublicationReason.Adoption

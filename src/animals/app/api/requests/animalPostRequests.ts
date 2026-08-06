@@ -1,9 +1,9 @@
-import type { Animal, AnimalPostBackendStatus, AnimalPostType } from "@animals/app/types/AnimalPost.types"
+import type { Animal, AnimalAge, AnimalColor, AnimalPostFilter, AnimalPostStatus, AnimalPostType, AnimalSex, AnimalSize, AnimalType } from "@animals/app/types/AnimalPost.types"
 import type { Location } from "@services/responses/Location"
 
 export type GetAnimalPostsRequest = {
-  status?: AnimalPostBackendStatus
-  type?: AnimalPostType
+  status?: AnimalPostStatus
+  type?: AnimalPostFilter
   page?: number
   size?: number
 }
@@ -16,33 +16,38 @@ export interface AnimalPostLocationRequest {
   longitude: number
 }
 
-interface CreateAnimalPostBaseRequest {
+interface AnimalRequest {
+  type: AnimalType
+  size: AnimalSize
+  gender: AnimalSex
+  color: AnimalColor | null
+  age: AnimalAge
+}
+
+
+export interface BaseAnimalPostRequest {
   name: string
   description: string
   imageId: string
-  animal: Animal
-  location: AnimalPostLocationRequest
+  animal: AnimalRequest
+  location: Location
   phoneNumber: string
-  reward?: number
 }
 
-export type CreateAnimalPostRequest = CreateAnimalPostBaseRequest & (
-  | {
-    type: 'LOST'
-    hasOwner: true
-    inTransit?: never
-  }
-  | {
-    type: 'ADOPTION'
-    inTransit: boolean
-    hasOwner?: never
-  }
-  | {
-    type: 'IN_STREET'
-    hasOwner: false
-    inTransit?: never
-  }
-)
+export interface CreateAnimalPostRequest extends BaseAnimalPostRequest {
+  type: AnimalPostType
+}
+
+export interface CreateAdoptionAnimalPostRequest extends CreateAnimalPostRequest {
+  type: 'ADOPTION'
+  inTransit: boolean
+}
+
+export interface CreateLostAnimalPostRequest extends CreateAnimalPostRequest {
+  type: 'LOST'
+  hasOwner: boolean
+  reward?: number  
+}
 
 export type EditAnimalPostRequest = {
   name: string | null

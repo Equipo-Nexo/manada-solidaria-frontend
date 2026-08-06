@@ -59,7 +59,6 @@ export const getAnimalPostActions = (
   status: AnimalPostStatusText,
   contactPhone?: string,
 ): AnimalPostAction[] => {
-  console.log(status)
   const actions = animalPostActions.find((item) => item.status === status)?.actions ?? []
   const hasContactPhone = Boolean(contactPhone?.trim())
 

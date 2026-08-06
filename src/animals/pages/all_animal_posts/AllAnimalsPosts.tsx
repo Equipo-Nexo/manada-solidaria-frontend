@@ -11,8 +11,6 @@ import { ANIMAL_POST_FILTER_LABELS, animalPostTypeToFilter } from '@/animals/uti
 
 const PAGE_SIZE = 10
 
-
-
 function AllAnimalsPage() {
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState<AnimalPostFilter>('')

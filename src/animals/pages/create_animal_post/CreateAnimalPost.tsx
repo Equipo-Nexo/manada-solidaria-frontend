@@ -10,7 +10,7 @@ import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost
 import { PublicationReason } from '@utils/PublicationReason'
 import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
-import type { CreateAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
+import type { BaseAnimalPostRequest, CreateAdoptionAnimalPostRequest, CreateAnimalPostRequest, CreateLostAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
 import Arrow from '@icons/Arrow'
 import { formatRewardAmount, parseRewardAmount } from '@utils/rewardAmount'
@@ -26,6 +26,31 @@ const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   number: 100,
   latitude: -34.6,
   longitude: -58.4,
+}
+
+const buildRequest = (
+  values: NewAnimalPostFormValues, 
+  commonRequest: BaseAnimalPostRequest
+): CreateLostAnimalPostRequest | CreateAdoptionAnimalPostRequest => { 
+  return values.publicationReason === PublicationReason.Lost
+        ? {
+          ...commonRequest,
+          type: 'LOST',
+          hasOwner: true,
+          reward: values.offersReward ? parseRewardAmount(values.rewardAmount) : undefined
+        }
+        : values.publicationReason === PublicationReason.Street
+          ? {
+            ...commonRequest,
+            type: 'LOST',
+            hasOwner: false,
+            reward: undefined
+          }
+          : {
+            ...commonRequest,
+            type: 'ADOPTION',
+            inTransit: values.publicationReason === PublicationReason.Transit,
+          }
 }
 
 function CreateAnimalPost() {
@@ -77,11 +102,7 @@ function CreateAnimalPost() {
   }
 
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
-    const reward = values.offersReward
-      ? parseRewardAmount(values.rewardAmount)
-      : undefined
-
-    const commonRequest = {
+    const commonRequest: BaseAnimalPostRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
       imageId: values.imageId,
@@ -92,37 +113,17 @@ function CreateAnimalPost() {
         age: values.animalAge,
         color: values.color,
       },
-      location: TEMPORARY_LOCATION,
-      phoneNumber: `${values.areaCode}${values.phoneNumber}`,
-      ...(reward !== undefined ? { reward } : {}),
+      phoneNumber: values.phoneNumber,
+      location: TEMPORARY_LOCATION
     }
-
-    const request: CreateAnimalPostRequest =
-      values.publicationReason === PublicationReason.Lost
-        ? {
-          ...commonRequest,
-          type: 'LOST',
-          hasOwner: true,
-        }
-        : values.publicationReason === PublicationReason.Street
-          ? {
-            ...commonRequest,
-            type: 'LOST',
-            hasOwner: false,
-          }
-          : {
-            ...commonRequest,
-            type: 'ADOPTION',
-            inTransit: values.publicationReason === PublicationReason.Transit,
-          }
-
-    try {
-      await createAnimalPost(request).unwrap()
-      toast.success('Publicación creada', 'El animal fue publicado correctamente.')
-      navigate('/home', { replace: true })
-    } catch {
-      toast.error('No pudimos publicar el animal', 'Revisá los datos e intentá nuevamente.')
-    }
+      
+    createAnimalPost(buildRequest(values, commonRequest))
+      .unwrap()
+      .then(() => {
+        toast.success('Publicación creada', 'El animal fue publicado correctamente.')
+        navigate('/home', { replace: true })
+      })
+      .catch(() => toast.error('No pudimos publicar el animal', 'Revisá los datos e intentá nuevamente.'))
   }
 
   return (
