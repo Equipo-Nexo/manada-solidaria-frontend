@@ -40,10 +40,7 @@ export const ANIMAL_POST_FILTER_LABELS: Record<AnimalPostFilter, string> = {
   ['IN_STREET']: 'En la calle',
 }
 
-const animalPostTypeToFilterMap: Record<
-  AnimalPostFilter,
-  AnimalPostType | undefined
-> = {
+const animalPostTypeToFilterMap: Record<AnimalPostFilter, AnimalPostFilter | undefined> = {
   ADOPTION: "ADOPTION",
   LOST: "LOST",
   IN_STREET: "IN_STREET",
@@ -52,7 +49,7 @@ const animalPostTypeToFilterMap: Record<
 
 export const animalPostTypeToFilter = (
   filter: AnimalPostFilter,
-): AnimalPostType | undefined => {
+): AnimalPostFilter | undefined => {
   return animalPostTypeToFilterMap[filter];
 };
 

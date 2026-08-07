@@ -11,7 +11,7 @@ import { useEditAnimalPostMutation, useGetAnimalPostQuery } from '@animals/app/a
 import type { EditAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import type { AnimalPostResponse } from '@animals/app/api/responses/animalPostResponses'
 import { useToast } from '@hooks/toast/useToast'
-import { PublicationReason } from '@utils/PublicationReason'
+import { PublicationReason } from '@/animals/utils/PublicationReasonUtil'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
 import { animalSize } from '@/animals/utils/AnimalFormUtils'
 import { ColorSelectorComponent } from '@/animals/components/ColorSelectorComponent'

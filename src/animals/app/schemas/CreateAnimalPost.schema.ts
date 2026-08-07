@@ -11,7 +11,7 @@ import {
   type AnimalSize,
   type AnimalType,
 } from '@/animals/app/types/AnimalPost.types'
-import { PublicationReason } from '@utils/PublicationReason'
+import { PublicationReason } from '@/animals/utils/PublicationReasonUtil'
 import { parseRewardAmount } from '@utils/rewardAmount'
 
 export const newAnimalPostSchema = yup.object({

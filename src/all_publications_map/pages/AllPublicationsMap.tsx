@@ -5,10 +5,14 @@ import * as S from './AllPublicationsMap.styles'
 function AllPublicationsMap() {
 
   const { data } = useGetAnimalPostsQuery({})
-  const points = data && data.content.map((animalPost) => ({ 
-    lat: animalPost.location.latitude, 
-    lng: animalPost.location.longitude 
-  }))
+  const points = data && data.content.map((animalPost) => {
+    if (animalPost.location.latitude && animalPost.location.longitude) {
+      return {
+          lat: animalPost.location.latitude, 
+          lng: animalPost.location.longitude 
+      }
+    }
+  }).filter((points) => points != undefined)
 
   return (
     <S.Page>

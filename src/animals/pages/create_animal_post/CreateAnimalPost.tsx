@@ -7,13 +7,13 @@ import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorM
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
-import { PublicationReason } from '@utils/PublicationReason'
+import { buildRequest, PublicationReason } from '@/animals/utils/PublicationReasonUtil'
 import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
-import type { BaseAnimalPostRequest, CreateAdoptionAnimalPostRequest, CreateAnimalPostRequest, CreateLostAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
+import type { BaseAnimalPostRequest, CreateAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
 import Arrow from '@icons/Arrow'
-import { formatRewardAmount, parseRewardAmount } from '@utils/rewardAmount'
+import { formatRewardAmount } from '@utils/rewardAmount'
 import { DescriptionComponent, publicationReasons } from '@/animals/components/DescriptionComponent'
 import { AnimalSelectorComponent } from '@/animals/components/AnimalSelectorComponent'
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
@@ -28,30 +28,6 @@ const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
   longitude: -58.4,
 }
 
-const buildRequest = (
-  values: NewAnimalPostFormValues, 
-  commonRequest: BaseAnimalPostRequest
-): CreateLostAnimalPostRequest | CreateAdoptionAnimalPostRequest => { 
-  return values.publicationReason === PublicationReason.Lost
-        ? {
-          ...commonRequest,
-          type: 'LOST',
-          hasOwner: true,
-          reward: values.offersReward ? parseRewardAmount(values.rewardAmount) : undefined
-        }
-        : values.publicationReason === PublicationReason.Street
-          ? {
-            ...commonRequest,
-            type: 'LOST',
-            hasOwner: false,
-            reward: undefined
-          }
-          : {
-            ...commonRequest,
-            type: 'ADOPTION',
-            inTransit: values.publicationReason === PublicationReason.Transit,
-          }
-}
 
 function CreateAnimalPost() {
 

@@ -1,5 +1,5 @@
 import * as S from '@animals/pages/create_animal_post/CreateAnimalPost.styles'
-import { PublicationReason } from "@/common/utils/PublicationReason"
+import { PublicationReason } from "@/animals/utils/PublicationReasonUtil"
 import type { UseFormRegisterReturn } from "react-hook-form"
 
 export const publicationReasons: Array<{

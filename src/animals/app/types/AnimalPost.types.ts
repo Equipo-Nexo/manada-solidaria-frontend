@@ -13,7 +13,7 @@ export const getAnimalPostStatus = (
 
 
 
-export type AnimalPostStatus = "CREATED" | "SEARCHING" | "FOUND" | "SEARCHING_ADOPT_AND_TRANSIT" | "SEARCHING_ADOPT" | "ADOPTED"
+export type AnimalPostStatus = "CREATED" | "SEARCHING" | "FOUND" | "SEARCHING_ADOPT_AND_TRANSIT" | "SEARCHING_ADOPT" | "ADOPTED" | 'IN_STREET'
 export type AnimalGender = 'MALE' | 'FEMALE'
 
 export const animalTypes = [ 'DOG', 'CAT', 'OTHER'] as const

@@ -1,4 +1,4 @@
-import type { AnimalPost } from '@/animals/app/api/requests/animalPostRequests'
+import type { AnimalPost } from '@/animals/app/types/AnimalPost.types'
 import type { AnimalPostCardProps } from './animalPostCard'
 
 const getName = (post: AnimalPost) => {
@@ -14,7 +14,7 @@ export const mapAnimalPostToCardProps = (
 ): AnimalPostCardProps => ({
   name: getName(post),
   status: post.status,
-  location: post.location.name,
+  location: post.location.name || '',
   description: post.description,
   imageUrl: post.imageUrl,
   contactPhone: post.phoneNumber ?? undefined,
