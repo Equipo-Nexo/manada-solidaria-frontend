@@ -14,7 +14,7 @@ export const publicationReasons: Array<{
     { value: PublicationReason.Transit, title: 'En tránsito', description: 'Está bajo cuidado temporal y busca un hogar', textArea: '¿Durante cuánto tiempo tiene tránsito? ¿Cómo es su personalidad? ¿Dónde lo/la encontraste? ....' },
   ]
 
-export function DescriptionComponent({
+export default function DescriptionComponent({
   publicationReason,
   registration,
 }: {

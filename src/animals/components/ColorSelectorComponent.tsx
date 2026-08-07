@@ -3,7 +3,7 @@ import type { AnimalColor } from '../app/types/AnimalPost.types'
 import { colors } from '@animals/utils/AnimalFormUtils'
 import { ColorPalet } from '@/common/icons'
 
-export function ColorSelectorComponent({ selected, onSelect }: {
+export default function ColorSelectorComponent({ selected, onSelect }: {
   selected?: AnimalColor
   onSelect: (color: AnimalColor) => void
 }) {

@@ -2,7 +2,7 @@ import * as S from '@animals/pages/create_animal_post/CreateAnimalPost.styles'
 import type { AnimalType } from "../app/types/AnimalPost.types"
 import type { AnimalSelectorOption } from "../utils/AnimalFormUtils"
 
-export function AnimalSelectorComponent({
+function AnimalSelectorComponent({
   options,
   selected,
   errorId,
@@ -38,3 +38,5 @@ export function AnimalSelectorComponent({
     </S.AnimalItemContainer>
   )
 }
+
+export default AnimalSelectorComponent

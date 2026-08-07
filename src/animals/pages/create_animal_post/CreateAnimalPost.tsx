@@ -8,29 +8,18 @@ import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/
 import * as S from './CreateAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
 import { buildRequest, PublicationReason } from '@/animals/utils/PublicationReasonUtil'
-import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
+import { DEFAULT_LOCATION, newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
-import type { BaseAnimalPostRequest, CreateAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
+import type { BaseAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
 import Arrow from '@icons/Arrow'
 import { formatRewardAmount } from '@utils/rewardAmount'
-import { DescriptionComponent, publicationReasons } from '@/animals/components/DescriptionComponent'
-import { AnimalSelectorComponent } from '@/animals/components/AnimalSelectorComponent'
+import { DescriptionComponent, AnimalSelectorComponent, ColorSelectorComponent } from '@animals/components'
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
-import { ColorSelectorComponent } from '@/animals/components/ColorSelectorComponent'
-
-const TEMPORARY_LOCATION: CreateAnimalPostRequest['location'] = {
-  name: 'Parque Centenario',
-  address: 'Av. Patricias',
-  number: 100,
-  latitude: -34.6,
-  longitude: -58.4,
-}
-
+import { publicationReasons } from '@/animals/components/DescriptionComponent'
 
 function CreateAnimalPost() {
-
   const navigate = useNavigate()
   const toast = useToast()
   const [createAnimalPost, { isLoading }] = useCreateAnimalPostMutation()
@@ -90,7 +79,7 @@ function CreateAnimalPost() {
         color: values.color,
       },
       phoneNumber: values.phoneNumber,
-      location: TEMPORARY_LOCATION
+      location: DEFAULT_LOCATION
     }
       
     createAnimalPost(buildRequest(values, commonRequest))
