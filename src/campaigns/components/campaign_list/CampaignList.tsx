@@ -1,4 +1,4 @@
-import type { CampaignCardData } from '@components/campaignCard/CampaignCard'
+import type { CampaignCardData } from '@/campaigns/components/campaign_card/CampaignCard'
 import { CampaignCard, Message } from '@components/index.ts'
 import * as S from './CampaignList.styles'
 import { publicationMessages } from '@utils/Messages'

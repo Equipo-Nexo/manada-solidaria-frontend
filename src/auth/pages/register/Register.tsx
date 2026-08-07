@@ -41,7 +41,7 @@ function Register() {
       roles.push('CARRIAGE')
     }
 
-    return signup({
+    signup({
       username: values.username,
       password: values.password,
       repeatedPassword: values.confirmPassword,

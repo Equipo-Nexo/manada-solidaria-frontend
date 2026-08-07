@@ -6,10 +6,10 @@ import {
 } from "@campaigns/app/api/campaignApi";
 import { AnimalPostCard, CampaignCard, FundraisingCard, Carousel, Message, Advice } from "@components/index.ts";
 import { mapAnimalPostToCardProps } from "@components/animalPostCard/mapAnimalPostToCardProps";
-import { mapCampaignToCardData } from "@components/campaignCard/mapCampaignToCardData";
 import { mapFundraisingToCardData } from "@components/fundraisingCard/mapFundraisingToCardData";
 import { publicationMessages } from "@utils/Messages";
 import * as S from "./Home.styles";
+import { mapCampaignToCardData } from "@/campaigns/utils/CampaignUtils";
 const MAX_POSTS_PER_SECTION = 10;
 
 function Home() {

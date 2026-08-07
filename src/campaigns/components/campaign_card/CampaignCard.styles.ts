@@ -1,18 +1,14 @@
 import styled, { css } from "styled-components";
-import type { CampaignType } from "./CampaignCard";
 import { theme } from "@styles/theme";
-
-type CampaignTypeProps = {
-  $campaignType: CampaignType;
-};
+import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 
 const badgeBackground = {
-  donation: "#B293FF",
-  castration: "#A95C28",
-  vaccination: "#EA5F09",
-  deworming: "#594137",
-  other: "#E1BFB2",
-} satisfies Record<CampaignType, string>;
+  'DONATION': "#B293FF",
+  'CASTRATION': "#A95C28",
+  'VACCINATION': "#EA5F09",
+  'DEWORMING': "#594137",
+  'OTHER': "#E1BFB2",
+} satisfies Record<CampaignCategory, string>;
 
 export const Card = styled.article`
   width: ${({ theme }) => theme.layout.publicationCardWidth};
@@ -112,7 +108,9 @@ export const Location = styled.div`
   }
 `;
 
-export const TypeBadge = styled.span<CampaignTypeProps>`
+export const TypeBadge = styled.span<{
+  $campaignType: CampaignCategory;
+}>`
   width: 134px;
   height: 28px;
   flex: 0 0 134px;

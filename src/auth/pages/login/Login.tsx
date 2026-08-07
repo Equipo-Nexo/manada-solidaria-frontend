@@ -10,7 +10,7 @@ import { useAppDispatch } from '@store/hooks'
 import { useAppPermissions } from '@hooks/permissions/useAppPermissions'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Login.styles'
-import { loginSchema, type LoginFormValues } from '../../app/schemas/loginSchema'
+import { loginSchema, type LoginFormValues } from '@auth/app/schemas/loginSchema'
 
 function Login() {
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ function Login() {
   const handleLogin = ({ username, password }: LoginFormValues) => {
     const authorization = `Basic ${btoa(`${username}:${password}`)}`
 
-    return login({ authorization })
+    login({ authorization })
       .unwrap()
       .then((tokens) => {
         dispatch(loginSuccess(tokens))

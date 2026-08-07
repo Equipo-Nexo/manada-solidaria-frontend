@@ -1,4 +1,4 @@
-import type { CampaignType } from "@components/campaignCard/CampaignCard";
+import type { CampaignType } from "@/campaigns/components/campaign_card/CampaignCard";
 import type { Location } from "@services/responses/Location";
 import type { DonationNeedCategory } from "@services/requests/createCampaignRequest";
 

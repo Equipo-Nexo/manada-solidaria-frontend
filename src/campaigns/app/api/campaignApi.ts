@@ -2,16 +2,12 @@ import { baseAuthenticatedApi } from '@services/base/baseAuthenticatedApi'
 import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignPageResponse, FundraisingCampaignResponse } from "@app/types/Campaign.types";
 import type { CampaignType, CreateCampaignRequest, EditCampaignMutationRequest } from "@services/requests/createCampaignRequest";
 import type { UpdateFundraisingCampaignRequest } from '@services/requests/updateCampaignRequest';
+import type { CampaignFilter } from '@/campaigns/utils/CampaignUtils';
 
-export type CampaignCategory =
-  | "DONATION"
-  | "CASTRATION"
-  | "VACCINATION"
-  | "DEWORMING"
-  | "OTHER";
+
 
 export interface GetCampaignsRequest {
-  category?: CampaignCategory;
+  category?: CampaignFilter;
   size?: number;
   type?: CampaignType;
 }

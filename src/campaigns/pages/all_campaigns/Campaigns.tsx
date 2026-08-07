@@ -1,30 +1,20 @@
 import { useGetCampaignsQuery } from "@campaigns/app/api/campaignApi";
-import { mapCampaignToCardData } from "@components/campaignCard/mapCampaignToCardData";
 import CampaignList from "@campaigns/components/campaign_list/CampaignList";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Campaigns.styles";
 import { useState } from "react";
 import { CategorySelector } from "@components/index.ts";
 import { ArrowLeft } from "@icons/index.ts";
+import { campaignFilters, type CampaignFilter } from "@campaigns/app/api/requests/CampaignRequest";
+import { CAMPAIGN_FILTER_LABELS, mapCampaignToCardData } from "@/campaigns/utils/CampaignUtils";
 
 function Campaigns() {
   const navigate = useNavigate();
-  const [selectedFilter, setSelectedFilter] =
-    useState<keyof typeof filterMap>("Todos");
-  const filterMap = {
-    Todos: undefined,
-    Donación: "DONATION",
-    Castración: "CASTRATION",
-    Vacunación: "VACCINATION",
-  } as const;
-  const { data, isError, isLoading, refetch } = useGetCampaignsQuery({
-    category: filterMap[selectedFilter],
-  });
+  const [selectedFilter, setSelectedFilter] = useState<CampaignFilter>('');
+  const { data, isError, isLoading, refetch } = useGetCampaignsQuery({ category: selectedFilter });
+  
   const campaigns = data?.content ?? [];
   const totalElements = data?.totalElements ?? 0;
-
-  const campaignCards = campaigns.map(mapCampaignToCardData);
-  const filters = Object.keys(filterMap) as (keyof typeof filterMap)[];
 
   return (
     <S.Page>
@@ -42,13 +32,14 @@ function Campaigns() {
         </S.TitlesContainer>
       </S.Header>
       <CategorySelector
-        categories={filters}
+        categories={campaignFilters}
         selectedCategory={selectedFilter}
         onCategoryChange={setSelectedFilter}
+        getCategoryLabel={(filter) => CAMPAIGN_FILTER_LABELS[filter]}
         ariaLabel="Filtrar campañas por categoría"
       />
       <CampaignList
-        campaigns={campaignCards}
+        campaigns={campaigns.map(mapCampaignToCardData)}
         isError={isError}
         isLoading={isLoading}
         onRetry={() => void refetch()}

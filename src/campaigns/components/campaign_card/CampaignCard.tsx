@@ -1,18 +1,13 @@
 import * as S from "./CampaignCard.styles";
-import { LocationPin, Share } from "../../icons";
+import { LocationPin, Share } from "../../../common/icons";
 import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import type { Location } from "@services/responses/Location";
-
-export type CampaignType =
-  | "donation"
-  | "castration"
-  | "vaccination"
-  | "deworming"
-  | "other";
+import { campaignTypeLabels } from "@/campaigns/utils/CampaignUtils";
+import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 
 export type CampaignCardData = {
   id?: string | number;
-  type: CampaignType;
+  type: CampaignCategory;
   title: string;
   description: string;
   location?: Location;
@@ -28,14 +23,6 @@ type CampaignCardProps = {
   onShare?: (campaign: CampaignCardData) => void;
 };
 
-const campaignTypeLabels: Record<CampaignType, string> = {
-  donation: "Donación",
-  castration: "Castración",
-  vaccination: "Vacunación",
-  deworming: "Desparasitación",
-  other: "General",
-};
-
 function CampaignCard({
   campaign,
   className,
@@ -43,6 +30,7 @@ function CampaignCard({
   onMoreInfo,
   onShare,
 }: CampaignCardProps) {
+  console.log(campaign)
   return (
     <S.Card className={className}>
       <S.ImageSection>
