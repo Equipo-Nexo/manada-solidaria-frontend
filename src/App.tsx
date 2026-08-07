@@ -14,12 +14,11 @@ import Campaigns from "@campaigns/pages/all_campaigns/Campaigns";
 import AllPublicationsMap from "./all_publications_map/pages/AllPublicationsMap";
 import NewAnimalPostForm from "./animals/pages/create_animal_post/CreateAnimalPost";
 import EditFundraising from "./fundraisings/pages/edit_fundraising_campaign/EditFundraisingCampaign";
-import EditAnimalPostSuccess from "./animals/components/EditAnimalPostSuccess";
 import EditCampaign from "./campaigns/pages/edit_campaign/EditCampaign";
-import EditCampaignSuccess from "./campaigns/components/edit_campaign_success/EditCampaignSuccess";
 import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
+import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
 
 function App() {
   const location = useLocation();
@@ -28,6 +27,7 @@ function App() {
     location.pathname === "/publicar/animal" ||
     location.pathname === "/publicar/campania" ||
     location.pathname === "/publicar/colecta" ||
+    location.pathname === "/editar/exito" ||
     location.pathname.startsWith("/editar/animal/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
@@ -69,21 +69,11 @@ function App() {
               <Route path="/mapa" element={<AllPublicationsMap />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
+              <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
               <Route path="/editar/colecta/:fundraisingId" element={<EditFundraising />} />
-              <Route
-                path="/editar/animal/:postId/exito"
-                element={<EditAnimalPostSuccess />}
-              />
               <Route path="/editar/campania/:campaignId" element={<EditCampaign />} />
-              <Route
-                path="/editar/campania/:campaignId/exito"
-                element={<EditCampaignSuccess />}
-              />
-              <Route
-                path="/publicar/colecta"
-                element={<PublishFundraising />}
-              />
+              <Route path="/publicar/colecta" element={<PublishFundraising />} />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />

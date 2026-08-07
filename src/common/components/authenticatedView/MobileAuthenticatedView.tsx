@@ -16,10 +16,10 @@ function MobileAuthenticatedView() {
     '/mis-publicaciones'
   ];
   
-  const hideNavigation = routesWithoutNavigation.includes(location.pathname) || location.pathname.startsWith("/editar/colecta");
+  const hideNavigation = routesWithoutNavigation.includes(location.pathname) || location.pathname.startsWith("/editar/exito");
   const showHeader =
     location.pathname !== '/menu' &&
-    (!hideNavigation || location.pathname === '/mis-publicaciones')
+    (!hideNavigation || location.pathname === '/mis-publicaciones') && location.pathname !== '/editar/exito'
   
   return (
     <MobileViewChrome>

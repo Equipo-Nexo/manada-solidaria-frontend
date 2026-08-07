@@ -13,16 +13,12 @@ type ImageUploadProps = {
   imageUrl?: string;
   label?: string;
   onImageSelected?: (savedImageId: string) => void;
-  ariaDescribedBy?: string;
-  hasError?: boolean;
 };
 
 function ImageUpload({
   imageUrl,
   label = "Seleccionar foto",
-  onImageSelected,
-  ariaDescribedBy,
-  hasError = false
+  onImageSelected
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
@@ -98,8 +94,6 @@ function ImageUpload({
       <S.ImageUploadContainer>
         <S.ImageUploadButton
           type="button"
-          aria-describedby={ariaDescribedBy}
-          aria-invalid={hasError}
           onClick={() => setIsSheetOpen(true)}
         >
           {preview && !isError ? (

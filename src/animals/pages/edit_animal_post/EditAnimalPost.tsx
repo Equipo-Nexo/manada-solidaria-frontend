@@ -40,24 +40,17 @@ const EditAnimalPostDefaultValues = (
     }
 }
 
-const getImagePreviewUrl = (imageUrl?: string) => {
-    if (!imageUrl) return undefined
-    if (/^https?:\/\//i.test(imageUrl)) return imageUrl
-    return `${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`
-}
-
-
-
 function EditAnimalPostForm() {
+    
+    const toast = useToast()
     const navigate = useNavigate()
     const { postId } = useParams<{ postId: string }>()
-    const toast = useToast()
+    
     const [editAnimalPost, { isLoading }] = useEditAnimalPostMutation()
-    const { data: animalPostData } = useGetAnimalPostQuery(postId ?? '', {
-        skip: !postId,
-    })
+    const { data: animalPostData } = useGetAnimalPostQuery(postId || '', { skip: !postId })
+
     const defaultValues = useMemo(
-        () => animalPostData ? EditAnimalPostDefaultValues(animalPostData) : undefined,
+        () => animalPostData && EditAnimalPostDefaultValues(animalPostData),
         [animalPostData],
     )
 
@@ -101,18 +94,20 @@ function EditAnimalPostForm() {
             reward: animalPostData.reward,
         }
 
-        try {
-            await editAnimalPost({ postId, body: request }).unwrap()
-            navigate(`/editar/animal/${postId}/exito`, {
-                replace: true,
-                state: {
-                    imageUrl: getImagePreviewUrl(values.imageId),
-                    name: values.name.trim() || 'de tu animal',
-                },
+        editAnimalPost({ postId, body: request })
+            .unwrap()
+            .then(() => {
+                navigate(`/editar/exito`, {
+                    state: {
+                        imageUrl: values.imageId,
+                        name: values.name ? values.name.trim() : 'de tu animal',
+                        onDetailRedirect: '/animales'
+                    },
+                })
+            }).catch((error) => {
+                console.log(error)
+                toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
             })
-        } catch {
-            toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
-        }
     }
 
     return (
@@ -135,10 +130,7 @@ function EditAnimalPostForm() {
                         render={({ field, fieldState }) => (
                             <>
                                 <ImageUpload
-                                    imageUrl={getImagePreviewUrl(field.value)}
-                                    label="Seleccionar foto"
-                                    ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
-                                    hasError={Boolean(fieldState.error)}
+                                    imageUrl={field.value}
                                     onImageSelected={(imageId) => field.onChange(imageId)}
                                 />
                                 <ErrorMessage id="photo-error" message={fieldState.error?.message} />

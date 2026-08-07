@@ -5,7 +5,8 @@ export const Container = styled.section`
   min-height: 100svh;
   display: flex;
   justify-content: center;
-  padding: clamp(56px, 12vh, 104px) 24px 48px;
+  align-items: center;
+  padding: 0px 20px;
   background: ${({ theme }) => `${theme.colors.neutral}40`};
   @media (max-height: 650px) {
     padding-top: 36px;

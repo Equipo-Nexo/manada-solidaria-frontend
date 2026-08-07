@@ -112,8 +112,6 @@ function CreateAnimalPost() {
               <>
                 <ImageUpload
                   label="Seleccionar foto"
-                  ariaDescribedBy={fieldState.error ? 'photo-error' : undefined}
-                  hasError={Boolean(fieldState.error)}
                   onImageSelected={(imageId) => field.onChange(imageId)}
                 />
                 <ErrorMessage id="photo-error" message={fieldState.error?.message} />

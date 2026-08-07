@@ -87,17 +87,20 @@ function EditFundraising() {
       newsEndDateTime: null,
     };
 
-    updateFundraisingCampaign({ 
-      postId: fundraisingId || "", 
-      body: requestBody 
-    }).unwrap()
+    updateFundraisingCampaign({ postId: fundraisingId || "", body: requestBody })
+      .unwrap()
       .then(() => {
-        toaster.success("Colecta actualizada con éxito");
-        navigate("/mis-publicaciones");
+        navigate(`/editar/exito`, {
+            state: {
+                imageUrl: requestBody.imageId,
+                name: requestBody.title.trim(),
+                onDetailRedirect: '/colectas'
+            },
+        })
       })
       .catch(() => {
         toaster.error("Error al actualizar la colecta");
-      });
+      })
   }
 
   return (

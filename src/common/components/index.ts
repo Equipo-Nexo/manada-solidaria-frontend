@@ -24,5 +24,4 @@ export { default as Loader } from './pawLoader/PawLoader';
 export { default as PublishFloatingButton } from './publishFloatingButton/PublishFloatingButton';
 export { default as PublishOptions } from './publishOptions/PublishOptions';
 export { default as Toaster } from './toaster/Toaster';
-export { default as UpdateSuccess } from './updateSuccess/UpdateSuccess';
 export { default as CampaignCard } from './campaignCard/CampaignCard';

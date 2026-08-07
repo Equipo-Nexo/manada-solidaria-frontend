@@ -1,19 +1,23 @@
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Check, Eye, History } from '../../icons'
 import * as S from './UpdateSuccess.styles'
 
 interface UpdateSuccessProps {
-  imageUrl: string
+  imageUrl?: string
   name: string
-  onBack: () => void
-  onViewDetails: () => void
+  onDetailRedirect: string
 }
 
-function UpdateSuccess({ imageUrl, name, onBack, onViewDetails }: UpdateSuccessProps) {
+function UpdateSuccess() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { imageUrl, name, onDetailRedirect } = location.state as UpdateSuccessProps
+
   return (
     <S.Container>
       <S.Content>
         <S.ImageContainer>
-          <S.AnimalImage src={imageUrl} alt={name} />
+          <S.AnimalImage src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`} />
           <S.SuccessBadge aria-hidden="true">
             <Check />
           </S.SuccessBadge>
@@ -28,11 +32,11 @@ function UpdateSuccess({ imageUrl, name, onBack, onViewDetails }: UpdateSuccessP
         </S.Copy>
 
         <S.Actions>
-          <S.PrimaryButton type="button" onClick={onBack}>
+          <S.PrimaryButton type="button" onClick={() => navigate('/mis-publicaciones')}>
             <History aria-hidden="true" />
             Volver a mis publicaciones
           </S.PrimaryButton>
-          <S.SecondaryButton type="button" onClick={onViewDetails}>
+          <S.SecondaryButton type="button" onClick={() => navigate(onDetailRedirect)}>
             <Eye aria-hidden="true" />
             Ver detalle de la publicación
           </S.SecondaryButton>

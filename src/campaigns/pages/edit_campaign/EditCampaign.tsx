@@ -9,7 +9,6 @@ import { Advice, DatePicker, ErrorMessage, ImageUpload } from '@components/index
 import { Arrow, Phone, Search, PublishButton } from '@icons/index.ts'
 import { StyledMaskedInput } from '@components/maskedInput/maskedInput.styles'
 import { useToast } from '@hooks/toast/useToast'
-import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import { editCampaignSchema, type EditCampaignFormValues } from '../../app/schemas/EditCampaign.schema'
 import * as S from './EditCampaign.styles'
 
@@ -121,21 +120,24 @@ function EditCampaign() {
         : campaign.newsEndDateTime,
     }
 
-    try {
-      await editCampaign({ campaignId, body }).unwrap()
-      navigate(`/editar/campania/${campaignId}/exito`, {
-        replace: true,
-        state: {
-          imageUrl: getImagePreviewUrl(values.imageId) ?? NOT_FOUND_IMAGE_URL,
-          name: values.title.trim(),
-        },
-      })
-    } catch {
-      toast.error(
-        'No pudimos actualizar la campaña',
-        'Revisá los datos e intentá nuevamente.',
-      )
-    }
+      editCampaign({ campaignId, body })
+        .unwrap()
+        .then(() => {
+          navigate(`/editar/exito`, {
+              state: {
+                  imageUrl: values.imageId,
+                  name: values.title.trim(),
+                  onDetailRedirect: '/campanias'
+              },
+          })
+        })
+        .catch(() => {
+
+          toast.error(
+            'No pudimos actualizar la campaña',
+            'Revisá los datos e intentá nuevamente.',
+          )
+        })
   }
 
   if (isLoadingCampaign) return <S.Loading>Cargando campaña...</S.Loading>
@@ -284,9 +286,6 @@ function EditCampaign() {
               <>
                 <ImageUpload
                   imageUrl={getImagePreviewUrl(field.value)}
-                  label="Seleccionar foto"
-                  ariaDescribedBy={fieldState.error ? 'campaign-image-error' : undefined}
-                  hasError={Boolean(fieldState.error)}
                   onImageSelected={field.onChange}
                 />
                 <ErrorMessage
