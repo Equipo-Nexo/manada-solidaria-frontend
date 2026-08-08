@@ -13,6 +13,7 @@ import { type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
 import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
+import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
 
 function PublishCampaign() {
   const navigate = useNavigate();
@@ -31,7 +32,8 @@ function PublishCampaign() {
   } = useForm({
     resolver: yupResolver(publishCampaignSchema),
     defaultValues: {
-      donationNeeds: []
+      donationNeeds: [],
+      location: DEFAULT_LOCATION
     }
   });
   const onSubmit = async (data: PublishCampaignForm) => {
@@ -237,7 +239,7 @@ function PublishCampaign() {
           <S.InputWithIcon>
             <S.IconInput
               type="text"
-              {...register("location")}
+              {...register("location.name")}
               placeholder="¿Dónde se realizará la campaña?"
               $hasLeftIcon
             />

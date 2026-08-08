@@ -10,9 +10,17 @@ const campaignMap: Record<string, { type: CampaignType, category?: CampaignCateg
   DONATION: {
     type: 'DONATION',
   },
+  OTHER: {
+    type: 'NEWS',
+    category: 'OTHER',
+  },
   VACCINATION: {
     type: 'NEWS',
     category: 'VACCINATION',
+  },
+  DEWORMING: {
+    type: 'NEWS',
+    category: 'DEWORMING',
   },
   CASTRATION: {
     type: 'NEWS',
@@ -95,6 +103,7 @@ export const buildCampaignRequest = (
     description: data.description,
     imageId: data.imageId,
     phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+    location: data.location
   }
 
   return campaignRequestBuilders[selectedCampaign.type].build(
