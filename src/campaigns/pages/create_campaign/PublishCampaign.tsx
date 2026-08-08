@@ -2,123 +2,25 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { publishCampaignSchema } from "@campaigns/app/schemas/PublishCampaignSchema";
+import { publishCampaignSchema, type PublishCampaignForm } from "@campaigns/app/schemas/PublishCampaignSchema";
 import * as S from "./PublishForm.styles";
 import { Advice, ImageUpload, DatePicker, ErrorMessage, Map } from "@components/index.ts";
 import { Phone, Search, Arrow, PublishButton } from "@icons/index.ts";
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useToast } from "@hooks/toast/useToast";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
-import type {
-  CampaignType,
-  CreateCampaignRequest,
-} from "@services/requests/createCampaignRequest";
-import type { CampaignCategory } from "@services/requests/createCampaignRequest";
-import type { Maybe } from "yup";
-
-function buildDateTime(date?: string, time?: string) {
-  if (!date || !time) return null;
-  return `${date}T${time}:00`;
-}
-
-export type PublishCampaignCategory =
-  | "Donación"
-  | "Castración"
-  | "Vacunación"
-  | "Desparasitación"
-  | "Otro";
-
-type PublishCampaignForm = {
-  title: string;
-  category: PublishCampaignCategory;
-  description: string;
-  startDate?: string;
-  endDate?: string;
-  startTime?: string;
-  endTime?: string;
-  phoneAreaCode: string;
-  phone: string;
-  location: string;
-  imageId?: Maybe<string | undefined>;
-  donationNeeds?: DonationNeedCategory[];
-};
-
-export const campaignCategories: PublishCampaignCategory[] = [
-  "Donación",
-  "Castración",
-  "Vacunación",
-  "Desparasitación",
-  "Otro",
-];
-
-export type DonationNeedCategory =
-  | "FOOD"
-  | "MEDICINE"
-  | "SHELTER_AND_BEDDING"
-  | "TOYS_AND_ACCESSORIES"
-  | "CLOTHING_AND_BLANKETS"
-  | "OTHER";
-
-export interface DonationNeedRequest {
-  category: DonationNeedCategory;
-}
-const donationNeeds = [
-  "Ropa",
-  "Balanceado",
-  "Accesorios",
-  "Medicamentos",
-  "Camas",
-  "Otro",
-] as const;
-
-const donationNeedCategoryMap: Record<
-  (typeof donationNeeds)[number],
-  DonationNeedCategory
-> = {
-  Ropa: "CLOTHING_AND_BLANKETS",
-  Balanceado: "FOOD",
-  Accesorios: "TOYS_AND_ACCESSORIES",
-  Medicamentos: "MEDICINE",
-  Camas: "SHELTER_AND_BEDDING",
-  Otro: "OTHER",
-};
-const campaignMap: Record<
-  PublishCampaignCategory,
-  {
-    type: CampaignType;
-    category: CampaignCategory | null;
-  }
-> = {
-  Donación: {
-    type: "DONATION",
-    category: null,
-  },
-  Castración: {
-    type: "NEWS",
-    category: "CASTRATION",
-  },
-  Vacunación: {
-    type: "NEWS",
-    category: "VACCINATION",
-  },
-  Desparasitación: {
-    type: "NEWS",
-    category: "DEWORMING",
-  },
-  Otro: {
-    type: "NEWS",
-    category: "OTHER",
-  },
-};
+import { type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
+import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
+import { recordToOptions } from "@/common/utils/RecordToOptions";
+import { buildCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
 
 function PublishCampaign() {
   const navigate = useNavigate();
-  const [createCampaign] = useCreateCampaignMutation();
   const toast = useToast();
-  const [selectedCategory, setSelectedCategory] =
-    useState<PublishCampaignCategory | null>(null);
+  const [createCampaign] = useCreateCampaignMutation();
+  const [selectedCategory, setSelectedCategory] = useState<CampaignCategory | null>(null);
 
-  const isDonation = selectedCategory === "Donación";
+  const isDonation = selectedCategory === "DONATION";
 
   const {
     register,
@@ -128,46 +30,13 @@ function PublishCampaign() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(publishCampaignSchema),
+    defaultValues: {
+      donationNeeds: []
+    }
   });
   const onSubmit = async (data: PublishCampaignForm) => {
-    const selectedCampaign = campaignMap[data.category];
-    const phoneNumber = `${data.phoneAreaCode}${data.phone}`;
-    const request: CreateCampaignRequest = {
-      type: selectedCampaign.type,
-      category: selectedCampaign.category,
-      title: data.title,
-      description: data.description,
-      imageId: data.imageId,
-      phoneNumber,
-      location: {
-        name: data.location,
-        address: "",
-        number: 12,
-        latitude: 0,
-        longitude: 0,
-      },
-      items:
-        selectedCampaign.type === "DONATION"
-          ? (data.donationNeeds ?? []).map((category) => ({
-              category,
-            }))
-          : undefined,
-      accountAlias: null,
-      amountToBeCollected: null,
-      campaignEndDate:
-        selectedCampaign.type === "DONATION" && data.endDate
-          ? data.endDate
-          : undefined,
-      newsStartDateTime:
-        selectedCampaign.type === "NEWS"
-          ? buildDateTime(data.startDate, data.startTime)
-          : undefined,
+    const request = buildCampaignRequest(data)
 
-      newsEndDateTime:
-        selectedCampaign.type === "NEWS"
-          ? buildDateTime(data.endDate, data.endTime)
-          : undefined,
-    };
     try {
       await createCampaign(request).unwrap();
       toast.success(
@@ -214,21 +83,21 @@ function PublishCampaign() {
             Categoría de la campaña <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <S.CategoryOptions>
-            {campaignCategories.map((category) => (
+            {recordToOptions(campaignCategoryLabels).map(({value, label}) => (
               <S.CategoryOption
-                key={category}
+                key={value}
                 type="button"
-                $isSelected={selectedCategory === category}
-                aria-pressed={selectedCategory === category}
+                $isSelected={selectedCategory === value}
+                aria-pressed={selectedCategory === value}
                 onClick={() => {
-                  setSelectedCategory(category);
-                  setValue("category", category, {
+                  setSelectedCategory(value);
+                  setValue("category", value, {
                     shouldValidate: true,
                     shouldDirty: true,
                   });
                 }}
               >
-                {category}
+                {label}
               </S.CategoryOption>
             ))}
           </S.CategoryOptions>
@@ -240,17 +109,18 @@ function PublishCampaign() {
             <S.PublishLabel>¿Qué necesitás recolectar?</S.PublishLabel>
 
             <S.DonationGrid>
-              {donationNeeds.map((need) => (
-                <S.DonationOption key={need}>
+              {recordToOptions(donationItemLabels).map(({ value, label }) => (
+                <S.DonationOption key={value}>
                   <S.DonationCheckbox
                     type="checkbox"
-                    value={donationNeedCategoryMap[need]}
+                    value={value}
                     {...register("donationNeeds")}
                   />
-                  {need}
+                  {label}
                 </S.DonationOption>
               ))}
             </S.DonationGrid>
+            <ErrorMessage message={errors.donationNeeds?.message} />
           </S.DonationNeeds>
         )}
 

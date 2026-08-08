@@ -1,24 +1,19 @@
 import * as yup from "yup";
-import { type PublishCampaignCategory } from "@campaigns/pages/create_campaign/PublishCampaign";
+import { campaignCategories, type CampaignCategory } from "../types/Campaign.types";
+import { locationSchema } from "@/common/utils/Location.schema";
 
 export const publishCampaignSchema = yup.object({
   title: yup.string().required("Ingresá un título para la campaña.").max(100),
   imageId: yup.string().notRequired(),
   category: yup
-    .mixed<PublishCampaignCategory>()
-    .oneOf([
-      "Donación",
-      "Castración",
-      "Vacunación",
-      "Desparasitación",
-      "Otro",
-    ])
+    .mixed<CampaignCategory>()
+    .oneOf(campaignCategories)
     .required("Seleccioná una categoría"),
 
   description: yup.string().required("Ingresá una descripción.").max(200),
 
   startDate: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de inicio.")
@@ -35,7 +30,7 @@ export const publishCampaignSchema = yup.object({
   }),
 
   endDate: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de fin.")
@@ -63,24 +58,32 @@ export const publishCampaignSchema = yup.object({
   }),
 
   startTime: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) => schema.required("Ingresá una hora de inicio."),
     otherwise: (schema) => schema.notRequired(),
   }),
 
   endTime: yup.string().when("category", {
-    is: (category: string) => category !== "Donación",
+    is: (category: string) => category !== "DONATION",
     then: (schema) => schema.required("Ingresá una hora de fin."),
     otherwise: (schema) => schema.notRequired(),
   }),
   phoneAreaCode: yup.string().required("Ingresá un código de área."),
   phone: yup.string().required("Ingresá un número de teléfono."),
 
-  location: yup.string().required("Ingresá una ubicación."),
+  location: locationSchema,
   donationNeeds: yup.array().when("category", {
-    is: "Donación",
+    is: "DONATION",
     then: (schema) =>
       schema.min(1, "Seleccioná al menos un elemento para recolectar."),
     otherwise: (schema) => schema.notRequired(),
   }),
+  accountAlias: yup.string().when("category", {
+    is: 'FUNDRAISING',
+    then: (schema) => schema.required().min(6).max(24),
+    otherwise: (schema) => schema.notRequired()
+  }),
+  amountToBeCollected: yup.number().notRequired()
 });
+
+export type PublishCampaignForm = yup.InferType<typeof publishCampaignSchema>

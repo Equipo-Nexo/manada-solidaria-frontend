@@ -2,7 +2,7 @@ import * as S from "./CampaignCard.styles";
 import { LocationPin, Share } from "../../../common/icons";
 import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import type { Location } from "@services/responses/Location";
-import { campaignTypeLabels } from "@/campaigns/utils/CampaignUtils";
+import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 
 export type CampaignCardData = {
@@ -30,7 +30,6 @@ function CampaignCard({
   onMoreInfo,
   onShare,
 }: CampaignCardProps) {
-  console.log(campaign)
   return (
     <S.Card className={className}>
       <S.ImageSection>
@@ -58,7 +57,7 @@ function CampaignCard({
             <span>{campaign.location?.name}</span>
           </S.Location>
           <S.TypeBadge $campaignType={campaign.type}>
-            {campaignTypeLabels[campaign.type]}
+            {campaign.type == 'OTHER' ? 'General' : campaignCategoryLabels[campaign.type]}
           </S.TypeBadge>
         </S.MetaRow>
 

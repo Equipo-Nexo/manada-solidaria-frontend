@@ -7,7 +7,7 @@ import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorM
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
-import { buildRequest, PublicationReason } from '@/animals/utils/PublicationReasonUtil'
+import { buildRequest, PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
 import { DEFAULT_LOCATION, newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
 import type { BaseAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'

@@ -9,7 +9,7 @@ import {
   type AnimalSex,
   type AnimalSize,
 } from '@/animals/app/types/AnimalPost.types'
-import { PublicationReason } from '@/animals/utils/PublicationReasonUtil'
+import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
 
 export const editAnimalPostSchema = yup.object({
     publicationReason: yup
