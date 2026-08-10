@@ -71,7 +71,7 @@ function FundraisingCard({
       <S.CaseCard>
         <S.ImageContainer>
           <S.CaseImage
-            src={fundraising.imageUrl || NOT_FOUND_IMAGE_URL}
+            src={`${import.meta.env.VITE_CLOUDFLARE_URL}${fundraising.imageUrl}`}
             alt={fundraising.imageAlt ?? fundraising.title}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
