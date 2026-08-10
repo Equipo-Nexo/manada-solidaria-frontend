@@ -7,7 +7,10 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build
+
+ARG VITE_MODE=production
+
+RUN npm run build -- --mode $VITE_MODE
 
 # Stage 2: Serve
 FROM nginx:stable-alpine AS runtime

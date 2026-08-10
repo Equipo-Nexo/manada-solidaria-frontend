@@ -1,0 +1,1 @@
+export const NOT_FOUND_IMAGE_URL = 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg';

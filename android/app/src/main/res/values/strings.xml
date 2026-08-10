@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Manada Solidaria</string>
+    <string name="title_activity_main">Manada Solidaria</string>
+    <string name="package_name">com.manadasolidaria.app</string>
+    <string name="custom_url_scheme">com.manadasolidaria.app</string>
+</resources>
