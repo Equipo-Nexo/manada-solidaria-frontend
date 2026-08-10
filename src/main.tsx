@@ -5,10 +5,10 @@ import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { ToastProvider } from "./hooks/toast/ToastProvider";
-import { persistor, store } from "./app/store/store";
-import { GlobalStyle } from "./styles/GlobalStyle";
-import { theme } from "./styles/theme";
+import { ToastProvider } from "@hooks/toast/ToastProvider";
+import { persistor, store } from "@store/store";
+import { GlobalStyle } from "@styles/GlobalStyle.ts";
+import { theme } from "@styles/theme.ts";
 import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import "cally";
 
