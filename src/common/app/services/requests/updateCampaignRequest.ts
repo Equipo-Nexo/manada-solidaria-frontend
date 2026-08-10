@@ -1,6 +1,6 @@
 import type { Maybe } from "yup";
-import type { CampaignType } from "./createCampaignRequest";
 import type { Location } from "../responses/Location";
+import type { CampaignType } from "@/campaigns/app/types/Campaign.types";
 
 export interface UpdateCampaignRequest {
     type: CampaignType;

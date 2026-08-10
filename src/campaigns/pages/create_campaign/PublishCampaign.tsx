@@ -12,7 +12,7 @@ import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import { type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
 import { recordToOptions } from "@/common/utils/RecordToOptions";
-import { buildCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
+import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
 import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
 
 function PublishCampaign() {
@@ -37,7 +37,7 @@ function PublishCampaign() {
     }
   });
   const onSubmit = async (data: PublishCampaignForm) => {
-    const request = buildCampaignRequest(data)
+    const request = buildCreateCampaignRequest(data)
 
     try {
       await createCampaign(request).unwrap();

@@ -2,40 +2,19 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
-import type { CampaignDetailsResponse, CampaignDetailsType } from '@models/Campaign.types'
+import type { CampaignDetailsResponse } from '@models/Campaign.types'
 import { useEditCampaignMutation, useGetCampaignQuery } from '@campaigns/app/api/campaignApi'
-import type { CreateCampaignRequest } from '@services/requests/createCampaignRequest'
 import { Advice, DatePicker, ErrorMessage, ImageUpload } from '@components/index.ts'
 import { Arrow, Phone, Search, PublishButton } from '@icons/index.ts'
 import { StyledMaskedInput } from '@components/maskedInput/maskedInput.styles'
 import { useToast } from '@hooks/toast/useToast'
 import { editCampaignSchema, type EditCampaignFormValues } from '../../app/schemas/EditCampaign.schema'
 import * as S from './EditCampaign.styles'
+import { DEFAULT_LOCATION } from '@/common/utils/DefaultValues'
+import type { EditCampaignRequest } from '@/campaigns/app/api/requests/EditCampaignRequest'
+import { buildEditCampaignRequest } from '@/campaigns/utils/EditCampaignBuilder'
+import { splitDateTime } from '@/common/utils/DateTime'
 
-const splitDateTime = (dateTime?: string | null) => ({
-  date: dateTime?.slice(0, 10) ?? '',
-  time: dateTime?.slice(11, 16) ?? '',
-})
-
-const buildDateTime = (date?: string, time?: string) =>
-  date && time ? `${date}T${time}:00` : null
-
-const getImagePreviewUrl = (imageId?: string) => {
-  if (!imageId) return undefined
-  if (/^https?:\/\//i.test(imageId)) return imageId
-  return `${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`
-}
-
-const campaignRequestType: Record<
-  Exclude<CampaignDetailsType, 'fundraising'>,
-  Pick<CreateCampaignRequest, 'type' | 'category'>
-> = {
-  donation: { type: 'DONATION', category: null },
-  castration: { type: 'NEWS', category: 'CASTRATION' },
-  vaccination: { type: 'NEWS', category: 'VACCINATION' },
-  deworming: { type: 'NEWS', category: 'DEWORMING' },
-  other: { type: 'NEWS', category: 'OTHER' },
-}
 
 const getDefaultValues = (
   campaign: CampaignDetailsResponse,
@@ -48,7 +27,7 @@ const getDefaultValues = (
     : { date: campaign.campaignEndDate?.slice(0, 10) ?? '', time: '' }
 
   return {
-    campaignType: campaign.type,
+    category: campaign.type,
     title: campaign.title,
     description: campaign.description,
     startDate: start.date,
@@ -57,7 +36,7 @@ const getDefaultValues = (
     endTime: end.time,
     phoneAreaCode: phoneNumber.slice(0, -7),
     phone: phoneNumber.slice(-7),
-    location: campaign.location || null,
+    location: DEFAULT_LOCATION,
     imageId: currentImageId,
   }
 }
@@ -89,55 +68,26 @@ function EditCampaign() {
 
   const handleEditCampaign = async (values: EditCampaignFormValues) => {
     if (!campaign || !campaignId || campaign.type === 'fundraising') return
-
-    const requestType = campaignRequestType[campaign.type]
-
-    const body: CreateCampaignRequest = {
-      type: requestType.type,
-      category: requestType.category,
-      title: values.title.trim(),
-      description: values.description.trim(),
-      imageId: values.imageId || null,
-      location: campaign.location && {
-        name: campaign.location.name,
-        address: campaign.location.address,
-        number: campaign.location.number,
-        latitude: campaign.location.latitude,
-        longitude: campaign.location.longitude,
-      },
-      items: campaign.items,
-      phoneNumber: `${values.phoneAreaCode}${values.phone}`,
-      accountAlias: campaign.accountAlias,
-      amountToBeCollected: campaign.amountToBeCollected,
-      campaignEndDate: campaign.type === 'donation'
-        ? values.endDate
-        : campaign.campaignEndDate,
-      newsStartDateTime: campaign.type !== 'donation'
-        ? buildDateTime(values.startDate, values.startTime)
-        : campaign.newsStartDateTime,
-      newsEndDateTime: campaign.type !== 'donation'
-        ? buildDateTime(values.endDate, values.endTime)
-        : campaign.newsEndDateTime,
-    }
-
-      editCampaign({ campaignId, body })
-        .unwrap()
-        .then(() => {
-          navigate(`/editar/exito`, {
-              state: {
-                  imageUrl: values.imageId,
-                  name: values.title.trim(),
-                  onDetailRedirect: '/campanias'
-              },
-          })
+    
+    const body: EditCampaignRequest = buildEditCampaignRequest(values)
+    editCampaign({ campaignId, body })
+      .unwrap()
+      .then(() => {
+        navigate(`/editar/exito`, {
+            state: {
+                imageUrl: values.imageId,
+                name: values.title.trim(),
+                onDetailRedirect: '/campanias'
+            },
         })
-        .catch(() => {
+      })
+      .catch(() => {
 
-          toast.error(
-            'No pudimos actualizar la campaña',
-            'Revisá los datos e intentá nuevamente.',
-          )
-        })
+        toast.error(
+          'No pudimos actualizar la campaña',
+          'Revisá los datos e intentá nuevamente.',
+        )
+      })
   }
 
   if (isLoadingCampaign) return <S.Loading>Cargando campaña...</S.Loading>
@@ -285,7 +235,7 @@ function EditCampaign() {
             render={({ field, fieldState }) => (
               <>
                 <ImageUpload
-                  imageUrl={getImagePreviewUrl(field.value)}
+                  imageUrl={field.value}
                   onImageSelected={field.onChange}
                 />
                 <ErrorMessage

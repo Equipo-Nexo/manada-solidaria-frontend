@@ -5,12 +5,13 @@ import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "@campaigns/pages/create_campaign/PublishForm.styles";
 import { Controller, useController, useForm } from "react-hook-form";
 import type { InferType, Maybe } from "yup";
-import type { CreateCampaignRequest } from "@services/requests/createCampaignRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useToast } from "@hooks/toast/useToast";
 import { publishFundraisingSchema } from "@fundraisings/app/schemas/PublishFundraising.schema";
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import type { Location } from "@services/responses/Location";
+import type { FundraisingCampaignRequest } from "@/campaigns/app/api/requests/CreateCampaignRequest";
+import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -46,50 +47,37 @@ function PublishFundraising() {
       phoneAreaCode: "",
       phone: "",
       imageId: undefined,
-      location: {
-        name: "asdasd",
-        address: "",
-        number: 0,
-        latitude: 0,
-        longitude: 0,
-      },
+      location: DEFAULT_LOCATION,
     },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {
-    const request: CreateCampaignRequest = {
+    const request: FundraisingCampaignRequest = {
       type: "FUNDRAISING",
-      category: null,
       title: data.title,
       description: data.description,
       imageId: data.imageId,
       phoneNumber: `${data.phoneAreaCode}${data.phone}`,
-      location: {
-        name: data.location.name,
-        address: "",
-        number: 12,
-        latitude: 0,
-        longitude: 0,
-      },
-      items: undefined,
+      location: DEFAULT_LOCATION,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected ?? undefined,
       campaignEndDate: data.endDate ?? undefined,
-      newsStartDateTime: undefined,
-      newsEndDateTime: undefined,
     };
-    try {
-      await createCampaign(request).unwrap();
-      toast.success(
-        "Colecta publicada",
-        "La colecta se publicó correctamente.",
-      );
-      navigate("/home");
-    } catch {
-      toast.error(
-        "No pudimos publicar la colecta",
-        "Intentá nuevamente en unos minutos.",
-      );
-    }
+
+    createCampaign(request)
+      .unwrap()
+      .then(() => {
+        toast.success(
+          "Colecta publicada",
+          "La colecta se publicó correctamente.",
+        );
+        navigate("/home");
+      })
+      .catch(() => {
+        toast.error(
+          "No pudimos publicar la colecta",
+          "Intentá nuevamente en unos minutos.",
+        );
+      });
   };
 
   const { field: areaCodeField, fieldState: areaCodeState } = useController({

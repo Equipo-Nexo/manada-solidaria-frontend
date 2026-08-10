@@ -1,12 +1,13 @@
 import * as yup from 'yup'
 import type { CampaignDetailsType } from '@models/Campaign.types'
 import { locationSchema } from '@utils/Location.schema'
+import { campaignCategories, type CampaignCategory } from '../types/Campaign.types'
 
 export const editCampaignSchema = yup.object({
-  campaignType: yup
-    .mixed<CampaignDetailsType>()
-    .oneOf(['donation', 'castration', 'vaccination', 'deworming', 'other'])
-    .required(),
+  category: yup
+    .mixed<CampaignCategory>()
+    .oneOf(campaignCategories)
+    .required("Seleccioná una categoría"),
   title: yup
     .string()
     .trim()
@@ -54,7 +55,7 @@ export const editCampaignSchema = yup.object({
     .string()
     .required('Ingresá un número de teléfono.')
     .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
-  location: locationSchema.nullable(),
+  location: locationSchema,
   imageId: yup.string().defined().default(''),
 })
 

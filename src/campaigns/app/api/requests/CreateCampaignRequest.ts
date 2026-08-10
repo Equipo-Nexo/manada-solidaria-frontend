@@ -17,7 +17,7 @@ export interface BaseCreateCampaignRequest {
 
 export interface CreateNewsCampaignRequest extends BaseCreateCampaignRequest {
   location: Location;
-  category: CampaignCategory;
+  category?: CampaignCategory;
   newsStartDateTime: string;
   newsEndDateTime: string;
 }
@@ -34,8 +34,3 @@ export interface DonationCampaignRequest extends BaseCreateCampaignRequest {
 }
 
 export type CreateCampaignRequest = CreateNewsCampaignRequest | FundraisingCampaignRequest | DonationCampaignRequest;
-
-export type EditCampaignMutationRequest = {
-  campaignId: string
-  body: CreateCampaignRequest
-}

@@ -5,7 +5,7 @@ import * as S from "./Campaigns.styles";
 import { useState } from "react";
 import { CategorySelector } from "@components/index.ts";
 import { ArrowLeft } from "@icons/index.ts";
-import { campaignFilters, type CampaignFilter } from "@campaigns/app/api/requests/CampaignRequest";
+import { campaignFilters, type CampaignFilter } from "@/campaigns/app/api/requests/CreateCampaignRequest";
 import { CAMPAIGN_FILTER_LABELS, mapCampaignToCardData } from "@/campaigns/utils/CampaignUtils";
 
 function Campaigns() {

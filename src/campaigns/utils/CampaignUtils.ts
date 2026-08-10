@@ -1,7 +1,7 @@
 import type { CampaignResponse } from "@/common/app/types/Campaign.types";
 import type { CampaignCardData } from "../components/campaign_card/CampaignCard";
 import type { CampaignCategory, DonationItem } from "../app/types/Campaign.types";
-import type { CampaignFilter } from "../app/api/requests/CampaignRequest";
+import type { CampaignFilter } from "../app/api/requests/CreateCampaignRequest";
 
 export const mapCampaignToCardData = (
   campaign: CampaignResponse,

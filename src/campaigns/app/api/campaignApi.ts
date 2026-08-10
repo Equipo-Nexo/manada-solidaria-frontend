@@ -1,9 +1,8 @@
 import { baseAuthenticatedApi } from '@services/base/baseAuthenticatedApi'
 import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignPageResponse, FundraisingCampaignResponse } from "@app/types/Campaign.types";
-import type { EditCampaignMutationRequest } from "@services/requests/createCampaignRequest";
-import type { UpdateFundraisingCampaignRequest } from '@services/requests/updateCampaignRequest';
-import type { CampaignFilter, CreateCampaignRequest } from './requests/CampaignRequest';
+import type { CampaignFilter, CreateCampaignRequest } from './requests/CreateCampaignRequest';
 import type { CampaignType } from '../types/Campaign.types';
+import type { EditCampaignMutationRequest, UpdateFundraisingCampaignRequest } from './requests/EditCampaignRequest';
 
 
 

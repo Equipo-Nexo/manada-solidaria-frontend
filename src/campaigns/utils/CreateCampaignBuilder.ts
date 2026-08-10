@@ -1,9 +1,9 @@
 import { buildDateTime } from "@/common/utils/DateTime"
-import type { BaseCreateCampaignRequest, CreateCampaignRequest, CreateNewsCampaignRequest, DonationCampaignRequest, FundraisingCampaignRequest } from "../app/api/requests/CampaignRequest"
+import type { BaseCreateCampaignRequest, CreateCampaignRequest, CreateNewsCampaignRequest, DonationCampaignRequest, FundraisingCampaignRequest } from "../app/api/requests/CreateCampaignRequest"
 import type { CampaignCategory, CampaignType, DonationItem } from "../app/types/Campaign.types"
 import type { PublishCampaignForm } from "../app/schemas/PublishCampaignSchema"
 
-const campaignMap: Record<string, { type: CampaignType, category?: CampaignCategory }> = {
+export const campaignMap: Record<string, { type: CampaignType, category?: CampaignCategory }> = {
   FUNDRAISING: {
     type: 'FUNDRAISING',
   },
@@ -93,7 +93,7 @@ const campaignRequestBuilders: Record<
   DONATION: donationCampaignRequestBuilder,
 }
 
-export const buildCampaignRequest = (
+export const buildCreateCampaignRequest = (
   data: PublishCampaignForm
 ): CreateCampaignRequest => {
   const selectedCampaign = campaignMap[data.category]
@@ -111,3 +111,6 @@ export const buildCampaignRequest = (
     commonRequest
   )
 }
+
+
+

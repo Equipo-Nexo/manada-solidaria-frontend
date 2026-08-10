@@ -2,13 +2,14 @@ import styled, { css } from "styled-components";
 import { theme } from "@styles/theme";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 
-const badgeBackground = {
+const badgeBackground: Record<CampaignCategory, string> = {
   'DONATION': "#B293FF",
   'CASTRATION': "#A95C28",
   'VACCINATION': "#EA5F09",
   'DEWORMING': "#594137",
   'OTHER': "#E1BFB2",
-} satisfies Record<CampaignCategory, string>;
+  'FUNDRAISING': ''
+}
 
 export const Card = styled.article`
   width: ${({ theme }) => theme.layout.publicationCardWidth};

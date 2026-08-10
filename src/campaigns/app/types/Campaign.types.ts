@@ -2,12 +2,12 @@ export const campaignTypes = ["NEWS", "FUNDRAISING", "DONATION"]
 export type CampaignType = typeof campaignTypes[number]
 
 export const campaignCategories = [
-  "FUNDRAISING",
   "DONATION",
   "CASTRATION",
   "VACCINATION",
   "DEWORMING",
-  "OTHER"
+  "OTHER",
+  "FUNDRAISING",
 ]
 export type CampaignCategory = typeof campaignCategories[number]
 

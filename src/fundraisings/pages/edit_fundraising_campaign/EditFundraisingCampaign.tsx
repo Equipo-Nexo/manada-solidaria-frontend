@@ -5,28 +5,14 @@ import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "./EditFundraisingCampaign.styles";
 import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import type { InferType, Maybe } from "yup";
+import type { InferType } from "yup";
 import { editFundraisingSchema } from "@fundraisings/app/schemas/EditFundraisingCampaign.schema";
 import { useGetFundraisingByIdQuery, useUpdateFundraisingCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useEffect } from "react";
-import type { Location } from "@services/responses/Location";
-import type { UpdateFundraisingCampaignRequest } from "@services/requests/updateCampaignRequest";
 import { useToast } from "@hooks/toast/useToast";
+import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
-
-type EditFundraisingFormInput = {
-  title: string;
-  accountAlias: string;
-  amountToBeCollected: Maybe<number | undefined>;
-  collectedAmount: Maybe<number | undefined>;
-  endDate: Maybe<string | undefined>;
-  description: string;
-  phoneAreaCode: string;
-  phone: string;
-  imageId: Maybe<string | undefined>;
-  location: Location;
-};
 
 function EditFundraising() {
 
@@ -42,7 +28,7 @@ function EditFundraising() {
     setValue,
     control,
     formState: { errors },
-  } = useForm<EditFundraisingFormInput, unknown, EditFundraisingForm>({
+  } = useForm({
     resolver: yupResolver(editFundraisingSchema)
   });
 
@@ -80,11 +66,9 @@ function EditFundraising() {
       location: data.location,
       phoneNumber: `${data.phoneAreaCode}${data.phone}`,
       accountAlias: data.accountAlias,
-      amountToBeCollected: data.amountToBeCollected || null,
-      amountCollected: data.collectedAmount || null,
-      campaignEndDate: data.endDate || null,
-      newsStartDateTime: null,
-      newsEndDateTime: null,
+      amountToBeCollected: data.amountToBeCollected,
+      amountCollected: data.collectedAmount,
+      campaignEndDate: data.endDate
     };
 
     updateFundraisingCampaign({ postId: fundraisingId || "", body: requestBody })
