@@ -27,7 +27,7 @@ const getDefaultValues = (
     : { date: campaign.campaignEndDate?.slice(0, 10) ?? '', time: '' }
 
   return {
-    category: campaign.type,
+    category: campaign.type.toUpperCase(),
     title: campaign.title,
     description: campaign.description,
     startDate: start.date,
@@ -59,7 +59,7 @@ function EditCampaign() {
     control,
     formState: { errors },
     handleSubmit,
-    register,
+    register
   } = useForm<EditCampaignFormValues>({
     resolver: yupResolver(editCampaignSchema),
     mode: 'onTouched',

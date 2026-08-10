@@ -18,33 +18,34 @@ export const editCampaignSchema = yup.object({
     .trim()
     .required('Ingresá una descripción.')
     .max(200, 'La descripción no puede superar los 200 caracteres.'),
-  startDate: yup.string().defined().default('').when('campaignType', {
-    is: (type: CampaignDetailsType) => type !== 'donation',
+  startDate: yup.string().defined().default('').when('category', {
+    is: (type: CampaignDetailsType) => type !== 'DONATION',
     then: (schema) => schema.required('Seleccioná una fecha de inicio.'),
   }),
   endDate: yup
     .string()
     .defined()
     .default('')
-    .when('campaignType', {
-      is: (type: CampaignDetailsType) => type !== 'donation',
+    .when('category', {
+      is: (type: CampaignDetailsType) => type !== 'DONATION',
       then: (schema) => schema.required('Seleccioná una fecha de fin.'),
+      otherwise: (schema) => schema.optional(),
     })
     .test(
       'not-before-start-date',
       'La fecha de fin debe ser mayor o igual a la fecha de inicio.',
       function (endDate) {
-        const { campaignType, startDate } = this.parent
-        if (campaignType === 'donation' || !startDate || !endDate) return true
+        const { category, startDate } = this.parent
+        if (category === 'DONATION' || !startDate || !endDate) return true
         return endDate >= startDate
       },
     ),
-  startTime: yup.string().defined().default('').when('campaignType', {
-    is: (type: CampaignDetailsType) => type !== 'donation',
+  startTime: yup.string().defined().default('').when('category', {
+    is: (type: CampaignDetailsType) => type !== 'DONATION',
     then: (schema) => schema.required('Ingresá una hora de inicio.'),
   }),
-  endTime: yup.string().defined().default('').when('campaignType', {
-    is: (type: CampaignDetailsType) => type !== 'donation',
+  endTime: yup.string().defined().default('').when('category', {
+    is: (type: CampaignDetailsType) => type !== 'DONATION',
     then: (schema) => schema.required('Ingresá una hora de fin.'),
   }),
   phoneAreaCode: yup
