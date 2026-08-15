@@ -55,7 +55,7 @@ function Home() {
   const fundraisings = fundraisingData?.content ?? [];
   return (
     <S.HomePage>
-      <VetGuardButton isActive={true} />
+      <VetGuardButton />
       <Carousel
         title="Casos urgentes"
         onSeeAll={() => navigate("/colectas")}

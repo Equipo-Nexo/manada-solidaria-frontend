@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { BriefcaseMedical, Clock, Phone } from "@icons/index";
 import Stethoscope from "@/common/icons/Stethoscope";
 import * as S from "./vetGuardButton.styles";
+import { isVetGuardActive } from "./vetGuardSchedule";
 
 const VET_GUARD_PHONE_NUMBER = "0353154791156";
 const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 154791156";
 const VET_PATH = "/veterinarias";
 
 type VetGuardButtonProps = {
-  isActive: boolean;
   className?: string;
   phoneNumber?: string;
   phoneDisplayNumber?: string;
@@ -21,7 +21,6 @@ type VetGuardButtonProps = {
 };
 
 function VetGuardButton({
-  isActive,
   className,
   phoneNumber = VET_GUARD_PHONE_NUMBER,
   phoneDisplayNumber = VET_GUARD_DISPLAY_PHONE_NUMBER,
@@ -33,7 +32,7 @@ function VetGuardButton({
   desktopReminder = "Recordá: el sistema de guardia rotativo es únicamente para urgencias",
 }: VetGuardButtonProps) {
   const navigate = useNavigate();
-
+  const isActive = isVetGuardActive();
   const title = isActive ? activeTitle : inactiveTitle;
   const description = isActive ? activeDescription : inactiveDescription;
   const mobileStatusLabel = isActive ? "Guardia Activa" : "Guardia Inactiva";
