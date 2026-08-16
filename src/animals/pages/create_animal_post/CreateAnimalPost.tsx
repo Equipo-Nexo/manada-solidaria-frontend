@@ -3,7 +3,7 @@ import type { ChangeEvent } from 'react'
 import { Controller, useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Publish, Search } from '@/common/icons'
-import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch } from '@components/index.ts'
+import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch, AutocompleteGeolocation } from '@components/index.ts'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
@@ -67,6 +67,7 @@ function CreateAnimalPost() {
   }
 
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
+    console.log('valuesss', values)
     const commonRequest: BaseAnimalPostRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
@@ -157,19 +158,10 @@ function CreateAnimalPost() {
         </S.FieldGroup>
         <S.FieldGroup>
           <S.Label>Ubicación</S.Label>
-          <S.IconInputWrapper>
-            <Search aria-hidden="true" />
-            <S.Input placeholder="¿En dónde se encuentra el animal?" />
-          </S.IconInputWrapper>
-          <S.MapContainer>
-            <S.MapWrapper >
-              <Map onPointSelect={(point) => console.log(point)} />
-            </S.MapWrapper>
-            <S.Suggestion>
-              Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
-              compartir tu dirección exacta.
-            </S.Suggestion>
-          </S.MapContainer>
+          <AutocompleteGeolocation 
+            placeHolder="¿En dónde se encuentra el animal?"
+            onChange={(value) => console.log(value)}
+          />
         </S.FieldGroup>
         <S.FieldGroup>
           <S.Label>Tipo de animal <S.Required>*</S.Required></S.Label>

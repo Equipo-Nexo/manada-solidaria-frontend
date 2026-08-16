@@ -10,23 +10,29 @@ export type MapPoint = { lng: number; lat: number }
 
 interface MapProps {
   markPoints?: MapPoint[]
+  markPoint?: MapPoint | null;
   enableMarkerOnClick?: boolean
   onPointSelect?: (point: MapPoint) => void
 }
 
 function Map({
   markPoints,
+  markPoint = null,
   enableMarkerOnClick = true,
   onPointSelect,
 }: MapProps) {
   const { coordinates, requestCoordinates } = useGeolocation()
   const frameRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
+  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(markPoint)
 
   useEffect(() => {
     void requestCoordinates()
   }, [requestCoordinates])
+
+  useEffect(() => {
+    setSelectedPoint(markPoint)
+  }, [markPoint])
 
   const point = useMemo(
     () =>
@@ -90,24 +96,24 @@ function Map({
     }
   }, [enableMarkerOnClick, map, onPointSelect])
 
-    return (
-      <S.MapFrame ref={frameRef}>
-        <MapCN
-          center={point}
-          zoom={16}
-          doubleClickZoom={!enableMarkerOnClick}
-          onMapReady={setMap}
-        >
-          <MapCNControls showLocate />
-          {markPoints?.map(({ lng, lat }, index) => (
-            <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
-          ))}
-          {selectedPoint && (
-            <MapCNMarker longitude={selectedPoint.lng} latitude={selectedPoint.lat} />
-          )}
-        </MapCN>
-      </S.MapFrame>
-    )
+  return (
+    <S.MapFrame ref={frameRef}>
+      <MapCN
+        center={point}
+        zoom={16}
+        doubleClickZoom={!enableMarkerOnClick}
+        onMapReady={setMap}
+      >
+        <MapCNControls showLocate />
+        {markPoints?.map(({ lng, lat }, index) => (
+          <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
+        ))}
+        {selectedPoint && (
+          <MapCNMarker longitude={selectedPoint.lng} latitude={selectedPoint.lat} />
+        )}
+      </MapCN>
+    </S.MapFrame>
+  )
 }
 
 export default Map
