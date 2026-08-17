@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import type { GeolocationResponse } from '@/common/app/services/responses/Location';
 import type { MapPoint } from '../map/Map';
 import { skipToken } from '@reduxjs/toolkit/query';
+import { useGeolocation } from '@/common/hooks/geolocation/useGeolocation';
 
 const EMPTY_DIRECTION = "";
 
@@ -19,11 +20,17 @@ function AutocompleteGeolocation({
     onChange
 }: AutocompleteGeolocationProps) {
 
+    const { coordinates, requestCoordinates } = useGeolocation()
     const [direction, setDirection] = useState(EMPTY_DIRECTION)
     const [debouncedDirection, setDebouncedDirection] = useState(EMPTY_DIRECTION)
     const [selectedLocation, setSelectedLocation] = useState<GeolocationResponse | null>(null)
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
     const [isInputFocused, setInputIsFocused] = useState(false)
+
+    useEffect(() => {
+     void requestCoordinates()
+    }, [requestCoordinates])
+    console.log('coordenadas actuales', coordinates)
 
     useEffect(() => {
         if (onChange && selectedLocation) {
@@ -40,7 +47,7 @@ function AutocompleteGeolocation({
     }, [direction])
     
     const { data: locations = [], isFetching } = useGetGeolocationsQuery(
-        debouncedDirection,
+        { text: debouncedDirection, latitude: coordinates?.latitude, longitude: coordinates?.longitude  },
         {
             skip:
             debouncedDirection.length < 3 ||
