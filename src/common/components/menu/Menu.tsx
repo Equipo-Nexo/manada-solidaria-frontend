@@ -67,7 +67,7 @@ const sections: MenuSection[] = [
       { label: "Inicio", path: "/home", activePath: "/home", icon: House },
       {
         label: "Mi perfil",
-        path: "/home",
+        path: "/mi-perfil",
         activePath: "/mi-perfil",
         icon: User,
       },

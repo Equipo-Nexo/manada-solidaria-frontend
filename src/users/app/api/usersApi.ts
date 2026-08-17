@@ -1,5 +1,6 @@
 import { baseAuthenticatedApi } from '../../../common/app/services/base/baseAuthenticatedApi'
 import type { GetUserPostsResponse } from '../../../common/app/services/responses/userResponses';
+import type { GetUserProfileResponse } from './responses/GetUserProfileResponse';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,8 +11,14 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ['userPosts']
     }),
+    getUserProfile: builder.query<GetUserProfileResponse, void>({
+      query: () => ({
+        url: '/users',
+      }),
+      providesTags: ['userProfile']
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useGetUserPostsQuery } = usersApi;
+export const { useGetUserPostsQuery, useGetUserProfileQuery } = usersApi;
