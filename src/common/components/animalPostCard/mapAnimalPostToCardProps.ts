@@ -17,6 +17,6 @@ export const mapAnimalPostToCardProps = (
   location: post.location.name || '',
   description: post.description,
   imageUrl: post.imageUrl,
-  contactPhone: post.phoneNumber ?? undefined,
+  contactPhone: post.phoneNumber ? `${post.phoneNumber.areaCode}${post.phoneNumber.number}` : undefined,
   reward: post.reward ?? undefined,
 })

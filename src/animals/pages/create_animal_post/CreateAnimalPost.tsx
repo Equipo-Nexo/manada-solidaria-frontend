@@ -79,7 +79,10 @@ function CreateAnimalPost() {
         age: values.animalAge,
         color: values.color,
       },
-      phoneNumber: values.phoneNumber,
+      phoneNumber: {
+        areaCode: values.areaCode,
+        number: values.phoneNumber
+      },
       location: mapGeolocationToLocation(values.location),
     }
       

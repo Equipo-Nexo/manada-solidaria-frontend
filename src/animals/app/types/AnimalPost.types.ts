@@ -1,5 +1,6 @@
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils"
 import type { Location } from "@/common/app/services/responses/Location"
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
 
 
 
@@ -105,7 +106,7 @@ export type AnimalPost = {
   status: AnimalPostStatus
   createdAt: string
   ownerId: string
-  phoneNumber: string | null
+  phoneNumber: PhoneNumber | null
   reward: number | null
 }
 
