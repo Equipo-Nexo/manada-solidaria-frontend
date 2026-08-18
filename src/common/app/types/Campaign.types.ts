@@ -43,7 +43,7 @@ export type CampaignDetailsResponse = {
   description: string;
   imageId?: string;
   imageUrl?: string;
-  location?: Location;
+  location: Location;
   items?: { category: DonationItem }[];
   phoneNumber: string;
   accountAlias?: string;

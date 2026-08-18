@@ -13,7 +13,6 @@ import { type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
 import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
-import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 
 function PublishCampaign() {
@@ -34,7 +33,6 @@ function PublishCampaign() {
     resolver: yupResolver(publishCampaignSchema),
     defaultValues: {
       donationNeeds: [],
-      location: DEFAULT_LOCATION
     }
   });
   const onSubmit = async (data: PublishCampaignForm) => {

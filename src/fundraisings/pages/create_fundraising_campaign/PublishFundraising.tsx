@@ -11,7 +11,6 @@ import { publishFundraisingSchema } from "@fundraisings/app/schemas/PublishFundr
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import type { Location } from "@services/responses/Location";
 import type { FundraisingCampaignRequest } from "@/campaigns/app/api/requests/CreateCampaignRequest";
-import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
@@ -47,8 +46,7 @@ function PublishFundraising() {
       description: "",
       phoneAreaCode: "",
       phone: "",
-      imageId: undefined,
-      location: DEFAULT_LOCATION,
+      imageId: undefined
     },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {

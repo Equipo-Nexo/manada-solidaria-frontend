@@ -10,7 +10,6 @@ import { StyledMaskedInput } from '@components/maskedInput/maskedInput.styles'
 import { useToast } from '@hooks/toast/useToast'
 import { editCampaignSchema, type EditCampaignFormValues } from '../../app/schemas/EditCampaign.schema'
 import * as S from './EditCampaign.styles'
-import { DEFAULT_LOCATION } from '@/common/utils/DefaultValues'
 import type { EditCampaignRequest } from '@/campaigns/app/api/requests/EditCampaignRequest'
 import { buildEditCampaignRequest } from '@/campaigns/utils/EditCampaignBuilder'
 import { splitDateTime } from '@/common/utils/DateTime'
@@ -37,7 +36,7 @@ const getDefaultValues = (
     endTime: end.time,
     phoneAreaCode: phoneNumber.slice(0, -7),
     phone: phoneNumber.slice(-7),
-    location: campaign.location ?? DEFAULT_LOCATION,
+    location: campaign.location,
     imageId: currentImageId,
   }
 }
