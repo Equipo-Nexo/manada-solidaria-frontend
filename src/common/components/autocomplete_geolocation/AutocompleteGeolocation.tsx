@@ -31,7 +31,7 @@ function AutocompleteGeolocation({
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
     const [isInputFocused, setInputIsFocused] = useState(false)
     const onChangeRef = useRef(onChange)
-    const displayedDirection = direction || initialLocation?.address || initialLocation?.name || EMPTY_DIRECTION
+    const displayedDirection = direction || initialLocation && `${initialLocation?.address} ${initialLocation?.number}, ${initialLocation?.name}` || EMPTY_DIRECTION
 
     useEffect(() => {
         onChangeRef.current = onChange
