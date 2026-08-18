@@ -11,6 +11,7 @@ import { useAppPermissions } from '@hooks/permissions/useAppPermissions'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Login.styles'
 import { loginSchema, type LoginFormValues } from '@auth/app/schemas/loginSchema'
+declare const __APP_VERSION__: string;
 
 function Login() {
   const navigate = useNavigate()
@@ -136,6 +137,7 @@ function Login() {
         </S.LoginContent>
       </S.LoginContainer>
       <S.LoginFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.LoginFooter>
+      <S.LoginFooter>v{__APP_VERSION__}</S.LoginFooter>
     </S.LoginPanel>
   )
 }
