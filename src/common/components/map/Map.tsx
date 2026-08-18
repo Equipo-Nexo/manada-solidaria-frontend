@@ -1,6 +1,6 @@
 import { MapCN, MapCNControls, MapCNMarker } from '../mapCN'
 import * as S from './Map.styles'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
 import { useGeolocation } from '@hooks/geolocation/useGeolocation'
 
@@ -22,48 +22,40 @@ function Map({
   onPointSelect,
 }: MapProps) {
   const { coordinates, requestCoordinates } = useGeolocation()
-  const frameRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(markPoint)
+  const [centerPoint, setCenterPoint] = useState<MapPoint>(DEFAULT_POINT);
+  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(markPoint);
+  const markPointLat = markPoint?.lat
+  const markPointLng = markPoint?.lng
 
   useEffect(() => {
     void requestCoordinates()
   }, [requestCoordinates])
 
   useEffect(() => {
-    setSelectedPoint(markPoint)
-  }, [markPoint])
-
-  const point = useMemo(
-    () =>
-      coordinates
-        ? { lng: coordinates.longitude, lat: coordinates.latitude }
-        : DEFAULT_POINT,
-    [coordinates],
-  )
+    setSelectedPoint(
+      markPointLat === undefined || markPointLng === undefined
+        ? null
+        : { lat: markPointLat, lng: markPointLng },
+    )
+  }, [markPointLat, markPointLng])
 
   useEffect(() => {
-    const frame = frameRef.current
-    if (!frame || !map) return
+    if (!coordinates) return;
 
-    let animationFrame: number | null = null
-    const recenterMap = () => {
-      if (animationFrame !== null) cancelAnimationFrame(animationFrame)
-      animationFrame = requestAnimationFrame(() => {
-        map.resize()
-        map.jumpTo({ center: point })
-      })
+    setCenterPoint({
+      lng: coordinates.longitude,
+      lat: coordinates.latitude,
+    });
+  }, [coordinates]);
+
+  useEffect(() => {
+    if (!map || !selectedPoint) return;
+
+    if (!map.getBounds().contains([selectedPoint.lng, selectedPoint.lat])) {
+      map.easeTo({ center: selectedPoint, duration: 600 });
     }
-    const resizeObserver = new ResizeObserver(recenterMap)
-
-    resizeObserver.observe(frame)
-    recenterMap()
-
-    return () => {
-      resizeObserver.disconnect()
-      if (animationFrame !== null) cancelAnimationFrame(animationFrame)
-    }
-  }, [map, point])
+  }, [map, selectedPoint]);
 
   useEffect(() => {
     if (!map) return
@@ -97,9 +89,9 @@ function Map({
   }, [enableMarkerOnClick, map, onPointSelect])
 
   return (
-    <S.MapFrame ref={frameRef}>
+    <S.MapFrame>
       <MapCN
-        center={point}
+        center={centerPoint}
         zoom={16}
         doubleClickZoom={!enableMarkerOnClick}
         onMapReady={setMap}

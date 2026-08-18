@@ -12,7 +12,7 @@ const EMPTY_DIRECTION = "";
 
 interface AutocompleteGeolocationProps {
     placeHolder?: string
-    onChange?: (value: GeolocationResponse) => void;
+    onChange?: (value: GeolocationResponse | null) => void;
 }
 
 function AutocompleteGeolocation({
@@ -30,13 +30,10 @@ function AutocompleteGeolocation({
     useEffect(() => {
      void requestCoordinates()
     }, [requestCoordinates])
-    console.log('coordenadas actuales', coordinates)
 
     useEffect(() => {
-        if (onChange && selectedLocation) {
-            onChange(selectedLocation)
-        }
-    }, [selectedLocation])
+        onChange?.(selectedLocation)
+    }, [onChange, selectedLocation])
 
     useEffect(() => {
         const timeout = setTimeout(() => {

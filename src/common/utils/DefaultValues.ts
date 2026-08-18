@@ -5,6 +5,7 @@ import type { Location } from '../app/services/responses/Location'
 export const newAnimalPostDefaultValues: DefaultValues<NewAnimalPostFormValues> = {
   imageId: undefined,
   publicationReason: undefined,
+  location: undefined,
   animalType: undefined,
   animalSex: undefined,
   animalAge: undefined,

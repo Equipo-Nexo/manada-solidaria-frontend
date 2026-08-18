@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import type { ChangeEvent } from 'react'
 import { Controller, useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Publish, Search } from '@/common/icons'
-import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch, AutocompleteGeolocation } from '@components/index.ts'
+import { Publish } from '@/common/icons'
+import { ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch, AutocompleteGeolocation } from '@components/index.ts'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
 import { buildRequest, PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
-import { DEFAULT_LOCATION, newAnimalPostDefaultValues } from '@utils/DefaultValues'
+import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
 import type { BaseAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
@@ -67,7 +67,6 @@ function CreateAnimalPost() {
   }
 
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
-    console.log('valuesss', values)
     const commonRequest: BaseAnimalPostRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
@@ -80,14 +79,20 @@ function CreateAnimalPost() {
         color: values.color,
       },
       phoneNumber: values.phoneNumber,
-      location: DEFAULT_LOCATION
+      location: {
+        name: values.location.city,
+        address: values.location.street,
+        number: Number(values.location.housenumber),
+        latitude: values.location.lat,
+        longitude: values.location.lon,
+      },
     }
       
     createAnimalPost(buildRequest(values, commonRequest))
       .unwrap()
       .then(() => {
         toast.success('Publicación creada', 'El animal fue publicado correctamente.')
-        navigate('/home', { replace: true })
+        // navigate('/home', { replace: true })
       })
       .catch(() => toast.error('No pudimos publicar el animal', 'Revisá los datos e intentá nuevamente.'))
   }
@@ -158,9 +163,18 @@ function CreateAnimalPost() {
         </S.FieldGroup>
         <S.FieldGroup>
           <S.Label>Ubicación</S.Label>
-          <AutocompleteGeolocation 
-            placeHolder="¿En dónde se encuentra el animal?"
-            onChange={(value) => console.log(value)}
+          <Controller
+            name="location"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <AutocompleteGeolocation
+                  placeHolder="¿En dónde se encuentra el animal?"
+                  onChange={field.onChange}
+                />
+                <ErrorMessage message={fieldState.error?.message} />
+              </>
+            )}
           />
         </S.FieldGroup>
         <S.FieldGroup>
