@@ -4,8 +4,8 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { publishCampaignSchema, type PublishCampaignForm } from "@campaigns/app/schemas/PublishCampaignSchema";
 import * as S from "./PublishForm.styles";
-import { Advice, ImageUpload, DatePicker, ErrorMessage, Map } from "@components/index.ts";
-import { Phone, Search, Arrow, PublishButton } from "@icons/index.ts";
+import { Advice, ImageUpload, DatePicker, ErrorMessage, AutocompleteGeolocation } from "@components/index.ts";
+import { Phone, Arrow, PublishButton } from "@icons/index.ts";
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useToast } from "@hooks/toast/useToast";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
@@ -14,6 +14,7 @@ import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/Ca
 import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
 import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
+import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 
 function PublishCampaign() {
   const navigate = useNavigate();
@@ -236,24 +237,21 @@ function PublishCampaign() {
           <S.PublishLabel>
             Ubicación <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
-          <S.InputWithIcon>
-            <S.IconInput
-              type="text"
-              {...register("location.name")}
-              placeholder="¿Dónde se realizará la campaña?"
-              $hasLeftIcon
-            />
-            <S.FieldIcon aria-hidden="true">
-              <Search />
-            </S.FieldIcon>
-          </S.InputWithIcon>
-          <ErrorMessage message={errors.location?.message} />
-          <S.MapWrapper>
-            <Map onPointSelect={(point) => console.log(point)} />
-          </S.MapWrapper>
-          <S.HelpText>
-            Buscá una dirección o tocá el mapa para marcar el punto.
-          </S.HelpText>
+          <Controller
+            control={control}
+            name="location"
+            render={({ field, fieldState }) => (
+              <>
+                <AutocompleteGeolocation
+                  placeHolder="¿Dónde se realizará la campaña?"
+                  onChange={(value) =>
+                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                  }
+                />
+                <ErrorMessage message={fieldState.error?.message} />
+              </>
+            )}
+          />
         </S.PublishField>
 
         <S.PublishField as="div">

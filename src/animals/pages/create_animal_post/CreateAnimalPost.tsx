@@ -18,6 +18,7 @@ import { DescriptionComponent, AnimalSelectorComponent, ColorSelectorComponent }
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
 import { publicationReasons } from '@/animals/components/DescriptionComponent'
+import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 
 function CreateAnimalPost() {
   const navigate = useNavigate()
@@ -79,20 +80,14 @@ function CreateAnimalPost() {
         color: values.color,
       },
       phoneNumber: values.phoneNumber,
-      location: {
-        name: values.location.city,
-        address: values.location.street,
-        number: Number(values.location.housenumber),
-        latitude: values.location.lat,
-        longitude: values.location.lon,
-      },
+      location: mapGeolocationToLocation(values.location),
     }
       
     createAnimalPost(buildRequest(values, commonRequest))
       .unwrap()
       .then(() => {
         toast.success('Publicación creada', 'El animal fue publicado correctamente.')
-        // navigate('/home', { replace: true })
+        navigate('/home', { replace: true })
       })
       .catch(() => toast.error('No pudimos publicar el animal', 'Revisá los datos e intentá nuevamente.'))
   }
