@@ -11,6 +11,7 @@ import { GlobalStyle } from "@styles/GlobalStyle.ts";
 import { theme } from "@styles/theme.ts";
 import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import "cally";
+import "./pwa";
 
 declare const __APP_VERSION__: string;
 
