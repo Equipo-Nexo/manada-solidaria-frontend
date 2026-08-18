@@ -55,7 +55,10 @@ function PublishFundraising() {
       title: data.title,
       description: data.description,
       imageId: data.imageId,
-      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+      phoneNumber: {
+        areaCode: data.phoneAreaCode,
+        number: data.phone
+      },
       location: data.location,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected ?? undefined,

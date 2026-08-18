@@ -65,7 +65,10 @@ function EditFundraising() {
       description: data.description,
       imageId: data.imageId,
       location: data.location,
-      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+      phoneNumber: {
+        areaCode: data.phoneAreaCode,
+        number: data.phone
+      },
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected,
       amountCollected: data.collectedAmount,
