@@ -105,7 +105,7 @@ export const AutocompleteItem = styled.button`
   ${({ theme }) => theme.typography.body};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.secondary};
+    background: ${({ theme }) => theme.colors.neutral};
   }
 
   &:not(:last-child) {
