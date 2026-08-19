@@ -106,7 +106,7 @@ export type AnimalPost = {
   status: AnimalPostStatus
   createdAt: string
   ownerId: string
-  phoneNumber: PhoneNumber | null
+  phoneNumber?: PhoneNumber
   reward: number | null
 }
 

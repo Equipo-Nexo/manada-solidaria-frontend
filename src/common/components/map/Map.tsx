@@ -1,8 +1,9 @@
 import { MapCN, MapCNControls, MapCNMarker } from '../mapCN'
 import * as S from './Map.styles'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
 import { useGeolocation } from '@hooks/geolocation/useGeolocation'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 const DEFAULT_POINT = { lng: -58.3816, lat: -34.6037 }
 
@@ -12,6 +13,7 @@ interface MapProps {
   markPoints?: MapPoint[]
   markPoint?: MapPoint | null;
   enableMarkerOnClick?: boolean
+  center?: MapPoint;
   onPointSelect?: (point: MapPoint) => void
 }
 
@@ -19,11 +21,12 @@ function Map({
   markPoints,
   markPoint = null,
   enableMarkerOnClick = true,
+  center,
   onPointSelect,
 }: MapProps) {
   const { coordinates, requestCoordinates } = useGeolocation()
   const [map, setMap] = useState<MapLibreMap | null>(null)
-  const [centerPoint, setCenterPoint] = useState<MapPoint>(DEFAULT_POINT);
+  const [centerPoint, setCenterPoint] = useState<MapPoint | undefined>(center);
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(markPoint);
   const markPointLat = markPoint?.lat
   const markPointLng = markPoint?.lng
@@ -41,7 +44,7 @@ function Map({
   }, [markPointLat, markPointLng])
 
   useEffect(() => {
-    if (!coordinates) return;
+    if (!coordinates || centerPoint) return;
 
     setCenterPoint({
       lng: coordinates.longitude,

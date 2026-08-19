@@ -78,6 +78,10 @@ function EditAnimalPostForm() {
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
         if (!postId || !animalPostData) return
+        const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
+            areaCode: values.areaCode,
+            number: values.phoneNumber
+        }
         const request: EditAnimalPostRequest = {
             name: values.name.trim() || null,
             description: values.story.trim(),
@@ -91,10 +95,7 @@ function EditAnimalPostForm() {
                 color: values.color,
             },
             location: values.location,
-            phoneNumber: {
-                areaCode: values.areaCode,
-                number: values.phoneNumber
-            },
+            phoneNumber: phoneNumber,
             reward: animalPostData.reward,
         }
 

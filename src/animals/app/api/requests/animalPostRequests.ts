@@ -56,7 +56,7 @@ export type EditAnimalPostRequest = {
   imageId: string
   animal: Animal
   location: Location
-  phoneNumber: PhoneNumber | null
+  phoneNumber?: PhoneNumber
   reward: number | null
 }
 
