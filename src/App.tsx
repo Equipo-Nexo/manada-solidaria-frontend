@@ -20,6 +20,7 @@ import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
 import Profile from "./users/pages/profile/Profile";
+import PersonalData from "./users/pages/personal_data/PersonalData";
 
 function App() {
   const location = useLocation();
@@ -80,6 +81,7 @@ function App() {
               <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
               <Route path="/mi-perfil" element={<Profile />} />
+              <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

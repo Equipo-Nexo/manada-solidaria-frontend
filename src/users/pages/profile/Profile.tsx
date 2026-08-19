@@ -222,7 +222,7 @@ function Profile() {
                     <S.Description>Accedé a tus publicaciones y actualizá tus datos personales cuando lo necesites.</S.Description>
                     <S.AccountAndActivityList>
                         {ItemComponent(HistoryIcon, "Mis publicaciones", "/mis-publicaciones", "Editá y eliminá tus publicaciones")}
-                        {ItemComponent(UserIcon, "Datos personales", "", "")}
+                        {ItemComponent(UserIcon, "Datos personales", "/mi-perfil/datos-personales", "")}
                     </S.AccountAndActivityList>
                 </S.AccountAndActivityContainer>
             </S.OptionsContainer>
