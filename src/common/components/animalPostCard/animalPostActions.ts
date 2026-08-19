@@ -1,4 +1,3 @@
-import type { Location } from "@/common/app/services/responses/Location"
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
 import type { AnimalPostStatusText } from "@utils/AnimalPostUtils"
 
@@ -15,7 +14,7 @@ export type AnimalPostAction = {
   label: string
   variant: 'primary' | 'secondary'
   requiresContactPhone?: boolean
-  onClick: (phoneNumber?: PhoneNumber, viewMapAction?: () => void) => void; 
+  onClick: (phoneNumber?: PhoneNumber, animalName?: string, viewMapAction?: () => void) => void; 
 }
 
 export type AnimalPostActionsByStatus = {
@@ -29,38 +28,38 @@ const openWhatsApp = (phoneNumber: string, text: string) => window.open(
   'noopener,noreferrer'
 )
 
-const transitText = "¡Hola! Me gustaria transitar"
-const adoptText = "¡Hola! Me gustaria adoptar"
-const collaborateText = "¡Hola! Me gustaría colaborar"
-const shareInfoText = "¡Hola! Tengo info"
+const transitText = (animalName?: string) => `¡Hola! Me gustaria transitar${animalName ? ` a ${animalName}` : "." }`
+const adoptText = (animalName?: string) => `¡Hola! Me gustaria adoptar${animalName ? ` a ${animalName}` : "." }`
+const collaborateText = (animalName?: string) => `¡Hola! Me gustaría colaborar${animalName ? ` con ${animalName}` : "." }`
+const shareInfoText = (animalName?: string) => `¡Hola! Tengo info${animalName ? ` de ${animalName}` : "." }`
 
 const TransitAction: AnimalPostAction = { 
   id: 'foster', 
   label: 'Transitar', 
   variant: 'secondary',
   requiresContactPhone: true,
-  onClick: (phoneNumber) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, transitText)
+  onClick: (phoneNumber, animalName) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, transitText(animalName))
 }
 const AdoptAction: AnimalPostAction = { 
   id: 'adopt', 
   label: 'Adoptar', 
   variant: 'primary', 
   requiresContactPhone: true,
-  onClick: (phoneNumber) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, adoptText)
+  onClick: (phoneNumber, animalName) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, adoptText(animalName))
 }
 const CollaborateAction: AnimalPostAction = { 
   id: 'collaborate', 
   label: 'Colaborar', 
   variant: 'secondary', 
   requiresContactPhone: true,
-  onClick: (phoneNumber) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, collaborateText)
+  onClick: (phoneNumber, animalName) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, collaborateText(animalName))
 }
 const ViewMapAction: AnimalPostAction = { 
   id: 'view-map', 
   label: 'Ver en el mapa', 
   variant: 'secondary',
   requiresContactPhone: false,
-  onClick: (_, viewMapAction) => {
+  onClick: (_, __,viewMapAction) => {
     viewMapAction?.()
   },
 }
@@ -69,7 +68,7 @@ const ShareInfoAction: AnimalPostAction = {
   label: 'Tengo info', 
   variant: 'primary', 
   requiresContactPhone: true,
-  onClick: (phoneNumber) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, shareInfoText)
+  onClick: (phoneNumber, animalName) => openWhatsApp(`${phoneNumber?.areaCode}${phoneNumber?.number}`, shareInfoText(animalName))
 }
 
 export const animalPostActions: AnimalPostActionsByStatus[] = [

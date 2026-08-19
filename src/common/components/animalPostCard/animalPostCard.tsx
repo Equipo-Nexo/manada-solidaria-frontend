@@ -119,6 +119,7 @@ function AnimalPostCard({
                 onClick={() =>
                   onClick(
                     phoneNumber,
+                    name,
                     location
                       ? () => handleViewOnMap(location.latitude, location.longitude)
                       : undefined
