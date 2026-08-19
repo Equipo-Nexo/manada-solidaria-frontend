@@ -1,4 +1,5 @@
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
+import { openWhatsApp } from "@/common/utils/Whatsapp"
 import type { AnimalPostStatusText } from "@utils/AnimalPostUtils"
 
 export type AnimalPostActionId =
@@ -21,12 +22,6 @@ export type AnimalPostActionsByStatus = {
   status: AnimalPostStatusText
   actions: AnimalPostAction[]
 }
-
-const openWhatsApp = (phoneNumber: string, text: string) => window.open(
-  `https://wa.me/549${phoneNumber}?text=${text}`,
-  '_blank',
-  'noopener,noreferrer'
-)
 
 const transitText = (animalName?: string) => `¡Hola! Me gustaria transitar${animalName ? ` a ${animalName}` : "." }`
 const adoptText = (animalName?: string) => `¡Hola! Me gustaria adoptar${animalName ? ` a ${animalName}` : "." }`

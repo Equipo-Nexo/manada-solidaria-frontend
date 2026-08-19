@@ -8,6 +8,7 @@ export type CampaignResponse = {
   title: string;
   description: string;
   imageId: string;
+  phoneNumber: PhoneNumber;
   accountAlias?: string;
   amountToBeCollected?: number;
   location: Location | undefined;
