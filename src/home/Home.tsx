@@ -4,7 +4,14 @@ import {
   useGetCampaignsQuery,
   useGetFundraisingCampaignsQuery,
 } from "@campaigns/app/api/campaignApi";
-import { AnimalPostCard, CampaignCard, FundraisingCard, Carousel, Message, Advice } from "@components/index.ts";
+import {
+  AnimalPostCard,
+  CampaignCard,
+  FundraisingCard,
+  Carousel,
+  Message,
+  Advice,
+} from "@components/index.ts";
 import { mapAnimalPostToCardProps } from "@components/animalPostCard/mapAnimalPostToCardProps";
 import { mapFundraisingToCardData } from "@components/fundraisingCard/mapFundraisingToCardData";
 import { publicationMessages } from "@utils/Messages";
@@ -98,6 +105,9 @@ function Home() {
               key={fundraising.id}
               fundraising={mapFundraisingToCardData(fundraising)}
               showAlias={false}
+              onViewStory={(fundraising) => {
+                navigate(`/colectas/${fundraising.id}`);
+              }}
             />
           ))}
       </Carousel>
