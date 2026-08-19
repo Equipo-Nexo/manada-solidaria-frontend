@@ -32,7 +32,7 @@ export interface BaseAnimalPostRequest {
   imageId: string
   animal: AnimalRequest
   location: Location
-  phoneNumber: PhoneNumber
+  phoneNumber?: PhoneNumber
 }
 
 export interface CreateAnimalPostRequest extends BaseAnimalPostRequest {
