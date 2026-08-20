@@ -13,6 +13,7 @@ import {
     personalDataSchema,
     type PersonalDataFormValues,
 } from './personalDataSchema'
+import useAuth from '@/common/hooks/auth/useAuth'
 
 const initialPersonalData: PersonalDataFormValues = {
     username: personalDataMock.username,
@@ -21,6 +22,8 @@ const initialPersonalData: PersonalDataFormValues = {
     phone: personalDataMock.phoneNumber,
     email: personalDataMock.email,
 }
+
+
 
 const initialPhoneNumber = personalDataMock.phoneNumber.slice(-7)
 
@@ -100,6 +103,7 @@ function PersonalData() {
             )
         }
     }
+    const { userId } = useAuth()
 
     return (
         <S.MainContainer onSubmit={handleSubmit(handleEditPersonalData)} noValidate>

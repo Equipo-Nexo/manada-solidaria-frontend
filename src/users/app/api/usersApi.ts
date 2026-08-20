@@ -20,7 +20,7 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
     }),
     editUserPersonalData: builder.mutation<void, EditPersonalDataRequest>({
       query: (personalData) => ({
-        url: '/users/profile',
+        url: '/users',
         method: 'PUT',
         body: personalData,
       }),
