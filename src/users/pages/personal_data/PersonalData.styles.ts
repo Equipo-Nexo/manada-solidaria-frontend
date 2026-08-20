@@ -8,8 +8,8 @@ export const MainContainer = styled.form`
   width: min(100%, 390px);
   display: flex;
   flex-direction: column;
+  padding-bottom: 0;
   color: ${({ theme }) => theme.colors.black};
-
   @media (min-width: 768px) { width: min(100%, 480px); }
 `
 
@@ -67,73 +67,6 @@ export const AdviceWrapper = styled.div`
   width: 100%;
   margin-top: 8px;
 `
-
-
-export const ProfileImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-export const ProfileImageWrapper = styled.div`
-  position: relative;
-  width: 120px;
-  height: 120px;
-`
-
-export const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
-  display: block;
-  border-radius: 50%;
-  object-fit: cover;
-`
-
-export const EditProfileImageButton = styled.button`
-  position: absolute;
-  right: -4px;
-  bottom: -4px;
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 50%;
-  padding: 0;
-  background: ${({ theme }) => theme.colors.brand};
-  color: ${({ theme }) => theme.colors.background};
-  cursor: pointer;
-  transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-
-  svg { width: 19px; height: 19px; }
-  svg path { fill: currentColor; }
-
-  @media (hover: hover) {
-    &:hover {
-      background: ${({ theme }) => theme.colors.brandHover};
-      box-shadow: 0 5px 12px rgb(234 95 9 / 28%);
-      transform: translateY(-1px);
-    }
-  }
-
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
-`
-
-export const ProfileName = styled.h2`
-  margin: 4px 0 0;
-  color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.typography.header2};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  line-height: 24px;
-`
-
-export const ProfileEmail = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.colors.darkColorMuted};
-  ${({ theme }) => theme.typography.body};
-`
-
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -162,12 +95,78 @@ export const PersonalDataContainer = styled.div`
   flex-direction: column;
   gap: 8px;
   margin-top: 16px;
+  margin-bottom:16px;
   border-radius: 16px;
   padding: 24px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: ${cardShadow};
-
   > label:not(:first-child) { margin-top: 8px; }
+`
+export const UsernameContainer = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgb(245 231 212 / 45%);
+
+  @media (max-width: 420px) {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px 12px;
+  }
+`
+
+export const UsernameIcon = styled.span`
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.neutral};
+  color: ${({ theme }) => theme.colors.secondary};
+
+  svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  @media (max-width: 420px) {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 19px;
+      height: 19px;
+    }
+  }
+`
+
+export const UsernameContent = styled.div`
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+`
+
+export const UsernameLabel = styled.span`
+  color: ${({ theme }) => theme.colors.darkColor};
+  ${({ theme }) => theme.typography.descriptive};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+`
+
+export const Username = styled.span`
+  max-width: 100%;
+  color: ${({ theme }) => theme.colors.black};
+  ${({ theme }) => theme.typography.header3};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
+  overflow-wrap: anywhere;
 `
 
 export const Label = styled.label`
@@ -175,28 +174,23 @@ export const Label = styled.label`
   align-self: stretch;
   text-align: left;
   color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.typography.header3};
+  ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
 `
-
 export const Required = styled.span`color: ${({ theme }) => theme.colors.brand};`
 
-interface InputProps { $isEditable?: boolean; }
-
-export const Input = styled.input<InputProps>`
+export const Input = styled.input`
   width: 100%;
   height: 52px;
-  border: 2px solid ${({ $isEditable, theme }) => $isEditable ? 'transparent' : theme.colors.stroke};
+  border: 2px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 10px;
   padding: 14px 24px;
-  background: ${({ $isEditable, theme }) => $isEditable ? theme.colors.neutral : theme.colors.background};
+  background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.header3};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-
   &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; opacity: 0.65; }
   ${fieldFocusVisible}
-
   &:disabled {
     opacity: 1;
     cursor: default;
@@ -229,18 +223,18 @@ export const ChangePasswordButton = styled.button`
   color: ${({ theme }) => theme.colors.brand};
   ${({ theme }) => theme.typography.action};
   cursor: pointer;
-
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
 `
 
+
 export const SubmitButton = styled.button`
   width: 100%;
+  max-width: 390px;
   min-height: 56px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: 16px;
   border: 0;
   border-radius: 999px;
   padding: 16px;
@@ -249,12 +243,14 @@ export const SubmitButton = styled.button`
   ${({ theme }) => theme.typography.action};
   cursor: pointer;
   transition: background 160ms ease;
-
   svg { width: 20px; height: 20px; }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
-
   &:disabled {
     background: ${({ theme }) => theme.colors.stroke};
     cursor: not-allowed;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 480px;
   }
 `

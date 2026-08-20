@@ -2,13 +2,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
 import { Advice, ErrorMessage, PhoneInputComponent } from '@/common/components'
-import { ArrowLeft, Send } from '@/common/icons'
+import { ArrowLeft, Send, User } from '@/common/icons'
 import { useToast } from '@/common/hooks/toast/useToast'
 import { personalDataMock } from '@/users/app/api/mocks/personalDataMock'
 import type { EditPersonalDataRequest } from '@/users/app/api/requests/EditPersonalDataRequest'
-import { useEditUserPersonalDataMutation } from '@/users/app/api/usersApi'
+import { useEditUserPersonalDataMutation, useGetUserProfileQuery } from '@/users/app/api/usersApi'
 import * as S from './PersonalData.styles'
 import {
     personalDataSchema,
@@ -24,6 +23,7 @@ const initialPersonalData: PersonalDataFormValues = {
 }
 
 const initialPhoneNumber = personalDataMock.phoneNumber.slice(-7)
+
 const initialAreaCode = personalDataMock.phoneNumber.slice(0, -7)
 
 function PersonalData() {
@@ -44,6 +44,8 @@ function PersonalData() {
         resolver: yupResolver(personalDataSchema),
     })
 
+    const { data: userData } = useGetUserProfileQuery();
+
     const updatePhone = (nextAreaCode: string, nextPhoneNumber: string) => {
         setValue('phone', `${nextAreaCode}${nextPhoneNumber}`, {
             shouldDirty: true,
@@ -61,6 +63,21 @@ function PersonalData() {
         updatePhone(areaCode, value)
     }
 
+    const UserNameComponent = (username: string) => {
+        return (
+            <S.UsernameContainer>
+                <S.UsernameIcon aria-hidden="true">
+                    <User />
+                </S.UsernameIcon>
+                <S.UsernameContent>
+                    <S.UsernameLabel>Nombre de usuario</S.UsernameLabel>
+                    <S.Username>{username}</S.Username>
+                </S.UsernameContent>
+            </S.UsernameContainer>
+        )
+    }
+
+
     const handleEditPersonalData = async (values: PersonalDataFormValues) => {
         const request: EditPersonalDataRequest = {
             name: values.name?.trim() || undefined,
@@ -69,7 +86,6 @@ function PersonalData() {
             phoneNumber: values.phone?.trim() ?? '',
             profileImageURL: personalDataMock.profileImageURL,
         }
-
         try {
             await editUserPersonalData(request).unwrap()
             reset(values)
@@ -99,7 +115,6 @@ function PersonalData() {
                     <S.PageTitle>Datos Personales</S.PageTitle>
                 </S.TitlesContainer>
             </S.Header>
-
             {isDirty && (
                 <S.AdviceWrapper>
                     <Advice
@@ -110,17 +125,7 @@ function PersonalData() {
             )}
 
             <S.PersonalDataContainer>
-                <S.Label htmlFor="username">
-                    Nombre de usuario<S.Required> *</S.Required>
-                </S.Label>
-                <S.Input
-                    id="username"
-                    $isEditable
-                    value={personalDataMock.username}
-                    disabled
-                    aria-disabled="true"
-                />
-
+                {UserNameComponent(userData?.username || "usuario")}
                 <S.Label htmlFor="name">Nombre</S.Label>
                 <S.Input
                     id="name"
@@ -171,8 +176,10 @@ function PersonalData() {
                     Modificar contraseña
                 </S.ChangePasswordButton>
             </S.PersonalDataContainer>
-
-            <S.SubmitButton type="submit" disabled={!isDirty || !isValid || isLoading}>
+            <S.SubmitButton
+                type="submit"
+                disabled={!isDirty || !isValid || isLoading}
+            >
                 {isLoading ? 'Guardando...' : 'Guardar cambios'}
                 <Send aria-hidden="true" />
             </S.SubmitButton>

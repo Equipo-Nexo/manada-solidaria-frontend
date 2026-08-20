@@ -17,6 +17,8 @@ function MobileAuthenticatedView() {
   ];
   
   const hideNavigation = routesWithoutNavigation.includes(location.pathname) || location.pathname.startsWith("/editar/exito");
+  const hideBottomNavigation =
+    hideNavigation || location.pathname === '/mi-perfil/datos-personales'
   const showHeader =
     location.pathname !== '/menu' &&
     (!hideNavigation || location.pathname === '/mis-publicaciones') && location.pathname !== '/editar/exito'
@@ -31,7 +33,7 @@ function MobileAuthenticatedView() {
         )
       }
 
-      {(!hideNavigation) && (
+      {(!hideBottomNavigation) && (
         <Navbar />
       )}
     </MobileViewChrome>
