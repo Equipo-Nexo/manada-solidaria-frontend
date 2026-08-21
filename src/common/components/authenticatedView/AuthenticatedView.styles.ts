@@ -14,6 +14,7 @@ export const DesktopViewChrome = styled.div`
   position: sticky;
   top: 0;
   z-index: 40;
+  display: none;
 
   @media (min-width: 768px) {
     display: block;
