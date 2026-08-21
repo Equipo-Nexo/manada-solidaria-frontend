@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { BriefcaseMedical, Clock, Phone } from "@icons/index";
-import Stethoscope from "@/common/icons/Stethoscope";
-import * as S from "./vetGuardButton.styles";
+import { BriefcaseMedical, Phone, Stethoscope, Warning } from "@icons/index";
+import * as S from "./VetGuardButton.styles";
 import { isVetGuardActive } from "./vetGuardSchedule";
 
 const VET_GUARD_PHONE_NUMBER = "0353154791156";
@@ -65,7 +64,24 @@ function VetGuardButton({
 
         <S.DescriptionRow $isActive={isActive}>
           <Stethoscope aria-hidden="true" />
-          <S.Description>{description}</S.Description>
+          <S.Description>
+            <S.MobileOnly>{description}</S.MobileOnly>
+            <S.DesktopOnly>
+              {isActive ? (
+                description
+              ) : (
+                <>
+                  <Warning
+                    width="28"
+                    height="28"
+                    color="#797472"
+                    aria-hidden="true"
+                  />
+                  {desktopReminder}
+                </>
+              )}
+            </S.DesktopOnly>
+          </S.Description>
         </S.DescriptionRow>
 
         <S.ActionButton
@@ -89,26 +105,22 @@ function VetGuardButton({
             </S.ContactPhoneRow>
 
             <S.ContactReminderRow>
-              <Clock
+              <Warning
                 width="24"
                 height="24"
-                color="#8D8580"
+                color="#797472"
                 aria-hidden="true"
               />
-              <S.ContactReminder>{desktopReminder}</S.ContactReminder>
+              <S.ContactReminder $isActive={isActive}>
+                {desktopReminder}
+              </S.ContactReminder>
             </S.ContactReminderRow>
           </>
         ) : (
           <>
-            <S.ContactReminderRow>
-              <Clock
-                width="24"
-                height="24"
-                color="#8D8580"
-                aria-hidden="true"
-              />
-              <S.ContactReminder>{desktopReminder}</S.ContactReminder>
-            </S.ContactReminderRow>
+            <S.ContactReminder $isActive={isActive}>
+              {inactiveDescription}
+            </S.ContactReminder>
 
             <S.ActionButton
               type="button"
