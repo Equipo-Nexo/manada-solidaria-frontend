@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import type { ChangeEvent } from 'react'
 import { Controller, useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Publish } from '@/common/icons'
 import { ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch, AutocompleteGeolocation } from '@components/index.ts'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
@@ -12,13 +11,13 @@ import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
 import type { BaseAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
-import Arrow from '@icons/Arrow'
 import { formatRewardAmount } from '@utils/rewardAmount'
 import { DescriptionComponent, AnimalSelectorComponent, ColorSelectorComponent } from '@animals/components'
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
 import { publicationReasons } from '@/animals/components/DescriptionComponent'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
+import FormContainer from '@/common/components/form_container/FormContainer'
 
 function CreateAnimalPost() {
   const navigate = useNavigate()
@@ -98,18 +97,13 @@ function CreateAnimalPost() {
   }
 
   return (
-    <S.Page>
-      <S.Header>
-        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
-          <Arrow aria-hidden="true" />
-        </S.BackButton>
-        <S.PageTitle>Publicar un animal</S.PageTitle>
-      </S.Header>
-      <S.MainContainer
-        onSubmit={handleSubmit(handleCreateAnimalPost)}
-        aria-busy={isLoading}
-        noValidate
-      >
+    <FormContainer
+      pageTitle='Publicar un animal'
+      buttonText='Publicar animal'
+      isLoadingForm={isLoading}
+      loadingButtonText='Publicando...'
+      handleSubmit={handleSubmit(handleCreateAnimalPost)}
+    >
         <S.FieldGroup>
           <Controller
             name="imageId"
@@ -356,12 +350,7 @@ function CreateAnimalPost() {
             )}
           />
         )}
-        <S.SubmitButton type="submit" disabled={isLoading}>
-          {isLoading ? 'Publicando...' : 'Publicar animal'}
-          <Publish aria-hidden="true" />
-        </S.SubmitButton>
-      </S.MainContainer>
-    </S.Page>
+    </FormContainer>
   )
 }
 

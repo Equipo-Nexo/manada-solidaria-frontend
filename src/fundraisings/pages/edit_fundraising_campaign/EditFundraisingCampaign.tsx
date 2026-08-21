@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useToast } from "@hooks/toast/useToast";
 import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
+import FormContainer from "@/common/components/form_container/FormContainer";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
 
@@ -91,172 +92,164 @@ function EditFundraising() {
       })
   }
 
+  if (!campaign) return;
+
   return (
-    <S.EditFormContainer>
-      <S.Header>
-        <S.BackButton onClick={() => navigate(-1)}>
-          <Arrow aria-hidden="true" />
-        </S.BackButton>
-        <S.FormTitle>Editar Colecta de Dinero</S.FormTitle>
-      </S.Header>
-      { isLoading && <Loader label="Cargando información de la colecta." /> }
-      { isError || !campaign && <div>Hubo un error al obtener informacion de la colecta.</div> }
-      { !isLoading && !isError && campaign && (
-        <S.Form onSubmit={handleSubmit(onSubmit)}>
-          <S.PublishField>
-            <S.PublishLabel>
-              Título de la colecta <S.RequiredMark>*</S.RequiredMark>
-            </S.PublishLabel>
-            <S.PublishInput
-              type="text"
-              {...register("title")}
-              placeholder="Ej: Saldar gastos de la veterinaria"
-            />
-            <ErrorMessage message={errors.title?.message} />
-          </S.PublishField>
+    <FormContainer
+      pageTitle='Editar Colecta de Dinero'
+      buttonText='Guardar cambios'
+      isLoadingForm={isUpdating}
+      loadingButtonText='Actualizando...'
+      handleSubmit={handleSubmit(onSubmit)}    
+    >
+      <S.PublishField>
+        <S.PublishLabel>
+          Título de la colecta <S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
+        <S.PublishInput
+          type="text"
+          {...register("title")}
+          placeholder="Ej: Saldar gastos de la veterinaria"
+        />
+        <ErrorMessage message={errors.title?.message} />
+      </S.PublishField>
 
-          <S.PublishField>
-            <S.PublishLabel>
-              Alias <S.RequiredMark>*</S.RequiredMark>
-            </S.PublishLabel>
-            <S.PublishInput
-              type="text"
-              {...register("accountAlias")}
-              placeholder="maca.123.mp"
-            />
-            <ErrorMessage message={errors.accountAlias?.message} />
-          </S.PublishField>
+      <S.PublishField>
+        <S.PublishLabel>
+          Alias <S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
+        <S.PublishInput
+          type="text"
+          {...register("accountAlias")}
+          placeholder="maca.123.mp"
+        />
+        <ErrorMessage message={errors.accountAlias?.message} />
+      </S.PublishField>
 
-          <S.PublishField>
-            <S.PublishLabel>Meta de recaudación</S.PublishLabel>
-            <S.InputWithIcon>
-              <S.FieldIcon>$</S.FieldIcon>
-              <Controller
-                control={control}
-                name="amountToBeCollected"
-                render={({ field }) => (
-                  <StyledMaskedInput
-                    {...field}
-                    maskType="money"
-                    value={field.value?.toString() ?? ""}
-                    onAccept={(value) => field.onChange(Number(value))}
-                  />
-                )}
+      <S.PublishField>
+        <S.PublishLabel>Meta de recaudación</S.PublishLabel>
+        <S.InputWithIcon>
+          <S.FieldIcon>$</S.FieldIcon>
+          <Controller
+            control={control}
+            name="amountToBeCollected"
+            render={({ field }) => (
+              <StyledMaskedInput
+                {...field}
+                maskType="money"
+                value={field.value?.toString() ?? ""}
+                onAccept={(value) => field.onChange(Number(value))}
               />
-            </S.InputWithIcon>
-            <ErrorMessage message={errors.amountToBeCollected?.message} />
-          </S.PublishField>
-          <Advice
-            advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar."
+            )}
           />
-          <S.PublishField>
-            <S.PublishLabel>Monto recaudado actual</S.PublishLabel>
-            <S.InputWithIcon>
-              <S.FieldIcon>$</S.FieldIcon>
-              <Controller
-                control={control}
-                name="collectedAmount"
-                render={({ field }) => (
-                  <StyledMaskedInput
-                    {...field}
-                    maskType="money"
-                    value={field.value?.toString() ?? ""}
-                    onAccept={(value) => field.onChange(Number(value))}
-                  />
-                )}
+        </S.InputWithIcon>
+        <ErrorMessage message={errors.amountToBeCollected?.message} />
+      </S.PublishField>
+      <Advice
+        advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar."
+      />
+      <S.PublishField>
+        <S.PublishLabel>Monto recaudado actual</S.PublishLabel>
+        <S.InputWithIcon>
+          <S.FieldIcon>$</S.FieldIcon>
+          <Controller
+            control={control}
+            name="collectedAmount"
+            render={({ field }) => (
+              <StyledMaskedInput
+                {...field}
+                maskType="money"
+                value={field.value?.toString() ?? ""}
+                onAccept={(value) => field.onChange(Number(value))}
               />
-            </S.InputWithIcon>
-            <ErrorMessage message={errors.collectedAmount?.message} />
-          </S.PublishField>
-
-          <S.PublishField>
-            <S.PublishLabel>Fecha fin</S.PublishLabel>
-            <DatePicker control={control} name="endDate" />
-            <ErrorMessage message={errors.endDate?.message} />
-          </S.PublishField>
-
-          <S.PublishField>
-            <S.PublishLabel>
-              Descripción de la colecta
-              <S.RequiredMark> *</S.RequiredMark>
-            </S.PublishLabel>
-            <S.PublishTextarea
-              {...register("description")}
-              placeholder="Contanos por qué es importante esta colecta de dinero y a quiénes ayudará..."
-            />
-            <ErrorMessage message={errors.description?.message} />
-          </S.PublishField>
-
-          <S.PublishField>
-            <S.PublishLabel>
-              Número de teléfono <S.RequiredMark>*</S.RequiredMark>
-            </S.PublishLabel>
-
-            <PhoneInputComponent
-              areaCodeValue={areaCodeField.value}
-              phoneNumberValue={phoneNumberField.value}
-              onAreaCodeChange={areaCodeField.onChange}
-              onPhoneNumberChange={phoneNumberField.onChange}
-              onAreaCodeBlur={areaCodeField.onBlur}
-              onPhoneNumberBlur={phoneNumberField.onBlur}
-              areaCodeRef={areaCodeField.ref}
-              phoneNumberRef={phoneNumberField.ref}
-              error={
-                areaCodeState.error?.message ?? phoneNumberState.error?.message
-              }
-            />
-            <S.HelpText>
-              El número es requerido para envío de comprobante de pago o para
-              consultas.
-            </S.HelpText>
-          </S.PublishField>
-
-          <S.PublishField as="div">
-            <S.PublishLabel>Ubicación</S.PublishLabel>
-            <Controller
-              control={control}
-              name="location"
-              render={({ field, fieldState }) => (
-                <>
-                  <AutocompleteGeolocation
-                    initialLocation={field.value}
-                    placeHolder="¿Dónde se realizará la campaña?"
-                    onChange={(value) =>
-                      field.onChange(value ? mapGeolocationToLocation(value) : undefined)
-                    }
-                  />
-                  <ErrorMessage message={fieldState.error?.message} />
-                </>
-              )}
-            />
-          </S.PublishField>
-
-          <S.PublishField as="div">
-            <S.PublishLabel>Foto de la colecta</S.PublishLabel>
-            <Controller
-              control={control}
-              name="imageId"
-              render={({ field }) => (
-                <ImageUpload
-                  onImageSelected={(imageId) => field.onChange(imageId)}
-                  imageUrl={campaign.imageId}
-                />
-              )}
-            />
-            <ErrorMessage message={errors.imageId?.message} />
-          </S.PublishField>
-          <Advice
-            advice="Las metas de recaudación con metas claras y fotos nítidas suelen completarse
-                un 40% más rápido. Asegurate de incluir toda la información
-                relevante."
+            )}
           />
-          <S.PublishSubmitButton type="submit" disabled={isUpdating}>
-            { isUpdating ? "Actualizando..." : "Guardar Cambios" }
-            <PublishButton aria-hidden="true" />
-          </S.PublishSubmitButton>
-        </S.Form>
-      )}
-    </S.EditFormContainer>
+        </S.InputWithIcon>
+        <ErrorMessage message={errors.collectedAmount?.message} />
+      </S.PublishField>
+
+      <S.PublishField>
+        <S.PublishLabel>Fecha fin</S.PublishLabel>
+        <DatePicker control={control} name="endDate" />
+        <ErrorMessage message={errors.endDate?.message} />
+      </S.PublishField>
+
+      <S.PublishField>
+        <S.PublishLabel>
+          Descripción de la colecta
+          <S.RequiredMark> *</S.RequiredMark>
+        </S.PublishLabel>
+        <S.PublishTextarea
+          {...register("description")}
+          placeholder="Contanos por qué es importante esta colecta de dinero y a quiénes ayudará..."
+        />
+        <ErrorMessage message={errors.description?.message} />
+      </S.PublishField>
+
+      <S.PublishField>
+        <S.PublishLabel>
+          Número de teléfono <S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
+
+        <PhoneInputComponent
+          areaCodeValue={areaCodeField.value}
+          phoneNumberValue={phoneNumberField.value}
+          onAreaCodeChange={areaCodeField.onChange}
+          onPhoneNumberChange={phoneNumberField.onChange}
+          onAreaCodeBlur={areaCodeField.onBlur}
+          onPhoneNumberBlur={phoneNumberField.onBlur}
+          areaCodeRef={areaCodeField.ref}
+          phoneNumberRef={phoneNumberField.ref}
+          error={
+            areaCodeState.error?.message ?? phoneNumberState.error?.message
+          }
+        />
+        <S.HelpText>
+          El número es requerido para envío de comprobante de pago o para
+          consultas.
+        </S.HelpText>
+      </S.PublishField>
+
+      <S.PublishField as="div">
+        <S.PublishLabel>Ubicación</S.PublishLabel>
+        <Controller
+          control={control}
+          name="location"
+          render={({ field, fieldState }) => (
+            <>
+              <AutocompleteGeolocation
+                initialLocation={field.value}
+                placeHolder="¿Dónde se realizará la campaña?"
+                onChange={(value) =>
+                  field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                }
+              />
+              <ErrorMessage message={fieldState.error?.message} />
+            </>
+          )}
+        />
+      </S.PublishField>
+
+      <S.PublishField as="div">
+        <S.PublishLabel>Foto de la colecta</S.PublishLabel>
+        <Controller
+          control={control}
+          name="imageId"
+          render={({ field }) => (
+            <ImageUpload
+              onImageSelected={(imageId) => field.onChange(imageId)}
+              imageUrl={campaign.imageId}
+            />
+          )}
+        />
+        <ErrorMessage message={errors.imageId?.message} />
+      </S.PublishField>
+      <Advice
+        advice="Las metas de recaudación con metas claras y fotos nítidas suelen completarse
+            un 40% más rápido. Asegurate de incluir toda la información
+            relevante."
+      />
+    </FormContainer>
   )
 }
 

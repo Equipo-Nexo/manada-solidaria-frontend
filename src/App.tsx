@@ -29,6 +29,7 @@ function App() {
     location.pathname === "/publicar/colecta" ||
     location.pathname === "/editar/exito" ||
     location.pathname.startsWith("/editar/animal/") ||
+    location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
 
