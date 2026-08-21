@@ -12,6 +12,7 @@ import type { Location } from "@services/responses/Location";
 import type { FundraisingCampaignRequest } from "@/campaigns/app/api/requests/CreateCampaignRequest";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 import FormContainer from "@/common/components/form_container/FormContainer";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -98,7 +99,7 @@ function PublishFundraising() {
       buttonText='Publicar Colecta de Dinero'
       isLoadingForm={isLoading}
       loadingButtonText='Publicando...'
-      handleSubmit={handleSubmit(onSubmit)}    
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}    
     >
         <S.PublishField>
           <S.PublishLabel>

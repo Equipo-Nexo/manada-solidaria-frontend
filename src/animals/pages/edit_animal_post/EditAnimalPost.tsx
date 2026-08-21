@@ -16,6 +16,7 @@ import { animalSize } from '@animals/utils/AnimalFormUtils'
 import { ColorSelectorComponent } from '@animals/components'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 import FormContainer from '@/common/components/form_container/FormContainer'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 const getPublicationReason = (type: AnimalPostFilter): PublicationReason => {
     if (type === 'IN_STREET') return PublicationReason.Street
@@ -122,7 +123,7 @@ function EditAnimalPostForm() {
             buttonText='Guardar cambios'
             isLoadingForm={isLoading}
             loadingButtonText='Guardando...'
-            handleSubmit={handleSubmit(handleEditAnimalPost)}        
+            handleSubmit={handleSubmit(handleEditAnimalPost, scrollToFirstFormError)}        
         >
             <S.FieldGroup>
                 <Controller

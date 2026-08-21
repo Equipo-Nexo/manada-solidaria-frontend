@@ -18,6 +18,7 @@ import { recordToOptions } from '@/common/utils/RecordToOptions'
 import { publicationReasons } from '@/animals/components/DescriptionComponent'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 import FormContainer from '@/common/components/form_container/FormContainer'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 function CreateAnimalPost() {
   const navigate = useNavigate()
@@ -102,7 +103,7 @@ function CreateAnimalPost() {
       buttonText='Publicar animal'
       isLoadingForm={isLoading}
       loadingButtonText='Publicando...'
-      handleSubmit={handleSubmit(handleCreateAnimalPost)}
+      handleSubmit={handleSubmit(handleCreateAnimalPost, scrollToFirstFormError)}
     >
         <S.FieldGroup>
           <Controller

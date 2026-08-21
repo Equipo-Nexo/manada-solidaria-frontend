@@ -15,6 +15,7 @@ import { buildEditCampaignRequest } from '@/campaigns/utils/EditCampaignBuilder'
 import { splitDateTime } from '@/common/utils/DateTime'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 import FormContainer from '@/common/components/form_container/FormContainer'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 
 const getDefaultValues = (
@@ -104,7 +105,7 @@ function EditCampaign() {
       buttonText='Guardar cambios'
       isLoadingForm={isSaving}
       loadingButtonText='Guardando...'
-      handleSubmit={handleSubmit(handleEditCampaign)}    
+      handleSubmit={handleSubmit(handleEditCampaign, scrollToFirstFormError)}    
     >
               <S.Field>
           <S.Label htmlFor="edit-campaign-title">

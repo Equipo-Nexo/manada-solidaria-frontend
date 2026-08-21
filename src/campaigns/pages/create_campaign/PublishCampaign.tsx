@@ -15,6 +15,7 @@ import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 import FormContainer from "@/common/components/form_container/FormContainer";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 
 function PublishCampaign() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ function PublishCampaign() {
       buttonText='Publicar Campaña'
       isLoadingForm={isLoading}
       loadingButtonText='Publicando...'
-      handleSubmit={handleSubmit(onSubmit)}
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}
     >
         <S.PublishField>
           <S.PublishLabel>

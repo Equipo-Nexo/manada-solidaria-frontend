@@ -12,6 +12,7 @@ import { useToast } from "@hooks/toast/useToast";
 import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 import FormContainer from "@/common/components/form_container/FormContainer";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
 
@@ -99,7 +100,7 @@ function EditFundraising() {
       buttonText='Guardar cambios'
       isLoadingForm={isUpdating}
       loadingButtonText='Actualizando...'
-      handleSubmit={handleSubmit(onSubmit)}    
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}    
     >
       <S.PublishField>
         <S.PublishLabel>
