@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, PublishButton } from "@icons/index.ts";
-import { ErrorMessage, PhoneInputComponent, DatePicker, ImageUpload, Advice, Loader, AutocompleteGeolocation } from "@components/index.ts";
+import { ErrorMessage, PhoneInputComponent, DatePicker, ImageUpload, Advice, AutocompleteGeolocation } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "./EditFundraisingCampaign.styles";
 import { Controller, useController, useForm } from "react-hook-form";
@@ -21,7 +20,7 @@ function EditFundraising() {
   const toaster = useToast();
   const navigate = useNavigate();
   const { fundraisingId } = useParams<{ fundraisingId: string }>()
-  const { data: campaign, isLoading, isError } = useGetFundraisingByIdQuery(fundraisingId || "");
+  const { data: campaign, isLoading } = useGetFundraisingByIdQuery(fundraisingId || "");
   const [ updateFundraisingCampaign, { isLoading: isUpdating } ] = useUpdateFundraisingCampaignMutation();
 
   const {

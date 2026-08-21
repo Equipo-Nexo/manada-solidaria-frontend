@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { Arrow, PublishButton } from "@icons/index.ts";
 import { DatePicker, ImageUpload, Advice, ErrorMessage, PhoneInputComponent, AutocompleteGeolocation } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "@campaigns/pages/create_campaign/PublishForm.styles";
