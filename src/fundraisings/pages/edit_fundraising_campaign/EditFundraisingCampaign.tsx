@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, Search, PublishButton } from "@icons/index.ts";
+import { Arrow, PublishButton } from "@icons/index.ts";
 import {
   ErrorMessage,
   PhoneInputComponent,
@@ -7,6 +7,7 @@ import {
   ImageUpload,
   Advice,
   Loader,
+  AutocompleteGeolocation,
 } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "./EditFundraisingCampaign.styles";
@@ -55,8 +56,8 @@ function EditFundraising() {
       setValue("collectedAmount", campaign.amountCollected || null);
       setValue("endDate", campaign.campaignEndDate);
       setValue("description", campaign.description);
-      setValue("phoneAreaCode", campaign.phoneNumber.substring(0, 3));
-      setValue("phone", campaign.phoneNumber.substring(3));
+      setValue("phoneAreaCode", campaign.phoneNumber.areaCode);
+      setValue("phone", campaign.phoneNumber.number);
       setValue("imageId", campaign.imageId);
       setValue("location", campaign.location);
     }
