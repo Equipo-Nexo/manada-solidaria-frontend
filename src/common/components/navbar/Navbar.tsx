@@ -1,7 +1,7 @@
 import type { ComponentType, SVGProps } from 'react'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { HandHeart, House, Map, Menu, PawPrint } from '../../icons'
+import { Users, House, Map, Menu, PawPrint } from '../../icons'
 import {
   BottomNav,
   BottomNavButton,
@@ -23,7 +23,7 @@ type RouteNavItem = {
 
 const navItems: RouteNavItem[] = [
   { type: 'route', title: 'Inicio', path: '/home', icon: House },
-  { type: 'route', title: 'Campa\u00f1as', path: '/campanias', icon: HandHeart },
+  { type: 'route', title: 'Comunidad', path: '/home', icon: Users },
   { type: 'route', title: 'Mapa', path: '/mapa', icon: Map },
 ]
 
