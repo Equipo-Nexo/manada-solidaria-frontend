@@ -13,6 +13,7 @@ import {
 } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
 import { parseRewardAmount } from '@utils/rewardAmount'
+import type { GeolocationResponse } from '@/common/app/services/responses/Location'
 
 export const newAnimalPostSchema = yup.object({
   imageId: yup.string().required('Seleccioná una foto del animal.'),
@@ -20,6 +21,9 @@ export const newAnimalPostSchema = yup.object({
     .mixed<PublicationReason>()
     .oneOf(Object.values(PublicationReason))
     .required('Seleccioná un motivo de publicación.'),
+  location: yup
+    .mixed<GeolocationResponse>()
+    .required('Seleccioná la ubicación del animal.'),
   animalType: yup
     .mixed<AnimalType>()
     .oneOf(animalTypes)

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, Search, PublishButton } from "@icons/index.ts";
-import { ErrorMessage, PhoneInputComponent, DatePicker, ImageUpload, Advice, Loader  } from "@components/index.ts";
+import { Arrow, PublishButton } from "@icons/index.ts";
+import { ErrorMessage, PhoneInputComponent, DatePicker, ImageUpload, Advice, Loader, AutocompleteGeolocation } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "./EditFundraisingCampaign.styles";
 import { Controller, useController, useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { useGetFundraisingByIdQuery, useUpdateFundraisingCampaignMutation } from
 import { useEffect } from "react";
 import { useToast } from "@hooks/toast/useToast";
 import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
+import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
 
@@ -40,8 +41,8 @@ function EditFundraising() {
       setValue("collectedAmount", campaign.amountCollected || null);
       setValue("endDate", campaign.campaignEndDate);
       setValue("description", campaign.description);
-      setValue("phoneAreaCode", campaign.phoneNumber.substring(0, 3))
-      setValue("phone", campaign.phoneNumber.substring(3));
+      setValue("phoneAreaCode", campaign.phoneNumber.areaCode)
+      setValue("phone", campaign.phoneNumber.number);
       setValue("imageId", campaign.imageId);
       setValue("location", campaign.location);
     }
@@ -64,7 +65,10 @@ function EditFundraising() {
       description: data.description,
       imageId: data.imageId,
       location: data.location,
-      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+      phoneNumber: {
+        areaCode: data.phoneAreaCode,
+        number: data.phone
+      },
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected,
       amountCollected: data.collectedAmount,
@@ -209,23 +213,22 @@ function EditFundraising() {
 
           <S.PublishField as="div">
             <S.PublishLabel>Ubicación</S.PublishLabel>
-            <S.InputWithIcon>
-              <S.IconInput
-                type="text"
-                {...register("location.address")}
-                placeholder="¿Dónde se realizará la campaña?"
-                $hasLeftIcon
-              />
-              <S.FieldIcon aria-hidden="true">
-                <Search />
-              </S.FieldIcon>
-            </S.InputWithIcon>
-            <ErrorMessage message={errors.location?.address?.message} />
-            <S.MapPreview aria-hidden="true" />
-            <S.HelpText>
-              Buscá una dirección o tocá el mapa para marcar el punto.
-            </S.HelpText>
-            <ErrorMessage message={errors.location?.message} />
+            <Controller
+              control={control}
+              name="location"
+              render={({ field, fieldState }) => (
+                <>
+                  <AutocompleteGeolocation
+                    initialLocation={field.value}
+                    placeHolder="¿Dónde se realizará la campaña?"
+                    onChange={(value) =>
+                      field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                    }
+                  />
+                  <ErrorMessage message={fieldState.error?.message} />
+                </>
+              )}
+            />
           </S.PublishField>
 
           <S.PublishField as="div">

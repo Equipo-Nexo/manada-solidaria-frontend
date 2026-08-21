@@ -25,3 +25,4 @@ export { default as PublishFloatingButton } from './publishFloatingButton/Publis
 export { default as PublishOptions } from './publishOptions/PublishOptions';
 export { default as Toaster } from './toaster/Toaster';
 export { default as CampaignCard } from '../../campaigns/components/campaign_card/CampaignCard';
+export { default as AutocompleteGeolocation } from './autocomplete_geolocation/AutocompleteGeolocation'

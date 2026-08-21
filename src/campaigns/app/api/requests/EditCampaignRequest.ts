@@ -1,13 +1,14 @@
 import type { Location } from "@/common/app/services/responses/Location"
 import type { CampaignCategory, CampaignType } from "../../types/Campaign.types"
 import type { Maybe } from "yup"
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
 
 export interface BaseEditCampaignRequest {
   type: CampaignType
   title: string
   description: string
   imageId: Maybe<string | undefined>
-  phoneNumber: string
+  phoneNumber: PhoneNumber
   location: Location
 }
 

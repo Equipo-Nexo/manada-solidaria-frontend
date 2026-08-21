@@ -1,8 +1,9 @@
 import { MapCN, MapCNControls, MapCNMarker } from '../mapCN'
 import * as S from './Map.styles'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
 import { useGeolocation } from '@hooks/geolocation/useGeolocation'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 const DEFAULT_POINT = { lng: -58.3816, lat: -34.6037 }
 
@@ -10,54 +11,54 @@ export type MapPoint = { lng: number; lat: number }
 
 interface MapProps {
   markPoints?: MapPoint[]
+  markPoint?: MapPoint | null;
   enableMarkerOnClick?: boolean
+  center?: MapPoint;
   onPointSelect?: (point: MapPoint) => void
 }
 
 function Map({
   markPoints,
+  markPoint = null,
   enableMarkerOnClick = true,
+  center,
   onPointSelect,
 }: MapProps) {
   const { coordinates, requestCoordinates } = useGeolocation()
-  const frameRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
+  const [centerPoint, setCenterPoint] = useState<MapPoint | undefined>(center);
+  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(markPoint);
+  const markPointLat = markPoint?.lat
+  const markPointLng = markPoint?.lng
 
   useEffect(() => {
     void requestCoordinates()
   }, [requestCoordinates])
 
-  const point = useMemo(
-    () =>
-      coordinates
-        ? { lng: coordinates.longitude, lat: coordinates.latitude }
-        : DEFAULT_POINT,
-    [coordinates],
-  )
+  useEffect(() => {
+    setSelectedPoint(
+      markPointLat === undefined || markPointLng === undefined
+        ? null
+        : { lat: markPointLat, lng: markPointLng },
+    )
+  }, [markPointLat, markPointLng])
 
   useEffect(() => {
-    const frame = frameRef.current
-    if (!frame || !map) return
+    if (!coordinates || centerPoint) return;
 
-    let animationFrame: number | null = null
-    const recenterMap = () => {
-      if (animationFrame !== null) cancelAnimationFrame(animationFrame)
-      animationFrame = requestAnimationFrame(() => {
-        map.resize()
-        map.jumpTo({ center: point })
-      })
+    setCenterPoint({
+      lng: coordinates.longitude,
+      lat: coordinates.latitude,
+    });
+  }, [coordinates]);
+
+  useEffect(() => {
+    if (!map || !selectedPoint) return;
+
+    if (!map.getBounds().contains([selectedPoint.lng, selectedPoint.lat])) {
+      map.easeTo({ center: selectedPoint, duration: 600 });
     }
-    const resizeObserver = new ResizeObserver(recenterMap)
-
-    resizeObserver.observe(frame)
-    recenterMap()
-
-    return () => {
-      resizeObserver.disconnect()
-      if (animationFrame !== null) cancelAnimationFrame(animationFrame)
-    }
-  }, [map, point])
+  }, [map, selectedPoint]);
 
   useEffect(() => {
     if (!map) return
@@ -90,24 +91,24 @@ function Map({
     }
   }, [enableMarkerOnClick, map, onPointSelect])
 
-    return (
-      <S.MapFrame ref={frameRef}>
-        <MapCN
-          center={point}
-          zoom={16}
-          doubleClickZoom={!enableMarkerOnClick}
-          onMapReady={setMap}
-        >
-          <MapCNControls showLocate />
-          {markPoints?.map(({ lng, lat }, index) => (
-            <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
-          ))}
-          {selectedPoint && (
-            <MapCNMarker longitude={selectedPoint.lng} latitude={selectedPoint.lat} />
-          )}
-        </MapCN>
-      </S.MapFrame>
-    )
+  return (
+    <S.MapFrame>
+      <MapCN
+        center={centerPoint}
+        zoom={16}
+        doubleClickZoom={!enableMarkerOnClick}
+        onMapReady={setMap}
+      >
+        <MapCNControls showLocate />
+        {markPoints?.map(({ lng, lat }, index) => (
+          <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
+        ))}
+        {selectedPoint && (
+          <MapCNMarker longitude={selectedPoint.lng} latitude={selectedPoint.lat} />
+        )}
+      </MapCN>
+    </S.MapFrame>
+  )
 }
 
 export default Map

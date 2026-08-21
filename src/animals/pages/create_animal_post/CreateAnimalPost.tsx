@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import type { ChangeEvent } from 'react'
 import { Controller, useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Publish, Search } from '@/common/icons'
-import { Map, ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch } from '@components/index.ts'
+import { Publish } from '@/common/icons'
+import { ImageUpload, Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, SelectorComponent, ConditionalSwitch, AutocompleteGeolocation } from '@components/index.ts'
 import { newAnimalPostSchema, type NewAnimalPostFormValues } from '@animals/app/schemas/CreateAnimalPost.schema'
 import * as S from './CreateAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels } from '@/animals/app/types/AnimalPost.types'
 import { buildRequest, PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
-import { DEFAULT_LOCATION, newAnimalPostDefaultValues } from '@utils/DefaultValues'
+import { newAnimalPostDefaultValues } from '@utils/DefaultValues'
 import { useCreateAnimalPostMutation } from '@animals/app/api/animalPostsApi'
 import type { BaseAnimalPostRequest } from '@/animals/app/api/requests/animalPostRequests'
 import { useToast } from '@hooks/toast/useToast'
@@ -18,6 +18,7 @@ import { DescriptionComponent, AnimalSelectorComponent, ColorSelectorComponent }
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
 import { publicationReasons } from '@/animals/components/DescriptionComponent'
+import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 
 function CreateAnimalPost() {
   const navigate = useNavigate()
@@ -67,6 +68,11 @@ function CreateAnimalPost() {
   }
 
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
+    const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
+      areaCode: values.areaCode,
+      number: values.phoneNumber
+    }
+    
     const commonRequest: BaseAnimalPostRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
@@ -78,8 +84,8 @@ function CreateAnimalPost() {
         age: values.animalAge,
         color: values.color,
       },
-      phoneNumber: values.phoneNumber,
-      location: DEFAULT_LOCATION
+      phoneNumber: phoneNumber,
+      location: mapGeolocationToLocation(values.location),
     }
       
     createAnimalPost(buildRequest(values, commonRequest))
@@ -157,19 +163,19 @@ function CreateAnimalPost() {
         </S.FieldGroup>
         <S.FieldGroup>
           <S.Label>Ubicación</S.Label>
-          <S.IconInputWrapper>
-            <Search aria-hidden="true" />
-            <S.Input placeholder="¿En dónde se encuentra el animal?" />
-          </S.IconInputWrapper>
-          <S.MapContainer>
-            <S.MapWrapper >
-              <Map onPointSelect={(point) => console.log(point)} />
-            </S.MapWrapper>
-            <S.Suggestion>
-              Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
-              compartir tu dirección exacta.
-            </S.Suggestion>
-          </S.MapContainer>
+          <Controller
+            name="location"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <AutocompleteGeolocation
+                  placeHolder="¿En dónde se encuentra el animal?"
+                  onChange={field.onChange}
+                />
+                <ErrorMessage message={fieldState.error?.message} />
+              </>
+            )}
+          />
         </S.FieldGroup>
         <S.FieldGroup>
           <S.Label>Tipo de animal <S.Required>*</S.Required></S.Label>
