@@ -19,6 +19,7 @@ import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
+import ScrollToTop from "./common/components/routes/ScrollToTop";
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <AppShell>
         {showAuthenticatedShell && (
           <>
