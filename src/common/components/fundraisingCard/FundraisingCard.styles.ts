@@ -124,7 +124,7 @@ export const Description = styled.p<DescriptionProps>`
   line-height: 18px;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: ${({ $hasGoal }) => ($hasGoal ? 2 : 3)};
+  -webkit-line-clamp: ${({ $hasGoal }) => ($hasGoal ? 2 : 4)};
 `;
 
 export const StoryButton = styled.button`
