@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Page = styled.div``;
+export const Page = styled.div`
+  @media (min-width: 768px) {
+    padding: 28px 24px 48px;
+  }
+`;
 export const Header = styled.header`
   display: flex;
   align-items: center;
@@ -39,10 +43,6 @@ export const FormTitle = styled.h1`
   font-size: ${({ theme }) => theme.typography.header1.fontSize};
   font-weight: ${({ theme }) => theme.typography.header1.fontWeight};
   line-height: ${({ theme }) => theme.typography.header1.lineHeight};
-  @media (min-width: 768px) {
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    line-height: ${({ theme }) => theme.typography.header2.lineHeight};
-  }
 `;
 export const Content = styled.div`
   width: 100%;
@@ -52,6 +52,9 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 12px;
   box-sizing: border-box;
+  @media (min-width: 768px) {
+    max-width: 560px;
+  }
 `;
 export const FundraisingImage = styled.img`
   width: 100%;
@@ -67,12 +70,22 @@ export const FundraisingInfo = styled.section`
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
-export const FundraisingTitle = styled.h2`
+type TitleProps = {
+  $iconColor?: "black" | "secondary";
+};
+export const Title = styled.h2<TitleProps>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 16px;
   color: ${({ theme }) => theme.colors.black};
-  /* text-align: left; */
+  text-align: left;
   font-size: 18px;
   line-height: 22px;
+  svg {
+    color: ${({ $iconColor, theme }) =>
+      $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
+  }
 `;
 export const FundraisingEndDate = styled.div`
   display: flex;
@@ -173,6 +186,7 @@ export const CopyButton = styled.button<CopyButtonProps>`
   justify-content: center;
   gap: 5px;
   height: 30px;
+  width: 128px;
   padding: 0 10px;
   border: 1px solid ${({ theme }) => theme.colors.brand};
   border-radius: 8px;
@@ -181,7 +195,7 @@ export const CopyButton = styled.button<CopyButtonProps>`
   color: ${({ $copied, theme }) =>
     $copied ? theme.colors.background : theme.colors.brand};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 14px;
+  font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
 
@@ -206,14 +220,6 @@ export const FundraisingGoal = styled.section`
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
-`;
-export const GoalTitle = styled.h1`
-  text-align: left;
-  margin: 0 0 10px;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: 16px;
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  line-height: 20px;
 `;
 export const GoalHeader = styled.div`
   display: flex;
@@ -271,22 +277,7 @@ export const RemainingAmount = styled.span`
 export const DescriptionSection = styled.section`
   width: 100%;
   box-sizing: border-box;
-  padding: 0 4px;
-`;
-export const DescriptionTitle = styled.h1`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0 0 10px;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: 16px;
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  svg {
-    width: 22px;
-    height: 16px;
-    color: ${({ theme }) => theme.colors.secondary};
-    flex: 0 0 16px;
-  }
+  padding: 0 8px;
 `;
 export const FundraisingDescription = styled.p`
   margin: 0;
@@ -342,7 +333,6 @@ export const ViewMapButton = styled.button`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-decoration: underline;
   cursor: pointer;
-
   svg {
     width: 16px;
     height: 16px;
@@ -354,24 +344,10 @@ export const ContactSection = styled.section`
   box-sizing: border-box;
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
-  padding: 16px 20px 10px;
+  padding: 16px 8px 10px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
-export const ContactTitle = styled.h2`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0 0 10px;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: 16px;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  line-height: 20px;
-  svg {
-    width: 16px;
-    height: 16px;
-    color: ${({ theme }) => theme.colors.black};
-  }
-`;
+
 export const ContactCard = styled.div`
   display: flex;
   align-items: center;
@@ -394,10 +370,13 @@ export const ContactPhone = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-export const CallButton = styled.button`
+export const CallButton = styled.a`
   width: 88px;
   height: 30px;
   flex: 0 0 88px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid ${({ theme }) => theme.colors.brand};
   border-radius: 8px;
   background: ${({ theme }) => theme.colors.background};
@@ -405,14 +384,29 @@ export const CallButton = styled.button`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 11px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-decoration: none;
   cursor: pointer;
-
   &:active {
     transform: scale(0.98);
   }
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
+`;
+export const ShareButton = styled.button`
+  width: 100%;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.background};
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.typography.action.fontSize};
+  font-weight: ${({ theme }) => theme.typography.action.fontWeight};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
 `;
