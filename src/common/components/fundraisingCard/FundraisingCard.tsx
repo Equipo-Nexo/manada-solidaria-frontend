@@ -64,7 +64,7 @@ function FundraisingCard({
 
     timeoutRef.current = window.setTimeout(() => {
       setCopied(false);
-    }, 1000);
+    }, 2000);
   };
   return (
     <S.Card className={className} $showAlias={showAlias}>
