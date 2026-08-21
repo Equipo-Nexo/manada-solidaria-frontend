@@ -86,5 +86,11 @@ export const GlobalStyle = createGlobalStyle`
     html {
       font-size: 16px;
     }
+
+    input,
+    textarea,
+    select {
+      font-size: 16px !important;
+    }
   }
 `
