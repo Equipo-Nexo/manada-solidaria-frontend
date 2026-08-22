@@ -1,11 +1,8 @@
 import { MapCN, MapCNControls, MapCNMarker } from '../mapCN'
 import * as S from './Map.styles'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
 import { useGeolocation } from '@hooks/geolocation/useGeolocation'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-
-const DEFAULT_POINT = { lng: -58.3816, lat: -34.6037 }
 
 export type MapPoint = { lng: number; lat: number }
 
