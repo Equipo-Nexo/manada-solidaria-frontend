@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
 import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import { LocationPin, Share } from '../../icons'
@@ -8,6 +9,7 @@ import * as S from './animalPostCard.styles'
 import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 
 export type AnimalPostCardProps = {
+  postId: string
   name?: string
   status?: string
   location?: string
@@ -21,6 +23,7 @@ export type AnimalPostCardProps = {
 }
 
 function AnimalPostCard({
+  postId,
   name,
   status,
   location,
@@ -32,6 +35,7 @@ function AnimalPostCard({
   onViewMore,
   actionHandlers,
 }: AnimalPostCardProps) {
+  const navigate = useNavigate()
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
   const hasReward =
     status === ANIMAL_POST_STATUS_LABELS.LOST &&
@@ -98,7 +102,7 @@ function AnimalPostCard({
 
         <S.Description>{description}</S.Description>
 
-        <S.ViewMore type="button" onClick={onViewMore}>
+        <S.ViewMore type="button" onClick={onViewMore ?? (() => navigate(`/detalle/${postId}`))}>
           Ver más información
         </S.ViewMore>
 

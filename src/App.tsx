@@ -19,6 +19,7 @@ import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
+import AnimalPostDetail from "./animals/pages/detail_post/detail";
 
 function App() {
   const location = useLocation();
@@ -31,12 +32,14 @@ function App() {
     location.pathname.startsWith("/editar/animal/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
+  const isPublicationDetail = location.pathname.startsWith("/detalle/");
 
   const usesFullScreenLayout =
     location.pathname === "/login" ||
     location.pathname === "/registro" ||
     isFullScreenPublish ||
-    isMobileMenu;
+    isMobileMenu ||
+    isPublicationDetail;
   const showAuthenticatedShell =
     isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
 
@@ -78,6 +81,7 @@ function App() {
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/detalle/:postId" element={<AnimalPostDetail />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
