@@ -20,6 +20,7 @@ import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
 import ScrollToTop from "./common/components/routes/ScrollToTop";
+import Community from "./community/pages/Community";
 
 function App() {
   const location = useLocation();
@@ -81,6 +82,7 @@ function App() {
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/comunidad" element={<Community />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

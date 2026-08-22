@@ -23,7 +23,7 @@ type RouteNavItem = {
 
 const navItems: RouteNavItem[] = [
   { type: 'route', title: 'Inicio', path: '/home', icon: House },
-  { type: 'route', title: 'Comunidad', path: '/home', icon: Users },
+  { type: 'route', title: 'Comunidad', path: '/comunidad', icon: Users },
   { type: 'route', title: 'Mapa', path: '/mapa', icon: Map },
 ]
 
