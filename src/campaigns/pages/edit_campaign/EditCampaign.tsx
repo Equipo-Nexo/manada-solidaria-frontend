@@ -4,16 +4,16 @@ import { Controller, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { CampaignDetailsResponse } from '@models/Campaign.types'
 import { useEditCampaignMutation, useGetCampaignQuery } from '@campaigns/app/api/campaignApi'
-import { Advice, DatePicker, ErrorMessage, ImageUpload } from '@components/index.ts'
-import { Arrow, Phone, Search, PublishButton } from '@icons/index.ts'
+import { Advice, DatePicker, ErrorMessage, ImageUpload, AutocompleteGeolocation } from '@components/index.ts'
+import { Arrow, Phone, PublishButton } from '@icons/index.ts'
 import { StyledMaskedInput } from '@components/maskedInput/maskedInput.styles'
 import { useToast } from '@hooks/toast/useToast'
 import { editCampaignSchema, type EditCampaignFormValues } from '../../app/schemas/EditCampaign.schema'
 import * as S from './EditCampaign.styles'
-import { DEFAULT_LOCATION } from '@/common/utils/DefaultValues'
 import type { EditCampaignRequest } from '@/campaigns/app/api/requests/EditCampaignRequest'
 import { buildEditCampaignRequest } from '@/campaigns/utils/EditCampaignBuilder'
 import { splitDateTime } from '@/common/utils/DateTime'
+import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 
 
 const getDefaultValues = (
@@ -34,9 +34,9 @@ const getDefaultValues = (
     endDate: end.date,
     startTime: start.time,
     endTime: end.time,
-    phoneAreaCode: phoneNumber.slice(0, -7),
-    phone: phoneNumber.slice(-7),
-    location: DEFAULT_LOCATION,
+    phoneAreaCode: phoneNumber.areaCode,
+    phone: phoneNumber.number,
+    location: campaign.location,
     imageId: currentImageId,
   }
 }
@@ -218,13 +218,22 @@ function EditCampaign() {
           <S.Label htmlFor="edit-campaign-location">
             Ubicación <S.Required>*</S.Required>
           </S.Label>
-          <S.InputWithIcon>
-            <S.Input id="edit-campaign-location" {...register('location.address')} />
-            <S.FieldIcon aria-hidden="true"><Search /></S.FieldIcon>
-          </S.InputWithIcon>
-          <ErrorMessage message={errors.location?.message} />
-          <S.MapPreview aria-hidden="true" />
-          <S.HelpText>Buscá una dirección o tocá el mapa para marcar el punto.</S.HelpText>
+          <Controller
+            control={control}
+            name="location"
+            render={({ field, fieldState }) => (
+              <>
+                <AutocompleteGeolocation
+                  initialLocation={field.value}
+                  placeHolder="¿Dónde se realizará la campaña?"
+                  onChange={(value) =>
+                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                  }
+                />
+                <ErrorMessage message={fieldState.error?.message} />
+              </>
+            )}
+          />
         </S.Field>
 
         <S.Field>

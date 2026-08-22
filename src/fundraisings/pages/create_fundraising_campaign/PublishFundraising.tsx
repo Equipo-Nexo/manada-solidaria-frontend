@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { Arrow, Search, PublishButton } from "@icons/index.ts";
-import { DatePicker, ImageUpload, Advice, ErrorMessage, PhoneInputComponent, Map } from "@components/index.ts";
+import { Arrow, PublishButton } from "@icons/index.ts";
+import { DatePicker, ImageUpload, Advice, ErrorMessage, PhoneInputComponent, AutocompleteGeolocation } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "@campaigns/pages/create_campaign/PublishForm.styles";
 import { Controller, useController, useForm } from "react-hook-form";
@@ -11,7 +11,7 @@ import { publishFundraisingSchema } from "@fundraisings/app/schemas/PublishFundr
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import type { Location } from "@services/responses/Location";
 import type { FundraisingCampaignRequest } from "@/campaigns/app/api/requests/CreateCampaignRequest";
-import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
+import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -46,8 +46,7 @@ function PublishFundraising() {
       description: "",
       phoneAreaCode: "",
       phone: "",
-      imageId: undefined,
-      location: DEFAULT_LOCATION,
+      imageId: undefined
     },
   });
   const onSubmit = async (data: PublishFundraisingForm) => {
@@ -56,8 +55,11 @@ function PublishFundraising() {
       title: data.title,
       description: data.description,
       imageId: data.imageId,
-      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
-      location: DEFAULT_LOCATION,
+      phoneNumber: {
+        areaCode: data.phoneAreaCode,
+        number: data.phone
+      },
+      location: data.location,
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected ?? undefined,
       campaignEndDate: data.endDate ?? undefined,
@@ -201,24 +203,21 @@ function PublishFundraising() {
 
         <S.PublishField as="div">
           <S.PublishLabel>Ubicación</S.PublishLabel>
-          <S.InputWithIcon>
-            <S.IconInput
-              type="text"
-              {...register("location.address")}
-              placeholder="¿Dónde se realizará la campaña?"
-              $hasLeftIcon
-            />
-            <S.FieldIcon aria-hidden="true">
-              <Search />
-            </S.FieldIcon>
-          </S.InputWithIcon>
-          <S.MapWrapper>
-            <Map onPointSelect={(point) => console.log(point)} />
-          </S.MapWrapper>
-          <S.HelpText>
-            Buscá una dirección o tocá el mapa para marcar el punto.
-          </S.HelpText>
-          <ErrorMessage message={errors.location?.message} />
+          <Controller
+            control={control}
+            name="location"
+            render={({ field, fieldState }) => (
+              <>
+                <AutocompleteGeolocation
+                  placeHolder="¿Dónde se realizará la campaña?"
+                  onChange={(value) =>
+                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                  }
+                />
+                <ErrorMessage message={fieldState.error?.message} />
+              </>
+            )}
+          />
         </S.PublishField>
 
         <S.PublishField as="div">
