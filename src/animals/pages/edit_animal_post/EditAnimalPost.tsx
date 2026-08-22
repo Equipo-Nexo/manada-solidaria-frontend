@@ -2,8 +2,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMemo } from 'react'
 import { Controller, useController, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Publish, Search, Arrow } from '@icons/index.ts'
-import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent } from '@components/index.ts'
+import { Publish, Arrow } from '@icons/index.ts'
+import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent, AutocompleteGeolocation } from '@components/index.ts'
 import { editAnimalPostSchema, type EditAnimalPostFormValues } from '@animals/app/schemas/EditAnimalPost.schema'
 import * as S from './EditAnimalPost.styles'
 import { animalAgeLabels, animalSexLabels, type AnimalPostFilter } from '@animals/app/types/AnimalPost.types'
@@ -15,6 +15,7 @@ import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilde
 import { recordToOptions } from '@common/utils/RecordToOptions'
 import { animalSize } from '@animals/utils/AnimalFormUtils'
 import { ColorSelectorComponent } from '@animals/components'
+import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 
 const getPublicationReason = (type: AnimalPostFilter): PublicationReason => {
     if (type === 'IN_STREET') return PublicationReason.Street
@@ -37,6 +38,7 @@ const EditAnimalPostDefaultValues = (
         areaCode: phoneNumber.slice(0, -7),
         phoneNumber: phoneNumber.slice(-7),
         story: animalPost.description,
+        location: animalPost.location,
     }
 }
 
@@ -89,7 +91,7 @@ function EditAnimalPostForm() {
                 age: values.animalAge,
                 color: values.color,
             },
-            location: animalPostData.location,
+            location: values.location,
             phoneNumber: `${values.areaCode}${values.phoneNumber}` || null,
             reward: animalPostData.reward,
         }
@@ -143,23 +145,22 @@ function EditAnimalPostForm() {
                 />
                 <S.FieldGroup>
                     <S.Label>Ubicación</S.Label>
-                    <S.IconInputWrapper>
-                        <Search aria-hidden="true" />
-                        <S.Input
-                            placeholder={
-                                animalPostData?.location.name
-                                || animalPostData?.location.address
-                                || '¿En dónde se encuentra el animal?'
-                            }
-                        />
-                    </S.IconInputWrapper>
-                    <S.MapContainer>
-                        <S.MapPlaceholder></S.MapPlaceholder>
-                        <S.Suggestion>
-                            Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
-                            compartir tu dirección exacta.
-                        </S.Suggestion>
-                    </S.MapContainer>
+                    <Controller
+                        name="location"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <>
+                                <AutocompleteGeolocation
+                                    initialLocation={field.value}
+                                    placeHolder="¿En dónde se encuentra el animal?"
+                                    onChange={(value) =>
+                                        field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                                    }
+                                />
+                                <ErrorMessage message={fieldState.error?.message} />
+                            </>
+                        )}
+                    />
                 </S.FieldGroup>
                 <S.FieldGroup>
                     <S.Label>Nombre</S.Label>
