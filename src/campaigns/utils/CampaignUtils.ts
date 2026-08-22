@@ -12,6 +12,7 @@ export const mapCampaignToCardData = (
   description: campaign.description,
   location: campaign.location,
   imageUrl: campaign.imageId,
+  phoneNumber: campaign.phoneNumber
 })
 
 export const campaignCategoryLabels: Record<CampaignCategory, string> = {

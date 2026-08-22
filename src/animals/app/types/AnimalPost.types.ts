@@ -1,5 +1,6 @@
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils"
 import type { Location } from "@/common/app/services/responses/Location"
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
 
 
 
@@ -113,7 +114,7 @@ export type AnimalPost = {
   createdAt: string
   ownerId: string
   owner: Owner
-  phoneNumber: PhoneNumber | null
+  phoneNumber?: PhoneNumber
   reward: number | null
 }
 
@@ -133,7 +134,3 @@ type Owner = {
 
 }
 
-type PhoneNumber = {
-  areaCode: number,
-  number: number
-}

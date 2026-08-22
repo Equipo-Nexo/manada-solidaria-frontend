@@ -102,7 +102,10 @@ export const buildCreateCampaignRequest = (
     title: data.title,
     description: data.description,
     imageId: data.imageId,
-    phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+    phoneNumber: {
+      areaCode: data.phoneAreaCode,
+      number: data.phone
+    },
     location: data.location
   }
 

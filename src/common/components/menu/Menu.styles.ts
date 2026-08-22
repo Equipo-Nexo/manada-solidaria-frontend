@@ -142,6 +142,14 @@ const menuItemStyles = css`
     flex: 0 0 20px;
     stroke-width: 2.25;
   }
+
+  svg[data-icon='users'] {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+    transform: scale(1.35, 1.1);
+    transform-origin: center;
+  }
 `
 
 export const MenuItemLink = styled(NavLink)<{ $isSelected: boolean }>`

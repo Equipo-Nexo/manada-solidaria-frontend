@@ -8,6 +8,23 @@ export const CardContainer = styled.article`
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 8px 24px -4px rgb(0 109 65 / 8%);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-3px);
+      border-color: ${({ theme }) => theme.colors.stroke};
+      box-shadow: 0 12px 28px -6px rgb(89 65 55 / 20%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `
 
 export const PhotoContainer = styled.div`

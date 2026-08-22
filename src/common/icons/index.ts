@@ -38,6 +38,8 @@ export { default as ColorPalet } from './ColorPalet'
 export { default as Money } from './Money'
 export { default as Publish } from './Publish'
 export { default as PublishButton } from './PublishButton'
-export { default as Arrow } from './Arrow'
-export { default as Clock } from './Clock'
-export { default as Ruler } from './Ruler'
+export { default as Stethoscope } from "./Stethoscope";
+export { default as Warning } from "./Warning";
+export { default as Arrow } from "./Arrow";
+export { default as Clock } from "./Clock";
+export { default as Ruler } from "./Ruler";

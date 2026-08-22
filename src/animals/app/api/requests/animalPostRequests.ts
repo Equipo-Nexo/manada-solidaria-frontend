@@ -1,3 +1,4 @@
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
 import type { Animal, AnimalAge, AnimalColor, AnimalPostFilter, AnimalPostStatus, AnimalPostType, AnimalSex, AnimalSize, AnimalType } from "@animals/app/types/AnimalPost.types"
 import type { Location } from "@services/responses/Location"
 
@@ -31,7 +32,7 @@ export interface BaseAnimalPostRequest {
   imageId: string
   animal: AnimalRequest
   location: Location
-  phoneNumber: string
+  phoneNumber?: PhoneNumber
 }
 
 export interface CreateAnimalPostRequest extends BaseAnimalPostRequest {
@@ -55,7 +56,7 @@ export type EditAnimalPostRequest = {
   imageId: string
   animal: Animal
   location: Location
-  phoneNumber: string | null
+  phoneNumber?: PhoneNumber
   reward: number | null
 }
 

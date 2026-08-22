@@ -11,6 +11,7 @@ import { useAppPermissions } from '@hooks/permissions/useAppPermissions'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Login.styles'
 import { loginSchema, type LoginFormValues } from '@auth/app/schemas/loginSchema'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 declare const __APP_VERSION__: string;
 
 function Login() {
@@ -66,7 +67,7 @@ function Login() {
             lo necesitan.
           </S.AppDescription>
 
-          <S.Form onSubmit={handleSubmit(handleLogin)} aria-busy={isLoading} noValidate>
+          <S.Form onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)} aria-busy={isLoading} noValidate>
             <div>
               <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
               <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>

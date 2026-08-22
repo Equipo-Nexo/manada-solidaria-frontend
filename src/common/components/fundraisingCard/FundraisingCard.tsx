@@ -64,7 +64,7 @@ function FundraisingCard({
 
     timeoutRef.current = window.setTimeout(() => {
       setCopied(false);
-    }, 1000);
+    }, 2000);
   };
   return (
     <S.Card className={className} $showAlias={showAlias}>
@@ -82,7 +82,9 @@ function FundraisingCard({
 
         <S.CaseContent>
           <S.Title>{fundraising.title}</S.Title>
-          <S.Description>{fundraising.description}</S.Description>
+          <S.Description $hasGoal={hasGoal}>
+            {fundraising.description}
+          </S.Description>
           <S.StoryButton
             type="button"
             onClick={() => onViewStory?.(fundraising)}

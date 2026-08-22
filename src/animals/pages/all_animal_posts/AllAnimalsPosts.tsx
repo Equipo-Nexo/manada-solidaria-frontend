@@ -29,7 +29,7 @@ function AllAnimalsPage() {
   return (
     <S.Page>
       <S.Header>
-        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+        <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
         <S.TitlesContainer>

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, type KeyboardEvent, type MouseEvent } from "react";
 import { ArrowLeft, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
@@ -23,16 +23,34 @@ const POST_FILTER_LABELS: Record<PostFilter, string> = {
     fundraising: 'Colectas'
 }
 
+const isPostFilter = (filter: string | null): filter is PostFilter =>
+    filter !== null && POST_FILTERS.includes(filter as PostFilter)
+
 function MyPosts() {
     const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
     const toast = useToast()
-    const [selectedFilter, setSelectedFilter] = useState<PostFilter>('');
+    const filterParam = searchParams.get('tipo')
+    const selectedFilter: PostFilter = isPostFilter(filterParam) ? filterParam : ''
     const { data: userPosts, isError, isLoading, refetch } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
 
+    const handleFilterChange = (filter: PostFilter) => {
+        setSearchParams((currentParams) => {
+            const nextParams = new URLSearchParams(currentParams)
+
+            if (filter) {
+                nextParams.set('tipo', filter)
+            } else {
+                nextParams.delete('tipo')
+            }
+
+            return nextParams
+        }, { replace: true })
+    }
 
     const handleEditButton = (post: GetUserPostsResponse) => {
         const editByPostType: Record<UserPostType, (postId: string) => void> = {
@@ -46,6 +64,19 @@ function MyPosts() {
     const handleDeleteButton = (post: GetUserPostsResponse) => {
         setSelectedPost(post)
         setOpenBottomSheet(true)
+    }
+
+    const handlePostClick = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
+        if (post.postType !== 'animal') return
+        if (event.target instanceof Element && event.target.closest('button, a')) return
+
+        navigate(`/detalle/${post.id}`)
+    }
+
+    const handlePostKeyDown = (post: GetUserPostsResponse, event: KeyboardEvent<HTMLElement>) => {
+        if (post.postType === 'animal' && event.key === 'Enter' && event.target === event.currentTarget) {
+            navigate(`/detalle/${post.id}`)
+        }
     }
 
     const closeBottomSheet = () => {
@@ -116,7 +147,7 @@ function MyPosts() {
                 <CategorySelector
                     categories={POST_FILTERS}
                     selectedCategory={selectedFilter}
-                    onCategoryChange={setSelectedFilter}
+                    onCategoryChange={handleFilterChange}
                     getCategoryLabel={(filter) => POST_FILTER_LABELS[filter]}
                     ariaLabel="Filtrar mis publicaciones por categoría"
                 />
@@ -144,7 +175,14 @@ function MyPosts() {
                     )}
                     {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType }) => {
                         return (
-                            <S.Card key={id}>
+                            <S.Card
+                                key={id}
+                                $clickable={postType === 'animal'}
+                                role={postType === 'animal' ? 'link' : undefined}
+                                tabIndex={postType === 'animal' ? 0 : undefined}
+                                onClick={(event) => handlePostClick({ id, imageId, title, createdSince, status, postType }, event)}
+                                onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
+                            >
                                 <S.CardImage
                                     src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}
                                     alt={title}
