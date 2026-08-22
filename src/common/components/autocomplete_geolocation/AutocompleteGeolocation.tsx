@@ -102,7 +102,6 @@ function AutocompleteGeolocation({
                         onFocus={() => setInputIsFocused(true)}
                         onBlur={() => {
                             setTimeout(() => setInputIsFocused(false), 150)
-                            setDirection(EMPTY_DIRECTION)
                         }}
                         placeholder={placeHolder}
                     />
