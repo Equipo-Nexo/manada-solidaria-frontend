@@ -121,6 +121,7 @@ function AutocompleteGeolocation({
                                 <S.AutocompleteItem
                                     key={location.formatted}
                                     type="button"
+                                    onMouseDown={(event) => event.preventDefault()}
                                     onClick={() => handleSelectLocation(location)}
                                 >
                                     {location.formatted}
