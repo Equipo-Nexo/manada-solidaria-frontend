@@ -8,4 +8,4 @@ function getOwnerRole(roles: string[]) {
     return 'Miembro de la comunidad'
 }
 
-export getOwnerRole
+export default getOwnerRole
