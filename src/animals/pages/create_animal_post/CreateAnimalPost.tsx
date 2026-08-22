@@ -68,6 +68,11 @@ function CreateAnimalPost() {
   }
 
   const handleCreateAnimalPost = async (values: NewAnimalPostFormValues) => {
+    const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
+      areaCode: values.areaCode,
+      number: values.phoneNumber
+    }
+    
     const commonRequest: BaseAnimalPostRequest = {
       name: values.name.trim(),
       description: values.story.trim(),
@@ -79,7 +84,7 @@ function CreateAnimalPost() {
         age: values.animalAge,
         color: values.color,
       },
-      phoneNumber: values.phoneNumber,
+      phoneNumber: phoneNumber,
       location: mapGeolocationToLocation(values.location),
     }
       

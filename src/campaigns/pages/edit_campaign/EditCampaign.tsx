@@ -34,8 +34,8 @@ const getDefaultValues = (
     endDate: end.date,
     startTime: start.time,
     endTime: end.time,
-    phoneAreaCode: phoneNumber.slice(0, -7),
-    phone: phoneNumber.slice(-7),
+    phoneAreaCode: phoneNumber.areaCode,
+    phone: phoneNumber.number,
     location: campaign.location,
     imageId: currentImageId,
   }

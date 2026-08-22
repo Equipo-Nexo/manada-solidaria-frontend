@@ -41,8 +41,8 @@ function EditFundraising() {
       setValue("collectedAmount", campaign.amountCollected || null);
       setValue("endDate", campaign.campaignEndDate);
       setValue("description", campaign.description);
-      setValue("phoneAreaCode", campaign.phoneNumber.substring(0, 3))
-      setValue("phone", campaign.phoneNumber.substring(3));
+      setValue("phoneAreaCode", campaign.phoneNumber.areaCode)
+      setValue("phone", campaign.phoneNumber.number);
       setValue("imageId", campaign.imageId);
       setValue("location", campaign.location);
     }
@@ -65,7 +65,10 @@ function EditFundraising() {
       description: data.description,
       imageId: data.imageId,
       location: data.location,
-      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+      phoneNumber: {
+        areaCode: data.phoneAreaCode,
+        number: data.phone
+      },
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected,
       amountCollected: data.collectedAmount,

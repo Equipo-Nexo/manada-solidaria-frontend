@@ -1,5 +1,3 @@
-import type { Maybe } from "yup";
-
 export interface GeolocationResponse {
   country: string;
   state: string;
@@ -17,9 +15,9 @@ export interface GeolocationResponse {
 }
 
 export interface Location {
-  name?: Maybe<string | undefined>;
-  address?: Maybe<string | undefined>;
-  number?: Maybe<number | undefined>;
-  latitude?: Maybe<number | undefined>;
-  longitude?: Maybe<number | undefined>;
+  name: string;
+  address: string;
+  number: number;
+  latitude: number;
+  longitude: number;
 }

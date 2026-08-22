@@ -26,7 +26,6 @@ const getPublicationReason = (type: AnimalPostFilter): PublicationReason => {
 const EditAnimalPostDefaultValues = (
     animalPost: AnimalPostResponse,
 ): EditAnimalPostFormValues => {
-    const phoneNumber = animalPost.phoneNumber ?? ''
     return {
         publicationReason: getPublicationReason(animalPost.type),
         imageId: animalPost.imageUrl,
@@ -35,8 +34,8 @@ const EditAnimalPostDefaultValues = (
         animalSize: animalPost.animal.size,
         color: animalPost.animal.color,
         name: animalPost.name ?? '',
-        areaCode: phoneNumber.slice(0, -7),
-        phoneNumber: phoneNumber.slice(-7),
+        areaCode: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
+        phoneNumber: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
         story: animalPost.description,
         location: animalPost.location,
     }
@@ -79,6 +78,10 @@ function EditAnimalPostForm() {
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
         if (!postId || !animalPostData) return
+        const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
+            areaCode: values.areaCode,
+            number: values.phoneNumber
+        }
         const request: EditAnimalPostRequest = {
             name: values.name.trim() || null,
             description: values.story.trim(),
@@ -92,7 +95,7 @@ function EditAnimalPostForm() {
                 color: values.color,
             },
             location: values.location,
-            phoneNumber: `${values.areaCode}${values.phoneNumber}` || null,
+            phoneNumber: phoneNumber,
             reward: animalPostData.reward,
         }
 
