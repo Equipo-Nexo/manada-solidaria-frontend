@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import type { CampaignDetailsResponse } from '@models/Campaign.types'
 import { useEditCampaignMutation, useGetCampaignQuery } from '@campaigns/app/api/campaignApi'
 import { Advice, DatePicker, ErrorMessage, ImageUpload, AutocompleteGeolocation } from '@components/index.ts'
-import { Arrow, Phone, PublishButton } from '@icons/index.ts'
+import { Phone } from '@icons/index.ts'
 import { StyledMaskedInput } from '@components/maskedInput/maskedInput.styles'
 import { useToast } from '@hooks/toast/useToast'
 import { editCampaignSchema, type EditCampaignFormValues } from '../../app/schemas/EditCampaign.schema'
@@ -14,6 +14,8 @@ import type { EditCampaignRequest } from '@/campaigns/app/api/requests/EditCampa
 import { buildEditCampaignRequest } from '@/campaigns/utils/EditCampaignBuilder'
 import { splitDateTime } from '@/common/utils/DateTime'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
+import FormContainer from '@/common/components/form_container/FormContainer'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 
 const getDefaultValues = (
@@ -98,20 +100,14 @@ function EditCampaign() {
   const showsNewsSchedule = campaign.type !== 'donation'
 
   return (
-    <S.Page>
-      <S.Header>
-        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
-          <Arrow aria-hidden="true" />
-        </S.BackButton>
-        <S.Title>Editar campaña</S.Title>
-      </S.Header>
-
-      <S.Form
-        onSubmit={handleSubmit(handleEditCampaign)}
-        aria-busy={isSaving}
-        noValidate
-      >
-        <S.Field>
+    <FormContainer
+      pageTitle='Editar campaña'
+      buttonText='Guardar cambios'
+      isLoadingForm={isSaving}
+      loadingButtonText='Guardando...'
+      handleSubmit={handleSubmit(handleEditCampaign, scrollToFirstFormError)}    
+    >
+              <S.Field>
           <S.Label htmlFor="edit-campaign-title">
             Título de la campaña <S.Required>*</S.Required>
           </S.Label>
@@ -255,15 +251,8 @@ function EditCampaign() {
             )}
           />
         </S.Field>
-
         <Advice advice="Las campañas con metas claras y fotos nítidas suelen completarse más rápido. Asegurate de incluir toda la información relevante." />
-
-        <S.SubmitButton type="submit" disabled={isSaving}>
-          {isSaving ? 'Guardando...' : 'Guardar cambios'}
-          <PublishButton aria-hidden="true" />
-        </S.SubmitButton>
-      </S.Form>
-    </S.Page>
+    </FormContainer>
   )
 }
 

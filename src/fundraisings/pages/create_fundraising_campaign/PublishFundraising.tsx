@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { Arrow, PublishButton } from "@icons/index.ts";
 import { DatePicker, ImageUpload, Advice, ErrorMessage, PhoneInputComponent, AutocompleteGeolocation } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "@campaigns/pages/create_campaign/PublishForm.styles";
@@ -12,6 +11,8 @@ import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import type { Location } from "@services/responses/Location";
 import type { FundraisingCampaignRequest } from "@/campaigns/app/api/requests/CreateCampaignRequest";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
+import FormContainer from "@/common/components/form_container/FormContainer";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 
 export type PublishFundraisingForm = InferType<typeof publishFundraisingSchema>;
 
@@ -28,7 +29,7 @@ type PublishFundraisingFormInput = {
 };
 function PublishFundraising() {
   const navigate = useNavigate();
-  const [createCampaign] = useCreateCampaignMutation();
+  const [createCampaign, { isLoading }] = useCreateCampaignMutation();
   const toast = useToast();
 
   const {
@@ -93,19 +94,13 @@ function PublishFundraising() {
     });
 
   return (
-    <S.PublishFormPage>
-      <S.PublishFormHeader>
-        <S.PublishBackButton
-          type="button"
-          aria-label="Volver"
-          onClick={() => navigate(-1)}
-        >
-          <Arrow aria-hidden="true" />
-        </S.PublishBackButton>
-        <S.PublishFormTitle>Publicar Colecta de Dinero</S.PublishFormTitle>
-      </S.PublishFormHeader>
-
-      <S.PublishForm onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer
+      pageTitle='Publicar Colecta de Dinero'
+      buttonText='Publicar Colecta de Dinero'
+      isLoadingForm={isLoading}
+      loadingButtonText='Publicando...'
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}    
+    >
         <S.PublishField>
           <S.PublishLabel>
             Título de la colecta <S.RequiredMark>*</S.RequiredMark>
@@ -233,13 +228,7 @@ function PublishFundraising() {
           />
           <ErrorMessage message={errors.imageId?.message} />
         </S.PublishField>
-
-        <S.PublishSubmitButton type="submit">
-          Publicar Colecta de Dinero
-          <PublishButton aria-hidden="true" />
-        </S.PublishSubmitButton>
-      </S.PublishForm>
-    </S.PublishFormPage>
+    </FormContainer>
   );
 }
 

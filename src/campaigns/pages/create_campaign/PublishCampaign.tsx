@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { publishCampaignSchema, type PublishCampaignForm } from "@campaigns/app/schemas/PublishCampaignSchema";
 import * as S from "./PublishForm.styles";
 import { Advice, ImageUpload, DatePicker, ErrorMessage, AutocompleteGeolocation } from "@components/index.ts";
-import { Phone, Arrow, PublishButton } from "@icons/index.ts";
+import { Phone } from "@icons/index.ts";
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useToast } from "@hooks/toast/useToast";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
@@ -14,11 +14,13 @@ import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/Ca
 import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
+import FormContainer from "@/common/components/form_container/FormContainer";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 
 function PublishCampaign() {
   const navigate = useNavigate();
   const toast = useToast();
-  const [createCampaign] = useCreateCampaignMutation();
+  const [createCampaign, { isLoading }] = useCreateCampaignMutation();
   const [selectedCategory, setSelectedCategory] = useState<CampaignCategory | null>(null);
 
   const isDonation = selectedCategory === "DONATION";
@@ -54,19 +56,13 @@ function PublishCampaign() {
   };
 
   return (
-    <S.PublishFormPage>
-      <S.PublishFormHeader>
-        <S.PublishBackButton
-          type="button"
-          aria-label="Volver"
-          onClick={() => navigate(-1)}
-        >
-          <Arrow aria-hidden="true" />
-        </S.PublishBackButton>
-        <S.PublishFormTitle>Publicar Campaña</S.PublishFormTitle>
-      </S.PublishFormHeader>
-
-      <S.PublishForm onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer
+      pageTitle='Publicar Campaña'
+      buttonText='Publicar Campaña'
+      isLoadingForm={isLoading}
+      loadingButtonText='Publicando...'
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}
+    >
         <S.PublishField>
           <S.PublishLabel>
             Título de la campaña <S.RequiredMark>*</S.RequiredMark>
@@ -266,13 +262,7 @@ function PublishCampaign() {
         </S.PublishField>
 
         <Advice advice="Las campañas con metas claras y fotos nítidas suelen completarse un 40% más rápido. Asegurate de incluir toda la información relevante." />
-
-        <S.PublishSubmitButton type="submit">
-          Publicar Campaña
-          <PublishButton aria-hidden="true" />
-        </S.PublishSubmitButton>
-      </S.PublishForm>
-    </S.PublishFormPage>
+    </FormContainer>
   );
 }
 

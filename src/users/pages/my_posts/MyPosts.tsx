@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
@@ -23,16 +23,34 @@ const POST_FILTER_LABELS: Record<PostFilter, string> = {
     fundraising: 'Colectas'
 }
 
+const isPostFilter = (filter: string | null): filter is PostFilter =>
+    filter !== null && POST_FILTERS.includes(filter as PostFilter)
+
 function MyPosts() {
     const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
     const toast = useToast()
-    const [selectedFilter, setSelectedFilter] = useState<PostFilter>('');
+    const filterParam = searchParams.get('tipo')
+    const selectedFilter: PostFilter = isPostFilter(filterParam) ? filterParam : ''
     const { data: userPosts, isError, isLoading, refetch } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
 
+    const handleFilterChange = (filter: PostFilter) => {
+        setSearchParams((currentParams) => {
+            const nextParams = new URLSearchParams(currentParams)
+
+            if (filter) {
+                nextParams.set('tipo', filter)
+            } else {
+                nextParams.delete('tipo')
+            }
+
+            return nextParams
+        }, { replace: true })
+    }
 
     const handleEditButton = (post: GetUserPostsResponse) => {
         const editByPostType: Record<UserPostType, (postId: string) => void> = {
@@ -116,7 +134,7 @@ function MyPosts() {
                 <CategorySelector
                     categories={POST_FILTERS}
                     selectedCategory={selectedFilter}
-                    onCategoryChange={setSelectedFilter}
+                    onCategoryChange={handleFilterChange}
                     getCategoryLabel={(filter) => POST_FILTER_LABELS[filter]}
                     ariaLabel="Filtrar mis publicaciones por categoría"
                 />

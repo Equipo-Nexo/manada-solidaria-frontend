@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMemo } from 'react'
 import { Controller, useController, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Publish, Arrow } from '@icons/index.ts'
 import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent, AutocompleteGeolocation } from '@components/index.ts'
 import { editAnimalPostSchema, type EditAnimalPostFormValues } from '@animals/app/schemas/EditAnimalPost.schema'
 import * as S from './EditAnimalPost.styles'
@@ -16,6 +15,8 @@ import { recordToOptions } from '@common/utils/RecordToOptions'
 import { animalSize } from '@animals/utils/AnimalFormUtils'
 import { ColorSelectorComponent } from '@animals/components'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
+import FormContainer from '@/common/components/form_container/FormContainer'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 const getPublicationReason = (type: AnimalPostFilter): PublicationReason => {
     if (type === 'IN_STREET') return PublicationReason.Street
@@ -77,6 +78,7 @@ function EditAnimalPostForm() {
     })
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
+        console.log(values)
         if (!postId || !animalPostData) return
         const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
             areaCode: values.areaCode,
@@ -116,185 +118,175 @@ function EditAnimalPostForm() {
     }
 
     return (
-        <S.Page>
-            <S.Header>
-                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
-                    <Arrow aria-hidden="true" />
-                </S.BackButton>
-                <S.PageTitle>Editar post de animal</S.PageTitle>
-            </S.Header>
-            <S.MainContainer
-                onSubmit={handleSubmit(handleEditAnimalPost)}
-                aria-busy={isLoading}
-                noValidate
-            >
-                <S.FieldGroup>
-                    <Controller
-                        name="imageId"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <>
-                                <ImageUpload
-                                    imageUrl={field.value}
-                                    onImageSelected={(imageId) => field.onChange(imageId)}
-                                />
-                                <ErrorMessage id="photo-error" message={fieldState.error?.message} />
-                            </>
-                        )}
-                    />
-                </S.FieldGroup>
-                <Advice
-                    advice={"Una buena foto hace la diferencia. Procurá que se vea el animal completo, con buena luz y sin filtros."}
+        <FormContainer
+            pageTitle='Editar post de animal'
+            buttonText='Guardar cambios'
+            isLoadingForm={isLoading}
+            loadingButtonText='Guardando...'
+            handleSubmit={handleSubmit(handleEditAnimalPost, scrollToFirstFormError)}        
+        >
+            <S.FieldGroup>
+                <Controller
+                    name="imageId"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <>
+                            <ImageUpload
+                                imageUrl={field.value}
+                                onImageSelected={(imageId) => field.onChange(imageId)}
+                            />
+                            <ErrorMessage id="photo-error" message={fieldState.error?.message} />
+                        </>
+                    )}
                 />
-                <S.FieldGroup>
-                    <S.Label>Ubicación</S.Label>
+            </S.FieldGroup>
+            <Advice
+                advice={"Una buena foto hace la diferencia. Procurá que se vea el animal completo, con buena luz y sin filtros."}
+            />
+            <S.FieldGroup>
+                <S.Label>Ubicación</S.Label>
+                <Controller
+                    name="location"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <>
+                            <AutocompleteGeolocation
+                                initialLocation={field.value}
+                                placeHolder="¿En dónde se encuentra el animal?"
+                                onChange={(value) =>
+                                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                                }
+                            />
+                            <ErrorMessage message={fieldState.error?.message} />
+                        </>
+                    )}
+                />
+            </S.FieldGroup>
+            <S.FieldGroup>
+                <S.Label>Nombre</S.Label>
+                <S.Input
+                    placeholder={defaultValues?.name ? '' : 'Si no lo sabés, podés dejarlo vacío'}
+                    aria-invalid={Boolean(errors.name)}
+                    {...register('name')}
+                />
+                <ErrorMessage message={errors.name?.message} />
+            </S.FieldGroup>
+            <S.FieldGroup>
+                <S.Label>Sexo y edad <S.Required>*</S.Required></S.Label>
+                <S.CompactSelectorsContainer>
                     <Controller
-                        name="location"
+                        name="animalSex"
                         control={control}
                         render={({ field, fieldState }) => (
-                            <>
-                                <AutocompleteGeolocation
-                                    initialLocation={field.value}
-                                    placeHolder="¿En dónde se encuentra el animal?"
-                                    onChange={(value) =>
-                                        field.onChange(value ? mapGeolocationToLocation(value) : undefined)
-                                    }
-                                />
-                                <ErrorMessage message={fieldState.error?.message} />
-                            </>
-                        )}
-                    />
-                </S.FieldGroup>
-                <S.FieldGroup>
-                    <S.Label>Nombre</S.Label>
-                    <S.Input
-                        placeholder={defaultValues?.name ? '' : 'Si no lo sabés, podés dejarlo vacío'}
-                        aria-invalid={Boolean(errors.name)}
-                        {...register('name')}
-                    />
-                    <ErrorMessage message={errors.name?.message} />
-                </S.FieldGroup>
-                <S.FieldGroup>
-                    <S.Label>Sexo y edad <S.Required>*</S.Required></S.Label>
-                    <S.CompactSelectorsContainer>
-                        <Controller
-                            name="animalSex"
-                            control={control}
-                            render={({ field, fieldState }) => (
-                                <SelectorComponent
-                                    name={field.name}
-                                    ariaLabel="Sexo"
-                                    placeholder="Seleccioná uno"
-                                    options={recordToOptions(animalSexLabels)}
-                                    value={field.value}
-                                    error={fieldState.error?.message}
-                                    errorId="animal-sex-error"
-                                    onChange={field.onChange}
-                                    onBlur={field.onBlur}
-                                    inputRef={field.ref}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name="animalAge"
-                            control={control}
-                            render={({ field, fieldState }) => (
-                                <SelectorComponent
-                                    name={field.name}
-                                    ariaLabel="Edad"
-                                    placeholder="Seleccioná uno"
-                                    options={recordToOptions(animalAgeLabels)}
-                                    value={field.value}
-                                    error={fieldState.error?.message}
-                                    errorId="animal-age-error"
-                                    onChange={field.onChange}
-                                    onBlur={field.onBlur}
-                                    inputRef={field.ref}
-                                />
-                            )}
-                        />
-                    </S.CompactSelectorsContainer>
-                </S.FieldGroup>
-                <S.FieldGroup>
-                    <S.Label id="animal-size-label">Tamaño del animal <S.Required>*</S.Required></S.Label>
-                    <Controller
-                        name="animalSize"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <>
-                                <S.OptionsGroup
-                                    role="radiogroup"
-                                    aria-labelledby="animal-size-label"
-                                    aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
-                                    aria-invalid={Boolean(fieldState.error)}
-                                >
-                                    {animalSize.map((size) => (
-                                        <OptionsComponent
-                                            key={size.value}
-                                            name={field.name}
-                                            title={size.title}
-                                            description={size.description}
-                                            value={size.value}
-                                            selected={field.value === size.value}
-                                            onSelect={field.onChange}
-                                        />
-                                    ))}
-                                </S.OptionsGroup>
-                                <ErrorMessage id="animal-size-error" message={fieldState.error?.message} />
-                            </>
-                        )}
-                    />
-                </S.FieldGroup>
-                <S.FieldGroup>
-                    <S.Label>Color predominante</S.Label>
-                    <Controller
-                        name="color"
-                        control={control}
-                        render={({ field }) => (
-                            <ColorSelectorComponent
-                                selected={field.value ?? undefined}
-                                onSelect={field.onChange}
+                            <SelectorComponent
+                                name={field.name}
+                                ariaLabel="Sexo"
+                                placeholder="Seleccioná uno"
+                                options={recordToOptions(animalSexLabels)}
+                                value={field.value}
+                                error={fieldState.error?.message}
+                                errorId="animal-sex-error"
+                                onChange={field.onChange}
+                                onBlur={field.onBlur}
+                                inputRef={field.ref}
                             />
                         )}
                     />
-                </S.FieldGroup>
-                <S.FieldGroup>
-                    <S.Label>
-                        Número de teléfono
-                        {publicationReason !== PublicationReason.Street && <S.Required> *</S.Required>}
-                    </S.Label>
-                    <PhoneInputComponent
-                        areaCodeValue={areaCodeField.value}
-                        phoneNumberValue={phoneNumberField.value}
-                        onAreaCodeChange={areaCodeField.onChange}
-                        onPhoneNumberChange={phoneNumberField.onChange}
-                        onAreaCodeBlur={areaCodeField.onBlur}
-                        onPhoneNumberBlur={phoneNumberField.onBlur}
-                        areaCodeRef={areaCodeField.ref}
-                        phoneNumberRef={phoneNumberField.ref}
-                        areaCodePlaceholder={defaultValues?.areaCode ? '' : '353'}
-                        phoneNumberPlaceholder={defaultValues?.phoneNumber ? '' : '5652355'}
-                        error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
+                    <Controller
+                        name="animalAge"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <SelectorComponent
+                                name={field.name}
+                                ariaLabel="Edad"
+                                placeholder="Seleccioná uno"
+                                options={recordToOptions(animalAgeLabels)}
+                                value={field.value}
+                                error={fieldState.error?.message}
+                                errorId="animal-age-error"
+                                onChange={field.onChange}
+                                onBlur={field.onBlur}
+                                inputRef={field.ref}
+                            />
+                        )}
                     />
-                    <S.Suggestion>
-                        {publicationReason === PublicationReason.Street
-                            ? 'Es opcional si el animal se encuentra en la calle'
-                            : 'Es obligatorio para que adoptantes o colaboradores puedan contactarte'}
-                    </S.Suggestion>
-                </S.FieldGroup>
-                <S.FieldGroup>
-                    <S.Label>Contanos su historia <S.Required>*</S.Required></S.Label>
-                    <S.TextArea
-                        placeholder=""
-                        {...register('story')} />
-                    <ErrorMessage message={errors.story?.message} />
-                </S.FieldGroup>
-                <S.SubmitButton type="submit" disabled={isLoading}>
-                    {isLoading ? 'Guardando...' : 'Guardar cambios'}
-                    <Publish aria-hidden="true" />
-                </S.SubmitButton>
-            </S.MainContainer>
-        </S.Page>
+                </S.CompactSelectorsContainer>
+            </S.FieldGroup>
+            <S.FieldGroup>
+                <S.Label id="animal-size-label">Tamaño del animal <S.Required>*</S.Required></S.Label>
+                <Controller
+                    name="animalSize"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <>
+                            <S.OptionsGroup
+                                role="radiogroup"
+                                aria-labelledby="animal-size-label"
+                                aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
+                                aria-invalid={Boolean(fieldState.error)}
+                            >
+                                {animalSize.map((size) => (
+                                    <OptionsComponent
+                                        key={size.value}
+                                        name={field.name}
+                                        title={size.title}
+                                        description={size.description}
+                                        value={size.value}
+                                        selected={field.value === size.value}
+                                        onSelect={field.onChange}
+                                    />
+                                ))}
+                            </S.OptionsGroup>
+                            <ErrorMessage id="animal-size-error" message={fieldState.error?.message} />
+                        </>
+                    )}
+                />
+            </S.FieldGroup>
+            <S.FieldGroup>
+                <S.Label>Color predominante</S.Label>
+                <Controller
+                    name="color"
+                    control={control}
+                    render={({ field }) => (
+                        <ColorSelectorComponent
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                        />
+                    )}
+                />
+            </S.FieldGroup>
+            <S.FieldGroup>
+                <S.Label>
+                    Número de teléfono
+                    {publicationReason !== PublicationReason.Street && <S.Required> *</S.Required>}
+                </S.Label>
+                <PhoneInputComponent
+                    areaCodeValue={areaCodeField.value}
+                    phoneNumberValue={phoneNumberField.value}
+                    onAreaCodeChange={areaCodeField.onChange}
+                    onPhoneNumberChange={phoneNumberField.onChange}
+                    onAreaCodeBlur={areaCodeField.onBlur}
+                    onPhoneNumberBlur={phoneNumberField.onBlur}
+                    areaCodeRef={areaCodeField.ref}
+                    phoneNumberRef={phoneNumberField.ref}
+                    areaCodePlaceholder={defaultValues?.areaCode ? '' : '353'}
+                    phoneNumberPlaceholder={defaultValues?.phoneNumber ? '' : '5652355'}
+                    error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
+                />
+                <S.Suggestion>
+                    {publicationReason === PublicationReason.Street
+                        ? 'Es opcional si el animal se encuentra en la calle'
+                        : 'Es obligatorio para que adoptantes o colaboradores puedan contactarte'}
+                </S.Suggestion>
+            </S.FieldGroup>
+            <S.FieldGroup>
+                <S.Label>Contanos su historia <S.Required>*</S.Required></S.Label>
+                <S.TextArea
+                    placeholder=""
+                    {...register('story')} />
+                <ErrorMessage message={errors.story?.message} />
+            </S.FieldGroup>
+        </FormContainer>
     )
 }
 

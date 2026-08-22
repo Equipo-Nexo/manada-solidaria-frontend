@@ -19,6 +19,11 @@ import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
+import ScrollToTop from "./common/components/routes/ScrollToTop";
+import Community from "./community/pages/Community";
+import Profile from "./users/pages/profile/Profile";
+import Services from "./services/pages/Services";
+import SuccessStories from "./successStories/pages/SuccessStories";
 
 function App() {
   const location = useLocation();
@@ -29,6 +34,7 @@ function App() {
     location.pathname === "/publicar/colecta" ||
     location.pathname === "/editar/exito" ||
     location.pathname.startsWith("/editar/animal/") ||
+    location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
 
@@ -42,6 +48,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <AppShell>
         {showAuthenticatedShell && (
           <>
@@ -78,6 +85,10 @@ function App() {
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/comunidad" element={<Community />} />
+              <Route path="/mi-perfil" element={<Profile />} />
+              <Route path="/servicios" element={<Services />} />
+              <Route path="/casos-felices" element={<SuccessStories />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

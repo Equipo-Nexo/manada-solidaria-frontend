@@ -9,6 +9,7 @@ import { registerSchema, type RegisterFormValues } from '../../app/schemas/regis
 import type { Role } from '@/users/app/types/User.types'
 import { Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
 import { ErrorMessage } from '@components/index.ts'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 function Register() {
   const navigate = useNavigate()
@@ -70,7 +71,7 @@ function Register() {
             Formá parte de nuestra comunidad de rescatistas y voluntarios.
           </S.RegisterSubtitle>
 
-          <S.Form onSubmit={handleSubmit(handleRegister)} noValidate>
+          <S.Form onSubmit={handleSubmit(handleRegister, scrollToFirstFormError)} noValidate>
             <S.Field>
               <S.FieldLabel htmlFor="username">
                 Nombre de usuario <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
