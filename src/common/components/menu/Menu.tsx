@@ -67,7 +67,7 @@ const sections: MenuSection[] = [
       { label: "Inicio", path: "/home", activePath: "/home", icon: House },
       {
         label: "Mi perfil",
-        path: "/home",
+        path: "/mi-perfil",
         activePath: "/mi-perfil",
         icon: User,
       },
@@ -79,20 +79,20 @@ const sections: MenuSection[] = [
       },
       {
         label: "Servicios",
-        path: "/home",
+        path: "/servicios",
         activePath: "/servicios",
         icon: BriefcaseMedical,
       },
       {
         label: "Comunidad",
-        path: "/home",
+        path: "/comunidad",
         activePath: "/comunidad",
         icon: Users,
       },
       { label: "Mapa", path: "/mapa", activePath: "/mapa", icon: Map },
       {
         label: "Casos felices",
-        path: "/home",
+        path: "/casos-felices",
         activePath: "/casos-felices",
         icon: Heart,
       },
