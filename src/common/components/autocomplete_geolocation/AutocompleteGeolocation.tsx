@@ -102,7 +102,6 @@ function AutocompleteGeolocation({
                         onFocus={() => setInputIsFocused(true)}
                         onBlur={() => {
                             setTimeout(() => setInputIsFocused(false), 150)
-                            setDirection(EMPTY_DIRECTION)
                         }}
                         placeholder={placeHolder}
                     />
@@ -121,6 +120,7 @@ function AutocompleteGeolocation({
                                 <S.AutocompleteItem
                                     key={location.formatted}
                                     type="button"
+                                    onMouseDown={(event) => event.preventDefault()}
                                     onClick={() => handleSelectLocation(location)}
                                 >
                                     {location.formatted}
