@@ -14,6 +14,12 @@ interface MapProps {
   onPointSelect?: (point: MapPoint) => void
 }
 
+const ARG_CENTER_POINT = {
+  "lng": -65.45210548341893,
+  "lat": -36.26607671726336
+}
+const ARG_DEFAULT_ZOOM = 3.1976036153806247
+
 function Map({
   markPoints,
   markPoint = null,
@@ -21,13 +27,15 @@ function Map({
   center,
   onPointSelect,
 }: MapProps) {
-  const { coordinates, requestCoordinates } = useGeolocation()
+  const { coordinates, requestCoordinates, status } = useGeolocation()
   const [map, setMap] = useState<MapLibreMap | null>(null)
   const [centerPoint, setCenterPoint] = useState<MapPoint | undefined>(center);
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(markPoint);
+  const [zoom, setZoom] = useState<number>(100)
   const markPointLat = markPoint?.lat
   const markPointLng = markPoint?.lng
 
+  console.log(status)
   useEffect(() => {
     void requestCoordinates()
   }, [requestCoordinates])
@@ -41,13 +49,19 @@ function Map({
   }, [markPointLat, markPointLng])
 
   useEffect(() => {
-    if (!coordinates || centerPoint) return;
+    if (status === 'denied') {
+      setZoom(ARG_DEFAULT_ZOOM);
+      setCenterPoint(ARG_CENTER_POINT);
+    };
 
-    setCenterPoint({
-      lng: coordinates.longitude,
-      lat: coordinates.latitude,
-    });
-  }, [coordinates]);
+    if (status === 'granted' && coordinates) {
+      setZoom(16)
+      setCenterPoint({
+        lng: coordinates.longitude,
+        lat: coordinates.latitude,
+      });
+    };
+  }, [coordinates, status]);
 
   useEffect(() => {
     if (!map || !selectedPoint) return;
@@ -92,7 +106,7 @@ function Map({
     <S.MapFrame>
       <MapCN
         center={centerPoint}
-        zoom={16}
+        zoom={zoom}
         doubleClickZoom={!enableMarkerOnClick}
         onMapReady={setMap}
       >

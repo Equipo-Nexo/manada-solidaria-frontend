@@ -201,6 +201,7 @@ export function MapCNControls({
   }, [map])
 
   const zoomOut = useCallback(() => {
+    console.log(map?.getZoom())
     map?.zoomTo(map.getZoom() - 1, { duration: 300 })
   }, [map])
 
