@@ -58,8 +58,7 @@ function AnimalPostCard({
 
   const handleCardClick = (event: MouseEvent<HTMLElement>) => {
     if (event.target instanceof Element && event.target.closest('button, a')) return
-
-    navigate(`/detalle/${postId}`)
+    navigate(`/animal/detalle/${postId}`)
   }
 
   return (
@@ -112,8 +111,7 @@ function AnimalPostCard({
         </S.Location>
 
         <S.Description>{description}</S.Description>
-
-        <S.ViewMore type="button" onClick={onViewMore ?? (() => navigate(`/detalle/${postId}`))}>
+        <S.ViewMore type="button" onClick={() => navigate(`/animal/detalle/${postId}`)}>
           Ver más información
         </S.ViewMore>
 

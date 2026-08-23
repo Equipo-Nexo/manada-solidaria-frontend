@@ -66,6 +66,17 @@ function MyPosts() {
         setOpenBottomSheet(true)
     }
 
+    const handleClickButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
+        const clickByPostType: Record<UserPostType, (postId: string) => void> = {
+            campaign: (postId) => navigate(`campaña/detalle/${postId}`),
+            animal: (postId) => navigate(`/animal/detalle/${postId}`),
+            fundraising: (postId) => navigate(`/colecta/detalle/${postId}`),
+        }
+        if (event.target instanceof Element && event.target.closest('button, a')) return
+
+        clickByPostType[post.postType](post.id)
+    }
+
     const handlePostClick = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
         if (post.postType !== 'animal') return
         if (event.target instanceof Element && event.target.closest('button, a')) return
@@ -180,7 +191,7 @@ function MyPosts() {
                                 $clickable={postType === 'animal'}
                                 role={postType === 'animal' ? 'link' : undefined}
                                 tabIndex={postType === 'animal' ? 0 : undefined}
-                                onClick={(event) => handlePostClick({ id, imageId, title, createdSince, status, postType }, event)}
+                                onClick={(event) => handleClickButton({ id, imageId, title, createdSince, status, postType }, event)}
                                 onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
                             >
                                 <S.CardImage

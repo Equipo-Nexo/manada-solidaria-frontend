@@ -1,30 +1,34 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Calendar, Clock, ColorPalet, Map, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
+import { Calendar, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
 import { Advice, Message } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
 import BookIcon from '@/common/icons/Book'
 import { useGetAnimalPostQuery } from '@/animals/app/api/animalPostsApi'
-import { animalAgeLabels, animalColorLabels, animalSexLabels, animalSizeLabels, animalTypeLabels, getAnimalName, type AnimalPostType } from '@/animals/app/types/AnimalPost.types'
+import { animalAgeLabels, animalColorLabels, animalSexLabels, animalSizeLabels, getAnimalName, type AnimalPostType } from '@/animals/app/types/AnimalPost.types'
+import { animalKinds } from '@/animals/utils/AnimalFormUtils'
 import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
-import * as S from './detail.styles'
+import * as S from './DetailAnimalPost.styles'
 import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
-import getOwnerRole from '@/common/utils/getUserRoles'
-
-const formatPublishedAt = (createdAt: string) =>
-  new Intl.DateTimeFormat('es-AR', { dateStyle: 'long' }).format(new Date(createdAt))
-
+import getOwnerRole from '@/common/utils/GetRoles'
+import PawLoader from '@/common/components/pawLoader/PawLoader'
+import { formatDateLong } from '@/common/utils/DateTime'
+import { openWhatsApp } from '@/common/utils/Whatsapp'
+import { useToast } from '@/common/hooks/toast/useToast'
 
 function AnimalPostDetail() {
+
   const navigate = useNavigate()
+
+  const toast = useToast()
 
   const { postId } = useParams<{ postId: string }>()
 
   const { data: postData, isLoading, isError } = useGetAnimalPostQuery(postId ?? '', { skip: !postId })
 
   if (isLoading) {
-    return <S.StateContainer><Message message="Cargando publicación..." iconName="pawPrint" /></S.StateContainer>
+    return <PawLoader />
   }
 
   if (isError || !postData) {
@@ -36,21 +40,18 @@ function AnimalPostDetail() {
     )
   }
 
-  const phone = postData?.phoneNumber
-
-  const PHONE_NUMBER = phone
-    ? `${phone.areaCode}${phone.number}`
+  const PHONE_NUMBER = postData?.phoneNumber
+    ? `${postData?.phoneNumber.areaCode}${postData?.phoneNumber.number}`
     : ""
+
   const name = getAnimalName(postData.name, postData.animal.type)
+
+  const animalKind = animalKinds.find(({ value }) => value === postData.animal.type)?.label
+    ?? 'No informado'
 
   const location = postData.location.name || postData.location.address || 'Ubicación no informada'
 
-  const mapQuery = postData.location.latitude != null && postData.location.longitude != null
-    ? `${postData.location.latitude},${postData.location.longitude}`
-    : location
-
-  const status = AnimalPostStatus[postData.status] ??
-    (postData.status === 'IN_STREET' ? AnimalPostStatus.TO_RESCUE : undefined)
+  const status = AnimalPostStatus[postData.status]
 
   const feature = (Icon: ComponentType, label: string, value: string) => (
     <S.FeatureCard>
@@ -67,8 +68,17 @@ function AnimalPostDetail() {
       case 'ADOPTION':
         return 'Contactá para coordinar una visita o saber más sobre el proceso de tránsito o adopción.'
 
-      default:
-        return ("Contactá por más información.")
+      case 'IN_STREET':
+        return 'Contactá si querés colaborar de alguna forma con el animal en la calle'
+    }
+  }
+
+  const handleCopyPhoneNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(PHONE_NUMBER)
+      toast.success('Número copiado')
+    } catch {
+      toast.error('No pudimos copiar el número')
     }
   }
 
@@ -76,7 +86,7 @@ function AnimalPostDetail() {
     <S.MainContainer>
       <S.Header>
         <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver"><Arrow aria-hidden="true" /></S.BackButton>
-        <S.PageTitle>Detalle de Publicación de {name}</S.PageTitle>
+        <S.PageTitle>Detalle de Publicación</S.PageTitle>
       </S.Header>
 
       <S.HeroLayout>
@@ -93,13 +103,13 @@ function AnimalPostDetail() {
           <S.GeneralDataContainer>
             <S.GeneralData>
               <S.Name>{name}</S.Name>
-              <S.Status $backgroundColor={status?.backgroundColor} $fontColor={status?.fontColor}>
-                {status?.text ?? postData.status}
+              <S.Status $backgroundColor={status.backgroundColor} $fontColor={status.fontColor}>
+                {status.text ?? postData.status}
               </S.Status>
             </S.GeneralData>
             <S.TimeContainer>
               <Clock aria-hidden="true" />
-              <span>Publicado el {formatPublishedAt(postData.createdAt)}</span>
+              <span>Publicado el {formatDateLong(postData.createdAt)}</span>
             </S.TimeContainer>
             {postData.reward != null && postData.reward > 0 && (
               <S.InfoContainer $variant="reward">
@@ -128,23 +138,28 @@ function AnimalPostDetail() {
             </S.InfoContainer>
           </S.GeneralDataContainer>
 
+          <S.LocationCard>
+            <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
+            <S.LocationContent>
+              <S.LocationTitle>{location}</S.LocationTitle>
+              <S.MapLink
+                type="button"
+                onClick={() => navigate(
+                  `/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`,
+                )}
+              >
+                Ver en el mapa <OpenMap aria-hidden="true" />
+              </S.MapLink>
+            </S.LocationContent>
+          </S.LocationCard>
+
           <S.FeaturesGrid aria-label={`Características de ${name}`}>
-            {feature(PawPrint, 'Especie', animalTypeLabels[postData.animal.type])}
+            {feature(PawPrint, 'Especie', animalKind)}
             {feature(GenderIcon, 'Sexo', animalSexLabels[postData.animal.gender])}
             {feature(Ruler, 'Tamaño', animalSizeLabels[postData.animal.size])}
             {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
             {feature(Calendar, 'Edad', animalAgeLabels[postData.animal.age])}
           </S.FeaturesGrid>
-
-          <S.LocationCard>
-            <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
-            <S.LocationContent>
-              <S.LocationTitle>{location}</S.LocationTitle>
-              <S.MapLink href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`} target="_blank" rel="noreferrer">
-                Ver en el mapa <Map aria-hidden="true" />
-              </S.MapLink>
-            </S.LocationContent>
-          </S.LocationCard>
 
           <S.StorySection>
             <S.SectionTitle>
@@ -159,7 +174,18 @@ function AnimalPostDetail() {
           <>
             <S.ContactCard>
               <S.SectionTitle><Phone aria-hidden="true" />Contacto</S.SectionTitle>
-              <S.PhoneLink href={`tel:${postData.phoneNumber}`}>{PHONE_NUMBER}</S.PhoneLink>
+              <S.ContactRow>
+                <S.ContactNumber>{PHONE_NUMBER}</S.ContactNumber>
+                <S.MobileContactButton
+                  type="button"
+                  onClick={() => openWhatsApp(PHONE_NUMBER, adviceDescriptionSelector(postData.type))}
+                >
+                  Contactar
+                </S.MobileContactButton>
+                <S.DesktopCopyButton type="button" onClick={handleCopyPhoneNumber}>
+                  Copiar número
+                </S.DesktopCopyButton>
+              </S.ContactRow>
             </S.ContactCard>
             <S.AdviceArea>
               <Advice title="" advice={adviceDescriptionSelector(postData.type)} />

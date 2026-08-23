@@ -19,7 +19,7 @@ import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
-import AnimalPostDetail from "./animals/pages/detail_post/detail";
+import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import ScrollToTop from "./common/components/routes/ScrollToTop";
 import Community from "./community/pages/Community";
 import Profile from "./users/pages/profile/Profile";
@@ -88,7 +88,7 @@ function App() {
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
               <Route path="/menu" element={<Menu />} />
-              <Route path="/detalle/:postId" element={<AnimalPostDetail />} />
+              <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
               <Route path="/servicios" element={<Services />} />

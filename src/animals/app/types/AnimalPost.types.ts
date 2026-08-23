@@ -29,7 +29,7 @@ export const animalTypeLabels: Record<AnimalType, string> = {
 export const getAnimalName = (name: string | null, type: AnimalType): string =>
   name?.trim() || animalTypeLabels[type]
 
-export const animalPostTypes = ['ADOPTION', 'LOST'] as const;
+export const animalPostTypes = ['ADOPTION', 'LOST', 'IN_STREET'] as const;
 export type AnimalPostType = typeof animalPostTypes[number]
 
 export const animalPostFilters = ['', 'IN_STREET', ...animalPostTypes]

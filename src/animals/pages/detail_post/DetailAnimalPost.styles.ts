@@ -241,8 +241,9 @@ export const LocationTitle = styled.h3`
   margin: 0; color: ${({ theme }) => theme.colors.black}; font-size: 15px; font-weight: ${({ theme }) => theme.fontWeights.bold}; line-height: 17px;
 `
 
-export const MapLink = styled.a`
+export const MapLink = styled.button`
   display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; color: ${({ theme }) => theme.colors.brand};
+  width: fit-content; padding: 0; border: 0; background: transparent; cursor: pointer;
   font-size: 11px; font-weight: ${({ theme }) => theme.fontWeights.bold}; line-height: 16px; text-decoration: underline;
   svg { width: 17px; height: 17px; flex: 0 0 auto; }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
@@ -385,16 +386,54 @@ box-shadow: 0 4px 20px 0 rgba(75, 63, 53, 0.08);
 
 `
 
-export const PhoneLink = styled.a`
+export const ContactRow = styled.div`
   display: flex;
   height: 56px;
   padding: 16px;
   align-items: center;
-  gap: 47px;
+  justify-content: space-between;
+  gap: 16px;
   align-self: stretch;
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+`
+
+export const ContactNumber = styled.span`
+  min-width: 0;
   color: ${({ theme }) => theme.colors.black};
-  text-decoration: none;
+  font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  white-space: nowrap;
+`
+
+const ContactActionButton = styled.button`
+  min-width: 116px;
+  height: 40px;
+  padding: 0 16px;
+  border: 2px solid ${({ theme }) => theme.colors.brand};
+  border-radius: 10px;
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.brand};
+  font: inherit;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`
+
+export const MobileContactButton = styled(ContactActionButton)`
+  @media (min-width: 768px) {
+    display: none;
+  }
+`
+
+export const DesktopCopyButton = styled(ContactActionButton)`
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
 `

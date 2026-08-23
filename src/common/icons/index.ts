@@ -43,3 +43,4 @@ export { default as Warning } from "./Warning";
 export { default as Arrow } from "./Arrow";
 export { default as Clock } from "./Clock";
 export { default as Ruler } from "./Ruler";
+export { default as OpenMap } from "./OpenMap";
