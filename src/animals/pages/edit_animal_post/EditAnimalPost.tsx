@@ -225,7 +225,7 @@ function EditAnimalPostForm() {
                                 aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
                                 aria-invalid={Boolean(fieldState.error)}
                             >
-                                {animalSize.map((size) => (
+                                {animalSize(animalPostData?.animal.type).map((size) => (
                                     <OptionsComponent
                                         key={size.value}
                                         name={field.name}

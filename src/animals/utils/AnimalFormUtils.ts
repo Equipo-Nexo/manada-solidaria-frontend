@@ -13,7 +13,13 @@ export const colors: Array<{ value: AnimalColor; label: string; hex: string }> =
 ]
 
 
-const animalSizeDescription = (animalType: AnimalType) => {
+const animalSizeDescription = (animalType?: AnimalType) => {
+  if (!animalType) return {
+    SMALL: '',
+    MEDIUM: '',
+    LARGE: ''
+  }
+  
   return {
     DOG: {
       SMALL: 'Menos de 10 kg',
@@ -30,15 +36,10 @@ const animalSizeDescription = (animalType: AnimalType) => {
       MEDIUM: '',
       LARGE: ''
     },
-    undefined: {
-      SMALL: '',
-      MEDIUM: '',
-      LARGE: ''
-    }
   }[animalType]
 }
 
-export const animalSize = (animalType: AnimalType): Array<{
+export const animalSize = (animalType?: AnimalType): Array<{
   value: AnimalSize
   title: string
   description: string
