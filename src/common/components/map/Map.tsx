@@ -35,7 +35,6 @@ function Map({
   const markPointLat = markPoint?.lat
   const markPointLng = markPoint?.lng
 
-  console.log(status)
   useEffect(() => {
     void requestCoordinates()
   }, [requestCoordinates])

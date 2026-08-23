@@ -52,6 +52,11 @@ function CreateAnimalPost() {
     name: 'phoneNumber',
   })
 
+  const animalType = useWatch({
+    control,
+    name: 'animalType',
+  })
+
   const handlePublicationReasonChange = (
     value: PublicationReason,
     onChange: (value: PublicationReason) => void,
@@ -254,7 +259,7 @@ function CreateAnimalPost() {
                   aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
                   aria-invalid={Boolean(fieldState.error)}
                 >
-                  {animalSize.map((size) => (
+                  {animalSize(animalType).map((size) => (
                     <OptionsComponent
                       key={size.value}
                       name={field.name}
