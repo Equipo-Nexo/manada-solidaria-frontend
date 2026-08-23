@@ -33,12 +33,9 @@ function FundraisingCampaignDetail() {
     if (!data?.location) {
       return;
     }
-    navigate("/mapa", {
-      state: {
-        latitude: data.location.latitude,
-        longitude: data.location.longitude,
-      },
-    });
+    navigate(
+      `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
+    );
   };
   return (
     <S.Page>

@@ -50,7 +50,7 @@ function FundraisingCard({
   };
   return (
     <S.Card className={className} $showAlias={showAlias}>
-      <S.CaseCard>
+      <S.CaseCard onClick={() => onViewStory?.(fundraising)}>
         <S.ImageContainer>
           <S.CaseImage
             src={`${import.meta.env.VITE_CLOUDFLARE_URL}${fundraising.imageUrl}`}
