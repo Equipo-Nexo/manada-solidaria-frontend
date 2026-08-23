@@ -110,7 +110,7 @@ function EditAnimalPostForm() {
                         onDetailRedirect: '/animales'
                     },
                 })
-            }).catch((error) => {
+            }).catch(() => {
                 toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
             })
     }
