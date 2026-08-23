@@ -78,7 +78,6 @@ function EditAnimalPostForm() {
     })
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
-        console.log(values)
         if (!postId || !animalPostData) return
         const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
             areaCode: values.areaCode,
@@ -112,7 +111,6 @@ function EditAnimalPostForm() {
                     },
                 })
             }).catch((error) => {
-                console.log(error)
                 toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
             })
     }
