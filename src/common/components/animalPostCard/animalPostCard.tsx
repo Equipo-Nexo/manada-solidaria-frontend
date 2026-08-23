@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
-import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import * as S from './animalPostCard.styles'

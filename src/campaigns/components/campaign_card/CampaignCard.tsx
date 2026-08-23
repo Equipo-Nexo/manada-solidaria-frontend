@@ -1,6 +1,5 @@
 import * as S from "./CampaignCard.styles";
 import { LocationPin, Share } from "../../../common/icons";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import type { Location } from "@services/responses/Location";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";

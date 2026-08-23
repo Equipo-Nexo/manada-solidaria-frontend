@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import { Check } from "../../icons";
 import * as S from "./FundraisingCard.styles";
 import Copy from "../../icons/Copy";

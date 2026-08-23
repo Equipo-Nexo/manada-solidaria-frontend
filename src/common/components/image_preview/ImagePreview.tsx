@@ -5,12 +5,19 @@ interface ImagePreviewProps {
     imageId?: string;
     alt?: string;
     onError?: () => void;
+    variant?: 'rectangle' | 'round' | 'square';
 }
 
-export default function ImagePreview({ imageId, alt, onError}: ImagePreviewProps) {
+export default function ImagePreview({ 
+    imageId, 
+    alt, 
+    onError,
+    variant = 'rectangle'
+}: ImagePreviewProps) {
     return (
-        <S.ImageContainer>
-            <S.Photo 
+        <S.ImageContainer $variant={variant}>
+            <S.Photo
+                $variant={variant}
                 src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}
                 alt={alt}
                 onError={({ currentTarget }) => {
