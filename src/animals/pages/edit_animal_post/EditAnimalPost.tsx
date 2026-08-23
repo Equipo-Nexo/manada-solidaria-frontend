@@ -36,7 +36,7 @@ const EditAnimalPostDefaultValues = (
         color: animalPost.animal.color,
         name: animalPost.name ?? '',
         areaCode: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
-        phoneNumber: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
+        phoneNumber: animalPost.phoneNumber ? animalPost.phoneNumber.number : '',
         story: animalPost.description,
         location: animalPost.location,
     }
