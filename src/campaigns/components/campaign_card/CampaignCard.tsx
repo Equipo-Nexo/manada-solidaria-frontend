@@ -6,6 +6,7 @@ import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
+import { ImagePreview } from "@/common/components";
 
 export type CampaignCardData = {
   id?: string | number;
@@ -34,12 +35,8 @@ function CampaignCard({
   return (
     <S.Card className={className}>
       <S.ImageSection>
-        <S.CampaignImage
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${campaign.imageUrl}`} 
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }}
+        <ImagePreview 
+          imageId={campaign.imageUrl}
           alt={campaign.title}
         />
         <S.ShareButton

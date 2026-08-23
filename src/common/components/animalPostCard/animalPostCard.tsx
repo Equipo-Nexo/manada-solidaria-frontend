@@ -8,6 +8,7 @@ import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
 import { useNavigate } from 'react-router-dom'
+import ImagePreview from '../image_preview/ImagePreview'
 
 export type AnimalPostCardProps = {
   name?: string
@@ -57,13 +58,9 @@ function AnimalPostCard({
   return (
     <S.CardContainer>
       <S.PhotoContainer>
-        <S.Photo
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`}
+        <ImagePreview 
+          imageId={imageUrl}
           alt={name}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }}
         />
         <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={onShare}>
           <Share aria-hidden="true" />
