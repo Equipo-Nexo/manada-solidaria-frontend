@@ -10,6 +10,7 @@ import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
 import Map from "@/common/icons/Map";
 import { Loader } from "@/common/components";
+import { openWhatsApp } from "@/common/utils/Whatsapp";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const { fundraisingId } = useParams();
@@ -38,12 +39,9 @@ function FundraisingCampaignDetail() {
     if (!data?.location) {
       return;
     }
-    navigate("/mapa", {
-      state: {
-        latitude: data.location.latitude,
-        longitude: data.location.longitude,
-      },
-    });
+    navigate(
+      `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
+    );
   };
   return (
     <S.Page>
@@ -148,9 +146,19 @@ function FundraisingCampaignDetail() {
               Contacto
             </S.Title>
             <S.ContactCard>
-              <S.ContactPhone>{displayedContactPhone}</S.ContactPhone>
-              <S.CallButton href={`tel:${contactPhone}`}>
-                Llamar
+              <S.ContactPhone>
+                {`${data?.phoneNumber.areaCode} ${data?.phoneNumber.number}`}
+              </S.ContactPhone>
+              <S.CallButton
+                type="button"
+                onClick={() =>
+                  openWhatsApp(
+                    `${data.phoneNumber.areaCode}${data.phoneNumber.number}`,
+                    `¡Hola! Me gustaría consultar por la colecta de ${data.title}`,
+                  )
+                }
+              >
+                Contactar
               </S.CallButton>
             </S.ContactCard>
           </S.ContactSection>

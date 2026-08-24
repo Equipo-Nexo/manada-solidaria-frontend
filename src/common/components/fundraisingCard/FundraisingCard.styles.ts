@@ -69,6 +69,7 @@ export const CaseCard = styled.div`
   background: ${({ theme }) => theme.colors.background};
   margin-inline: -10px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+  cursor: pointer;
 `;
 export const ImageContainer = styled.div`
   flex: 0 0 120px;
@@ -141,6 +142,15 @@ export const StoryButton = styled.button`
   line-height: 20px;
   text-decoration: underline;
   cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;

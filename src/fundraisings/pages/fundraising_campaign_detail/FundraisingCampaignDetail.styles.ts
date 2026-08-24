@@ -50,7 +50,7 @@ export const Content = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   box-sizing: border-box;
   @media (min-width: 768px) {
     max-width: 560px;
@@ -58,9 +58,9 @@ export const Content = styled.div`
 `;
 export const FundraisingImage = styled.img`
   width: 100%;
-  height: 224px;
+  height: 240px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 12px;
 `;
 export const FundraisingInfo = styled.section`
   width: 100%;
@@ -127,23 +127,15 @@ export const AliasSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 4px;
   width: 100%;
   box-sizing: border-box;
-  padding: 12px 14px;
+  padding: 12px 8px 12px 14px;
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
-  > svg {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
-  }
 `;
 export const IconContainer = styled.div`
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,13 +150,12 @@ export const AliasContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
 `;
 export const AliasLabel = styled.span`
   text-align: left;
   color: ${({ theme }) => theme.colors.black};
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 11px;
+  line-height: 1rem;
 `;
 export const AliasValue = styled.span`
   text-align: left;
@@ -184,12 +175,12 @@ export const CopyButton = styled.button<CopyButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 4px;
   height: 30px;
-  width: 128px;
-  padding: 0 10px;
+  width: 120px;
+  padding: 6px 4px;
   border: 1px solid ${({ theme }) => theme.colors.brand};
-  border-radius: 8px;
+  border-radius: 10px;
   background: ${({ $copied, theme }) =>
     $copied ? theme.colors.brand : theme.colors.background};
   color: ${({ $copied, theme }) =>
@@ -198,7 +189,6 @@ export const CopyButton = styled.button<CopyButtonProps>`
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
-
   svg {
     width: 14px;
     height: 14px;
@@ -235,7 +225,7 @@ export const GoalAmount = styled.p`
 `;
 export const GoalPercentage = styled.p`
   color: ${({ theme }) => theme.colors.black};
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
 `;
@@ -265,12 +255,12 @@ export const GoalFooter = styled.div`
 `;
 export const CollectedAmount = styled.span`
   color: ${({ theme }) => theme.colors.darkColor};
-  font-size: 11px;
+  font-size: 12px;
   line-height: 16px;
 `;
 export const RemainingAmount = styled.span`
   color: ${({ theme }) => theme.colors.darkColor};
-  font-size: 11px;
+  font-size: 12px;
   line-height: 16px;
   text-align: right;
 `;
@@ -344,7 +334,7 @@ export const ContactSection = styled.section`
   box-sizing: border-box;
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
-  padding: 16px 8px 10px;
+  padding: 24px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
 
@@ -356,7 +346,7 @@ export const ContactCard = styled.div`
   width: 100%;
   min-height: 50px;
   box-sizing: border-box;
-  padding: 7px 10px;
+  padding: 16px;
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
@@ -365,15 +355,14 @@ export const ContactPhone = styled.span`
   min-width: 0;
   overflow: hidden;
   color: ${({ theme }) => theme.colors.black};
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 18px;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 export const CallButton = styled.a`
-  width: 88px;
-  height: 30px;
-  flex: 0 0 88px;
+  width: 130px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -382,7 +371,7 @@ export const CallButton = styled.a`
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.brand};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 11px;
+  font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-decoration: none;
   cursor: pointer;
