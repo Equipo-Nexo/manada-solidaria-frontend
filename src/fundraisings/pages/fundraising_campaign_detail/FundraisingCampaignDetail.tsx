@@ -1,4 +1,4 @@
-import { Arrow, Check, Phone, Share } from "@/common/icons";
+import { Arrow, Check, OpenMap, Phone, Share } from "@/common/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./FundraisingCampaignDetail.styles";
 import { useGetFundraisingByIdQuery } from "@/campaigns/app/api/campaignApi";
@@ -8,7 +8,6 @@ import Copy from "@/common/icons/Copy";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
-import Map from "@/common/icons/Map";
 import { Loader } from "@/common/components";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 function FundraisingCampaignDetail() {
@@ -19,12 +18,6 @@ function FundraisingCampaignDetail() {
   );
   const goal = data?.amountToBeCollected;
   const collected = data?.amountCollected ?? 0;
-  const contactPhone = data?.phoneNumber
-    ? `${data.phoneNumber.areaCode}${data.phoneNumber.number}`
-    : "";
-  const displayedContactPhone = data?.phoneNumber
-    ? `${data.phoneNumber.areaCode} ${data.phoneNumber.number}`
-    : "";
   const hasGoal = goal != null && goal > 0;
   const progress = hasGoal
     ? Math.min(100, Math.round((collected / goal) * 100))
@@ -35,14 +28,7 @@ function FundraisingCampaignDetail() {
       void copy(data.accountAlias);
     }
   };
-  const handleViewMap = () => {
-    if (!data?.location) {
-      return;
-    }
-    navigate(
-      `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
-    );
-  };
+  const location = data?.location.name || data?.location.address || 'Ubicación no informada'
   return (
     <S.Page>
       <S.Header>
@@ -129,16 +115,20 @@ function FundraisingCampaignDetail() {
             </S.FundraisingDescription>
           </S.DescriptionSection>
           {data?.location && (
-            <S.LocationSection>
-              <S.LocationMapPreview></S.LocationMapPreview>
+            <S.LocationCard>
+              <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
               <S.LocationContent>
-                <S.LocationName>{data.location.name}</S.LocationName>
-                <S.ViewMapButton type="button" onClick={handleViewMap}>
-                  Ver en el mapa
-                  <Map aria-hidden="true" />
-                </S.ViewMapButton>
+                <S.LocationTitle>{location}</S.LocationTitle>
+                <S.MapLink
+                  type="button"
+                  onClick={() => navigate(
+                    `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
+                  )}
+                >
+                  Ver en el mapa <OpenMap aria-hidden="true" />
+                </S.MapLink>
               </S.LocationContent>
-            </S.LocationSection>
+            </S.LocationCard>
           )}
           <S.ContactSection>
             <S.Title $iconColor="black">
