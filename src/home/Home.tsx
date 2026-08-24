@@ -107,6 +107,9 @@ function Home() {
               key={fundraising.id}
               fundraising={mapFundraisingToCardData(fundraising)}
               showAlias={false}
+              onViewStory={(fundraising) => {
+                navigate(`/colectas/${fundraising.id}`);
+              }}
             />
           ))}
       </Carousel>

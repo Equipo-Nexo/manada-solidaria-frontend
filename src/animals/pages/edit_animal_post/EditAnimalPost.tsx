@@ -107,7 +107,7 @@ function EditAnimalPostForm() {
                     state: {
                         imageUrl: values.imageId,
                         name: values.name ? values.name.trim() : 'de tu animal',
-                        onDetailRedirect: '/animales'
+                        onDetailRedirect: `/detalle/${postId}`
                     },
                 })
             }).catch(() => {

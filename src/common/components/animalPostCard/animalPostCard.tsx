@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
@@ -6,10 +7,10 @@ import * as S from './animalPostCard.styles'
 import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
-import { useNavigate } from 'react-router-dom'
 import ImagePreview from '../image_preview/ImagePreview'
 
 export type AnimalPostCardProps = {
+  postId: string
   name?: string
   status?: string
   location?: Location
@@ -22,6 +23,7 @@ export type AnimalPostCardProps = {
 }
 
 function AnimalPostCard({
+  postId,
   name,
   status,
   location,
@@ -29,12 +31,11 @@ function AnimalPostCard({
   imageUrl,
   phoneNumber,
   reward,
-  onShare,
-  onViewMore,
+  onShare
 }: AnimalPostCardProps) {
+  const navigate = useNavigate()
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
-  const navigate = useNavigate();
-  
+
   const hasReward =
     status === ANIMAL_POST_STATUS_LABELS.LOST &&
     typeof reward === 'number' &&
@@ -54,8 +55,13 @@ function AnimalPostCard({
     navigate(`/mapa?latitude=${latitude}&longitude=${longitude}`)
   }
 
+  const handleCardClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest('button, a')) return
+    navigate(`/animal/detalle/${postId}`)
+  }
+
   return (
-    <S.CardContainer>
+    <S.CardContainer onClick={handleCardClick}>
       <S.PhotoContainer>
         <ImagePreview 
           imageId={imageUrl}
@@ -100,8 +106,7 @@ function AnimalPostCard({
         </S.Location>
 
         <S.Description>{description}</S.Description>
-
-        <S.ViewMore type="button" onClick={onViewMore}>
+        <S.ViewMore type="button" onClick={() => navigate(`/animal/detalle/${postId}`)}>
           Ver más información
         </S.ViewMore>
 

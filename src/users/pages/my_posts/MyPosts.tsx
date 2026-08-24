@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type KeyboardEvent, type MouseEvent } from "react";
 import { ArrowLeft, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
@@ -63,6 +63,23 @@ function MyPosts() {
     const handleDeleteButton = (post: GetUserPostsResponse) => {
         setSelectedPost(post)
         setOpenBottomSheet(true)
+    }
+
+    const handleClickButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
+        const clickByPostType: Record<UserPostType, (postId: string) => void> = {
+            campaign: (postId) => navigate(`campaña/detalle/${postId}`),
+            animal: (postId) => navigate(`/animal/detalle/${postId}`),
+            fundraising: (postId) => navigate(`/colecta/detalle/${postId}`),
+        }
+        if (event.target instanceof Element && event.target.closest('button, a')) return
+
+        clickByPostType[post.postType](post.id)
+    }
+
+    const handlePostKeyDown = (post: GetUserPostsResponse, event: KeyboardEvent<HTMLElement>) => {
+        if (post.postType === 'animal' && event.key === 'Enter' && event.target === event.currentTarget) {
+            navigate(`/detalle/${post.id}`)
+        }
     }
 
     const closeBottomSheet = () => {
@@ -161,7 +178,14 @@ function MyPosts() {
                     )}
                     {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType }) => {
                         return (
-                            <S.Card key={id}>
+                            <S.Card
+                                key={id}
+                                $clickable={postType === 'animal'}
+                                role={postType === 'animal' ? 'link' : undefined}
+                                tabIndex={postType === 'animal' ? 0 : undefined}
+                                onClick={(event) => handleClickButton({ id, imageId, title, createdSince, status, postType }, event)}
+                                onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
+                            >
                                 <ImagePreview
                                     imageId={imageId}
                                     alt={title}
