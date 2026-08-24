@@ -28,3 +28,4 @@ export { default as WorkInProgress } from './workInProgress/WorkInProgress';
 export { default as CampaignCard } from '../../campaigns/components/campaign_card/CampaignCard';
 export { default as AutocompleteGeolocation } from './autocomplete_geolocation/AutocompleteGeolocation'
 export { default as VetGuardButton } from './vet_guard_button/VetGuardButton'
+export { default as ImagePreview } from './image_preview/ImagePreview'

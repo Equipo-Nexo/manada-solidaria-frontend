@@ -26,16 +26,6 @@ export const ImageContainer = styled.div`
   height: 136px;
 `
 
-export const AnimalImage = styled.img`
-  width: 100%;
-  height: 100%;
-  display: block;
-  border: 4px solid ${({ theme }) => theme.colors.background};
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 10px 28px ${({ theme }) => `${theme.colors.darkColor}24`};
-`
-
 export const SuccessBadge = styled.span`
   position: absolute;
   right: -2px;

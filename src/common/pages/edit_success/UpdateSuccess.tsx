@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { ImagePreview } from '../../components'
 import { Check, Eye, History } from '../../icons'
 import * as S from './UpdateSuccess.styles'
 
@@ -17,7 +18,7 @@ function UpdateSuccess() {
     <S.Container>
       <S.Content>
         <S.ImageContainer>
-          <S.AnimalImage src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`} />
+          <ImagePreview imageId={imageUrl} alt={name} variant="round" />
           <S.SuccessBadge aria-hidden="true">
             <Check />
           </S.SuccessBadge>

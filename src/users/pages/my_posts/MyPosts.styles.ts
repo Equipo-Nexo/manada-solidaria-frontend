@@ -155,15 +155,6 @@ export const Card = styled.div`
     }
 `
 
-export const CardImage = styled.img`
-    width: 35%;
-    height: auto;
-    align-self: stretch;
-    flex-shrink: 0;
-    object-fit: cover;
-    object-position: center;
-`
-
 export const CardContent = styled.div`
     display: flex;
     flex-direction: row;

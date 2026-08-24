@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import { Check } from "../../icons";
 import * as S from "./FundraisingCard.styles";
 import Copy from "../../icons/Copy";
 import Transfer from "../../icons/Transfer";
+import ImagePreview from "../image_preview/ImagePreview";
 
 export type FundraisingCardData = {
   id?: string;
@@ -70,13 +70,9 @@ function FundraisingCard({
     <S.Card className={className} $showAlias={showAlias}>
       <S.CaseCard>
         <S.ImageContainer>
-          <S.CaseImage
-            src={`${import.meta.env.VITE_CLOUDFLARE_URL}${fundraising.imageUrl}`}
-            alt={fundraising.imageAlt ?? fundraising.title}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = NOT_FOUND_IMAGE_URL;
-            }}
+          <ImagePreview 
+            imageId={fundraising.imageUrl}
+            alt={fundraising.title}
           />
         </S.ImageContainer>
 
