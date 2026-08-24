@@ -43,7 +43,7 @@ function App() {
     location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
-  const isPublicationDetail = location.pathname.startsWith("/detalle/");
+  const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
 
   const usesFullScreenLayout =
     location.pathname === "/login" ||

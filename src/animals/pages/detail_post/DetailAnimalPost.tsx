@@ -50,7 +50,9 @@ function AnimalPostDetail() {
   const animalKind = animalKinds.find(({ value }) => value === postData.animal.type)?.label
     ?? 'No informado'
 
-  const location = postData.location.name || postData.location.address || 'Ubicación no informada'
+  const location = postData.location.name || 'Ubicación no informada'
+
+  const address = postData.location.address || ''
 
   const status = AnimalPostStatus[postData.status]
 
@@ -133,7 +135,8 @@ function AnimalPostDetail() {
           <S.LocationCard>
             <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
             <S.LocationContent>
-              <S.LocationTitle>{location}</S.LocationTitle>
+              <S.LocationTitle>{location},</S.LocationTitle>
+              <S.LocationAddress>{address}</S.LocationAddress>
               <S.MapLink
                 type="button"
                 onClick={() => navigate(
@@ -149,8 +152,9 @@ function AnimalPostDetail() {
             {feature(PawPrint, 'Especie', animalKind)}
             {feature(GenderIcon, 'Sexo', animalSexLabels[postData.animal.gender])}
             {feature(Ruler, 'Tamaño', animalSizeLabels[postData.animal.size])}
-            {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
             {feature(Calendar, 'Edad', animalAgeLabels[postData.animal.age])}
+            {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
+
           </S.FeaturesGrid>
 
           <S.StorySection>
@@ -170,7 +174,10 @@ function AnimalPostDetail() {
                 <S.ContactNumber>{PHONE_NUMBER}</S.ContactNumber>
                 <S.ContactButton
                   type="button"
-                  onClick={() => openWhatsApp(PHONE_NUMBER, adviceDescriptionSelector(postData.type))}
+                  onClick={() => openWhatsApp(
+                    `${postData?.phoneNumber?.areaCode}${postData?.phoneNumber?.number}`,
+                    `¡Hola! Me gustaría consultar por la publicación de ${postData.name}`,
+                  )}
                 >
                   Contactar
                 </S.ContactButton>
