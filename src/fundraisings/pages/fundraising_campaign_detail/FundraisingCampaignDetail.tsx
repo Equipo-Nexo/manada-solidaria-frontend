@@ -28,7 +28,9 @@ function FundraisingCampaignDetail() {
       void copy(data.accountAlias);
     }
   };
-  const location = data?.location.name || data?.location.address || 'Ubicación no informada'
+  const location = data?.location.name || 'Ubicación no informada'
+  const address = data?.location.address || ''
+
   return (
     <S.Page>
       <S.Header>
@@ -119,6 +121,7 @@ function FundraisingCampaignDetail() {
               <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
               <S.LocationContent>
                 <S.LocationTitle>{location}</S.LocationTitle>
+                <S.LocationAddress>{address}</S.LocationAddress>
                 <S.MapLink
                   type="button"
                   onClick={() => navigate(
