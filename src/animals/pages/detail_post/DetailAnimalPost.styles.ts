@@ -422,7 +422,7 @@ export const ContactNumber = styled.span`
   white-space: nowrap;
 `
 
-const ContactActionButton = styled.button`
+export const ContactButton = styled.button`
   min-width: 116px;
   height: 40px;
   padding: 6px 8px;
@@ -439,27 +439,4 @@ const ContactActionButton = styled.button`
   }
 `
 
-export const MobileContactButton = styled(ContactActionButton)`
-  @media (min-width: 768px) {
-    display: none;
-  }
-`
 
-export const DesktopCopyButton = styled(ContactActionButton) <{ $copied?: boolean }>`
-  display: none;
-  @media (min-width: 768px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    background: ${({ $copied, theme }) =>
-    $copied ? theme.colors.brand : theme.colors.background};
-    color: ${({ $copied, theme }) =>
-    $copied ? theme.colors.background : theme.colors.brand};
-
-    svg {
-      width: 14px;
-      height: 14px;
-    }
-  }
-`

@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Calendar, Check, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
+import { Calendar, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
 import { Advice, Message } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
@@ -21,8 +21,6 @@ function AnimalPostDetail() {
 
   const navigate = useNavigate()
 
-  const { copied: phoneCopied, copy: copyPhone } = useCopyToClipboard()
-
   const { postId } = useParams<{ postId: string }>()
 
   const { data: postData, isLoading, isError } = useGetAnimalPostQuery(postId ?? '', { skip: !postId })
@@ -33,8 +31,6 @@ function AnimalPostDetail() {
         <PawLoader />
       </S.LoaderContainer>
     )
-
-
   }
 
   if (isError || !postData) {
@@ -77,10 +73,6 @@ function AnimalPostDetail() {
       case 'IN_STREET':
         return 'Contactá si querés colaborar de alguna forma con el animal en la calle'
     }
-  }
-
-  const handleCopyPhoneNumber = () => {
-    void copyPhone(PHONE_NUMBER)
   }
 
   return (
@@ -177,20 +169,12 @@ function AnimalPostDetail() {
               <S.SectionTitle><Phone aria-hidden="true" />Contacto</S.SectionTitle>
               <S.ContactRow>
                 <S.ContactNumber>{PHONE_NUMBER}</S.ContactNumber>
-                <S.MobileContactButton
+                <S.ContactButton
                   type="button"
                   onClick={() => openWhatsApp(PHONE_NUMBER, adviceDescriptionSelector(postData.type))}
                 >
                   Contactar
-                </S.MobileContactButton>
-                <S.DesktopCopyButton
-                  type="button"
-                  onClick={handleCopyPhoneNumber}
-                  $copied={phoneCopied}
-                >
-                  {phoneCopied && <Check aria-hidden="true" />}
-                  {phoneCopied ? 'Número copiado' : 'Copiar número'}
-                </S.DesktopCopyButton>
+                </S.ContactButton>
               </S.ContactRow>
             </S.ContactCard>
             <S.AdviceArea>
