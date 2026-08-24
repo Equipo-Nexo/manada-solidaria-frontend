@@ -19,6 +19,8 @@ function FundraisingList({
   onRetry,
   advice,
 }: FundraisingListProps) {
+  const navigate = useNavigate();
+
   if (isLoading) {
     return (
       <S.MessageContainer>
@@ -48,7 +50,6 @@ function FundraisingList({
       </S.MessageContainer>
     );
   }
-  const navigate = useNavigate();
   return (
     <S.List>
       {advice && <S.AdviceItem>{advice}</S.AdviceItem>}

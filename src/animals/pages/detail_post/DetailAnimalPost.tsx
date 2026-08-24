@@ -15,7 +15,6 @@ import getOwnerRole from '@/common/utils/GetRoles'
 import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
 import { openWhatsApp } from '@/common/utils/Whatsapp'
-import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
 
 function AnimalPostDetail() {
 
