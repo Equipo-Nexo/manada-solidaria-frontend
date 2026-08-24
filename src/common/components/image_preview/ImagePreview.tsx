@@ -14,11 +14,15 @@ export default function ImagePreview({
     onError,
     variant = 'rectangle'
 }: ImagePreviewProps) {
+    const source = imageId && /^(https?:|blob:|data:)/i.test(imageId)
+        ? imageId
+        : `${import.meta.env.VITE_CLOUDFLARE_URL}${imageId ?? ''}`;
+
     return (
         <S.ImageContainer $variant={variant}>
             <S.Photo
                 $variant={variant}
-                src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}
+                src={source}
                 alt={alt}
                 onError={({ currentTarget }) => {
                     onError?.();
