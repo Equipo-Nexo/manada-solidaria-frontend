@@ -8,6 +8,7 @@ import { useGetPresignedUrlMutation } from "@services/apis/imagesApi";
 import { useUploadImageMutation } from "@services/apis/cloudflareApi";
 import { useToast } from "@hooks/toast/useToast";
 import PawLoader from "../pawLoader/PawLoader";
+import ImagePreview from "../image_preview/ImagePreview";
 
 type ImageUploadProps = {
   imageUrl?: string;
@@ -34,9 +35,6 @@ function ImageUpload({
     : updated
       ? capturedPhoto?.url
       : imageUrl ?? capturedPhoto?.url;
-  const previewSource = preview && !updated && !/^(https?:|blob:|data:)/i.test(preview)
-    ? `${import.meta.env.VITE_CLOUDFLARE_URL}${preview}`
-    : preview;
   const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
@@ -95,13 +93,11 @@ function ImageUpload({
         <S.ImageUploadButton
           type="button"
           onClick={() => setIsSheetOpen(true)}
+          $hasPreview={Boolean(preview && !isError)}
         >
           {preview && !isError ? (
             <>
-              <S.ImageUploadPreview 
-                src={previewSource}
-                alt="" 
-              />
+              <ImagePreview imageId={preview} alt="Imagen seleccionada" />
               <S.EditImageIndicator aria-hidden="true">
                 <Pencil />
               </S.EditImageIndicator>
