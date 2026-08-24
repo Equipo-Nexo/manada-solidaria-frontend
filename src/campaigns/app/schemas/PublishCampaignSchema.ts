@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { campaignCategories, type CampaignCategory } from "../types/Campaign.types";
 import { locationSchema } from "@/common/utils/Location.schema";
+import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
 export const publishCampaignSchema = yup.object({
   title: yup.string().required("Ingresá un título para la campaña.").max(100),
@@ -68,8 +69,8 @@ export const publishCampaignSchema = yup.object({
     then: (schema) => schema.required("Ingresá una hora de fin."),
     otherwise: (schema) => schema.notRequired(),
   }),
-  phoneAreaCode: yup.string().required("Ingresá un código de área."),
-  phone: yup.string().required("Ingresá un número de teléfono."),
+  phoneAreaCode: phoneAreaCodeSchema.required("Ingresá un código de área."),
+  phone: phoneNumberSchema.required("Ingresá un número de teléfono."),
 
   location: locationSchema,
   donationNeeds: yup.array().when("category", {

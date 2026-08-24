@@ -1,13 +1,13 @@
 import { useState, type MouseEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
-import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
 import * as S from './animalPostCard.styles'
 import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
+import ImagePreview from '../image_preview/ImagePreview'
 
 export type AnimalPostCardProps = {
   postId: string
@@ -31,8 +31,7 @@ function AnimalPostCard({
   imageUrl,
   phoneNumber,
   reward,
-  onShare,
-  onViewMore,
+  onShare
 }: AnimalPostCardProps) {
   const navigate = useNavigate()
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
@@ -64,13 +63,9 @@ function AnimalPostCard({
   return (
     <S.CardContainer onClick={handleCardClick}>
       <S.PhotoContainer>
-        <S.Photo
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`}
+        <ImagePreview 
+          imageId={imageUrl}
           alt={name}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }}
         />
         <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={onShare}>
           <Share aria-hidden="true" />

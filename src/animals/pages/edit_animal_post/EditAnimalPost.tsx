@@ -36,7 +36,7 @@ const EditAnimalPostDefaultValues = (
         color: animalPost.animal.color,
         name: animalPost.name ?? '',
         areaCode: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
-        phoneNumber: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
+        phoneNumber: animalPost.phoneNumber ? animalPost.phoneNumber.number : '',
         story: animalPost.description,
         location: animalPost.location,
     }
@@ -78,7 +78,6 @@ function EditAnimalPostForm() {
     })
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
-        console.log(values)
         if (!postId || !animalPostData) return
         const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
             areaCode: values.areaCode,
@@ -111,8 +110,7 @@ function EditAnimalPostForm() {
                         onDetailRedirect: `/detalle/${postId}`
                     },
                 })
-            }).catch((error) => {
-                console.log(error)
+            }).catch(() => {
                 toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
             })
     }
@@ -225,7 +223,7 @@ function EditAnimalPostForm() {
                                 aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
                                 aria-invalid={Boolean(fieldState.error)}
                             >
-                                {animalSize.map((size) => (
+                                {animalSize(animalPostData?.animal.type).map((size) => (
                                     <OptionsComponent
                                         key={size.value}
                                         name={field.name}

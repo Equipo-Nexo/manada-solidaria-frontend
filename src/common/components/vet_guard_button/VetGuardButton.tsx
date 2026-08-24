@@ -3,8 +3,8 @@ import { BriefcaseMedical, Phone, Stethoscope, Warning } from "@icons/index";
 import * as S from "./VetGuardButton.styles";
 import { isVetGuardActive } from "./vetGuardSchedule";
 
-const VET_GUARD_PHONE_NUMBER = "0353154791156";
-const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 154791156";
+const VET_GUARD_PHONE_NUMBER = "+5493534791156";
+const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 15-4791156";
 const VET_PATH = "/veterinarias";
 
 type VetGuardButtonProps = {

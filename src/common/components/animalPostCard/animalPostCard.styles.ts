@@ -29,16 +29,7 @@ export const CardContainer = styled.article`
 
 export const PhotoContainer = styled.div`
   position: relative;
-  height: 204px;
   overflow: hidden;
-`
-
-export const Photo = styled.img`
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 48%;
 `
 
 export const ShareButton = styled.button`

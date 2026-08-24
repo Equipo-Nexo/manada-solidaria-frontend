@@ -31,7 +31,9 @@ function AutocompleteGeolocation({
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
     const [isInputFocused, setInputIsFocused] = useState(false)
     const onChangeRef = useRef(onChange)
-    const displayedDirection = direction || initialLocation && `${initialLocation?.address} ${initialLocation?.number}, ${initialLocation?.name}` || EMPTY_DIRECTION
+    const initialDirection = initialLocation
+        ? `${initialLocation.address} ${initialLocation.number}, ${initialLocation.name}`
+        : EMPTY_DIRECTION
 
     useEffect(() => {
         onChangeRef.current = onChange
@@ -40,10 +42,6 @@ function AutocompleteGeolocation({
     useEffect(() => {
      void requestCoordinates()
     }, [requestCoordinates])
-
-    useEffect(() => {
-        if (selectedLocation) onChangeRef.current?.(selectedLocation)
-    }, [selectedLocation])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -58,11 +56,12 @@ function AutocompleteGeolocation({
         {
             skip:
             debouncedDirection.length < 3 ||
-            selectedLocation !== null,
+            selectedLocation !== null ||
+            selectedPoint !== null,
         }
     )
 
-    const { data: location } = useGetGeolocationReverseQuery(
+    const { currentData: reverseLocation } = useGetGeolocationReverseQuery(
         selectedPoint
             ? {
                 latitude: selectedPoint.lat,
@@ -71,19 +70,21 @@ function AutocompleteGeolocation({
             : skipToken
     )
 
+    const effectiveLocation = selectedPoint ? reverseLocation ?? null : selectedLocation
+    const displayedDirection = effectiveLocation?.formatted ?? (direction || initialDirection)
+
     useEffect(() => {
-        if (location) {
-            setSelectedLocation(location)
-            setDirection(location.formatted)
-        }
-    }, [location])
+        if (effectiveLocation) onChangeRef.current?.(effectiveLocation)
+    }, [effectiveLocation])
 
     const handleSelectLocation = (location: GeolocationResponse) => {
+        setSelectedPoint(null)
         setSelectedLocation(location)
         setDirection(location.formatted)
     }
 
     const handleSelectPoint = (point: MapPoint) => {
+        setSelectedLocation(null)
         setSelectedPoint(point)
     }
 
@@ -97,6 +98,7 @@ function AutocompleteGeolocation({
                         onChange={(event) => {
                             setDirection(event.target.value)
                             setSelectedLocation(null)
+                            setSelectedPoint(null)
                             onChange?.(null)
                         }}
                         onFocus={() => setInputIsFocused(true)}
@@ -135,11 +137,11 @@ function AutocompleteGeolocation({
                 <S.MapWrapper >
                     <Map 
                         onPointSelect={handleSelectPoint}
-                        markPoint={selectedLocation
-                            ? { lng: selectedLocation.lon, lat: selectedLocation.lat }
+                        markPoint={selectedPoint ?? (effectiveLocation
+                            ? { lng: effectiveLocation.lon, lat: effectiveLocation.lat }
                             : initialLocation?.latitude != null && initialLocation.longitude != null
                                 ? { lat: initialLocation.latitude, lng: initialLocation.longitude }
-                                : null}
+                                : null)}
                     />
                 </S.MapWrapper>
                 <S.Suggestion>

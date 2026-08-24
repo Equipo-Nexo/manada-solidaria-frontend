@@ -14,7 +14,8 @@ export const ImageUploadLoadingState = styled.div`
 
 export const ImageUploadButton = styled.button`
   width: 100%;
-  min-height: 154px;
+  min-height: 204px;
+  max-height: 204px;
   position: relative;
   display: flex;
   flex-direction: column;

@@ -7,9 +7,8 @@ import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
-import { BottomSheet, CategorySelector, Message } from "@components/index.ts";
+import { BottomSheet, CategorySelector, ImagePreview, Message } from "@components/index.ts";
 import { Clock } from "@icons/index.ts";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
 import { publicationMessages } from "@utils/Messages";
 
@@ -75,13 +74,6 @@ function MyPosts() {
         if (event.target instanceof Element && event.target.closest('button, a')) return
 
         clickByPostType[post.postType](post.id)
-    }
-
-    const handlePostClick = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
-        if (post.postType !== 'animal') return
-        if (event.target instanceof Element && event.target.closest('button, a')) return
-
-        navigate(`/detalle/${post.id}`)
     }
 
     const handlePostKeyDown = (post: GetUserPostsResponse, event: KeyboardEvent<HTMLElement>) => {
@@ -194,13 +186,10 @@ function MyPosts() {
                                 onClick={(event) => handleClickButton({ id, imageId, title, createdSince, status, postType }, event)}
                                 onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
                             >
-                                <S.CardImage
-                                    src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageId}`}
+                                <ImagePreview
+                                    imageId={imageId}
                                     alt={title}
-                                    onError={({ currentTarget }) => {
-                                        currentTarget.onerror = null;
-                                        currentTarget.src = NOT_FOUND_IMAGE_URL;
-                                    }}
+                                    variant="square"
                                 />
                                 <S.CardContent>
                                     <S.CardInformationContainer>

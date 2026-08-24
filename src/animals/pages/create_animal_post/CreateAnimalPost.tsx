@@ -15,10 +15,10 @@ import { formatRewardAmount } from '@utils/rewardAmount'
 import { DescriptionComponent, AnimalSelectorComponent, ColorSelectorComponent } from '@animals/components'
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
-import { publicationReasons } from '@/animals/components/DescriptionComponent'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 import FormContainer from '@/common/components/form_container/FormContainer'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { publicationReasons } from '@/animals/utils/PublicationReasons'
 
 function CreateAnimalPost() {
   const navigate = useNavigate()
@@ -50,6 +50,11 @@ function CreateAnimalPost() {
   const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
     control,
     name: 'phoneNumber',
+  })
+
+  const animalType = useWatch({
+    control,
+    name: 'animalType',
   })
 
   const handlePublicationReasonChange = (
@@ -254,7 +259,7 @@ function CreateAnimalPost() {
                   aria-describedby={fieldState.error ? 'animal-size-error' : undefined}
                   aria-invalid={Boolean(fieldState.error)}
                 >
-                  {animalSize.map((size) => (
+                  {animalSize(animalType).map((size) => (
                     <OptionsComponent
                       key={size.value}
                       name={field.name}
