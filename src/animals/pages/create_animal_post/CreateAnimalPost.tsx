@@ -15,10 +15,10 @@ import { formatRewardAmount } from '@utils/rewardAmount'
 import { DescriptionComponent, AnimalSelectorComponent, ColorSelectorComponent } from '@animals/components'
 import { animalKinds, animalSize } from '@/animals/utils/AnimalFormUtils'
 import { recordToOptions } from '@/common/utils/RecordToOptions'
-import { publicationReasons } from '@/animals/components/DescriptionComponent'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 import FormContainer from '@/common/components/form_container/FormContainer'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { publicationReasons } from '@/animals/utils/PublicationReasons'
 
 function CreateAnimalPost() {
   const navigate = useNavigate()
