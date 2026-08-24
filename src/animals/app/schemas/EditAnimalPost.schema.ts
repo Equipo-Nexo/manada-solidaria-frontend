@@ -11,6 +11,7 @@ import {
 } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
 import { locationSchema } from '@utils/Location.schema'
+import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
 
 export const editAnimalPostSchema = yup.object({
     publicationReason: yup
@@ -38,34 +39,19 @@ export const editAnimalPostSchema = yup.object({
         .nullable()
         .defined()
         .default(null),
-    areaCode: yup
-        .string()
-        .defined()
-        .default('')
+    areaCode: phoneAreaCodeSchema
         .when('publicationReason', {
             is: PublicationReason.Street,
-            then: (schema) =>
-                schema.matches(/^\d*$/, 'La característica debe contener solo números.'),
+            then: (schema) => schema,
             otherwise: (schema) =>
-                schema
-                    .required('Ingresá la característica telefónica.')
-                    .matches(/^\d+$/, 'La característica debe contener solo números.'),
+                schema.required('Ingresá la característica telefónica.'),
         }),
-    phoneNumber: yup
-        .string()
-        .defined()
-        .default('')
+    phoneNumber: phoneNumberSchema
         .when('publicationReason', {
             is: PublicationReason.Street,
-            then: (schema) =>
-                schema.matches(
-                    /^(?:\d{7})?$/,
-                    'El número de teléfono debe tener exactamente 7 números.',
-                ),
+            then: (schema) => schema,
             otherwise: (schema) =>
-                schema
-                    .required('Ingresá el número de teléfono.')
-                    .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
+                schema.required('Ingresá el número de teléfono.'),
         }),
     story: yup.string().trim().required('Contanos la historia del animal.'),
 })

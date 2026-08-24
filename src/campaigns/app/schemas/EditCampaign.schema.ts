@@ -2,6 +2,7 @@ import * as yup from 'yup'
 import type { CampaignDetailsType } from '@models/Campaign.types'
 import { locationSchema } from '@utils/Location.schema'
 import { campaignCategories, type CampaignCategory } from '../types/Campaign.types'
+import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
 
 export const editCampaignSchema = yup.object({
   category: yup
@@ -48,14 +49,8 @@ export const editCampaignSchema = yup.object({
     is: (type: CampaignDetailsType) => type !== 'DONATION',
     then: (schema) => schema.required('Ingresá una hora de fin.'),
   }),
-  phoneAreaCode: yup
-    .string()
-    .required('Ingresá un código de área.')
-    .matches(/^\d+$/, 'El código de área debe contener solo números.'),
-  phone: yup
-    .string()
-    .required('Ingresá un número de teléfono.')
-    .matches(/^\d{7}$/, 'El número de teléfono debe tener exactamente 7 números.'),
+  phoneAreaCode: phoneAreaCodeSchema.required('Ingresá un código de área.'),
+  phone: phoneNumberSchema.required('Ingresá un número de teléfono.'),
   location: locationSchema,
   imageId: yup.string().defined().default(''),
 })
