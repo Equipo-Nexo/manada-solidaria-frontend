@@ -41,3 +41,4 @@ export { default as Money } from "./Money";
 export { default as Publish } from "./Publish";
 export { default as PublishButton } from "./PublishButton";
 export { default as Warning } from "./Warning";
+export { default as Transfer } from "./Transfer";

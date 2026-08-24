@@ -9,6 +9,7 @@ import { useUploadImageMutation } from "@services/apis/cloudflareApi";
 import { useToast } from "@hooks/toast/useToast";
 import PawLoader from "../pawLoader/PawLoader";
 import ImagePreview from "../image_preview/ImagePreview";
+import CameraCapture from "../cameraCapture/CameraCapture";
 
 type ImageUploadProps = {
   imageUrl?: string;
@@ -22,13 +23,15 @@ function ImageUpload({
   onImageSelected
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
+  const { capturedPhoto, takePhoto, chooseFromGallery, capturePhoto, cameraDevices, setZoom,
+    stopCamera, stream, switchCamera, zoom, zoomRange } = useCamera();
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
   const [updated, setUpdated] = useState(false);
   const [isImageRemoved, setIsImageRemoved] = useState(false);
   const toaster = useToast()
+
 
   const preview = isImageRemoved
     ? undefined
@@ -39,7 +42,12 @@ function ImageUpload({
   const isError: boolean = errorUploadImage || errorGetPresignedUrl
 
   const handleTakePhoto = async () => {
-    const photo = await takePhoto();
+    closeSheet();
+    await takePhoto();
+  };
+
+  const handleCapturePhoto = async (video: HTMLVideoElement) => {
+    const photo = await capturePhoto(video);
     if (!photo || !photo.file) return null;
     setIsImageRemoved(false);
     setUpdated(true);
@@ -64,12 +72,12 @@ function ImageUpload({
         uploadImage({ url: response.uploadUrl, image: photo.file, contentType: photo.file.type })
           .unwrap()
           .catch(() => {
-            toaster.error("Hubo un error cargando la imagen")          
+            toaster.error("Hubo un error subiendo la imagen")          
           })
         onImageSelected?.(response.imageId);
       })
       .catch(() => {
-        toaster.error("Hubo un error cargando la imagen")          
+        toaster.error("Hubo un error al obtener el ID de la imagen")          
       })
       .finally(() => closeSheet())
   }
@@ -173,6 +181,18 @@ function ImageUpload({
           </S.PhotoSheetAction>
         </S.PhotoSheetActions>
       </BottomSheet>
+      {stream && (
+        <CameraCapture
+          stream={stream}
+          canSwitchCamera={cameraDevices.length > 1}
+          zoom={zoom}
+          zoomRange={zoomRange}
+          onCapture={handleCapturePhoto}
+          onClose={stopCamera}
+          onSwitchCamera={switchCamera}
+          onZoomChange={setZoom}
+        />
+      )}
     </>
   );
 }
