@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useController, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useSignupMutation } from '@auth/app/api/authApi'
 import { useToast } from '@hooks/toast/useToast'
@@ -8,7 +8,7 @@ import * as S from './Register.styles'
 import { registerSchema, type RegisterFormValues } from '../../app/schemas/registerSchema'
 import type { Role } from '@/users/app/types/User.types'
 import { Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
-import { ErrorMessage } from '@components/index.ts'
+import { ErrorMessage, PhoneInputComponent } from '@components/index.ts'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
 function Register() {
@@ -19,16 +19,29 @@ function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const {
     formState: { errors },
+    control,
     handleSubmit,
     register,
   } = useForm<RegisterFormValues>({
     defaultValues: {
-      phone: '',
+      phoneNumber: {
+        areaCode: '',
+        number: '',
+      },
       isRescuer: false,
       wantsTransporter: false,
     },
     mode: 'onTouched',
     resolver: yupResolver(registerSchema),
+  })
+
+  const { field: phoneAreaCodeField, fieldState: phoneAreaCodeState } = useController({
+    control,
+    name: 'phoneNumber.areaCode',
+  })
+  const { field: phoneField, fieldState: phoneState } = useController({
+    control,
+    name: 'phoneNumber.number',
   })
 
   const handleRegister = (values: RegisterFormValues) => {
@@ -47,6 +60,9 @@ function Register() {
       password: values.password,
       repeatedPassword: values.confirmPassword,
       email: values.email,
+      ...(values.phoneNumber.areaCode && values.phoneNumber.number
+        ? { phoneNumber: values.phoneNumber }
+        : {}),
       ...(roles.length > 0 ? { roles } : {}),
     })
       .unwrap()
@@ -94,19 +110,18 @@ function Register() {
             </S.Field>
 
             <S.Field>
-              <S.FieldLabel htmlFor="phone">Número de teléfono</S.FieldLabel>
-              <S.Input
-                id="phone"
-                type="tel"
-                placeholder="3534 0000-0000"
-                autoComplete="tel"
-                disabled={isLoading}
-                aria-describedby={errors.phone ? 'register-phone-error' : undefined}
-                aria-invalid={Boolean(errors.phone)}
-                $hasError={Boolean(errors.phone)}
-                {...register('phone')}
+              <S.FieldLabel>Número de teléfono</S.FieldLabel>
+              <PhoneInputComponent
+                areaCodeValue={phoneAreaCodeField.value}
+                phoneNumberValue={phoneField.value}
+                onAreaCodeChange={phoneAreaCodeField.onChange}
+                onPhoneNumberChange={phoneField.onChange}
+                onAreaCodeBlur={phoneAreaCodeField.onBlur}
+                onPhoneNumberBlur={phoneField.onBlur}
+                areaCodeRef={phoneAreaCodeField.ref}
+                phoneNumberRef={phoneField.ref}
+                error={phoneAreaCodeState.error?.message ?? phoneState.error?.message}
               />
-              <ErrorMessage id="register-phone-error" message={errors.phone?.message} />
             </S.Field>
 
             <S.Field>

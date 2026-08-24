@@ -18,9 +18,25 @@ export const phoneNumberSchema = yup
     excludeEmptyString: true,
   })
 
-export const optionalContactPhoneSchema = yup
-  .string()
-  .trim()
-  .default('')
-  .max(30, 'El número de teléfono no puede superar los 30 caracteres.')
-  .notRequired()
+export const optionalPhoneNumberSchema = yup
+  .object({
+    areaCode: phoneAreaCodeSchema,
+    number: phoneNumberSchema,
+  })
+  .test('complete-phone-number', function (value) {
+    if (value?.number && !value.areaCode) {
+      return this.createError({
+        path: `${this.path}.areaCode`,
+        message: 'Ingresá el código de área.',
+      })
+    }
+
+    if (value?.areaCode && !value.number) {
+      return this.createError({
+        path: `${this.path}.number`,
+        message: 'Ingresá el número de teléfono.',
+      })
+    }
+
+    return true
+  })

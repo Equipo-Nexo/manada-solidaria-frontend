@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { optionalContactPhoneSchema } from '@/common/app/schemas/phoneNumber.schema'
+import { optionalPhoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
 
 export const registerSchema = yup.object({
   username: yup
@@ -14,7 +14,7 @@ export const registerSchema = yup.object({
     .required('Ingresá tu correo electrónico.')
     .email('Ingresá un correo electrónico válido.')
     .max(120, 'El correo electrónico no puede superar los 120 caracteres.'),
-  phone: optionalContactPhoneSchema,
+  phoneNumber: optionalPhoneNumberSchema,
   password: yup
     .string()
     .required('Ingresá tu contraseña.')
