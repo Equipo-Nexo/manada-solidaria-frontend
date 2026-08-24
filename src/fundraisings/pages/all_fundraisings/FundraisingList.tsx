@@ -2,6 +2,7 @@ import type { FundraisingCardData } from "@components/fundraisingCard/Fundraisin
 import { FundraisingCard, Message } from "@components/index.ts";
 import * as S from "@campaigns/components/campaign_list/CampaignList.styles";
 import { publicationMessages } from "@utils/Messages";
+import { useNavigate } from "react-router-dom";
 
 type FundraisingListProps = {
   fundraisings: FundraisingCardData[];
@@ -47,12 +48,18 @@ function FundraisingList({
       </S.MessageContainer>
     );
   }
-
+  const navigate = useNavigate();
   return (
     <S.List>
       {advice && <S.AdviceItem>{advice}</S.AdviceItem>}
       {fundraisings.map((fundraising) => (
-        <FundraisingCard key={fundraising.id} fundraising={fundraising} />
+        <FundraisingCard
+          key={fundraising.id}
+          fundraising={fundraising}
+          onViewStory={(fundraising) => {
+            navigate(`/colectas/${fundraising.id}`);
+          }}
+        />
       ))}
     </S.List>
   );

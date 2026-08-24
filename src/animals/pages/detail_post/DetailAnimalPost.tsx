@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Calendar, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
+import { Calendar, Check, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
 import { Advice, Message } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
@@ -15,20 +15,26 @@ import getOwnerRole from '@/common/utils/GetRoles'
 import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
 import { openWhatsApp } from '@/common/utils/Whatsapp'
-import { useToast } from '@/common/hooks/toast/useToast'
+import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
 
 function AnimalPostDetail() {
 
   const navigate = useNavigate()
 
-  const toast = useToast()
+  const { copied: phoneCopied, copy: copyPhone } = useCopyToClipboard()
 
   const { postId } = useParams<{ postId: string }>()
 
   const { data: postData, isLoading, isError } = useGetAnimalPostQuery(postId ?? '', { skip: !postId })
 
   if (isLoading) {
-    return <PawLoader />
+    return (
+      <S.LoaderContainer>
+        <PawLoader />
+      </S.LoaderContainer>
+    )
+
+
   }
 
   if (isError || !postData) {
@@ -73,13 +79,8 @@ function AnimalPostDetail() {
     }
   }
 
-  const handleCopyPhoneNumber = async () => {
-    try {
-      await navigator.clipboard.writeText(PHONE_NUMBER)
-      toast.success('Número copiado')
-    } catch {
-      toast.error('No pudimos copiar el número')
-    }
+  const handleCopyPhoneNumber = () => {
+    void copyPhone(PHONE_NUMBER)
   }
 
   return (
@@ -182,8 +183,13 @@ function AnimalPostDetail() {
                 >
                   Contactar
                 </S.MobileContactButton>
-                <S.DesktopCopyButton type="button" onClick={handleCopyPhoneNumber}>
-                  Copiar número
+                <S.DesktopCopyButton
+                  type="button"
+                  onClick={handleCopyPhoneNumber}
+                  $copied={phoneCopied}
+                >
+                  {phoneCopied && <Check aria-hidden="true" />}
+                  {phoneCopied ? 'Número copiado' : 'Copiar número'}
                 </S.DesktopCopyButton>
               </S.ContactRow>
             </S.ContactCard>

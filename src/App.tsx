@@ -1,6 +1,10 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
-import { DesktopAuthenticatedView, MobileAuthenticatedView, InstallButton } from "@components/index.ts"
+import {
+  DesktopAuthenticatedView,
+  MobileAuthenticatedView,
+  InstallButton,
+} from "@components/index.ts";
 import Login from "./auth/pages/login/Login";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
@@ -25,6 +29,7 @@ import Community from "./community/pages/Community";
 import Profile from "./users/pages/profile/Profile";
 import Services from "./services/pages/Services";
 import SuccessStories from "./successStories/pages/SuccessStories";
+import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
 
 function App() {
   const location = useLocation();
@@ -80,13 +85,29 @@ function App() {
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
-              <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
-              <Route path="/editar/colecta/:fundraisingId" element={<EditFundraising />} />
-              <Route path="/editar/campania/:campaignId" element={<EditCampaign />} />
-              <Route path="/publicar/colecta" element={<PublishFundraising />} />
+              <Route
+                path="/editar/animal/:postId"
+                element={<EditAnimalPostForm />}
+              />
+              <Route
+                path="/editar/colecta/:fundraisingId"
+                element={<EditFundraising />}
+              />
+              <Route
+                path="/editar/campania/:campaignId"
+                element={<EditCampaign />}
+              />
+              <Route
+                path="/publicar/colecta"
+                element={<PublishFundraising />}
+              />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
+              <Route
+                path="/colectas/:fundraisingId"
+                element={<FundraisingCampaignDetail />}
+              />
               <Route path="/menu" element={<Menu />} />
               <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/comunidad" element={<Community />} />

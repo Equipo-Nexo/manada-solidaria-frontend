@@ -8,7 +8,13 @@ export const StateContainer = styled.section`
   gap: 24px;
   padding: 24px;
 `
-
+export const LoaderContainer = styled.div`
+  width:100%;
+  display:flex;
+  height:500px;
+  justify-content:center;
+  align-items:center;
+`
 export const MainContainer = styled.section`
   display: flex;
   width: min(100%, 390px);
@@ -80,7 +86,6 @@ export const PhotoContainer = styled.div`
   position:relative;
   width:100%;
   height:398px;
-
   @media (min-width: 768px) {
     height: auto;
     min-height: 0;
@@ -388,7 +393,6 @@ box-shadow: 0 4px 20px 0 rgba(75, 63, 53, 0.08);
 
 export const ContactRow = styled.div`
   display: flex;
-  height: 56px;
   padding: 16px;
   align-items: center;
   justify-content: space-between;
@@ -409,7 +413,7 @@ export const ContactNumber = styled.span`
 const ContactActionButton = styled.button`
   min-width: 116px;
   height: 40px;
-  padding: 0 16px;
+  padding: 6px 8px;
   border: 2px solid ${({ theme }) => theme.colors.brand};
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.background};
@@ -417,7 +421,6 @@ const ContactActionButton = styled.button`
   font: inherit;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
@@ -430,10 +433,21 @@ export const MobileContactButton = styled(ContactActionButton)`
   }
 `
 
-export const DesktopCopyButton = styled(ContactActionButton)`
+export const DesktopCopyButton = styled(ContactActionButton) <{ $copied?: boolean }>`
   display: none;
-
   @media (min-width: 768px) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: ${({ $copied, theme }) =>
+    $copied ? theme.colors.brand : theme.colors.background};
+    color: ${({ $copied, theme }) =>
+    $copied ? theme.colors.background : theme.colors.brand};
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
 `
