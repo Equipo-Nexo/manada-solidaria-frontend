@@ -243,14 +243,26 @@ export const LocationContent = styled.div`
 `
 
 export const LocationTitle = styled.h3`
-  margin: 0; color: ${({ theme }) => theme.colors.black}; font-size: 15px; font-weight: ${({ theme }) => theme.fontWeights.bold}; line-height: 17px;
+  margin: 0; color: ${({ theme }) => theme.colors.black}; 
+  font-size: 18px; 
+  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
+  line-height: 17px;
 `
 
 export const MapLink = styled.button`
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; color: ${({ theme }) => theme.colors.brand};
-  width: fit-content; padding: 0; border: 0; background: transparent; cursor: pointer;
-  font-size: 11px; font-weight: ${({ theme }) => theme.fontWeights.bold}; line-height: 16px; text-decoration: underline;
-  svg { width: 17px; height: 17px; flex: 0 0 auto; }
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px; 
+  margin-top: 8px; 
+  color: ${({ theme }) => theme.colors.brand};
+  width: fit-content; padding: 0; border: 0; 
+  background: transparent; 
+  cursor: pointer;
+  font-size: 12px; 
+  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
+  line-height: 16px; 
+  text-decoration: underline;
+  svg { width: 24px; height: 24px; flex: 0 0 auto; }
   &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
 `
 
