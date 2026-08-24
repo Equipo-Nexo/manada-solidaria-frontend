@@ -31,7 +31,12 @@ function PublishPhoto() {
 
 ## API
 
-- `takePhoto()`: abre la camara del dispositivo y devuelve `CapturedPhoto | null`.
+- `takePhoto()`: abre la vista de cámara web. La foto se obtiene mediante `capturePhoto(video)`.
+- `capturePhoto(video)`: captura el cuadro actual de un elemento `video` conectado al `stream`.
+- `stream`: stream activo de la cámara, o `null` cuando está cerrada.
+- `cameraDevices` y `switchCamera()`: permiten alternar entre las cámaras expuestas por el navegador.
+- `zoom`, `zoomRange` y `setZoom()`: controlan el zoom cuando el dispositivo/navegador lo soporta.
+- `stopCamera()`: detiene la cámara y libera su indicador de privacidad.
 - `chooseFromGallery()`: abre la galeria y devuelve `CapturedPhoto | null`.
 - `capturedPhoto`: ultima foto obtenida. Incluye:
   - `url`: usable como `src` de una imagen.
