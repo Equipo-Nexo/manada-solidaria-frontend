@@ -11,9 +11,9 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ['userPosts']
     }),
-    getUserProfile: builder.query<GetUserProfileResponse, void>({
-      query: () => ({
-        url: '/users',
+    getUserProfile: builder.query<GetUserProfileResponse, string>({
+      query: (userId) => ({
+        url: `/users/${userId}/profile`,
       }),
       providesTags: ['userProfile']
     }),

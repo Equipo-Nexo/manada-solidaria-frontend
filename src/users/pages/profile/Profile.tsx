@@ -6,7 +6,6 @@ import TransitIcon from "@icons/TransitIcon";
 import TransportIcon from "@icons/CarFront";
 import UserIcon from "@icons/User";
 import HistoryIcon from "@icons/History";
-import Image from "../../../../public/pwa-192.png";
 import { useState, type SVGProps } from "react";
 import { BottomSheet, Modal } from "@/common/components";
 import LogoutIcon from "@icons/LogOut";
@@ -15,6 +14,9 @@ import Gallery from "@icons/Gallery";
 import { useNavigate } from "react-router-dom";
 import { logout } from "@store/authSlice";
 import { useAppDispatch } from "@store/hooks";
+import useAuth from "@/common/hooks/auth/useAuth";
+import { useGetUserProfileQuery } from "@/users/app/api/usersApi";
+import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 
 const OutlinedRescueIcon = (props: SVGProps<SVGSVGElement>) => (
     <RescueIcon variant="outlined" {...props} />
@@ -61,7 +63,9 @@ function Profile() {
     const Navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-    // const { data: userData } = useGetUserProfileQuery();
+    const { userId } = useAuth();
+
+    const { data: userData } = useGetUserProfileQuery(userId);
 
     function handleRoleInformation(role: RoleName) {
         setOpenBottomSheet(true);
@@ -78,7 +82,7 @@ function Profile() {
         if (photo) setIsPhotoSheetOpen(false)
     }
 
-    const profileImage = capturedPhoto?.url || Image
+    const profileImage = userData?.profile.profileImageUrl || NOT_FOUND_IMAGE_URL
 
     const confirmLogout = () => {
         setIsLogoutModalOpen(false)
@@ -204,8 +208,8 @@ function Profile() {
                         <Pencil aria-hidden="true" />
                     </S.EditProfileImageButton>
                 </S.ProfileImageWrapper>
-                <S.ProfileName>Abril</S.ProfileName>
-                <S.ProfileEmail>abrilconrero@example.com</S.ProfileEmail>
+                <S.ProfileName>{userData?.username}</S.ProfileName>
+                <S.ProfileEmail>{userData?.profile.email}</S.ProfileEmail>
             </S.ProfileImageContainer>
             <S.OptionsContainer>
                 <S.RolesContainer>

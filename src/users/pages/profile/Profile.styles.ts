@@ -5,8 +5,8 @@ export const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
-    @media (min-width: 768px) {
-        width: min(100%, 680px);
+    @media (min-width: 700px) {
+        width: min(100%, 500px);
         gap: 24px;
     }
 
