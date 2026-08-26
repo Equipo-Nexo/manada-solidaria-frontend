@@ -8,6 +8,7 @@ import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
 import ImagePreview from '../image_preview/ImagePreview'
+import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
 
 export type AnimalPostCardProps = {
   postId: string
@@ -30,11 +31,11 @@ function AnimalPostCard({
   description,
   imageUrl,
   phoneNumber,
-  reward,
-  onShare
+  reward
 }: AnimalPostCardProps) {
   const navigate = useNavigate()
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
+  const { copy } = useCopyToClipboard()
 
   const hasReward =
     status === ANIMAL_POST_STATUS_LABELS.LOST &&
@@ -60,6 +61,10 @@ function AnimalPostCard({
     navigate(`/animal/detalle/${postId}`)
   }
 
+  const handleShareButton = () => {
+    copy(`${window.location.host}?redirect=/animal/detalle/${postId}`)
+  }
+
   return (
     <S.CardContainer onClick={handleCardClick}>
       <S.PhotoContainer>
@@ -67,7 +72,7 @@ function AnimalPostCard({
           imageId={imageUrl}
           alt={name}
         />
-        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={onShare}>
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={handleShareButton}>
           <Share aria-hidden="true" />
         </S.ShareButton>
       </S.PhotoContainer>

@@ -15,6 +15,7 @@ import getOwnerRole from '@/common/utils/GetRoles'
 import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
 import { openWhatsApp } from '@/common/utils/Whatsapp'
+import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
 
 function AnimalPostDetail() {
 
@@ -23,6 +24,7 @@ function AnimalPostDetail() {
   const { postId } = useParams<{ postId: string }>()
 
   const { data: postData, isLoading, isError } = useGetAnimalPostQuery(postId ?? '', { skip: !postId })
+  const { copy } = useCopyToClipboard();
 
   if (isLoading) {
     return (
@@ -76,10 +78,14 @@ function AnimalPostDetail() {
     }
   }
 
+  const handleShareButton = () => {
+    copy(`${window.location.host}?redirect=${window.location.pathname}`)
+  }
+
   return (
     <S.MainContainer>
       <S.Header>
-        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver"><Arrow aria-hidden="true" /></S.BackButton>
+        <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver"><Arrow aria-hidden="true" /></S.BackButton>
         <S.PageTitle>Detalle de Publicación</S.PageTitle>
       </S.Header>
 
@@ -90,7 +96,7 @@ function AnimalPostDetail() {
             alt={name}
             onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
           />
-          <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}><Share aria-hidden="true" /></S.ShareButton>
+          <S.ShareButton onClick={handleShareButton} type="button" aria-label={`Compartir publicación de ${name}`}><Share aria-hidden="true" /></S.ShareButton>
         </S.PhotoContainer>
 
         <S.DetailsColumn>

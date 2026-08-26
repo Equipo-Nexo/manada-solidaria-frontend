@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
@@ -30,29 +30,53 @@ import Profile from "./users/pages/profile/Profile";
 import Services from "./services/pages/Services";
 import SuccessStories from "./successStories/pages/SuccessStories";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
-    location.pathname === "/publicar/animal" ||
-    location.pathname === "/publicar/campania" ||
-    location.pathname === "/publicar/colecta" ||
-    location.pathname === "/editar/exito" ||
-    location.pathname.startsWith("/editar/animal/") ||
-    location.pathname.startsWith("/editar/colecta/") ||
-    location.pathname.startsWith("/editar/campania/");
-  const isMobileMenu = location.pathname === "/menu";
-  const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
+    actualPath === "/publicar/animal" ||
+    actualPath === "/publicar/campania" ||
+    actualPath === "/publicar/colecta" ||
+    actualPath === "/editar/exito" ||
+    actualPath.startsWith("/editar/animal/") ||
+    actualPath.startsWith("/editar/colecta/") ||
+    actualPath.startsWith("/editar/campania/");
+  const isMobileMenu = actualPath === "/menu";
+  const isPublicationDetail = actualPath.startsWith("/animal/detalle/");
 
   const usesFullScreenLayout =
-    location.pathname === "/login" ||
-    location.pathname === "/registro" ||
+    actualPath === "/login" ||
+    actualPath === "/registro" ||
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail;
   const showAuthenticatedShell =
     isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
+
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+
+  useEffect(() => {
+    console.log('--------- is authenticated', isAuthenticated)
+    console.log('--------- redirect', redirect)
+
+    if (!isAuthenticated && redirect) {
+      console.log('redirecting to login')
+      navigate(
+        `/login?redirect=${encodeURIComponent(redirect)}`,
+        { replace: true }
+      );
+    }
+
+    if (isAuthenticated && redirect) {
+      console.log('redirecting to copied page')
+      navigate(redirect)
+    }
+  }, []);
 
   return (
     <>
@@ -66,18 +90,8 @@ function App() {
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
-            <Route
-              path="/login"
-              element={
-                isAuthenticated ? <Navigate to="/home" replace /> : <Login />
-              }
-            />
-            <Route
-              path="/registro"
-              element={
-                isAuthenticated ? <Navigate to="/home" replace /> : <Register />
-              }
-            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Register />}/>
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />

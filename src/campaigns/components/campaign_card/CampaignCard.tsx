@@ -6,6 +6,7 @@ import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 import { ImagePreview } from "@/common/components";
+import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 
 export type CampaignCardData = {
   id?: string | number;
@@ -31,6 +32,13 @@ function CampaignCard({
   onMoreInfo,
   onShare,
 }: CampaignCardProps) {
+
+  const { copy } = useCopyToClipboard()
+
+  const handleShareButton = () => {
+    copy(`${window.location.host}?redirect=/campania/detalle/${campaign.id}`)
+  }
+
   return (
     <S.Card className={className}>
       <S.ImageSection>
@@ -41,7 +49,7 @@ function CampaignCard({
         <S.ShareButton
           type="button"
           aria-label={`Compartir campaña ${campaign.title}`}
-          onClick={() => onShare?.(campaign)}
+          onClick={handleShareButton}
         >
           <Share aria-hidden="true" />
         </S.ShareButton>

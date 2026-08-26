@@ -31,6 +31,10 @@ function FundraisingCampaignDetail() {
   const location = data?.location.name || 'Ubicación no informada'
   const address = data?.location.address || ''
 
+  const handleShareButton = () => {
+    copy(`${window.location.host}?redirect=${window.location.pathname}`)
+  }
+  
   return (
     <S.Page>
       <S.Header>
@@ -155,7 +159,7 @@ function FundraisingCampaignDetail() {
               </S.CallButton>
             </S.ContactCard>
           </S.ContactSection>
-          <S.ShareButton type="submit">
+          <S.ShareButton onClick={handleShareButton}>
             <Share aria-hidden="true" />
             Compartir Colecta
           </S.ShareButton>
