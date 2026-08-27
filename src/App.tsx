@@ -28,7 +28,7 @@ import ScrollToTop from "./common/components/routes/ScrollToTop";
 import Community from "./community/pages/Community";
 import Profile from "./users/pages/profile/Profile";
 import Services from "./services/pages/Services";
-import SuccessStories from "./successStories/pages/SuccessStories";
+import HappyCases from "./happy_cases/pages/HappyCases";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
 
 function App() {
@@ -109,11 +109,14 @@ function App() {
                 element={<FundraisingCampaignDetail />}
               />
               <Route path="/menu" element={<Menu />} />
-              <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
+              <Route
+                path="/animal/detalle/:postId"
+                element={<AnimalPostDetail />}
+              />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
               <Route path="/servicios" element={<Services />} />
-              <Route path="/casos-felices" element={<SuccessStories />} />
+              <Route path="/casos-felices" element={<HappyCases />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
