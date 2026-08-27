@@ -8,6 +8,7 @@ import UserIcon from "@icons/User";
 import HistoryIcon from "@icons/History";
 import { useState, type SVGProps } from "react";
 import { BottomSheet, Modal } from "@/common/components";
+import CameraCapture from "@/common/components/cameraCapture/CameraCapture";
 import LogoutIcon from "@icons/LogOut";
 import { useCamera } from "@hooks/camera/useCamera";
 import Gallery from "@icons/Gallery";
@@ -17,11 +18,14 @@ import { useAppDispatch } from "@store/hooks";
 import useAuth from "@/common/hooks/auth/useAuth";
 import {
     useGetUserProfileQuery,
+    useUpdateUserProfileMutation,
     useUpdateUserRolesMutation,
 } from "@/users/app/api/usersApi";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import type { UserRole } from "@/users/app/api/responses/GetUserProfileResponse";
 import { useToast } from "@hooks/toast/useToast";
+import { useGetPresignedUrlMutation } from "@/common/app/services/apis/imagesApi";
+import { useUploadImageMutation } from "@/common/app/services/apis/cloudflareApi";
 
 const OutlinedRescueIcon = (props: SVGProps<SVGSVGElement>) => (
     <RescueIcon variant="outlined" {...props} />
@@ -59,6 +63,16 @@ const roleCodes: Record<RoleName, UserRole> = {
 
 const editableRoles = Object.values(roleCodes);
 
+const getRequestError = (error: unknown) => {
+    if (!error || typeof error !== "object" || !("data" in error)) return undefined
+    const data = error.data
+    if (typeof data === "string") return data
+    if (!data || typeof data !== "object") return undefined
+    if ("message" in data && typeof data.message === "string") return data.message
+    if ("errors" in data && Array.isArray(data.errors)) return data.errors.join(" ")
+    return undefined
+}
+
 function Profile() {
 
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
@@ -71,7 +85,20 @@ function Profile() {
 
     const [roleOverrides, setRoleOverrides] = useState<Partial<Record<UserRole, boolean>>>({})
 
-    const { capturedPhoto, chooseFromGallery, status, takePhoto } = useCamera()
+    const {
+        capturedPhoto,
+        chooseFromGallery,
+        capturePhoto,
+        cameraDevices,
+        setZoom,
+        status,
+        stopCamera,
+        stream,
+        switchCamera,
+        takePhoto,
+        zoom,
+        zoomRange,
+    } = useCamera()
 
     const selectedRole = role ? rolesInformation.get(role) : undefined;
 
@@ -86,6 +113,10 @@ function Profile() {
     const { data: userData } = useGetUserProfileQuery(userId);
 
     const [updateUserRoles] = useUpdateUserRolesMutation()
+    const [getPresignedUrl, { isLoading: isGettingPresignedUrl }] = useGetPresignedUrlMutation()
+    const [uploadImage, { isLoading: isUploadingImage }] = useUploadImageMutation()
+    const [updateUserProfile, { isLoading: isUpdatingProfile }] = useUpdateUserProfileMutation()
+    const isSavingPhoto = isGettingPresignedUrl || isUploadingImage || isUpdatingProfile
 
     const activeRoles = editableRoles.filter((roleCode) =>
         roleOverrides[roleCode] ?? userData?.roles.includes(roleCode) ?? false,
@@ -117,17 +148,78 @@ function Profile() {
         }
     }
 
+    const updateProfilePhoto = async (file: File) => {
+        if (!userData) {
+            toaster.error("No pudimos cargar los datos actuales del perfil")
+            return
+        }
+
+        let presigned
+        try {
+            presigned = await getPresignedUrl({
+                contentType: file.type,
+                fileSize: file.size,
+            }).unwrap()
+        } catch (error) {
+            toaster.error("No pudimos preparar la imagen", getRequestError(error))
+            return
+        }
+
+        try {
+            await uploadImage({
+                url: presigned.uploadUrl,
+                image: file,
+                contentType: file.type,
+            }).unwrap()
+        } catch (error) {
+            toaster.error("No pudimos subir la imagen", getRequestError(error))
+            return
+        }
+
+        const currentPhone = userData.profile.phoneNumber
+        const phoneNumber = typeof currentPhone === "string"
+            ? currentPhone || null
+            : currentPhone
+                ? `${currentPhone.areaCode}${currentPhone.number}` || null
+                : null
+
+        try {
+            await updateUserProfile({
+                name: userData.profile.name,
+                lastname: userData.profile.lastname,
+                email: userData.profile.email,
+                phoneNumber,
+                profileImageURL: presigned.imageId,
+            }).unwrap()
+            toaster.success("Foto de perfil actualizada")
+        } catch (error) {
+            toaster.error("No pudimos actualizar la foto de perfil", getRequestError(error))
+        }
+    }
+
     const handleTakePhoto = async () => {
-        const photo = await takePhoto()
-        if (photo) setIsPhotoSheetOpen(false)
+        setIsPhotoSheetOpen(false)
+        await takePhoto()
+    }
+
+    const handleCapturePhoto = async (video: HTMLVideoElement) => {
+        const photo = await capturePhoto(video)
+        if (photo?.file) await updateProfilePhoto(photo.file)
     }
 
     const handleChooseFromGallery = async () => {
         const photo = await chooseFromGallery()
-        if (photo) setIsPhotoSheetOpen(false)
+        setIsPhotoSheetOpen(false)
+        if (photo?.file) await updateProfilePhoto(photo.file)
     }
 
-    const profileImage = userData?.profile.profileImageUrl || NOT_FOUND_IMAGE_URL
+    const storedProfileImage = userData?.profile.profileImageURL ?? userData?.profile.profileImageUrl
+    const profileImage = capturedPhoto?.url
+        || (storedProfileImage
+            ? /^(https?:|blob:|data:)/i.test(storedProfileImage)
+                ? storedProfileImage
+                : `${import.meta.env.VITE_CLOUDFLARE_URL}${storedProfileImage}`
+            : NOT_FOUND_IMAGE_URL)
 
     const confirmLogout = () => {
         setIsLogoutModalOpen(false)
@@ -217,7 +309,7 @@ function Profile() {
                 <S.PhotoSheetActions>
                     <S.PhotoSheetAction
                         type="button"
-                        disabled={status === "requesting"}
+                        disabled={status === "requesting" || isSavingPhoto}
                         onClick={() => void handleTakePhoto()}
                     >
                         <S.PhotoSheetActionIcon><Camera aria-hidden="true" /></S.PhotoSheetActionIcon>
@@ -229,7 +321,7 @@ function Profile() {
                     </S.PhotoSheetAction>
                     <S.PhotoSheetAction
                         type="button"
-                        disabled={status === "requesting"}
+                        disabled={status === "requesting" || isSavingPhoto}
                         onClick={() => void handleChooseFromGallery()}
                     >
                         <S.PhotoSheetActionIcon><Gallery aria-hidden="true" /></S.PhotoSheetActionIcon>
@@ -241,6 +333,18 @@ function Profile() {
                     </S.PhotoSheetAction>
                 </S.PhotoSheetActions>
             </BottomSheet>
+            {stream && (
+                <CameraCapture
+                    stream={stream}
+                    canSwitchCamera={cameraDevices.length > 1}
+                    zoom={zoom}
+                    zoomRange={zoomRange}
+                    onCapture={handleCapturePhoto}
+                    onClose={stopCamera}
+                    onSwitchCamera={switchCamera}
+                    onZoomChange={setZoom}
+                />
+            )}
             <S.Header>
                 <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
                     <ArrowLeft aria-hidden="true" />
@@ -255,6 +359,7 @@ function Profile() {
                     <S.EditProfileImageButton
                         type="button"
                         aria-label="Editar foto de perfil"
+                        disabled={isSavingPhoto}
                         onClick={() => setIsPhotoSheetOpen(true)}
                     >
                         <Pencil aria-hidden="true" />

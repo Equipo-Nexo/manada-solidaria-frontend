@@ -1,9 +1,9 @@
 export interface UpdateUserProfileRequest {
-  name?: string;
-  lastname?: string;
+  name?: string | null;
+  lastname?: string | null;
   email: string;
-  phoneNumber?: string;
-  profileImageURL?: string;
+  phoneNumber?: string | null;
+  profileImageURL?: string | null;
 }
 
 export interface UpdateUserProfileResponse {

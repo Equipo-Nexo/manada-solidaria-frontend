@@ -2,6 +2,7 @@ import { baseAuthenticatedApi } from '../../../common/app/services/base/baseAuth
 import type { GetUserPostsResponse } from '../../../common/app/services/responses/userResponses';
 import type { GetUserProfileResponse } from './responses/GetUserProfileResponse';
 import type { UpdateUserRolesRequest } from './requests/UpdateUserRolesRequest';
+import type { UpdateUserProfileRequest } from './requests/UpdateUserProfileRequest';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,6 +27,16 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
       }),
       invalidatesTags: ['userProfile'],
     }),
+    updateUserProfile: builder.mutation<void, UpdateUserProfileRequest>({
+      query: (body) => ({
+        url: '/users/profile',
+        method: 'PUT',
+        body,
+        responseHandler: 'text',
+      }),
+      transformResponse: () => undefined,
+      invalidatesTags: ['userProfile'],
+    }),
   }),
   overrideExisting: false,
 })
@@ -34,4 +45,5 @@ export const {
   useGetUserPostsQuery,
   useGetUserProfileQuery,
   useUpdateUserRolesMutation,
+  useUpdateUserProfileMutation,
 } = usersApi;
