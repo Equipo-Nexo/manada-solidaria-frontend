@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import { Check } from "../../icons";
 import * as S from "./FundraisingCard.styles";
 import Copy from "../../icons/Copy";
 import Transfer from "../../icons/Transfer";
+import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
+import ImagePreview from "../image_preview/ImagePreview";
 
 export type FundraisingCardData = {
   id?: string;
@@ -20,7 +20,6 @@ export type FundraisingCardData = {
 type FundraisingCardProps = {
   fundraising: FundraisingCardData;
   className?: string;
-  onCopyAlias?: (fundraising: FundraisingCardData) => void;
   onViewStory?: (fundraising: FundraisingCardData) => void;
   showAlias?: boolean;
 };
@@ -35,7 +34,6 @@ const formatAmount = (amount: number) =>
 function FundraisingCard({
   fundraising,
   className,
-  onCopyAlias,
   onViewStory,
   showAlias = true,
 }: FundraisingCardProps) {
@@ -43,46 +41,28 @@ function FundraisingCard({
   const goal = fundraising.amountToBeCollected;
   const collected = fundraising.amountCollected ?? 0;
   const hasGoal = goal != null && goal > 0;
-
+  const { copied, copy } = useCopyToClipboard();
   const progress = hasGoal
     ? Math.min(100, Math.round((collected / goal) * 100))
     : 0;
-  const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef<number | null>(null);
-  const handleCopyAlias = async () => {
-    await navigator.clipboard
-      .writeText(fundraising.accountAlias)
-      .catch(() => undefined);
-
-    onCopyAlias?.(fundraising);
-
-    setCopied(true);
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = window.setTimeout(() => {
-      setCopied(false);
-    }, 1000);
+  const handleCopyAlias = () => {
+    void copy(fundraising.accountAlias);
   };
   return (
     <S.Card className={className} $showAlias={showAlias}>
-      <S.CaseCard>
+      <S.CaseCard onClick={() => onViewStory?.(fundraising)}>
         <S.ImageContainer>
-          <S.CaseImage
-            src={`${import.meta.env.VITE_CLOUDFLARE_URL}${fundraising.imageUrl}`}
-            alt={fundraising.imageAlt ?? fundraising.title}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = NOT_FOUND_IMAGE_URL;
-            }}
+          <ImagePreview 
+            imageId={fundraising.imageUrl}
+            alt={fundraising.title}
           />
         </S.ImageContainer>
 
         <S.CaseContent>
           <S.Title>{fundraising.title}</S.Title>
-          <S.Description>{fundraising.description}</S.Description>
+          <S.Description $hasGoal={hasGoal}>
+            {fundraising.description}
+          </S.Description>
           <S.StoryButton
             type="button"
             onClick={() => onViewStory?.(fundraising)}

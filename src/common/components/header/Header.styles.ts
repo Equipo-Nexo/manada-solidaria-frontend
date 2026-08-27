@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { softInteractiveHover } from '@styles/interactions'
 
-export const HeaderRoot = styled.header`
+export const HeaderRoot = styled.header<{ $isVisible: boolean }>`
   width: 100%;
   min-height: 72px;
   display: flex;
@@ -10,9 +10,19 @@ export const HeaderRoot = styled.header`
   justify-content: space-between;
   padding: 0 24px;
   background: ${({ theme }) => theme.colors.neutral};
+  pointer-events: ${({ $isVisible }) => ($isVisible ? 'auto' : 'none')};
+  transform: translateY(${({ $isVisible }) => ($isVisible ? '0' : '-100%')});
+  transition: transform 220ms ease;
+  will-change: transform;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   @media (min-width: 768px) {
     padding: 0 32px;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   @media (max-width: 420px) {

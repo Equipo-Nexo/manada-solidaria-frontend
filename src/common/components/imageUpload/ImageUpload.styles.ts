@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ImageUploadLoadingState = styled.div`
   width: 100%;
@@ -12,9 +12,10 @@ export const ImageUploadLoadingState = styled.div`
   background: ${({ theme }) => theme.colors.background};
 `;
 
-export const ImageUploadButton = styled.button`
+export const ImageUploadButton = styled.button<{ $hasPreview: boolean }>`
   width: 100%;
-  min-height: 154px;
+  min-height: 204px;
+  max-height: 204px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -30,6 +31,13 @@ export const ImageUploadButton = styled.button`
   cursor: pointer;
   font-family: ${({ theme }) => theme.fonts.body};
   -webkit-tap-highlight-color: transparent;
+
+  ${({ $hasPreview }) => $hasPreview && css`
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  `}
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
@@ -53,13 +61,6 @@ export const ImageUploadLabel = styled.span`
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-`;
-
-export const ImageUploadPreview = styled.img`
-  width: 100%;
-  height: 100%;
-  min-height: 154px;
-  object-fit: cover;
 `;
 
 export const ImageUploadContainer = styled.div`

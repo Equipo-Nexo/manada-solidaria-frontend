@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import { locationSchema } from "@utils/Location.schema";
+import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
 export const publishFundraisingSchema = yup.object({
   title: yup.string().trim().required("Ingresá un título."),
@@ -32,8 +33,8 @@ export const publishFundraisingSchema = yup.object({
       },
     ),
   description: yup.string().trim().required("Ingresá una descripción."),
-  phoneAreaCode: yup.string().required("Ingresá el código de área."),
-  phone: yup.string().required("Ingresá un número de teléfono."),
+  phoneAreaCode: phoneAreaCodeSchema.required("Ingresá el código de área."),
+  phone: phoneNumberSchema.required("Ingresá un número de teléfono."),
   imageId: yup.string().notRequired(),
   location: locationSchema,
 });

@@ -1,9 +1,11 @@
 import * as S from "./CampaignCard.styles";
 import { LocationPin, Share } from "../../../common/icons";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import type { Location } from "@services/responses/Location";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
+import { openWhatsApp } from "@/common/utils/Whatsapp";
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
+import { ImagePreview } from "@/common/components";
 
 export type CampaignCardData = {
   id?: string | number;
@@ -13,12 +15,12 @@ export type CampaignCardData = {
   location?: Location;
   imageUrl: string;
   imageAlt?: string;
+  phoneNumber: PhoneNumber
 };
 
 type CampaignCardProps = {
   campaign: CampaignCardData;
   className?: string;
-  onConsult?: (campaign: CampaignCardData) => void;
   onMoreInfo?: (campaign: CampaignCardData) => void;
   onShare?: (campaign: CampaignCardData) => void;
 };
@@ -26,19 +28,14 @@ type CampaignCardProps = {
 function CampaignCard({
   campaign,
   className,
-  onConsult,
   onMoreInfo,
   onShare,
 }: CampaignCardProps) {
   return (
     <S.Card className={className}>
       <S.ImageSection>
-        <S.CampaignImage
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${campaign.imageUrl}`} 
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }}
+        <ImagePreview 
+          imageId={campaign.imageUrl}
           alt={campaign.title}
         />
         <S.ShareButton
@@ -72,7 +69,12 @@ function CampaignCard({
           </S.MoreInfoButton>
         </S.Content>
 
-        <S.ConsultButton type="button" onClick={() => onConsult?.(campaign)}>
+        <S.ConsultButton type="button" onClick={() => 
+          openWhatsApp(
+            `${campaign.phoneNumber.areaCode}${campaign.phoneNumber.number}`, 
+            `¡Hola! Me gustaría consultar por la campaña ${campaign.title}`
+          )
+        }>
           Consultar
         </S.ConsultButton>
       </S.Body>

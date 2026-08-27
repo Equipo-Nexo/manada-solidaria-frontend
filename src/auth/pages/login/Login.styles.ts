@@ -4,36 +4,41 @@ const formWidth = '284px'
 
 export const LoginPanel = styled.section`
   width: 100%;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
   background: ${({ theme }) => theme.colors.neutral};
-  padding: 16px 16px 6px;
+  overflow: hidden;
+  padding: max(10px, env(safe-area-inset-top)) 16px
+    max(4px, env(safe-area-inset-bottom));
 
   @media (max-height: 760px) {
-    padding-top: 10px;
-    padding-bottom: 4px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 
   @media (max-width: 767px) {
-    padding-top: 10px;
-    padding-bottom: 4px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 
   @media (min-width: 768px) {
     justify-content: center;
     gap: 10px;
-    padding-top: 12px;
-    padding-bottom: 8px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
 
   @media (min-width: 768px) and (max-height: 720px) {
     gap: 6px;
-    padding-top: 6px;
-    padding-bottom: 4px;
+    padding-top: max(6px, env(safe-area-inset-top));
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 `
 
@@ -55,11 +60,16 @@ export const LoginFooter = styled.p`
   @media (min-width: 768px) and (max-height: 720px) {
     width: min(100%, 340px);
   }
+
+  @media (max-height: 560px) {
+    &:not(:last-child) {
+      display: none;
+    }
+  }
 `
 
 export const LoginContainer = styled.div`
   position: relative;
-  gap:200px;
   width: min(100%, 430px);
   flex: 1 1 auto;
   min-height: 0;
@@ -101,11 +111,13 @@ export const LoginContainer = styled.div`
 
 export const LoginContent = styled.div`
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 44px 24px 43px;
+  justify-content: center;
+  padding: clamp(12px, 4.8dvh, 44px) 24px clamp(18px, 4.7dvh, 43px);
   text-align: center;
 
   @media (max-height: 760px) {
@@ -136,9 +148,9 @@ export const LoginContent = styled.div`
 `
 
 export const AppLogo = styled.img`
-  width: 160px;
-  height: 150px;
-  flex: 0 0 150px;
+  width: clamp(88px, 17dvh, 160px);
+  height: clamp(82px, 16dvh, 150px);
+  flex: 0 1 clamp(82px, 16dvh, 150px);
   display: block;
   object-fit: contain;
 
@@ -171,10 +183,10 @@ export const AppTitle = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.brand};
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 32px;
+  font-size: clamp(24px, 3.5dvh, 32px);
   font-style: normal;
   font-weight: 700;
-  line-height: 40px;
+  line-height: clamp(28px, 4.4dvh, 40px);
   text-align: center;
 
   @media (max-height: 760px) {
@@ -223,6 +235,10 @@ export const AppDescription = styled.p`
     font-size: 14px;
     line-height: 20px;
   }
+
+  @media (max-height: 560px) {
+    display: none;
+  }
 `
 
 export const Form = styled.form`
@@ -230,8 +246,8 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 31px;
-  margin-top: 31px;
+  gap: clamp(12px, 3.3dvh, 31px);
+  margin-top: clamp(12px, 3.3dvh, 31px);
 
   @media (max-height: 760px) {
     gap: 16px;
@@ -259,7 +275,7 @@ export const FormFields = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 18px;
+  gap: clamp(8px, 1.9dvh, 18px);
 
   @media (max-height: 760px) {
     gap: 12px;
@@ -383,7 +399,7 @@ export const FieldHeader = styled.label`
 export const Input = styled.input<{ $hasError?: boolean }>`
   display: flex;
   width: 100%;
-  height: 56px;
+  height: clamp(42px, 6dvh, 56px);
   padding: 16.5px 24px;
   align-self: stretch;
   align-items: flex-start;
@@ -514,7 +530,7 @@ export const RecoveryButton = styled.button`
 export const PrimaryButton = styled.button`
   width: ${formWidth};
   max-width: 100%;
-  height: 56px;
+  height: clamp(42px, 6dvh, 56px);
   padding: 0 24px;
   border: 0;
   border-radius: 9999px;
@@ -559,7 +575,7 @@ export const PrimaryButton = styled.button`
 `
 
 export const RegisterText = styled.p`
-  margin: 24px 0 0;
+  margin: clamp(10px, 2.6dvh, 24px) 0 0;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   font-size: 14px;

@@ -22,7 +22,7 @@ function Fundraising() {
       <S.Header>
         <S.BackButton
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/home')}
           aria-label="Volver"
         >
           <ArrowLeft aria-hidden="true" />
