@@ -1,13 +1,20 @@
-import { WorkInProgress } from '../../../common/components'
+import { usePasskeyRegistration } from '@auth/hooks/usePasskeyRegistration'
+import { isWebAuthnSupported } from '@auth/app/webauthn/webAuthnAuthentication'
 import * as S from './Profile.styles'
 
 export default function Profile() {
+  const { configurePasskey, isLoading } = usePasskeyRegistration()
+  const passkeySupported = isWebAuthnSupported()
+
   return (
     <S.Container>
-      <WorkInProgress
-        title="Estamos preparando tu perfil"
-        description="Pronto vas a poder administrar tus datos y personalizar tu experiencia en la Manada."
-      />
+      <S.PasskeyButton
+        type="button"
+        disabled={!passkeySupported || isLoading}
+        onClick={() => void configurePasskey()}
+      >
+        {isLoading ? 'Configurando passkey...' : 'Configurar passkey'}
+      </S.PasskeyButton>
     </S.Container>
   )
 }

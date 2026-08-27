@@ -574,6 +574,35 @@ export const PrimaryButton = styled.button`
   }
 `
 
+export const LoginDivider = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: 12px;
+  line-height: 16px;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: ${({ theme }) => theme.colors.stroke};
+  }
+`
+
+export const PasskeyButton = styled(PrimaryButton)`
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.secondary};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.neutral};
+  }
+`
+
 export const RegisterText = styled.p`
   margin: clamp(10px, 2.6dvh, 24px) 0 0;
   color: ${({ theme }) => theme.colors.black};
