@@ -30,7 +30,7 @@ import Profile from "./users/pages/profile/Profile";
 import Services from "./services/pages/Services";
 import SuccessStories from "./successStories/pages/SuccessStories";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
-
+import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -114,6 +114,7 @@ function App() {
               <Route path="/mi-perfil" element={<Profile />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
+              <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

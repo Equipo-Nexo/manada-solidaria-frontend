@@ -1,17 +1,9 @@
 import styled, { css } from "styled-components";
 import { theme } from "@styles/theme";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
+import { campaignCategoryColors } from "@/campaigns/utils/CampaignUtils";
 
-const badgeBackground: Record<CampaignCategory, string> = {
-  'DONATION': "#B293FF",
-  'CASTRATION': "#A95C28",
-  'VACCINATION': "#EA5F09",
-  'DEWORMING': "#594137",
-  'OTHER': "#E1BFB2",
-  'FUNDRAISING': ''
-}
-
-export const Card = styled.article`
+export const Card = styled.article<{ $clickable: boolean }>`
   width: ${({ theme }) => theme.layout.publicationCardWidth};
   height: ${({ theme }) => theme.layout.publicationCardHeight};
   overflow: hidden;
@@ -19,6 +11,12 @@ export const Card = styled.article`
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 8px 24px -4px rgb(0 109 65 / 8%);
+  cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
 `;
 
 export const ImageSection = styled.div`
@@ -120,7 +118,7 @@ export const TypeBadge = styled.span<{
   justify-content: center;
   padding: 4px 6px;
   border-radius: 999px;
-  background: ${({ $campaignType }) => badgeBackground[$campaignType]};
+  background: ${({ $campaignType }) => campaignCategoryColors[$campaignType]};
   color: ${({ theme }) => theme.colors.background};
   box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
   text-align: center;

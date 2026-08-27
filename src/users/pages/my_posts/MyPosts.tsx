@@ -67,7 +67,7 @@ function MyPosts() {
 
     const handleClickButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
         const clickByPostType: Record<UserPostType, (postId: string) => void> = {
-            campaign: (postId) => navigate(`campaña/detalle/${postId}`),
+            campaign: (postId) => navigate(`/campanias/${postId}`),
             animal: (postId) => navigate(`/animal/detalle/${postId}`),
             fundraising: (postId) => navigate(`/colecta/detalle/${postId}`),
         }

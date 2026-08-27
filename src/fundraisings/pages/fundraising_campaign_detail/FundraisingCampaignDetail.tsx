@@ -1,4 +1,4 @@
-import { Arrow, Check, OpenMap, Phone, Share } from "@/common/icons";
+import { Arrow, Check, Share } from "@/common/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./FundraisingCampaignDetail.styles";
 import { useGetFundraisingByIdQuery } from "@/campaigns/app/api/campaignApi";
@@ -9,7 +9,8 @@ import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
 import { Loader } from "@/common/components";
-import { openWhatsApp } from "@/common/utils/Whatsapp";
+import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
+import ContactCardComponent from "@/common/components/contactDetailsComponent/contactDetailsComponent";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const { fundraisingId } = useParams();
@@ -30,6 +31,9 @@ function FundraisingCampaignDetail() {
   };
   const location = data?.location.name || 'Ubicación no informada'
   const address = data?.location.address || ''
+  const PHONE_NUMBER = data?.phoneNumber
+    ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
+    : ""
 
   return (
     <S.Page>
@@ -117,44 +121,12 @@ function FundraisingCampaignDetail() {
             </S.FundraisingDescription>
           </S.DescriptionSection>
           {data?.location && (
-            <S.LocationCard>
-              <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
-              <S.LocationContent>
-                <S.LocationTitle>{location}</S.LocationTitle>
-                <S.LocationAddress>{address}</S.LocationAddress>
-                <S.MapLink
-                  type="button"
-                  onClick={() => navigate(
-                    `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
-                  )}
-                >
-                  Ver en el mapa <OpenMap aria-hidden="true" />
-                </S.MapLink>
-              </S.LocationContent>
-            </S.LocationCard>
-          )}
-          <S.ContactSection>
-            <S.Title $iconColor="black">
-              <Phone aria-hidden="true" width="20" height="18" />
-              Contacto
-            </S.Title>
-            <S.ContactCard>
-              <S.ContactPhone>
-                {`${data?.phoneNumber.areaCode} ${data?.phoneNumber.number}`}
-              </S.ContactPhone>
-              <S.CallButton
-                type="button"
-                onClick={() =>
-                  openWhatsApp(
-                    `${data.phoneNumber.areaCode}${data.phoneNumber.number}`,
-                    `¡Hola! Me gustaría consultar por la colecta de ${data.title}`,
-                  )
-                }
-              >
-                Contactar
-              </S.CallButton>
-            </S.ContactCard>
-          </S.ContactSection>
+            <MapDetailsComponent
+              location={location}
+              address={address}
+              locationPath={`/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`}
+            />)}
+          <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data?.title} />
           <S.ShareButton type="submit">
             <Share aria-hidden="true" />
             Compartir Colecta

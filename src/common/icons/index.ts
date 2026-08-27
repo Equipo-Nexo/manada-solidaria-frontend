@@ -45,3 +45,4 @@ export { default as Clock } from "./Clock";
 export { default as Ruler } from "./Ruler";
 export { default as OpenMap } from "./OpenMap";
 export { default as Transfer } from "./Transfer";
+export { default as DonationItemIcon } from "./DonationItemIcon";
