@@ -5,10 +5,6 @@ import type {
   RegisterPasskeyResponse,
 } from '@auth/app/webauthn/webAuthn.types'
 
-const registrationOptionsPath =
-  import.meta.env.VITE_PASSKEY_REGISTRATION_OPTIONS_PATH ?? '/webauthn/register/options'
-const registrationPath = import.meta.env.VITE_PASSKEY_REGISTRATION_PATH ?? '/webauthn/register'
-
 export const passkeyRegistrationApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
     getPasskeyRegistrationOptions: builder.mutation<
@@ -16,14 +12,14 @@ export const passkeyRegistrationApi = baseAuthenticatedApi.injectEndpoints({
       void
     >({
       query: () => ({
-        url: registrationOptionsPath,
+        url: '/webauthn/register/options',
         method: 'POST',
         credentials: 'include',
       }),
     }),
     registerPasskey: builder.mutation<RegisterPasskeyResponse, RegisterPasskeyRequest>({
       query: (body) => ({
-        url: registrationPath,
+        url: '/webauthn/register',
         method: 'POST',
         body,
         credentials: 'include',

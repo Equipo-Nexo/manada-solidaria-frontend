@@ -5,10 +5,6 @@ import type {
   PublicKeyCredentialRequestOptionsJSON,
 } from '@auth/app/webauthn/webAuthn.types'
 
-const authenticationOptionsPath =
-  import.meta.env.VITE_PASSKEY_AUTHENTICATION_OPTIONS_PATH ?? '/webauthn/authenticate/options'
-const authenticationPath = import.meta.env.VITE_PASSKEY_AUTHENTICATION_PATH ?? '/login/webauthn'
-
 export const passkeyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPasskeyAuthenticationOptions: builder.mutation<
@@ -16,7 +12,7 @@ export const passkeyApi = baseApi.injectEndpoints({
       void
     >({
       query: () => ({
-        url: authenticationOptionsPath,
+        url: '/webauthn/authenticate/options',
         method: 'POST',
         credentials: 'include',
       }),
@@ -26,7 +22,7 @@ export const passkeyApi = baseApi.injectEndpoints({
       AuthenticationCredentialJSON
     >({
       query: (body) => ({
-        url: authenticationPath,
+        url: '/login/webauthn',
         method: 'POST',
         body,
         credentials: 'include',
