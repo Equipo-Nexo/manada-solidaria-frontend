@@ -199,7 +199,7 @@ function MyPosts() {
                                             <S.CreatedSince>{createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${createdSince} días`}</S.CreatedSince>
                                         </S.CreatedSinceContainer>
                                         {
-                                            status && (
+                                            status && AnimalPostStatus[status] && (
                                                 <S.Status
                                                     $backgroundColor={AnimalPostStatus[status].backgroundColor}
                                                     $fontColor={AnimalPostStatus[status].fontColor}
