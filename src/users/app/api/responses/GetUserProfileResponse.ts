@@ -1,8 +1,10 @@
+export type UserRole = 'RESCUER' | 'TRANSITIONAL_HOME' | 'CARRIAGE';
+
 export interface GetUserProfileResponse {
     id: string;
     username: string;
     profile: Profile;
-    roles: string[];
+    roles: UserRole[];
 }
 
 interface Profile {

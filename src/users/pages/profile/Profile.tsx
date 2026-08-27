@@ -15,8 +15,13 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "@store/authSlice";
 import { useAppDispatch } from "@store/hooks";
 import useAuth from "@/common/hooks/auth/useAuth";
-import { useGetUserProfileQuery } from "@/users/app/api/usersApi";
+import {
+    useGetUserProfileQuery,
+    useUpdateUserRolesMutation,
+} from "@/users/app/api/usersApi";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import type { UserRole } from "@/users/app/api/responses/GetUserProfileResponse";
+import { useToast } from "@hooks/toast/useToast";
 
 const OutlinedRescueIcon = (props: SVGProps<SVGSVGElement>) => (
     <RescueIcon variant="outlined" {...props} />
@@ -46,6 +51,14 @@ const rolesInformation = new Map([
 
 type RoleName = "Rescatista" | "Hogar de tránsito" | "Transportista";
 
+const roleCodes: Record<RoleName, UserRole> = {
+    "Rescatista": "RESCUER",
+    "Hogar de tránsito": "TRANSITIONAL_HOME",
+    "Transportista": "CARRIAGE",
+};
+
+const editableRoles = Object.values(roleCodes);
+
 function Profile() {
 
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
@@ -56,20 +69,52 @@ function Profile() {
 
     const [role, setRole] = useState<RoleName | null>(null)
 
+    const [roleOverrides, setRoleOverrides] = useState<Partial<Record<UserRole, boolean>>>({})
+
     const { capturedPhoto, chooseFromGallery, status, takePhoto } = useCamera()
 
     const selectedRole = role ? rolesInformation.get(role) : undefined;
 
-    const Navigate = useNavigate()
+    const navigate = useNavigate()
+
     const dispatch = useAppDispatch()
+
+    const toaster = useToast()
 
     const { userId } = useAuth();
 
     const { data: userData } = useGetUserProfileQuery(userId);
 
+    const [updateUserRoles] = useUpdateUserRolesMutation()
+
+    const activeRoles = editableRoles.filter((roleCode) =>
+        roleOverrides[roleCode] ?? userData?.roles.includes(roleCode) ?? false,
+    )
+
     function handleRoleInformation(role: RoleName) {
         setOpenBottomSheet(true);
         setRole(role);
+    }
+
+    const handleRoleChange = async (roleCode: UserRole, enabled: boolean) => {
+        const previousOverride = roleOverrides[roleCode]
+        const roles = enabled
+            ? Array.from(new Set([...activeRoles, roleCode]))
+            : activeRoles.filter((activeRole) => activeRole !== roleCode)
+
+        setRoleOverrides((current) => ({ ...current, [roleCode]: enabled }))
+
+        try {
+            await updateUserRoles({ roles }).unwrap()
+        } catch {
+            setRoleOverrides((current) => {
+                const restored = { ...current }
+                if (previousOverride === undefined) delete restored[roleCode]
+                else restored[roleCode] = previousOverride
+                return restored
+            })
+            toaster.error("No pudimos actualizar tus roles")
+        }
     }
 
     const handleTakePhoto = async () => {
@@ -87,10 +132,13 @@ function Profile() {
     const confirmLogout = () => {
         setIsLogoutModalOpen(false)
         dispatch(logout())
-        Navigate("/login", { replace: true })
+        navigate("/login", { replace: true })
     }
 
     const SwitchComponent = (Rolename: RoleName, Icon: React.ComponentType) => {
+        const roleCode = roleCodes[Rolename]
+        const isActive = activeRoles.includes(roleCode)
+
         return (
             <S.SwitchGroup>
                 <S.SwitchRow>
@@ -104,7 +152,11 @@ function Profile() {
                     <S.SwitchToggle>
                         <S.SwitchInput
                             type="checkbox"
-                            aria-label={`Activar rol de ${Rolename}`}
+                            checked={isActive}
+                            aria-label={`${isActive ? "Desactivar" : "Activar"} rol de ${Rolename}`}
+                            onChange={(event) => {
+                                void handleRoleChange(roleCode, event.target.checked)
+                            }}
                         />
                         <S.SwitchControl aria-hidden="true" />
                     </S.SwitchToggle>
@@ -116,7 +168,7 @@ function Profile() {
         return (
             <S.Item>
                 <S.RoleIcon><Icon aria-hidden="true" /></S.RoleIcon>
-                <S.ItemInfo onClick={() => Navigate(route)}>
+                <S.ItemInfo onClick={() => navigate(route)}>
                     <S.ItemLabel>{label}</S.ItemLabel>
                     <S.ItemDescription>{description}</S.ItemDescription>
                 </S.ItemInfo>
@@ -190,7 +242,7 @@ function Profile() {
                 </S.PhotoSheetActions>
             </BottomSheet>
             <S.Header>
-                <S.BackButton type="button" onClick={() => Navigate(-1)} aria-label="Volver">
+                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
                     <ArrowLeft aria-hidden="true" />
                 </S.BackButton>
                 <S.TitlesContainer>
