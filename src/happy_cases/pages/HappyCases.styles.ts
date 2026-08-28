@@ -1,4 +1,17 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { PawPrint } from "@/common/icons";
+
+const revealDescription = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 
 type StatusBadgeProps = {
   $status: "FOUND" | "ADOPTED" | "RESCUED";
@@ -8,11 +21,49 @@ type IndicatorProps = {
   $active: boolean;
 };
 
+export const PagePaws = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  color: ${({ theme }) => theme.colors.brand};
+  pointer-events: none;
+`;
+
+type PagePawProps = {
+  $left: number;
+  $top: number;
+  $size: number;
+  $rotation: number;
+  $opacity: number;
+};
+
+export const PagePaw = styled(PawPrint)<PagePawProps>`
+  position: absolute;
+  top: ${({ $top }) => $top}%;
+  left: ${({ $left }) => $left}%;
+  width: ${({ $size }) => $size}px;
+  height: ${({ $size }) => $size}px;
+  color: ${({ theme }) => theme.colors.brand};
+  opacity: ${({ $opacity }) => $opacity};
+  transform: rotate(${({ $rotation }) => $rotation}deg);
+`;
+
 export const Container = styled.section`
+  position: relative;
   width: 100%;
   max-width: 370px;
   margin: 0 auto;
   box-sizing: border-box;
+
+  > *:not(${PagePaws}) {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 1200px;
+  }
 `;
 
 export const Intro = styled.div`
@@ -20,6 +71,11 @@ export const Intro = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (min-width: 1024px) {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
 `;
 export const IntroHeader = styled.div`
   display: flex;
@@ -58,6 +114,11 @@ export const Title = styled.h2`
   font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 24px;
+
+  @media (min-width: 1024px) {
+    font-size: 28px;
+    line-height: 36px;
+  }
 `;
 
 export const Description = styled.p`
@@ -69,7 +130,127 @@ export const Description = styled.p`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 24px;
   text-align: left;
+
+  @media (min-width: 1024px) {
+    grid-area: description;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    min-height: 420px;
+    max-width: none;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0;
+    padding: 36px;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: ${({ theme }) => theme.colors.darkColor};
+    font-size: 16px;
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    line-height: 26px;
+    animation: ${revealDescription} 520ms ease-out both;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
 `;
+
+export const DescriptionIcon = styled.span`
+  display: none;
+
+  @media (min-width: 1024px) {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: ${({ theme }) => theme.colors.brand};
+
+    svg {
+      width: 34px;
+      height: 34px;
+      fill: currentColor;
+    }
+  }
+`;
+
+export const DescriptionText = styled.span`
+  position: relative;
+  z-index: 1;
+`;
+
+export const DescriptionPaws = styled.span`
+  display: none;
+
+  @media (min-width: 1024px) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: ${({ theme }) => theme.colors.brand};
+    pointer-events: none;
+
+    svg {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      opacity: 0.11;
+    }
+
+    svg:nth-child(1) {
+      top: 34px;
+      right: 20px;
+      transform: rotate(24deg);
+    }
+
+    svg:nth-child(2) {
+      top: 46%;
+      right: 54px;
+      width: 30px;
+      height: 30px;
+      transform: rotate(-18deg);
+    }
+
+    svg:nth-child(3) {
+      right: 12px;
+      bottom: 28px;
+      width: 54px;
+      height: 54px;
+      transform: rotate(38deg);
+    }
+  }
+`;
+
+export const FeaturedLayout = styled.div`
+  display: contents;
+
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: minmax(0, 2.15fr) minmax(260px, 1fr);
+    grid-template-areas:
+      "carousel description"
+      "indicators description";
+    column-gap: 80px;
+    align-items: start;
+    margin-bottom: 24px;
+  }
+`;
+
+export const FeaturedCarouselArea = styled.div`
+  display: contents;
+
+  @media (min-width: 1024px) {
+    grid-area: carousel;
+    position: relative;
+    display: block;
+    width: min(100%, 780px);
+    margin: 0;
+  }
+`;
+
 export const FeaturedCarousel = styled.div`
   display: flex;
   gap: 12px;
@@ -90,38 +271,123 @@ export const FeaturedCarousel = styled.div`
     scroll-snap-align: center;
   }
 `;
-type FeaturedCardProps = {
-  $imageUrl: string;
+
+type CarouselArrowProps = {
+  $direction: "previous" | "next";
 };
-export const FeaturedCard = styled.article<FeaturedCardProps>`
+
+export const CarouselArrow = styled.button<CarouselArrowProps>`
+  display: none;
+
+  @media (min-width: 1024px) {
+    position: absolute;
+    top: 50%;
+    ${({ $direction }) => ($direction === "previous" ? "left: -64px;" : "right: -64px;")}
+    z-index: 2;
+    display: flex;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid ${({ theme }) => theme.colors.stroke};
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.secondary};
+    box-shadow: 0 4px 14px rgb(89 65 55 / 16%);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition:
+      background 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+
+    svg {
+      width: 10px;
+      height: 18px;
+      transform: ${({ $direction }) =>
+        $direction === "previous" ? "rotate(180deg)" : "none"};
+    }
+
+    &:hover:not(:disabled) {
+      background: ${({ theme }) => theme.colors.secondary};
+      color: ${({ theme }) => theme.colors.neutral};
+      transform: translateY(-50%) scale(1.06);
+    }
+
+    &:focus-visible {
+      outline: 3px solid ${({ theme }) => theme.colors.focus};
+      outline-offset: 3px;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+`;
+export const FeaturedCard = styled.article`
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 52%) minmax(0, 48%);
   width: 100%;
-  min-height: 170px;
-  height: auto;
+  min-height: 230px;
   overflow: hidden;
   border-radius: 20px;
-  background-image:
-    linear-gradient(
+  background: ${({ theme }) => theme.colors.neutral};
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
       to right,
       ${({ theme }) => theme.colors.neutral} 0%,
-      ${({ theme }) => theme.colors.neutral} 35%,
-      transparent 75%
-    ),
-    url(${({ $imageUrl }) => $imageUrl});
-  background-position: 70% center;
-  background-size: cover;
+      ${({ theme }) => theme.colors.neutral} 43%,
+      rgb(245 231 212 / 84%) 52%,
+      transparent 76%
+    );
+    pointer-events: none;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(300px, 48%) minmax(0, 52%);
+    min-height: 420px;
+    border-radius: 24px;
+    background: ${({ theme }) => theme.colors.neutral};
+
+    &::after {
+      background: linear-gradient(
+        to right,
+        ${({ theme }) => theme.colors.neutral} 0%,
+        ${({ theme }) => theme.colors.neutral} 36%,
+        rgb(245 231 212 / 88%) 45%,
+        transparent 67%
+      );
+      pointer-events: none;
+    }
+  }
 `;
 
 export const FeaturedContent = styled.div`
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
-  min-height: 170px;
+  grid-column: 1;
+  min-height: 230px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 12px;
+  padding: 12px 6px 12px 12px;
   box-sizing: border-box;
+
+  @media (min-width: 1024px) {
+    grid-column: 1;
+    min-height: 420px;
+    justify-content: center;
+    padding: 32px;
+  }
 `;
 
 export const FeaturedBadge = styled.span`
@@ -145,6 +411,12 @@ export const FeaturedBadge = styled.span`
     height: 15px;
     fill: currentColor;
   }
+
+  @media (min-width: 1024px) {
+    min-height: 32px;
+    padding: 6px 16px;
+    font-size: 13px;
+  }
 `;
 
 export const FeaturedInfo = styled.div`
@@ -153,6 +425,11 @@ export const FeaturedInfo = styled.div`
   align-items: flex-start;
   gap: 4px;
   margin-top: 8px;
+
+  @media (min-width: 1024px) {
+    gap: 10px;
+    margin-top: 16px;
+  }
 `;
 
 export const FeaturedName = styled.h3`
@@ -162,6 +439,11 @@ export const FeaturedName = styled.h3`
   font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
+
+  @media (min-width: 1024px) {
+    font-size: 28px;
+    line-height: 34px;
+  }
 `;
 
 export const FeaturedDescription = styled.p`
@@ -174,6 +456,16 @@ export const FeaturedDescription = styled.p`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   line-height: 16px;
   text-align: left;
+
+  @media (min-width: 1024px) {
+    max-width: 420px;
+    font-size: 14px;
+    line-height: 20px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 export const StoryButton = styled.button`
@@ -209,13 +501,29 @@ export const StoryButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
+
+  @media (min-width: 1024px) {
+    height: 40px;
+    margin-top: 4px;
+    padding: 9px 16px;
+    font-size: 14px;
+  }
 `;
 
 export const FeaturedImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
+  position: relative;
+  z-index: 0;
+  grid-column: 2;
+  width: 100%;
+  height: 230px;
+  min-width: 0;
+  object-fit: cover;
+  object-position: center;
+
+  @media (min-width: 1024px) {
+    height: 420px;
+  }
 `;
 export const CarouselIndicators = styled.div`
   display: flex;
@@ -223,6 +531,11 @@ export const CarouselIndicators = styled.div`
   justify-content: center;
   gap: 8px;
   height: 28px;
+
+  @media (min-width: 1024px) {
+    grid-area: indicators;
+    height: 40px;
+  }
 `;
 
 export const Indicator = styled.span<IndicatorProps>`
@@ -238,6 +551,13 @@ export const CasesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 20px;
+  }
 `;
 
 export const HappyCaseCard = styled.button`
@@ -263,6 +583,19 @@ export const HappyCaseCard = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
+
+  @media (min-width: 1024px) {
+    width: 100%;
+    height: 150px;
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgb(89 65 55 / 14%);
+    }
+  }
 `;
 export const CaseWrapper = styled.div`
   width: 100%;
@@ -275,6 +608,10 @@ export const ExpandedContent = styled.div`
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  @media (min-width: 1024px) {
+    margin-top: 10px;
+  }
 `;
 export const FullDescription = styled.p`
   margin: 12px 0 16px;
@@ -330,6 +667,11 @@ export const CaseImage = styled.img`
   flex: 0 0 120px;
   object-fit: cover;
   border-radius: 10px 0 0 10px;
+
+  @media (min-width: 1024px) {
+    width: 132px;
+    flex-basis: 132px;
+  }
 `;
 
 export const CaseContent = styled.div`
