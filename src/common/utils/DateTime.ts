@@ -6,3 +6,8 @@ export const splitDateTime = (dateTime?: string) => ({
   date: dateTime?.slice(0, 10) ?? '',
   time: dateTime?.slice(11, 16) ?? '',
 })
+
+export const formatDateLong = (date: string | Date): string =>
+  new Intl.DateTimeFormat("es-AR", {
+    dateStyle: "long",
+  }).format(new Date(date));

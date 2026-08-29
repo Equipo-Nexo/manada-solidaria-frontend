@@ -4,8 +4,8 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { publishCampaignSchema, type PublishCampaignForm } from "@campaigns/app/schemas/PublishCampaignSchema";
 import * as S from "./PublishForm.styles";
-import { Advice, ImageUpload, DatePicker, ErrorMessage, Map } from "@components/index.ts";
-import { Phone, Search, Arrow, PublishButton } from "@icons/index.ts";
+import { Advice, ImageUpload, DatePicker, ErrorMessage, AutocompleteGeolocation } from "@components/index.ts";
+import { Phone } from "@icons/index.ts";
 import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useToast } from "@hooks/toast/useToast";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
@@ -13,12 +13,14 @@ import { type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
 import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
-import { DEFAULT_LOCATION } from "@/common/utils/DefaultValues";
+import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
+import FormContainer from "@/common/components/form_container/FormContainer";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 
 function PublishCampaign() {
   const navigate = useNavigate();
   const toast = useToast();
-  const [createCampaign] = useCreateCampaignMutation();
+  const [createCampaign, { isLoading }] = useCreateCampaignMutation();
   const [selectedCategory, setSelectedCategory] = useState<CampaignCategory | null>(null);
 
   const isDonation = selectedCategory === "DONATION";
@@ -33,7 +35,6 @@ function PublishCampaign() {
     resolver: yupResolver(publishCampaignSchema),
     defaultValues: {
       donationNeeds: [],
-      location: DEFAULT_LOCATION
     }
   });
   const onSubmit = async (data: PublishCampaignForm) => {
@@ -55,19 +56,13 @@ function PublishCampaign() {
   };
 
   return (
-    <S.PublishFormPage>
-      <S.PublishFormHeader>
-        <S.PublishBackButton
-          type="button"
-          aria-label="Volver"
-          onClick={() => navigate(-1)}
-        >
-          <Arrow aria-hidden="true" />
-        </S.PublishBackButton>
-        <S.PublishFormTitle>Publicar Campaña</S.PublishFormTitle>
-      </S.PublishFormHeader>
-
-      <S.PublishForm onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer
+      pageTitle='Publicar Campaña'
+      buttonText='Publicar Campaña'
+      isLoadingForm={isLoading}
+      loadingButtonText='Publicando...'
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}
+    >
         <S.PublishField>
           <S.PublishLabel>
             Título de la campaña <S.RequiredMark>*</S.RequiredMark>
@@ -236,24 +231,21 @@ function PublishCampaign() {
           <S.PublishLabel>
             Ubicación <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
-          <S.InputWithIcon>
-            <S.IconInput
-              type="text"
-              {...register("location.name")}
-              placeholder="¿Dónde se realizará la campaña?"
-              $hasLeftIcon
-            />
-            <S.FieldIcon aria-hidden="true">
-              <Search />
-            </S.FieldIcon>
-          </S.InputWithIcon>
-          <ErrorMessage message={errors.location?.message} />
-          <S.MapWrapper>
-            <Map onPointSelect={(point) => console.log(point)} />
-          </S.MapWrapper>
-          <S.HelpText>
-            Buscá una dirección o tocá el mapa para marcar el punto.
-          </S.HelpText>
+          <Controller
+            control={control}
+            name="location"
+            render={({ field, fieldState }) => (
+              <>
+                <AutocompleteGeolocation
+                  placeHolder="¿Dónde se realizará la campaña?"
+                  onChange={(value) =>
+                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                  }
+                />
+                <ErrorMessage message={fieldState.error?.message} />
+              </>
+            )}
+          />
         </S.PublishField>
 
         <S.PublishField as="div">
@@ -270,13 +262,7 @@ function PublishCampaign() {
         </S.PublishField>
 
         <Advice advice="Las campañas con metas claras y fotos nítidas suelen completarse un 40% más rápido. Asegurate de incluir toda la información relevante." />
-
-        <S.PublishSubmitButton type="submit">
-          Publicar Campaña
-          <PublishButton aria-hidden="true" />
-        </S.PublishSubmitButton>
-      </S.PublishForm>
-    </S.PublishFormPage>
+    </FormContainer>
   );
 }
 

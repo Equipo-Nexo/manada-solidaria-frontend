@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const FloatingButton = styled.button<{ $showText?: boolean }>`
   position: fixed;
   right: 24px;
-  bottom: 96px;
+  bottom: 30px;
   z-index: 30;
   min-width: 78px;
   min-height: 78px;

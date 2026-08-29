@@ -8,6 +8,7 @@ export { default as Eye } from './Eye'
 export { default as EyeOff } from './EyeOff'
 export { default as FilterIcon } from './FilterIcon'
 export { default as HandHeart } from './HandHeart'
+export { default as OutlinedHandHeart } from './OutlinedHandHeart'
 export { default as Heart } from './Heart'
 export { default as House } from './House'
 export { default as Info } from './Info'
@@ -22,6 +23,7 @@ export { default as Share } from './Share'
 export { default as User } from './User'
 export { default as Users } from './Users'
 export { default as Camera } from './Camera'
+export { default as Calendar } from './Calendar'
 export { default as ImagePlus } from './ImagePlus'
 export { default as DollarSign } from './DollarSign'
 export { default as History } from './History'
@@ -37,5 +39,10 @@ export { default as ColorPalet } from './ColorPalet'
 export { default as Money } from './Money'
 export { default as Publish } from './Publish'
 export { default as PublishButton } from './PublishButton'
-export { default as Arrow } from './Arrow'
-export { default as Clock } from './Clock'
+export { default as Stethoscope } from "./Stethoscope";
+export { default as Warning } from "./Warning";
+export { default as Arrow } from "./Arrow";
+export { default as Clock } from "./Clock";
+export { default as Ruler } from "./Ruler";
+export { default as OpenMap } from "./OpenMap";
+export { default as Transfer } from "./Transfer";

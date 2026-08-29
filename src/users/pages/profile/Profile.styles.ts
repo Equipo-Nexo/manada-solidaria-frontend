@@ -5,8 +5,8 @@ export const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
-    @media (min-width: 768px) {
-        width: min(100%, 680px);
+    @media (min-width: 700px) {
+        width: min(100%, 500px);
         gap: 24px;
     }
 
@@ -77,20 +77,18 @@ export const ProfileImageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media (min-width: 768px) {
-        gap: 8px;
-    }
+    gap: 4px;
 `
 
 export const ProfileImageWrapper = styled.div`
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 152px;
+    height: 152px;
 `
 
 export const ProfileImage = styled.img`
-    width: 120px;
-    height: 120px;
+    width: 152px;
+    height: 152px;
     border-radius: 50%;
     object-fit: cover;
 `
@@ -140,10 +138,12 @@ export const EditProfileImageButton = styled.button`
 `
 
 export const ProfileName = styled.h2`
+    margin: 4px 0 0;
     color: ${({ theme }) => theme.colors.black};
 `
 
 export const ProfileEmail = styled.p`
+    margin: 0;
     ${({ theme }) => theme.typography.body};
     color: ${({ theme }) => theme.colors.darkColor};
 `
@@ -158,7 +158,6 @@ export const RolesContainer = styled.div`
 export const Label = styled.span`
     ${({ theme }) => theme.typography.header2};
     ${({ theme }) => theme.fontWeights.bold};
-
     color: ${({ theme }) => theme.colors.darkColor};
 `
 
@@ -170,14 +169,14 @@ export const RolesList = styled.div`
     box-shadow: 0 4px 10px rgb(0 0 0 / 18%);
 `
 
-export const AccountAndActivityContainer = styled.div`
+export const ItemsMainContainer = styled.div`
     display: flex;
     min-width: 0;
     flex-direction: column;
     gap: 8px;
 `
 
-export const AccountAndActivityList = styled.div`
+export const ItemsList = styled.div`
     width: 100%;
     overflow: hidden;
     border-radius: 12px;
@@ -610,4 +609,36 @@ export const PhotoSheetActionDescription = styled.span`
     font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
     font-weight: ${({ theme }) => theme.typography.descriptive.fontWeight};
     line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`
+
+export const PasskeyButton = styled.button`
+  width: min(100%, 284px);
+  height: 56px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 9999px;
+  background: ${({ theme }) => theme.colors.brand};
+  color: ${({ theme }) => theme.colors.background};
+  cursor: pointer;
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  transition: background 160ms ease, transform 160ms ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.brandHover};
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    transform: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
 `

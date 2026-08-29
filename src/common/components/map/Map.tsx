@@ -1,63 +1,74 @@
 import { MapCN, MapCNControls, MapCNMarker } from '../mapCN'
 import * as S from './Map.styles'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
 import { useGeolocation } from '@hooks/geolocation/useGeolocation'
-
-const DEFAULT_POINT = { lng: -58.3816, lat: -34.6037 }
 
 export type MapPoint = { lng: number; lat: number }
 
 interface MapProps {
   markPoints?: MapPoint[]
+  markPoint?: MapPoint | null;
   enableMarkerOnClick?: boolean
+  center?: MapPoint;
   onPointSelect?: (point: MapPoint) => void
 }
 
+const ARG_CENTER_POINT = {
+  "lng": -65.45210548341893,
+  "lat": -36.26607671726336
+}
+const ARG_DEFAULT_ZOOM = 3.1976036153806247
+
 function Map({
   markPoints,
+  markPoint = null,
   enableMarkerOnClick = true,
+  center,
   onPointSelect,
 }: MapProps) {
-  const { coordinates, requestCoordinates } = useGeolocation()
-  const frameRef = useRef<HTMLDivElement>(null)
+  const { coordinates, requestCoordinates, status } = useGeolocation()
   const [map, setMap] = useState<MapLibreMap | null>(null)
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
+  const markPointLat = markPoint?.lat
+  const markPointLng = markPoint?.lng
+  const centerLat = center?.lat
+  const centerLng = center?.lng
+
+  const { centerPoint, zoom } = useMemo(() => {
+    if (status === 'denied') {
+      return { centerPoint: ARG_CENTER_POINT, zoom: ARG_DEFAULT_ZOOM }
+    }
+
+    if (status === 'granted' && coordinates) {
+      return {
+        centerPoint: {
+          lng: coordinates.longitude,
+          lat: coordinates.latitude,
+        },
+        zoom: 16,
+      }
+    }
+
+    return {
+      centerPoint:
+        centerLat === undefined || centerLng === undefined
+          ? undefined
+          : { lat: centerLat, lng: centerLng },
+      zoom: 100,
+    }
+  }, [centerLat, centerLng, coordinates, status])
 
   useEffect(() => {
     void requestCoordinates()
   }, [requestCoordinates])
 
-  const point = useMemo(
-    () =>
-      coordinates
-        ? { lng: coordinates.longitude, lat: coordinates.latitude }
-        : DEFAULT_POINT,
-    [coordinates],
-  )
-
   useEffect(() => {
-    const frame = frameRef.current
-    if (!frame || !map) return
+    if (!map || markPointLat === undefined || markPointLng === undefined) return;
 
-    let animationFrame: number | null = null
-    const recenterMap = () => {
-      if (animationFrame !== null) cancelAnimationFrame(animationFrame)
-      animationFrame = requestAnimationFrame(() => {
-        map.resize()
-        map.jumpTo({ center: point })
-      })
+    if (!map.getBounds().contains([markPointLng, markPointLat])) {
+      map.easeTo({ center: { lng: markPointLng, lat: markPointLat }, duration: 600 });
     }
-    const resizeObserver = new ResizeObserver(recenterMap)
-
-    resizeObserver.observe(frame)
-    recenterMap()
-
-    return () => {
-      resizeObserver.disconnect()
-      if (animationFrame !== null) cancelAnimationFrame(animationFrame)
-    }
-  }, [map, point])
+  }, [map, markPointLat, markPointLng]);
 
   useEffect(() => {
     if (!map) return
@@ -74,7 +85,6 @@ function Map({
 
     const selectPoint = (event: MapMouseEvent) => {
       const newPoint = { lng: event.lngLat.lng, lat: event.lngLat.lat }
-      setSelectedPoint(newPoint)
       onPointSelect?.(newPoint)
     }
     const handleDoubleClick = (event: MapMouseEvent) => selectPoint(event)
@@ -90,24 +100,24 @@ function Map({
     }
   }, [enableMarkerOnClick, map, onPointSelect])
 
-    return (
-      <S.MapFrame ref={frameRef}>
-        <MapCN
-          center={point}
-          zoom={16}
-          doubleClickZoom={!enableMarkerOnClick}
-          onMapReady={setMap}
-        >
-          <MapCNControls showLocate />
-          {markPoints?.map(({ lng, lat }, index) => (
-            <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
-          ))}
-          {selectedPoint && (
-            <MapCNMarker longitude={selectedPoint.lng} latitude={selectedPoint.lat} />
-          )}
-        </MapCN>
-      </S.MapFrame>
-    )
+  return (
+    <S.MapFrame>
+      <MapCN
+        center={centerPoint}
+        zoom={zoom}
+        doubleClickZoom={!enableMarkerOnClick}
+        onMapReady={setMap}
+      >
+        <MapCNControls showLocate />
+        {markPoints?.map(({ lng, lat }, index) => (
+          <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
+        ))}
+        {markPoint && (
+          <MapCNMarker longitude={markPoint.lng} latitude={markPoint.lat} />
+        )}
+      </MapCN>
+    </S.MapFrame>
+  )
 }
 
 export default Map

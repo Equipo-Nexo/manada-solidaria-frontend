@@ -15,26 +15,23 @@ import {
 } from './personalDataSchema'
 import useAuth from '@/common/hooks/auth/useAuth'
 
-const initialPersonalData: PersonalDataFormValues = {
-    username: personalDataMock.username,
-    name: personalDataMock.name ?? '',
-    lastname: personalDataMock.lastname ?? '',
-    phone: personalDataMock.phoneNumber,
-    email: personalDataMock.email,
-}
 
-
-
-const initialPhoneNumber = personalDataMock.phoneNumber.slice(-7)
-
-const initialAreaCode = personalDataMock.phoneNumber.slice(0, -7)
 
 function PersonalData() {
     const navigate = useNavigate()
+    const { userId } = useAuth();
+    const { data: userData } = useGetUserProfileQuery(userId);
+    const initialPersonalData: PersonalDataFormValues = {
+        username: userData?.username ?? '',
+        name: userData?.profile.name ?? '',
+        lastname: userData?.profile.lastname ?? '',
+        phone: userData?.profile.phoneNumber ?? '',
+        email: userData?.profile.email ?? '',
+    }
+
     const toast = useToast()
     const [editUserPersonalData, { isLoading }] = useEditUserPersonalDataMutation()
-    const [areaCode, setAreaCode] = useState(initialAreaCode)
-    const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber)
+
     const {
         formState: { errors, isDirty, isValid },
         handleSubmit,
@@ -47,7 +44,6 @@ function PersonalData() {
         resolver: yupResolver(personalDataSchema),
     })
 
-    const { data: userData } = useGetUserProfileQuery();
 
     const updatePhone = (nextAreaCode: string, nextPhoneNumber: string) => {
         setValue('phone', `${nextAreaCode}${nextPhoneNumber}`, {
@@ -103,7 +99,6 @@ function PersonalData() {
             )
         }
     }
-    const { userId } = useAuth()
 
     return (
         <S.MainContainer onSubmit={handleSubmit(handleEditPersonalData)} noValidate>

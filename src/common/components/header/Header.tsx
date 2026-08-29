@@ -1,5 +1,6 @@
 import { Bell, Menu } from '../../icons'
 import useCurrentUserProfile from '@hooks/user/useCurrentUserProfile'
+import useHeaderVisibility from '@hooks/ui/useHeaderVisibility'
 import { Brand, Greeting, HeaderRoot, IconButton, Logo, MenuButton } from './Header.styles'
 
 type HeaderProps = {
@@ -8,9 +9,10 @@ type HeaderProps = {
 
 function Header({ onMenuClick }: HeaderProps) {
   const { username } = useCurrentUserProfile()
+  const isVisible = useHeaderVisibility()
 
   return (
-    <HeaderRoot>
+    <HeaderRoot $isVisible={isVisible}>
       <Brand>
         <MenuButton type="button" aria-label="Abrir menu" onClick={onMenuClick}>
           <Menu aria-hidden="true" />

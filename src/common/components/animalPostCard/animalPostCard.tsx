@@ -1,38 +1,41 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
-import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
-import type { AnimalPostActionId } from './animalPostActions'
 import * as S from './animalPostCard.styles'
 import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
+import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
+import type { Location } from '@/common/app/services/responses/Location'
+import ImagePreview from '../image_preview/ImagePreview'
 
 export type AnimalPostCardProps = {
+  postId: string
   name?: string
   status?: string
-  location?: string
+  location?: Location
   description?: string
   imageUrl?: string
-  contactPhone?: string
+  phoneNumber?: PhoneNumber
   reward?: number
   onShare?: () => void
   onViewMore?: () => void
-  actionHandlers?: Partial<Record<AnimalPostActionId, () => void>>
 }
 
 function AnimalPostCard({
+  postId,
   name,
   status,
   location,
   description,
   imageUrl,
-  contactPhone,
+  phoneNumber,
   reward,
-  onShare,
-  onViewMore,
-  actionHandlers,
+  onShare
 }: AnimalPostCardProps) {
+  const navigate = useNavigate()
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
+
   const hasReward =
     status === ANIMAL_POST_STATUS_LABELS.LOST &&
     typeof reward === 'number' &&
@@ -45,18 +48,24 @@ function AnimalPostCard({
       maximumFractionDigits: 0,
     }).format(reward)
     : undefined
-  const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status].text, contactPhone) : []
+
+  const visibleActions = status ? getAnimalPostActions(AnimalPostStatus[status].text, phoneNumber) : []
+
+  const handleViewOnMap = (latitude: number, longitude: number) => {
+    navigate(`/mapa?latitude=${latitude}&longitude=${longitude}`)
+  }
+
+  const handleCardClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest('button, a')) return
+    navigate(`/animal/detalle/${postId}`)
+  }
 
   return (
-    <S.CardContainer>
+    <S.CardContainer onClick={handleCardClick}>
       <S.PhotoContainer>
-        <S.Photo
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${imageUrl}`}
+        <ImagePreview 
+          imageId={imageUrl}
           alt={name}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }}
         />
         <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={onShare}>
           <Share aria-hidden="true" />
@@ -93,23 +102,30 @@ function AnimalPostCard({
 
         <S.Location>
           <LocationPin aria-hidden="true" />
-          <span>{location}</span>
+          <span>{location?.name}</span>
         </S.Location>
 
         <S.Description>{description}</S.Description>
-
-        <S.ViewMore type="button" onClick={onViewMore}>
+        <S.ViewMore type="button" onClick={() => navigate(`/animal/detalle/${postId}`)}>
           Ver más información
         </S.ViewMore>
 
         {visibleActions.length > 0 && (
           <S.ButtonsContainer $amount={visibleActions.length}>
-            {visibleActions.map(({ id, label, variant }) => (
+            {visibleActions.map(({ id, label, variant, onClick }) => (
               <S.ActionButton
                 key={id}
                 type="button"
                 $variant={variant}
-                onClick={actionHandlers?.[id]}
+                onClick={() =>
+                  onClick(
+                    phoneNumber,
+                    name,
+                    location
+                      ? () => handleViewOnMap(location.latitude, location.longitude)
+                      : undefined
+                  )
+                }
               >
                 {label}
               </S.ActionButton>

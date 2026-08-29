@@ -12,15 +12,43 @@ export const colors: Array<{ value: AnimalColor; label: string; hex: string }> =
   { value: 'OTHER', label: 'Otro', hex: '#FFFFFF' },
 ]
 
-export const animalSize: Array<{
+
+const animalSizeDescription = (animalType?: AnimalType) => {
+  if (!animalType) return {
+    SMALL: '',
+    MEDIUM: '',
+    LARGE: ''
+  }
+  
+  return {
+    DOG: {
+      SMALL: 'Menos de 10 kg',
+      MEDIUM: 'Entre 10 y 25 kg',
+      LARGE: 'Más de 25 kg'
+    },
+    CAT: {
+      SMALL: 'Menos de 3 kg',
+      MEDIUM: 'Entre 3 y 5 kg',
+      LARGE: 'Más de 5 kg'
+    },
+    OTHER: {
+      SMALL: '',
+      MEDIUM: '',
+      LARGE: ''
+    },
+  }[animalType]
+}
+
+export const animalSize = (animalType?: AnimalType): Array<{
   value: AnimalSize
   title: string
   description: string
-}> = [
-    { value: 'SMALL', title: 'Pequeño', description: 'Menos de 10 kg' },
-    { value: 'MEDIUM', title: 'Mediano', description: 'Entre 10 y 25 kg' },
-    { value: 'LARGE', title: 'Grande', description: 'Más de 25 kg' },
+}> => [
+    { value: 'SMALL', title: 'Pequeño', description: animalSizeDescription(animalType).SMALL },
+    { value: 'MEDIUM', title: 'Mediano', description: animalSizeDescription(animalType).MEDIUM },
+    { value: 'LARGE', title: 'Grande', description: animalSizeDescription(animalType).LARGE },
   ]
+
 
 export interface AnimalSelectorOption {
   value: AnimalType

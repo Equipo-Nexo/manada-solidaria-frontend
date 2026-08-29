@@ -1,5 +1,6 @@
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils"
 import type { Location } from "@/common/app/services/responses/Location"
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
 
 
 
@@ -7,7 +8,7 @@ import type { Location } from "@/common/app/services/responses/Location"
 export const getAnimalPostStatus = (
   backendStatus: AnimalPostStatus
 ): string | undefined => {
-    return ANIMAL_POST_STATUS_LABELS[backendStatus]
+  return ANIMAL_POST_STATUS_LABELS[backendStatus]
 }
 
 
@@ -16,12 +17,19 @@ export const getAnimalPostStatus = (
 export type AnimalPostStatus = "CREATED" | "SEARCHING" | "FOUND" | "SEARCHING_ADOPT_AND_TRANSIT" | "SEARCHING_ADOPT" | "ADOPTED" | 'IN_STREET'
 export type AnimalGender = 'MALE' | 'FEMALE'
 
-export const animalTypes = [ 'DOG', 'CAT', 'OTHER'] as const
+export const animalTypes = ['DOG', 'CAT', 'OTHER'] as const
 export type AnimalType = typeof animalTypes[number]
 
+export const animalTypeLabels: Record<AnimalType, string> = {
+  DOG: 'Perro',
+  CAT: 'Gato',
+  OTHER: 'Otro',
+}
 
+export const getAnimalName = (name: string | null, type: AnimalType): string =>
+  name?.trim() || animalTypeLabels[type]
 
-export const animalPostTypes = ['ADOPTION', 'LOST'] as const;
+export const animalPostTypes = ['ADOPTION', 'LOST', 'IN_STREET'] as const;
 export type AnimalPostType = typeof animalPostTypes[number]
 
 export const animalPostFilters = ['', 'IN_STREET', ...animalPostTypes]
@@ -70,7 +78,7 @@ export type AnimalSex = typeof animalSexes[number];
 export const animalSexLabels: Record<AnimalSex, string> = {
   MALE: "Macho",
   FEMALE: "Hembra",
-  UNKNOWN: "Desconocido",
+  UNKNOWN: "Sin definir",
 };
 
 
@@ -88,7 +96,7 @@ export type AnimalColor = typeof animalColors[number];
 export const animalColorLabels: Record<AnimalColor, string> = {
   GRAY: "Gris",
   BLACK: "Negro",
-  BLONDE: "Dorado",
+  BLONDE: "Rubio",
   BROWN: "Marrón",
   WHITE: "Blanco",
   OTHER: "Otro",
@@ -105,7 +113,8 @@ export type AnimalPost = {
   status: AnimalPostStatus
   createdAt: string
   ownerId: string
-  phoneNumber: string | null
+  owner: Owner
+  phoneNumber?: PhoneNumber
   reward: number | null
 }
 
@@ -117,3 +126,11 @@ export type Animal = {
   color: AnimalColor | null
   age: AnimalAge
 }
+
+type Owner = {
+  username: string,
+  roles: string[],
+  profileImageUrl: string
+
+}
+

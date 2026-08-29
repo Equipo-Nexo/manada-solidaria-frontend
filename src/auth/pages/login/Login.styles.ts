@@ -4,36 +4,41 @@ const formWidth = '284px'
 
 export const LoginPanel = styled.section`
   width: 100%;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
   background: ${({ theme }) => theme.colors.neutral};
-  padding: 16px 16px 6px;
+  overflow: hidden;
+  padding: max(10px, env(safe-area-inset-top)) 16px
+    max(4px, env(safe-area-inset-bottom));
 
   @media (max-height: 760px) {
-    padding-top: 10px;
-    padding-bottom: 4px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 
   @media (max-width: 767px) {
-    padding-top: 10px;
-    padding-bottom: 4px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 
   @media (min-width: 768px) {
     justify-content: center;
     gap: 10px;
-    padding-top: 12px;
-    padding-bottom: 8px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
 
   @media (min-width: 768px) and (max-height: 720px) {
     gap: 6px;
-    padding-top: 6px;
-    padding-bottom: 4px;
+    padding-top: max(6px, env(safe-area-inset-top));
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 `
 
@@ -48,6 +53,12 @@ export const LoginFooter = styled.p`
   line-height: 16px;
   text-align: center;
 
+  @media (max-width: 767px) {
+    width: min(100%, 320px);
+    font-size: 10px;
+    line-height: 14px;
+  }
+
   @media (min-width: 768px) {
     width: min(100%, 380px);
   }
@@ -55,11 +66,16 @@ export const LoginFooter = styled.p`
   @media (min-width: 768px) and (max-height: 720px) {
     width: min(100%, 340px);
   }
+
+  @media (max-height: 560px) {
+    &:not(:last-child) {
+      display: none;
+    }
+  }
 `
 
 export const LoginContainer = styled.div`
   position: relative;
-  gap:200px;
   width: min(100%, 430px);
   flex: 1 1 auto;
   min-height: 0;
@@ -76,7 +92,9 @@ export const LoginContainer = styled.div`
   }
 
   @media (max-width: 767px) {
+    width: min(100%, 360px);
     min-height: 0;
+    border-radius: 24px;
   }
 
   @media (min-width: 768px) {
@@ -101,11 +119,13 @@ export const LoginContainer = styled.div`
 
 export const LoginContent = styled.div`
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 44px 24px 43px;
+  justify-content: center;
+  padding: clamp(12px, 4.8dvh, 44px) 24px clamp(18px, 4.7dvh, 43px);
   text-align: center;
 
   @media (max-height: 760px) {
@@ -120,7 +140,7 @@ export const LoginContent = styled.div`
 
   @media (max-width: 767px) {
     min-height: 0;
-    padding-bottom: 24px;
+    padding: 14px 20px 20px;
   }
 
   @media (min-width: 768px) {
@@ -133,12 +153,17 @@ export const LoginContent = styled.div`
     padding-top: 12px;
     padding-bottom: 18px;
   }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    padding-top: 24px;
+    padding-bottom: 28px;
+  }
 `
 
 export const AppLogo = styled.img`
-  width: 160px;
-  height: 150px;
-  flex: 0 0 150px;
+  width: clamp(88px, 17dvh, 160px);
+  height: clamp(82px, 16dvh, 150px);
+  flex: 0 1 clamp(82px, 16dvh, 150px);
   display: block;
   object-fit: contain;
 
@@ -154,6 +179,12 @@ export const AppLogo = styled.img`
     flex-basis: 82px;
   }
 
+  @media (max-width: 767px) {
+    width: 84px;
+    height: 78px;
+    flex-basis: 78px;
+  }
+
   @media (min-width: 768px) {
     width: 124px;
     height: 116px;
@@ -165,16 +196,22 @@ export const AppLogo = styled.img`
     height: 82px;
     flex-basis: 82px;
   }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    width: 124px;
+    height: 116px;
+    flex-basis: 116px;
+  }
 `
 
 export const AppTitle = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.brand};
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 32px;
+  font-size: clamp(24px, 3.5dvh, 32px);
   font-style: normal;
   font-weight: 700;
-  line-height: 40px;
+  line-height: clamp(28px, 4.4dvh, 40px);
   text-align: center;
 
   @media (max-height: 760px) {
@@ -187,6 +224,11 @@ export const AppTitle = styled.h1`
     line-height: 28px;
   }
 
+  @media (max-width: 767px) {
+    font-size: 22px;
+    line-height: 26px;
+  }
+
   @media (min-width: 768px) {
     font-size: 28px;
     line-height: 34px;
@@ -195,6 +237,11 @@ export const AppTitle = styled.h1`
   @media (min-width: 768px) and (max-height: 720px) {
     font-size: 24px;
     line-height: 28px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    font-size: 26px;
+    line-height: 32px;
   }
 `
 
@@ -208,6 +255,11 @@ export const AppDescription = styled.p`
   font-weight: 400;
   line-height: 24px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
 
   @media (max-height: 760px) {
     font-size: 15px;
@@ -223,6 +275,15 @@ export const AppDescription = styled.p`
     font-size: 14px;
     line-height: 20px;
   }
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  @media (max-height: 560px) {
+    display: none;
+  }
 `
 
 export const Form = styled.form`
@@ -230,8 +291,14 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 31px;
-  margin-top: 31px;
+  gap: clamp(12px, 3.3dvh, 31px);
+  margin-top: clamp(12px, 3.3dvh, 31px);
+
+  @media (max-width: 767px) {
+    width: min(100%, 260px);
+    gap: 10px;
+    margin-top: 10px;
+  }
 
   @media (max-height: 760px) {
     gap: 16px;
@@ -252,6 +319,17 @@ export const Form = styled.form`
     gap: 10px;
     margin-top: 10px;
   }
+
+  @media (max-width: 767px) {
+    width: min(100%, 260px);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    gap: 16px;
+    margin-top: 18px;
+  }
 `
 
 export const FormFields = styled.div`
@@ -259,7 +337,11 @@ export const FormFields = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 18px;
+  gap: clamp(8px, 1.9dvh, 18px);
+
+  @media (max-width: 767px) {
+    gap: 9px;
+  }
 
   @media (max-height: 760px) {
     gap: 12px;
@@ -276,6 +358,10 @@ export const FormFields = styled.div`
   @media (min-width: 768px) and (max-height: 720px) {
     gap: 8px;
   }
+
+  @media (max-width: 767px) {
+    gap: 9px;
+  }
 `
 
 export const WelcomeTitle = styled.h2`
@@ -287,6 +373,11 @@ export const WelcomeTitle = styled.h2`
   font-weight: 700;
   line-height: 40px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 19px;
+    line-height: 24px;
+  }
 
   @media (max-height: 760px) {
     font-size: 22px;
@@ -307,6 +398,11 @@ export const WelcomeTitle = styled.h2`
     font-size: 20px;
     line-height: 24px;
   }
+
+  @media (max-width: 767px) {
+    font-size: 19px;
+    line-height: 24px;
+  }
 `
 
 export const WelcomeSubtitle = styled.p`
@@ -318,6 +414,11 @@ export const WelcomeSubtitle = styled.p`
   font-weight: 400;
   line-height: 24px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
 
   @media (max-height: 760px) {
     font-size: 15px;
@@ -333,6 +434,11 @@ export const WelcomeSubtitle = styled.p`
     font-size: 14px;
     line-height: 20px;
   }
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
 `
 
 export const Field = styled.div`
@@ -343,6 +449,10 @@ export const Field = styled.div`
   gap: 8px;
   text-align: left;
 
+  @media (max-width: 767px) {
+    gap: 4px;
+  }
+
   @media (max-height: 760px) {
     gap: 6px;
   }
@@ -351,8 +461,24 @@ export const Field = styled.div`
     gap: 4px;
   }
 
+  @media (max-width: 767px) {
+    gap: 4px;
+
+    > [role='alert'] {
+      margin-top: 2px;
+      font-size: 10px;
+      line-height: 14px;
+    }
+  }
+
   > [role='alert'] {
     margin-top: 4px;
+  }
+
+  @media (max-width: 767px) {
+    > [role='alert'] {
+      margin-top: 2px;
+    }
   }
 `
 
@@ -368,6 +494,18 @@ export const FieldHeader = styled.label`
   line-height: 20px;
   letter-spacing: 0.14px;
 
+  @media (max-width: 767px) {
+    gap: 6px;
+    font-size: 12px;
+    line-height: 16px;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      flex-basis: 13px;
+    }
+  }
+
   @media (max-height: 620px) {
     line-height: 18px;
   }
@@ -378,12 +516,20 @@ export const FieldHeader = styled.label`
     flex: 0 0 15px;
     stroke-width: 2.25;
   }
+
+  @media (max-width: 767px) {
+    svg {
+      width: 13px;
+      height: 13px;
+      flex-basis: 13px;
+    }
+  }
 `
 
 export const Input = styled.input<{ $hasError?: boolean }>`
   display: flex;
   width: 100%;
-  height: 56px;
+  height: clamp(42px, 6dvh, 56px);
   padding: 16.5px 24px;
   align-self: stretch;
   align-items: flex-start;
@@ -399,6 +545,14 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   font-weight: 400;
   line-height: 20px;
   outline: none;
+
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 18px;
+  }
 
   @media (max-height: 760px) {
     height: 48px;
@@ -424,6 +578,14 @@ export const Input = styled.input<{ $hasError?: boolean }>`
     padding-bottom: 10px;
   }
 
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.darkColorMuted};
   }
@@ -441,6 +603,12 @@ export const PasswordInputWrapper = styled.div`
 
   ${Input} {
     padding-right: 52px;
+  }
+
+  @media (max-width: 767px) {
+    ${Input} {
+      padding-right: 44px;
+    }
   }
 `
 
@@ -479,6 +647,15 @@ export const PasswordToggle = styled.button`
     height: 20px;
     stroke-width: 2.25;
   }
+
+  @media (max-width: 767px) {
+    right: 12px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 `
 
 export const RecoveryButton = styled.button`
@@ -497,8 +674,18 @@ export const RecoveryButton = styled.button`
   text-decoration: underline;
   text-underline-offset: 2px;
 
+  @media (max-width: 767px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
   @media (max-height: 760px) {
     line-height: 18px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+    line-height: 16px;
   }
 
   &:hover {
@@ -514,7 +701,7 @@ export const RecoveryButton = styled.button`
 export const PrimaryButton = styled.button`
   width: ${formWidth};
   max-width: 100%;
-  height: 56px;
+  height: clamp(42px, 6dvh, 56px);
   padding: 0 24px;
   border: 0;
   border-radius: 9999px;
@@ -529,6 +716,13 @@ export const PrimaryButton = styled.button`
   text-align: center;
   transition: background 160ms ease, transform 160ms ease;
 
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
   @media (max-height: 760px) {
     height: 48px;
   }
@@ -539,6 +733,13 @@ export const PrimaryButton = styled.button`
 
   @media (min-width: 768px) and (max-height: 720px) {
     height: 42px;
+  }
+
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 14px;
+    line-height: 20px;
   }
 
   &:hover {
@@ -558,8 +759,43 @@ export const PrimaryButton = styled.button`
   }
 `
 
+export const LoginDivider = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: 12px;
+  line-height: 16px;
+
+  @media (max-width: 767px) {
+    gap: 8px;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: ${({ theme }) => theme.colors.stroke};
+  }
+`
+
+export const PasskeyButton = styled(PrimaryButton)`
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.secondary};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.neutral};
+  }
+`
+
 export const RegisterText = styled.p`
-  margin: 24px 0 0;
+  margin: clamp(10px, 2.6dvh, 24px) 0 0;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   font-size: 14px;
@@ -567,6 +803,12 @@ export const RegisterText = styled.p`
   font-weight: 400;
   line-height: 20px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 16px;
+  }
 
   @media (max-height: 760px) {
     margin-top: 14px;
@@ -578,6 +820,16 @@ export const RegisterText = styled.p`
 
   @media (min-width: 768px) and (max-height: 720px) {
     margin-top: 10px;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    margin-top: 18px;
   }
 `
 
