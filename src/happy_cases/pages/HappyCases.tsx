@@ -2,24 +2,14 @@ import { Arrow, ChevronRight, Heart, PawPrint } from "@/common/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemo, useRef, useState } from "react";
 import * as S from "./HappyCases.styles";
-import type {
-  HappyCaseResponse,
-  HappyCaseStatus,
-} from "./app/api/responses/happyCasesResponses";
 import { useGetHappyCasesQuery } from "./app/api/happyCasesApi";
 import { Loader } from "@/common/components";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import Stories from "./Stories";
+import { statusLabel } from "./app/api/responses/happyCasesResponses";
 import { createPagePaws } from "@/common/utils/PagePawUtils";
-const statusLabel: Record<HappyCaseStatus, string> = {
-  FOUND: "Encontrado",
-  ADOPTED: "Adoptado",
-  RESCUED: "Rescatado",
-};
-type HappyCasesProps = {
-  onViewCase?: (happyCase: HappyCaseResponse) => void;
-};
 
-function HappyCases({ onViewCase }: HappyCasesProps) {
+function HappyCases() {
   const navigate = useNavigate();
   const location = useLocation();
   const pagePaws = useMemo(() => createPagePaws(location.key), [location.key]);
@@ -29,7 +19,7 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
   });
   const happyCases = data?.content ?? [];
   const recentCases = happyCases.filter(({ isRecent }) => isRecent);
-  const visibleCases = happyCases.filter(({ isRecent }) => isRecent);
+  const visibleCases = happyCases.filter(({ isRecent }) => !isRecent);
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [expandedCaseId, setExpandedCaseId] = useState<string | null>(null);
@@ -49,6 +39,9 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
     carousel.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
     setActiveIndex(index);
   };
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(
+    null,
+  );
   if (isLoading) {
     return (
       <S.Container>
@@ -103,7 +96,10 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
                 <ChevronRight aria-hidden="true" />
               </S.CarouselArrow>
 
-              <S.FeaturedCarousel ref={carouselRef} onScroll={handleCarouselScroll}>
+              <S.FeaturedCarousel
+                ref={carouselRef}
+                onScroll={handleCarouselScroll}
+              >
                 {recentCases.map((happyCase) => (
                   <S.FeaturedCard key={happyCase.id}>
                     <S.FeaturedContent>
@@ -121,7 +117,13 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
 
                         <S.StoryButton
                           type="button"
-                          onClick={() => onViewCase?.(happyCase)}
+                          onClick={() => {
+                            const index = recentCases.findIndex(
+                              ({ id }) => id === happyCase.id,
+                            );
+
+                            setSelectedStoryIndex(index);
+                          }}
                         >
                           Ver historia
                           <ChevronRight aria-hidden="true" />
@@ -235,6 +237,13 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
           </S.CaseWrapper>
         ))}
       </S.CasesList>
+      {selectedStoryIndex !== null && (
+        <Stories
+          cases={recentCases}
+          initialIndex={selectedStoryIndex}
+          onClose={() => setSelectedStoryIndex(null)}
+        />
+      )}
     </S.Container>
   );
 }
