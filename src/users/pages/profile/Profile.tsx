@@ -1,13 +1,13 @@
 
 import { ArrowLeft, Camera, ChevronRight, Info, Pencil } from "@/common/icons";
 import * as S from "./Profile.styles"
-import RescueIcon from "@icons/HandHeart";
-import TransitIcon from "@icons/TransitIcon";
+import OutlinedHandHeart from "@icons/OutlinedHandHeart";
+import TransitIcon from "@/common/icons/Home";
 import TransportIcon from "@icons/CarFront";
 import SecurityIcon from '@icons/Security';
 import UserIcon from "@icons/User";
 import HistoryIcon from "@icons/History";
-import { useState, type SVGProps } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
 import { BottomSheet, Modal } from "@/common/components";
 import CameraCapture from "@/common/components/cameraCapture/CameraCapture";
 import LogoutIcon from "@icons/LogOut";
@@ -27,34 +27,9 @@ import type { UserRole } from "@/users/app/api/responses/GetUserProfileResponse"
 import { useToast } from "@hooks/toast/useToast";
 import { useGetPresignedUrlMutation } from "@/common/app/services/apis/imagesApi";
 import { useUploadImageMutation } from "@/common/app/services/apis/cloudflareApi";
+import { rolesInformation, type RoleInformation } from "./Utils.profile";
+import type { RoleName } from "@/users/app/types/User.types";
 
-const OutlinedRescueIcon = (props: SVGProps<SVGSVGElement>) => (
-    <RescueIcon variant="outlined" {...props} />
-)
-
-const CenteredTransportIcon = ({ style, ...props }: SVGProps<SVGSVGElement>) => (
-    <TransportIcon
-        {...props}
-        style={{ ...style, transform: "translateX(1px)" }}
-    />
-)
-
-const rolesInformation = new Map([
-    ["Rescatista", {
-        description: "Como rescatista, sos quien encuentra, asiste y da visibilidad a animales en situación de calle, abandono o peligro. Podés publicar sus casos para que la comunidad pueda colaborar, además de campañas de donación.",
-        Icon: OutlinedRescueIcon,
-    }],
-    ["Hogar de tránsito", {
-        description: "Como hogar de tránsito ofrecés un espacio temporal y seguro para animales que aún no tienen un hogar definitivo, cuidándolos mientras esperan su adopción.",
-        Icon: TransitIcon,
-    }],
-    ["Transportista", {
-        description: "Como transportista, ayudás a trasladar animales de forma segura: desde el lugar del rescate hacia veterinarias, hogares de tránsito o su nuevo hogar definitivo. Cuando se necesite un traslado urgente, vas a recibir una notificación desde la app, y sos vos quien decide si podés tomarlo o no según tu disponibilidad.",
-        Icon: CenteredTransportIcon,
-    }],
-] as const);
-
-type RoleName = "Rescatista" | "Hogar de tránsito" | "Transportista";
 
 const roleCodes: Record<RoleName, UserRole> = {
     "Rescatista": "RESCUER",
@@ -88,7 +63,7 @@ function Profile() {
 
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
-    const [role, setRole] = useState<RoleName | null>(null)
+    const [selectedRole, setSelectedRole] = useState<RoleInformation | null>(null)
 
     const [roleOverrides, setRoleOverrides] = useState<Partial<Record<UserRole, boolean>>>({})
 
@@ -106,8 +81,6 @@ function Profile() {
         zoom,
         zoomRange,
     } = useCamera()
-
-    const selectedRole = role ? rolesInformation.get(role) : undefined;
 
     const navigate = useNavigate()
 
@@ -129,9 +102,9 @@ function Profile() {
         roleOverrides[roleCode] ?? userData?.roles.includes(roleCode) ?? false,
     )
 
-    function handleRoleInformation(role: RoleName) {
+    function handleRoleInformation(roleName: RoleName) {
+        setSelectedRole(rolesInformation[roleName]);
         setOpenBottomSheet(true);
-        setRole(role);
     }
 
     const handleRoleChange = async (roleCode: UserRole, enabled: boolean) => {
@@ -231,7 +204,7 @@ function Profile() {
         navigate("/login", { replace: true })
     }
 
-    const SwitchComponent = (Rolename: RoleName, Icon: React.ComponentType) => {
+    const SwitchRoleComponent = (Rolename: RoleName, Icon: ComponentType<SVGProps<SVGSVGElement>>) => {
         const roleCode = roleCodes[Rolename]
         const isActive = activeRoles.includes(roleCode)
 
@@ -260,7 +233,7 @@ function Profile() {
             </S.SwitchGroup>
         )
     }
-    const ItemComponent = (Icon: React.ComponentType, label: string, route: string, description?: string) => {
+    const ItemComponent = (Icon: ComponentType<SVGProps<SVGSVGElement>>, label: string, route: string, description?: string) => {
         return (
             <S.Item>
                 <S.RoleIcon><Icon aria-hidden="true" /></S.RoleIcon>
@@ -289,7 +262,7 @@ function Profile() {
             <BottomSheet
                 isOpen={openBottomSheet}
                 onClose={() => setOpenBottomSheet(false)}
-                ariaLabel={role ? `Información sobre el rol ${role}` : "Información del rol"}
+                ariaLabel={selectedRole ? `Información sobre el rol ${selectedRole.name}` : "Información del rol"}
             >
                 <S.BottomSheetContent>
                     {selectedRole && (
@@ -297,7 +270,7 @@ function Profile() {
                             <selectedRole.Icon aria-hidden="true" />
                         </S.BottomSheetRoleIcon>
                     )}
-                    <S.BottomSheetTitle>{role}</S.BottomSheetTitle>
+                    <S.BottomSheetTitle>{selectedRole?.name}</S.BottomSheetTitle>
                     <S.BottomSheetDescription>{selectedRole?.description}</S.BottomSheetDescription>
                 </S.BottomSheetContent>
             </BottomSheet>
@@ -377,9 +350,9 @@ function Profile() {
                     <S.Label>Roles Actuales</S.Label>
                     <S.Description>Activá los roles que querés cumplir en la red. Tocá el ícono de información para saber en qué consiste cada uno.</S.Description>
                     <S.RolesList>
-                        {SwitchComponent("Rescatista", OutlinedRescueIcon)}
-                        {SwitchComponent("Hogar de tránsito", TransitIcon)}
-                        {SwitchComponent("Transportista", CenteredTransportIcon)}
+                        {SwitchRoleComponent("Rescatista", OutlinedHandHeart)}
+                        {SwitchRoleComponent("Hogar de tránsito", TransitIcon)}
+                        {SwitchRoleComponent("Transportista", TransportIcon)}
                     </S.RolesList>
                 </S.RolesContainer>
                 <S.ItemsMainContainer>
