@@ -6,11 +6,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
-import { AnimalPostStatus } from "@utils/AnimalPostUtils";
 import { BottomSheet, CategorySelector, ImagePreview, Message } from "@components/index.ts";
 import { Clock } from "@icons/index.ts";
 import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
 import { publicationMessages } from "@utils/Messages";
+import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
 
 type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
 
