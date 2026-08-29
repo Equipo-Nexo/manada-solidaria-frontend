@@ -1,6 +1,5 @@
 import { baseAuthenticatedApi } from '../../../common/app/services/base/baseAuthenticatedApi'
 import type { GetUserPostsResponse } from '../../../common/app/services/responses/userResponses';
-import type { EditPersonalDataRequest } from './requests/EditPersonalDataRequest';
 import type { GetUserProfileResponse } from './responses/GetUserProfileResponse';
 import type { UpdateUserRolesRequest } from './requests/UpdateUserRolesRequest';
 import type { UpdateUserProfileRequest } from './requests/UpdateUserProfileRequest';
@@ -19,14 +18,6 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
         url: `/users/${userId}/profile`,
       }),
       providesTags: ['userProfile']
-    }),
-    editUserPersonalData: builder.mutation<void, EditPersonalDataRequest>({
-      query: (personalData) => ({
-        url: '/users',
-        method: 'PUT',
-        body: personalData,
-      }),
-      invalidatesTags: ['userProfile'],
     }),
     updateUserRoles: builder.mutation<void, UpdateUserRolesRequest>({
       query: (body) => ({
@@ -53,7 +44,6 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
 export const {
   useGetUserPostsQuery,
   useGetUserProfileQuery,
-  useEditUserPersonalDataMutation,
   useUpdateUserRolesMutation,
   useUpdateUserProfileMutation,
 } = usersApi;

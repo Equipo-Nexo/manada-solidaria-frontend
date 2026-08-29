@@ -32,10 +32,7 @@ function MobileAuthenticatedView() {
 
       {showFloatingButton && <PublishFloatingButton showText={false} />}
 
-      {(!hideBottomNavigation) && (
-        <Navbar />
-      )}
-      {!hideNavigation && <Navbar />}
+      {!hideBottomNavigation && <Navbar />}
     </MobileViewChrome>
   );
 }

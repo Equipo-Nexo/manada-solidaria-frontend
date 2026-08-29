@@ -1,13 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { useController, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Advice, ErrorMessage, PhoneInputComponent } from '@/common/components'
 import { ArrowLeft, Send, User } from '@/common/icons'
 import { useToast } from '@/common/hooks/toast/useToast'
-import { personalDataMock } from '@/users/app/api/mocks/personalDataMock'
 import type { EditPersonalDataRequest } from '@/users/app/api/requests/EditPersonalDataRequest'
-import { useEditUserPersonalDataMutation, useGetUserProfileQuery } from '@/users/app/api/usersApi'
+import { useUpdateUserProfileMutation, useGetUserProfileQuery } from '@/users/app/api/usersApi'
 import * as S from './PersonalData.styles'
 import {
     personalDataSchema,
@@ -21,23 +20,24 @@ function PersonalData() {
     const navigate = useNavigate()
     const { userId } = useAuth();
     const { data: userData } = useGetUserProfileQuery(userId);
+
     const initialPersonalData: PersonalDataFormValues = {
         username: userData?.username ?? '',
         name: userData?.profile.name ?? '',
         lastname: userData?.profile.lastname ?? '',
-        phone: userData?.profile.phoneNumber ?? '',
+        phoneNumber: userData?.profile.phoneNumber ?? { areaCode: '', number: '' },
         email: userData?.profile.email ?? '',
     }
 
     const toast = useToast()
-    const [editUserPersonalData, { isLoading }] = useEditUserPersonalDataMutation()
+    const [editUserPersonalData, { isLoading }] = useUpdateUserProfileMutation()
 
     const {
         formState: { errors, isDirty, isValid },
+        control,
         handleSubmit,
         register,
         reset,
-        setValue,
     } = useForm<PersonalDataFormValues>({
         defaultValues: initialPersonalData,
         mode: 'onChange',
@@ -45,22 +45,26 @@ function PersonalData() {
     })
 
 
-    const updatePhone = (nextAreaCode: string, nextPhoneNumber: string) => {
-        setValue('phone', `${nextAreaCode}${nextPhoneNumber}`, {
-            shouldDirty: true,
-            shouldValidate: true,
-        })
-    }
+    const { field: areaCodeField, fieldState: areaCodeState } = useController({
+        control,
+        name: 'phoneNumber.areaCode',
+    })
+    const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
+        control,
+        name: 'phoneNumber.number',
+    })
 
-    const handleAreaCodeChange = (value: string) => {
-        setAreaCode(value)
-        updatePhone(value, phoneNumber)
-    }
-
-    const handlePhoneNumberChange = (value: string) => {
-        setPhoneNumber(value)
-        updatePhone(areaCode, value)
-    }
+    useEffect(() => {
+        if (userData && !isDirty) {
+            reset({
+                username: userData.username,
+                name: userData.profile.name ?? '',
+                lastname: userData.profile.lastname ?? '',
+                phoneNumber: userData.profile.phoneNumber ?? { areaCode: '', number: '' },
+                email: userData.profile.email ?? '',
+            })
+        }
+    }, [isDirty, reset, userData])
 
     const UserNameComponent = (username: string) => {
         return (
@@ -82,8 +86,10 @@ function PersonalData() {
             name: values.name?.trim() || undefined,
             lastname: values.lastname?.trim() || undefined,
             email: values.email.trim(),
-            phoneNumber: values.phone?.trim() ?? '',
-            profileImageURL: personalDataMock.profileImageURL,
+            phoneNumber: values.phoneNumber.areaCode && values.phoneNumber.number
+                ? values.phoneNumber
+                : null,
+            profileImageURL: userData?.profile.profileImageURL ?? '',
         }
         try {
             await editUserPersonalData(request).unwrap()
@@ -124,56 +130,64 @@ function PersonalData() {
             )}
 
             <S.PersonalDataContainer>
-                {UserNameComponent(userData?.username || "usuario")}
-                <S.Label htmlFor="name">Nombre</S.Label>
-                <S.Input
-                    id="name"
-                    aria-describedby={errors.name ? 'personal-name-error' : undefined}
-                    aria-invalid={Boolean(errors.name)}
-                    {...register('name')}
-                />
-                <ErrorMessage id="personal-name-error" message={errors.name?.message} />
+                <S.DataPanel>
+                    {UserNameComponent(userData?.username || "usuario")}
+                    <S.Label htmlFor="name">Nombre</S.Label>
+                    <S.Input
+                        id="name"
+                        aria-describedby={errors.name ? 'personal-name-error' : undefined}
+                        aria-invalid={Boolean(errors.name)}
+                        {...register('name')}
+                    />
+                    <ErrorMessage id="personal-name-error" message={errors.name?.message} />
 
-                <S.Label htmlFor="lastname">Apellido</S.Label>
-                <S.Input
-                    id="lastname"
-                    aria-describedby={errors.lastname ? 'personal-lastname-error' : undefined}
-                    aria-invalid={Boolean(errors.lastname)}
-                    {...register('lastname')}
-                />
-                <ErrorMessage id="personal-lastname-error" message={errors.lastname?.message} />
+                    <S.Label htmlFor="lastname">Apellido</S.Label>
+                    <S.Input
+                        id="lastname"
+                        aria-describedby={errors.lastname ? 'personal-lastname-error' : undefined}
+                        aria-invalid={Boolean(errors.lastname)}
+                        {...register('lastname')}
+                    />
+                    <ErrorMessage id="personal-lastname-error" message={errors.lastname?.message} />
+                </S.DataPanel>
 
-                <S.Label>Número de teléfono</S.Label>
-                <PhoneInputComponent
-                    areaCodeValue={areaCode}
-                    phoneNumberValue={phoneNumber}
-                    areaCodePlaceholder=""
-                    phoneNumberPlaceholder=""
-                    onAreaCodeChange={handleAreaCodeChange}
-                    onPhoneNumberChange={handlePhoneNumberChange}
-                    error={errors.phone?.message}
-                />
+                <S.DataPanel>
+                    <S.Label>Número de teléfono</S.Label>
+                    <PhoneInputComponent
+                        areaCodeValue={areaCodeField.value}
+                        phoneNumberValue={phoneNumberField.value}
+                        areaCodePlaceholder=""
+                        phoneNumberPlaceholder=""
+                        onAreaCodeChange={areaCodeField.onChange}
+                        onPhoneNumberChange={phoneNumberField.onChange}
+                        onAreaCodeBlur={areaCodeField.onBlur}
+                        onPhoneNumberBlur={phoneNumberField.onBlur}
+                        areaCodeRef={areaCodeField.ref}
+                        phoneNumberRef={phoneNumberField.ref}
+                        error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
+                    />
 
-                <S.Label htmlFor="email">
-                    Email<S.Required> *</S.Required>
-                </S.Label>
-                <S.Input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    aria-describedby={errors.email ? 'personal-email-error' : undefined}
-                    aria-invalid={Boolean(errors.email)}
-                    {...register('email')}
-                />
-                <ErrorMessage id="personal-email-error" message={errors.email?.message} />
+                    <S.Label htmlFor="email">
+                        Email<S.Required> *</S.Required>
+                    </S.Label>
+                    <S.Input
+                        id="email"
+                        type="email"
+                        autoComplete="email"
+                        aria-describedby={errors.email ? 'personal-email-error' : undefined}
+                        aria-invalid={Boolean(errors.email)}
+                        {...register('email')}
+                    />
+                    <ErrorMessage id="personal-email-error" message={errors.email?.message} />
 
-                <S.Label>Cambio de contraseña</S.Label>
-                <S.ChangePasswordButton
-                    type="button"
-                    onClick={() => navigate('/mi-perfil/cambiar-contraseña')}
-                >
-                    Modificar contraseña
-                </S.ChangePasswordButton>
+                    <S.Label>Cambio de contraseña</S.Label>
+                    <S.ChangePasswordButton
+                        type="button"
+                        onClick={() => navigate('/mi-perfil/cambiar-contraseña')}
+                    >
+                        Modificar contraseña
+                    </S.ChangePasswordButton>
+                </S.DataPanel>
             </S.PersonalDataContainer>
             <S.SubmitButton
                 type="submit"

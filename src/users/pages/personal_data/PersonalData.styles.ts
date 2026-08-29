@@ -10,7 +10,7 @@ export const MainContainer = styled.form`
   flex-direction: column;
   padding-bottom: 0;
   color: ${({ theme }) => theme.colors.black};
-  @media (min-width: 768px) { width: min(100%, 480px); }
+  @media (min-width: 768px) { width: min(100%, 840px); }
 `
 
 export const Header = styled.header`
@@ -91,8 +91,7 @@ export const Description = styled.p`
 
 export const PersonalDataContainer = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 8px;
   margin-top: 16px;
   margin-bottom:16px;
@@ -100,7 +99,32 @@ export const PersonalDataContainer = styled.div`
   padding: 24px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: ${cardShadow};
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    justify-content: center;
+    gap: 24px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+`
+
+export const DataPanel = styled.section`
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+
   > label:not(:first-child) { margin-top: 8px; }
+
+  @media (min-width: 768px) {
+    min-height: 100%;
+    border-radius: 16px;
+    padding: 24px;
+    background: ${({ theme }) => theme.colors.background};
+    box-shadow: ${cardShadow};
+  }
 `
 export const UsernameContainer = styled.div`
   width: 100%;
@@ -251,6 +275,7 @@ export const SubmitButton = styled.button`
   }
 
   @media (min-width: 768px) {
-    max-width: 480px;
+    max-width: none;
+    align-self: center;
   }
 `
