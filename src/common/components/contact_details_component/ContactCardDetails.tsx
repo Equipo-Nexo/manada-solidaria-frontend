@@ -1,5 +1,5 @@
 import { openWhatsApp } from '@/common/utils/Whatsapp';
-import * as S from './contactDetailsComponent.styles'
+import * as S from './ContactCardDetails.styles';
 import { Phone } from '@/common/icons';
 
 interface ContactCardComponent {

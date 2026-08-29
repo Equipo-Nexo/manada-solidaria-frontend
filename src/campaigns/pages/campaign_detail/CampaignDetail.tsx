@@ -8,7 +8,7 @@ import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./CampaignDetail.styles"
-import ContactCardComponent from "@/common/components/contactDetailsComponent/contactDetailsComponent";
+import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { useState } from "react";

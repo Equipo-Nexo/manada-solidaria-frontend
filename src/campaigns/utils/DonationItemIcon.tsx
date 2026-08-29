@@ -1,10 +1,10 @@
 import { cloneElement, type SVGProps } from 'react'
-import AnimalFood from './AnimalFood'
-import Bed from './Bed'
-import Bone from './Bone'
-import Ellipsis from './Ellipsis'
-import Medicine from './Medicine'
-import TShirt from './T-shirt'
+import AnimalFood from '../../common/icons/AnimalFood'
+import Bed from '../../common/icons/Bed'
+import Bone from '../../common/icons/Bone'
+import Ellipsis from '../../common/icons/Ellipsis'
+import Medicine from '../../common/icons/Medicine'
+import TShirt from '../../common/icons/T-shirt'
 
 export type DonationItemIconVariant =
   | 'FOOD'

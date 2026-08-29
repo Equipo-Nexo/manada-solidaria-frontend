@@ -44,6 +44,7 @@ function App() {
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
+  const isCampaignDetail = location.pathname.startsWith("/campanias/");
 
   const usesFullScreenLayout =
     location.pathname === "/login" ||
@@ -52,7 +53,9 @@ function App() {
     isMobileMenu ||
     isPublicationDetail;
   const showAuthenticatedShell =
-    isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
+    isAuthenticated &&
+    (!usesFullScreenLayout || isMobileMenu) &&
+    !isCampaignDetail;
 
   return (
     <>
