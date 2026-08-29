@@ -30,6 +30,7 @@ import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
 import SuccessStories from "./successStories/pages/SuccessStories";
+import Security from "./users/pages/security/Security";
 
 function App() {
   const location = useLocation();
@@ -112,6 +113,7 @@ function App() {
               <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
+              <Route path="/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
             </Route>

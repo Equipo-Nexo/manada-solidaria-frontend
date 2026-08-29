@@ -233,11 +233,16 @@ function Profile() {
             </S.SwitchGroup>
         )
     }
-    const ItemComponent = (Icon: ComponentType<SVGProps<SVGSVGElement>>, label: string, route: string, description?: string) => {
+    const ItemComponent = (
+        Icon: ComponentType<SVGProps<SVGSVGElement>>,
+        label: string,
+        description?: string,
+        route?: string,
+    ) => {
         return (
             <S.Item>
                 <S.RoleIcon><Icon aria-hidden="true" /></S.RoleIcon>
-                <S.ItemInfo onClick={() => navigate(route)}>
+                <S.ItemInfo onClick={() => route && navigate(route)}>
                     <S.ItemLabel>{label}</S.ItemLabel>
                     <S.ItemDescription>{description}</S.ItemDescription>
                 </S.ItemInfo>
@@ -356,17 +361,17 @@ function Profile() {
                     </S.RolesList>
                 </S.RolesContainer>
                 <S.ItemsMainContainer>
-                    <S.Label>Cuentas y Actividad</S.Label>
+                    <S.Label>Cuenta y Actividad</S.Label>
                     <S.Description>Accedé a tus publicaciones y actualizá tus datos personales cuando lo necesites.</S.Description>
                     <S.ItemsList>
-                        {ItemComponent(HistoryIcon, "Mis publicaciones", "/mis-publicaciones", "Editá y eliminá tus publicaciones")}
-                        {ItemComponent(UserIcon, "Datos personales", "", "")}
+                        {ItemComponent(HistoryIcon, "Mis publicaciones", "Editá y eliminá tus publicaciones", "/mis-publicaciones")}
+                        {ItemComponent(UserIcon, "Datos personales")}
                     </S.ItemsList>
                 </S.ItemsMainContainer>
                 <S.ItemsMainContainer>
                     <S.Label>Configuración</S.Label>
                     <S.ItemsList>
-                        {ItemComponent(SecurityIcon, "Privacidad y Seguridad", "/mis-publicaciones", "")}
+                        {ItemComponent(SecurityIcon, "Privacidad y Seguridad", "Configurá el acceso con passkey", "/seguridad")}
                     </S.ItemsList>
                 </S.ItemsMainContainer>
             </S.OptionsContainer>

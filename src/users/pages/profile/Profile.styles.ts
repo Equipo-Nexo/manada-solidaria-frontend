@@ -158,7 +158,6 @@ export const RolesContainer = styled.div`
 export const Label = styled.span`
     ${({ theme }) => theme.typography.header2};
     ${({ theme }) => theme.fontWeights.bold};
-
     color: ${({ theme }) => theme.colors.darkColor};
 `
 
