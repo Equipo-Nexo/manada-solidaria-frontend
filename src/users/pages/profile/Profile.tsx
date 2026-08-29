@@ -379,8 +379,8 @@ function Profile() {
                     <S.Label>Cuenta y Actividad</S.Label>
                     <S.Description>Accedé a tus publicaciones y actualizá tus datos personales cuando lo necesites.</S.Description>
                     <S.ItemsList>
-                        {ItemComponent(HistoryIcon, "Mis publicaciones", "Editá y eliminá tus publicaciones", "/mis-publicaciones")}
                         {ItemComponent(UserIcon, "Datos personales", "Corroborá y editá tus datos personales", "/mi-perfil/datos-personales")}
+                        {ItemComponent(HistoryIcon, "Mis publicaciones", "Editá y eliminá tus publicaciones", "/mis-publicaciones")}
                     </S.ItemsList>
                 </S.ItemsMainContainer>
                 <S.ItemsMainContainer>

@@ -46,6 +46,9 @@ function App() {
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
+  const isProfileSection =
+    location.pathname === "/mi-perfil" ||
+    location.pathname.startsWith("/mi-perfil/");
 
   const usesFullScreenLayout =
     location.pathname === "/login" ||
@@ -54,7 +57,9 @@ function App() {
     isMobileMenu ||
     isPublicationDetail;
   const showAuthenticatedShell =
-    isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
+    isAuthenticated &&
+    (!usesFullScreenLayout || isMobileMenu) &&
+    !isProfileSection;
 
   return (
     <>
