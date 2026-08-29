@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from '@/common/icons'
-import { Advice, Message } from '@components/index.ts'
+import { Advice, Message, ScrollHint } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
 import BookIcon from '@/common/icons/Book'
@@ -91,7 +91,6 @@ function AnimalPostDetail() {
             alt={name}
             onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
           />
-          <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}><Share aria-hidden="true" /></S.ShareButton>
         </S.PhotoContainer>
 
         <S.DetailsColumn>
@@ -165,7 +164,12 @@ function AnimalPostDetail() {
             </S.AdviceArea>
           </>
         )}
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}>
+          <Share aria-hidden="true" />
+          Compartir Publicación
+        </S.ShareButton>
       </S.BottomInfoRow>
+      <ScrollHint />
     </S.MainContainer>
   )
 }

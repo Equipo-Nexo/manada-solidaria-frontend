@@ -16,20 +16,18 @@ function DonationItems({ items }: DonationItemsProps) {
     <S.Container>
       <S.Title>¿Qué se desea recolectar?</S.Title>
       <S.Grid>
-        {[0, 2, 4].map((rowStart) => (
-          <S.Row key={rowStart}>
-            {donationItems.slice(rowStart, rowStart + 2).map((category) => {
-              const selected = selectedCategories.has(category)
+        {donationItems.map((category) => {
+          const selected = selectedCategories.has(category)
 
-              return (
-                <S.Item key={category} $selected={selected}>
-                  <DonationItemIcon variant={category} aria-hidden="true" />
-                  <span>{donationItemLabels[category]}</span>
-                </S.Item>
-              )
-            })}
-          </S.Row>
-        ))}
+          return (
+            <S.Item key={category} $selected={selected} >
+
+              <DonationItemIcon variant={category} aria-hidden="true" />
+              <S.DonationItemName $selected={selected}>{donationItemLabels[category]}</S.DonationItemName>
+
+            </S.Item>
+          )
+        })}
       </S.Grid>
     </S.Container>
   )

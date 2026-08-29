@@ -13,50 +13,30 @@ export const Title = styled.h2`
   margin: 0 0 16px;
   color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.typography.header2.fontSize};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: ${({ theme }) => theme.typography.header2.lineHeight};
   text-align: left;
 `
 
 export const Grid = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-
-  @media (min-width: 768px) {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px 12px;
-  }
-`
-
-export const Row = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  @media (min-width: 768px) {
-    display: contents;
-  }
-
-  @media (max-width: 359px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
 `
 
 export const Item = styled.div<{ $selected: boolean }>`
-  display: flex;
-  width: fit-content;
-  max-width: 100%;
-  min-width: 0;
+  width:fit-content;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
   min-height: 40px;
   box-sizing: border-box;
-  align-items: center;
   gap: 8px;
-  padding: 6px 18px;
+  padding: 8px 12px;
+  justify-content:center;
+  align-items:center;
+  gap:2px;
   border: 2px solid ${({ $selected, theme }) =>
     $selected ? theme.colors.brand : 'rgb(0 0 0 / 30%)'};
   border-radius: 12px;
@@ -64,10 +44,6 @@ export const Item = styled.div<{ $selected: boolean }>`
     $selected ? theme.colors.neutral : theme.colors.background};
   color: ${({ $selected, theme }) =>
     $selected ? theme.colors.brand : theme.colors.darkColor};
-  font-size: ${({ theme }) => theme.typography.body.fontSize};
-  font-weight: ${({ $selected, theme }) =>
-    $selected ? theme.fontWeights.bold : theme.fontWeights.regular};
-  text-align: left;
 
   svg {
     width: 24px;
@@ -86,12 +62,17 @@ export const Item = styled.div<{ $selected: boolean }>`
       opacity: 1;
     }
   }
+`
 
-  span {
-    min-width: 0;
-  }
-
-  @media (min-width: 768px) {
-    padding: 6px 10px;
-  }
+export const DonationItemName = styled.p<{ $selected: boolean }>`
+  min-width: 0;
+  width:fit-content;
+  margin: 0;
+  color: ${({ $selected, theme }) =>
+    $selected ? theme.colors.brand : theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  font-weight: ${({ $selected, theme }) =>
+    $selected ? theme.fontWeights.bold : theme.fontWeights.regular};
+  line-height: 1.2;
+  text-align: left;
 `

@@ -25,7 +25,6 @@ export const MainContainer = styled.section`
   margin: 0 auto;
   padding: 0 16px 16px;
   background: ${({ theme }) => theme.colors.background};
-
   @media (min-width: 768px) {
     width: min(100%, 1080px);
     min-height: auto;
@@ -102,14 +101,6 @@ export const PhotoContainer = styled.div`
 export const Photo = styled.img`
   display: block; width: 100%; height: 100%; object-fit: cover;
   border-radius:12px;
-`
-
-export const ShareButton = styled.button`
-  position: absolute; top: 12px; right: 16px; display: grid; width: 36px; height: 36px; place-items: center;
-  border: 0; border-radius: 50%; background: ${({ theme }) => theme.colors.background}; color: ${({ theme }) => theme.colors.black};
-  box-shadow: 0 2px 7px rgb(0 0 0 / 14%); cursor: pointer;
-  svg { width: 17px; height: 17px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
 `
 
 export const GeneralDataContainer = styled.article`
@@ -345,6 +336,8 @@ export const ContactArea = styled.section`
 export const BottomInfoRow = styled.section`
   display: flex;
   width: 100%;
+  align-self: stretch;
+  align-items: stretch;
   flex-direction: column;
   gap: 16px;
 
@@ -357,83 +350,28 @@ export const BottomInfoRow = styled.section`
 
 export const AdviceArea = styled.section`
   width: 100%;
-
-  > * {
-    width: 100%;
-  }
 `
 
-export const ContactCard = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  border-radius: 16px;
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: 0 4px 20px 0 rgba(75, 63, 53, 0.08);
 
-  @media (max-width: 359px) {
-    padding: 16px;
-  }
-`
-
-export const ContactRow = styled.div`
-  display: flex;
-  padding: 16px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
+export const ShareButton = styled.button`
   width: 100%;
-  min-width: 0;
+  min-width: 100%;
+  height: 56px;
+  min-height: 56px;
   box-sizing: border-box;
   align-self: stretch;
-  border-radius: 12px;
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-
-  @media (max-width: 359px) {
-    gap: 8px;
-    padding: 12px;
-  }
-`
-
-export const ContactNumber = styled.span`
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  margin-right: auto;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
-  text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
-
-export const ContactButton = styled.button`
-  flex: 0 0 auto;
-  margin-left: auto;
-  min-width: 116px;
-  height: 40px;
-  padding: 6px 8px;
-  border: 2px solid ${({ theme }) => theme.colors.brand};
-  border-radius: 10px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.brand};
-  font: inherit;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.background};
   cursor: pointer;
-
-  @media (max-width: 359px) {
-    min-width: 100px;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
-  }
-`
-
+  font-size: ${({ theme }) => theme.typography.action.fontSize};
+  font-weight: ${({ theme }) => theme.typography.action.fontWeight};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+`;
 

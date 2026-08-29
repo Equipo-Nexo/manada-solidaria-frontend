@@ -12,6 +12,24 @@ export const Card = styled.article<{ $clickable: boolean }>`
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 8px 24px -4px rgb(0 109 65 / 8%);
   cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+
+  @media (hover: hover) {
+    ${({ $clickable, theme }) => $clickable && css`
+      &:hover {
+        border-color: ${theme.colors.stroke};
+        box-shadow: 0 12px 28px -6px rgb(89 65 55 / 20%);
+        transform: translateY(-3px);
+      }
+    `}
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};

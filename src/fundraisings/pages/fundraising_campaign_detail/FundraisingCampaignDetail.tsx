@@ -8,11 +8,13 @@ import Copy from "@/common/icons/Copy";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
-import { Loader } from "@/common/components";
+import { Loader, ScrollHint } from "@/common/components";
 import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
 import ContactCardComponent from "@/common/components/contactDetailsComponent/contactDetailsComponent";
+import { useState } from "react";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
+  const [cropImage, setCropImage] = useState(false);
   const { fundraisingId } = useParams();
   const { data, isLoading, isError } = useGetFundraisingByIdQuery(
     fundraisingId!,
@@ -34,6 +36,9 @@ function FundraisingCampaignDetail() {
   const PHONE_NUMBER = data?.phoneNumber
     ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
     : ""
+  const fundraisingImageUrl = data?.imageId
+    ? `${import.meta.env.VITE_CLOUDFLARE_URL}${data.imageId}`
+    : NOT_FOUND_IMAGE_URL
 
   return (
     <S.Page>
@@ -50,14 +55,19 @@ function FundraisingCampaignDetail() {
         ))}
       {!isLoading && !isError && data && (
         <S.Content>
+          <S.HeroLayout>
+          <S.PhotoContainer $cropped={cropImage}>
           <S.FundraisingImage
-            src={
-              data?.imageId
-                ? `${import.meta.env.VITE_CLOUDFLARE_URL}${data.imageId}`
-                : NOT_FOUND_IMAGE_URL
-            }
+            src={fundraisingImageUrl}
             alt={data?.title ?? "Imagen de la colecta"}
+            $cropped={cropImage}
+            onLoad={({ currentTarget }) => {
+              const ratio = currentTarget.naturalWidth / currentTarget.naturalHeight;
+              setCropImage(ratio < 0.65 || ratio > 2);
+            }}
           />
+          </S.PhotoContainer>
+          <S.DetailsColumn>
           <S.FundraisingInfo>
             <S.Title>{data?.title}</S.Title>
             <S.FundraisingEndDate>
@@ -126,13 +136,18 @@ function FundraisingCampaignDetail() {
               address={address}
               locationPath={`/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`}
             />)}
+          </S.DetailsColumn>
+          </S.HeroLayout>
+          <S.BottomInfoRow>
           <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data?.title} />
           <S.ShareButton type="submit">
             <Share aria-hidden="true" />
             Compartir Colecta
           </S.ShareButton>
+          </S.BottomInfoRow>
         </S.Content>
       )}
+      {!isLoading && !isError && data && <ScrollHint />}
     </S.Page>
   );
 }

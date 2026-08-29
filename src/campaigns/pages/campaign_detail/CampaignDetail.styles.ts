@@ -82,23 +82,25 @@ export const DetailsColumn = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
-export const PhotoContainer = styled.div`
-  display: flex;
+export const PhotoContainer = styled.div<{ $cropped: boolean }>`
+  display: block;
   position: relative;
   width: 100%;
-  height: 398px;
+  height: ${({ $cropped }) => ($cropped ? '320px' : 'auto')};
+  overflow: hidden;
+  border-radius: 12px;
 
   @media (min-width: 768px) {
-    height: auto;
-    min-height: 0;
-    align-self: stretch;
+    height: ${({ $cropped }) => ($cropped ? 'clamp(360px, 42vw, 580px)' : 'auto')};
+    align-self: start;
   }
 `;
-export const CampaignImage = styled.img`
+export const CampaignImage = styled.img<{ $cropped: boolean }>`
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: ${({ $cropped }) => ($cropped ? '100%' : 'auto')};
+  object-fit: ${({ $cropped }) => ($cropped ? 'cover' : 'initial')};
+  object-position: center;
   border-radius: 12px;
 `;
 export const BottomInfoRow = styled.section`
@@ -119,7 +121,7 @@ export const CampaignInfo = styled.section`
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
 type TitleProps = {
-    $iconColor?: "black" | "secondary";
+  $iconColor?: "black" | "secondary";
 };
 export const Title = styled.h2<TitleProps>`
   display: flex;
@@ -129,11 +131,12 @@ export const Title = styled.h2<TitleProps>`
   margin: 0 0 16px;
   color: ${({ theme }) => theme.colors.black};
   text-align: left;
-  font-size: 18px;
+  font-size: ${({ theme }) => theme.typography.header2};
+  font-weight:${({ theme }) => theme.fontWeights.semibold};
   line-height: 22px;
   svg {
     color: ${({ $iconColor, theme }) =>
-        $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
+    $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
   }
 `;
 export const CampaignEndDate = styled.div`
