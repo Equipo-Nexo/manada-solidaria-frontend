@@ -5,12 +5,16 @@ const cardShadow = '0 4px 8px rgb(0 0 0 / 25%)'
 
 export const MainContainer = styled.form`
   position: relative;
-  width: min(100%, 390px);
+  width: 100%;
+  max-width: 390px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   padding-bottom: 0;
   color: ${({ theme }) => theme.colors.black};
-  @media (min-width: 768px) { width: min(100%, 840px); }
+  @media (min-width: 768px) {
+    max-width: 840px;
+  }
 `
 
 export const Header = styled.header`
@@ -252,8 +256,10 @@ export const ChangePasswordButton = styled.button`
 
 
 export const SubmitButton = styled.button`
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 390px;
+  min-width: 0;
+  align-self: center;
   min-height: 56px;
   display: inline-flex;
   align-items: center;
@@ -275,7 +281,7 @@ export const SubmitButton = styled.button`
   }
 
   @media (min-width: 768px) {
+    width: 100%;
     max-width: none;
-    align-self: center;
   }
 `
