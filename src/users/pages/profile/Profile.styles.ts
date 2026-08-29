@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const MainContainer = styled.div`
     width: min(100%, 390px);
@@ -423,7 +423,7 @@ export const SwitchControl = styled.span`
   }
 `
 
-export const Item = styled.div`
+export const Item = styled.div<{ $interactive: boolean }>`
     width:100%;
     min-height: 48px;
     display: flex;
@@ -432,11 +432,25 @@ export const Item = styled.div`
     flex-direction: row;
     padding: 16px;
     background: ${({ theme }) => theme.colors.background};
-    cursor:pointer;
+    cursor: ${({ $interactive }) => $interactive ? 'pointer' : 'default'};
+    transition: background 160ms ease;
 
     &:not(:last-child) {
         border-bottom: 1px solid ${({ theme }) => theme.colors.stroke};
     }
+
+    ${({ $interactive }) => $interactive && css`
+        @media (hover: hover) {
+            &:hover {
+                background: rgb(234 95 9 / 8%);
+            }
+        }
+
+        &:focus-visible {
+            outline: 3px solid ${({ theme }) => theme.colors.focus};
+            outline-offset: -3px;
+        }
+    `}
 `
 export const ItemInfo = styled.div`
     display: flex;

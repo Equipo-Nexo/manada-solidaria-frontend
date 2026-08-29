@@ -1,4 +1,4 @@
-import OutlinedHandHeart from "@icons/OutlinedHandHeart";
+import HandHeart, { type HandHeartProps } from '@icons/HandHeart'
 import TransitIcon from "@/common/icons/Home";
 import TransportIcon from "@icons/CarFront";
 import type { RoleName } from "@/users/app/types/User.types";
@@ -8,13 +8,15 @@ export type RoleInformation = {
     name: RoleName;
     description: string;
     Icon: ComponentType<SVGProps<SVGSVGElement>>;
+    iconProps?: HandHeartProps;
 };
 
 export const rolesInformation: Record<RoleName, RoleInformation> = {
     "Rescatista": {
         name: "Rescatista",
         description: "Como rescatista, sos quien encuentra, asiste y da visibilidad a animales en situación de calle, abandono o peligro. Podés publicar tus casos para que la comunidad pueda ayudar y crear campañas o colectas para recaudar fondos destinados a su cuidado.",
-        Icon: OutlinedHandHeart,
+        Icon: HandHeart,
+        iconProps: { variante: 'outlined' },
     },
     "Hogar de tránsito": {
         name: "Hogar de tránsito",

@@ -1,7 +1,6 @@
 
-import { ArrowLeft, Camera, ChevronRight, Info, Pencil } from "@/common/icons";
+import { ArrowLeft, Camera, ChevronRight, HandHeart, Info, Pencil } from "@/common/icons";
 import * as S from "./Profile.styles"
-import OutlinedHandHeart from "@icons/OutlinedHandHeart";
 import TransitIcon from "@/common/icons/Home";
 import TransportIcon from "@icons/CarFront";
 import SecurityIcon from '@icons/Security';
@@ -23,21 +22,22 @@ import {
     useUpdateUserRolesMutation,
 } from "@/users/app/api/usersApi";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
-import type { UserRole } from "@/users/app/api/responses/GetUserProfileResponse";
+import type { Role } from "@/users/app/types/User.types";
 import { useToast } from "@hooks/toast/useToast";
 import { useGetPresignedUrlMutation } from "@/common/app/services/apis/imagesApi";
 import { useUploadImageMutation } from "@/common/app/services/apis/cloudflareApi";
 import { rolesInformation, type RoleInformation } from "./Utils.profile";
 import type { RoleName } from "@/users/app/types/User.types";
+import type { HandHeartProps } from '@icons/HandHeart'
 
 
-const roleCodes: Record<RoleName, UserRole> = {
+const roleCodes: Record<RoleName, Role> = {
     "Rescatista": "RESCUER",
     "Hogar de tránsito": "TRANSITIONAL_HOME",
     "Transportista": "CARRIAGE",
 };
 
-const roleLabels: Record<UserRole, RoleName> = {
+const roleLabels: Record<Role, RoleName> = {
     RESCUER: "Rescatista",
     TRANSITIONAL_HOME: "Hogar de tránsito",
     CARRIAGE: "Transportista",
@@ -65,7 +65,7 @@ function Profile() {
 
     const [selectedRole, setSelectedRole] = useState<RoleInformation | null>(null)
 
-    const [roleOverrides, setRoleOverrides] = useState<Partial<Record<UserRole, boolean>>>({})
+    const [roleOverrides, setRoleOverrides] = useState<Partial<Record<Role, boolean>>>({})
 
     const {
         capturedPhoto,
@@ -107,7 +107,7 @@ function Profile() {
         setOpenBottomSheet(true);
     }
 
-    const handleRoleChange = async (roleCode: UserRole, enabled: boolean) => {
+    const handleRoleChange = async (roleCode: Role, enabled: boolean) => {
         const previousOverride = roleOverrides[roleCode]
         const roles = enabled
             ? Array.from(new Set([...activeRoles, roleCode]))
@@ -194,8 +194,7 @@ function Profile() {
         if (photo?.file) await updateProfilePhoto(photo.file)
     }
 
-    const storedProfileImage = userData?.profile.profileImageURL;
-
+    const storedProfileImage = userData?.profile.profileImageURL ?? ''
     const profileImage = capturedPhoto?.url
         || normalizeImageUrl(storedProfileImage)
 
@@ -205,7 +204,11 @@ function Profile() {
         navigate("/login", { replace: true })
     }
 
-    const SwitchRoleComponent = (Rolename: RoleName, Icon: ComponentType<SVGProps<SVGSVGElement>>) => {
+    const SwitchRoleComponent = (
+        Rolename: RoleName,
+        Icon: ComponentType<SVGProps<SVGSVGElement>>,
+        iconProps?: HandHeartProps,
+    ) => {
         const roleCode = roleCodes[Rolename]
         const isActive = activeRoles.includes(roleCode)
 
@@ -213,7 +216,7 @@ function Profile() {
             <S.SwitchGroup>
                 <S.SwitchRow>
                     <S.SwitchLabelContent>
-                        <S.RoleIcon $size="large"><Icon aria-hidden="true" /></S.RoleIcon>
+                        <S.RoleIcon $size="large"><Icon {...iconProps} aria-hidden="true" /></S.RoleIcon>
                         <S.RoleName>{Rolename}</S.RoleName>
                         <S.InfoIcon type="button" aria-label={`Información sobre el rol de ${Rolename}`} onClick={() => handleRoleInformation(Rolename)}>
                             <Info aria-hidden="true" />
@@ -241,9 +244,20 @@ function Profile() {
         route?: string,
     ) => {
         return (
-            <S.Item>
+            <S.Item
+                $interactive={Boolean(route)}
+                role={route ? 'link' : undefined}
+                tabIndex={route ? 0 : undefined}
+                onClick={() => route && navigate(route)}
+                onKeyDown={(event) => {
+                    if (route && (event.key === 'Enter' || event.key === ' ')) {
+                        event.preventDefault()
+                        navigate(route)
+                    }
+                }}
+            >
                 <S.RoleIcon><Icon aria-hidden="true" /></S.RoleIcon>
-                <S.ItemInfo onClick={() => route && navigate(route)}>
+                <S.ItemInfo>
                     <S.ItemLabel>{label}</S.ItemLabel>
                     <S.ItemDescription>{description}</S.ItemDescription>
                 </S.ItemInfo>
@@ -273,7 +287,7 @@ function Profile() {
                 <S.BottomSheetContent>
                     {selectedRole && (
                         <S.BottomSheetRoleIcon>
-                            <selectedRole.Icon aria-hidden="true" />
+                            <selectedRole.Icon {...selectedRole.iconProps} aria-hidden="true" />
                         </S.BottomSheetRoleIcon>
                     )}
                     <S.BottomSheetTitle>{selectedRole?.name}</S.BottomSheetTitle>
@@ -356,7 +370,7 @@ function Profile() {
                     <S.Label>Roles Actuales</S.Label>
                     <S.Description>Activá los roles que querés cumplir en la red. Tocá el ícono de información para saber en qué consiste cada uno.</S.Description>
                     <S.RolesList>
-                        {SwitchRoleComponent("Rescatista", OutlinedHandHeart)}
+                        {SwitchRoleComponent("Rescatista", HandHeart, { variante: 'outlined' })}
                         {SwitchRoleComponent("Hogar de tránsito", TransitIcon)}
                         {SwitchRoleComponent("Transportista", TransportIcon)}
                     </S.RolesList>
@@ -366,13 +380,13 @@ function Profile() {
                     <S.Description>Accedé a tus publicaciones y actualizá tus datos personales cuando lo necesites.</S.Description>
                     <S.ItemsList>
                         {ItemComponent(HistoryIcon, "Mis publicaciones", "Editá y eliminá tus publicaciones", "/mis-publicaciones")}
-                        {ItemComponent(UserIcon, "Datos personales", "", "/mi-perfil/datos-personales")}
+                        {ItemComponent(UserIcon, "Datos personales", "Corroborá y editá tus datos personales", "/mi-perfil/datos-personales")}
                     </S.ItemsList>
                 </S.ItemsMainContainer>
                 <S.ItemsMainContainer>
                     <S.Label>Configuración</S.Label>
                     <S.ItemsList>
-                        {ItemComponent(SecurityIcon, "Privacidad y Seguridad", "Configurá el acceso con passkey", "/seguridad")}
+                        {ItemComponent(SecurityIcon, "Privacidad y Seguridad", "Configurá el acceso con passkey", "/mi-perfil/seguridad")}
                     </S.ItemsList>
                 </S.ItemsMainContainer>
             </S.OptionsContainer>

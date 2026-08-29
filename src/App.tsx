@@ -115,7 +115,7 @@ function App() {
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
               <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
-              <Route path="/seguridad" element={<Security />} />
+              <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
             </Route>
