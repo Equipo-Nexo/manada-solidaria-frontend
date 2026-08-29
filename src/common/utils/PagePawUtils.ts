@@ -28,7 +28,7 @@ export const createPagePaws = (navigationKey: string): PagePawPosition[] => {
       top: ((row + 0.25 + valueAt(index * 5 + 1) * 0.5) / ROWS) * 100,
       size: 22 + valueAt(index * 5 + 2) * 20,
       rotation: -45 + valueAt(index * 5 + 3) * 90,
-      opacity: 0.045 + valueAt(index * 5 + 4) * 0.045,
+      opacity: 0.05 + valueAt(index * 5 + 4) * 0.045,
     };
   });
 };

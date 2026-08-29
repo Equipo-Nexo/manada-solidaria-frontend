@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { X } from "@/common/icons";
+import { useCallback, useState, useMemo } from "react";
+import { ChevronRight, X } from "@/common/icons";
 import * as S from "./Stories.styles";
 import {
   statusLabel,
   type HappyCaseResponse,
 } from "./app/api/responses/happyCasesResponses";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
-
+import { createPortal } from "react-dom";
+import { useAutoAdvance } from "@/common/hooks/auto_advance/useAutoAdvance";
+import { createPagePaws } from "@/common/utils/PagePawUtils";
 type StoriesProps = {
   cases: HappyCaseResponse[];
   initialIndex: number;
@@ -16,23 +18,61 @@ type StoriesProps = {
 function Stories({ cases, initialIndex, onClose }: StoriesProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const currentCase = cases[currentIndex];
-  const handleNext = () => {
-    if (currentIndex < cases.length - 1) {
-      setCurrentIndex((current) => current + 1);
+  const pagePaws = useMemo(
+    () => createPagePaws(`stories-${cases.length}`),
+    [cases.length],
+  );
+  const handleNext = useCallback(() => {
+    if (currentIndex >= cases.length - 1) {
+      onClose();
+      return;
     }
-  };
+    setCurrentIndex((index) => index + 1);
+  }, [currentIndex, cases.length, onClose]);
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex((current) => current - 1);
     }
   };
-  const handleStoryClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if ((event.target as HTMLElement).closest("button")) return;
-    const isLeftSide = event.clientX < window.innerWidth / 2;
-    isLeftSide ? handlePrevious() : handleNext();
+  const handleStoryClick = (event: React.MouseEvent) => {
+    if (window.innerWidth >= 768) return;
+    const clickX = event.clientX;
+    const screenWidth = window.innerWidth;
+    const action = clickX < screenWidth / 2 ? handlePrevious : handleNext;
+    action();
   };
-  return (
+  useAutoAdvance({
+    currentIndex,
+    totalItems: cases.length,
+    onNext: handleNext,
+  });
+  return createPortal(
     <S.Container onClick={handleStoryClick}>
+      <S.PagePaws aria-hidden="true">
+        {pagePaws.map((paw, index) => (
+          <S.PagePaw
+            key={index}
+            $left={paw.left}
+            $top={paw.top}
+            $size={paw.size}
+            $rotation={paw.rotation}
+            $opacity={paw.opacity}
+          />
+        ))}
+      </S.PagePaws>
+      <S.StoryArrow
+        type="button"
+        $direction="previous"
+        aria-label="Ver historia anterior"
+        disabled={currentIndex === 0}
+        onClick={(event) => {
+          event.stopPropagation();
+          handlePrevious();
+        }}
+      >
+        <ChevronRight aria-hidden="true" />
+      </S.StoryArrow>
+
       <S.StoryFrame>
         <S.BackgroundImage
           src={`${import.meta.env.VITE_CLOUDFLARE_URL}${currentCase.imageUrl}`}
@@ -49,7 +89,10 @@ function Stories({ cases, initialIndex, onClose }: StoriesProps) {
             <S.ProgressContainer>
               {cases.map((_, index) => (
                 <S.ProgressBar key={index}>
-                  <S.ProgressFill $active={index === currentIndex} />
+                  <S.ProgressFill
+                    $active={index === currentIndex}
+                    $completed={index < currentIndex}
+                  />
                 </S.ProgressBar>
               ))}
             </S.ProgressContainer>
@@ -81,7 +124,20 @@ function Stories({ cases, initialIndex, onClose }: StoriesProps) {
           </S.BottomContent>
         </S.Content>
       </S.StoryFrame>
-    </S.Container>
+      <S.StoryArrow
+        type="button"
+        $direction="next"
+        aria-label="Ver historia siguiente"
+        disabled={currentIndex === cases.length - 1}
+        onClick={(event) => {
+          event.stopPropagation();
+          handleNext();
+        }}
+      >
+        <ChevronRight aria-hidden="true" />
+      </S.StoryArrow>
+    </S.Container>,
+    document.body,
   );
 }
 export default Stories;

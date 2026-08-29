@@ -1,3 +1,4 @@
+import { PawPrint } from "@/common/icons";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -12,6 +13,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 32px;
     background: ${({ theme }) => theme.colors.background};
   }
 `;
@@ -80,12 +82,28 @@ export const ProgressBar = styled.div`
   background: rgba(255, 255, 255, 0.35);
 `;
 
-export const ProgressFill = styled.div<{ $active: boolean }>`
-  width: ${({ $active }) => ($active ? "100%" : "0%")};
+export const ProgressFill = styled.div<{
+  $active: boolean;
+  $completed: boolean;
+}>`
+  width: ${({ $active, $completed }) =>
+    $completed || $active ? "100%" : "0%"};
   height: 100%;
   border-radius: inherit;
   background: white;
-  transition: width 0.2s ease;
+  ${({ $active }) =>
+    $active &&
+    `
+      animation: storyProgress 5s linear forwards;
+    `}
+  @keyframes storyProgress {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
 `;
 
 export const UserInfo = styled.div`
@@ -126,6 +144,7 @@ export const CloseButton = styled.button`
   svg {
     width: 22px;
     height: 22px;
+    stroke-width: 2.5;
   }
 `;
 
@@ -170,4 +189,72 @@ export const StatusBadge = styled.span<{ $status: string }>`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 0.875rem;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
+`;
+export const StoryArrow = styled.button<{
+  $direction: "previous" | "next";
+}>`
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border: 1px solid ${({ theme }) => theme.colors.neutral};
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.darkColor};
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+    &:hover:not(:disabled) {
+      transform: scale(1.08);
+      background: ${({ theme }) => theme.colors.brand};
+      color: ${({ theme }) => theme.colors.background};
+    }
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    svg {
+      width: 10px;
+      height: 16px;
+    }
+    ${({ $direction }) =>
+      $direction === "previous" &&
+      `
+        svg {
+          transform: rotate(180deg);
+        }
+      `}
+  }
+`;
+export const PagePaws = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  @media (max-width: 767px) {
+    display: none;
+  }
+`;
+
+export const PagePaw = styled(PawPrint)<{
+  $left: number;
+  $top: number;
+  $size: number;
+  $rotation: number;
+  $opacity: number;
+}>`
+  position: absolute;
+  left: ${({ $left }) => `${$left}%`};
+  top: ${({ $top }) => `${$top}%`};
+  width: ${({ $size }) => `${$size}px`};
+  height: ${({ $size }) => `${$size}px`};
+  transform: rotate(${({ $rotation }) => `${$rotation}deg`});
+  opacity: ${({ $opacity }) => $opacity};
+  color: ${({ theme }) => theme.colors.brand};
 `;
