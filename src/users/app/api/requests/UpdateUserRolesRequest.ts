@@ -1,5 +1,5 @@
-import type { UserRole } from '../responses/GetUserProfileResponse';
+import type { Role } from '../../types/User.types';
 
 export interface UpdateUserRolesRequest {
-  roles: UserRole[];
+  roles: Role[];
 }
