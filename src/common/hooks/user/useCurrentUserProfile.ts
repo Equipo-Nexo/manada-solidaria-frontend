@@ -8,7 +8,7 @@ function useCurrentUserProfile() {
   const { data: userData } = useGetUserProfileQuery(userId);
 
   const storedProfileImage =
-    userData?.profile.profileImageURL ?? userData?.profile.profileImageUrl;
+    userData?.profile.profileImageURL ?? userData?.profile.profileImageURL;
 
   const profileImage = normalizeImageUrl(storedProfileImage);
 
