@@ -23,13 +23,15 @@ import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
-import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import ScrollToTop from "./common/components/routes/ScrollToTop";
-import Community from "./community/pages/Community";
 import Profile from "./users/pages/profile/Profile";
+import PersonalData from "./users/pages/personal_data/PersonalData";
+import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
+import Community from "./community/pages/Community";
+import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
 import SuccessStories from "./successStories/pages/SuccessStories";
-import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
+import Security from "./users/pages/security/Security";
 
 function App() {
   const location = useLocation();
@@ -112,6 +114,8 @@ function App() {
               <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
+              <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
+              <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
             </Route>
