@@ -4,6 +4,7 @@ import * as S from "./Profile.styles"
 import RescueIcon from "@icons/HandHeart";
 import TransitIcon from "@icons/TransitIcon";
 import TransportIcon from "@icons/CarFront";
+import SecurityIcon from '@icons/Security';
 import UserIcon from "@icons/User";
 import HistoryIcon from "@icons/History";
 import { useState, type SVGProps } from "react";
@@ -21,7 +22,7 @@ import {
     useUpdateUserProfileMutation,
     useUpdateUserRolesMutation,
 } from "@/users/app/api/usersApi";
-import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import type { UserRole } from "@/users/app/api/responses/GetUserProfileResponse";
 import { useToast } from "@hooks/toast/useToast";
 import { useGetPresignedUrlMutation } from "@/common/app/services/apis/imagesApi";
@@ -59,6 +60,12 @@ const roleCodes: Record<RoleName, UserRole> = {
     "Rescatista": "RESCUER",
     "Hogar de tránsito": "TRANSITIONAL_HOME",
     "Transportista": "CARRIAGE",
+};
+
+const roleLabels: Record<UserRole, RoleName> = {
+    RESCUER: "Rescatista",
+    TRANSITIONAL_HOME: "Hogar de tránsito",
+    CARRIAGE: "Transportista",
 };
 
 const editableRoles = Object.values(roleCodes);
@@ -137,6 +144,12 @@ function Profile() {
 
         try {
             await updateUserRoles({ roles }).unwrap()
+            toaster.success(
+                "Rol actualizado",
+                enabled
+                    ? `El rol ${roleLabels[roleCode]} se activó correctamente.`
+                    : `El rol ${roleLabels[roleCode]} se desactivó correctamente.`,
+            )
         } catch {
             setRoleOverrides((current) => {
                 const restored = { ...current }
@@ -177,18 +190,13 @@ function Profile() {
         }
 
         const currentPhone = userData.profile.phoneNumber
-        const phoneNumber = typeof currentPhone === "string"
-            ? currentPhone || null
-            : currentPhone
-                ? `${currentPhone.areaCode}${currentPhone.number}` || null
-                : null
 
         try {
             await updateUserProfile({
                 name: userData.profile.name,
                 lastname: userData.profile.lastname,
                 email: userData.profile.email,
-                phoneNumber,
+                phoneNumber: currentPhone,
                 profileImageURL: presigned.imageId,
             }).unwrap()
             toaster.success("Foto de perfil actualizada")
@@ -215,11 +223,7 @@ function Profile() {
 
     const storedProfileImage = userData?.profile.profileImageURL ?? userData?.profile.profileImageUrl
     const profileImage = capturedPhoto?.url
-        || (storedProfileImage
-            ? /^(https?:|blob:|data:)/i.test(storedProfileImage)
-                ? storedProfileImage
-                : `${import.meta.env.VITE_CLOUDFLARE_URL}${storedProfileImage}`
-            : NOT_FOUND_IMAGE_URL)
+        || normalizeImageUrl(storedProfileImage)
 
     const confirmLogout = () => {
         setIsLogoutModalOpen(false)
@@ -350,7 +354,7 @@ function Profile() {
                     <ArrowLeft aria-hidden="true" />
                 </S.BackButton>
                 <S.TitlesContainer>
-                    <S.PageTitle>Mi perfil</S.PageTitle>
+                    <S.PageTitle>Mi Perfil</S.PageTitle>
                 </S.TitlesContainer>
             </S.Header>
             <S.ProfileImageContainer>
@@ -378,14 +382,20 @@ function Profile() {
                         {SwitchComponent("Transportista", CenteredTransportIcon)}
                     </S.RolesList>
                 </S.RolesContainer>
-                <S.AccountAndActivityContainer>
+                <S.ItemsMainContainer>
                     <S.Label>Cuentas y Actividad</S.Label>
                     <S.Description>Accedé a tus publicaciones y actualizá tus datos personales cuando lo necesites.</S.Description>
-                    <S.AccountAndActivityList>
+                    <S.ItemsList>
                         {ItemComponent(HistoryIcon, "Mis publicaciones", "/mis-publicaciones", "Editá y eliminá tus publicaciones")}
                         {ItemComponent(UserIcon, "Datos personales", "", "")}
-                    </S.AccountAndActivityList>
-                </S.AccountAndActivityContainer>
+                    </S.ItemsList>
+                </S.ItemsMainContainer>
+                <S.ItemsMainContainer>
+                    <S.Label>Configuración</S.Label>
+                    <S.ItemsList>
+                        {ItemComponent(SecurityIcon, "Privacidad y Seguridad", "/mis-publicaciones", "")}
+                    </S.ItemsList>
+                </S.ItemsMainContainer>
             </S.OptionsContainer>
             <S.LogoutButton type="button" onClick={() => setIsLogoutModalOpen(true)}>
                 <LogoutIcon aria-hidden="true" />

@@ -77,20 +77,18 @@ export const ProfileImageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media (min-width: 768px) {
-        gap: 8px;
-    }
+    gap: 4px;
 `
 
 export const ProfileImageWrapper = styled.div`
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 152px;
+    height: 152px;
 `
 
 export const ProfileImage = styled.img`
-    width: 120px;
-    height: 120px;
+    width: 152px;
+    height: 152px;
     border-radius: 50%;
     object-fit: cover;
 `
@@ -140,10 +138,12 @@ export const EditProfileImageButton = styled.button`
 `
 
 export const ProfileName = styled.h2`
+    margin: 4px 0 0;
     color: ${({ theme }) => theme.colors.black};
 `
 
 export const ProfileEmail = styled.p`
+    margin: 0;
     ${({ theme }) => theme.typography.body};
     color: ${({ theme }) => theme.colors.darkColor};
 `
@@ -170,14 +170,14 @@ export const RolesList = styled.div`
     box-shadow: 0 4px 10px rgb(0 0 0 / 18%);
 `
 
-export const AccountAndActivityContainer = styled.div`
+export const ItemsMainContainer = styled.div`
     display: flex;
     min-width: 0;
     flex-direction: column;
     gap: 8px;
 `
 
-export const AccountAndActivityList = styled.div`
+export const ItemsList = styled.div`
     width: 100%;
     overflow: hidden;
     border-radius: 12px;

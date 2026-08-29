@@ -1,9 +1,6 @@
-export type UserRole = 'RESCUER' | 'TRANSITIONAL_HOME' | 'CARRIAGE';
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
-type PhoneNumber = {
-    areaCode: string;
-    number: string;
-};
+export type UserRole = 'RESCUER' | 'TRANSITIONAL_HOME' | 'CARRIAGE';
 
 export interface GetUserProfileResponse {
     id: string;
@@ -16,7 +13,7 @@ interface Profile {
     name: string;
     lastname: string;
     email: string;
-    phoneNumber: string | PhoneNumber | null;
+    phoneNumber: PhoneNumber | null;
     profileImageUrl?: string | null;
     profileImageURL?: string | null;
 }
