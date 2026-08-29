@@ -263,11 +263,11 @@ export const SwitchGroup = styled.div`
 
 export const SwitchRow = styled.div`
   display: flex;
-  min-height: 48px;
+  height:48px;
   
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: 40px;
   color: ${({ theme }) => theme.colors.black};
 
   @media (max-width: 420px) {
@@ -329,10 +329,8 @@ export const RoleIcon = styled.span<{ $size?: 'default' | 'large' }>`
 export const RoleName = styled.span`
   min-width: 0;
   flex: 1;
-  ${({ theme }) => theme.typography.body};
+  font-size:${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-
-
   @media (max-width: 420px) {
     ${({ theme }) => theme.typography.header3};
     font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -425,7 +423,7 @@ export const SwitchControl = styled.span`
 
 export const Item = styled.div<{ $interactive: boolean }>`
     width:100%;
-    min-height: 48px;
+    height:80px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -433,7 +431,8 @@ export const Item = styled.div<{ $interactive: boolean }>`
     padding: 16px;
     background: ${({ theme }) => theme.colors.background};
     cursor: ${({ $interactive }) => $interactive ? 'pointer' : 'default'};
-    transition: background 160ms ease;
+    transition: background 120ms ease, transform 120ms ease;
+    font-size:  ${({ theme }) => theme.typography.body};
 
     &:not(:last-child) {
         border-bottom: 1px solid ${({ theme }) => theme.colors.stroke};
@@ -446,9 +445,22 @@ export const Item = styled.div<{ $interactive: boolean }>`
             }
         }
 
+        &:active {
+            background: rgb(234 95 9 / 14%);
+            transform: scale(0.985);
+        }
+
         &:focus-visible {
             outline: 3px solid ${({ theme }) => theme.colors.focus};
             outline-offset: -3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+
+            &:active {
+                transform: none;
+            }
         }
     `}
 `
@@ -511,7 +523,7 @@ export const BottomSheetRoleIcon = styled.span`
     justify-content: center;
     border-radius: 50%;
     color: ${({ theme }) => theme.colors.secondary};
-    background: #fde1d7;
+    background: ${({ theme }) => theme.colors.neutral};
 
     svg {
         width: 32px;
