@@ -25,6 +25,7 @@ import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost"
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
 import ScrollToTop from "./common/components/routes/ScrollToTop";
 import Profile from "./users/pages/profile/Profile";
+import PersonalData from "./users/pages/personal_data/PersonalData";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
 import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
@@ -113,6 +114,7 @@ function App() {
               <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
+              <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
               <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
