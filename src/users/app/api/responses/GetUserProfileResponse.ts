@@ -11,7 +11,7 @@ export interface GetUserProfileResponse {
 
 interface Profile {
     name: string;
-    lastname: string;
+    lastname: string | null;
     email: string;
     phoneNumber?: PhoneNumber;
     profileImageURL?: string | null;

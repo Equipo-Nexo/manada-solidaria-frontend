@@ -1,11 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect } from 'react'
 import { useController, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Advice, ErrorMessage, PhoneInputComponent } from '@/common/components'
+import { Advice, ErrorMessage, Message, PhoneInputComponent } from '@/common/components'
 import { ArrowLeft, Send, User } from '@/common/icons'
 import { useToast } from '@/common/hooks/toast/useToast'
-import type { EditPersonalDataRequest } from '@/users/app/api/requests/EditPersonalDataRequest'
+import type { UpdateUserProfileRequest } from '@/users/app/api/requests/UpdateUserProfileRequest'
 import { useUpdateUserProfileMutation, useGetUserProfileQuery } from '@/users/app/api/usersApi'
 import * as S from './PersonalData.styles'
 import {
@@ -13,27 +12,28 @@ import {
     type PersonalDataFormValues,
 } from './personalDataSchema'
 import useAuth from '@/common/hooks/auth/useAuth'
+import type { GetUserProfileResponse } from '@/users/app/api/responses/GetUserProfileResponse'
+import PawLoader from '@/common/components/pawLoader/PawLoader'
 
 
+function PersonalDataForm({ userData }: { userData: GetUserProfileResponse }) {
 
-function PersonalData() {
     const navigate = useNavigate()
-    const { userId } = useAuth();
-    const { data: userData } = useGetUserProfileQuery(userId);
 
     const initialPersonalData: PersonalDataFormValues = {
-        username: userData?.username ?? '',
-        name: userData?.profile.name ?? '',
-        lastname: userData?.profile.lastname ?? '',
-        phoneNumber: userData?.profile.phoneNumber ?? { areaCode: '', number: '' },
-        email: userData?.profile.email ?? '',
+        username: userData.username,
+        name: userData.profile.name,
+        lastname: userData.profile.lastname ?? '',
+        phoneNumber: userData.profile.phoneNumber ?? { areaCode: '', number: '' },
+        email: userData.profile.email,
     }
 
     const toast = useToast()
+
     const [editUserPersonalData, { isLoading }] = useUpdateUserProfileMutation()
 
     const {
-        formState: { errors, isDirty, isValid },
+        formState: { errors, isDirty },
         control,
         handleSubmit,
         register,
@@ -54,18 +54,6 @@ function PersonalData() {
         name: 'phoneNumber.number',
     })
 
-    useEffect(() => {
-        if (userData && !isDirty) {
-            reset({
-                username: userData.username,
-                name: userData.profile.name ?? '',
-                lastname: userData.profile.lastname ?? '',
-                phoneNumber: userData.profile.phoneNumber ?? { areaCode: '', number: '' },
-                email: userData.profile.email ?? '',
-            })
-        }
-    }, [isDirty, reset, userData])
-
     const UserNameComponent = (username: string) => {
         return (
             <S.UsernameContainer>
@@ -82,14 +70,14 @@ function PersonalData() {
 
 
     const handleEditPersonalData = async (values: PersonalDataFormValues) => {
-        const request: EditPersonalDataRequest = {
+        const request: UpdateUserProfileRequest = {
             name: values.name?.trim() || undefined,
-            lastname: values.lastname?.trim() || undefined,
+            lastname: values.lastname?.trim() || null,
             email: values.email.trim(),
             phoneNumber: values.phoneNumber.areaCode && values.phoneNumber.number
                 ? values.phoneNumber
                 : null,
-            profileImageURL: userData?.profile.profileImageURL ?? '',
+            profileImageURL: userData.profile.profileImageURL ?? '',
         }
         try {
             await editUserPersonalData(request).unwrap()
@@ -131,7 +119,7 @@ function PersonalData() {
 
             <S.PersonalDataContainer>
                 <S.DataPanel>
-                    {UserNameComponent(userData?.username || "usuario")}
+                    {UserNameComponent(userData.username)}
                     <S.Label htmlFor="name">Nombre</S.Label>
                     <S.Input
                         id="name"
@@ -191,13 +179,28 @@ function PersonalData() {
             </S.PersonalDataContainer>
             <S.SubmitButton
                 type="submit"
-                disabled={!isDirty || !isValid || isLoading}
+                disabled={!isDirty || isLoading}
             >
                 {isLoading ? 'Guardando...' : 'Guardar cambios'}
                 <Send aria-hidden="true" />
             </S.SubmitButton>
         </S.MainContainer>
     )
+}
+
+function PersonalData() {
+    const { userId } = useAuth()
+    const { data: userData, isLoading, isError } = useGetUserProfileQuery(userId)
+
+    if (isLoading) {
+        return <PawLoader label="Cargando datos personales" />
+    }
+
+    if (isError || !userData) {
+        return <Message message="No pudimos cargar tus datos personales." iconName="pawPrint" />
+    }
+
+    return <PersonalDataForm userData={userData} />
 }
 
 export default PersonalData

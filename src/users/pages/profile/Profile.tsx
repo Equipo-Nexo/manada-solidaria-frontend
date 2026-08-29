@@ -91,7 +91,6 @@ function Profile() {
     const { userId } = useAuth();
 
     const { data: userData } = useGetUserProfileQuery(userId);
-    console.log("userData", userData)
 
     const [updateUserRoles] = useUpdateUserRolesMutation()
     const [getPresignedUrl, { isLoading: isGettingPresignedUrl }] = useGetPresignedUrlMutation()
@@ -195,7 +194,7 @@ function Profile() {
         if (photo?.file) await updateProfilePhoto(photo.file)
     }
 
-    const storedProfileImage = userData?.profile.profileImageURL ?? userData?.profile.profileImageURL
+    const storedProfileImage = userData?.profile.profileImageURL;
 
     const profileImage = capturedPhoto?.url
         || normalizeImageUrl(storedProfileImage)
