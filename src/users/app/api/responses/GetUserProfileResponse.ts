@@ -1,12 +1,11 @@
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
-
-export type UserRole = 'RESCUER' | 'TRANSITIONAL_HOME' | 'CARRIAGE';
+import type { Role } from "../../types/User.types";
 
 export interface GetUserProfileResponse {
     id: string;
     username: string;
     profile: Profile;
-    roles: UserRole[];
+    roles: Role[];
 }
 
 interface Profile {
@@ -14,6 +13,5 @@ interface Profile {
     lastname: string;
     email: string;
     phoneNumber: PhoneNumber | null;
-    profileImageUrl?: string | null;
-    profileImageURL?: string | null;
+    profileImageURL: string | undefined;
 }

@@ -113,7 +113,7 @@ function App() {
               <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
-              <Route path="/seguridad" element={<Security />} />
+              <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
             </Route>

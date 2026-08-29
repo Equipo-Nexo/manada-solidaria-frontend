@@ -1,11 +1,11 @@
 import type { SVGProps } from 'react'
 
-type HandHeartProps = SVGProps<SVGSVGElement> & {
-  variant?: 'filled' | 'outlined'
+export type HandHeartProps = SVGProps<SVGSVGElement> & {
+  variante?: 'filled' | 'outlined'
 }
 
-function HandHeart({ variant = 'filled', ...props }: HandHeartProps) {
-  if (variant === 'outlined') {
+function HandHeart({ variante = 'filled', ...props }: HandHeartProps) {
+  if (variante === 'outlined') {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
