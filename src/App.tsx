@@ -30,6 +30,7 @@ import Profile from "./users/pages/profile/Profile";
 import Services from "./services/pages/Services";
 import SuccessStories from "./successStories/pages/SuccessStories";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
+import NotFound from "./common/pages/not_found/NotFound";
 import { useEffect } from "react";
 
 function App() {
@@ -90,6 +91,7 @@ function App() {
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />}/>
             <Route element={<PrivateRoutes />}>
@@ -129,7 +131,7 @@ function App() {
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
             </Route>
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AppContent>
       </AppShell>
