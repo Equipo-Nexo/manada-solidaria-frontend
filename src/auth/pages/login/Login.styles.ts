@@ -57,11 +57,21 @@ export const FooterText = styled.p`
   }
 `
 
+export const TitleLineBreak = styled.br`
+  @media (max-width: 1300px) and (max-height: 720px) {
+    display: none;
+  }
+`
 
 export const AppLogo = styled.img`
   margin-top: 2rem;
   width: 10rem;
   height: auto;
+
+  @media (max-width: 1300px) and (max-height: 720px) {
+    width: 8rem;
+    margin-top: 0.75rem;
+  }
 
   @media (max-width: 767px) and (max-height: 850px) {
     width: 8rem;
@@ -83,6 +93,10 @@ export const AppTitle = styled.h1`
   color: ${({ theme }) => theme.colors.brand};
   font-size: ${({ theme }) => theme.fontSizes.title};
   margin-top: 1rem;
+
+  @media (max-width: 1300px) and (max-height: 720px) {
+   
+  }
 
   @media (max-width: 767px) and (max-height: 850px) {
     margin-top: 0.375rem;
@@ -121,6 +135,9 @@ export const TitlesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+   margin-top: 0.625rem;
+  }
 
   @media (max-width: 767px) and (max-height: 750px) {
     margin-top: 0.625rem;
@@ -396,6 +413,7 @@ export const PasskeyButton = styled(LoginButton)`
 
 export const RegisterTextContainer = styled.div`
   margin-top: 1rem;
+  margin-bottom: 1rem;
 
   @media (max-width: 767px) and (max-height: 750px) {
     margin-top: 0.625rem;

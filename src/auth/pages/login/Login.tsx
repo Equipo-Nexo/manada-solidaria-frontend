@@ -77,17 +77,15 @@ function Login() {
       <S.LoginContainer>
           <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
           <S.AppTitle>
-            Manada
-            <br />
-            Solidaria
+            Manada <S.TitleLineBreak /> Solidaria
           </S.AppTitle>
           <S.AppDescription>
-            Ayudemos juntos a quienes más <br />
+            Ayudemos juntos a quienes más <S.TitleLineBreak />
             lo necesitan.
           </S.AppDescription>
 
           <S.TitlesContainer>
-            <S.WelcomeTitle>¡Que bueno verte<br/>de nuevo!</S.WelcomeTitle>
+            <S.WelcomeTitle>¡Que bueno verte<S.TitleLineBreak /> de nuevo!</S.WelcomeTitle>
             <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
           </S.TitlesContainer>
 
