@@ -7,7 +7,6 @@ import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 import { ImagePreview } from "@/common/components";
-import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import { shareUrl } from '@/common/utils/HandleShare';
 
 export type CampaignCardData = {
@@ -33,8 +32,6 @@ function CampaignCard({
   className,
   onMoreInfo
 }: CampaignCardProps) {
-
-  const { copy } = useCopyToClipboard()
 
   const handleShareButton = () => {
     shareUrl({

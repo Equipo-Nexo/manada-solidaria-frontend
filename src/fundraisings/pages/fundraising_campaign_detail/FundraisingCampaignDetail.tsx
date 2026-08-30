@@ -27,7 +27,6 @@ function FundraisingCampaignDetail() {
     ? Math.min(100, Math.round((collected / goal) * 100))
     : 0;
   const { copied: copiedAlias, copy: copyAlias } = useCopyToClipboard();
-  const { copy: copyURL } = useCopyToClipboard();
   const handleCopyAlias = () => {
     if (data?.accountAlias) {
       copyAlias(data.accountAlias);

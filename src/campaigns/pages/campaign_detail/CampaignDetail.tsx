@@ -12,7 +12,6 @@ import ContactCardComponent from "@/common/components/contact_details_component/
 import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { useState } from "react";
-import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import { shareUrl } from "@/common/utils/HandleShare";
 
 interface DateInfoProps {
@@ -46,7 +45,6 @@ function CampaingDetail() {
     const [cropImage, setCropImage] = useState(false)
 
     const { campaignId } = useParams<{ campaignId: string }>();
-    const { copy } = useCopyToClipboard()
 
     const { data: campaignData, isLoading, isError } = useGetCampaignQuery(
         campaignId!,

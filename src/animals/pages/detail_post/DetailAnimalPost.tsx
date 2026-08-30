@@ -14,7 +14,6 @@ import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
 import getOwnerRole from '@/common/utils/GetRoles'
 import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
-import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
 import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
 import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
 import { shareUrl } from '@/common/utils/HandleShare'
@@ -26,7 +25,6 @@ function AnimalPostDetail() {
   const { postId } = useParams<{ postId: string }>()
 
   const { data: postData, isLoading, isError } = useGetAnimalPostQuery(postId ?? '', { skip: !postId })
-  const { copy } = useCopyToClipboard();
 
   if (isLoading) {
     return (
