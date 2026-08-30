@@ -2,7 +2,7 @@ import { Arrow, Check, OpenMap, Phone, Share } from "@/common/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./FundraisingCampaignDetail.styles";
 import { useGetFundraisingByIdQuery } from "@/campaigns/app/api/campaignApi";
-import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import Calendar from "@/common/icons/Calendar";
 import Copy from "@/common/icons/Copy";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
@@ -47,11 +47,7 @@ function FundraisingCampaignDetail() {
       {!isLoading && !isError && data && (
         <S.Content>
           <S.FundraisingImage
-            src={
-              data?.imageId
-                ? `${import.meta.env.VITE_CLOUDFLARE_URL}${data.imageId}`
-                : NOT_FOUND_IMAGE_URL
-            }
+            src={normalizeImageUrl(data?.imageId)}
             alt={data?.title ?? "Imagen de la colecta"}
           />
           <S.FundraisingInfo>
