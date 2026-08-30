@@ -97,7 +97,6 @@ function AnimalPostDetail() {
             alt={name}
             onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
           />
-          <S.ShareButton onClick={handleShareButton} type="button" aria-label={`Compartir publicación de ${name}`}><Share aria-hidden="true" /></S.ShareButton>
         </S.PhotoContainer>
 
         <S.DetailsColumn>
@@ -171,7 +170,7 @@ function AnimalPostDetail() {
             </S.AdviceArea>
           </>
         )}
-        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}>
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={handleShareButton}>
           <Share aria-hidden="true" />
           Compartir Publicación
         </S.ShareButton>
