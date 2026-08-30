@@ -18,6 +18,8 @@ const feedbackColors = {
 
 export const theme = {
   colors: {
+    soft: '#FFF1EC',   
+    white: '#FFFFFF',
     brand: uxColors.brand,
     tertiary: uxColors.tertiary,
     neutral: uxColors.neutral,
@@ -56,6 +58,11 @@ export const theme = {
     semibold: 600,
     bold: 700,
     extrabold: 800,
+  },
+  fontSizes: {
+    title: '2rem',
+    subtitle: '1.5rem',
+    normal: '1rem',
   },
   typography: {
     display: {
