@@ -8,6 +8,7 @@ import { openWhatsApp } from "@/common/utils/Whatsapp";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 import { ImagePreview } from "@/common/components";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
+import { shareUrl } from '@/common/utils/HandleShare';
 
 export type CampaignCardData = {
   id?: string | number;
@@ -36,7 +37,10 @@ function CampaignCard({
   const { copy } = useCopyToClipboard()
 
   const handleShareButton = () => {
-    copy(`${window.location.host}?redirect=/campanias/${campaign.id}`)
+    shareUrl({
+      path: `?redirect=/campanias/${campaign.id}`,
+      text: 'Mirá esta campaña, quizás te sirve.'
+    })    
   }
   
   const openCampaignDetail = (event: MouseEvent<HTMLElement>) => {

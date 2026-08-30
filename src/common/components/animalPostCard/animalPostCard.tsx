@@ -9,6 +9,7 @@ import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
 import ImagePreview from '../image_preview/ImagePreview'
 import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
+import { shareUrl } from '@/common/utils/HandleShare'
 
 export type AnimalPostCardProps = {
   postId: string
@@ -62,7 +63,10 @@ function AnimalPostCard({
   }
 
   const handleShareButton = () => {
-    copy(`${window.location.host}?redirect=/animal/detalle/${postId}`)
+    shareUrl({
+      path: `?redirect=/animal/detalle/${postId}`,
+      text: 'Mirá este animalito para ayudar.'
+    })
   }
 
   return (

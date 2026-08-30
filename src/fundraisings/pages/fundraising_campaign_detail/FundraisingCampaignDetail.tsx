@@ -12,6 +12,7 @@ import { Loader, ScrollHint } from "@/common/components";
 import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { useState } from "react";
+import { shareUrl } from "@/common/utils/HandleShare";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const [cropImage, setCropImage] = useState(false);
@@ -42,7 +43,10 @@ function FundraisingCampaignDetail() {
     : NOT_FOUND_IMAGE_URL
 
   const handleShareButton = () => {
-    copyURL(`${window.location.host}?redirect=${window.location.pathname}`)
+    shareUrl({
+      path: `?redirect=${window.location.pathname}`,
+      text: 'Mirá esta colecta para ayudar a un animalito.'
+    })
   }
   
   return (

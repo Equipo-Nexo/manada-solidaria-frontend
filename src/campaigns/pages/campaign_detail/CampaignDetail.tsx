@@ -13,6 +13,7 @@ import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { useState } from "react";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
+import { shareUrl } from "@/common/utils/HandleShare";
 
 interface DateInfoProps {
     label: string;
@@ -66,7 +67,10 @@ function CampaingDetail() {
         : NOT_FOUND_IMAGE_URL
 
     const handleShareButton = () => {
-        copy(`${window.location.host}?redirect=/campanias/${campaignId}`)
+        shareUrl({
+            path: `?redirect=/campanias/${campaignId}`,
+            text: 'Mirá esta campaña, quizás te sirve.'
+        })            
     }        
 
     return (

@@ -17,6 +17,7 @@ import { formatDateLong } from '@/common/utils/DateTime'
 import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
 import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
 import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
+import { shareUrl } from '@/common/utils/HandleShare'
 
 function AnimalPostDetail() {
 
@@ -80,7 +81,10 @@ function AnimalPostDetail() {
   }
 
   const handleShareButton = () => {
-    copy(`${window.location.host}?redirect=${window.location.pathname}`)
+    shareUrl({
+      path: `?redirect=${window.location.pathname}`,
+      text: 'Mirá este animalito para ayudar.'
+    })
   }
 
   return (
