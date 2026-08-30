@@ -32,6 +32,7 @@ import SuccessStories from "./successStories/pages/SuccessStories";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
 import NotFound from "./common/pages/not_found/NotFound";
 import { useEffect } from "react";
+import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
 
 function App() {
   const location = useLocation();
@@ -39,15 +40,16 @@ function App() {
   const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
-    actualPath === "/publicar/animal" ||
-    actualPath === "/publicar/campania" ||
-    actualPath === "/publicar/colecta" ||
-    actualPath === "/editar/exito" ||
-    actualPath.startsWith("/editar/animal/") ||
-    actualPath.startsWith("/editar/colecta/") ||
-    actualPath.startsWith("/editar/campania/");
-  const isMobileMenu = actualPath === "/menu";
-  const isPublicationDetail = actualPath.startsWith("/animal/detalle/");
+    location.pathname === "/publicar/animal" ||
+    location.pathname === "/publicar/campania" ||
+    location.pathname === "/publicar/colecta" ||
+    location.pathname === "/editar/exito" ||
+    location.pathname.startsWith("/editar/animal/") ||
+    location.pathname.startsWith("/editar/colecta/") ||
+    location.pathname.startsWith("/editar/campania/");
+  const isMobileMenu = location.pathname === "/menu";
+  const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
+  const isCampaignDetail = location.pathname.startsWith("/campanias/");
 
   const usesFullScreenLayout =
     actualPath === "/login" ||
@@ -56,17 +58,15 @@ function App() {
     isMobileMenu ||
     isPublicationDetail;
   const showAuthenticatedShell =
-    isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
+    isAuthenticated &&
+    (!usesFullScreenLayout || isMobileMenu) &&
+    !isCampaignDetail;
 
   const params = new URLSearchParams(location.search);
   const redirect = params.get("redirect");
 
   useEffect(() => {
-    console.log('--------- is authenticated', isAuthenticated)
-    console.log('--------- redirect', redirect)
-
     if (!isAuthenticated && redirect) {
-      console.log('redirecting to login')
       navigate(
         `/login?redirect=${encodeURIComponent(redirect)}`,
         { replace: true }
@@ -74,7 +74,6 @@ function App() {
     }
 
     if (isAuthenticated && redirect) {
-      console.log('redirecting to copied page')
       navigate(redirect)
     }
   }, []);
@@ -130,6 +129,7 @@ function App() {
               <Route path="/mi-perfil" element={<Profile />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<SuccessStories />} />
+              <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

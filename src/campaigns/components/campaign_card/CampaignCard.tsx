@@ -1,3 +1,4 @@
+import { type MouseEvent } from 'react'
 import * as S from "./CampaignCard.styles";
 import { LocationPin, Share } from "../../../common/icons";
 import type { Location } from "@services/responses/Location";
@@ -29,18 +30,28 @@ type CampaignCardProps = {
 function CampaignCard({
   campaign,
   className,
-  onMoreInfo,
-  onShare,
+  onMoreInfo
 }: CampaignCardProps) {
 
   const { copy } = useCopyToClipboard()
 
   const handleShareButton = () => {
-    copy(`${window.location.host}?redirect=/campania/detalle/${campaign.id}`)
+    copy(`${window.location.host}?redirect=/campanias/${campaign.id}`)
   }
+  
+  const openCampaignDetail = (event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest('button, a')) return
+    onMoreInfo?.(campaign)
+  };
 
   return (
-    <S.Card className={className}>
+    <S.Card
+      className={className}
+      $clickable={Boolean(onMoreInfo)}
+      role={onMoreInfo ? "link" : undefined}
+      tabIndex={onMoreInfo ? 0 : undefined}
+      onClick={openCampaignDetail}
+    >
       <S.ImageSection>
         <ImagePreview 
           imageId={campaign.imageUrl}
@@ -71,18 +82,22 @@ function CampaignCard({
           <S.Description>{campaign.description}</S.Description>
           <S.MoreInfoButton
             type="button"
-            onClick={() => onMoreInfo?.(campaign)}
+            onClick={(event) => {
+              event.stopPropagation();
+              openCampaignDetail(event);
+            }}
           >
             Ver más información
           </S.MoreInfoButton>
         </S.Content>
 
-        <S.ConsultButton type="button" onClick={() => 
+        <S.ConsultButton type="button" onClick={(event) => {
+          event.stopPropagation();
           openWhatsApp(
-            `${campaign.phoneNumber.areaCode}${campaign.phoneNumber.number}`, 
+            `${campaign.phoneNumber.areaCode}${campaign.phoneNumber.number}`,
             `¡Hola! Me gustaría consultar por la campaña ${campaign.title}`
-          )
-        }>
+          );
+        }}>
           Consultar
         </S.ConsultButton>
       </S.Body>

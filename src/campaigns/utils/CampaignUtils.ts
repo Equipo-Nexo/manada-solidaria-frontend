@@ -21,7 +21,17 @@ export const campaignCategoryLabels: Record<CampaignCategory, string> = {
   'VACCINATION': "Vacunación",
   'DEWORMING': "Desparasitación",
   'OTHER': "Otro",
+  'FUNDRAISING': "Colecta",
 };
+
+export const campaignCategoryColors: Record<CampaignCategory, string> = {
+  DONATION: "#B293FF",
+  CASTRATION: "#A95C28",
+  VACCINATION: "#EA5F09",
+  DEWORMING: "#594137",
+  OTHER: "#E1BFB2",
+  FUNDRAISING: "",
+}
 
 export const CAMPAIGN_FILTER_LABELS: Record<CampaignFilter, string> = {
   '': 'Todos',

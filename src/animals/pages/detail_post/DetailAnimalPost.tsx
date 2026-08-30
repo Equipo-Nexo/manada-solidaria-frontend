@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Calendar, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
-import { Advice, Message } from '@components/index.ts'
+import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from '@/common/icons'
+import { Advice, Message, ScrollHint } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
 import BookIcon from '@/common/icons/Book'
@@ -14,8 +14,9 @@ import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
 import getOwnerRole from '@/common/utils/GetRoles'
 import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
-import { openWhatsApp } from '@/common/utils/Whatsapp'
 import useCopyToClipboard from '@/common/hooks/clipboard/useCopyToClipboard'
+import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
+import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
 
 function AnimalPostDetail() {
 
@@ -138,21 +139,11 @@ function AnimalPostDetail() {
             </S.InfoContainer>
           </S.GeneralDataContainer>
 
-          <S.LocationCard>
-            <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
-            <S.LocationContent>
-              <S.LocationTitle>{location},</S.LocationTitle>
-              <S.LocationAddress>{address}</S.LocationAddress>
-              <S.MapLink
-                type="button"
-                onClick={() => navigate(
-                  `/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`,
-                )}
-              >
-                Ver en el mapa <OpenMap aria-hidden="true" />
-              </S.MapLink>
-            </S.LocationContent>
-          </S.LocationCard>
+          <MapDetailsComponent
+            location={location}
+            address={address}
+            locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
+          />
 
           <S.FeaturesGrid aria-label={`Características de ${name}`}>
             {feature(PawPrint, 'Especie', animalKind)}
@@ -174,27 +165,18 @@ function AnimalPostDetail() {
       <S.BottomInfoRow>
         {PHONE_NUMBER != "" && (
           <>
-            <S.ContactCard>
-              <S.SectionTitle><Phone aria-hidden="true" />Contacto</S.SectionTitle>
-              <S.ContactRow>
-                <S.ContactNumber>{PHONE_NUMBER}</S.ContactNumber>
-                <S.ContactButton
-                  type="button"
-                  onClick={() => openWhatsApp(
-                    `${postData?.phoneNumber?.areaCode}${postData?.phoneNumber?.number}`,
-                    `¡Hola! Me gustaría consultar por la publicación de ${postData.name}`,
-                  )}
-                >
-                  Contactar
-                </S.ContactButton>
-              </S.ContactRow>
-            </S.ContactCard>
+            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={postData!.phoneNumber!.areaCode} number={postData!.phoneNumber!.number} name={postData?.name ?? ""} />
             <S.AdviceArea>
               <Advice title="" advice={adviceDescriptionSelector(postData.type)} />
             </S.AdviceArea>
           </>
         )}
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}>
+          <Share aria-hidden="true" />
+          Compartir Publicación
+        </S.ShareButton>
       </S.BottomInfoRow>
+      <ScrollHint />
     </S.MainContainer>
   )
 }

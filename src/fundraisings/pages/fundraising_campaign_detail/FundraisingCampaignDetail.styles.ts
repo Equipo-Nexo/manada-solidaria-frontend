@@ -1,8 +1,21 @@
 import styled from "styled-components";
 
 export const Page = styled.div`
+  display: flex;
+  width: min(100%, 390px);
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto;
+  padding: 0 16px 16px;
+  background: ${({ theme }) => theme.colors.background};
+
   @media (min-width: 768px) {
-    padding: 28px 24px 48px;
+    width: min(100%, 1080px);
+    min-height: auto;
+    gap: 24px;
+    padding: 28px 32px 16px;
   }
 `;
 export const Header = styled.header`
@@ -39,21 +52,59 @@ export const FormTitle = styled.h1`
 `;
 export const Content = styled.div`
   width: 100%;
-  max-width: 370px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
   box-sizing: border-box;
   @media (min-width: 768px) {
-    max-width: 560px;
+    gap: 24px;
   }
 `;
-export const FundraisingImage = styled.img`
+export const HeroLayout = styled.div`
+  display: flex;
   width: 100%;
-  height: 240px;
-  object-fit: cover;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+    align-items: stretch;
+    gap: 28px;
+  }
+`;
+export const DetailsColumn = styled.div`
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+`;
+export const PhotoContainer = styled.div<{ $cropped: boolean }>`
+  display: block;
+  position: relative;
+  width: 100%;
+  height: ${({ $cropped }) => ($cropped ? '320px' : 'auto')};
+  overflow: hidden;
   border-radius: 12px;
+
+  @media (min-width: 768px) {
+    height: ${({ $cropped }) => ($cropped ? 'clamp(360px, 42vw, 580px)' : 'auto')};
+    align-self: start;
+  }
+`;
+export const FundraisingImage = styled.img<{ $cropped: boolean }>`
+  display: block;
+  width: 100%;
+  height: ${({ $cropped }) => ($cropped ? '100%' : 'auto')};
+  object-fit: ${({ $cropped }) => ($cropped ? 'cover' : 'initial')};
+  object-position: center;
+  border-radius: 12px;
+`;
+export const BottomInfoRow = styled.section`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
 `;
 export const FundraisingInfo = styled.section`
   width: 100%;
