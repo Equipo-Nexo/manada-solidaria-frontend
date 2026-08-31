@@ -1,4 +1,4 @@
-import { Arrow, Check, OpenMap, Phone, Share } from "@/common/icons";
+import { Arrow, Check, OpenMap, Share } from "@/common/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./FundraisingCampaignDetail.styles";
 import { useGetFundraisingByIdQuery } from "@/campaigns/app/api/campaignApi";
