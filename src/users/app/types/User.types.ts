@@ -1,1 +1,1 @@
-export type Role = 'RESCUER' | 'CARRIAGE'
+export type Role = "RESCUER" | "CARRIAGE" | "COMMUNITY";

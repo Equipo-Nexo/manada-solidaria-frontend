@@ -1,20 +1,15 @@
 import { Arrow, ChevronRight, Heart, PawPrint } from "@/common/icons";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import * as S from "./HappyCases.styles";
-import type {
-  HappyCaseResponse,
-  HappyCaseStatus,
-} from "./app/api/responses/happyCasesResponses";
+import type { HappyCaseResponse } from "./app/api/responses/happyCasesResponses";
 import { useGetHappyCasesQuery } from "./app/api/happyCasesApi";
 import { Loader } from "@/common/components";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { createPagePaws } from "@/common/utils/PagePawUtils";
-const statusLabel: Record<HappyCaseStatus, string> = {
-  FOUND: "Encontrado",
-  ADOPTED: "Adoptado",
-  RESCUED: "Rescatado",
-};
+import { ANIMAL_POST_STATUS_LABELS } from "@animals/utils/AnimalFormUtils";
+import getOwnerRole from "@/common/utils/GetRoles";
+import CarouselSlider from "@/common/components/carousel_slider/CarouselSlider";
 type HappyCasesProps = {
   onViewCase?: (happyCase: HappyCaseResponse) => void;
 };
@@ -23,32 +18,12 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const pagePaws = useMemo(() => createPagePaws(location.key), [location.key]);
-  const { data, isLoading } = useGetHappyCasesQuery({
-    page: 0,
-    size: 10,
-  });
+  const { data, isLoading } = useGetHappyCasesQuery({});
   const happyCases = data?.content ?? [];
   const recentCases = happyCases.filter(({ isRecent }) => isRecent);
-  const visibleCases = happyCases.filter(({ isRecent }) => isRecent);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const visibleCases = happyCases.filter(({ isRecent }) => !isRecent);
   const [expandedCaseId, setExpandedCaseId] = useState<string | null>(null);
-  const handleCarouselScroll = () => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const card = carousel.firstElementChild as HTMLElement | null;
-    if (!card) return;
-    const index = Math.round(carousel.scrollLeft / card.offsetWidth);
-    setActiveIndex(index);
-  };
-  const scrollToFeaturedCase = (index: number) => {
-    const carousel = carouselRef.current;
-    const card = carousel?.children[index] as HTMLElement | undefined;
-    if (!carousel || !card) return;
 
-    carousel.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
-    setActiveIndex(index);
-  };
   if (isLoading) {
     return (
       <S.Container>
@@ -91,75 +66,44 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
         </S.Description>
 
         {recentCases.length > 0 && (
-          <>
-            <S.FeaturedCarouselArea>
-              <S.CarouselArrow
-                type="button"
-                $direction="previous"
-                aria-label="Ver caso anterior"
-                disabled={activeIndex === 0}
-                onClick={() => scrollToFeaturedCase(activeIndex - 1)}
-              >
-                <ChevronRight aria-hidden="true" />
-              </S.CarouselArrow>
+          <CarouselSlider
+            items={recentCases}
+            renderItem={(happyCase) => (
+              <S.FeaturedCard key={happyCase.id}>
+                <S.FeaturedContent>
+                  <S.FeaturedBadge>
+                    <Heart aria-hidden="true" />
+                    Últimos casos de éxito
+                  </S.FeaturedBadge>
 
-              <S.FeaturedCarousel ref={carouselRef} onScroll={handleCarouselScroll}>
-                {recentCases.map((happyCase) => (
-                  <S.FeaturedCard key={happyCase.id}>
-                    <S.FeaturedContent>
-                      <S.FeaturedBadge>
-                        <Heart aria-hidden="true" />
-                        Últimos casos de éxito
-                      </S.FeaturedBadge>
+                  <S.FeaturedInfo>
+                    <S.FeaturedName>{happyCase.name}</S.FeaturedName>
 
-                      <S.FeaturedInfo>
-                        <S.FeaturedName>{happyCase.name}</S.FeaturedName>
+                    <S.FeaturedDescription>
+                      {happyCase.description}
+                    </S.FeaturedDescription>
 
-                        <S.FeaturedDescription>
-                          {happyCase.description}
-                        </S.FeaturedDescription>
+                    <S.StoryButton
+                      type="button"
+                      onClick={() => onViewCase?.(happyCase)}
+                    >
+                      Ver historia
+                      <ChevronRight aria-hidden="true" />
+                    </S.StoryButton>
+                  </S.FeaturedInfo>
+                </S.FeaturedContent>
 
-                        <S.StoryButton
-                          type="button"
-                          onClick={() => onViewCase?.(happyCase)}
-                        >
-                          Ver historia
-                          <ChevronRight aria-hidden="true" />
-                        </S.StoryButton>
-                      </S.FeaturedInfo>
-                    </S.FeaturedContent>
-                    <S.FeaturedImage
-                      src={`${import.meta.env.VITE_CLOUDFLARE_URL}${happyCase.imageUrl}`}
-                      alt={`Foto de ${happyCase.name}`}
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null;
-                        currentTarget.src = NOT_FOUND_IMAGE_URL;
-                      }}
-                    />
-                  </S.FeaturedCard>
-                ))}
-              </S.FeaturedCarousel>
-
-              <S.CarouselArrow
-                type="button"
-                $direction="next"
-                aria-label="Ver caso siguiente"
-                disabled={activeIndex === recentCases.length - 1}
-                onClick={() => scrollToFeaturedCase(activeIndex + 1)}
-              >
-                <ChevronRight aria-hidden="true" />
-              </S.CarouselArrow>
-            </S.FeaturedCarouselArea>
-            <S.CarouselIndicators aria-label="Casos destacados">
-              {recentCases.slice(0, 5).map((happyCase, index) => (
-                <S.Indicator
-                  key={happyCase.id}
-                  $active={index === activeIndex}
-                  aria-hidden="true"
+                <S.FeaturedImage
+                  src={`${import.meta.env.VITE_CLOUDFLARE_URL}${happyCase.imageUrl}`}
+                  alt={`Foto de ${happyCase.name}`}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src = NOT_FOUND_IMAGE_URL;
+                  }}
                 />
-              ))}
-            </S.CarouselIndicators>
-          </>
+              </S.FeaturedCard>
+            )}
+          />
         )}
       </S.FeaturedLayout>
       <S.CasesList>
@@ -189,7 +133,7 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
 
                 <S.CaseFooter>
                   <S.StatusBadge $status={happyCase.status}>
-                    {statusLabel[happyCase.status]}
+                    {ANIMAL_POST_STATUS_LABELS[happyCase.status]}
                   </S.StatusBadge>
 
                   <S.CaseArrow
@@ -224,9 +168,7 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
                     </S.OwnerName>
 
                     <S.OwnerRole>
-                      {happyCase.owner.mainRole === "RESCUER"
-                        ? "Rescatista"
-                        : "Comunidad"}
+                      {getOwnerRole(happyCase.owner.roles)}
                     </S.OwnerRole>
                   </S.OwnerInfo>
                 </S.Owner>
