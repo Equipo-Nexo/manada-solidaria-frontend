@@ -31,6 +31,16 @@ export const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 768px) {
+    width: min(100%, 380px);
+    min-height: min(86dvh, 820px);
+  }
+
+  @media (min-width: 768px) and (max-height: 720px) {
+    width: min(100%, 340px);
+    min-height: min(88dvh, 625px);
+  }
 `
 
 export const FooterContainer = styled.div`
@@ -40,6 +50,11 @@ export const FooterContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 5px;
+
+  @media (min-width: 768px) {
+    min-height: 30px;    
+  }
 
   @media (max-width: 767px) and (max-height: 750px) {
     min-height: 32px;
@@ -51,6 +66,11 @@ export const FooterContainer = styled.div`
 `
 
 export const FooterText = styled.p`
+  @media (min-width: 768px) {
+    font-size: 0.6875rem;
+    line-height: 1.35;
+  }
+
   @media (max-width: 1300px) and (max-height: 720px) {
     font-size: 0.8rem;
   }
@@ -72,6 +92,11 @@ export const AppLogo = styled.img`
   width: 10rem;
   height: auto;
 
+  @media (min-width: 768px) {
+    width: 7.5rem;
+    margin-top: 1rem;
+  }
+
   @media (max-width: 1300px) and (max-height: 720px) {
     width: 6rem;
     margin-top: 0.75rem;
@@ -83,7 +108,7 @@ export const AppLogo = styled.img`
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
-    width: 4rem;
+    width: 7rem;
     margin-top: 0.75rem;
   }
 
@@ -97,6 +122,12 @@ export const AppTitle = styled.h1`
   color: ${({ theme }) => theme.colors.brand};
   font-size: ${({ theme }) => theme.fontSizes.title};
   margin-top: 1rem;
+
+  @media (min-width: 768px) {
+    margin-top: 0.625rem;
+    font-size: 1.625rem;
+    line-height: 1.15;
+  }
 
   @media (max-width: 1300px) and (max-height: 720px) {
    font-size: 1.8rem;
@@ -123,6 +154,12 @@ export const AppDescription = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.normal};
   margin-top: 5px;
 
+  @media (min-width: 768px) {
+    margin-top: 3px;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
   @media (max-width: 1300px) and (max-height: 720px) {
    font-size: 0.8rem;
   }
@@ -143,6 +180,10 @@ export const TitlesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1px;
+
+  @media (min-width: 768px) {
+    margin-top: 1rem;
+  }
   @media (max-width: 1300px) and (max-height: 720px) {
    margin-top: 0.625rem;
   }
@@ -160,6 +201,11 @@ export const WelcomeTitle = styled.h2`
   font-size: ${({theme}) => theme.fontSizes.subtitle};
   font-weight: ${({theme}) => theme.fontWeights.bold};
   color: ${({theme}) => theme.colors.black};
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
 
 
   @media (max-width: 1300px) and (max-height: 720px) {
@@ -181,6 +227,11 @@ export const WelcomeSubtitle = styled.p`
   font-size: ${({theme}) => theme.fontSizes.normal};
   font-weight: ${({theme}) => theme.fontWeights.regular};
   color: ${({theme}) => theme.colors.black};
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
 
   
   @media (max-width: 1300px) and (max-height: 720px) {
@@ -206,10 +257,12 @@ export const Form = styled.form`
 
   @media (min-width: 768px) {
     padding: 0 3rem;
+    margin-top: 0.75rem;
   }
 
-  @media (min-width: 1024px) {
-    padding: 0 5rem;
+  @media (min-width: 768px) and (max-height: 720px) {
+    padding-right: 1.75rem;
+    padding-left: 1.75rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -227,6 +280,10 @@ export const FormFields = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+
+  @media (min-width: 768px) {
+    gap: 0.75rem;
+  }
 
   
   @media (max-width: 1300px) and (max-height: 720px) {
@@ -261,6 +318,15 @@ export const FieldLabelContainer = styled.div`
   align-items: center;
   justify-content: center;
 
+  @media (min-width: 768px) {
+    gap: 6px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
   @media (max-width: 1300px) and (max-height: 720px) {
    gap: 6px;
   }
@@ -270,6 +336,10 @@ export const FieldLabel = styled.label`
   color: ${({ theme }) => theme.colors.darkColor };
   font-size: ${({ theme }) => theme.fontSizes.normal };
   font-weight: ${({ theme }) => theme.fontWeights.semibold };
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
 
   @media (max-width: 1300px) and (max-height: 720px) {
    font-size: 0.88rem;
@@ -282,6 +352,13 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   background: ${({theme}) => theme.colors.soft};
   border: none;
   border-radius: 12px;
+
+  @media (min-width: 768px) {
+    min-height: 42px;
+    padding: 0.6875rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+  }
   
   @media (max-width: 1300px) and (max-height: 720px) {
     padding-top: 0.75rem;
@@ -375,6 +452,10 @@ export const RecoveryButton = styled.button`
   text-decoration: underline;
   text-underline-offset: 2px;
 
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
+
   @media (max-width: 1300px) and (max-height: 720px) {
    font-size: 0.8rem;
   }
@@ -406,6 +487,11 @@ export const LoginButton = styled.button`
   font-size: 1rem;
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
+
+  @media (min-width: 768px) {
+    height: 2.5rem;
+    font-size: 0.875rem;
+  }
 
   @media (max-width: 1300px) and (max-height: 720px) {
     height: 2.5rem;
@@ -459,6 +545,11 @@ export const RegisterTextContainer = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
 
+  @media (min-width: 768px) {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
   @media (max-width: 767px) and (max-height: 750px) {
     margin-top: 0.625rem;
   }
@@ -473,6 +564,10 @@ export const RegisterText = styled.p`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSizes.normal};
 
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
+
   @media (max-width: 1300px) and (max-height: 720px) {
    font-size: 0.8rem;
   }
@@ -486,6 +581,10 @@ export const RegisterLink = styled.a`
   color: ${({ theme }) => theme.colors.brand};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   font-size: ${({ theme }) => theme.fontSizes.normal};
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
 
   @media (max-width: 767px) and (max-height: 650px) {
     font-size: 0.875rem;
