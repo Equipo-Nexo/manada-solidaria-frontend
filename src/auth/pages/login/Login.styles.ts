@@ -30,7 +30,7 @@ export const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 `
 
 export const FooterContainer = styled.div`
@@ -364,7 +364,8 @@ export const LoginButton = styled.button`
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.white};
   font-size: 1.25rem;
-  font-weight: ${({ theme }) => theme.fontWeights.semibold}
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  cursor: pointer;
 
   @media (max-width: 767px) and (max-height: 750px) {
     height: 2.75rem;

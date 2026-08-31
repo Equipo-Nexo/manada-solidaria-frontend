@@ -111,10 +111,10 @@ function Login() {
               </S.Field>
 
               <S.Field>
-                <S.FieldLabel htmlFor="password">
+                <S.FieldLabelContainer>
                   <Lock aria-hidden="true" />
-                  <span>Contraseña</span>
-                </S.FieldLabel>
+                  <S.FieldLabel>Contraseña</S.FieldLabel>
+                </S.FieldLabelContainer>
                 <S.PasswordInputWrapper>
                   <S.Input
                     id="password"
