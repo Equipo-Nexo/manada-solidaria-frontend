@@ -230,14 +230,13 @@ export const CampaignHeading = styled.div`
 `
 
 export const CampaignTypeBadge = styled.span<{ $campaignType: CampaignCategory }>`
-  min-width: 134px;
   height: 28px;
   box-sizing: border-box;
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 6px;
+  padding: 16px 8px;
   border-radius: 999px;
   background: ${({ $campaignType }) => campaignCategoryColors[$campaignType]};
   color: ${({ theme }) => theme.colors.background};

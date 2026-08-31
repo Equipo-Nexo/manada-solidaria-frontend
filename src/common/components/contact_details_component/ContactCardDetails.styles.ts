@@ -52,7 +52,7 @@ export const ContactNumber = styled.span`
 export const ContactButton = styled.button`
   flex: 0 0 auto;
   margin-left: auto;
-  min-width: 116px;
+  min-width: 90px;
   height: 40px;
   padding: 6px 8px;
   border: 2px solid ${({ theme }) => theme.colors.brand};
@@ -62,11 +62,6 @@ export const ContactButton = styled.button`
   font: inherit;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
-
-  @media (max-width: 359px) {
-    min-width: 100px;
-  }
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
