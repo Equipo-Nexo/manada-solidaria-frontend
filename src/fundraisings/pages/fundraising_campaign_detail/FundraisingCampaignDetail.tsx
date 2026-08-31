@@ -11,8 +11,10 @@ import OpenBook from "@/common/icons/OpenBook";
 import { Loader } from "@/common/components";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
+import { useState } from "react";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
+  const [cropImage, setCropImage] = useState(false);
   const { fundraisingId } = useParams();
   const { data, isLoading, isError } = useGetFundraisingByIdQuery(
     fundraisingId!,
@@ -47,25 +49,35 @@ function FundraisingCampaignDetail() {
         ))}
       {!isLoading && !isError && data && (
         <S.Content>
-          <S.FundraisingImage
-            src={normalizeImageUrl(data?.imageId)}
-            alt={data?.title ?? "Imagen de la colecta"}
-          />
-          <S.FundraisingInfo>
-            <S.Title>{data?.title}</S.Title>
-            {data.campaignEndDate &&
-              <S.FundraisingEndDate>
-                <Calendar aria-hidden="true" />
-                <S.EndDateContent>
-                  <S.EndDateLabel>Fin colecta</S.EndDateLabel>
-                  <S.EndDateValue>
-                    {formatDateTimeLong(data.campaignEndDate).date}
-                  </S.EndDateValue>
-                </S.EndDateContent>
-              </S.FundraisingEndDate>
-            }
-          </S.FundraisingInfo>
-          <S.AliasSection>
+          <S.HeroLayout>
+            <S.PhotoContainer $cropped={cropImage}>
+              <S.FundraisingImage
+                src={normalizeImageUrl(data?.imageId)}
+                alt={data?.title ?? "Imagen de la colecta"}
+                $cropped={cropImage}
+                onLoad={({ currentTarget }) => {
+                  const ratio =
+                    currentTarget.naturalWidth / currentTarget.naturalHeight;
+                  setCropImage(ratio < 0.65 || ratio > 2);
+                }}
+              />
+            </S.PhotoContainer>
+            <S.DetailsColumn>
+              <S.FundraisingInfo>
+                <S.Title>{data?.title}</S.Title>
+                {data.campaignEndDate && (
+                  <S.FundraisingEndDate>
+                    <Calendar aria-hidden="true" />
+                    <S.EndDateContent>
+                      <S.EndDateLabel>Fin colecta</S.EndDateLabel>
+                      <S.EndDateValue>
+                        {formatDateTimeLong(data.campaignEndDate).date}
+                      </S.EndDateValue>
+                    </S.EndDateContent>
+                  </S.FundraisingEndDate>
+                )}
+              </S.FundraisingInfo>
+              <S.AliasSection>
             <S.IconContainer>
               <Transfer aria-hidden="true" />
             </S.IconContainer>
@@ -86,8 +98,8 @@ function FundraisingCampaignDetail() {
 
               {copied ? "Alias copiado" : "Copiar alias"}
             </S.CopyButton>
-          </S.AliasSection>
-          {hasGoal && (
+              </S.AliasSection>
+              {hasGoal && (
             <S.FundraisingGoal>
               <S.Title>Meta de recaudación</S.Title>
               <S.GoalHeader>
@@ -107,8 +119,8 @@ function FundraisingCampaignDetail() {
                 </S.RemainingAmount>
               </S.GoalFooter>
             </S.FundraisingGoal>
-          )}
-          <S.DescriptionSection>
+              )}
+              <S.DescriptionSection>
             <S.Title>
               <OpenBook aria-hidden="true" width="20" height="14" />
               Descripción
@@ -116,8 +128,8 @@ function FundraisingCampaignDetail() {
             <S.FundraisingDescription>
               {data?.description}
             </S.FundraisingDescription>
-          </S.DescriptionSection>
-          {data?.location && (
+              </S.DescriptionSection>
+              {data?.location && (
             <S.LocationCard>
               <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
               <S.LocationContent>
@@ -133,33 +145,37 @@ function FundraisingCampaignDetail() {
                 </S.MapLink>
               </S.LocationContent>
             </S.LocationCard>
-          )}
-          <S.ContactSection>
-            <S.Title $iconColor="black">
-              <Phone aria-hidden="true" width="20" height="18" />
-              Contacto
-            </S.Title>
-            <S.ContactCard>
-              <S.ContactPhone>
-                {`${data?.phoneNumber.areaCode} ${data?.phoneNumber.number}`}
-              </S.ContactPhone>
-              <S.CallButton
-                type="button"
-                onClick={() =>
-                  openWhatsApp(
-                    `${data.phoneNumber.areaCode}${data.phoneNumber.number}`,
-                    `¡Hola! Me gustaría consultar por la colecta de ${data.title}`,
-                  )
-                }
-              >
-                Contactar
-              </S.CallButton>
-            </S.ContactCard>
-          </S.ContactSection>
-          <S.ShareButton type="submit">
-            <Share aria-hidden="true" />
-            Compartir Colecta
-          </S.ShareButton>
+              )}
+            </S.DetailsColumn>
+          </S.HeroLayout>
+          <S.BottomInfoRow>
+            <S.ContactSection>
+              <S.Title $iconColor="black">
+                <Phone aria-hidden="true" width="20" height="18" />
+                Contacto
+              </S.Title>
+              <S.ContactCard>
+                <S.ContactPhone>
+                  {`${data?.phoneNumber.areaCode} ${data?.phoneNumber.number}`}
+                </S.ContactPhone>
+                <S.CallButton
+                  type="button"
+                  onClick={() =>
+                    openWhatsApp(
+                      `${data.phoneNumber.areaCode}${data.phoneNumber.number}`,
+                      `¡Hola! Me gustaría consultar por la colecta de ${data.title}`,
+                    )
+                  }
+                >
+                  Contactar
+                </S.CallButton>
+              </S.ContactCard>
+            </S.ContactSection>
+            <S.ShareButton type="submit">
+              <Share aria-hidden="true" />
+              Compartir Colecta
+            </S.ShareButton>
+          </S.BottomInfoRow>
         </S.Content>
       )}
     </S.Page>
