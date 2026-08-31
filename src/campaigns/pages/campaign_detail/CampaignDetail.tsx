@@ -69,7 +69,7 @@ function CampaingDetail() {
                 <S.BackButton onClick={() => navigate("/home")}>
                     <Arrow aria-hidden="true" />
                 </S.BackButton>
-                <S.FormTitle>Información Colecta</S.FormTitle>
+                <S.FormTitle>Información Campaña</S.FormTitle>
             </S.Header>
             {isLoading && <Loader label="Cargando información de la colecta." />}
             {isError ||

@@ -8,10 +8,10 @@ import Copy from "@/common/icons/Copy";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
-import { Loader } from "@/common/components";
-import { openWhatsApp } from "@/common/utils/Whatsapp";
+import { Loader, ScrollHint } from "@/common/components";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useState } from "react";
+import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const [cropImage, setCropImage] = useState(false);
@@ -32,7 +32,12 @@ function FundraisingCampaignDetail() {
     }
   };
   const location = data?.location.name || 'Ubicación no informada'
+
   const address = data?.location.address || ''
+
+  const PHONE_NUMBER = data?.phoneNumber
+    ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
+    : ""
 
   return (
     <S.Page>
@@ -78,99 +83,78 @@ function FundraisingCampaignDetail() {
                 )}
               </S.FundraisingInfo>
               <S.AliasSection>
-            <S.IconContainer>
-              <Transfer aria-hidden="true" />
-            </S.IconContainer>
-            <S.AliasContent>
-              <S.AliasLabel>ALIAS PARA TRANSFERIR</S.AliasLabel>
-              <S.AliasValue>{data?.accountAlias}</S.AliasValue>
-            </S.AliasContent>
-            <S.CopyButton
-              type="button"
-              onClick={handleCopyAlias}
-              $copied={copied}
-            >
-              {copied ? (
-                <Check aria-hidden="true" />
-              ) : (
-                <Copy $inverted aria-hidden="true" />
-              )}
+                <S.IconContainer>
+                  <Transfer aria-hidden="true" />
+                </S.IconContainer>
+                <S.AliasContent>
+                  <S.AliasLabel>ALIAS PARA TRANSFERIR</S.AliasLabel>
+                  <S.AliasValue>{data?.accountAlias}</S.AliasValue>
+                </S.AliasContent>
+                <S.CopyButton
+                  type="button"
+                  onClick={handleCopyAlias}
+                  $copied={copied}
+                >
+                  {copied ? (
+                    <Check aria-hidden="true" />
+                  ) : (
+                    <Copy $inverted aria-hidden="true" />
+                  )}
 
-              {copied ? "Alias copiado" : "Copiar alias"}
-            </S.CopyButton>
+                  {copied ? "Alias copiado" : "Copiar alias"}
+                </S.CopyButton>
               </S.AliasSection>
               {hasGoal && (
-            <S.FundraisingGoal>
-              <S.Title>Meta de recaudación</S.Title>
-              <S.GoalHeader>
-                <S.GoalAmount>${goal.toLocaleString("es-AR")}</S.GoalAmount>
-                <S.GoalPercentage>{progress}%</S.GoalPercentage>
-              </S.GoalHeader>
-              <S.ProgressTrack>
-                <S.ProgressValue $progress={progress} />
-              </S.ProgressTrack>
-              <S.GoalFooter>
-                <S.CollectedAmount>
-                  ${collected.toLocaleString("es-AR")} recaudados
-                </S.CollectedAmount>
-                <S.RemainingAmount>
-                  Faltan $
-                  {Math.max(goal - collected, 0).toLocaleString("es-AR")}
-                </S.RemainingAmount>
-              </S.GoalFooter>
-            </S.FundraisingGoal>
+                <S.FundraisingGoal>
+                  <S.Title>Meta de recaudación</S.Title>
+                  <S.GoalHeader>
+                    <S.GoalAmount>${goal.toLocaleString("es-AR")}</S.GoalAmount>
+                    <S.GoalPercentage>{progress}%</S.GoalPercentage>
+                  </S.GoalHeader>
+                  <S.ProgressTrack>
+                    <S.ProgressValue $progress={progress} />
+                  </S.ProgressTrack>
+                  <S.GoalFooter>
+                    <S.CollectedAmount>
+                      ${collected.toLocaleString("es-AR")} recaudados
+                    </S.CollectedAmount>
+                    <S.RemainingAmount>
+                      Faltan $
+                      {Math.max(goal - collected, 0).toLocaleString("es-AR")}
+                    </S.RemainingAmount>
+                  </S.GoalFooter>
+                </S.FundraisingGoal>
               )}
               <S.DescriptionSection>
-            <S.Title>
-              <OpenBook aria-hidden="true" width="20" height="14" />
-              Descripción
-            </S.Title>
-            <S.FundraisingDescription>
-              {data?.description}
-            </S.FundraisingDescription>
+                <S.Title>
+                  <OpenBook aria-hidden="true" width="20" height="14" />
+                  Descripción
+                </S.Title>
+                <S.FundraisingDescription>
+                  {data?.description}
+                </S.FundraisingDescription>
               </S.DescriptionSection>
               {data?.location && (
-            <S.LocationCard>
-              <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
-              <S.LocationContent>
-                <S.LocationTitle>{location}</S.LocationTitle>
-                <S.LocationAddress>{address}</S.LocationAddress>
-                <S.MapLink
-                  type="button"
-                  onClick={() => navigate(
-                    `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
-                  )}
-                >
-                  Ver en el mapa <OpenMap aria-hidden="true" />
-                </S.MapLink>
-              </S.LocationContent>
-            </S.LocationCard>
+                <S.LocationCard>
+                  <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
+                  <S.LocationContent>
+                    <S.LocationTitle>{location}</S.LocationTitle>
+                    <S.LocationAddress>{address}</S.LocationAddress>
+                    <S.MapLink
+                      type="button"
+                      onClick={() => navigate(
+                        `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
+                      )}
+                    >
+                      Ver en el mapa <OpenMap aria-hidden="true" />
+                    </S.MapLink>
+                  </S.LocationContent>
+                </S.LocationCard>
               )}
             </S.DetailsColumn>
           </S.HeroLayout>
           <S.BottomInfoRow>
-            <S.ContactSection>
-              <S.Title $iconColor="black">
-                <Phone aria-hidden="true" width="20" height="18" />
-                Contacto
-              </S.Title>
-              <S.ContactCard>
-                <S.ContactPhone>
-                  {`${data?.phoneNumber.areaCode} ${data?.phoneNumber.number}`}
-                </S.ContactPhone>
-                <S.CallButton
-                  type="button"
-                  onClick={() =>
-                    openWhatsApp(
-                      `${data.phoneNumber.areaCode}${data.phoneNumber.number}`,
-                      `¡Hola! Me gustaría consultar por la colecta de ${data.title}`,
-                    )
-                  }
-                >
-                  Contactar
-                </S.CallButton>
-              </S.ContactCard>
-            </S.ContactSection>
+            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data?.title ?? ""} />
             <S.ShareButton type="submit">
               <Share aria-hidden="true" />
               Compartir Colecta
@@ -178,6 +162,7 @@ function FundraisingCampaignDetail() {
           </S.BottomInfoRow>
         </S.Content>
       )}
+      {!isLoading && !isError && data && <ScrollHint />}
     </S.Page>
   );
 }
