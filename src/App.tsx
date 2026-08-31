@@ -61,8 +61,8 @@ function App() {
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
-    !isCampaignDetail;
-  !isProfileSection;
+    !isCampaignDetail &&
+    !isProfileSection;
 
   return (
     <>
