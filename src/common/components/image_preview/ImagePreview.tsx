@@ -1,4 +1,4 @@
-import { NOT_FOUND_IMAGE_URL } from '@/common/utils/CommonUtils';
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from '@/common/utils/CommonUtils';
 import * as S from './ImagePreview.styles'
 
 interface ImagePreviewProps {
@@ -14,9 +14,7 @@ export default function ImagePreview({
     onError,
     variant = 'rectangle'
 }: ImagePreviewProps) {
-    const source = imageId && /^(https?:|blob:|data:)/i.test(imageId)
-        ? imageId
-        : `${import.meta.env.VITE_CLOUDFLARE_URL}${imageId ?? ''}`;
+    const source = normalizeImageUrl(imageId);
 
     return (
         <S.ImageContainer $variant={variant}>

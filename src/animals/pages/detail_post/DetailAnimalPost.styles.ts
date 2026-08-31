@@ -23,14 +23,14 @@ export const MainContainer = styled.section`
   align-items: center;
   gap: 16px;
   margin: 0 auto;
-  padding: 0 16px 128px;
+  padding: 0 16px 16px;
   background: ${({ theme }) => theme.colors.background};
 
   @media (min-width: 768px) {
     width: min(100%, 1080px);
     min-height: auto;
     gap: 24px;
-    padding: 28px 32px 64px;
+    padding: 28px 32px 16px;
   }
 `
 
@@ -68,10 +68,17 @@ export const DetailsColumn = styled.div`
 `
 
 export const BackButton = styled.button`
-  width: 40px; height: 40px; display: grid; flex: 0 0 auto; place-items: center; border: 0;
-  border-radius: 50%; background: ${({ theme }) => theme.colors.background}; color: ${({ theme }) => theme.colors.black}; cursor: pointer;
+  width: 40px; 
+  height: 40px; 
+  display: grid; 
+  flex: 0 0 auto; 
+  place-items: center; 
+  border: 0;
+  border-radius: 50%; background: ${({ theme }) => theme.colors.background}; 
+  color: ${({ theme }) => theme.colors.black}; cursor: pointer;
   svg { width: 22px; height: 22px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
+  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; 
+  outline-offset: 2px; }
 `
 
 export const PageTitle = styled.h1`
@@ -112,8 +119,8 @@ export const GeneralDataContainer = styled.article`
   padding: 18px 20px 20px; 
   border-radius: 14px;
   width:100%;
-  background: ${({ theme }) => theme.colors.background}; box-shadow: 0 2px 8px rgb(55 37 28 / 18%);
-
+  background: ${({ theme }) => theme.colors.background}; 
+  box-shadow: 0 2px 8px rgb(55 37 28 / 18%);
   @media (min-width: 768px) {
     height: auto;
     margin-top: 0;
@@ -240,12 +247,20 @@ export const MapMarker = styled.span`
 
 export const LocationContent = styled.div`
   display: flex; flex-direction: column; justify-content: center; padding: 14px 8px;
+  gap:4px;
 `
 
 export const LocationTitle = styled.h3`
   margin: 0; color: ${({ theme }) => theme.colors.black}; 
   font-size: 18px; 
   font-weight: ${({ theme }) => theme.fontWeights.bold}; 
+  line-height: 17px;
+`
+export const LocationAddress = styled.p`
+  margin: 0; 
+  color: ${({ theme }) => theme.colors.black}; 
+  font-size: 14px; 
+  font-weight: ${({ theme }) => theme.fontWeights.semibold}; 
   line-height: 17px;
 `
 
@@ -277,13 +292,39 @@ export const FeaturesGrid = styled.div`
     grid-column: span 2;
   }
 
-  > *:nth-child(n + 4) {
+  > *:nth-child(-n + 2) {
     grid-column: span 3;
+    grid-row: 1;
+  }
+
+  > *:nth-child(3) {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+  }
+
+  > *:nth-child(4) {
+    grid-column: 4 / span 3;
+    grid-row: 2;
+  }
+
+  > *:nth-child(5) {
+    grid-column: 1 / -1;
+    grid-row: 3;
   }
 
   @media (min-width: 768px) {
     align-self: stretch;
     margin-top: 0;
+
+    > *:nth-child(-n + 3) {
+      grid-column: span 2;
+      grid-row: auto;
+    }
+
+    > *:nth-child(n + 4) {
+      grid-column: span 3;
+      grid-row: auto;
+    }
   }
 `
 
@@ -390,39 +431,57 @@ export const AdviceArea = styled.section`
 `
 
 export const ContactCard = styled.div`
-display: flex;
-width: 100%;
-height: 100%;
-padding: 24px;
-flex-direction: column;
-align-items: flex-start;
-gap: 16px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
   border-radius: 16px;
-background: ${({ theme }) => theme.colors.background};
-box-shadow: 0 4px 20px 0 rgba(75, 63, 53, 0.08);
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: 0 4px 20px 0 rgba(75, 63, 53, 0.08);
 
+  @media (max-width: 359px) {
+    padding: 16px;
+  }
 `
 
 export const ContactRow = styled.div`
   display: flex;
   padding: 16px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 16px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   align-self: stretch;
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+
+  @media (max-width: 359px) {
+    gap: 8px;
+    padding: 12px;
+  }
 `
 
 export const ContactNumber = styled.span`
+  flex: 1 1 auto;
   min-width: 0;
+  overflow: hidden;
+  margin-right: auto;
   color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  text-align: left;
+  text-overflow: ellipsis;
   white-space: nowrap;
 `
 
 export const ContactButton = styled.button`
+  flex: 0 0 auto;
+  margin-left: auto;
   min-width: 116px;
   height: 40px;
   padding: 6px 8px;
@@ -433,6 +492,11 @@ export const ContactButton = styled.button`
   font: inherit;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
+
+  @media (max-width: 359px) {
+    min-width: 100px;
+  }
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;

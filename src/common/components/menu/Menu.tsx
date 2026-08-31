@@ -57,9 +57,6 @@ type MenuLocationState = {
   from?: string;
 };
 
-const profileImage =
-  "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22 viewBox=%220 0 50 50%22%3E%3Crect width=%2250%22 height=%2250%22 rx=%2225%22 fill=%22%23F5E7D4%22/%3E%3Ccircle cx=%2225%22 cy=%2219%22 r=%229%22 fill=%22%23A95C28%22/%3E%3Cpath d=%22M10 44c2.5-9 8.5-14 15-14s12.5 5 15 14%22 fill=%22%23A95C28%22/%3E%3C/svg%3E";
-
 const sections: MenuSection[] = [
   {
     title: "Navegaci\u00f3n",
@@ -127,7 +124,7 @@ function Menu({ onNavigate }: MenuProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { email, username } = useCurrentUserProfile();
+  const { email, username, profileImage } = useCurrentUserProfile();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const activePath =
     (location.state as MenuLocationState | null)?.from ?? location.pathname;

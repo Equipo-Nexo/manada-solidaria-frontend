@@ -8,7 +8,7 @@ export type AnimalPostStatusText =
   | 'Adoptado'
   | 'Encontrado'
 
-type StatusUtil = {
+export type StatusUtil = {
     text: AnimalPostStatusText;
     backgroundColor: string;
     fontColor: string;
