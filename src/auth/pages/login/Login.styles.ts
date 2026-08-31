@@ -82,9 +82,7 @@ export const FooterText = styled.p`
 `
 
 export const TitleLineBreak = styled.br`
-  @media (max-width: 1300px) and (max-height: 720px) {
-    display: none;
-  }
+  display: none;
 `
 
 export const AppLogo = styled.img`
