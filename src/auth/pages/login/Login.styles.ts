@@ -53,6 +53,12 @@ export const LoginFooter = styled.p`
   line-height: 16px;
   text-align: center;
 
+  @media (max-width: 767px) {
+    width: min(100%, 320px);
+    font-size: 10px;
+    line-height: 14px;
+  }
+
   @media (min-width: 768px) {
     width: min(100%, 380px);
   }
@@ -86,7 +92,9 @@ export const LoginContainer = styled.div`
   }
 
   @media (max-width: 767px) {
+    width: min(100%, 360px);
     min-height: 0;
+    border-radius: 24px;
   }
 
   @media (min-width: 768px) {
@@ -132,7 +140,7 @@ export const LoginContent = styled.div`
 
   @media (max-width: 767px) {
     min-height: 0;
-    padding-bottom: 24px;
+    padding: 14px 20px 20px;
   }
 
   @media (min-width: 768px) {
@@ -144,6 +152,11 @@ export const LoginContent = styled.div`
   @media (min-width: 768px) and (max-height: 720px) {
     padding-top: 12px;
     padding-bottom: 18px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    padding-top: 24px;
+    padding-bottom: 28px;
   }
 `
 
@@ -166,6 +179,12 @@ export const AppLogo = styled.img`
     flex-basis: 82px;
   }
 
+  @media (max-width: 767px) {
+    width: 84px;
+    height: 78px;
+    flex-basis: 78px;
+  }
+
   @media (min-width: 768px) {
     width: 124px;
     height: 116px;
@@ -176,6 +195,12 @@ export const AppLogo = styled.img`
     width: 88px;
     height: 82px;
     flex-basis: 82px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    width: 124px;
+    height: 116px;
+    flex-basis: 116px;
   }
 `
 
@@ -199,6 +224,11 @@ export const AppTitle = styled.h1`
     line-height: 28px;
   }
 
+  @media (max-width: 767px) {
+    font-size: 22px;
+    line-height: 26px;
+  }
+
   @media (min-width: 768px) {
     font-size: 28px;
     line-height: 34px;
@@ -207,6 +237,11 @@ export const AppTitle = styled.h1`
   @media (min-width: 768px) and (max-height: 720px) {
     font-size: 24px;
     line-height: 28px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    font-size: 26px;
+    line-height: 32px;
   }
 `
 
@@ -220,6 +255,11 @@ export const AppDescription = styled.p`
   font-weight: 400;
   line-height: 24px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
 
   @media (max-height: 760px) {
     font-size: 15px;
@@ -236,6 +276,11 @@ export const AppDescription = styled.p`
     line-height: 20px;
   }
 
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
   @media (max-height: 560px) {
     display: none;
   }
@@ -248,6 +293,12 @@ export const Form = styled.form`
   align-items: center;
   gap: clamp(12px, 3.3dvh, 31px);
   margin-top: clamp(12px, 3.3dvh, 31px);
+
+  @media (max-width: 767px) {
+    width: min(100%, 260px);
+    gap: 10px;
+    margin-top: 10px;
+  }
 
   @media (max-height: 760px) {
     gap: 16px;
@@ -268,6 +319,17 @@ export const Form = styled.form`
     gap: 10px;
     margin-top: 10px;
   }
+
+  @media (max-width: 767px) {
+    width: min(100%, 260px);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    gap: 16px;
+    margin-top: 18px;
+  }
 `
 
 export const FormFields = styled.div`
@@ -276,6 +338,10 @@ export const FormFields = styled.div`
   flex-direction: column;
   align-items: stretch;
   gap: clamp(8px, 1.9dvh, 18px);
+
+  @media (max-width: 767px) {
+    gap: 9px;
+  }
 
   @media (max-height: 760px) {
     gap: 12px;
@@ -292,6 +358,10 @@ export const FormFields = styled.div`
   @media (min-width: 768px) and (max-height: 720px) {
     gap: 8px;
   }
+
+  @media (max-width: 767px) {
+    gap: 9px;
+  }
 `
 
 export const WelcomeTitle = styled.h2`
@@ -303,6 +373,11 @@ export const WelcomeTitle = styled.h2`
   font-weight: 700;
   line-height: 40px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 19px;
+    line-height: 24px;
+  }
 
   @media (max-height: 760px) {
     font-size: 22px;
@@ -323,6 +398,11 @@ export const WelcomeTitle = styled.h2`
     font-size: 20px;
     line-height: 24px;
   }
+
+  @media (max-width: 767px) {
+    font-size: 19px;
+    line-height: 24px;
+  }
 `
 
 export const WelcomeSubtitle = styled.p`
@@ -334,6 +414,11 @@ export const WelcomeSubtitle = styled.p`
   font-weight: 400;
   line-height: 24px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
 
   @media (max-height: 760px) {
     font-size: 15px;
@@ -349,6 +434,11 @@ export const WelcomeSubtitle = styled.p`
     font-size: 14px;
     line-height: 20px;
   }
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
 `
 
 export const Field = styled.div`
@@ -359,6 +449,10 @@ export const Field = styled.div`
   gap: 8px;
   text-align: left;
 
+  @media (max-width: 767px) {
+    gap: 4px;
+  }
+
   @media (max-height: 760px) {
     gap: 6px;
   }
@@ -367,8 +461,24 @@ export const Field = styled.div`
     gap: 4px;
   }
 
+  @media (max-width: 767px) {
+    gap: 4px;
+
+    > [role='alert'] {
+      margin-top: 2px;
+      font-size: 10px;
+      line-height: 14px;
+    }
+  }
+
   > [role='alert'] {
     margin-top: 4px;
+  }
+
+  @media (max-width: 767px) {
+    > [role='alert'] {
+      margin-top: 2px;
+    }
   }
 `
 
@@ -384,6 +494,18 @@ export const FieldHeader = styled.label`
   line-height: 20px;
   letter-spacing: 0.14px;
 
+  @media (max-width: 767px) {
+    gap: 6px;
+    font-size: 12px;
+    line-height: 16px;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      flex-basis: 13px;
+    }
+  }
+
   @media (max-height: 620px) {
     line-height: 18px;
   }
@@ -393,6 +515,14 @@ export const FieldHeader = styled.label`
     height: 15px;
     flex: 0 0 15px;
     stroke-width: 2.25;
+  }
+
+  @media (max-width: 767px) {
+    svg {
+      width: 13px;
+      height: 13px;
+      flex-basis: 13px;
+    }
   }
 `
 
@@ -415,6 +545,14 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   font-weight: 400;
   line-height: 20px;
   outline: none;
+
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 18px;
+  }
 
   @media (max-height: 760px) {
     height: 48px;
@@ -440,6 +578,14 @@ export const Input = styled.input<{ $hasError?: boolean }>`
     padding-bottom: 10px;
   }
 
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.darkColorMuted};
   }
@@ -457,6 +603,12 @@ export const PasswordInputWrapper = styled.div`
 
   ${Input} {
     padding-right: 52px;
+  }
+
+  @media (max-width: 767px) {
+    ${Input} {
+      padding-right: 44px;
+    }
   }
 `
 
@@ -495,6 +647,15 @@ export const PasswordToggle = styled.button`
     height: 20px;
     stroke-width: 2.25;
   }
+
+  @media (max-width: 767px) {
+    right: 12px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 `
 
 export const RecoveryButton = styled.button`
@@ -513,8 +674,18 @@ export const RecoveryButton = styled.button`
   text-decoration: underline;
   text-underline-offset: 2px;
 
+  @media (max-width: 767px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
   @media (max-height: 760px) {
     line-height: 18px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+    line-height: 16px;
   }
 
   &:hover {
@@ -545,6 +716,13 @@ export const PrimaryButton = styled.button`
   text-align: center;
   transition: background 160ms ease, transform 160ms ease;
 
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
   @media (max-height: 760px) {
     height: 48px;
   }
@@ -555,6 +733,13 @@ export const PrimaryButton = styled.button`
 
   @media (min-width: 768px) and (max-height: 720px) {
     height: 42px;
+  }
+
+  @media (max-width: 767px) {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 14px;
+    line-height: 20px;
   }
 
   &:hover {
@@ -574,6 +759,41 @@ export const PrimaryButton = styled.button`
   }
 `
 
+export const LoginDivider = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: 12px;
+  line-height: 16px;
+
+  @media (max-width: 767px) {
+    gap: 8px;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: ${({ theme }) => theme.colors.stroke};
+  }
+`
+
+export const PasskeyButton = styled(PrimaryButton)`
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.secondary};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.neutral};
+  }
+`
+
 export const RegisterText = styled.p`
   margin: clamp(10px, 2.6dvh, 24px) 0 0;
   color: ${({ theme }) => theme.colors.black};
@@ -583,6 +803,12 @@ export const RegisterText = styled.p`
   font-weight: 400;
   line-height: 20px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 16px;
+  }
 
   @media (max-height: 760px) {
     margin-top: 14px;
@@ -594,6 +820,16 @@ export const RegisterText = styled.p`
 
   @media (min-width: 768px) and (max-height: 720px) {
     margin-top: 10px;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  @media (max-width: 767px) and (min-height: 800px) {
+    margin-top: 18px;
   }
 `
 

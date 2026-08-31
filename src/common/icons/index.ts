@@ -56,3 +56,4 @@ export { default as Gender } from './Gender'
 export { default as Medicine } from './Medicine'
 export { default as OpenBook } from './OpenBook'
 export { default as TShirt } from './T-shirt'
+export { default as Security } from "./Security";
