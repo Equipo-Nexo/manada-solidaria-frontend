@@ -45,7 +45,6 @@ export { default as Clock } from "./Clock";
 export { default as Ruler } from "./Ruler";
 export { default as OpenMap } from "./OpenMap";
 export { default as Transfer } from "./Transfer";
-export { default as DonationItemIcon } from "../../campaigns/utils/DonationItemIcon";
 export { default as AnimalFood } from './AnimalFood'
 export { default as Bed } from './Bed'
 export { default as Bone } from './Bone'

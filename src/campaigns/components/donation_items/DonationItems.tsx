@@ -1,7 +1,7 @@
 import { donationItems, type DonationItem } from '@/campaigns/app/types/Campaign.types'
 import { donationItemLabels } from '@/campaigns/utils/CampaignUtils'
-import { DonationItemIcon } from '@/common/icons'
 import * as S from './DonationItems.styles'
+import DonationItemIcon from '@/campaigns/utils/DonationItemIcon'
 
 type DonationItemsProps = {
   items?: ReadonlyArray<{ category: DonationItem }>

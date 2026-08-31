@@ -12,6 +12,7 @@ import { Loader, ScrollHint } from "@/common/components";
 import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { useState } from "react";
+import { formatDateTimeLong } from "@/common/utils/DateTime";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const [cropImage, setCropImage] = useState(false);
@@ -39,6 +40,8 @@ function FundraisingCampaignDetail() {
   const fundraisingImageUrl = data?.imageId
     ? `${import.meta.env.VITE_CLOUDFLARE_URL}${data.imageId}`
     : NOT_FOUND_IMAGE_URL
+
+
 
   return (
     <S.Page>
@@ -70,13 +73,17 @@ function FundraisingCampaignDetail() {
             <S.DetailsColumn>
               <S.FundraisingInfo>
                 <S.Title>{data?.title}</S.Title>
-                <S.FundraisingEndDate>
-                  <Calendar aria-hidden="true" />
-                  <S.EndDateContent>
-                    <S.EndDateLabel>Fin colecta</S.EndDateLabel>
-                    <S.EndDateValue>Viernes 3 de julio 2026</S.EndDateValue>
-                  </S.EndDateContent>
-                </S.FundraisingEndDate>
+                {data.campaignEndDate &&
+                  <S.FundraisingEndDate>
+                    <Calendar aria-hidden="true" />
+                    <S.EndDateContent>
+                      <S.EndDateLabel>Fin colecta</S.EndDateLabel>
+                      <S.EndDateValue>
+                        {formatDateTimeLong(data.campaignEndDate).date}
+                      </S.EndDateValue>
+                    </S.EndDateContent>
+                  </S.FundraisingEndDate>
+                }
               </S.FundraisingInfo>
               <S.AliasSection>
                 <S.IconContainer>
