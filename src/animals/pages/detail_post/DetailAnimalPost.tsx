@@ -1,20 +1,21 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Calendar, Clock, ColorPalet, OpenMap, Money, PawPrint, Phone, Ruler, Share } from '@/common/icons'
-import { Advice, Message } from '@components/index.ts'
+import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from '@/common/icons'
+import { Advice, Message, ScrollHint } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
 import BookIcon from '@/common/icons/Book'
 import { useGetAnimalPostQuery } from '@/animals/app/api/animalPostsApi'
 import { animalAgeLabels, animalColorLabels, animalSexLabels, animalSizeLabels, getAnimalName, type AnimalPostType } from '@/animals/app/types/AnimalPost.types'
 import { animalKinds } from '@/animals/utils/AnimalFormUtils'
-import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import * as S from './DetailAnimalPost.styles'
 import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
 import getOwnerRole from '@/common/utils/GetRoles'
 import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
-import { openWhatsApp } from '@/common/utils/Whatsapp'
+import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
+import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
 
 function AnimalPostDetail() {
 
@@ -50,7 +51,9 @@ function AnimalPostDetail() {
   const animalKind = animalKinds.find(({ value }) => value === postData.animal.type)?.label
     ?? 'No informado'
 
-  const location = postData.location.name || postData.location.address || 'Ubicación no informada'
+  const location = postData.location.name || 'Ubicación no informada'
+
+  const address = postData.location.address || ''
 
   const status = AnimalPostStatus[postData.status]
 
@@ -84,11 +87,10 @@ function AnimalPostDetail() {
       <S.HeroLayout>
         <S.PhotoContainer>
           <S.Photo
-            src={`${import.meta.env.VITE_CLOUDFLARE_URL}${postData.imageUrl}`}
+            src={normalizeImageUrl(postData.imageUrl)}
             alt={name}
             onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
           />
-          <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}><Share aria-hidden="true" /></S.ShareButton>
         </S.PhotoContainer>
 
         <S.DetailsColumn>
@@ -114,9 +116,7 @@ function AnimalPostDetail() {
             )}
             <S.InfoContainer $variant="author">
               <S.ProfilePhoto
-                src={postData.owner.profileImageUrl
-                  ? `${import.meta.env.VITE_CLOUDFLARE_URL}${postData.owner.profileImageUrl}`
-                  : '/logo.svg'}
+                src={normalizeImageUrl(postData.owner.profileImageUrl, '/logo.svg')}
                 alt={`Foto de perfil de ${postData.owner.username}`}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
@@ -130,27 +130,19 @@ function AnimalPostDetail() {
             </S.InfoContainer>
           </S.GeneralDataContainer>
 
-          <S.LocationCard>
-            <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
-            <S.LocationContent>
-              <S.LocationTitle>{location}</S.LocationTitle>
-              <S.MapLink
-                type="button"
-                onClick={() => navigate(
-                  `/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`,
-                )}
-              >
-                Ver en el mapa <OpenMap aria-hidden="true" />
-              </S.MapLink>
-            </S.LocationContent>
-          </S.LocationCard>
+          <MapDetailsComponent
+            location={location}
+            address={address}
+            locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
+          />
 
           <S.FeaturesGrid aria-label={`Características de ${name}`}>
             {feature(PawPrint, 'Especie', animalKind)}
             {feature(GenderIcon, 'Sexo', animalSexLabels[postData.animal.gender])}
             {feature(Ruler, 'Tamaño', animalSizeLabels[postData.animal.size])}
-            {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
             {feature(Calendar, 'Edad', animalAgeLabels[postData.animal.age])}
+            {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
+
           </S.FeaturesGrid>
 
           <S.StorySection>
@@ -164,24 +156,18 @@ function AnimalPostDetail() {
       <S.BottomInfoRow>
         {PHONE_NUMBER != "" && (
           <>
-            <S.ContactCard>
-              <S.SectionTitle><Phone aria-hidden="true" />Contacto</S.SectionTitle>
-              <S.ContactRow>
-                <S.ContactNumber>{PHONE_NUMBER}</S.ContactNumber>
-                <S.ContactButton
-                  type="button"
-                  onClick={() => openWhatsApp(PHONE_NUMBER, adviceDescriptionSelector(postData.type))}
-                >
-                  Contactar
-                </S.ContactButton>
-              </S.ContactRow>
-            </S.ContactCard>
+            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={postData!.phoneNumber!.areaCode} number={postData!.phoneNumber!.number} name={postData?.name ?? ""} />
             <S.AdviceArea>
               <Advice title="" advice={adviceDescriptionSelector(postData.type)} />
             </S.AdviceArea>
           </>
         )}
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}>
+          <Share aria-hidden="true" />
+          Compartir Publicación
+        </S.ShareButton>
       </S.BottomInfoRow>
+      <ScrollHint />
     </S.MainContainer>
   )
 }

@@ -31,8 +31,22 @@ function CampaignCard({
   onMoreInfo,
   onShare,
 }: CampaignCardProps) {
+  const openCampaignDetail = () => onMoreInfo?.(campaign);
+
   return (
-    <S.Card className={className}>
+    <S.Card
+      className={className}
+      $clickable={Boolean(onMoreInfo)}
+      role={onMoreInfo ? "link" : undefined}
+      tabIndex={onMoreInfo ? 0 : undefined}
+      onClick={openCampaignDetail}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openCampaignDetail();
+        }
+      }}
+    >
       <S.ImageSection>
         <ImagePreview 
           imageId={campaign.imageUrl}
@@ -41,7 +55,10 @@ function CampaignCard({
         <S.ShareButton
           type="button"
           aria-label={`Compartir campaña ${campaign.title}`}
-          onClick={() => onShare?.(campaign)}
+          onClick={(event) => {
+            event.stopPropagation();
+            onShare?.(campaign);
+          }}
         >
           <Share aria-hidden="true" />
         </S.ShareButton>
@@ -63,18 +80,22 @@ function CampaignCard({
           <S.Description>{campaign.description}</S.Description>
           <S.MoreInfoButton
             type="button"
-            onClick={() => onMoreInfo?.(campaign)}
+            onClick={(event) => {
+              event.stopPropagation();
+              openCampaignDetail();
+            }}
           >
             Ver más información
           </S.MoreInfoButton>
         </S.Content>
 
-        <S.ConsultButton type="button" onClick={() => 
+        <S.ConsultButton type="button" onClick={(event) => {
+          event.stopPropagation();
           openWhatsApp(
-            `${campaign.phoneNumber.areaCode}${campaign.phoneNumber.number}`, 
+            `${campaign.phoneNumber.areaCode}${campaign.phoneNumber.number}`,
             `¡Hola! Me gustaría consultar por la campaña ${campaign.title}`
-          )
-        }>
+          );
+        }}>
           Consultar
         </S.ConsultButton>
       </S.Body>

@@ -43,11 +43,11 @@ const EditAnimalPostDefaultValues = (
 }
 
 function EditAnimalPostForm() {
-    
+
     const toast = useToast()
     const navigate = useNavigate()
     const { postId } = useParams<{ postId: string }>()
-    
+
     const [editAnimalPost, { isLoading }] = useEditAnimalPostMutation()
     const { data: animalPostData } = useGetAnimalPostQuery(postId || '', { skip: !postId })
 
@@ -107,7 +107,7 @@ function EditAnimalPostForm() {
                     state: {
                         imageUrl: values.imageId,
                         name: values.name ? values.name.trim() : 'de tu animal',
-                        onDetailRedirect: `/detalle/${postId}`
+                        onDetailRedirect: `/animal/detalle/${postId}`
                     },
                 })
             }).catch(() => {
@@ -121,7 +121,7 @@ function EditAnimalPostForm() {
             buttonText='Guardar cambios'
             isLoadingForm={isLoading}
             loadingButtonText='Guardando...'
-            handleSubmit={handleSubmit(handleEditAnimalPost, scrollToFirstFormError)}        
+            handleSubmit={handleSubmit(handleEditAnimalPost, scrollToFirstFormError)}
         >
             <S.FieldGroup>
                 <Controller

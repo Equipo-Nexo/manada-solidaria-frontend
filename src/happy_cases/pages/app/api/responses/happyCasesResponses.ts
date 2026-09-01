@@ -1,15 +1,10 @@
+import type { Role } from "@/users/app/types/User.types";
 export type HappyCaseStatus = "FOUND" | "ADOPTED" | "RESCUED";
-export const statusLabel: Record<HappyCaseStatus, string> = {
-  FOUND: "Encontrado",
-  ADOPTED: "Adoptado",
-  RESCUED: "Rescatado",
-};
-export type HappyCaseMainRole = "RESCUER" | "COMMUNITY";
 
 export type HappyCaseOwner = {
   username: string;
   profileImageURL: string;
-  mainRole: HappyCaseMainRole;
+  roles: Role[];
 };
 
 export type HappyCaseResponse = {

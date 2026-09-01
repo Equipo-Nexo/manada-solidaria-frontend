@@ -1,14 +1,12 @@
 import { useCallback, useState, useMemo } from "react";
 import { ChevronRight, X } from "@/common/icons";
 import * as S from "./Stories.styles";
-import {
-  statusLabel,
-  type HappyCaseResponse,
-} from "./app/api/responses/happyCasesResponses";
+import type { HappyCaseResponse } from "./app/api/responses/happyCasesResponses";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { createPortal } from "react-dom";
 import { useAutoAdvance } from "@/common/hooks/auto_advance/useAutoAdvance";
 import { createPagePaws } from "@/common/utils/PagePawUtils";
+import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
 type StoriesProps = {
   cases: HappyCaseResponse[];
   initialIndex: number;
@@ -119,7 +117,7 @@ function Stories({ cases, initialIndex, onClose }: StoriesProps) {
             <S.Title>{currentCase.name}</S.Title>
             <S.Description>{currentCase.description}</S.Description>
             <S.StatusBadge $status={currentCase.status}>
-              {statusLabel[currentCase.status]}
+              {ANIMAL_POST_STATUS_LABELS[currentCase.status]}
             </S.StatusBadge>
           </S.BottomContent>
         </S.Content>

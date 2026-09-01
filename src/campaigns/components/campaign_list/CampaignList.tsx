@@ -8,9 +8,10 @@ type CampaignListProps = {
   isError: boolean
   isLoading: boolean
   onRetry: () => void
+  onMoreInfo: (campaign: CampaignCardData) => void
 }
 
-function CampaignList({ campaigns, isError, isLoading, onRetry }: CampaignListProps) {
+function CampaignList({ campaigns, isError, isLoading, onRetry, onMoreInfo }: CampaignListProps) {
   if (isLoading) {
     return (
       <S.MessageContainer>
@@ -44,7 +45,7 @@ function CampaignList({ campaigns, isError, isLoading, onRetry }: CampaignListPr
   return (
     <S.List>
       {campaigns.map((campaign) => (
-        <CampaignCard key={campaign.id} campaign={campaign} />
+        <CampaignCard key={campaign.id} campaign={campaign} onMoreInfo={onMoreInfo} />
       ))}
     </S.List>
   )

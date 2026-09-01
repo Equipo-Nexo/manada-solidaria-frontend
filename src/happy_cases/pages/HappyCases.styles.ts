@@ -17,10 +17,6 @@ type StatusBadgeProps = {
   $status: "FOUND" | "ADOPTED" | "RESCUED";
 };
 
-type IndicatorProps = {
-  $active: boolean;
-};
-
 export const PagePaws = styled.div`
   position: fixed;
   inset: 0;
@@ -55,7 +51,6 @@ export const Container = styled.section`
   max-width: 370px;
   margin: 0 auto;
   box-sizing: border-box;
-
   > *:not(${PagePaws}) {
     position: relative;
     z-index: 1;
@@ -71,7 +66,6 @@ export const Intro = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-
   @media (min-width: 1024px) {
     gap: 12px;
     margin-bottom: 24px;
@@ -121,7 +115,7 @@ export const Title = styled.h2`
   }
 `;
 
-export const Description = styled.p`
+export const Description = styled.p<{ $hasRecentCases: boolean }>`
   max-width: 330px;
   margin: 8px;
   color: ${({ theme }) => theme.colors.black};
@@ -135,13 +129,16 @@ export const Description = styled.p`
     grid-area: description;
     display: flex;
     position: relative;
-    flex-direction: column;
+    flex-direction: ${({ $hasRecentCases }) =>
+      $hasRecentCases ? "column" : "row"};
     min-height: 420px;
     max-width: none;
-    align-items: flex-start;
+    gap: ${({ $hasRecentCases }) => ($hasRecentCases ? "0" : "16px")};
     justify-content: center;
     margin: 0;
     padding: 36px;
+    align-items: ${({ $hasRecentCases }) =>
+      $hasRecentCases ? "flex-start" : "center"};
     box-sizing: border-box;
     overflow: hidden;
     color: ${({ theme }) => theme.colors.darkColor};
@@ -149,6 +146,15 @@ export const Description = styled.p`
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     line-height: 26px;
     animation: ${revealDescription} 520ms ease-out both;
+    ${({ $hasRecentCases }) =>
+      !$hasRecentCases &&
+      `
+        min-height: auto;
+        padding: 0;
+        margin: 0 0 16px;
+        align-items: flex-start;
+        justify-content: flex-start;
+      `}
 
     @media (prefers-reduced-motion: reduce) {
       animation: none;
@@ -156,7 +162,7 @@ export const Description = styled.p`
   }
 `;
 
-export const DescriptionIcon = styled.span`
+export const DescriptionIcon = styled.span<{ $hasRecentCases: boolean }>`
   display: none;
 
   @media (min-width: 1024px) {
@@ -167,7 +173,7 @@ export const DescriptionIcon = styled.span`
     height: 40px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
+    margin-bottom: ${({ $hasRecentCases }) => ($hasRecentCases ? "16px" : "0")};
     color: ${({ theme }) => theme.colors.brand};
 
     svg {
@@ -178,53 +184,14 @@ export const DescriptionIcon = styled.span`
   }
 `;
 
-export const DescriptionText = styled.span`
+export const DescriptionText = styled.span<{ $hasRecentCases: boolean }>`
   position: relative;
   z-index: 1;
-`;
-
-export const DescriptionPaws = styled.span`
-  display: none;
-
   @media (min-width: 1024px) {
-    position: absolute;
-    inset: 0;
-    display: block;
-    color: ${({ theme }) => theme.colors.brand};
-    pointer-events: none;
-
-    svg {
-      position: absolute;
-      width: 42px;
-      height: 42px;
-      opacity: 0.11;
-    }
-
-    svg:nth-child(1) {
-      top: 34px;
-      right: 20px;
-      transform: rotate(24deg);
-    }
-
-    svg:nth-child(2) {
-      top: 46%;
-      right: 54px;
-      width: 30px;
-      height: 30px;
-      transform: rotate(-18deg);
-    }
-
-    svg:nth-child(3) {
-      right: 12px;
-      bottom: 28px;
-      width: 54px;
-      height: 54px;
-      transform: rotate(38deg);
-    }
+    max-width: ${({ $hasRecentCases }) => ($hasRecentCases ? "none" : "700px")};
   }
 `;
-
-export const FeaturedLayout = styled.div`
+export const FeaturedLayout = styled.div<{ $hasRecentCases: boolean }>`
   display: contents;
 
   @media (min-width: 1024px) {
@@ -236,100 +203,20 @@ export const FeaturedLayout = styled.div`
     column-gap: 80px;
     align-items: start;
     margin-bottom: 24px;
+
+    ${({ $hasRecentCases }) =>
+      !$hasRecentCases &&
+      `
+        display: block;
+        margin-bottom: 16px;
+      `}
   }
 `;
 
-export const FeaturedCarouselArea = styled.div`
-  display: contents;
-
-  @media (min-width: 1024px) {
-    grid-area: carousel;
-    position: relative;
-    display: block;
-    width: min(100%, 780px);
-    margin: 0;
-  }
-`;
-
-export const FeaturedCarousel = styled.div`
-  display: flex;
-  gap: 12px;
-  width: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  > * {
-    flex: 0 0 100%;
-    min-width: 0;
-    scroll-snap-align: center;
-  }
-`;
-
-type CarouselArrowProps = {
-  $direction: "previous" | "next";
-};
-
-export const CarouselArrow = styled.button<CarouselArrowProps>`
-  display: none;
-
-  @media (min-width: 1024px) {
-    position: absolute;
-    top: 50%;
-    ${({ $direction }) => ($direction === "previous" ? "left: -64px;" : "right: -64px;")}
-    z-index: 2;
-    display: flex;
-    width: 46px;
-    height: 46px;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 1px solid ${({ theme }) => theme.colors.stroke};
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.secondary};
-    box-shadow: 0 4px 14px rgb(89 65 55 / 16%);
-    cursor: pointer;
-    transform: translateY(-50%);
-    transition:
-      background 160ms ease,
-      color 160ms ease,
-      transform 160ms ease;
-
-    svg {
-      width: 10px;
-      height: 18px;
-      transform: ${({ $direction }) =>
-        $direction === "previous" ? "rotate(180deg)" : "none"};
-    }
-
-    &:hover:not(:disabled) {
-      background: ${({ theme }) => theme.colors.secondary};
-      color: ${({ theme }) => theme.colors.neutral};
-      transform: translateY(-50%) scale(1.06);
-    }
-
-    &:focus-visible {
-      outline: 3px solid ${({ theme }) => theme.colors.focus};
-      outline-offset: 3px;
-    }
-
-    &:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-  }
-`;
 export const FeaturedCard = styled.article`
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 52%) minmax(0, 48%);
+  grid-template-columns: minmax(0, 56%) minmax(0, 44%);
   width: 100%;
   min-height: 230px;
   overflow: hidden;
@@ -395,27 +282,32 @@ export const FeaturedBadge = styled.span`
   align-items: center;
   justify-content: center;
   gap: 4px;
-  min-height: 25px;
-  padding: 4px 12px;
+  max-width: 100%;
+  white-space: nowrap;
+  width: max-content;
+  min-width: 0;
   box-sizing: border-box;
+  padding: 4px 12px;
   border-radius: 999px;
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  white-space: nowrap;
-
+  text-align: center;
+  line-height: 1.1;
   svg {
+    flex-shrink: 0;
     width: 15px;
     height: 15px;
     fill: currentColor;
   }
-
   @media (min-width: 1024px) {
+    max-width: max-content;
     min-height: 32px;
     padding: 6px 16px;
     font-size: 13px;
+    white-space: nowrap;
   }
 `;
 
@@ -516,41 +408,20 @@ export const FeaturedImage = styled.img`
   z-index: 0;
   grid-column: 2;
   width: 100%;
-  height: 230px;
-  min-width: 0;
+  height: 100%;
   object-fit: cover;
   object-position: center;
-
   @media (min-width: 1024px) {
     height: 420px;
   }
-`;
-export const CarouselIndicators = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 28px;
-
-  @media (min-width: 1024px) {
-    grid-area: indicators;
-    height: 40px;
-  }
-`;
-
-export const Indicator = styled.span<IndicatorProps>`
-  width: 8px;
-  height: 8px;
-  flex: 0 0 8px;
-  border-radius: 50%;
-  background: ${({ $active, theme }) =>
-    $active ? theme.colors.brand : theme.colors.stroke};
 `;
 
 export const CasesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 
   @media (min-width: 1024px) {
     display: grid;
@@ -559,13 +430,14 @@ export const CasesList = styled.div`
     gap: 20px;
   }
 `;
-
 export const HappyCaseCard = styled.button`
   display: flex;
   height: 130px;
   align-items: flex-start;
   align-self: stretch;
-  width: 360px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 1px;
   box-sizing: border-box;
   overflow: hidden;
@@ -575,10 +447,12 @@ export const HappyCaseCard = styled.button`
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
   text-align: left;
   cursor: pointer;
+
   &:active {
     transform: scale(0.99);
     box-shadow: 0 2px 6px rgb(0 0 0 / 12%);
   }
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
@@ -599,6 +473,7 @@ export const HappyCaseCard = styled.button`
 `;
 export const CaseWrapper = styled.div`
   width: 100%;
+  min-width: 0;
 `;
 export const ExpandedContent = styled.div`
   width: 100%;

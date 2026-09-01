@@ -41,6 +41,7 @@ export type CampaignDetailsType = CampaignType | CampaignCategory;
 export type CampaignDetailsResponse = {
   id: string;
   type: CampaignDetailsType;
+  category?: CampaignCategory;
   title: string;
   description: string;
   imageId?: string;
