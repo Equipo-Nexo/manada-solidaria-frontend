@@ -51,7 +51,6 @@ export const Container = styled.section`
   max-width: 370px;
   margin: 0 auto;
   box-sizing: border-box;
-
   > *:not(${PagePaws}) {
     position: relative;
     z-index: 1;
@@ -67,7 +66,6 @@ export const Intro = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-
   @media (min-width: 1024px) {
     gap: 12px;
     margin-bottom: 24px;
@@ -117,7 +115,7 @@ export const Title = styled.h2`
   }
 `;
 
-export const Description = styled.p`
+export const Description = styled.p<{ $hasRecentCases: boolean }>`
   max-width: 330px;
   margin: 8px;
   color: ${({ theme }) => theme.colors.black};
@@ -131,13 +129,16 @@ export const Description = styled.p`
     grid-area: description;
     display: flex;
     position: relative;
-    flex-direction: column;
+    flex-direction: ${({ $hasRecentCases }) =>
+      $hasRecentCases ? "column" : "row"};
     min-height: 420px;
     max-width: none;
-    align-items: flex-start;
+    gap: ${({ $hasRecentCases }) => ($hasRecentCases ? "0" : "16px")};
     justify-content: center;
     margin: 0;
     padding: 36px;
+    align-items: ${({ $hasRecentCases }) =>
+      $hasRecentCases ? "flex-start" : "center"};
     box-sizing: border-box;
     overflow: hidden;
     color: ${({ theme }) => theme.colors.darkColor};
@@ -145,6 +146,15 @@ export const Description = styled.p`
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     line-height: 26px;
     animation: ${revealDescription} 520ms ease-out both;
+    ${({ $hasRecentCases }) =>
+      !$hasRecentCases &&
+      `
+        min-height: auto;
+        padding: 0;
+        margin: 0 0 16px;
+        align-items: flex-start;
+        justify-content: flex-start;
+      `}
 
     @media (prefers-reduced-motion: reduce) {
       animation: none;
@@ -152,7 +162,7 @@ export const Description = styled.p`
   }
 `;
 
-export const DescriptionIcon = styled.span`
+export const DescriptionIcon = styled.span<{ $hasRecentCases: boolean }>`
   display: none;
 
   @media (min-width: 1024px) {
@@ -163,7 +173,7 @@ export const DescriptionIcon = styled.span`
     height: 40px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
+    margin-bottom: ${({ $hasRecentCases }) => ($hasRecentCases ? "16px" : "0")};
     color: ${({ theme }) => theme.colors.brand};
 
     svg {
@@ -174,12 +184,14 @@ export const DescriptionIcon = styled.span`
   }
 `;
 
-export const DescriptionText = styled.span`
+export const DescriptionText = styled.span<{ $hasRecentCases: boolean }>`
   position: relative;
   z-index: 1;
+  @media (min-width: 1024px) {
+    max-width: ${({ $hasRecentCases }) => ($hasRecentCases ? "none" : "700px")};
+  }
 `;
-
-export const FeaturedLayout = styled.div`
+export const FeaturedLayout = styled.div<{ $hasRecentCases: boolean }>`
   display: contents;
 
   @media (min-width: 1024px) {
@@ -191,13 +203,20 @@ export const FeaturedLayout = styled.div`
     column-gap: 80px;
     align-items: start;
     margin-bottom: 24px;
+
+    ${({ $hasRecentCases }) =>
+      !$hasRecentCases &&
+      `
+        display: block;
+        margin-bottom: 16px;
+      `}
   }
 `;
 
 export const FeaturedCard = styled.article`
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 52%) minmax(0, 48%);
+  grid-template-columns: minmax(0, 56%) minmax(0, 44%);
   width: 100%;
   min-height: 230px;
   overflow: hidden;
@@ -264,16 +283,17 @@ export const FeaturedBadge = styled.span`
   justify-content: center;
   gap: 4px;
   max-width: 100%;
+  white-space: nowrap;
+  width: max-content;
   min-width: 0;
   box-sizing: border-box;
-  padding: 4px 8px;
+  padding: 4px 12px;
   border-radius: 999px;
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 0.7rem;
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  white-space: normal;
   text-align: center;
   line-height: 1.1;
   svg {
@@ -388,8 +408,7 @@ export const FeaturedImage = styled.img`
   z-index: 0;
   grid-column: 2;
   width: 100%;
-  height: 230px;
-  min-width: 0;
+  height: 100%;
   object-fit: cover;
   object-position: center;
   @media (min-width: 1024px) {
@@ -401,6 +420,8 @@ export const CasesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 
   @media (min-width: 1024px) {
     display: grid;
@@ -409,13 +430,14 @@ export const CasesList = styled.div`
     gap: 20px;
   }
 `;
-
 export const HappyCaseCard = styled.button`
   display: flex;
   height: 130px;
   align-items: flex-start;
   align-self: stretch;
-  width: 360px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 1px;
   box-sizing: border-box;
   overflow: hidden;
@@ -425,10 +447,12 @@ export const HappyCaseCard = styled.button`
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
   text-align: left;
   cursor: pointer;
+
   &:active {
     transform: scale(0.99);
     box-shadow: 0 2px 6px rgb(0 0 0 / 12%);
   }
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
@@ -449,6 +473,7 @@ export const HappyCaseCard = styled.button`
 `;
 export const CaseWrapper = styled.div`
   width: 100%;
+  min-width: 0;
 `;
 export const ExpandedContent = styled.div`
   width: 100%;

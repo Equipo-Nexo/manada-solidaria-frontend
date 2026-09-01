@@ -23,7 +23,7 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
   const recentCases = happyCases.filter(({ isRecent }) => isRecent);
   const visibleCases = happyCases.filter(({ isRecent }) => !isRecent);
   const [expandedCaseId, setExpandedCaseId] = useState<string | null>(null);
-
+  const hasRecentCases = recentCases.length > 0;
   if (isLoading) {
     return (
       <S.Container>
@@ -54,18 +54,18 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
         </S.IntroHeader>
       </S.Intro>
 
-      <S.FeaturedLayout>
-        <S.Description>
-          <S.DescriptionIcon>
+      <S.FeaturedLayout $hasRecentCases={hasRecentCases}>
+        <S.Description $hasRecentCases={hasRecentCases}>
+          <S.DescriptionIcon $hasRecentCases={hasRecentCases}>
             <PawPrint aria-hidden="true" />
           </S.DescriptionIcon>
-          <S.DescriptionText>
+          <S.DescriptionText $hasRecentCases={hasRecentCases}>
             Celebramos las segundas oportunidades. Conocé las historias de éxito
             que llenan de alegría a nuestra comunidad.
           </S.DescriptionText>
         </S.Description>
 
-        {recentCases.length > 0 && (
+        {hasRecentCases && (
           <CarouselSlider
             items={recentCases}
             renderItem={(happyCase) => (

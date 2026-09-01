@@ -31,7 +31,6 @@ import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
 import HappyCases from "./happy_cases/pages/HappyCases";
-import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
 import Security from "./users/pages/security/Security";
 
 function App() {
@@ -123,7 +122,10 @@ function App() {
               />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
-              <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
+              <Route
+                path="/mi-perfil/datos-personales"
+                element={<PersonalData />}
+              />
               <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<HappyCases />} />
