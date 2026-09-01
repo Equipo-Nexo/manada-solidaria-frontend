@@ -65,20 +65,26 @@ function MyPosts() {
         setOpenBottomSheet(true)
     }
 
-    const handleClickButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
-        const clickByPostType: Record<UserPostType, (postId: string) => void> = {
-            campaign: (postId) => navigate(`campaña/detalle/${postId}`),
+    const openPostDetail = (post: GetUserPostsResponse) => {
+        const detailByPostType: Record<UserPostType, (postId: string) => void> = {
+            campaign: (postId) => navigate(`/campanias/${postId}`),
             animal: (postId) => navigate(`/animal/detalle/${postId}`),
-            fundraising: (postId) => navigate(`/colecta/detalle/${postId}`),
+            fundraising: (postId) => navigate(`/colectas/${postId}`),
         }
+
+        detailByPostType[post.postType](post.id)
+    }
+
+    const handleClickButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
         if (event.target instanceof Element && event.target.closest('button, a')) return
 
-        clickByPostType[post.postType](post.id)
+        openPostDetail(post)
     }
 
     const handlePostKeyDown = (post: GetUserPostsResponse, event: KeyboardEvent<HTMLElement>) => {
-        if (post.postType === 'animal' && event.key === 'Enter' && event.target === event.currentTarget) {
-            navigate(`/detalle/${post.id}`)
+        if ((event.key === 'Enter' || event.key === ' ') && event.target === event.currentTarget) {
+            event.preventDefault()
+            openPostDetail(post)
         }
     }
 
@@ -180,9 +186,9 @@ function MyPosts() {
                         return (
                             <S.Card
                                 key={id}
-                                $clickable={postType === 'animal'}
-                                role={postType === 'animal' ? 'link' : undefined}
-                                tabIndex={postType === 'animal' ? 0 : undefined}
+                                $clickable
+                                role="link"
+                                tabIndex={0}
                                 onClick={(event) => handleClickButton({ id, imageId, title, createdSince, status, postType }, event)}
                                 onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
                             >

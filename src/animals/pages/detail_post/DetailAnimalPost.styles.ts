@@ -25,7 +25,6 @@ export const MainContainer = styled.section`
   margin: 0 auto;
   padding: 0 16px 16px;
   background: ${({ theme }) => theme.colors.background};
-
   @media (min-width: 768px) {
     width: min(100%, 1080px);
     min-height: auto;
@@ -102,14 +101,6 @@ export const PhotoContainer = styled.div`
 export const Photo = styled.img`
   display: block; width: 100%; height: 100%; object-fit: cover;
   border-radius:12px;
-`
-
-export const ShareButton = styled.button`
-  position: absolute; top: 12px; right: 16px; display: grid; width: 36px; height: 36px; place-items: center;
-  border: 0; border-radius: 50%; background: ${({ theme }) => theme.colors.background}; color: ${({ theme }) => theme.colors.black};
-  box-shadow: 0 2px 7px rgb(0 0 0 / 14%); cursor: pointer;
-  svg { width: 17px; height: 17px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
 `
 
 export const GeneralDataContainer = styled.article`
@@ -212,73 +203,6 @@ export const ProfilePhoto = styled.img`
   object-fit: cover;
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.background};
-`
-
-export const LocationCard = styled.section`
-  min-height: 107px; 
-  display: grid; 
-  text-align:left;
-  grid-template-columns: 1fr 1fr; 
-  overflow: hidden; 
-  margin-top: 14px; 
-  border-radius: 10px;
-  width:100%;
-  background: ${({ theme }) => theme.colors.background}; 
-  box-shadow: 0 2px 8px rgb(55 37 28 / 18%);
-
-  @media (min-width: 768px) {
-    min-height: 140px;
-    margin-top: 0;
-  }
-`
-
-export const MapPreview = styled.div`
-  position: relative; overflow: hidden;
-  background: linear-gradient(34deg, transparent 42%, rgb(255 255 255 / 75%) 43% 47%, transparent 48%),
-    linear-gradient(94deg, transparent 54%, rgb(255 255 255 / 70%) 55% 59%, transparent 60%),
-    repeating-linear-gradient(25deg, transparent 0 15px, rgb(223 192 143 / 48%) 16px 18px), #c1ddd7;
-  &::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 48%, rgb(111 174 197 / 28%) 49% 57%, transparent 58%); }
-`
-
-export const MapMarker = styled.span`
-  position: absolute; z-index: 1; top: 46%; left: 52%; width: 10px; height: 10px; border: 3px solid ${({ theme }) => theme.colors.background};
-  border-radius: 50% 50% 50% 0; background: ${({ theme }) => theme.colors.brand}; box-shadow: 0 1px 3px rgb(0 0 0 / 28%); transform: rotate(-45deg);
-`
-
-export const LocationContent = styled.div`
-  display: flex; flex-direction: column; justify-content: center; padding: 14px 8px;
-  gap:4px;
-`
-
-export const LocationTitle = styled.h3`
-  margin: 0; color: ${({ theme }) => theme.colors.black}; 
-  font-size: 18px; 
-  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
-  line-height: 17px;
-`
-export const LocationAddress = styled.p`
-  margin: 0; 
-  color: ${({ theme }) => theme.colors.black}; 
-  font-size: 14px; 
-  font-weight: ${({ theme }) => theme.fontWeights.semibold}; 
-  line-height: 17px;
-`
-
-export const MapLink = styled.button`
-  display: inline-flex; 
-  align-items: center; 
-  gap: 8px; 
-  margin-top: 8px; 
-  color: ${({ theme }) => theme.colors.brand};
-  width: fit-content; padding: 0; border: 0; 
-  background: transparent; 
-  cursor: pointer;
-  font-size: 12px; 
-  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
-  line-height: 16px; 
-  text-decoration: underline;
-  svg { width: 24px; height: 24px; flex: 0 0 auto; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
 `
 
 export const FeaturesGrid = styled.div`
@@ -412,6 +336,8 @@ export const ContactArea = styled.section`
 export const BottomInfoRow = styled.section`
   display: flex;
   width: 100%;
+  align-self: stretch;
+  align-items: stretch;
   flex-direction: column;
   gap: 16px;
 
@@ -424,83 +350,28 @@ export const BottomInfoRow = styled.section`
 
 export const AdviceArea = styled.section`
   width: 100%;
-
-  > * {
-    width: 100%;
-  }
 `
 
-export const ContactCard = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  border-radius: 16px;
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: 0 4px 20px 0 rgba(75, 63, 53, 0.08);
 
-  @media (max-width: 359px) {
-    padding: 16px;
-  }
-`
-
-export const ContactRow = styled.div`
-  display: flex;
-  padding: 16px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
+export const ShareButton = styled.button`
   width: 100%;
-  min-width: 0;
+  min-width: 100%;
+  height: 56px;
+  min-height: 56px;
   box-sizing: border-box;
   align-self: stretch;
-  border-radius: 12px;
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-
-  @media (max-width: 359px) {
-    gap: 8px;
-    padding: 12px;
-  }
-`
-
-export const ContactNumber = styled.span`
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  margin-right: auto;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
-  text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
-
-export const ContactButton = styled.button`
-  flex: 0 0 auto;
-  margin-left: auto;
-  min-width: 116px;
-  height: 40px;
-  padding: 6px 8px;
-  border: 2px solid ${({ theme }) => theme.colors.brand};
-  border-radius: 10px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.brand};
-  font: inherit;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.background};
   cursor: pointer;
-
-  @media (max-width: 359px) {
-    min-width: 100px;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
-  }
-`
-
+  font-size: ${({ theme }) => theme.typography.action.fontSize};
+  font-weight: ${({ theme }) => theme.typography.action.fontWeight};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+`;
 

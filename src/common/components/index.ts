@@ -23,6 +23,7 @@ export { default as Navbar } from './navbar/Navbar';
 export { default as Loader } from './pawLoader/PawLoader';
 export { default as PublishFloatingButton } from './publishFloatingButton/PublishFloatingButton';
 export { default as PublishOptions } from './publishOptions/PublishOptions';
+export { default as ScrollHint } from './scroll_hint/ScrollHint';
 export { default as Toaster } from './toaster/Toaster';
 export { default as WorkInProgress } from './workInProgress/WorkInProgress';
 export { default as CampaignCard } from '../../campaigns/components/campaign_card/CampaignCard';

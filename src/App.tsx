@@ -31,6 +31,7 @@ import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
 import HappyCases from "./happy_cases/pages/HappyCases";
+import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
 import Security from "./users/pages/security/Security";
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
+  const isCampaignDetail = location.pathname.startsWith("/campanias/");
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
@@ -59,6 +61,7 @@ function App() {
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
+    !isCampaignDetail &&
     !isProfileSection;
 
   return (
@@ -129,6 +132,7 @@ function App() {
               <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
               <Route path="/casos-felices" element={<HappyCases />} />
+              <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

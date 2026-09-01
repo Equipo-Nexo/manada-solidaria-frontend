@@ -50,6 +50,7 @@ function PublishFundraising() {
       imageId: undefined
     },
   });
+
   const onSubmit = async (data: PublishFundraisingForm) => {
     const request: FundraisingCampaignRequest = {
       type: "FUNDRAISING",
@@ -99,135 +100,135 @@ function PublishFundraising() {
       buttonText='Publicar Colecta de Dinero'
       isLoadingForm={isLoading}
       loadingButtonText='Publicando...'
-      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}    
+      handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}
     >
-        <S.PublishField>
-          <S.PublishLabel>
-            Título de la colecta <S.RequiredMark>*</S.RequiredMark>
-          </S.PublishLabel>
-          <S.PublishInput
-            type="text"
-            {...register("title")}
-            placeholder="Ej: Saldar gastos de la veterinaria"
-          />
-          <ErrorMessage message={errors.title?.message} />
-        </S.PublishField>
+      <S.PublishField>
+        <S.PublishLabel>
+          Título de la colecta <S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
+        <S.PublishInput
+          type="text"
+          {...register("title")}
+          placeholder="Ej: Saldar gastos de la veterinaria"
+        />
+        <ErrorMessage message={errors.title?.message} />
+      </S.PublishField>
 
-        <S.PublishField>
-          <S.PublishLabel>
-            Alias <S.RequiredMark>*</S.RequiredMark>
-          </S.PublishLabel>
-          <S.PublishInput
-            type="text"
-            {...register("accountAlias")}
-            placeholder="maca.123.mp"
-          />
-          <ErrorMessage message={errors.accountAlias?.message} />
-        </S.PublishField>
+      <S.PublishField>
+        <S.PublishLabel>
+          Alias <S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
+        <S.PublishInput
+          type="text"
+          {...register("accountAlias")}
+          placeholder="maca.123.mp"
+        />
+        <ErrorMessage message={errors.accountAlias?.message} />
+      </S.PublishField>
 
-        <S.PublishField>
-          <S.PublishLabel>Meta de recaudación</S.PublishLabel>
-          <S.InputWithIcon>
-            <S.FieldIcon>$</S.FieldIcon>
-            <Controller
-              control={control}
-              name="amountToBeCollected"
-              render={({ field }) => (
-                <StyledMaskedInput
-                  {...field}
-                  maskType="money"
-                  value={field.value?.toString() ?? ""}
-                  placeholder="350.000"
-                  onAccept={(value) => {
-                    if (value === "" || value == null) {
-                      field.onChange(undefined);
-                      return;
-                    }
-
-                    field.onChange(Number(value));
-                  }}
-                />
-              )}
-            />
-          </S.InputWithIcon>
-          <ErrorMessage message={errors.amountToBeCollected?.message} />
-          <Advice advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar." />
-        </S.PublishField>
-
-        <S.PublishField>
-          <S.PublishLabel>Fecha fin</S.PublishLabel>
-          <DatePicker control={control} name="endDate" />
-          <ErrorMessage message={errors.endDate?.message} />
-        </S.PublishField>
-
-        <S.PublishField>
-          <S.PublishLabel>
-            Descripción de la colecta
-            <S.RequiredMark> *</S.RequiredMark>
-          </S.PublishLabel>
-          <S.PublishTextarea
-            {...register("description")}
-            placeholder="Contanos por qué es importante esta colecta de dinero y a quiénes ayudará..."
-          />
-          <ErrorMessage message={errors.description?.message} />
-        </S.PublishField>
-
-        <S.PublishField>
-          <S.PublishLabel>
-            Número de teléfono <S.RequiredMark>*</S.RequiredMark>
-          </S.PublishLabel>
-
-          <PhoneInputComponent
-            areaCodeValue={areaCodeField.value}
-            phoneNumberValue={phoneNumberField.value}
-            onAreaCodeChange={areaCodeField.onChange}
-            onPhoneNumberChange={phoneNumberField.onChange}
-            onAreaCodeBlur={areaCodeField.onBlur}
-            onPhoneNumberBlur={phoneNumberField.onBlur}
-            areaCodeRef={areaCodeField.ref}
-            phoneNumberRef={phoneNumberField.ref}
-            error={
-              areaCodeState.error?.message ?? phoneNumberState.error?.message
-            }
-          />
-          <S.HelpText>
-            El número es requerido para envío de comprobante de pago o para
-            consultas.
-          </S.HelpText>
-        </S.PublishField>
-
-        <S.PublishField as="div">
-          <S.PublishLabel>Ubicación</S.PublishLabel>
+      <S.PublishField>
+        <S.PublishLabel>Meta de recaudación</S.PublishLabel>
+        <S.InputWithIcon>
+          <S.FieldIcon>$</S.FieldIcon>
           <Controller
             control={control}
-            name="location"
-            render={({ field, fieldState }) => (
-              <>
-                <AutocompleteGeolocation
-                  placeHolder="¿Dónde se realizará la campaña?"
-                  onChange={(value) =>
-                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
-                  }
-                />
-                <ErrorMessage message={fieldState.error?.message} />
-              </>
-            )}
-          />
-        </S.PublishField>
-
-        <S.PublishField as="div">
-          <S.PublishLabel>Foto de la colecta</S.PublishLabel>
-          <Controller
-            control={control}
-            name="imageId"
+            name="amountToBeCollected"
             render={({ field }) => (
-              <ImageUpload
-                onImageSelected={(imageId) => field.onChange(imageId)}
+              <StyledMaskedInput
+                {...field}
+                maskType="money"
+                value={field.value?.toString() ?? ""}
+                placeholder="350.000"
+                onAccept={(value) => {
+                  if (value === "" || value == null) {
+                    field.onChange(undefined);
+                    return;
+                  }
+
+                  field.onChange(Number(value));
+                }}
               />
             )}
           />
-          <ErrorMessage message={errors.imageId?.message} />
-        </S.PublishField>
+        </S.InputWithIcon>
+        <ErrorMessage message={errors.amountToBeCollected?.message} />
+        <Advice advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar." />
+      </S.PublishField>
+
+      <S.PublishField>
+        <S.PublishLabel>Fecha fin</S.PublishLabel>
+        <DatePicker control={control} name="endDate" />
+        <ErrorMessage message={errors.endDate?.message} />
+      </S.PublishField>
+
+      <S.PublishField>
+        <S.PublishLabel>
+          Descripción de la colecta
+          <S.RequiredMark> *</S.RequiredMark>
+        </S.PublishLabel>
+        <S.PublishTextarea
+          {...register("description")}
+          placeholder="Contanos por qué es importante esta colecta de dinero y a quiénes ayudará..."
+        />
+        <ErrorMessage message={errors.description?.message} />
+      </S.PublishField>
+
+      <S.PublishField>
+        <S.PublishLabel>
+          Número de teléfono <S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
+
+        <PhoneInputComponent
+          areaCodeValue={areaCodeField.value}
+          phoneNumberValue={phoneNumberField.value}
+          onAreaCodeChange={areaCodeField.onChange}
+          onPhoneNumberChange={phoneNumberField.onChange}
+          onAreaCodeBlur={areaCodeField.onBlur}
+          onPhoneNumberBlur={phoneNumberField.onBlur}
+          areaCodeRef={areaCodeField.ref}
+          phoneNumberRef={phoneNumberField.ref}
+          error={
+            areaCodeState.error?.message ?? phoneNumberState.error?.message
+          }
+        />
+        <S.HelpText>
+          El número es requerido para envío de comprobante de pago o para
+          consultas.
+        </S.HelpText>
+      </S.PublishField>
+
+      <S.PublishField as="div">
+        <S.PublishLabel>Ubicación</S.PublishLabel>
+        <Controller
+          control={control}
+          name="location"
+          render={({ field, fieldState }) => (
+            <>
+              <AutocompleteGeolocation
+                placeHolder="¿Dónde se realizará la campaña?"
+                onChange={(value) =>
+                  field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                }
+              />
+              <ErrorMessage message={fieldState.error?.message} />
+            </>
+          )}
+        />
+      </S.PublishField>
+
+      <S.PublishField as="div">
+        <S.PublishLabel>Foto de la colecta</S.PublishLabel>
+        <Controller
+          control={control}
+          name="imageId"
+          render={({ field }) => (
+            <ImageUpload
+              onImageSelected={(imageId) => field.onChange(imageId)}
+            />
+          )}
+        />
+        <ErrorMessage message={errors.imageId?.message} />
+      </S.PublishField>
     </FormContainer>
   );
 }
