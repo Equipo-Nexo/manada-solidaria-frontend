@@ -16,7 +16,7 @@ function HappyCases() {
   const pagePaws = useMemo(() => createPagePaws(location.key), [location.key]);
   const { data, isLoading } = useGetHappyCasesQuery({});
   const happyCases = data?.content ?? [];
-  const recentCases = happyCases.filter(({ isRecent }) => !isRecent);
+  const recentCases = happyCases.filter(({ isRecent }) => isRecent);
   const visibleCases = happyCases.filter(({ isRecent }) => !isRecent);
   const [expandedCaseId, setExpandedCaseId] = useState<string | null>(null);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(
