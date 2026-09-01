@@ -195,6 +195,9 @@ function Home() {
             <CampaignCard
               key={campaign.id}
               campaign={mapCampaignToCardData(campaign)}
+              onMoreInfo={(selectedCampaign) => {
+                navigate(`/campanias/${selectedCampaign.id}`);
+              }}
             />
           ))}
       </Carousel>

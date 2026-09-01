@@ -43,6 +43,7 @@ function Campaigns() {
         isError={isError}
         isLoading={isLoading}
         onRetry={() => void refetch()}
+        onMoreInfo={(campaign) => navigate(`/campanias/${campaign.id}`)}
       />
     </S.Page>
   );
