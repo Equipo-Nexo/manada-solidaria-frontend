@@ -15,7 +15,7 @@ export const Page = styled.div`
     width: min(100%, 1080px);
     min-height: auto;
     gap: 24px;
-    padding: 28px 32px 16px;
+    padding: 28px 32px 48px;
   }
 `;
 export const Header = styled.header`
@@ -80,23 +80,23 @@ export const DetailsColumn = styled.div`
   gap: 16px;
 `;
 export const PhotoContainer = styled.div<{ $cropped: boolean }>`
-  display: block;
   position: relative;
   width: 100%;
-  height: ${({ $cropped }) => ($cropped ? '320px' : 'auto')};
+  height: ${({ $cropped }) => ($cropped ? "320px" : "auto")};
   overflow: hidden;
   border-radius: 12px;
 
   @media (min-width: 768px) {
-    height: ${({ $cropped }) => ($cropped ? 'clamp(360px, 42vw, 580px)' : 'auto')};
+    height: ${({ $cropped }) =>
+      $cropped ? "clamp(360px, 42vw, 580px)" : "auto"};
     align-self: start;
   }
 `;
 export const FundraisingImage = styled.img<{ $cropped: boolean }>`
   display: block;
   width: 100%;
-  height: ${({ $cropped }) => ($cropped ? '100%' : 'auto')};
-  object-fit: ${({ $cropped }) => ($cropped ? 'cover' : 'initial')};
+  height: ${({ $cropped }) => ($cropped ? "100%" : "auto")};
+  object-fit: ${({ $cropped }) => ($cropped ? "cover" : "initial")};
   object-position: center;
   border-radius: 12px;
 `;
@@ -415,12 +415,10 @@ export const ContactCard = styled.div`
 `;
 export const ContactPhone = styled.span`
   min-width: 0;
-  overflow: hidden;
   color: ${({ theme }) => theme.colors.black};
   font-size: 1rem;
   line-height: 18px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 `;
 export const CallButton = styled.button`
   min-width: 116px;

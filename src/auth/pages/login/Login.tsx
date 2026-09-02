@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, User } from '@icons/index.ts'
@@ -12,6 +12,8 @@ import { useToast } from '@hooks/toast/useToast'
 import * as S from './Login.styles'
 import { loginSchema, type LoginFormValues } from '@auth/app/schemas/loginSchema'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { isWebAuthnSupported } from '@auth/app/webauthn/webAuthnAuthentication'
+import { usePasskeyLogin } from '@auth/hooks/usePasskeyLogin'
 declare const __APP_VERSION__: string;
 
 function Login() {
@@ -21,7 +23,15 @@ function Login() {
   const dispatch = useAppDispatch()
   const { requestLoginPermissions } = useAppPermissions()
   const [login, { isLoading }] = useLoginMutation()
+  const {
+    cancelConditionalLogin,
+    loginWithPasskey,
+    startConditionalLogin,
+    isLoading: isPasskeyLoading,
+  } = usePasskeyLogin()
   const [showPassword, setShowPassword] = useState(false)
+  const passkeySupported = isWebAuthnSupported()
+  const isAuthenticating = isLoading || isPasskeyLoading
   const {
     formState: { errors },
     handleSubmit,
@@ -33,8 +43,18 @@ function Login() {
 
   const params = new URLSearchParams(location.search);
   const redirect = params.get("redirect");
+  
+  useEffect(() => {
+    const startTimer = window.setTimeout(() => void startConditionalLogin(), 0)
+
+    return () => {
+      window.clearTimeout(startTimer)
+      cancelConditionalLogin()
+    }
+  }, [cancelConditionalLogin, startConditionalLogin])
 
   const handleLogin = ({ username, password }: LoginFormValues) => {
+    cancelConditionalLogin()
     const authorization = `Basic ${btoa(`${username}:${password}`)}`
 
     login({ authorization })
@@ -71,7 +91,7 @@ function Login() {
             lo necesitan.
           </S.AppDescription>
 
-          <S.Form onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)} aria-busy={isLoading} noValidate>
+          <S.Form onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)} aria-busy={isAuthenticating} noValidate>
             <div>
               <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
               <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
@@ -87,8 +107,8 @@ function Login() {
                   id="username"
                   type="text"
                   placeholder="usuario"
-                  autoComplete="username"
-                  disabled={isLoading}
+                  autoComplete="username webauthn"
+                  disabled={isAuthenticating}
                   aria-describedby={errors.username ? 'username-error' : undefined}
                   aria-invalid={Boolean(errors.username)}
                   $hasError={Boolean(errors.username)}
@@ -108,7 +128,7 @@ function Login() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder={showPassword ? 'contraseña' : '********'}
                     autoComplete="current-password"
-                    disabled={isLoading}
+                    disabled={isAuthenticating}
                     aria-describedby={errors.password ? 'password-error' : undefined}
                     aria-invalid={Boolean(errors.password)}
                     $hasError={Boolean(errors.password)}
@@ -117,7 +137,7 @@ function Login() {
                   <S.PasswordToggle
                     type="button"
                     aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                    disabled={isLoading}
+                    disabled={isAuthenticating}
                     onClick={() => setShowPassword((currentValue) => !currentValue)}
                   >
                     {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
@@ -130,9 +150,24 @@ function Login() {
                 Olvidé mi contraseña
               </S.RecoveryButton>
 
-              <S.PrimaryButton type="submit" disabled={isLoading}>
+              <S.PrimaryButton type="submit" disabled={isAuthenticating}>
                 {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
               </S.PrimaryButton>
+
+              {passkeySupported && (
+                <>
+                  <S.LoginDivider>
+                    <span>o</span>
+                  </S.LoginDivider>
+                  <S.PasskeyButton
+                    type="button"
+                    disabled={isAuthenticating}
+                    onClick={() => void loginWithPasskey()}
+                  >
+                    {isPasskeyLoading ? 'Esperando confirmación...' : 'Ingresar con passkey'}
+                  </S.PasskeyButton>
+                </>
+              )}
             </S.FormFields>
           </S.Form>
 

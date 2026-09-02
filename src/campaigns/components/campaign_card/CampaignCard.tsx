@@ -8,6 +8,7 @@ import { openWhatsApp } from "@/common/utils/Whatsapp";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 import { ImagePreview } from "@/common/components";
 import { shareUrl } from '@/common/utils/HandleShare';
+import { normalizeImageUrl } from '@/common/utils/CommonUtils';
 
 export type CampaignCardData = {
   id?: string | number;
@@ -36,7 +37,8 @@ function CampaignCard({
   const handleShareButton = () => {
     shareUrl({
       path: `?redirect=/campanias/${campaign.id}`,
-      text: 'Mirá esta campaña, quizás te sirve.'
+      text: 'Mirá esta campaña, quizás te sirve.',
+      imageUrl: normalizeImageUrl(campaign.imageUrl, true),
     })    
   }
   

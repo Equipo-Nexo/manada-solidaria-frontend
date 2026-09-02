@@ -41,19 +41,18 @@ export const ContactRow = styled.div`
 export const ContactNumber = styled.span`
   flex: 1 1 auto;
   min-width: 0;
-  overflow: hidden;
   margin-right: auto;
   color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+  overflow-wrap: anywhere;
   text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 `
 
 export const ContactButton = styled.button`
   flex: 0 0 auto;
   margin-left: auto;
-  min-width: 116px;
+  min-width: 90px;
   height: 40px;
   padding: 6px 8px;
   border: 2px solid ${({ theme }) => theme.colors.brand};
@@ -63,11 +62,6 @@ export const ContactButton = styled.button`
   font: inherit;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
-
-  @media (max-width: 359px) {
-    min-width: 100px;
-  }
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;

@@ -8,7 +8,7 @@ import BookIcon from '@/common/icons/Book'
 import { useGetAnimalPostQuery } from '@/animals/app/api/animalPostsApi'
 import { animalAgeLabels, animalColorLabels, animalSexLabels, animalSizeLabels, getAnimalName, type AnimalPostType } from '@/animals/app/types/AnimalPost.types'
 import { animalKinds } from '@/animals/utils/AnimalFormUtils'
-import { NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
 import * as S from './DetailAnimalPost.styles'
 import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
 import getOwnerRole from '@/common/utils/GetRoles'
@@ -81,7 +81,8 @@ function AnimalPostDetail() {
   const handleShareButton = () => {
     shareUrl({
       path: `?redirect=${window.location.pathname}`,
-      text: 'Mirá este animalito para ayudar.'
+      text: 'Mirá este animalito para ayudar.',
+      imageUrl: normalizeImageUrl(postData.imageUrl, true),
     })
   }
 
@@ -95,7 +96,7 @@ function AnimalPostDetail() {
       <S.HeroLayout>
         <S.PhotoContainer>
           <S.Photo
-            src={`${import.meta.env.VITE_CLOUDFLARE_URL}${postData.imageUrl}`}
+            src={normalizeImageUrl(postData.imageUrl)}
             alt={name}
             onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
           />
@@ -124,9 +125,7 @@ function AnimalPostDetail() {
             )}
             <S.InfoContainer $variant="author">
               <S.ProfilePhoto
-                src={postData.owner.profileImageUrl
-                  ? `${import.meta.env.VITE_CLOUDFLARE_URL}${postData.owner.profileImageUrl}`
-                  : '/logo.svg'}
+                src={normalizeImageUrl(postData.owner.profileImageUrl, '/logo.svg')}
                 alt={`Foto de perfil de ${postData.owner.username}`}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null

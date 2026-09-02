@@ -9,6 +9,7 @@ import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
 import ImagePreview from '../image_preview/ImagePreview'
 import { shareUrl } from '@/common/utils/HandleShare'
+import { normalizeImageUrl } from '@/common/utils/CommonUtils'
 
 export type AnimalPostCardProps = {
   postId: string
@@ -63,7 +64,8 @@ function AnimalPostCard({
   const handleShareButton = () => {
     shareUrl({
       path: `?redirect=/animal/detalle/${postId}`,
-      text: 'Mirá este animalito para ayudar.'
+      text: 'Mirá este animalito para ayudar.',
+      imageUrl: normalizeImageUrl(imageUrl, true)
     })
   }
 

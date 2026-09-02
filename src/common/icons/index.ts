@@ -45,7 +45,6 @@ export { default as Clock } from "./Clock";
 export { default as Ruler } from "./Ruler";
 export { default as OpenMap } from "./OpenMap";
 export { default as Transfer } from "./Transfer";
-export { default as DonationItemIcon } from "../../campaigns/utils/DonationItemIcon";
 export { default as AnimalFood } from './AnimalFood'
 export { default as Bed } from './Bed'
 export { default as Bone } from './Bone'
@@ -57,3 +56,4 @@ export { default as Gender } from './Gender'
 export { default as Medicine } from './Medicine'
 export { default as OpenBook } from './OpenBook'
 export { default as TShirt } from './T-shirt'
+export { default as Security } from "./Security";

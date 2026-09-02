@@ -4,7 +4,7 @@ import MapDetailsComponent from "@/common/components/map_details_component/MapDe
 import DonationItems from "@/campaigns/components/donation_items/DonationItems";
 import { Arrow, Calendar, Share } from "@/common/icons";
 import OpenBook from "@/common/icons/OpenBook";
-import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./CampaignDetail.styles"
@@ -67,7 +67,8 @@ function CampaingDetail() {
     const handleShareButton = () => {
         shareUrl({
             path: `?redirect=/campanias/${campaignId}`,
-            text: 'Mirá esta campaña, quizás te sirve.'
+            text: 'Mirá esta campaña, quizás te sirve.',
+            imageUrl: normalizeImageUrl(campaignData?.imageUrl, true)
         })            
     }        
 
@@ -77,7 +78,7 @@ function CampaingDetail() {
                 <S.BackButton onClick={() => navigate("/home")}>
                     <Arrow aria-hidden="true" />
                 </S.BackButton>
-                <S.FormTitle>Información Colecta</S.FormTitle>
+                <S.FormTitle>Información Campaña</S.FormTitle>
             </S.Header>
             {isLoading && <Loader label="Cargando información de la colecta." />}
             {isError ||

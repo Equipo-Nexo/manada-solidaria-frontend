@@ -1,18 +1,18 @@
-import { Arrow, Check, Share } from "@/common/icons";
+import { Arrow, Check, OpenMap, Share } from "@/common/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./FundraisingCampaignDetail.styles";
 import { useGetFundraisingByIdQuery } from "@/campaigns/app/api/campaignApi";
-import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import Calendar from "@/common/icons/Calendar";
 import Copy from "@/common/icons/Copy";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
 import { Loader, ScrollHint } from "@/common/components";
-import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
-import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
+import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useState } from "react";
 import { shareUrl } from "@/common/utils/HandleShare";
+import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const [cropImage, setCropImage] = useState(false);
@@ -33,18 +33,18 @@ function FundraisingCampaignDetail() {
     }
   };
   const location = data?.location.name || 'Ubicación no informada'
+
   const address = data?.location.address || ''
+
   const PHONE_NUMBER = data?.phoneNumber
     ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
     : ""
-  const fundraisingImageUrl = data?.imageId
-    ? `${import.meta.env.VITE_CLOUDFLARE_URL}${data.imageId}`
-    : NOT_FOUND_IMAGE_URL
 
   const handleShareButton = () => {
     shareUrl({
       path: `?redirect=${window.location.pathname}`,
-      text: 'Mirá esta colecta para ayudar a un animalito.'
+      text: 'Mirá esta colecta para ayudar a un animalito.',
+      imageUrl: normalizeImageUrl(data?.imageId, true)
     })
   }
   
@@ -66,11 +66,12 @@ function FundraisingCampaignDetail() {
           <S.HeroLayout>
             <S.PhotoContainer $cropped={cropImage}>
               <S.FundraisingImage
-                src={fundraisingImageUrl}
+                src={normalizeImageUrl(data?.imageId)}
                 alt={data?.title ?? "Imagen de la colecta"}
                 $cropped={cropImage}
                 onLoad={({ currentTarget }) => {
-                  const ratio = currentTarget.naturalWidth / currentTarget.naturalHeight;
+                  const ratio =
+                    currentTarget.naturalWidth / currentTarget.naturalHeight;
                   setCropImage(ratio < 0.65 || ratio > 2);
                 }}
               />
@@ -78,13 +79,17 @@ function FundraisingCampaignDetail() {
             <S.DetailsColumn>
               <S.FundraisingInfo>
                 <S.Title>{data?.title}</S.Title>
-                <S.FundraisingEndDate>
-                  <Calendar aria-hidden="true" />
-                  <S.EndDateContent>
-                    <S.EndDateLabel>Fin colecta</S.EndDateLabel>
-                    <S.EndDateValue>Viernes 3 de julio 2026</S.EndDateValue>
-                  </S.EndDateContent>
-                </S.FundraisingEndDate>
+                {data.campaignEndDate && (
+                  <S.FundraisingEndDate>
+                    <Calendar aria-hidden="true" />
+                    <S.EndDateContent>
+                      <S.EndDateLabel>Fin colecta</S.EndDateLabel>
+                      <S.EndDateValue>
+                        {formatDateTimeLong(data.campaignEndDate).date}
+                      </S.EndDateValue>
+                    </S.EndDateContent>
+                  </S.FundraisingEndDate>
+                )}
               </S.FundraisingInfo>
               <S.AliasSection>
                 <S.IconContainer>
@@ -139,15 +144,26 @@ function FundraisingCampaignDetail() {
                 </S.FundraisingDescription>
               </S.DescriptionSection>
               {data?.location && (
-                <MapDetailsComponent
-                  location={location}
-                  address={address}
-                  locationPath={`/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`}
-                />)}
+                <S.LocationCard>
+                  <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
+                  <S.LocationContent>
+                    <S.LocationTitle>{location}</S.LocationTitle>
+                    <S.LocationAddress>{address}</S.LocationAddress>
+                    <S.MapLink
+                      type="button"
+                      onClick={() => navigate(
+                        `/mapa?latitude=${data.location.latitude}&longitude=${data.location.longitude}`,
+                      )}
+                    >
+                      Ver en el mapa <OpenMap aria-hidden="true" />
+                    </S.MapLink>
+                  </S.LocationContent>
+                </S.LocationCard>
+              )}
             </S.DetailsColumn>
           </S.HeroLayout>
           <S.BottomInfoRow>
-            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data?.title} />
+            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data?.title ?? ""} />
             <S.ShareButton onClick={handleShareButton}>
               <Share aria-hidden="true" />
               Compartir colecta
