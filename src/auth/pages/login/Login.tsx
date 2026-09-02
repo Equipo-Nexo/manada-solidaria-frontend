@@ -75,30 +75,27 @@ function Login() {
   return (
     <S.LoginPanel>
       <S.LoginContainer>
-        <S.LoginContent>
           <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
           <S.AppTitle>
-            Manada
-            <br />
-            Solidaria
+            Manada <S.TitleLineBreak /> Solidaria
           </S.AppTitle>
           <S.AppDescription>
-            Ayudemos juntos a quienes más <br />
+            Ayudemos juntos a quienes más <S.TitleLineBreak />
             lo necesitan.
           </S.AppDescription>
 
-          <S.Form onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)} aria-busy={isAuthenticating} noValidate>
-            <div>
-              <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
-              <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
-            </div>
+          <S.TitlesContainer>
+            <S.WelcomeTitle>¡Que bueno verte<S.TitleLineBreak /> de nuevo!</S.WelcomeTitle>
+            <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
+          </S.TitlesContainer>
 
+          <S.Form onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)} aria-busy={isAuthenticating} noValidate>
             <S.FormFields>
               <S.Field>
-                <S.FieldHeader htmlFor="username">
+                <S.FieldLabelContainer>
                   <User aria-hidden="true" />
-                  <span>Usuario</span>
-                </S.FieldHeader>
+                  <S.FieldLabel htmlFor="username">Usuario</S.FieldLabel>
+                </S.FieldLabelContainer>
                 <S.Input
                   id="username"
                   type="text"
@@ -114,10 +111,10 @@ function Login() {
               </S.Field>
 
               <S.Field>
-                <S.FieldHeader htmlFor="password">
+                <S.FieldLabelContainer>
                   <Lock aria-hidden="true" />
-                  <span>Contraseña</span>
-                </S.FieldHeader>
+                  <S.FieldLabel>Contraseña</S.FieldLabel>
+                </S.FieldLabelContainer>
                 <S.PasswordInputWrapper>
                   <S.Input
                     id="password"
@@ -146,9 +143,9 @@ function Login() {
                 Olvidé mi contraseña
               </S.RecoveryButton>
 
-              <S.PrimaryButton type="submit" disabled={isAuthenticating}>
+              <S.LoginButton type="submit" disabled={isAuthenticating}>
                 {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
-              </S.PrimaryButton>
+              </S.LoginButton>
 
               {passkeySupported && (
                 <>
@@ -166,14 +163,17 @@ function Login() {
               )}
             </S.FormFields>
           </S.Form>
+          <S.RegisterTextContainer>
+            <S.RegisterText>
+              ¿No tienes cuenta? <S.RegisterLink href="/registro">Regístrate</S.RegisterLink>
+            </S.RegisterText>
+          </S.RegisterTextContainer>
 
-          <S.RegisterText>
-            ¿No tienes cuenta? <S.RegisterLink href="/registro">Regístrate</S.RegisterLink>
-          </S.RegisterText>
-        </S.LoginContent>
       </S.LoginContainer>
-      <S.LoginFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.LoginFooter>
-      <S.LoginFooter>v{__APP_VERSION__}</S.LoginFooter>
+      <S.FooterContainer>
+        <S.FooterText>© 2026 Manada Solidaria - Cuidando huellas juntos</S.FooterText>
+        <S.FooterText>v{__APP_VERSION__}</S.FooterText>
+      </S.FooterContainer>
     </S.LoginPanel>
   )
 }
