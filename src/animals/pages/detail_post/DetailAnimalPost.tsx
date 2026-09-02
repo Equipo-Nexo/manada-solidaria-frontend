@@ -125,7 +125,7 @@ function AnimalPostDetail() {
             )}
             <S.InfoContainer $variant="author">
               <S.ProfilePhoto
-                src={normalizeImageUrl(postData.owner.profileImageUrl, '/logo.svg')}
+                src={normalizeImageUrl(postData.owner.profileImageUrl)}
                 alt={`Foto de perfil de ${postData.owner.username}`}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
