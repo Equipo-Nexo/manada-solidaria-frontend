@@ -14,6 +14,7 @@ function MobileAuthenticatedView() {
     "/publicar/animal",
     "/publicar/colecta",
     "/mis-publicaciones",
+    "/casos-felices",
   ];
 
   const hideNavigation =
@@ -23,7 +24,9 @@ function MobileAuthenticatedView() {
   const hideBottomNavigation = hideNavigation || location.pathname === '/mi-perfil/datos-personales'
   const showHeader =
     location.pathname !== "/menu" &&
-    (!hideNavigation || location.pathname === "/mis-publicaciones") &&
+    (!hideNavigation ||
+      location.pathname === "/mis-publicaciones" ||
+      location.pathname === "/casos-felices") &&
     location.pathname !== "/editar/exito";
 
   return (
