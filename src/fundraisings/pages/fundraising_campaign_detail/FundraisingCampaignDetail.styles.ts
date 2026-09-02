@@ -451,4 +451,8 @@ export const ShareButton = styled.button`
   font-size: ${({ theme }) => theme.typography.action.fontSize};
   font-weight: ${({ theme }) => theme.typography.action.fontWeight};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
