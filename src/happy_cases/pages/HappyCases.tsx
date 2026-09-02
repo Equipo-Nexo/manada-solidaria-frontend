@@ -2,19 +2,15 @@ import { Arrow, ChevronRight, Heart, PawPrint } from "@/common/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import * as S from "./HappyCases.styles";
-import type { HappyCaseResponse } from "./app/api/responses/happyCasesResponses";
 import { useGetHappyCasesQuery } from "./app/api/happyCasesApi";
 import { Loader } from "@/common/components";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import Stories from "./Stories";
 import { createPagePaws } from "@/common/utils/PagePawUtils";
 import { ANIMAL_POST_STATUS_LABELS } from "@animals/utils/AnimalFormUtils";
 import getOwnerRole from "@/common/utils/GetRoles";
 import CarouselSlider from "@/common/components/carousel_slider/CarouselSlider";
-type HappyCasesProps = {
-  onViewCase?: (happyCase: HappyCaseResponse) => void;
-};
-
-function HappyCases({ onViewCase }: HappyCasesProps) {
+function HappyCases() {
   const navigate = useNavigate();
   const location = useLocation();
   const pagePaws = useMemo(() => createPagePaws(location.key), [location.key]);
@@ -23,6 +19,10 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
   const recentCases = happyCases.filter(({ isRecent }) => isRecent);
   const visibleCases = happyCases.filter(({ isRecent }) => !isRecent);
   const [expandedCaseId, setExpandedCaseId] = useState<string | null>(null);
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(
+    null,
+  );
+
   const hasRecentCases = recentCases.length > 0;
   if (isLoading) {
     return (
@@ -59,6 +59,7 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
           <S.DescriptionIcon $hasRecentCases={hasRecentCases}>
             <PawPrint aria-hidden="true" />
           </S.DescriptionIcon>
+
           <S.DescriptionText $hasRecentCases={hasRecentCases}>
             Celebramos las segundas oportunidades. Conocé las historias de éxito
             que llenan de alegría a nuestra comunidad.
@@ -85,7 +86,13 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
 
                     <S.StoryButton
                       type="button"
-                      onClick={() => onViewCase?.(happyCase)}
+                      onClick={() => {
+                        const index = recentCases.findIndex(
+                          ({ id }) => id === happyCase.id,
+                        );
+
+                        setSelectedStoryIndex(index);
+                      }}
                     >
                       Ver historia
                       <ChevronRight aria-hidden="true" />
@@ -177,6 +184,13 @@ function HappyCases({ onViewCase }: HappyCasesProps) {
           </S.CaseWrapper>
         ))}
       </S.CasesList>
+      {selectedStoryIndex !== null && (
+        <Stories
+          cases={recentCases}
+          initialIndex={selectedStoryIndex}
+          onClose={() => setSelectedStoryIndex(null)}
+        />
+      )}
     </S.Container>
   );
 }

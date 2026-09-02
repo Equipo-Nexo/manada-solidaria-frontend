@@ -1,6 +1,7 @@
-import { useRef, useState, type ReactNode } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { ChevronRight } from "@/common/icons";
 import * as S from "./CarouselSlider.styles";
+import { useAutoAdvance } from "@/common/hooks/auto_advance/useAutoAdvance";
 
 type CarouselSliderProps<T> = {
   items: T[];
@@ -15,7 +16,6 @@ function CarouselSlider<T>({ items, renderItem }: CarouselSliderProps<T>) {
   const handleCarouselScroll = () => {
     const carousel = carouselRef.current;
     if (!carousel) return;
-
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
@@ -23,26 +23,32 @@ function CarouselSlider<T>({ items, renderItem }: CarouselSliderProps<T>) {
     scrollTimeoutRef.current = setTimeout(() => {
       const item = carousel.firstElementChild as HTMLElement | null;
       if (!item) return;
-
       const index = Math.round(carousel.scrollLeft / item.offsetWidth);
-
       setActiveIndex(index);
     }, 100);
   };
 
-  const scrollToItem = (index: number) => {
+  const scrollToItem = useCallback((index: number) => {
     const carousel = carouselRef.current;
     const item = carousel?.children[index] as HTMLElement | undefined;
-
     if (!carousel || !item) return;
-
     carousel.scrollTo({
       left: item.offsetLeft,
       behavior: "smooth",
     });
-
     setActiveIndex(index);
-  };
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (activeIndex >= items.length - 1) return;
+    scrollToItem(activeIndex + 1);
+  }, [activeIndex, items.length, scrollToItem]);
+
+  useAutoAdvance({
+    currentIndex: activeIndex,
+    totalItems: items.length,
+    onNext: handleNext,
+  });
 
   if (items.length === 0) return null;
 
