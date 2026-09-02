@@ -13,7 +13,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: 2rem;
     background: ${({ theme }) => theme.colors.background};
   }
 `;
