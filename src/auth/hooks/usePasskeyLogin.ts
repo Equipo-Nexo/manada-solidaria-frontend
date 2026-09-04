@@ -28,12 +28,15 @@ export function usePasskeyLogin() {
   const [isManualLoginLoading, setIsManualLoginLoading] = useState(false)
   const conditionalControllerRef = useRef<AbortController | null>(null)
 
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+
   const finishPasskeyLogin = useCallback(async (credential: AuthenticationCredentialJSON) => {
     const tokens = await authenticate(credential).unwrap()
 
     dispatch(loginSuccess(tokens))
     void requestLoginPermissions()
-    navigate('/home', { replace: true })
+    navigate(redirect ? redirect : '/home', { replace: true })
   }, [authenticate, dispatch, navigate, requestLoginPermissions])
 
   const cancelConditionalLogin = useCallback(() => {
