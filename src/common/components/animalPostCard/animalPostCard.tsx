@@ -8,6 +8,8 @@ import { ANIMAL_POST_STATUS_LABELS } from '@/animals/utils/AnimalFormUtils'
 import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
 import type { Location } from '@/common/app/services/responses/Location'
 import ImagePreview from '../image_preview/ImagePreview'
+import { shareUrl } from '@/common/utils/HandleShare'
+import { normalizeImageUrl } from '@/common/utils/CommonUtils'
 
 export type AnimalPostCardProps = {
   postId: string
@@ -30,8 +32,7 @@ function AnimalPostCard({
   description,
   imageUrl,
   phoneNumber,
-  reward,
-  onShare
+  reward
 }: AnimalPostCardProps) {
   const navigate = useNavigate()
   const [isRewardExpanded, setIsRewardExpanded] = useState(false)
@@ -60,6 +61,14 @@ function AnimalPostCard({
     navigate(`/animal/detalle/${postId}`)
   }
 
+  const handleShareButton = () => {
+    shareUrl({
+      path: `?redirect=/animal/detalle/${postId}`,
+      text: 'Mirá este animalito para ayudar.',
+      imageUrl: normalizeImageUrl(imageUrl, true)
+    })
+  }
+
   return (
     <S.CardContainer onClick={handleCardClick}>
       <S.PhotoContainer>
@@ -67,7 +76,7 @@ function AnimalPostCard({
           imageId={imageUrl}
           alt={name}
         />
-        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={onShare}>
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={handleShareButton}>
           <Share aria-hidden="true" />
         </S.ShareButton>
       </S.PhotoContainer>

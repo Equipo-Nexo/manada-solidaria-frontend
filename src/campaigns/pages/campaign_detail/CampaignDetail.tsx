@@ -4,7 +4,7 @@ import MapDetailsComponent from "@/common/components/map_details_component/MapDe
 import DonationItems from "@/campaigns/components/donation_items/DonationItems";
 import { Arrow, Calendar, Share } from "@/common/icons";
 import OpenBook from "@/common/icons/OpenBook";
-import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./CampaignDetail.styles"
@@ -12,6 +12,7 @@ import ContactCardComponent from "@/common/components/contact_details_component/
 import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { useState } from "react";
+import { shareUrl } from "@/common/utils/HandleShare";
 
 interface DateInfoProps {
     label: string;
@@ -62,6 +63,14 @@ function CampaingDetail() {
     const campaignImageUrl = campaignData?.imageId
         ? `${import.meta.env.VITE_CLOUDFLARE_URL}${campaignData.imageId}`
         : NOT_FOUND_IMAGE_URL
+
+    const handleShareButton = () => {
+        shareUrl({
+            path: `?redirect=/campanias/${campaignId}`,
+            text: 'Mirá esta campaña, quizás te sirve.',
+            imageUrl: normalizeImageUrl(campaignData?.imageUrl, true)
+        })            
+    }        
 
     return (
         <S.Page>
@@ -136,7 +145,7 @@ function CampaingDetail() {
                     </S.HeroLayout>
                     <S.BottomInfoRow>
                         <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
-                        <S.ShareButton type="submit">
+                        <S.ShareButton type="submit" onClick={handleShareButton}>
                             <Share aria-hidden="true" />
                             Compartir Campaña
                         </S.ShareButton>

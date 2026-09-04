@@ -16,6 +16,7 @@ import PawLoader from '@/common/components/pawLoader/PawLoader'
 import { formatDateLong } from '@/common/utils/DateTime'
 import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
 import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
+import { shareUrl } from '@/common/utils/HandleShare'
 
 function AnimalPostDetail() {
 
@@ -77,10 +78,18 @@ function AnimalPostDetail() {
     }
   }
 
+  const handleShareButton = () => {
+    shareUrl({
+      path: `?redirect=${window.location.pathname}`,
+      text: 'Mirá este animalito para ayudar.',
+      imageUrl: normalizeImageUrl(postData.imageUrl, true),
+    })
+  }
+
   return (
     <S.MainContainer>
       <S.Header>
-        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver"><Arrow aria-hidden="true" /></S.BackButton>
+        <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver"><Arrow aria-hidden="true" /></S.BackButton>
         <S.PageTitle>Detalle de Publicación</S.PageTitle>
       </S.Header>
 
@@ -116,7 +125,7 @@ function AnimalPostDetail() {
             )}
             <S.InfoContainer $variant="author">
               <S.ProfilePhoto
-                src={normalizeImageUrl(postData.owner.profileImageUrl, '/logo.svg')}
+                src={normalizeImageUrl(postData.owner.profileImageUrl)}
                 alt={`Foto de perfil de ${postData.owner.username}`}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
@@ -162,7 +171,7 @@ function AnimalPostDetail() {
             </S.AdviceArea>
           </>
         )}
-        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`}>
+        <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={handleShareButton}>
           <Share aria-hidden="true" />
           Compartir Publicación
         </S.ShareButton>

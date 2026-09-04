@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
@@ -30,12 +30,16 @@ import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign
 import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
+import NotFound from "./common/pages/not_found/NotFound";
+import { useEffect } from "react";
 import HappyCases from "./happy_cases/pages/HappyCases";
 import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
 import Security from "./users/pages/security/Security";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
     location.pathname === "/publicar/animal" ||
@@ -53,8 +57,8 @@ function App() {
     location.pathname.startsWith("/mi-perfil/");
 
   const usesFullScreenLayout =
-    location.pathname === "/login" ||
-    location.pathname === "/registro" ||
+    actualPath === "/login" ||
+    actualPath === "/registro" ||
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail;
@@ -63,6 +67,22 @@ function App() {
     (!usesFullScreenLayout || isMobileMenu) &&
     !isCampaignDetail &&
     !isProfileSection;
+
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+
+  useEffect(() => {
+    if (!isAuthenticated && redirect) {
+      navigate(
+        `/login?redirect=${encodeURIComponent(redirect)}`,
+        { replace: true }
+      );
+    }
+
+    if (isAuthenticated && redirect) {
+      navigate(redirect)
+    }
+  }, []);
 
   return (
     <>
@@ -76,18 +96,9 @@ function App() {
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
-            <Route
-              path="/login"
-              element={
-                isAuthenticated ? <Navigate to="/home" replace /> : <Login />
-              }
-            />
-            <Route
-              path="/registro"
-              element={
-                isAuthenticated ? <Navigate to="/home" replace /> : <Register />
-              }
-            />
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Register />}/>
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
@@ -134,7 +145,7 @@ function App() {
               <Route path="/casos-felices" element={<HappyCases />} />
               <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
             </Route>
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AppContent>
       </AppShell>

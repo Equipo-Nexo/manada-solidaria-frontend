@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, User } from '@icons/index.ts'
 import { ErrorMessage } from '@components/index.ts'
 import { useLoginMutation } from '@auth/app/api/authApi'
@@ -17,6 +17,7 @@ import { usePasskeyLogin } from '@auth/hooks/usePasskeyLogin'
 declare const __APP_VERSION__: string;
 
 function Login() {
+  const location = useLocation()
   const navigate = useNavigate()
   const toast = useToast()
   const dispatch = useAppDispatch()
@@ -40,6 +41,9 @@ function Login() {
     resolver: yupResolver(loginSchema),
   })
 
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+  
   useEffect(() => {
     const startTimer = window.setTimeout(() => void startConditionalLogin(), 0)
 
@@ -58,7 +62,7 @@ function Login() {
       .then((tokens) => {
         dispatch(loginSuccess(tokens))
         void requestLoginPermissions()
-        navigate('/home', { replace: true })
+        navigate(redirect ? redirect : '/home', { replace: true })
       })
       .catch(() => {
         toast.error(

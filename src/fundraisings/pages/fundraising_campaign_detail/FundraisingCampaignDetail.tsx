@@ -11,6 +11,7 @@ import OpenBook from "@/common/icons/OpenBook";
 import { Loader, ScrollHint } from "@/common/components";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useState } from "react";
+import { shareUrl } from "@/common/utils/HandleShare";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
@@ -25,10 +26,10 @@ function FundraisingCampaignDetail() {
   const progress = hasGoal
     ? Math.min(100, Math.round((collected / goal) * 100))
     : 0;
-  const { copied, copy } = useCopyToClipboard();
+  const { copied: copiedAlias, copy: copyAlias } = useCopyToClipboard();
   const handleCopyAlias = () => {
     if (data?.accountAlias) {
-      void copy(data.accountAlias);
+      copyAlias(data.accountAlias);
     }
   };
   const location = data?.location.name || 'Ubicación no informada'
@@ -39,6 +40,14 @@ function FundraisingCampaignDetail() {
     ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
     : ""
 
+  const handleShareButton = () => {
+    shareUrl({
+      path: `?redirect=${window.location.pathname}`,
+      text: 'Mirá esta colecta para ayudar a un animalito.',
+      imageUrl: normalizeImageUrl(data?.imageId, true)
+    })
+  }
+  
   return (
     <S.Page>
       <S.Header>
@@ -93,15 +102,15 @@ function FundraisingCampaignDetail() {
                 <S.CopyButton
                   type="button"
                   onClick={handleCopyAlias}
-                  $copied={copied}
+                  $copied={copiedAlias}
                 >
-                  {copied ? (
+                  {copiedAlias ? (
                     <Check aria-hidden="true" />
                   ) : (
                     <Copy $inverted aria-hidden="true" />
                   )}
 
-                  {copied ? "Alias copiado" : "Copiar alias"}
+                  {copiedAlias ? "Alias copiado" : "Copiar alias"}
                 </S.CopyButton>
               </S.AliasSection>
               {hasGoal && (
@@ -155,9 +164,9 @@ function FundraisingCampaignDetail() {
           </S.HeroLayout>
           <S.BottomInfoRow>
             <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data?.title ?? ""} />
-            <S.ShareButton type="submit">
+            <S.ShareButton onClick={handleShareButton}>
               <Share aria-hidden="true" />
-              Compartir Colecta
+              Compartir colecta
             </S.ShareButton>
           </S.BottomInfoRow>
         </S.Content>
