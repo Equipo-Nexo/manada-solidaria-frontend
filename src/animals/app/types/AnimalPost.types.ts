@@ -1,47 +1,45 @@
-import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils"
-import type { Location } from "@/common/app/services/responses/Location"
-import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
-
-
-
+import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
+import type { Location } from "@/common/app/services/responses/Location";
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
 export const getAnimalPostStatus = (
-  backendStatus: AnimalPostStatus
+  backendStatus: AnimalPostStatus,
 ): string | undefined => {
-  return ANIMAL_POST_STATUS_LABELS[backendStatus]
-}
+  return ANIMAL_POST_STATUS_LABELS[backendStatus];
+};
 
+export type AnimalPostStatus =
+  | "CREATED"
+  | "SEARCHING"
+  | "FOUND"
+  | "SEARCHING_ADOPT_AND_TRANSIT"
+  | "SEARCHING_ADOPT"
+  | "ADOPTED"
+  | "IN_STREET"
+  | "RESCUED";
+export type AnimalGender = "MALE" | "FEMALE";
 
-
-
-export type AnimalPostStatus = "CREATED" | "SEARCHING" | "FOUND" | "SEARCHING_ADOPT_AND_TRANSIT" | "SEARCHING_ADOPT" | "ADOPTED" | 'IN_STREET'
-export type AnimalGender = 'MALE' | 'FEMALE'
-
-export const animalTypes = ['DOG', 'CAT', 'OTHER'] as const
-export type AnimalType = typeof animalTypes[number]
+export const animalTypes = ["DOG", "CAT", "OTHER"] as const;
+export type AnimalType = (typeof animalTypes)[number];
 
 export const animalTypeLabels: Record<AnimalType, string> = {
-  DOG: 'Perro',
-  CAT: 'Gato',
-  OTHER: 'Otro',
-}
+  DOG: "Perro",
+  CAT: "Gato",
+  OTHER: "Otro",
+};
 
 export const getAnimalName = (name: string | null, type: AnimalType): string =>
-  name?.trim() || animalTypeLabels[type]
+  name?.trim() || animalTypeLabels[type];
 
-export const animalPostTypes = ['ADOPTION', 'LOST', 'IN_STREET'] as const;
-export type AnimalPostType = typeof animalPostTypes[number]
+export const animalPostTypes = ["ADOPTION", "LOST", "IN_STREET"] as const;
+export type AnimalPostType = (typeof animalPostTypes)[number];
 
-export const animalPostFilters = ['', 'IN_STREET', ...animalPostTypes]
-export type AnimalPostFilter = typeof animalPostFilters[number]
+export const animalPostFilters = ["", "IN_STREET", ...animalPostTypes];
+export type AnimalPostFilter = (typeof animalPostFilters)[number];
 
-export const animalSizes = [
-  "SMALL",
-  "MEDIUM",
-  "LARGE",
-] as const;
+export const animalSizes = ["SMALL", "MEDIUM", "LARGE"] as const;
 
-export type AnimalSize = typeof animalSizes[number];
+export type AnimalSize = (typeof animalSizes)[number];
 
 export const animalSizeLabels: Record<AnimalSize, string> = {
   SMALL: "Pequeño",
@@ -49,15 +47,9 @@ export const animalSizeLabels: Record<AnimalSize, string> = {
   LARGE: "Grande",
 };
 
+export const animalAges = ["PUPPY", "ADULT", "SENIOR", "UNKNOWN"] as const;
 
-export const animalAges = [
-  "PUPPY",
-  "ADULT",
-  "SENIOR",
-  "UNKNOWN",
-] as const;
-
-export type AnimalAge = typeof animalAges[number];
+export type AnimalAge = (typeof animalAges)[number];
 
 export const animalAgeLabels: Record<AnimalAge, string> = {
   PUPPY: "Cachorro",
@@ -66,21 +58,15 @@ export const animalAgeLabels: Record<AnimalAge, string> = {
   UNKNOWN: "Desconocida",
 };
 
+export const animalSexes = ["MALE", "FEMALE", "UNKNOWN"] as const;
 
-export const animalSexes = [
-  "MALE",
-  "FEMALE",
-  "UNKNOWN",
-] as const;
-
-export type AnimalSex = typeof animalSexes[number];
+export type AnimalSex = (typeof animalSexes)[number];
 
 export const animalSexLabels: Record<AnimalSex, string> = {
   MALE: "Macho",
   FEMALE: "Hembra",
   UNKNOWN: "Sin definir",
 };
-
 
 export const animalColors = [
   "GRAY",
@@ -91,7 +77,7 @@ export const animalColors = [
   "OTHER",
 ] as const;
 
-export type AnimalColor = typeof animalColors[number];
+export type AnimalColor = (typeof animalColors)[number];
 
 export const animalColorLabels: Record<AnimalColor, string> = {
   GRAY: "Gris",
@@ -103,34 +89,32 @@ export const animalColorLabels: Record<AnimalColor, string> = {
 };
 
 export type AnimalPost = {
-  id: string
-  type: AnimalPostType
-  name: string | null
-  description: string
-  imageUrl: string
-  animal: Animal
-  location: Location
-  status: AnimalPostStatus
-  createdAt: string
-  ownerId: string
-  owner: Owner
-  phoneNumber?: PhoneNumber
-  reward: number | null
-}
+  id: string;
+  type: AnimalPostType;
+  name: string | null;
+  description: string;
+  imageUrl: string;
+  animal: Animal;
+  location: Location;
+  status: AnimalPostStatus;
+  createdAt: string;
+  ownerId: string;
+  owner: Owner;
+  phoneNumber?: PhoneNumber;
+  reward: number | null;
+};
 
 export type Animal = {
-  id: string
-  type: AnimalType
-  size: AnimalSize
-  gender: AnimalSex
-  color: AnimalColor | null
-  age: AnimalAge
-}
+  id: string;
+  type: AnimalType;
+  size: AnimalSize;
+  gender: AnimalSex;
+  color: AnimalColor | null;
+  age: AnimalAge;
+};
 
 type Owner = {
-  username: string,
-  roles: string[],
-  profileImageUrl: string
-
-}
-
+  username: string;
+  roles: string[];
+  profileImageUrl: string;
+};

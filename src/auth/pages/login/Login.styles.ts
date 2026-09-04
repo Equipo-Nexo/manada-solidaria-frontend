@@ -1,599 +1,376 @@
 import styled from 'styled-components'
 
-const formWidth = '284px'
-
 export const LoginPanel = styled.section`
   width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  min-height: 0;
-  max-height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
   background: ${({ theme }) => theme.colors.neutral};
-  overflow: hidden;
-  padding: max(10px, env(safe-area-inset-top)) 16px
-    max(4px, env(safe-area-inset-bottom));
+  padding: max(0px, env(safe-area-inset-top)) 16px max(0px, env(safe-area-inset-bottom));
+  overflow-y: auto;
 
-  @media (max-height: 760px) {
-    padding-top: max(10px, env(safe-area-inset-top));
-    padding-bottom: max(4px, env(safe-area-inset-bottom));
+  @media (max-width: 767px) and (max-height: 750px) {
+    justify-content: flex-start;
+    padding-top: max(8px, env(safe-area-inset-top));
   }
 
-  @media (max-width: 767px) {
-    padding-top: max(10px, env(safe-area-inset-top));
-    padding-bottom: max(4px, env(safe-area-inset-bottom));
-  }
-
-  @media (min-width: 768px) {
-    justify-content: center;
-    gap: 10px;
-    padding-top: max(12px, env(safe-area-inset-top));
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
-  }
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    gap: 6px;
-    padding-top: max(6px, env(safe-area-inset-top));
-    padding-bottom: max(4px, env(safe-area-inset-bottom));
-  }
-`
-
-export const LoginFooter = styled.p`
-  width: min(100%, 430px);
-  margin: 0;
-  color: ${({ theme }) => theme.colors.darkColor};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 16px;
-  text-align: center;
-
-  @media (max-width: 767px) {
-    width: min(100%, 320px);
-    font-size: 10px;
-    line-height: 14px;
-  }
-
-  @media (min-width: 768px) {
-    width: min(100%, 380px);
-  }
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    width: min(100%, 340px);
-  }
-
-  @media (max-height: 560px) {
-    &:not(:last-child) {
-      display: none;
-    }
+  @media (max-width: 767px) and (max-height: 650px) {
+    padding-top: max(4px, env(safe-area-inset-top));
   }
 `
 
 export const LoginContainer = styled.div`
-  position: relative;
-  width: min(100%, 430px);
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: hidden;
-  border-radius: 32px;
   background: ${({ theme }) => theme.colors.background};
-
-  @media (max-width: 360px) {
-    min-height: 0;
-  }
-
-  @media (max-height: 760px) {
-    min-height: 0;
-  }
-
-  @media (max-width: 767px) {
-    width: min(100%, 360px);
-    min-height: 0;
-    border-radius: 24px;
-  }
+  border-radius: 32px;
+  min-height: min(90dvh, 900px);
+  width: min(100%, 400px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   @media (min-width: 768px) {
     width: min(100%, 380px);
-    flex: 0 1 auto;
+    min-height: min(86dvh, 820px);
   }
 
   @media (min-width: 768px) and (max-height: 720px) {
     width: min(100%, 340px);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 8px;
-    background: linear-gradient(90deg, #ea5f09 0%, #cbb6ff 50%, #a95c28 100%);
+    min-height: min(88dvh, 625px);
   }
 `
 
-export const LoginContent = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 0;
+export const FooterContainer = styled.div`
+  flex: 0 0 auto;
+  min-height: 5dvh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: clamp(12px, 4.8dvh, 44px) 24px clamp(18px, 4.7dvh, 43px);
-  text-align: center;
-
-  @media (max-height: 760px) {
-    min-height: 0;
-    padding: 18px 24px 22px;
-  }
-
-  @media (max-height: 620px) {
-    padding-top: 12px;
-    padding-bottom: 18px;
-  }
-
-  @media (max-width: 767px) {
-    min-height: 0;
-    padding: 14px 20px 20px;
-  }
+  align-items: center;
+  margin-top: 5px;
 
   @media (min-width: 768px) {
-    min-height: 0;
-    padding-top: 24px;
-    padding-bottom: 32px;
+    min-height: 30px;    
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    padding-top: 12px;
-    padding-bottom: 18px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    min-height: 32px;
   }
 
-  @media (max-width: 767px) and (min-height: 800px) {
-    padding-top: 24px;
-    padding-bottom: 28px;
+  @media (max-width: 767px) and (max-height: 670px) {
+    min-height: 28px;
   }
+`
+
+export const FooterText = styled.p`
+  @media (min-width: 768px) {
+    font-size: 0.6875rem;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 1300px) and (max-height: 720px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    font-size: 0.625rem;
+    line-height: 1.2;
+  }
+`
+
+export const TitleLineBreak = styled.br`
+  display: none;
 `
 
 export const AppLogo = styled.img`
-  width: clamp(88px, 17dvh, 160px);
-  height: clamp(82px, 16dvh, 150px);
-  flex: 0 1 clamp(82px, 16dvh, 150px);
-  display: block;
-  object-fit: contain;
-
-  @media (max-height: 760px) {
-    width: 112px;
-    height: 105px;
-    flex-basis: 105px;
-  }
-
-  @media (max-height: 620px) {
-    width: 88px;
-    height: 82px;
-    flex-basis: 82px;
-  }
-
-  @media (max-width: 767px) {
-    width: 84px;
-    height: 78px;
-    flex-basis: 78px;
-  }
+  margin-top: 2rem;
+  width: 10rem;
+  height: auto;
 
   @media (min-width: 768px) {
-    width: 124px;
-    height: 116px;
-    flex-basis: 116px;
+    width: 7.5rem;
+    margin-top: 1rem;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    width: 88px;
-    height: 82px;
-    flex-basis: 82px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+    width: 6rem;
+    margin-top: 0.75rem;
   }
 
-  @media (max-width: 767px) and (min-height: 800px) {
-    width: 124px;
-    height: 116px;
-    flex-basis: 116px;
+  @media (max-width: 767px) and (max-height: 850px) {
+    width: 5rem;
+    margin-top: 0.75rem;
   }
-`
+
+  @media (max-width: 767px) and (max-height: 750px) {
+    width: 7rem;
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    width: 3rem;
+    margin-top: 0.5rem;
+  }
+`;
 
 export const AppTitle = styled.h1`
-  margin: 0;
   color: ${({ theme }) => theme.colors.brand};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: clamp(24px, 3.5dvh, 32px);
-  font-style: normal;
-  font-weight: 700;
-  line-height: clamp(28px, 4.4dvh, 40px);
-  text-align: center;
-
-  @media (max-height: 760px) {
-    font-size: 28px;
-    line-height: 34px;
-  }
-
-  @media (max-height: 620px) {
-    font-size: 24px;
-    line-height: 28px;
-  }
-
-  @media (max-width: 767px) {
-    font-size: 22px;
-    line-height: 26px;
-  }
+  font-size: ${({ theme }) => theme.fontSizes.title};
+  margin-top: 1rem;
 
   @media (min-width: 768px) {
-    font-size: 28px;
-    line-height: 34px;
+    margin-top: 0.625rem;
+    font-size: 1.625rem;
+    line-height: 1.15;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    font-size: 24px;
-    line-height: 28px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 1.8rem;
   }
 
-  @media (max-width: 767px) and (min-height: 800px) {
-    font-size: 26px;
-    line-height: 32px;
-  }
-`
-
-export const AppDescription = styled.p`
-  width: min(100%, ${formWidth});
-  margin: 0;
-  color: ${({ theme }) => theme.colors.black};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-  text-align: center;
-
-  @media (max-width: 767px) {
-    font-size: 13px;
-    line-height: 18px;
+  @media (max-width: 767px) and (max-height: 850px) {
+    margin-top: 0.375rem;
+    font-size: 1.5rem;
+    line-height: 1.1;
   }
 
-  @media (max-height: 760px) {
-    font-size: 15px;
-    line-height: 22px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    margin-top: 0.375rem;
+    font-size: 1.3rem;
+    line-height: 1.1;
   }
 
-  @media (min-width: 768px) {
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  @media (max-width: 767px) {
-    font-size: 13px;
-    line-height: 18px;
-  }
-
-  @media (max-height: 560px) {
+  @media (max-width: 767px) and (max-height: 650px) {
     display: none;
   }
 `
 
-export const Form = styled.form`
-  width: min(100%, ${formWidth});
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(12px, 3.3dvh, 31px);
-  margin-top: clamp(12px, 3.3dvh, 31px);
-
-  @media (max-width: 767px) {
-    width: min(100%, 260px);
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  @media (max-height: 760px) {
-    gap: 16px;
-    margin-top: 16px;
-  }
-
-  @media (max-height: 620px) {
-    gap: 12px;
-    margin-top: 12px;
-  }
+export const AppDescription = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.normal};
+  margin-top: 5px;
 
   @media (min-width: 768px) {
-    gap: 18px;
-    margin-top: 18px;
+    margin-top: 3px;
+    font-size: 0.8125rem;
+    line-height: 1.35;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    gap: 10px;
-    margin-top: 10px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 0.8rem;
   }
 
-  @media (max-width: 767px) {
-    width: min(100%, 260px);
-    gap: 10px;
-    margin-top: 10px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    margin-top: 2px;
+    font-size: 0.75rem;
+    line-height: 1.2;
   }
 
-  @media (max-width: 767px) and (min-height: 800px) {
-    gap: 16px;
-    margin-top: 18px;
+  @media (max-width: 767px) and (max-height: 670px) {
+    display: none;
   }
 `
 
-export const FormFields = styled.div`
-  width: 100%;
+export const TitlesContainer = styled.div`
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: clamp(8px, 1.9dvh, 18px);
-
-  @media (max-width: 767px) {
-    gap: 9px;
-  }
-
-  @media (max-height: 760px) {
-    gap: 12px;
-  }
-
-  @media (max-height: 620px) {
-    gap: 10px;
-  }
+  gap: 1px;
 
   @media (min-width: 768px) {
-    gap: 14px;
+    margin-top: 1rem;
+  }
+  @media (max-width: 1300px) and (max-height: 720px) {
+   margin-top: 0.625rem;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    gap: 8px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    margin-top: 0.625rem;
   }
 
-  @media (max-width: 767px) {
-    gap: 9px;
+  @media (max-width: 767px) and (max-height: 670px) {
+    margin-top: 0.375rem;
   }
 `
 
 export const WelcomeTitle = styled.h2`
-  margin: 0;
-  color: #261813;
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 40px;
-  text-align: center;
-
-  @media (max-width: 767px) {
-    font-size: 19px;
-    line-height: 24px;
-  }
-
-  @media (max-height: 760px) {
-    font-size: 22px;
-    line-height: 30px;
-  }
-
-  @media (max-height: 620px) {
-    font-size: 20px;
-    line-height: 26px;
-  }
+  font-size: ${({theme}) => theme.fontSizes.subtitle};
+  font-weight: ${({theme}) => theme.fontWeights.bold};
+  color: ${({theme}) => theme.colors.black};
 
   @media (min-width: 768px) {
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 1.25rem;
+    line-height: 1.2;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    font-size: 20px;
-    line-height: 24px;
+
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 1.2rem;
   }
 
-  @media (max-width: 767px) {
-    font-size: 19px;
-    line-height: 24px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    font-size: 1rem;
+    line-height: 1.15;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    font-size: 0.9rem;
+    line-height: 1.1;
   }
 `
 
 export const WelcomeSubtitle = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.colors.black};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-  text-align: center;
-
-  @media (max-width: 767px) {
-    font-size: 13px;
-    line-height: 18px;
-  }
-
-  @media (max-height: 760px) {
-    font-size: 15px;
-    line-height: 22px;
-  }
+  font-size: ${({theme}) => theme.fontSizes.normal};
+  font-weight: ${({theme}) => theme.fontWeights.regular};
+  color: ${({theme}) => theme.colors.black};
 
   @media (min-width: 768px) {
-    font-size: 15px;
-    line-height: 22px;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 0.8rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 750px) {
+    font-size: 0.6rem;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    font-size: 0.75rem;
+  }
+`
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
+  width: 100%;
+  margin-top: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 3rem;
+    margin-top: 0.75rem;
   }
 
   @media (min-width: 768px) and (max-height: 720px) {
-    font-size: 14px;
-    line-height: 20px;
+    padding-right: 1.75rem;
+    padding-left: 1.75rem;
   }
 
-  @media (max-width: 767px) {
-    font-size: 13px;
-    line-height: 18px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    margin-top: 0.625rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    margin-top: 0.375rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+`
+export const FormFields = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    gap: 0.75rem;
+  }
+
+  
+  @media (max-width: 1300px) and (max-height: 720px) {
+   gap: 0.7rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 750px) {
+    gap: 0.625rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    gap: 0.375rem;
   }
 `
 
 export const Field = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  text-align: left;
+  align-items: start;
+  width: 100%;
+  gap: 4px;
 
-  @media (max-width: 767px) {
-    gap: 4px;
-  }
-
-  @media (max-height: 760px) {
-    gap: 6px;
-  }
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    gap: 4px;
-  }
-
-  @media (max-width: 767px) {
-    gap: 4px;
-
-    > [role='alert'] {
-      margin-top: 2px;
-      font-size: 10px;
-      line-height: 14px;
-    }
-  }
-
-  > [role='alert'] {
-    margin-top: 4px;
-  }
-
-  @media (max-width: 767px) {
-    > [role='alert'] {
-      margin-top: 2px;
-    }
+  @media (max-width: 767px) and (max-height: 650px) {
+    gap: 2px;
   }
 `
 
-export const FieldHeader = styled.label`
-  display: inline-flex;
-  align-items: center;
+export const FieldLabelContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   gap: 8px;
-  color: #594137;
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
-  letter-spacing: 0.14px;
+  align-items: center;
+  justify-content: center;
 
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     gap: 6px;
-    font-size: 12px;
-    line-height: 16px;
 
     svg {
-      width: 13px;
-      height: 13px;
-      flex-basis: 13px;
+      width: 18px;
+      height: 18px;
     }
   }
 
-  @media (max-height: 620px) {
-    line-height: 18px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+   gap: 6px;
+  }
+`
+
+export const FieldLabel = styled.label`
+  color: ${({ theme }) => theme.colors.darkColor };
+  font-size: ${({ theme }) => theme.fontSizes.normal };
+  font-weight: ${({ theme }) => theme.fontWeights.semibold };
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
   }
 
-  svg {
-    width: 15px;
-    height: 15px;
-    flex: 0 0 15px;
-    stroke-width: 2.25;
-  }
-
-  @media (max-width: 767px) {
-    svg {
-      width: 13px;
-      height: 13px;
-      flex-basis: 13px;
-    }
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 0.88rem;
   }
 `
 
 export const Input = styled.input<{ $hasError?: boolean }>`
-  display: flex;
   width: 100%;
-  height: clamp(42px, 6dvh, 56px);
-  padding: 16.5px 24px;
-  align-self: stretch;
-  align-items: flex-start;
-  justify-content: center;
-  border: 2px solid
-    ${({ $hasError, theme }) => ($hasError ? theme.colors.error : 'rgba(0, 0, 0, 0)')};
+  padding: 1rem 1.5rem;
+  background: ${({theme}) => theme.colors.soft};
+  border: none;
   border-radius: 12px;
-  background: #fff1ec;
-  color: ${({ theme }) => theme.colors.black};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  outline: none;
-
-  @media (max-width: 767px) {
-    height: 44px;
-    padding: 11px 18px;
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 18px;
-  }
-
-  @media (max-height: 760px) {
-    height: 48px;
-    padding-top: 13.5px;
-    padding-bottom: 13.5px;
-  }
-
-  @media (max-height: 620px) {
-    height: 44px;
-    padding-top: 11.5px;
-    padding-bottom: 11.5px;
-  }
 
   @media (min-width: 768px) {
-    height: 48px;
-    padding-top: 13.5px;
-    padding-bottom: 13.5px;
-  }
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    height: 42px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  @media (max-width: 767px) {
-    height: 44px;
-    padding: 11px 18px;
+    min-height: 42px;
+    padding: 0.6875rem 1.25rem;
     border-radius: 10px;
-    font-size: 13px;
-    line-height: 18px;
+    font-size: 0.875rem;
+  }
+  
+  @media (max-width: 1300px) and (max-height: 720px) {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;   
+  }
+  
+  @media (max-width: 767px) and (max-height: 750px) {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.darkColorMuted};
-  }
-
-  &:focus-visible {
-    border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.brand)};
-    outline: none;
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
+  @media (max-width: 767px) and (max-height: 650px) {
+    min-height: 44px;
+    padding: 0.625rem 1.25rem;
   }
 `
 
@@ -628,18 +405,19 @@ export const PasswordToggle = styled.button`
   cursor: pointer;
   transform: translateY(-50%);
 
-  &:hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.brand};
+    }
+  }
+
+  &:active {
     color: ${({ theme }) => theme.colors.brand};
   }
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.58;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
   }
 
   svg {
@@ -663,32 +441,30 @@ export const RecoveryButton = styled.button`
   padding: 0;
   border: 0;
   background: transparent;
-  color: ${({ theme }) => theme.colors.darkColor};
+  color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
+  font-weight: ${({ theme }) => theme.fontWeights.regular}
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
+  font-size: ${({ theme }) => theme.fontSizes.normal};
   text-align: center;
   text-decoration: underline;
   text-underline-offset: 2px;
 
-  @media (max-width: 767px) {
-    font-size: 12px;
-    line-height: 16px;
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
   }
 
-  @media (max-height: 760px) {
-    line-height: 18px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 0.8rem;
   }
 
-  @media (max-width: 767px) {
-    font-size: 12px;
-    line-height: 16px;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.brand};
+    }
   }
 
-  &:hover {
+  &:active {
     color: ${({ theme }) => theme.colors.brand};
   }
 
@@ -698,64 +474,33 @@ export const RecoveryButton = styled.button`
   }
 `
 
-export const PrimaryButton = styled.button`
-  width: ${formWidth};
-  max-width: 100%;
-  height: clamp(42px, 6dvh, 56px);
-  padding: 0 24px;
-  border: 0;
+export const LoginButton = styled.button`
+  width: 100%;
+  height: 3rem;
   border-radius: 9999px;
+  border: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
   background: ${({ theme }) => theme.colors.brand};
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 1rem;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px;
-  text-align: center;
-  transition: background 160ms ease, transform 160ms ease;
-
-  @media (max-width: 767px) {
-    height: 44px;
-    padding: 0 18px;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  @media (max-height: 760px) {
-    height: 48px;
-  }
 
   @media (min-width: 768px) {
-    height: 48px;
+    height: 2.5rem;
+    font-size: 0.875rem;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    height: 42px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+    height: 2.5rem;
   }
 
-  @media (max-width: 767px) {
-    height: 44px;
-    padding: 0 18px;
-    font-size: 14px;
-    line-height: 20px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    height: 2rem;
   }
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.brandHover};
-    transform: translateY(-1px);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.72;
-    transform: none;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 3px;
+  @media (max-width: 767px) and (max-height: 670px) {
+    max-height: 32px;
   }
 `
 
@@ -767,7 +512,7 @@ export const LoginDivider = styled.div`
   color: ${({ theme }) => theme.colors.darkColorMuted};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   font-size: 12px;
-  line-height: 16px;
+  line-height: 5px;
 
   @media (max-width: 767px) {
     gap: 8px;
@@ -784,7 +529,7 @@ export const LoginDivider = styled.div`
   }
 `
 
-export const PasskeyButton = styled(PrimaryButton)`
+export const PasskeyButton = styled(LoginButton)`
   border: 2px solid ${({ theme }) => theme.colors.secondary};
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.secondary};
@@ -794,53 +539,52 @@ export const PasskeyButton = styled(PrimaryButton)`
   }
 `
 
-export const RegisterText = styled.p`
-  margin: clamp(10px, 2.6dvh, 24px) 0 0;
-  color: ${({ theme }) => theme.colors.black};
-  font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: center;
-
-  @media (max-width: 767px) {
-    margin-top: 10px;
-    font-size: 12px;
-    line-height: 16px;
-  }
-
-  @media (max-height: 760px) {
-    margin-top: 14px;
-  }
+export const RegisterTextContainer = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
   @media (min-width: 768px) {
-    margin-top: 16px;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    margin-top: 10px;
+  @media (max-width: 767px) and (max-height: 750px) {
+    margin-top: 0.625rem;
   }
 
-  @media (max-width: 767px) {
-    margin-top: 10px;
-    font-size: 12px;
-    line-height: 16px;
+  @media (max-width: 767px) and (max-height: 650px) {
+    margin-top: 0.375rem;
+  }
+`
+
+export const RegisterText = styled.p`
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-size: ${({ theme }) => theme.fontSizes.normal};
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
   }
 
-  @media (max-width: 767px) and (min-height: 800px) {
-    margin-top: 18px;
+  @media (max-width: 1300px) and (max-height: 720px) {
+   font-size: 0.8rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    font-size: 0.875rem;
   }
 `
 
 export const RegisterLink = styled.a`
   color: ${({ theme }) => theme.colors.brand};
-  font-weight: 400;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  font-size: ${({ theme }) => theme.fontSizes.normal};
 
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 3px;
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 767px) and (max-height: 650px) {
+    font-size: 0.875rem;
   }
 `

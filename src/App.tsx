@@ -30,9 +30,9 @@ import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign
 import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
-import SuccessStories from "./successStories/pages/SuccessStories";
 import NotFound from "./common/pages/not_found/NotFound";
 import { useEffect } from "react";
+import HappyCases from "./happy_cases/pages/HappyCases";
 import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
 import Security from "./users/pages/security/Security";
 
@@ -130,13 +130,19 @@ function App() {
                 element={<FundraisingCampaignDetail />}
               />
               <Route path="/menu" element={<Menu />} />
-              <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
+              <Route
+                path="/animal/detalle/:postId"
+                element={<AnimalPostDetail />}
+              />
               <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
-              <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
+              <Route
+                path="/mi-perfil/datos-personales"
+                element={<PersonalData />}
+              />
               <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/servicios" element={<Services />} />
-              <Route path="/casos-felices" element={<SuccessStories />} />
+              <Route path="/casos-felices" element={<HappyCases />} />
               <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
             </Route>
             <Route path="*" element={<NotFound />} />
