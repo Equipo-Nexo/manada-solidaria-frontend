@@ -89,7 +89,7 @@ export default function Community() {
         return (
             <S.Card key={id}>
                 <S.ProfilePhotoContainer>
-                    <S.ProfilePhoto src={normalizeImageUrl(profileImageURL) || NOT_FOUND_IMAGE_URL} alt="Foto de perfil de la usuaria" />
+                    <S.ProfilePhoto src={normalizeImageUrl(profileImageURL) || NOT_FOUND_IMAGE_URL} alt="Foto de perfil del usuario" />
                 </S.ProfilePhotoContainer>
                 <S.MemberInfo>
                     <S.MemberName>{username}</S.MemberName>
