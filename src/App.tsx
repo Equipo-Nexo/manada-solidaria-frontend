@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
@@ -31,14 +31,12 @@ import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Services from "./services/pages/Services";
 import NotFound from "./common/pages/not_found/NotFound";
-import { useEffect } from "react";
 import HappyCases from "./happy_cases/pages/HappyCases";
 import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
 import Security from "./users/pages/security/Security";
 
 function App() {
   const location = useLocation();
-  const navigate = useNavigate();
   const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
@@ -67,22 +65,6 @@ function App() {
     (!usesFullScreenLayout || isMobileMenu) &&
     !isCampaignDetail &&
     !isProfileSection;
-
-  const params = new URLSearchParams(location.search);
-  const redirect = params.get("redirect");
-
-  useEffect(() => {
-    if (!isAuthenticated && redirect) {
-      navigate(
-        `/login?redirect=${encodeURIComponent(redirect)}`,
-        { replace: true }
-      );
-    }
-
-    if (isAuthenticated && redirect) {
-      navigate(redirect)
-    }
-  }, []);
 
   return (
     <>

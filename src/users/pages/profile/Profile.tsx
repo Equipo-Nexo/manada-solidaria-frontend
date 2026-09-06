@@ -1,5 +1,6 @@
 import {
   ArrowLeft,
+  Bell,
   Camera,
   ChevronRight,
   HandHeart,
@@ -19,8 +20,6 @@ import LogoutIcon from "@icons/LogOut";
 import { useCamera } from "@hooks/camera/useCamera";
 import Gallery from "@icons/Gallery";
 import { useNavigate } from "react-router-dom";
-import { logout } from "@store/authSlice";
-import { useAppDispatch } from "@store/hooks";
 import useAuth from "@/common/hooks/auth/useAuth";
 import {
   useGetUserProfileQuery,
@@ -35,6 +34,8 @@ import { useUploadImageMutation } from "@/common/app/services/apis/cloudflareApi
 import { rolesInformation, type RoleInformation } from "./Utils.profile";
 import type { RoleName } from "@/users/app/types/User.types";
 import type { HandHeartProps } from "@icons/HandHeart";
+import { useLogout } from "@hooks/auth/useLogout";
+import { usePushNotifications } from "@hooks/notifications/usePushNotifications";
 
 const roleCodes: Record<RoleName, Role> = {
   Rescatista: "RESCUER",
@@ -97,9 +98,15 @@ function Profile() {
 
   const navigate = useNavigate();
 
-  const dispatch = useAppDispatch();
-
   const toaster = useToast();
+
+  const { isLoggingOut, performLogout } = useLogout();
+  const {
+    activate: activatePushNotifications,
+    deactivate: deactivatePushNotifications,
+    isLoading: isUpdatingPushNotifications,
+    status: pushNotificationStatus,
+  } = usePushNotifications();
 
   const { userId } = useAuth();
 
@@ -219,10 +226,22 @@ function Profile() {
   const profileImage =
     capturedPhoto?.url || normalizeImageUrl(storedProfileImage);
 
-  const confirmLogout = () => {
-    setIsLogoutModalOpen(false);
-    dispatch(logout());
-    navigate("/login", { replace: true });
+  const confirmLogout = async () => {
+    const didLogout = await performLogout();
+    if (didLogout) setIsLogoutModalOpen(false);
+  };
+
+  const pushStatusDescription = {
+    unsupported: "Este navegador o dispositivo no admite Web Push",
+    "permission-default": "Recib\u00ed avisos importantes aunque la app est\u00e9 cerrada",
+    "permission-denied": "El permiso est\u00e1 bloqueado en la configuraci\u00f3n del navegador",
+    subscribed: "Las notificaciones est\u00e1n activadas en este dispositivo",
+    "not-subscribed": "Las notificaciones est\u00e1n desactivadas en este dispositivo",
+  }[pushNotificationStatus];
+
+  const handlePushNotificationChange = async (enabled: boolean) => {
+    if (enabled) await activatePushNotifications();
+    else await deactivatePushNotifications();
   };
 
   const SwitchRoleComponent = (
@@ -303,10 +322,14 @@ function Profile() {
         title="Cerrar sesión"
         primaryLabel="Cerrar sesión"
         secondaryLabel="Cancelar"
-        onPrimaryAction={confirmLogout}
+        onPrimaryAction={() => void confirmLogout()}
         onSecondaryAction={() => setIsLogoutModalOpen(false)}
       >
-        <p>¿Querés salir de la aplicación?</p>
+        <p>
+          {isLoggingOut
+            ? "Desvinculando este dispositivo..."
+            : "¿Querés salir de la aplicación?"}
+        </p>
       </Modal>
       <BottomSheet
         isOpen={openBottomSheet}
@@ -461,6 +484,35 @@ function Profile() {
         <S.ItemsMainContainer>
           <S.Label>Configuración</S.Label>
           <S.ItemsList>
+            <S.NotificationRow>
+              <S.RoleIcon>
+                <Bell aria-hidden="true" />
+              </S.RoleIcon>
+              <S.NotificationCopy>
+                <S.ItemLabel>Notificaciones</S.ItemLabel>
+                <S.ItemDescription>{pushStatusDescription}</S.ItemDescription>
+              </S.NotificationCopy>
+              <S.SwitchToggle>
+                <S.SwitchInput
+                  type="checkbox"
+                  checked={pushNotificationStatus === "subscribed"}
+                  disabled={
+                    isUpdatingPushNotifications ||
+                    pushNotificationStatus === "unsupported" ||
+                    pushNotificationStatus === "permission-denied"
+                  }
+                  aria-label={
+                    pushNotificationStatus === "subscribed"
+                      ? "Desactivar notificaciones"
+                      : "Activar notificaciones"
+                  }
+                  onChange={(event) => {
+                    void handlePushNotificationChange(event.target.checked);
+                  }}
+                />
+                <S.SwitchControl aria-hidden="true" />
+              </S.SwitchToggle>
+            </S.NotificationRow>
             {ItemComponent(
               SecurityIcon,
               "Privacidad y Seguridad",
