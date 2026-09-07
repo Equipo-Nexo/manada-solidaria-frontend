@@ -6,8 +6,7 @@ function PrivateRoutes() {
   const { isAuthenticated } = useAuth()
 
   if (!isAuthenticated) {
-    const redirect = `${location.pathname}${location.search}${location.hash}`
-    return <Navigate to={`/login?redirect=${encodeURIComponent(redirect)}`} replace />
+    return <Navigate to="/login" replace state={{ from: location }} />
   }
 
   return <Outlet />
