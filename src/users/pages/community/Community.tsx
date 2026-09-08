@@ -28,8 +28,8 @@ const roleConfig = {
         backgroundColor: theme.colors.neutral,
         textColor: theme.colors.secondary,
     },
-    [UserType.Transportes]: {
-        label: 'Transporte',
+    [UserType.Transportistas]: {
+        label: 'Transportista',
         backgroundColor: theme.colors.neutral,
         textColor: theme.colors.brand,
     },
@@ -50,7 +50,7 @@ export default function Community() {
         [UserType.Todos]: 'Todos',
         [UserType.Comunidad]: 'Comunidad',
         [UserType.Rescatistas]: 'Rescatistas',
-        [UserType.Transportes]: 'Transportes',
+        [UserType.Transportistas]: 'Transportistas',
         [UserType.Tránsitos]: 'Tránsitos',
         [UserType.Veterinarios]: 'Veterinarios',
     }
@@ -59,7 +59,7 @@ export default function Community() {
         UserType.Todos,
         UserType.Comunidad,
         UserType.Rescatistas,
-        UserType.Transportes,
+        UserType.Transportistas,
         UserType.Tránsitos,
         UserType.Veterinarios,
     ]
@@ -121,7 +121,7 @@ export default function Community() {
     return (
         <S.MainContainer>
             <S.Header>
-                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+                <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
                     <ArrowLeft aria-hidden="true" />
                 </S.BackButton>
                 <S.TitlesContainer>

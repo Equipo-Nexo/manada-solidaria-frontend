@@ -1,7 +1,7 @@
 export enum UserType {
     Comunidad = 'COMMUNITY',
     Rescatistas = 'RESCUER',
-    Transportes = 'CARRIAGE',
+    Transportistas = 'CARRIAGE',
     Tránsitos = 'TRANSITIONAL_HOME',
     Veterinarios = 'VET',
     Todos = '',

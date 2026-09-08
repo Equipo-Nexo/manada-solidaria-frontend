@@ -52,7 +52,7 @@ function App() {
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
   const isCampaignDetail = location.pathname.startsWith("/campanias/");
-  const isCommunityPage = location.pathname === "/comunidad";
+
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
@@ -67,7 +67,6 @@ function App() {
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
     !isCampaignDetail &&
-    !isCommunityPage &&
     !isProfileSection;
 
   const params = new URLSearchParams(location.search);

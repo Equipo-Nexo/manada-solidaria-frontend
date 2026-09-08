@@ -4,8 +4,20 @@ export const MainContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items:left;
     min-height: calc(100dvh - 190px);
+`
+export const ContentContainer = styled.div`
+    width: 100%;
+    max-width: 1238px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    @media (min-width: 720px) {
+        padding: 0 20px;
+    }
 `
 
 export const Header = styled.header`
@@ -66,6 +78,8 @@ export const CardsContainer = styled.div`
     flex-direction: column;
     gap: 16px;
     margin-top: 16px;
+   
+    align-items: center;
     @media (min-width: 720px) {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
