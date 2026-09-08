@@ -7,6 +7,7 @@ export type AnimalPostStatusText =
   | 'Perdido'
   | 'Adoptado'
   | 'Encontrado'
+  | 'Rescatado'
 
 export type StatusUtil = {
     text: AnimalPostStatusText;
@@ -44,5 +45,10 @@ export const AnimalPostStatus: Record<string, StatusUtil> = {
         text: 'En la calle',
         backgroundColor: theme.colors.statusStreetBackground,
         fontColor: theme.colors.statusStreetText
+    },
+    'RESCUED': {
+        text: 'Rescatado',
+        backgroundColor: theme.colors.statusRescuedBackground,
+        fontColor: theme.colors.statusRescuedText
     }
 }
