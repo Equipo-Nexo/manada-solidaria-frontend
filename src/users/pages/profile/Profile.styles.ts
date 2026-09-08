@@ -185,6 +185,25 @@ export const ItemsList = styled.div`
    
 `
 
+export const NotificationRow = styled.div`
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.stroke};
+    background: ${({ theme }) => theme.colors.background};
+`
+
+export const NotificationCopy = styled.div`
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+`
+
 export const Description = styled.p`
     ${({ theme }) => theme.typography.body};
     color: ${({ theme }) => theme.colors.darkColor};
@@ -411,6 +430,11 @@ export const SwitchControl = styled.span`
   ${SwitchInput}:focus-visible + & {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
+  }
+
+  ${SwitchInput}:disabled + & {
+    cursor: not-allowed;
+    opacity: 0.55;
   }
 
   @media (max-width: 420px) {

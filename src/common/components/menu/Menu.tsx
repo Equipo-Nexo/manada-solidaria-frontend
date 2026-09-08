@@ -14,11 +14,10 @@ import {
   User,
   Users,
 } from "@icons/index.ts";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Modal } from "@components/index.ts";
-import { logout } from "@store/authSlice";
-import { useAppDispatch } from "@store/hooks";
 import useCurrentUserProfile from "@hooks/user/useCurrentUserProfile";
+import { useLogout } from "@hooks/auth/useLogout";
 import {
   Avatar,
   Email,
@@ -122,17 +121,15 @@ const sections: MenuSection[] = [
 
 function Menu({ onNavigate }: MenuProps) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { isLoggingOut, performLogout } = useLogout();
   const { email, username, profileImage } = useCurrentUserProfile();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const activePath =
     (location.state as MenuLocationState | null)?.from ?? location.pathname;
   const closeLogoutModal = () => setIsLogoutModalOpen(false);
-  const confirmLogout = () => {
-    setIsLogoutModalOpen(false);
-    dispatch(logout());
-    navigate("/login", { replace: true });
+  const confirmLogout = async () => {
+    const didLogout = await performLogout();
+    if (didLogout) setIsLogoutModalOpen(false);
   };
 
   return (
@@ -181,10 +178,14 @@ function Menu({ onNavigate }: MenuProps) {
         title={"Cerrar sesi\u00f3n"}
         primaryLabel={"Cerrar sesi\u00f3n"}
         secondaryLabel="Cancelar"
-        onPrimaryAction={confirmLogout}
+        onPrimaryAction={() => void confirmLogout()}
         onSecondaryAction={closeLogoutModal}
       >
-        <p>{"\u00bfQuer\u00e9s salir de la aplicaci\u00f3n?"}</p>
+        <p>
+          {isLoggingOut
+            ? "Desvinculando este dispositivo..."
+            : "\u00bfQuer\u00e9s salir de la aplicaci\u00f3n?"}
+        </p>
       </Modal>
     </MenuRoot>
   );
