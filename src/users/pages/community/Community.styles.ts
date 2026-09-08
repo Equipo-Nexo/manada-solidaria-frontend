@@ -7,18 +7,6 @@ export const MainContainer = styled.div`
     align-items:left;
     min-height: calc(100dvh - 190px);
 `
-export const ContentContainer = styled.div`
-    width: 100%;
-    max-width: 1238px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 16px;
-    box-sizing: border-box;
-    @media (min-width: 720px) {
-        padding: 0 20px;
-    }
-`
 
 export const Header = styled.header`
   min-height: 48px;
