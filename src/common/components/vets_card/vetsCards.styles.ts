@@ -9,12 +9,11 @@ export const Card = styled.article`
   padding: 1rem;
   border-radius: 1.25rem;
   background: ${({ theme }) => theme.colors.background};
-  box-shadow: 0.2rem 0.2rem 0.2rem rgb(0 0 0 / 25%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   font-family: ${({ theme }) => theme.fonts.body};
   text-align: left;
   @media (min-width: 48rem) {
-    width: min(100%, 28rem);
-    padding: 1.25rem;
+    width: min(100%, 32rem);
   }
 `;
 
@@ -116,7 +115,7 @@ export const ContactButton = styled.button`
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   svg {
     width: 0.875rem;
@@ -168,13 +167,59 @@ export const ScheduleIcon = styled.span<{ $isOpen: boolean }>`
   transition: transform 160ms ease;
 `;
 
-export const Schedule = styled.p`
-  margin: 0.5rem 0.4375rem 0.875rem;
+export const Schedule = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0 0.875rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid ${({ theme }) => theme.colors.stroke};
   color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+`;
+
+export const ScheduleRow = styled.div<{ $isToday: boolean }>`
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+
+  background: ${({ $isToday, theme }) =>
+    $isToday ? theme.colors.neutral : "transparent"};
+`;
+
+export const DayInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+`;
+
+export const DayName = styled.span`
+  color: ${({ theme }) => theme.colors.black};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+`;
+
+export const TodayLabel = styled.span`
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 0.7rem;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
+
+export const DayHours = styled.span`
+  min-width: 0;
+  color: ${({ theme }) => theme.colors.black};
+  text-align: right;
+  white-space: nowrap;
+`;
+export const Description = styled.p`
+  margin: 0 0 0.5rem;
+  color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 1.25rem;
-  white-space: pre-line;
 `;
 export const Actions = styled.div`
   display: flex;

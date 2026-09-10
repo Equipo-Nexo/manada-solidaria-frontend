@@ -10,6 +10,16 @@ const DAY_NAMES: Record<string, string> = {
   SUNDAY: "Domingo",
 };
 
+const DAYS_ORDER = [
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+  "SUNDAY",
+];
+
 const formatTime = (time: string) => time.slice(0, 5);
 
 const getDayEntries = (calendar: VetCalendarEntry[], dayOfWeek: string) =>
@@ -47,16 +57,20 @@ export const getTodayHours = (
   return `Hoy ${todayEntries.map(formatTimeRange).join(" | ")} hs`;
 };
 
-export const formatSchedule = (calendar: VetCalendarEntry[]) => {
-  return Object.entries(DAY_NAMES)
-    .map(([day, dayName]) => {
-      const entries = getDayEntries(calendar, day);
+export const formatSchedule = (
+  calendar: VetCalendarEntry[],
+  currentDay: string,
+) => {
+  return DAYS_ORDER.map((day) => {
+    const entries = getDayEntries(calendar, day);
 
-      if (entries.length === 0) {
-        return `${dayName}: Cerrado`;
-      }
-
-      return `${dayName}: ${entries.map(formatTimeRange).join(" | ")} hs`;
-    })
-    .join("\n");
+    return {
+      day: DAY_NAMES[day],
+      hours:
+        entries.length > 0
+          ? `${entries.map(formatTimeRange).join(" | ")}`
+          : "Cerrado",
+      isToday: day === currentDay,
+    };
+  });
 };

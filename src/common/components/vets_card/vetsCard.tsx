@@ -1,14 +1,19 @@
 import { useId, useState } from "react";
 import { ChevronRight, Phone, Map, Mail } from "@/common/icons";
 import * as S from "./vetsCards.styles";
-
+export type ScheduleDay = {
+  day: string;
+  hours: string;
+  isToday: boolean;
+};
 export type VetsCardProps = {
   name: string;
   address: string;
   todayHours: string;
+  schedule?: ScheduleDay[];
+  description?: string;
   imageUrl?: string;
   imageAlt?: string;
-  schedule?: string;
   className?: string;
   onContact?: () => void;
   onMap?: () => void;
@@ -22,6 +27,7 @@ function VetsCard({
   imageUrl,
   imageAlt,
   schedule,
+  description,
   className,
   onContact,
   onMap,
@@ -29,8 +35,7 @@ function VetsCard({
 }: VetsCardProps) {
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const scheduleId = useId();
-  const hasSchedule = Boolean(schedule);
-
+  const hasSchedule = Boolean(schedule?.length);
   return (
     <S.Card className={className}>
       <S.Details>
@@ -84,7 +89,18 @@ function VetsCard({
       </S.ScheduleButton>
 
       {hasSchedule && isScheduleOpen && (
-        <S.Schedule id={scheduleId}>{schedule}</S.Schedule>
+        <S.Schedule id={scheduleId}>
+          {description && <S.Description>{description}</S.Description>}
+          {schedule?.map(({ day, hours, isToday }) => (
+            <S.ScheduleRow key={day} $isToday={isToday}>
+              <S.DayInfo>
+                <S.DayName>{day}</S.DayName>
+                {isToday && <S.TodayLabel>Hoy</S.TodayLabel>}
+              </S.DayInfo>
+              <S.DayHours>{hours}</S.DayHours>
+            </S.ScheduleRow>
+          ))}
+        </S.Schedule>
       )}
     </S.Card>
   );

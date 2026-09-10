@@ -6,7 +6,6 @@ export const Container = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   padding: 0 8px;
-
   @media (min-width: 768px) {
     max-width: 800px;
     padding: 0 20px;
@@ -55,7 +54,6 @@ export const Title = styled.h2`
   font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 24px;
-
   @media (min-width: 1024px) {
     font-size: 28px;
     line-height: 36px;
@@ -66,7 +64,6 @@ export const VetsList = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 16px;
-
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -76,5 +73,33 @@ export const VetsList = styled.div`
 
   @media (min-width: 1238px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+`;
+
+export const MessageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 180px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const RetryButton = styled.button`
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 999px;
+  color: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.brand};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  cursor: pointer;
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
   }
 `;
