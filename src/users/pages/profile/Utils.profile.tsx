@@ -3,7 +3,6 @@ import TransitIcon from "@/common/icons/Home";
 import TransportIcon from "@icons/CarFront";
 import type { RoleName } from "@/users/app/types/User.types";
 import type { ComponentType, SVGProps } from "react";
-import Users from "@/common/icons/Users";
 
 export type RoleInformation = {
   name: RoleName;
@@ -31,11 +30,5 @@ export const rolesInformation: Record<RoleName, RoleInformation> = {
     description:
       "Como transportista, ayudás a trasladar animales de forma segura: desde el lugar del rescate hacia veterinarias, hogares de tránsito o su nuevo hogar definitivo. Cuando se necesite un traslado urgente, vas a recibir una notificación desde la app, y sos vos quien decide si podés tomarlo o no según tu disponibilidad.",
     Icon: TransportIcon,
-  },
-  Comunidad: {
-    name: "Comunidad",
-    description:
-      "Como miembro de la comunidad, podés ayudar a los animales en situación de calle o abandono reportando casos, compartiendo publicaciones y colaborando con campañas y colectas para su cuidado.",
-    Icon: Users,
   },
 };
