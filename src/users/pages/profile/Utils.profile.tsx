@@ -1,7 +1,7 @@
 import HandHeart, { type HandHeartProps } from "@icons/HandHeart";
 import TransitIcon from "@/common/icons/Home";
 import TransportIcon from "@icons/CarFront";
-import type { RoleName } from "@/users/app/types/User.types";
+import type { Role, RoleName } from "@/users/app/types/User.types";
 import type { ComponentType, SVGProps } from "react";
 
 export type RoleInformation = {
@@ -11,7 +11,11 @@ export type RoleInformation = {
   iconProps?: HandHeartProps;
 };
 
-export const rolesInformation: Record<RoleName, RoleInformation> = {
+export type UpdatableRoles = Exclude<Role, "VET" | "COMMUNITY">;
+
+export type UpdatableRoleNames = Exclude<RoleName, "Veterinario" | "Comunidad">;
+
+export const rolesInformation: Record<UpdatableRoleNames, RoleInformation> = {
   Rescatista: {
     name: "Rescatista",
     description:
