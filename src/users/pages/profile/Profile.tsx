@@ -40,15 +40,13 @@ import { usePushNotifications } from "@hooks/notifications/usePushNotifications"
 const roleCodes: Record<RoleName, Role> = {
   Rescatista: "RESCUER",
   "Hogar de tránsito": "TRANSITIONAL_HOME",
-  Transportista: "CARRIAGE",
-  Comunidad: "COMMUNITY",
+  Transportista: "CARRIAGE"
 };
 
 const roleLabels: Record<Role, RoleName> = {
   RESCUER: "Rescatista",
   TRANSITIONAL_HOME: "Hogar de tránsito",
-  CARRIAGE: "Transportista",
-  COMMUNITY: "Comunidad",
+  CARRIAGE: "Transportista"
 };
 
 const editableRoles = Object.values(roleCodes);
