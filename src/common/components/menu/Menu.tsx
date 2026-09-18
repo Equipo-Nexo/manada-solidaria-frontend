@@ -75,9 +75,9 @@ const sections: MenuSection[] = [
         icon: History,
       },
       {
-        label: "Servicios",
-        path: "/servicios",
-        activePath: "/servicios",
+        label: "Veterinarias",
+        path: "/veterinarias",
+        activePath: "/veterinarias",
         icon: BriefcaseMedical,
       },
       {

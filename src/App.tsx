@@ -1,4 +1,10 @@
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
@@ -29,11 +35,11 @@ import PersonalData from "./users/pages/personal_data/PersonalData";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
 import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
-import Services from "./services/pages/Services";
+import Vets from "./vets/pages/Vets";
 import NotFound from "./common/pages/not_found/NotFound";
 import { useEffect } from "react";
 import HappyCases from "./happy_cases/pages/HappyCases";
-import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
+import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 
 function App() {
@@ -73,14 +79,13 @@ function App() {
 
   useEffect(() => {
     if (!isAuthenticated && redirect) {
-      navigate(
-        `/login?redirect=${encodeURIComponent(redirect)}`,
-        { replace: true }
-      );
+      navigate(`/login?redirect=${encodeURIComponent(redirect)}`, {
+        replace: true,
+      });
     }
 
     if (isAuthenticated && redirect) {
-      navigate(redirect)
+      navigate(redirect);
     }
   }, []);
 
@@ -98,7 +103,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/registro" element={<Register />}/>
+            <Route path="/registro" element={<Register />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
@@ -141,9 +146,12 @@ function App() {
                 element={<PersonalData />}
               />
               <Route path="/mi-perfil/seguridad" element={<Security />} />
-              <Route path="/servicios" element={<Services />} />
+              <Route path="/veterinarias" element={<Vets />} />
               <Route path="/casos-felices" element={<HappyCases />} />
-              <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
+              <Route
+                path="/campanias/:campaignId"
+                element={<CampaignDetail />}
+              />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
