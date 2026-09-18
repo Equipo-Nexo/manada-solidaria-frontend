@@ -35,6 +35,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        importScripts: ['/push-notifications-sw.js'],
+      },
       devOptions: {
         enabled: true,
       },

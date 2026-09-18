@@ -36,11 +36,11 @@ import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
 import Vets from "./vets/pages/Vets";
 import NotFound from "./common/pages/not_found/NotFound";
-import { useEffect } from "react";
 import HappyCases from "./happy_cases/pages/HappyCases";
 import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 import Community from "./users/pages/community/Community";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
