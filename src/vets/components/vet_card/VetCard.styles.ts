@@ -129,6 +129,12 @@ export const ContactButton = styled.button`
     outline: 0.1875rem solid ${({ theme }) => theme.colors.focus};
     outline-offset: 0.125rem;
   }
+  &:disabled {
+    background: ${({ theme }) => theme.colors.neutral};
+    color: ${({ theme }) => theme.colors.darkColor};
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
   @media (max-width: 22.5rem) {
     width: 100%;
     gap: 0.5rem;
