@@ -32,17 +32,19 @@ import type { Role } from "@/users/app/types/User.types";
 import { useToast } from "@hooks/toast/useToast";
 import { useGetPresignedUrlMutation } from "@/common/app/services/apis/imagesApi";
 import { useUploadImageMutation } from "@/common/app/services/apis/cloudflareApi";
-import { rolesInformation, type RoleInformation } from "./Utils.profile";
+import { rolesInformation, type RoleInformation, type UpdatableRoleNames, type UpdatableRoles } from "./Utils.profile";
 import type { RoleName } from "@/users/app/types/User.types";
 import type { HandHeartProps } from "@icons/HandHeart";
 
-const roleCodes: Record<RoleName, Role> = {
+
+
+const roleCodes: Record<UpdatableRoleNames, UpdatableRoles> = {
   Rescatista: "RESCUER",
   "Hogar de tránsito": "TRANSITIONAL_HOME",
   Transportista: "CARRIAGE"
 };
 
-const roleLabels: Record<Role, RoleName> = {
+const roleLabels: Record<UpdatableRoles, RoleName> = {
   RESCUER: "Rescatista",
   TRANSITIONAL_HOME: "Hogar de tránsito",
   CARRIAGE: "Transportista"
@@ -118,12 +120,12 @@ function Profile() {
       roleOverrides[roleCode] ?? userData?.roles.includes(roleCode) ?? false,
   );
 
-  function handleRoleInformation(roleName: RoleName) {
+  function handleRoleInformation(roleName: UpdatableRoleNames) {
     setSelectedRole(rolesInformation[roleName]);
     setOpenBottomSheet(true);
   }
 
-  const handleRoleChange = async (roleCode: Role, enabled: boolean) => {
+  const handleRoleChange = async (roleCode: UpdatableRoles, enabled: boolean) => {
     const previousOverride = roleOverrides[roleCode];
     const roles = enabled
       ? Array.from(new Set([...activeRoles, roleCode]))
@@ -224,7 +226,7 @@ function Profile() {
   };
 
   const SwitchRoleComponent = (
-    Rolename: RoleName,
+    Rolename: UpdatableRoleNames,
     Icon: ComponentType<SVGProps<SVGSVGElement>>,
     iconProps?: HandHeartProps,
   ) => {
