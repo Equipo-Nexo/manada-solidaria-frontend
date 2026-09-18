@@ -3,6 +3,8 @@ import type { GetUserPostsResponse } from '../../../common/app/services/response
 import type { GetUserProfileResponse } from './responses/GetUserProfileResponse';
 import type { UpdateUserRolesRequest } from './requests/UpdateUserRolesRequest';
 import type { UpdateUserProfileRequest } from './requests/UpdateUserProfileRequest';
+import type { GetUsersResponse } from './responses/GetUsersResponse';
+import type { GetUsersRequest } from './requests/GetUsersRequest';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -37,6 +39,12 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
       transformResponse: () => undefined,
       invalidatesTags: ['userProfile'],
     }),
+    getUsers: builder.query<GetUsersResponse, GetUsersRequest>({
+      query: (params) => ({
+        url: `/users`,
+        params,
+      }),
+    }),
   }),
   overrideExisting: false,
 })
@@ -46,4 +54,5 @@ export const {
   useGetUserProfileQuery,
   useUpdateUserRolesMutation,
   useUpdateUserProfileMutation,
+  useGetUsersQuery,
 } = usersApi;

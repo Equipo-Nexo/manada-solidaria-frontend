@@ -1,4 +1,10 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
@@ -27,16 +33,18 @@ import ScrollToTop from "./common/components/routes/ScrollToTop";
 import Profile from "./users/pages/profile/Profile";
 import PersonalData from "./users/pages/personal_data/PersonalData";
 import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
-import Community from "./community/pages/Community";
 import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
-import Services from "./services/pages/Services";
+import Vets from "./vets/pages/Vets";
 import NotFound from "./common/pages/not_found/NotFound";
 import HappyCases from "./happy_cases/pages/HappyCases";
-import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail"
+import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
+import Community from "./users/pages/community/Community";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
@@ -50,6 +58,7 @@ function App() {
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
   const isCampaignDetail = location.pathname.startsWith("/campanias/");
+
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
@@ -66,6 +75,21 @@ function App() {
     !isCampaignDetail &&
     !isProfileSection;
 
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+
+  useEffect(() => {
+    if (!isAuthenticated && redirect) {
+      navigate(`/login?redirect=${encodeURIComponent(redirect)}`, {
+        replace: true,
+      });
+    }
+
+    if (isAuthenticated && redirect) {
+      navigate(redirect);
+    }
+  }, []);
+
   return (
     <>
       <ScrollToTop />
@@ -80,7 +104,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/registro" element={<Register />}/>
+            <Route path="/registro" element={<Register />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
@@ -88,6 +112,7 @@ function App() {
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
+              <Route path="/comunidad" element={<Community />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}
@@ -116,16 +141,18 @@ function App() {
                 path="/animal/detalle/:postId"
                 element={<AnimalPostDetail />}
               />
-              <Route path="/comunidad" element={<Community />} />
               <Route path="/mi-perfil" element={<Profile />} />
               <Route
                 path="/mi-perfil/datos-personales"
                 element={<PersonalData />}
               />
               <Route path="/mi-perfil/seguridad" element={<Security />} />
-              <Route path="/servicios" element={<Services />} />
+              <Route path="/veterinarias" element={<Vets />} />
               <Route path="/casos-felices" element={<HappyCases />} />
-              <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
+              <Route
+                path="/campanias/:campaignId"
+                element={<CampaignDetail />}
+              />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
