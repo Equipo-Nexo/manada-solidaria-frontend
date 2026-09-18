@@ -4,6 +4,24 @@ import { useToast } from '../toast/useToast'
 
 export type BrowserPermissionStatus = 'granted' | 'denied' | 'prompt' | 'unsupported' | 'unavailable'
 
+const PERMISSIONS_REQUESTED_KEY = 'manadaSolidaria:permissionsRequested'
+
+function hasRequestedPermissions() {
+  try {
+    return localStorage.getItem(PERMISSIONS_REQUESTED_KEY) === 'true'
+  } catch {
+    return false
+  }
+}
+
+function markPermissionsRequested() {
+  try {
+    localStorage.setItem(PERMISSIONS_REQUESTED_KEY, 'true')
+  } catch {
+    return
+  }
+}
+
 export function useAppPermissions() {
   const toast = useToast()
   const { requestCoordinates } = useGeolocation()
@@ -52,6 +70,11 @@ export function useAppPermissions() {
   }, [toast])
 
   const requestLoginPermissions = useCallback(async () => {
+    if (hasRequestedPermissions()) {
+      return
+    }
+
+    markPermissionsRequested()
     await Promise.allSettled([requestCoordinates(), requestNotificationPermission()])
   }, [requestCoordinates, requestNotificationPermission])
 
