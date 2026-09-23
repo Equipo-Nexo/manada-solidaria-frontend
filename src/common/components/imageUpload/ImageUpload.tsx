@@ -9,7 +9,6 @@ import { useUploadImageMutation } from "@services/apis/cloudflareApi";
 import { useToast } from "@hooks/toast/useToast";
 import PawLoader from "../pawLoader/PawLoader";
 import ImagePreview from "../image_preview/ImagePreview";
-import CameraCapture from "../cameraCapture/CameraCapture";
 
 type ImageUploadProps = {
   imageUrl?: string;
@@ -23,8 +22,7 @@ function ImageUpload({
   onImageSelected
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { capturedPhoto, takePhoto, chooseFromGallery, capturePhoto, cameraDevices, setZoom,
-    stopCamera, stream, switchCamera, zoom, zoomRange } = useCamera();
+  const { capturedPhoto, takePhoto, chooseFromGallery } = useCamera();
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
@@ -43,11 +41,7 @@ function ImageUpload({
 
   const handleTakePhoto = async () => {
     closeSheet();
-    await takePhoto();
-  };
-
-  const handleCapturePhoto = async (video: HTMLVideoElement) => {
-    const photo = await capturePhoto(video);
+    const photo = await takePhoto();
     if (!photo || !photo.file) return null;
     setIsImageRemoved(false);
     setUpdated(true);
@@ -181,18 +175,6 @@ function ImageUpload({
           </S.PhotoSheetAction>
         </S.PhotoSheetActions>
       </BottomSheet>
-      {stream && (
-        <CameraCapture
-          stream={stream}
-          canSwitchCamera={cameraDevices.length > 1}
-          zoom={zoom}
-          zoomRange={zoomRange}
-          onCapture={handleCapturePhoto}
-          onClose={stopCamera}
-          onSwitchCamera={switchCamera}
-          onZoomChange={setZoom}
-        />
-      )}
     </>
   );
 }

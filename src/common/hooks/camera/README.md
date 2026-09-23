@@ -31,12 +31,7 @@ function PublishPhoto() {
 
 ## API
 
-- `takePhoto()`: abre la vista de cámara web. La foto se obtiene mediante `capturePhoto(video)`.
-- `capturePhoto(video)`: captura el cuadro actual de un elemento `video` conectado al `stream`.
-- `stream`: stream activo de la cámara, o `null` cuando está cerrada.
-- `cameraDevices` y `switchCamera()`: permiten alternar entre las cámaras expuestas por el navegador.
-- `zoom`, `zoomRange` y `setZoom()`: controlan el zoom cuando el dispositivo/navegador lo soporta.
-- `stopCamera()`: detiene la cámara y libera su indicador de privacidad.
+- `takePhoto()`: abre la cámara nativa mediante Capacitor y devuelve `CapturedPhoto | null`.
 - `chooseFromGallery()`: abre la galeria y devuelve `CapturedPhoto | null`.
 - `capturedPhoto`: ultima foto obtenida. Incluye:
   - `url`: usable como `src` de una imagen.
@@ -68,5 +63,5 @@ const handleSubmit = async () => {
 ## Notas
 
 - `src/main.tsx` registra `@ionic/pwa-elements` para mejorar el flujo Web/PWA.
-- En Android/iOS nativo, Capacitor usa los flujos del sistema.
-- En Web/PWA, el comportamiento final depende del navegador, pero queda centralizado en este hook.
+- En Android/iOS nativo, Capacitor abre la interfaz de cámara del sistema.
+- En Web/PWA, Capacitor utiliza `@ionic/pwa-elements` y recurre al selector de archivos si el navegador no ofrece la experiencia de cámara.
