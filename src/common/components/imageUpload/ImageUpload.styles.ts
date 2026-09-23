@@ -65,6 +65,7 @@ export const ImageUploadLabel = styled.span`
 
 export const ImageUploadContainer = styled.div`
   width: 100%;
+  height: 320px;
   position: relative;
 `;
 

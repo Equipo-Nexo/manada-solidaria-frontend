@@ -17,7 +17,7 @@ export default function ImagePreview({
     const source = normalizeImageUrl(imageId);
 
     return (
-        <S.ImageContainer $variant={variant}>
+        <S.ImageContainer $variant={variant} $src={source}>
             <S.Photo
                 $variant={variant}
                 src={source}
