@@ -1,17 +1,16 @@
 import styled, { css } from "styled-components";
 
-type ImagePreviewVariant = 'rectangle' | 'round' | 'square'
+type ImagePreviewVariant = 'rectangle' | 'round' | 'square' | 'fill'
 
 export const ImageContainer = styled.div<{
   $variant: ImagePreviewVariant
-  $src?: string
 }>`
   position: relative;
   overflow: hidden;
 
   ${({ $variant }) => $variant === 'rectangle' && css`
     width: 100%;
-    height: 204px;
+    aspect-ratio: ${({ theme }) => theme.layout.publicationImageAspectRatio};
   `}
 
   ${({ $variant }) => $variant !== 'rectangle' && css`
@@ -25,21 +24,6 @@ export const ImageContainer = styled.div<{
     flex: 0 0 auto;
   `}
 
-  ${({ $variant, $src }) => $variant === 'rectangle' && $src && css`
-    &::before {
-      content: '';
-      position: absolute;
-      inset: -10px;
-
-      background-image: url(${$src});
-      background-size: cover;
-      background-position: center;
-
-      filter: blur(16px);
-      transform: scale(1.1);
-      opacity: 0.65;
-    }
-  `}
 `
 
 export const Photo = styled.img<{ $variant: ImagePreviewVariant }>`
@@ -48,11 +32,8 @@ export const Photo = styled.img<{ $variant: ImagePreviewVariant }>`
   height: 100%;
 
   ${({ $variant }) => $variant === 'rectangle' && css`
-    position: relative;
-    z-index: 1;
-
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: ${({ theme }) => theme.layout.publicationImagePosition};
   `}
 
   ${({ $variant, theme }) => $variant === 'round' && css`
@@ -65,5 +46,10 @@ export const Photo = styled.img<{ $variant: ImagePreviewVariant }>`
   ${({ $variant }) => $variant === 'square' && css`
     object-fit: cover;
     object-position: center;
+  `}
+
+  ${({ $variant }) => $variant === 'fill' && css`
+    object-fit: cover;
+    object-position: ${({ theme }) => theme.layout.publicationImagePosition};
   `}
 `

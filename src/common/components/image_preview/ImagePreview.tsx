@@ -5,7 +5,7 @@ interface ImagePreviewProps {
     imageId?: string;
     alt?: string;
     onError?: () => void;
-    variant?: 'rectangle' | 'round' | 'square';
+    variant?: 'rectangle' | 'round' | 'square' | 'fill';
 }
 
 export default function ImagePreview({ 
@@ -17,7 +17,7 @@ export default function ImagePreview({
     const source = normalizeImageUrl(imageId);
 
     return (
-        <S.ImageContainer $variant={variant} $src={source}>
+        <S.ImageContainer $variant={variant}>
             <S.Photo
                 $variant={variant}
                 src={source}

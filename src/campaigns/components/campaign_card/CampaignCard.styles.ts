@@ -40,7 +40,7 @@ export const Card = styled.article<{ $clickable: boolean }>`
 export const ImageSection = styled.div`
   position: relative;
   width: 100%;
-  height: 192px;
+  aspect-ratio: ${({ theme }) => theme.layout.publicationImageAspectRatio};
   overflow: hidden;
   background: ${({ theme }) => theme.colors.neutral};
 `;

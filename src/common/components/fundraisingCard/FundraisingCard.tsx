@@ -55,6 +55,7 @@ function FundraisingCard({
           <ImagePreview 
             imageId={fundraising.imageUrl}
             alt={fundraising.title}
+            variant="fill"
           />
         </S.ImageContainer>
 

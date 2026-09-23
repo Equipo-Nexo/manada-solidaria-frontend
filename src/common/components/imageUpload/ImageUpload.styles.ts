@@ -15,7 +15,6 @@ export const ImageUploadLoadingState = styled.div`
 export const ImageUploadButton = styled.button<{ $hasPreview: boolean }>`
   width: 100%;
   min-height: 204px;
-  max-height: 204px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -33,6 +32,8 @@ export const ImageUploadButton = styled.button<{ $hasPreview: boolean }>`
   -webkit-tap-highlight-color: transparent;
 
   ${({ $hasPreview }) => $hasPreview && css`
+    min-height: 0;
+    aspect-ratio: ${({ theme }) => theme.layout.publicationImageAspectRatio};
     border: 0;
     border-radius: 0;
     padding: 0;
@@ -65,7 +66,6 @@ export const ImageUploadLabel = styled.span`
 
 export const ImageUploadContainer = styled.div`
   width: 100%;
-  height: 320px;
   position: relative;
 `;
 
