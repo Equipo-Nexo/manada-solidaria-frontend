@@ -15,6 +15,7 @@ import UserIcon from "@icons/User";
 import HistoryIcon from "@icons/History";
 import { useState, type ComponentType, type SVGProps } from "react";
 import { BottomSheet, Modal } from "@/common/components";
+import CameraCapture from "@/common/components/cameraCapture/CameraCapture";
 import LogoutIcon from "@icons/LogOut";
 import { useCamera } from "@hooks/camera/useCamera";
 import Gallery from "@icons/Gallery";
@@ -83,8 +84,16 @@ function Profile() {
   const {
     capturedPhoto,
     chooseFromGallery,
+    capturePhoto,
+    cameraDevices,
+    setZoom,
     status,
+    stopCamera,
+    stream,
+    switchCamera,
     takePhoto,
+    zoom,
+    zoomRange,
   } = useCamera();
 
   const navigate = useNavigate();
@@ -199,7 +208,11 @@ function Profile() {
 
   const handleTakePhoto = async () => {
     setIsPhotoSheetOpen(false);
-    const photo = await takePhoto();
+    await takePhoto();
+  };
+
+  const handleCapturePhoto = async (video: HTMLVideoElement) => {
+    const photo = await capturePhoto(video);
     if (photo?.file) await updateProfilePhoto(photo.file);
   };
 
@@ -207,6 +220,11 @@ function Profile() {
     const photo = await chooseFromGallery();
     setIsPhotoSheetOpen(false);
     if (photo?.file) await updateProfilePhoto(photo.file);
+  };
+
+  const handleCameraGallery = () => {
+    stopCamera();
+    void handleChooseFromGallery();
   };
 
   const storedProfileImage = userData?.profile.profileImageURL ?? "";
@@ -390,6 +408,19 @@ function Profile() {
           </S.PhotoSheetAction>
         </S.PhotoSheetActions>
       </BottomSheet>
+      {stream && (
+        <CameraCapture
+          stream={stream}
+          canSwitchCamera={cameraDevices.length > 1}
+          zoom={zoom}
+          zoomRange={zoomRange}
+          onCapture={handleCapturePhoto}
+          onChooseFromGallery={handleCameraGallery}
+          onClose={stopCamera}
+          onSwitchCamera={switchCamera}
+          onZoomChange={setZoom}
+        />
+      )}
       <S.Header>
         <S.BackButton
           type="button"
