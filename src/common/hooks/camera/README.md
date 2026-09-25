@@ -31,11 +31,12 @@ function PublishPhoto() {
 
 ## API
 
-- `takePhoto()`: abre la vista de cámara web. La foto se obtiene mediante `capturePhoto(video)`.
+- `takePhoto()`: abre la cámara integrada. La foto se obtiene mediante `capturePhoto(video)`.
 - `capturePhoto(video)`: captura el cuadro actual de un elemento `video` conectado al `stream`.
 - `stream`: stream activo de la cámara, o `null` cuando está cerrada.
-- `cameraDevices` y `switchCamera()`: permiten alternar entre las cámaras expuestas por el navegador.
-- `zoom`, `zoomRange` y `setZoom()`: controlan el zoom cuando el dispositivo/navegador lo soporta.
+- `cameraDevices` y `switchCamera()`: permiten alternar entre las cámaras expuestas por el dispositivo.
+- `zoom`, `zoomRange` y `setZoom()`: permiten iniciar en `1x` y mostrar los niveles de zoom compatibles.
+- `supportsFocus` y `focusAtPoint({ x, y })`: permiten enfocar por toque cuando el dispositivo expone enfoque puntual.
 - `stopCamera()`: detiene la cámara y libera su indicador de privacidad.
 - `chooseFromGallery()`: abre la galeria y devuelve `CapturedPhoto | null`.
 - `capturedPhoto`: ultima foto obtenida. Incluye:
@@ -68,5 +69,9 @@ const handleSubmit = async () => {
 ## Notas
 
 - `src/main.tsx` registra `@ionic/pwa-elements` para mejorar el flujo Web/PWA.
-- En Android/iOS nativo, Capacitor usa los flujos del sistema.
-- En Web/PWA, el comportamiento final depende del navegador, pero queda centralizado en este hook.
+- La cámara integrada comienza en `1x` siempre que el dispositivo lo soporte.
+- Los accesos rápidos de zoom solo muestran valores dentro del rango informado por el dispositivo.
+- Algunos navegadores o WebViews no exponen lentes físicos como el ultra gran angular; en esos casos no se mostrará `.6x`.
+- El enfoque por toque se habilita únicamente si el navegador expone `pointsOfInterest` y enfoque `single-shot`.
+- El stream solicita resolución Full HD y la captura usa `ImageCapture` cuando está disponible, con respaldo mediante `canvas`.
+- La selección desde galería continúa utilizando Capacitor.

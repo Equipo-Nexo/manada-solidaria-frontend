@@ -5,8 +5,20 @@ import { useToast } from '../toast/useToast'
 export type CameraStatus = 'idle' | 'requesting' | 'captured' | 'denied' | 'unavailable'
 export type CapturedPhoto = { file: File | null; media: MediaResult; url: string }
 type UseCameraOptions = { quality?: number }
-type ZoomCapabilities = MediaTrackCapabilities & { zoom?: { min: number; max: number; step: number } }
-type ZoomConstraintSet = MediaTrackConstraintSet & { zoom?: number }
+type PointOfInterest = { x: number; y: number }
+type CameraCapabilities = MediaTrackCapabilities & {
+  focusMode?: string[]
+  zoom?: { min: number; max: number; step: number }
+}
+type CameraConstraintSet = MediaTrackConstraintSet & {
+  focusMode?: 'single-shot' | 'continuous'
+  pointsOfInterest?: PointOfInterest[]
+  zoom?: number
+}
+type CameraSupportedConstraints = MediaTrackSupportedConstraints & {
+  focusMode?: boolean
+  pointsOfInterest?: boolean
+}
 const DEFAULT_CAMERA_OPTIONS: Required<UseCameraOptions> = { quality: 90 }
 
 async function mediaToFile(media: MediaResult) {
@@ -30,6 +42,7 @@ export function useCamera(options: UseCameraOptions = DEFAULT_CAMERA_OPTIONS) {
   const { quality } = { ...DEFAULT_CAMERA_OPTIONS, ...options }
   const toast = useToast()
   const streamRef = useRef<MediaStream | null>(null)
+  const focusResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [capturedPhoto, setCapturedPhoto] = useState<CapturedPhoto | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [status, setStatus] = useState<CameraStatus>('idle')
@@ -38,12 +51,16 @@ export function useCamera(options: UseCameraOptions = DEFAULT_CAMERA_OPTIONS) {
   const [activeDeviceId, setActiveDeviceId] = useState<string | null>(null)
   const [zoomRange, setZoomRange] = useState<{ min: number; max: number; step: number } | null>(null)
   const [zoom, setZoomState] = useState(1)
+  const [supportsFocus, setSupportsFocus] = useState(false)
 
   const clearCapturedPhoto = useCallback(() => setCapturedPhoto(null), [])
   const stopCamera = useCallback(() => {
+    if (focusResetTimerRef.current) clearTimeout(focusResetTimerRef.current)
+    focusResetTimerRef.current = null
     streamRef.current?.getTracks().forEach((track) => track.stop())
     streamRef.current = null
     setStream(null)
+    setSupportsFocus(false)
     setZoomRange(null)
     setStatus('idle')
   }, [])
@@ -70,26 +87,48 @@ export function useCamera(options: UseCameraOptions = DEFAULT_CAMERA_OPTIONS) {
   const openCamera = useCallback(async (deviceId?: string) => {
     setError(null)
     setStatus('requesting')
+    setSupportsFocus(false)
     try {
       streamRef.current?.getTracks().forEach((track) => track.stop())
       const nextStream = await navigator.mediaDevices.getUserMedia({
         audio: false,
-        video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: { ideal: 'environment' } },
+        video: {
+          ...(deviceId
+            ? { deviceId: { exact: deviceId } }
+            : { facingMode: { ideal: 'environment' } }),
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+        },
       })
       streamRef.current = nextStream
       const track = nextStream.getVideoTracks()[0]
-      const devices = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === 'videoinput')
-      const capabilities = track.getCapabilities() as ZoomCapabilities
+      const devices = (await navigator.mediaDevices.enumerateDevices()).filter((device) => device.kind === 'videoinput')
+      const capabilities = track.getCapabilities() as CameraCapabilities
+      const supportedConstraints = navigator.mediaDevices.getSupportedConstraints() as CameraSupportedConstraints
       const range = capabilities.zoom ?? null
-      const defaultZoom = range ? Math.min(range.max, Math.max(range.min, 1)) : 1
+      const initialZoom = range ? Math.min(range.max, Math.max(range.min, 1)) : 1
       if (range) {
-        await track.applyConstraints({ advanced: [{ zoom: defaultZoom } as ZoomConstraintSet] })
+        await track.applyConstraints({ advanced: [{ zoom: initialZoom } as CameraConstraintSet] })
+      }
+      const focusModes = capabilities.focusMode ?? []
+      const canFocusAtPoint = Boolean(
+        supportedConstraints.pointsOfInterest &&
+        supportedConstraints.focusMode &&
+        focusModes.includes('single-shot')
+      )
+      if (canFocusAtPoint && focusModes.includes('continuous')) {
+        try {
+          await track.applyConstraints({ advanced: [{ focusMode: 'continuous' } as CameraConstraintSet] })
+        } catch {
+          // Some devices report continuous focus but reject changing it explicitly.
+        }
       }
       setStream(nextStream)
       setCameraDevices(devices)
       setActiveDeviceId(track.getSettings().deviceId ?? deviceId ?? null)
       setZoomRange(range)
-      setZoomState(defaultZoom)
+      setZoomState(initialZoom)
+      setSupportsFocus(canFocusAtPoint)
       setStatus('idle')
       return nextStream
     } catch (cameraError) { return handleError(cameraError) }
@@ -98,15 +137,30 @@ export function useCamera(options: UseCameraOptions = DEFAULT_CAMERA_OPTIONS) {
   const takePhoto = useCallback(() => openCamera(), [openCamera])
   const capturePhoto = useCallback(async (video: HTMLVideoElement) => {
     try {
-      const canvas = document.createElement('canvas')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      canvas.getContext('2d')?.drawImage(video, 0, 0)
-      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality / 100))
+      const track = streamRef.current?.getVideoTracks()[0]
+      let blob: Blob | null = null
+
+      if (track && typeof ImageCapture !== 'undefined') {
+        try {
+          blob = await new ImageCapture(track).takePhoto()
+        } catch {
+          blob = null
+        }
+      }
+
+      if (!blob) {
+        const canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+        canvas.getContext('2d')?.drawImage(video, 0, 0)
+        blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality / 100))
+      }
+
       if (!blob) throw new Error('No pudimos procesar la foto.')
+      const extension = blob.type.split('/')[1] || 'jpeg'
       const url = URL.createObjectURL(blob)
-      const media = { webPath: url, metadata: { format: 'jpeg' } } as MediaResult
-      const photo = { file: new File([blob], `foto-${Date.now()}.jpeg`, { type: blob.type }), media, url }
+      const media = { webPath: url, metadata: { format: extension } } as MediaResult
+      const photo = { file: new File([blob], `foto-${Date.now()}.${extension}`, { type: blob.type }), media, url }
       setCapturedPhoto(photo)
       setStatus('captured')
       stopCamera()
@@ -116,16 +170,55 @@ export function useCamera(options: UseCameraOptions = DEFAULT_CAMERA_OPTIONS) {
 
   const switchCamera = useCallback(() => {
     if (cameraDevices.length < 2) return Promise.resolve(null)
-    const index = cameraDevices.findIndex((device) => device.deviceId === activeDeviceId)
-    return openCamera(cameraDevices[(index + 1) % cameraDevices.length].deviceId)
+    const currentIndex = cameraDevices.findIndex((device) => device.deviceId === activeDeviceId)
+    const nextDevice = cameraDevices[(currentIndex + 1) % cameraDevices.length]
+    return openCamera(nextDevice.deviceId)
   }, [activeDeviceId, cameraDevices, openCamera])
 
   const setZoom = useCallback(async (value: number) => {
     const track = streamRef.current?.getVideoTracks()[0]
     if (!track || !zoomRange) return
-    await track.applyConstraints({ advanced: [{ zoom: value } as ZoomConstraintSet] })
-    setZoomState(value)
-  }, [zoomRange])
+    const clamped = Math.min(zoomRange.max, Math.max(zoomRange.min, value))
+    const step = zoomRange.step || 0.1
+    const normalized = Number((zoomRange.min + Math.round((clamped - zoomRange.min) / step) * step).toFixed(2))
+    try {
+      await track.applyConstraints({ advanced: [{ zoom: normalized } as CameraConstraintSet] })
+      setZoomState(normalized)
+    } catch {
+      toast.information('No pudimos cambiar el zoom', 'Probá con otro nivel.')
+    }
+  }, [toast, zoomRange])
+
+  const focusAtPoint = useCallback(async ({ x, y }: PointOfInterest) => {
+    const track = streamRef.current?.getVideoTracks()[0]
+    if (!track || !supportsFocus) return false
+
+    const point = {
+      x: Math.min(1, Math.max(0, x)),
+      y: Math.min(1, Math.max(0, y)),
+    }
+
+    try {
+      await track.applyConstraints({
+        advanced: [{
+          focusMode: 'single-shot',
+          pointsOfInterest: [point],
+        } as CameraConstraintSet],
+      })
+
+      if (focusResetTimerRef.current) clearTimeout(focusResetTimerRef.current)
+      focusResetTimerRef.current = setTimeout(() => {
+        if (track.readyState !== 'live') return
+        void track.applyConstraints({
+          advanced: [{ focusMode: 'continuous' } as CameraConstraintSet],
+        }).catch(() => undefined)
+      }, 1200)
+      return true
+    } catch {
+      setSupportsFocus(false)
+      return false
+    }
+  }, [supportsFocus])
 
   const chooseFromGallery = useCallback(async () => {
     setError(null)
@@ -142,14 +235,20 @@ export function useCamera(options: UseCameraOptions = DEFAULT_CAMERA_OPTIONS) {
     } catch (cameraError) { return handleError(cameraError) }
   }, [handleError, quality])
 
-  const requestCameraPermissions = useCallback(() => openCamera().then((result) => { stopCamera(); return result }), [openCamera, stopCamera])
+  const requestCameraPermissions = useCallback(() => openCamera().then((result) => {
+    stopCamera()
+    return result
+  }), [openCamera, stopCamera])
   const requestGalleryPermissions = useCallback(async () => {
     try { return await Camera.requestPermissions({ permissions: ['photos'] }) }
     catch (cameraError) { handleError(cameraError); return null }
   }, [handleError])
-  useEffect(() => () => streamRef.current?.getTracks().forEach((track) => track.stop()), [])
+  useEffect(() => () => {
+    if (focusResetTimerRef.current) clearTimeout(focusResetTimerRef.current)
+    streamRef.current?.getTracks().forEach((track) => track.stop())
+  }, [])
 
   return { capturedPhoto, chooseFromGallery, clearCapturedPhoto, capturePhoto, cameraDevices, error,
-    requestCameraPermissions, requestGalleryPermissions, setZoom, status, stopCamera, stream,
-    switchCamera, takePhoto, zoom, zoomRange }
+    focusAtPoint, requestCameraPermissions, requestGalleryPermissions, setZoom, status, stopCamera,
+    stream, supportsFocus, switchCamera, takePhoto, zoom, zoomRange }
 }

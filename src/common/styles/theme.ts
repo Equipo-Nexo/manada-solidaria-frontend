@@ -199,7 +199,9 @@ export const theme = {
     contentMaxWidth: '1400px',
     mobileNavHeight: '78px',
     publicationCardWidth: '325px',
-    publicationCardHeight: '400px',
+    publicationCardHeight: '452px',
+    publicationImageAspectRatio: '4 / 3',
+    publicationImagePosition: 'center 35%',
   },
 }
 
