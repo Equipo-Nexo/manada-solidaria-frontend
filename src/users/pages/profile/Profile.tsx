@@ -86,10 +86,12 @@ function Profile() {
     chooseFromGallery,
     capturePhoto,
     cameraDevices,
+    focusAtPoint,
     setZoom,
     status,
     stopCamera,
     stream,
+    supportsFocus,
     switchCamera,
     takePhoto,
     zoom,
@@ -414,9 +416,11 @@ function Profile() {
           canSwitchCamera={cameraDevices.length > 1}
           zoom={zoom}
           zoomRange={zoomRange}
+          supportsFocus={supportsFocus}
           onCapture={handleCapturePhoto}
           onChooseFromGallery={handleCameraGallery}
           onClose={stopCamera}
+          onFocusAtPoint={focusAtPoint}
           onSwitchCamera={switchCamera}
           onZoomChange={setZoom}
         />

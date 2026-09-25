@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 export const Backdrop = styled.div`
   position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: #000;
@@ -7,8 +7,43 @@ export const Dialog = styled.div`
   position: relative; width: 100%; height: 100%; overflow: hidden; background: #000;
   @media (min-width: 768px) { width: min(92vw, 720px); height: min(92vh, 900px); border-radius: 16px; }
 `
-export const Preview = styled.video`
+export const Preview = styled.video<{ $focusable: boolean }>`
   width: 100%; height: 100%; object-fit: cover;
+  cursor: ${({ $focusable }) => $focusable ? 'crosshair' : 'default'};
+  touch-action: manipulation;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: -3px;
+  }
+`
+const focusPulse = keyframes`
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(1.35); }
+  25% { opacity: 1; }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+`
+export const FocusIndicator = styled.span<{ $left: number; $top: number }>`
+  position: absolute;
+  z-index: 2;
+  top: ${({ $top }) => `${$top}%`};
+  left: ${({ $left }) => `${$left}%`};
+  width: 68px;
+  height: 68px;
+  border: 2px solid ${({ theme }) => theme.colors.brand};
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 28%);
+  pointer-events: none;
+  animation: ${focusPulse} 180ms ease-out;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: ${({ theme }) => theme.colors.brand};
+  }
+
+  &::before { top: 50%; left: -7px; width: 12px; height: 2px; }
+  &::after { top: -7px; left: 50%; width: 2px; height: 12px; }
 `
 export const CloseButton = styled.button`
   position: absolute; top: max(16px, env(safe-area-inset-top)); right: 16px; display: grid;

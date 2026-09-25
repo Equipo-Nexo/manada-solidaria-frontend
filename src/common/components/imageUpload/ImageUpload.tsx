@@ -23,8 +23,8 @@ function ImageUpload({
   onImageSelected
 }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { capturedPhoto, takePhoto, chooseFromGallery, capturePhoto, cameraDevices, setZoom,
-    stopCamera, stream, switchCamera, zoom, zoomRange } = useCamera();
+  const { capturedPhoto, takePhoto, chooseFromGallery, capturePhoto, cameraDevices, focusAtPoint,
+    setZoom, stopCamera, stream, supportsFocus, switchCamera, zoom, zoomRange } = useCamera();
   const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
   const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
@@ -192,9 +192,11 @@ function ImageUpload({
           canSwitchCamera={cameraDevices.length > 1}
           zoom={zoom}
           zoomRange={zoomRange}
+          supportsFocus={supportsFocus}
           onCapture={handleCapturePhoto}
           onChooseFromGallery={handleCameraGallery}
           onClose={stopCamera}
+          onFocusAtPoint={focusAtPoint}
           onSwitchCamera={switchCamera}
           onZoomChange={setZoom}
         />
