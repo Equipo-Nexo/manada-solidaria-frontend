@@ -42,6 +42,7 @@ export interface CreateAnimalPostRequest extends BaseAnimalPostRequest {
 export interface CreateAdoptionAnimalPostRequest extends CreateAnimalPostRequest {
   type: 'ADOPTION'
   inTransit: boolean
+  needTransport: boolean
 }
 
 export interface CreateLostAnimalPostRequest extends CreateAnimalPostRequest {
