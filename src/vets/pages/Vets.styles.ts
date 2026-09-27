@@ -185,8 +185,7 @@ export const DistanceButton = styled.button<{
   border-radius: 10px;
   background: ${({ $active, theme }) =>
     $active ? theme.colors.neutral : theme.colors.background};
-  color: ${({ $active, theme }) =>
-    $active ? theme.colors.brand : theme.colors.darkColor};
+  color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -196,15 +195,17 @@ export const DistanceButton = styled.button<{
     width: 17px;
     height: 17px;
     flex-shrink: 0;
+    color: ${({ theme }) => theme.colors.darkColor};
+    margin-top: 2px;
   }
   @media (max-width: 767px) {
     gap: 4px;
     padding: 8px 6px;
     font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
-
     svg {
       width: 14px;
       height: 14px;
+      color: ${({ theme }) => theme.colors.darkColor};
     }
   }
   &:hover {

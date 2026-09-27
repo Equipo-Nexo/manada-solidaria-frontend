@@ -5,15 +5,17 @@ import { useGetVetsQuery } from "../app/api/vetsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
 import VetCard from "../components/vet_card/VetCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGeolocation } from "@/common/hooks/geolocation/useGeolocation";
 import StatusFilter, {
   type VetStatusFilter,
 } from "../components/status_filter/StatusFilter";
-import { FilterIcon, Search } from "@/common/icons";
+import { Search, Sort } from "@/common/icons";
+import { useDebounce } from "@/common/hooks/debounce/useDebounce";
 export default function Vets() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 400);
   const [sortByDistance, setSortByDistance] = useState(false);
   const { coordinates, requestCoordinates } = useGeolocation();
   const [statusFilter, setStatusFilter] = useState<VetStatusFilter>("ALL");
@@ -24,7 +26,7 @@ export default function Vets() {
     isError,
     refetch,
   } = useGetVetsQuery({
-    query: search || undefined,
+    query: debouncedSearch || undefined,
     openOnly,
     userLatitude:
       sortByDistance && coordinates ? coordinates.latitude : undefined,
@@ -87,7 +89,7 @@ export default function Vets() {
                 $active={sortByDistance}
                 onClick={() => void handleSortByDistance()}
               >
-                <FilterIcon aria-hidden="true" />
+                <Sort aria-hidden="true" />
                 Más cercanas
               </S.DistanceButton>
             </S.FiltersRow>

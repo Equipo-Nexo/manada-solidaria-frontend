@@ -9,9 +9,35 @@ type StatusFilterProps = {
   onChange: (value: VetStatusFilter) => void;
 };
 
+const statusOptions: {
+  value: VetStatusFilter;
+  label: string;
+  status?: "open" | "closed";
+}[] = [
+  {
+    value: "ALL",
+    label: "Todas las veterinarias",
+  },
+  {
+    value: "OPEN",
+    label: "Abierto",
+    status: "open",
+  },
+  {
+    value: "CLOSED",
+    label: "Cerrado",
+    status: "closed",
+  },
+];
+
 function StatusFilter({ value, onChange }: StatusFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const selectedOption = statusOptions.find(
+    (option) => option.value === value,
+  )!;
+
   const handleSelect = (newValue: VetStatusFilter) => {
     onChange(newValue);
     setIsOpen(false);
@@ -34,43 +60,27 @@ function StatusFilter({ value, onChange }: StatusFilterProps) {
     };
   }, []);
 
-  const getSelectedContent = () => {
-    switch (value) {
-      case "OPEN":
-        return (
-          <>
-            <S.StatusDot $status="open" />
-            <span>Abierto</span>
-          </>
-        );
-
-      case "CLOSED":
-        return (
-          <>
-            <S.StatusDot $status="closed" />
-            <span>Cerrado</span>
-          </>
-        );
-
-      default:
-        return (
-          <>
-            <BriefcaseMedical aria-hidden="true" />
-            <span>Todas las veterinarias</span>
-          </>
-        );
+  const renderOptionIcon = (option: (typeof statusOptions)[number]) => {
+    if (option.status) {
+      return <S.StatusDot $status={option.status} />;
     }
+
+    return <BriefcaseMedical aria-hidden="true" />;
   };
 
   return (
     <S.FilterWrapper ref={filterRef}>
       <S.FilterButton
         type="button"
+        $active={value !== "ALL"}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <S.SelectedContent>{getSelectedContent()}</S.SelectedContent>
+        <S.SelectedContent>
+          {renderOptionIcon(selectedOption)}
+          <span>{selectedOption.label}</span>
+        </S.SelectedContent>
 
         <S.ChevronWrapper>
           <ChevronRight aria-hidden="true" />
@@ -79,50 +89,27 @@ function StatusFilter({ value, onChange }: StatusFilterProps) {
 
       {isOpen && (
         <S.Menu role="listbox">
-          <S.Option
-            type="button"
-            role="option"
-            aria-selected={value === "ALL"}
-            $selected={value === "ALL"}
-            onClick={() => handleSelect("ALL")}
-          >
-            <S.OptionContent>
-              <BriefcaseMedical aria-hidden="true" />
-              <span>Todas las veterinarias</span>
-            </S.OptionContent>
+          {statusOptions.map((option) => {
+            const isSelected = value === option.value;
 
-            {value === "ALL" && <Check aria-hidden="true" />}
-          </S.Option>
+            return (
+              <S.Option
+                key={option.value}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                $selected={isSelected}
+                onClick={() => handleSelect(option.value)}
+              >
+                <S.OptionContent>
+                  {renderOptionIcon(option)}
+                  <span>{option.label}</span>
+                </S.OptionContent>
 
-          <S.Option
-            type="button"
-            role="option"
-            aria-selected={value === "OPEN"}
-            $selected={value === "OPEN"}
-            onClick={() => handleSelect("OPEN")}
-          >
-            <S.OptionContent>
-              <S.StatusDot $status="open" />
-              <span>Abierto</span>
-            </S.OptionContent>
-
-            {value === "OPEN" && <Check aria-hidden="true" />}
-          </S.Option>
-
-          <S.Option
-            type="button"
-            role="option"
-            aria-selected={value === "CLOSED"}
-            $selected={value === "CLOSED"}
-            onClick={() => handleSelect("CLOSED")}
-          >
-            <S.OptionContent>
-              <S.StatusDot $status="closed" />
-              <span>Cerrado</span>
-            </S.OptionContent>
-
-            {value === "CLOSED" && <Check aria-hidden="true" />}
-          </S.Option>
+                {isSelected && <Check aria-hidden="true" />}
+              </S.Option>
+            );
+          })}
         </S.Menu>
       )}
     </S.FilterWrapper>

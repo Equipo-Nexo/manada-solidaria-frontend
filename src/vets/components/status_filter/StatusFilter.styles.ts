@@ -5,24 +5,26 @@ export const FilterWrapper = styled.div`
   width: fit-content;
 `;
 
-export const FilterButton = styled.button`
+export const FilterButton = styled.button<{
+  $active: boolean;
+}>`
   min-height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding: 8px 12px;
-  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  border: 1px solid
+    ${({ $active, theme }) =>
+      $active ? theme.colors.brand : theme.colors.stroke};
   border-radius: 10px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.darkColor};
+  background: ${({ $active, theme }) =>
+    $active ? "#F6E7D3" : theme.colors.background};
+  color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
-  svg {
-    flex-shrink: 0;
-  }
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
@@ -32,11 +34,6 @@ export const FilterButton = styled.button`
     padding: 8px 6px;
     font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
     white-space: nowrap;
-
-    svg {
-      width: 14px;
-      height: 14px;
-    }
   }
 `;
 
@@ -44,8 +41,17 @@ export const SelectedContent = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  svg {
+    width: 18px;
+    height: 18px;
+    color: ${({ theme }) => theme.colors.darkColor};
+  }
   @media (max-width: 767px) {
     gap: 4px;
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
 `;
 
@@ -54,6 +60,19 @@ export const ChevronWrapper = styled.span`
   align-items: center;
   justify-content: center;
   transform: rotate(90deg);
+  svg {
+    width: 16px;
+    height: 16px;
+    color: ${({ theme }) => theme.colors.darkColor};
+  }
+
+  @media (max-width: 767px) {
+    svg {
+      width: 10px;
+      height: 10px;
+      color: ${({ theme }) => theme.colors.darkColor};
+    }
+  }
 `;
 
 export const Menu = styled.div`
