@@ -5,7 +5,7 @@ import { useGetVetsQuery } from "../app/api/vetsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
 import VetCard from "../components/vet_card/VetCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGeolocation } from "@/common/hooks/geolocation/useGeolocation";
 import StatusFilter, {
   type VetStatusFilter,
