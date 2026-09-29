@@ -81,7 +81,7 @@ function Login() {
   }
 
   const handleForgotPassword = () => {
-    console.log('Olvidé mi contraseña')
+    navigate('/recuperar-contrasena')
   }
 
   return (

@@ -12,6 +12,7 @@ import {
   InstallButton,
 } from "@components/index.ts";
 import Login from "./auth/pages/login/Login";
+import PasswordRecoveryRequest from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryRequest";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
 import useAuth from "@hooks/auth/useAuth";
@@ -66,6 +67,7 @@ function App() {
   const usesFullScreenLayout =
     actualPath === "/login" ||
     actualPath === "/registro" ||
+    actualPath === "/recuperar-contrasena" ||
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail;
@@ -105,6 +107,10 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
+            <Route
+              path="/recuperar-contrasena"
+              element={<PasswordRecoveryRequest />}
+            />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
