@@ -5,11 +5,7 @@ export default function PasswordRecoveryCodeSent() {
     <S.Page>
       <S.Panel aria-labelledby="code-sent-title">
         <S.Content>
-          <S.PaperPlane
-            src="/password-recovery-paper-plane.svg"
-            alt=""
-            aria-hidden="true"
-          />
+          <S.PlaneIcon aria-hidden="true" />
           <S.Title id="code-sent-title">Código enviado</S.Title>
           <S.Message>
             <S.Description>

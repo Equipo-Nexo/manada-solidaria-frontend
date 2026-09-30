@@ -12,7 +12,7 @@ import {
   InstallButton,
 } from "@components/index.ts";
 import Login from "./auth/pages/login/Login";
-import PasswordRecoveryRequest from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryRequest";
+import PasswordRecoveryEmail from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryEmail";
 import PasswordRecoveryCodeSent from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryCodeSent";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
@@ -111,7 +111,7 @@ function App() {
             <Route path="/registro" element={<Register />} />
             <Route
               path="/recuperar-contrasena"
-              element={<PasswordRecoveryRequest />}
+              element={<PasswordRecoveryEmail />}
             />
             <Route
               path="/recuperar-contrasena/codigo-enviado"

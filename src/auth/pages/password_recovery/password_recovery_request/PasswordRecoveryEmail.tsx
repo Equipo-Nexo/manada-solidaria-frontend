@@ -7,11 +7,11 @@ import {
   passwordRecoveryRequestSchema,
   type PasswordRecoveryRequestValues,
 } from "@auth/app/schemas/passwordRecoveryRequestSchema";
-import * as S from "./PasswordRecoveryRequest.styles";
+import * as S from "./PasswordRecoveryEmail.styles";
 import { useRequestPasswordRecoveryMutation } from "@/auth/app/api/passwordRecoveryApi";
 import { useNavigate } from "react-router-dom";
 
-export default function PasswordRecoveryRequest() {
+export default function PasswordRecoveryEmail() {
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -63,7 +63,11 @@ export default function PasswordRecoveryRequest() {
             verificación para que puedas crear una nueva contraseña.
           </S.Description>
         </S.Introduction>
-        <S.Form onSubmit={handleSubmit(handleRequest)} aria-busy={isLoading} noValidate>
+        <S.Form
+          onSubmit={handleSubmit(handleRequest)}
+          aria-busy={isLoading}
+          noValidate
+        >
           <S.Field>
             <S.Label htmlFor="recovery-email">
               <Mail aria-hidden="true" />
@@ -88,7 +92,7 @@ export default function PasswordRecoveryRequest() {
             />
           </S.Field>
           <S.SubmitButton type="submit" disabled={isLoading}>
-            {isLoading ? 'Enviando...' : 'Enviar Código'}
+            {isLoading ? "Enviando..." : "Enviar Código"}
           </S.SubmitButton>
           <S.BackLink to="/login">Volver al inicio de sesión</S.BackLink>
         </S.Form>
