@@ -60,7 +60,9 @@ function App() {
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
   const isCampaignDetail = location.pathname.startsWith("/campanias/");
-
+  const isPasswordRecovery =
+    actualPath === "/recuperar-contrasena" ||
+    actualPath.startsWith("/recuperar-contrasena/");
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
@@ -68,8 +70,7 @@ function App() {
   const usesFullScreenLayout =
     actualPath === "/login" ||
     actualPath === "/registro" ||
-    actualPath === "/recuperar-contrasena" ||
-    actualPath === "/recuperar-contrasena/codigo-enviado" ||
+    isPasswordRecovery ||
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail;
