@@ -1,4 +1,4 @@
-import type { PasswordRecoveryRequest } from "./requests/PasswordRecoveryRequest";
+import type { PasswordRecoveryRequest } from "./requests/passwordRecoveryRequest";
 import { baseAuthenticatedApi } from "@/common/app/services/base/baseAuthenticatedApi";
 
 export const passwordRecoveryApi = baseAuthenticatedApi.injectEndpoints({
