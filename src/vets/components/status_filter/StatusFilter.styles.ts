@@ -75,7 +75,7 @@ export const ChevronWrapper = styled.span`
   }
 `;
 
-export const Menu = styled.div`
+export const Menu = styled.ul`
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
@@ -84,13 +84,19 @@ export const Menu = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin: 0;
   padding: 10px;
+  list-style: none;
   border: 1px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 6px 18px rgb(0 0 0 / 14%);
 `;
-
+export const MenuItem = styled.li`
+  width: 100%;
+  margin: 0;
+  padding: 0;
+`;
 export const Option = styled.button<{
   $selected: boolean;
 }>`

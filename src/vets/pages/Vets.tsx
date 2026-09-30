@@ -1,15 +1,15 @@
 import Arrow from "@/common/icons/Arrow";
 import * as S from "./Vets.styles";
 import { useNavigate } from "react-router-dom";
-import { useGetVetsQuery } from "../app/api/vetsApi";
+import { useGetVetsQuery } from "@/vets/app/api/vetsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
-import VetCard from "../components/vet_card/VetCard";
+import VetCard from "@/vets/components/vet_card/VetCard";
 import { useState } from "react";
 import { useGeolocation } from "@/common/hooks/geolocation/useGeolocation";
 import StatusFilter, {
   type VetStatusFilter,
-} from "../components/status_filter/StatusFilter";
+} from "@/vets/components/status_filter/StatusFilter";
 import { Search, Sort } from "@/common/icons";
 import { useDebounce } from "@/common/hooks/debounce/useDebounce";
 export default function Vets() {
@@ -33,17 +33,21 @@ export default function Vets() {
     userLongitude:
       sortByDistance && coordinates ? coordinates.longitude : undefined,
   });
-
   const handleSortByDistance = async () => {
     if (sortByDistance) {
       setSortByDistance(false);
       return;
     }
-    if (!coordinates) {
-      await requestCoordinates();
+    if (coordinates) {
+      setSortByDistance(true);
+      return;
     }
-    setSortByDistance(true);
+    const result = await requestCoordinates();
+    if (result.coordinates) {
+      setSortByDistance(true);
+    }
   };
+
   if (isLoading) {
     return <PawLoader label="Cargando veterinarias..." />;
   }

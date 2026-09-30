@@ -74,7 +74,6 @@ function StatusFilter({ value, onChange }: StatusFilterProps) {
         type="button"
         $active={value !== "ALL"}
         aria-expanded={isOpen}
-        aria-haspopup="listbox"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <S.SelectedContent>
@@ -88,26 +87,26 @@ function StatusFilter({ value, onChange }: StatusFilterProps) {
       </S.FilterButton>
 
       {isOpen && (
-        <S.Menu role="listbox">
+        <S.Menu>
           {statusOptions.map((option) => {
             const isSelected = value === option.value;
 
             return (
-              <S.Option
-                key={option.value}
-                type="button"
-                role="option"
-                aria-selected={isSelected}
-                $selected={isSelected}
-                onClick={() => handleSelect(option.value)}
-              >
-                <S.OptionContent>
-                  {renderOptionIcon(option)}
-                  <span>{option.label}</span>
-                </S.OptionContent>
+              <S.MenuItem key={option.value}>
+                <S.Option
+                  type="button"
+                  aria-pressed={isSelected}
+                  $selected={isSelected}
+                  onClick={() => handleSelect(option.value)}
+                >
+                  <S.OptionContent>
+                    {renderOptionIcon(option)}
+                    <span>{option.label}</span>
+                  </S.OptionContent>
 
-                {isSelected && <Check aria-hidden="true" />}
-              </S.Option>
+                  {isSelected && <Check aria-hidden="true" />}
+                </S.Option>
+              </S.MenuItem>
             );
           })}
         </S.Menu>
