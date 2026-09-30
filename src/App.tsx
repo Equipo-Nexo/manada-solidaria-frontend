@@ -13,6 +13,7 @@ import {
 } from "@components/index.ts";
 import Login from "./auth/pages/login/Login";
 import PasswordRecoveryRequest from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryRequest";
+import PasswordRecoveryCodeSent from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryCodeSent";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
 import useAuth from "@hooks/auth/useAuth";
@@ -68,6 +69,7 @@ function App() {
     actualPath === "/login" ||
     actualPath === "/registro" ||
     actualPath === "/recuperar-contrasena" ||
+    actualPath === "/recuperar-contrasena/codigo-enviado" ||
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail;
@@ -110,6 +112,10 @@ function App() {
             <Route
               path="/recuperar-contrasena"
               element={<PasswordRecoveryRequest />}
+            />
+            <Route
+              path="/recuperar-contrasena/codigo-enviado"
+              element={<PasswordRecoveryCodeSent />}
             />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />

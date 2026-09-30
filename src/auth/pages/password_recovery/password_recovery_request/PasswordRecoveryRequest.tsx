@@ -8,9 +8,13 @@ import {
   type PasswordRecoveryRequestValues,
 } from "@auth/app/schemas/passwordRecoveryRequestSchema";
 import * as S from "./PasswordRecoveryRequest.styles";
+import { useRequestPasswordRecoveryMutation } from "@/auth/app/api/passwordRecoveryApi";
+import { useNavigate } from "react-router-dom";
 
 export default function PasswordRecoveryRequest() {
+  const navigate = useNavigate();
   const toast = useToast();
+
   const {
     register,
     handleSubmit,
@@ -18,14 +22,31 @@ export default function PasswordRecoveryRequest() {
   } = useForm<PasswordRecoveryRequestValues>({
     resolver: yupResolver(passwordRecoveryRequestSchema),
     mode: "onTouched",
-    defaultValues: { email: "" },
+    defaultValues: {
+      email: "",
+    },
   });
 
-  const handleRequest = () => {
-    toast.information(
-      "Envío no disponible",
-      "La recuperación de contraseña todavía no está disponible. Intentá nuevamente más tarde.",
-    );
+  const [requestPasswordRecovery, { isLoading }] =
+    useRequestPasswordRecoveryMutation();
+
+  const handleRequest = (values: PasswordRecoveryRequestValues) => {
+    if (isLoading) return;
+    requestPasswordRecovery({
+      email: values.email,
+    })
+      .unwrap()
+      .then(() => {
+        navigate("/recuperar-contrasena/codigo-enviado", {
+          state: { email: values.email },
+        });
+      })
+      .catch(() => {
+        toast.error(
+          "No pudimos enviar el código",
+          "Revisá el correo e intentá nuevamente.",
+        );
+      });
   };
 
   return (
@@ -42,7 +63,7 @@ export default function PasswordRecoveryRequest() {
             verificación para que puedas crear una nueva contraseña.
           </S.Description>
         </S.Introduction>
-        <S.Form onSubmit={handleSubmit(handleRequest)} noValidate>
+        <S.Form onSubmit={handleSubmit(handleRequest)} aria-busy={isLoading} noValidate>
           <S.Field>
             <S.Label htmlFor="recovery-email">
               <Mail aria-hidden="true" />
@@ -51,6 +72,7 @@ export default function PasswordRecoveryRequest() {
             <S.Input
               id="recovery-email"
               type="email"
+              disabled={isLoading}
               autoComplete="email"
               placeholder="nombre@ejemplo.com"
               aria-invalid={Boolean(errors.email)}
@@ -65,7 +87,9 @@ export default function PasswordRecoveryRequest() {
               message={errors.email?.message}
             />
           </S.Field>
-          <S.SubmitButton type="submit">Enviar Código</S.SubmitButton>
+          <S.SubmitButton type="submit" disabled={isLoading}>
+            {isLoading ? 'Enviando...' : 'Enviar Código'}
+          </S.SubmitButton>
           <S.BackLink to="/login">Volver al inicio de sesión</S.BackLink>
         </S.Form>
       </S.Panel>

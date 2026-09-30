@@ -211,6 +211,10 @@ export const SubmitButton = styled.button`
     0 10px 15px -3px rgb(0 0 0 / 10%),
     0 4px 6px -4px rgb(0 0 0 / 10%);
   cursor: pointer;
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
   @media (min-width: 768px) {
     min-height: 40px;
     font-size: 0.875rem;
