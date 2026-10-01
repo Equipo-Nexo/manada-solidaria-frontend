@@ -12,6 +12,8 @@ import {
   InstallButton,
 } from "@components/index.ts";
 import Login from "./auth/pages/login/Login";
+import PasswordRecoveryEmail from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryEmail";
+import PasswordRecoveryCodeSent from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryCodeSent";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
 import useAuth from "@hooks/auth/useAuth";
@@ -58,7 +60,9 @@ function App() {
   const isMobileMenu = location.pathname === "/menu";
   const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
   const isCampaignDetail = location.pathname.startsWith("/campanias/");
-
+  const isPasswordRecovery =
+    actualPath === "/recuperar-contrasena" ||
+    actualPath.startsWith("/recuperar-contrasena/");
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
@@ -66,6 +70,7 @@ function App() {
   const usesFullScreenLayout =
     actualPath === "/login" ||
     actualPath === "/registro" ||
+    isPasswordRecovery ||
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail;
@@ -105,6 +110,14 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
+            <Route
+              path="/recuperar-contrasena"
+              element={<PasswordRecoveryEmail />}
+            />
+            <Route
+              path="/recuperar-contrasena/codigo-enviado"
+              element={<PasswordRecoveryCodeSent />}
+            />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
               <Route path="/campanias" element={<Campaigns />} />
