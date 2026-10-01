@@ -40,7 +40,6 @@ export const Photo = styled.img<{ $variant: ImagePreviewVariant }>`
     border: 4px solid ${theme.colors.background};
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 10px 28px ${theme.colors.darkColor}24;
   `}
 
   ${({ $variant }) => $variant === 'square' && css`
