@@ -3,6 +3,7 @@ import { ErrorMessage } from "@components/index";
 import { useVerifyCode } from "@auth/hooks/useVerifyCode";
 import * as S from "./VerifyCode.styles";
 import Arrow from "@/common/icons/Arrow";
+import { Clock } from "@/common/icons";
 
 export default function VerifyCode() {
   const errorId = useId();
@@ -65,12 +66,10 @@ export default function VerifyCode() {
             <ErrorMessage id={errorId} message={codeError} />
             <S.Validity>El código tiene una validez de 10 minutos.</S.Validity>
             <S.ResendArea>
-              <S.Hint>
-                <img src="/recovery-clock.svg" alt="" width="34" height="34" />
-                <span>
-                  Si no lo recibiste, podés solicitar un nuevo código.
-                </span>
-              </S.Hint>
+              <S.Advice>
+                <Clock width="34" height="34" />
+                Si no lo recibiste, podés solicitar un nuevo código.
+              </S.Advice>
               {hasEmail ? (
                 <S.ResendButton
                   type="button"

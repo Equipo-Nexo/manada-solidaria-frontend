@@ -74,7 +74,7 @@ export const ResendArea = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-export const Hint = styled.div`
+export const Advice = styled.div`
   display: flex;
   align-items: center;
   gap: 7px;

@@ -3,8 +3,8 @@ import {
   useRef,
   useState,
   type ClipboardEvent,
-  type FormEvent,
   type KeyboardEvent,
+  type SubmitEvent,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -52,7 +52,7 @@ export function useVerifyCode() {
   useEffect(() => {
     const update = () =>
       setRemaining(Math.max(0, Math.ceil((resendAt - Date.now()) / 1000)));
-    const timer = window.setInterval(update, 250);
+    const timer = window.setInterval(update, 1000);
     return () => window.clearInterval(timer);
   }, [resendAt]);
 
@@ -88,7 +88,7 @@ export function useVerifyCode() {
         inputs.current[0]?.focus();
         toast.information(
           "Código solicitado",
-          "Si existe una cuenta asociada, recibirás un nuevo código en tu correo.",
+          "Te enviamos un nuevo código. Los códigos anteriores dejarán de ser válidos.",
         );
       })
       .catch(() => {
@@ -159,7 +159,7 @@ export function useVerifyCode() {
       });
   };
 
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     void handleSubmit(handleVerify, () => inputs.current[0]?.focus())(event);
   };
 
