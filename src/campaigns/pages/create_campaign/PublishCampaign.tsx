@@ -10,7 +10,7 @@ import { useCreateCampaignMutation } from "@campaigns/app/api/campaignApi";
 import { useToast } from "@hooks/toast/useToast";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import { type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
-import { campaignCategoryLabels, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
+import { campaignCategoryLabels, createCampaignCategoryOptions, donationItemLabels } from "@/campaigns/utils/CampaignUtils";
 import { recordToOptions } from "@/common/utils/RecordToOptions";
 import { buildCreateCampaignRequest } from "@/campaigns/utils/CreateCampaignBuilder";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
@@ -80,7 +80,7 @@ function PublishCampaign() {
             Categoría de la campaña <S.RequiredMark>*</S.RequiredMark>
           </S.PublishLabel>
           <S.CategoryOptions>
-            {recordToOptions(campaignCategoryLabels).map(({value, label}) => (
+            {recordToOptions(createCampaignCategoryOptions).map(({value, label}) => (
               <S.CategoryOption
                 key={value}
                 type="button"

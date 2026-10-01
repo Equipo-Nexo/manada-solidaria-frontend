@@ -34,7 +34,7 @@ export const getAnimalName = (name: string | null, type: AnimalType): string =>
 export const animalPostTypes = ["ADOPTION", "LOST", "IN_STREET"] as const;
 export type AnimalPostType = (typeof animalPostTypes)[number];
 
-export const animalPostFilters = ["", "IN_STREET", ...animalPostTypes];
+export const animalPostFilters = ["", ...animalPostTypes];
 export type AnimalPostFilter = (typeof animalPostFilters)[number];
 
 export const animalSizes = ["SMALL", "MEDIUM", "LARGE"] as const;
