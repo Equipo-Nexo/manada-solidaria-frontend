@@ -306,6 +306,52 @@ export const PasswordToggle = styled.button`
   }
 `
 
+export const PasswordRequirementList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`
+
+export const PasswordRequirementItem = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`
+
+export const PasswordRequirementIcon = styled.span<{ $met: boolean }>`
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.stroke)};
+  border-radius: 50%;
+  background: ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.background)};
+  color: ${({ theme }) => theme.colors.background};
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+`
+
+export const VisuallyHidden = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+`
+
 export const SwitchGroup = styled.div`
   display: flex;
   flex-direction: column;

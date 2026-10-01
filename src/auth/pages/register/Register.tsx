@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
-import { useController, useForm } from 'react-hook-form'
+import { useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useSignupMutation } from '@auth/app/api/authApi'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Register.styles'
-import { registerSchema, type RegisterFormValues } from '../../app/schemas/registerSchema'
+import { passwordRules, registerSchema, type RegisterFormValues } from '../../app/schemas/registerSchema'
 import type { Role } from '@/users/app/types/User.types'
-import { Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
+import { Check, Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
 import { ErrorMessage, PhoneInputComponent } from '@components/index.ts'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
 
@@ -34,6 +34,17 @@ function Register() {
     mode: 'onTouched',
     resolver: yupResolver(registerSchema),
   })
+  const password = useWatch({ control, name: 'password', defaultValue: '' }) ?? ''
+  const passwordRequirements = [
+    {
+      label: `Entre ${passwordRules.minLength} y ${passwordRules.maxLength} caracteres`,
+      met: password.length >= passwordRules.minLength && password.length <= passwordRules.maxLength,
+    },
+    { label: 'Una letra mayúscula', met: passwordRules.uppercase.test(password) },
+    { label: 'Una letra minúscula', met: passwordRules.lowercase.test(password) },
+    { label: 'Un número', met: passwordRules.number.test(password) },
+    { label: 'Un carácter especial', met: passwordRules.specialCharacter.test(password) },
+  ]
 
   const { field: phoneAreaCodeField, fieldState: phoneAreaCodeState } = useController({
     control,
@@ -153,7 +164,11 @@ function Register() {
                   placeholder={showPassword ? 'contraseña' : '********'}
                   autoComplete="new-password"
                   disabled={isLoading}
-                  aria-describedby={errors.password ? 'register-password-error' : undefined}
+                  aria-describedby={
+                    errors.password
+                      ? 'register-password-requirements register-password-error'
+                      : 'register-password-requirements'
+                  }
                   aria-invalid={Boolean(errors.password)}
                   $hasError={Boolean(errors.password)}
                   {...register('password')}
@@ -167,6 +182,19 @@ function Register() {
                   {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
+              <S.PasswordRequirementList id="register-password-requirements">
+                {passwordRequirements.map(({ label, met }) => (
+                  <S.PasswordRequirementItem key={label}>
+                    <S.PasswordRequirementIcon $met={met} aria-hidden="true">
+                      {met && <Check />}
+                    </S.PasswordRequirementIcon>
+                    <span>
+                      <S.VisuallyHidden>{met ? 'Cumple: ' : 'Pendiente: '}</S.VisuallyHidden>
+                      {label}
+                    </span>
+                  </S.PasswordRequirementItem>
+                ))}
+              </S.PasswordRequirementList>
               <ErrorMessage
                 id="register-password-error"
                 message={errors.password?.message}
