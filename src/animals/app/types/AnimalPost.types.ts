@@ -116,5 +116,5 @@ export type Animal = {
 type Owner = {
   username: string;
   roles: string[];
-  profileImageUrl: string;
+  profileImageURL: string;
 };

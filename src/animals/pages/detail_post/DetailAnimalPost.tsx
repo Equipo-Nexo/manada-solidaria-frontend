@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from '@/common/icons'
-import { Advice, Message, ScrollHint } from '@components/index.ts'
+import { Advice, ImagePreview, Message, ScrollHint } from '@components/index.ts'
 import Arrow from '@/common/icons/Arrow'
 import GenderIcon from '@/common/icons/Gender'
 import BookIcon from '@/common/icons/Book'
@@ -124,14 +124,13 @@ function AnimalPostDetail() {
               </S.InfoContainer>
             )}
             <S.InfoContainer $variant="author">
-              <S.ProfilePhoto
-                src={normalizeImageUrl(postData.owner.profileImageUrl)}
-                alt={`Foto de perfil de ${postData.owner.username}`}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null
-                  currentTarget.src = '/logo.svg'
-                }}
-              />
+              <S.UserProfileContainer>
+                <ImagePreview 
+                  imageId={postData.owner.profileImageURL}
+                  alt={`Foto de perfil de ${postData.owner.username}`}
+                  variant="round"
+                />
+              </S.UserProfileContainer>
               <S.ValuesContainer>
                 <S.Label>Publicado por <strong>{postData.owner.username}</strong></S.Label>
                 <S.AuthorRole>{getOwnerRole(postData.owner.roles)}</S.AuthorRole>
