@@ -84,7 +84,6 @@ export const OptionsList = styled.div<PlacementProps>`
 
 export const OptionItem = styled.button`
   width: 285px;
-  height: 53px;
   display: grid;
   grid-template-columns: 53px 220px;
   align-items: center;
@@ -145,7 +144,6 @@ export const OptionIcon = styled.span`
 
 export const OptionContent = styled.span`
   width: 220px;
-  height: 53px;
   display: flex;
   flex-direction: column;
   justify-content: center;
