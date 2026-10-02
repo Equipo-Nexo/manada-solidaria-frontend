@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+const profileCardWidth = 'min(100%, 760px)';
+
 export const MainContainer = styled.div`
     width: min(100%, 390px);
     display: flex;
@@ -172,19 +174,26 @@ export const PublicationsAmount = styled.span`
     font-weight: ${({ theme }) => theme.fontWeights.regular};
 `
 
-export const PublicationsContainer = styled.div`
-  width: 100%;
+export const PublicationsContainer = styled.div<{ $hasPosts: boolean; $minHeight: number }>`
+  width: ${({ $hasPosts }) => $hasPosts ? '100%' : profileCardWidth};
+  align-self: center;
   min-width: 0;
+  min-height: ${({ $minHeight }) => $minHeight}px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
+  grid-template-columns: ${({ $hasPosts }) => $hasPosts
+    ? 'repeat(auto-fit, minmax(min(100%, 325px), 325px))'
+    : 'minmax(0, 1fr)'};
   justify-content: center;
+  align-content: start;
   gap: 16px;
   & > article {
     width: 100%;
   }
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    grid-template-columns: ${({ $hasPosts }) => $hasPosts
+      ? 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))'
+      : 'minmax(0, 1fr)'};
     gap: 24px;
     align-items: stretch;
   }
@@ -193,7 +202,9 @@ export const PublicationsContainer = styled.div`
 export const MessageContainer = styled.div`
   grid-column: 1 / -1;
   display: flex;
-  width: 100%;
+  width: ${profileCardWidth};
+  min-width: 0;
+  justify-self: center;
   height:180px;
   align-items: center;
   justify-content: center;
@@ -258,7 +269,7 @@ export const ProfileSidebar = styled.aside`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: min(100%, 760px);
+    width: ${profileCardWidth};
     min-width: 0;
     gap: 24px;
     position: relative;

@@ -6,9 +6,10 @@ interface ContactCardComponent {
     phoneNumber: string,
     areaCode: string,
     number: string,
-    name: string;
+    name?: string;
+    message?: string;
 }
-function ContactCardComponent({ phoneNumber, areaCode, number, name }: ContactCardComponent) {
+function ContactCardComponent({ phoneNumber, areaCode, number, name, message }: ContactCardComponent) {
 
     return (
         <S.ContactCard>
@@ -19,7 +20,7 @@ function ContactCardComponent({ phoneNumber, areaCode, number, name }: ContactCa
                     type="button"
                     onClick={() => openWhatsApp(
                         `${areaCode}${number}`,
-                        `¡Hola! Me gustaría consultar por la publicación de ${name}`,
+                        message || `¡Hola! Me gustaría consultar por la publicación de ${name}`,
                     )}
                 >
                     Contactar

@@ -6,4 +6,5 @@ export const publicationMessages = {
   emptyAnimals: 'No hay publicaciones de animales para mostrar.',
   emptyCampaigns: 'No hay campañas para mostrar.',
   emptyUrgent: 'No hay casos urgentes para mostrar.',
+  noPosts: 'El usuario no tiene publicaciones creadas para esta categoría.',
 } as const
