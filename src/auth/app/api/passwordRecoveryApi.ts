@@ -1,5 +1,9 @@
-import type { PasswordRecoveryRequest } from "./requests/passwordRecoveryRequest";
+import type {
+  PasswordRecoveryRequest,
+  VerifyCodeRequest,
+} from "./requests/passwordRecoveryRequest";
 import { baseAuthenticatedApi } from "@/common/app/services/base/baseAuthenticatedApi";
+import type { VerifyCodeResponse } from "./responses/verifyCodeResponse";
 
 export const passwordRecoveryApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,7 +14,15 @@ export const passwordRecoveryApi = baseAuthenticatedApi.injectEndpoints({
         body,
       }),
     }),
+    verifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeRequest>({
+      query: (body) => ({
+        url: "/password-recovery/verify",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useRequestPasswordRecoveryMutation } = passwordRecoveryApi;
+export const { useRequestPasswordRecoveryMutation, useVerifyCodeMutation } =
+  passwordRecoveryApi;

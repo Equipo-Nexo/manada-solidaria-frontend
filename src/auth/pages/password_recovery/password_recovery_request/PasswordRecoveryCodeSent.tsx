@@ -1,6 +1,9 @@
 import * as S from "./PasswordRecoveryCodeSent.styles";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function PasswordRecoveryCodeSent() {
+  const navigate = useNavigate();
+  const { state } = useLocation();
   return (
     <S.Page>
       <S.Panel aria-labelledby="code-sent-title">
@@ -17,7 +20,7 @@ export default function PasswordRecoveryCodeSent() {
             </S.Description>
           </S.Message>
           <S.Actions>
-            <S.ContinueButton type="button">Continuar</S.ContinueButton>
+            <S.ContinueButton type="button" onClick={() => navigate('/recuperar-contrasena/verificar-codigo', { state })}>Continuar</S.ContinueButton>
             <S.BackLink to="/login">Volver al inicio de sesión</S.BackLink>
           </S.Actions>
         </S.Content>
