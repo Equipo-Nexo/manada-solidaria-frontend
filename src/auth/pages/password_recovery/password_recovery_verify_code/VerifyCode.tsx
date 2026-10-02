@@ -37,7 +37,7 @@ export default function VerifyCode() {
   } = useForm<VerifyCodeValues>({
     resolver: yupResolver(verifyCodeSchema),
     defaultValues: {
-      code: "",
+      code: Array(6).fill(""),
     },
   });
 
@@ -57,7 +57,7 @@ export default function VerifyCode() {
     }
     verifyCode({
       email,
-      code: values.code,
+      code: values.code.join(""),
     })
       .unwrap()
       .then((response) => {
