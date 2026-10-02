@@ -233,7 +233,6 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   border: 2px solid
     ${({ $hasError, theme }) => ($hasError ? theme.colors.error : '#f7ddd3')};
   border-radius: 8px;
-  // background: #fdf8f4;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   font-size: 14px;
