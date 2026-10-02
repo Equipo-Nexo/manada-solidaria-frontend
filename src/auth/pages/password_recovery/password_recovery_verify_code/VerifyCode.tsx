@@ -1,26 +1,111 @@
-import { useId } from "react";
 import { ErrorMessage } from "@components/index";
-import { useVerifyCode } from "@auth/hooks/useVerifyCode";
 import * as S from "./VerifyCode.styles";
 import Arrow from "@/common/icons/Arrow";
 import { Clock } from "@/common/icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useToast } from "@/common/hooks/toast/useToast";
+import { useCooldownTimer } from "@/common/hooks/cooldown_timer/useCooldownTimer";
+import {
+  useRequestPasswordRecoveryMutation,
+  useVerifyCodeMutation,
+} from "@/auth/app/api/passwordRecoveryApi";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  verifyCodeSchema,
+  type VerifyCodeValues,
+} from "@/auth/app/schemas/verifyCodeSchema";
+import { Controller, useForm } from "react-hook-form";
+import CodeInput from "@/common/components/code_input/CodeInput";
 
+const RESEND_DELAY_SECONDS = 60;
 export default function VerifyCode() {
-  const errorId = useId();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const toast = useToast();
+  const email = typeof state?.email === "string" ? state.email : "";
+  const hasEmail = Boolean(email);
+  const [resend, { isLoading: isResending }] =
+    useRequestPasswordRecoveryMutation();
+  const [verifyCode, { isLoading: isVerifying }] = useVerifyCodeMutation();
+
   const {
-    digits,
-    codeError,
-    hasEmail,
-    isVerifying,
-    isResendDisabled,
-    resendLabel,
-    updateDigits,
-    setInputRef,
-    handlePaste,
-    handleKeyDown,
-    handleFormSubmit,
-    handleResend,
-  } = useVerifyCode();
+    control,
+    clearErrors,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm<VerifyCodeValues>({
+    resolver: yupResolver(verifyCodeSchema),
+    defaultValues: {
+      code: Array(6).fill(""),
+    },
+  });
+
+  const {
+    remaining,
+    restart: restartCooldown,
+    isActive: isCooldownActive,
+  } = useCooldownTimer(RESEND_DELAY_SECONDS);
+
+  const handleVerify = (values: VerifyCodeValues) => {
+    if (!email) {
+      toast.error(
+        "No pudimos verificar el código",
+        "No encontramos el correo asociado a la recuperación.",
+      );
+      return;
+    }
+    verifyCode({
+      email,
+      code: values.code.join(""),
+    })
+      .unwrap()
+      .then((response) => {
+        toast.success("Código verificado con éxito.");
+        navigate("/recuperar-contrasena/nueva-contrasena", {
+          state: {
+            resetToken: response.resetToken,
+          },
+        });
+      })
+      .catch(() => {
+        toast.error(
+          "No pudimos verificar el código",
+          "El código ingresado no es válido. Revisalo o solicitá uno nuevo.",
+        );
+      });
+  };
+
+  const handleResend = () => {
+    if (isCooldownActive || isResending || !email) {
+      return;
+    }
+    resend({ email })
+      .unwrap()
+      .then(() => {
+        restartCooldown();
+        resetField("code");
+        clearErrors("code");
+        toast.information(
+          "Código solicitado",
+          "Te enviamos un nuevo código. Los códigos anteriores dejarán de ser válidos.",
+        );
+      })
+      .catch(() => {
+        toast.error(
+          "No pudimos reenviar el código",
+          "Intentá nuevamente en unos instantes.",
+        );
+      });
+  };
+
+  const countdown = `00:${String(remaining).padStart(2, "0")}`;
+
+  const resendLabel = isResending
+    ? "Reenviando..."
+    : `Reenviar código${isCooldownActive ? ` (${countdown})` : ""}`;
+
+  const isResendDisabled = isCooldownActive || isResending;
 
   return (
     <S.Page>
@@ -40,30 +125,22 @@ export default function VerifyCode() {
           <S.Form
             noValidate
             aria-busy={isVerifying}
-            onSubmit={handleFormSubmit}
+            onSubmit={handleSubmit(handleVerify)}
           >
-            <S.CodeFields role="group" aria-label="Código de verificación">
-              {digits.map((digit, index) => (
-                <S.Digit
-                  key={index}
-                  ref={(element) => setInputRef(index, element)}
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete={index === 0 ? "one-time-code" : "off"}
-                  aria-label={`Dígito ${index + 1} de ${digits.length}`}
-                  aria-invalid={Boolean(codeError)}
-                  aria-describedby={codeError ? errorId : undefined}
-                  $hasError={Boolean(codeError)}
-                  value={digit}
+            <Controller
+              name="code"
+              control={control}
+              render={({ field }) => (
+                <CodeInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  length={6}
                   disabled={isVerifying}
-                  onFocus={(event) => event.currentTarget.select()}
-                  onChange={(event) => updateDigits(index, event.target.value)}
-                  onPaste={(event) => handlePaste(index, event)}
-                  onKeyDown={(event) => handleKeyDown(index, event)}
+                  hasError={Boolean(errors.code)}
                 />
-              ))}
-            </S.CodeFields>
-            <ErrorMessage id={errorId} message={codeError} />
+              )}
+            />
+            <ErrorMessage message={errors.code?.message} />
             <S.Validity>El código tiene una validez de 10 minutos.</S.Validity>
             <S.ResendArea>
               <S.Advice>

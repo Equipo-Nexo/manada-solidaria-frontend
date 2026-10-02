@@ -42,30 +42,7 @@ export const Form = styled.form`
     gap: 12px;
   }
 `;
-export const CodeFields = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 4px;
-`;
-export const Digit = styled.input<{ $hasError: boolean }>`
-  width: 100%;
-  min-width: 0;
-  height: 54px;
-  padding: 0;
-  border: 1px solid
-    ${({ theme, $hasError }) =>
-      $hasError ? theme.colors.error : theme.colors.brand};
-  border-radius: 8px;
-  background: ${({ theme }) => `${theme.colors.neutral}99`};
-  color: ${({ theme }) => theme.colors.darkColor};
-  text-align: center;
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 1px;
-  }
-`;
+
 export const Validity = styled(Recovery.Description)`
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
 `;
@@ -77,8 +54,8 @@ export const ResendArea = styled.div`
 export const Advice = styled.div`
   display: flex;
   align-items: center;
-  gap: 7px;
-  width: min(100%, 232px);
+  gap: 12px;
+  width: min(100%, 224px);
   padding: 10px;
   border-radius: 20px;
   background: ${({ theme }) => `${theme.colors.neutral}66`};
