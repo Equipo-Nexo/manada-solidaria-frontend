@@ -5,6 +5,8 @@ import type { UpdateUserRolesRequest } from './requests/UpdateUserRolesRequest';
 import type { UpdateUserProfileRequest } from './requests/UpdateUserProfileRequest';
 import type { GetUsersResponse } from './responses/GetUsersResponse';
 import type { GetUsersRequest } from './requests/GetUsersRequest';
+import type { GetExternalUserProfileResponse } from './responses/GetExternalUserProfileResponse';
+import type { GetExternalUserProfileRequest } from './requests/GetExternalUserProfileRequest';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -45,9 +47,20 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
         params,
       }),
     }),
+    getExternalUserProfile: builder.query<GetExternalUserProfileResponse, GetExternalUserProfileRequest>({
+      query: ({ userId, type }) => ({
+        url: `/users/${userId}`,
+        params: { type },
+      }),
+      providesTags: ['userProfile']
+    }),
   }),
   overrideExisting: false,
 })
+
+//endpoints a llamar: 
+//- el que ya tengo
+//- 
 
 export const {
   useGetUserPostsQuery,
@@ -55,4 +68,5 @@ export const {
   useUpdateUserRolesMutation,
   useUpdateUserProfileMutation,
   useGetUsersQuery,
+  useGetExternalUserProfileQuery,
 } = usersApi;

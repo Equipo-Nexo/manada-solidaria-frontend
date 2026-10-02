@@ -15,7 +15,7 @@ interface CardInterface {
 
 function CommunityCard({ id, profileImageURL, username, roles, areaCode, number }: CardInterface) {
     return (
-        <S.Card key={id}>
+        <S.Card to={`/usuario/${encodeURIComponent(id)}`} aria-label={`Ver perfil de ${username}`}>
             <S.ProfilePhotoContainer>
                 <S.ProfilePhoto src={normalizeImageUrl(profileImageURL) || NOT_FOUND_IMAGE_URL} alt="Foto de perfil del usuario" />
             </S.ProfilePhotoContainer>
