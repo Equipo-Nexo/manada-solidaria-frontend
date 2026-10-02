@@ -10,6 +10,7 @@ import type { Role } from '@/users/app/types/User.types'
 import { Check, Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
 import { ErrorMessage, PhoneInputComponent } from '@components/index.ts'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { Input } from '@/common/components/inputs/Inputs.styles'
 
 function Register() {
   const navigate = useNavigate()
@@ -81,8 +82,8 @@ function Register() {
         toast.success('Registro creado', 'Ya podés iniciar sesión con tu cuenta.')
         navigate('/login', { replace: true })
       })
-      .catch(() => {
-        toast.error('No pudimos registrarte', 'Revisá los datos e intentá nuevamente.')
+      .catch((error) => {
+        toast.error('No pudimos registrarte', error.data.errors[0])
       })
   }
 
@@ -103,7 +104,7 @@ function Register() {
               <S.FieldLabel htmlFor="username">
                 Nombre de usuario <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
-              <S.Input
+              <Input
                 id="username"
                 type="text"
                 placeholder="Ej: MacaRescate"
@@ -111,7 +112,6 @@ function Register() {
                 disabled={isLoading}
                 aria-describedby={errors.username ? 'register-username-error' : undefined}
                 aria-invalid={Boolean(errors.username)}
-                $hasError={Boolean(errors.username)}
                 {...register('username')}
               />
               <ErrorMessage
@@ -139,7 +139,7 @@ function Register() {
               <S.FieldLabel htmlFor="email">
                 Correo electrónico <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
-              <S.Input
+              <Input
                 id="email"
                 type="email"
                 placeholder="tu@email.com"
@@ -147,7 +147,6 @@ function Register() {
                 disabled={isLoading}
                 aria-describedby={errors.email ? 'register-email-error' : undefined}
                 aria-invalid={Boolean(errors.email)}
-                $hasError={Boolean(errors.email)}
                 {...register('email')}
               />
               <ErrorMessage id="register-email-error" message={errors.email?.message} />
@@ -158,7 +157,7 @@ function Register() {
                 Contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <S.PasswordInputWrapper>
-                <S.Input
+                <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder={showPassword ? 'contraseña' : '********'}
@@ -170,7 +169,6 @@ function Register() {
                       : 'register-password-requirements'
                   }
                   aria-invalid={Boolean(errors.password)}
-                  $hasError={Boolean(errors.password)}
                   {...register('password')}
                 />
                 <S.PasswordToggle
@@ -195,10 +193,7 @@ function Register() {
                   </S.PasswordRequirementItem>
                 ))}
               </S.PasswordRequirementList>
-              <ErrorMessage
-                id="register-password-error"
-                message={errors.password?.message}
-              />
+              
             </S.Field>
 
             <S.Field>
@@ -206,7 +201,7 @@ function Register() {
                 Repetir contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <S.PasswordInputWrapper>
-                <S.Input
+                <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder={showConfirmPassword ? 'contraseña' : '********'}
@@ -216,7 +211,6 @@ function Register() {
                     errors.confirmPassword ? 'register-confirm-password-error' : undefined
                   }
                   aria-invalid={Boolean(errors.confirmPassword)}
-                  $hasError={Boolean(errors.confirmPassword)}
                   {...register('confirmPassword')}
                 />
                 <S.PasswordToggle
