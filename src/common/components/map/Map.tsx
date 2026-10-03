@@ -1,17 +1,27 @@
-import { MapCN, MapCNControls, MapCNMarker } from "../mapCN";
+import { MapCN, MapCNCluster, MapCNControls, MapCNMarker, type MapCNClusterProps, type MapCNMarkerProps } from "../mapCN";
 import * as S from "./Map.styles";
 import { useEffect, useMemo, useState } from "react";
 import type { Map as MapLibreMap, MapMouseEvent } from "maplibre-gl";
 import { useGeolocation } from "@hooks/geolocation/useGeolocation";
 
 export type MapPoint = { lng: number; lat: number };
+export type MapClusterGroup<TItem = unknown> = MapCNClusterProps<TItem>;
 
-interface MapProps {
+interface Legend extends Pick<MapCNMarkerProps, "icon" | "iconColor"> {
+  id: string;
+  label: string;
+}
+
+interface MapProps<TItem> {
   markPoints?: MapPoint[];
+  legends?: Legend[];
+  clusterGroups?: MapClusterGroup<TItem>[];
   markPoint?: MapPoint | null;
   enableMarkerOnClick?: boolean;
   center?: MapPoint;
   onPointSelect?: (point: MapPoint) => void;
+  onClusterClick?: MapCNClusterProps<TItem>["onClusterClick"];
+  onMarkerClick?: MapCNClusterProps<TItem>["onMarkerClick"];
 }
 
 const ARG_CENTER_POINT = {
@@ -20,13 +30,17 @@ const ARG_CENTER_POINT = {
 };
 const ARG_DEFAULT_ZOOM = 3.1976036153806247;
 
-function Map({
+function Map<TItem = unknown>({
   markPoints,
+  clusterGroups,
   markPoint = null,
   enableMarkerOnClick = true,
   center,
   onPointSelect,
-}: MapProps) {
+  onClusterClick,
+  onMarkerClick,
+  legends = []
+}: MapProps<TItem>) {
   const { coordinates, requestCoordinates, status } = useGeolocation();
   const [map, setMap] = useState<MapLibreMap | null>(null);
   const markPointLat = markPoint?.lat;
@@ -116,13 +130,34 @@ function Map({
 
   return (
     <S.MapFrame>
+      {legends.length > 0 && (
+        <S.Legend aria-label="Leyendas del mapa">
+          {legends.map(({ id, label, icon: Icon, iconColor }) => (
+            <S.LegendItem key={id} $color={iconColor}>
+              {Icon && <Icon aria-hidden="true" />}
+              {label}
+            </S.LegendItem>
+          ))}
+        </S.Legend>
+      )}
       <MapCN
         center={centerPoint}
         zoom={zoom}
         doubleClickZoom={!enableMarkerOnClick}
         onMapReady={setMap}
       >
+        <div>
+          <p>asdasd</p>
+        </div>
         <MapCNControls showLocate />
+        {clusterGroups?.map((group) => (
+          <MapCNCluster
+            key={group.id}
+            {...group}
+            onClusterClick={onClusterClick ?? group.onClusterClick}
+            onMarkerClick={onMarkerClick ?? group.onMarkerClick}
+          />
+        ))}
         {markPoints?.map(({ lng, lat }, index) => (
           <MapCNMarker
             key={`${lng}-${lat}-${index}`}

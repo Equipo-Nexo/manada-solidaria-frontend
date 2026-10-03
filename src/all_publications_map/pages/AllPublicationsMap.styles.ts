@@ -33,3 +33,6 @@ export const MapFrame = styled.div`
     min-height: 360px;
   }
 `
+
+export const FiltersContainer = styled.div`
+`
