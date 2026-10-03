@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export const Card = styled.div`
+export const Card = styled(Link)`
     width: 100%;
     max-width: 350px;
     min-height: 140px;
@@ -13,11 +14,18 @@ export const Card = styled.div`
     padding: 16px;
     border-radius: 8px;
     background: ${({ theme }) => theme.colors.background};
+    color: inherit;
+    text-decoration: none;
     cursor: pointer;
     box-shadow: 0 4px 8px ${({ theme }) => `${theme.colors.black}26`};
     transition:
         transform 180ms ease,
         box-shadow 180ms ease;
+
+    &:focus-visible {
+        outline: 2px solid ${({ theme }) => theme.colors.focus};
+        outline-offset: 4px;
+    }
 
     > svg {
         width: 12px;

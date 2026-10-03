@@ -43,6 +43,7 @@ import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 import Community from "./users/pages/community/Community";
 import { useEffect } from "react";
+import UserProfile from "./users/pages/user_profile/userProfile";
 
 function App() {
   const location = useLocation();
@@ -126,6 +127,7 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
+              <Route path="/usuario/:userId" element={<UserProfile />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}
