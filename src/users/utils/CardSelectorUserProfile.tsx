@@ -1,5 +1,5 @@
 import { mapAnimalPostToCardProps } from "@/common/components/animalPostCard/mapAnimalPostToCardProps"
-import type { ProfilePost } from "../app/api/responses/GetExternalUserProfileResponse"
+import type { ProfilePost } from "../app/api/responses/GetSpecificUserProfileResponse"
 import AnimalPostSummaryCard from "../components/animalPostSummaryCard/AnimalPostSummaryCard"
 import CampaignSummaryCard from "../components/campaignSummaryCard/CampaignSummaryCard"
 import FundraisingSummaryCard from "../components/fundraisingSummaryCard/FundraisingSummaryCard"

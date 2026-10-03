@@ -5,7 +5,7 @@ import type { UpdateUserRolesRequest } from './requests/UpdateUserRolesRequest';
 import type { UpdateUserProfileRequest } from './requests/UpdateUserProfileRequest';
 import type { GetUsersResponse } from './responses/GetUsersResponse';
 import type { GetUsersRequest } from './requests/GetUsersRequest';
-import type { GetExternalUserProfileResponse as GetSpecificUserProfileResponse } from './responses/GetExternalUserProfileResponse';
+import type { GetExternalUserProfileResponse as GetSpecificUserProfileResponse } from './responses/GetSpecificUserProfileResponse';
 import type { GetExternalUserProfileRequest as GetSpecificUserProfileRequest } from './requests/GetExternalUserProfileRequest';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
