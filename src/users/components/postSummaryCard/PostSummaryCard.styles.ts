@@ -1,17 +1,24 @@
 import styled from 'styled-components'
 import * as AnimalCard from '@/common/components/animalPostCard/animalPostCard.styles'
+import type { CampaignCategory } from '@/campaigns/app/types/Campaign.types'
+import { campaignCategoryColors } from '@/campaigns/utils/CampaignUtils'
 
 export {
   ViewMore,
 } from '@/common/components/animalPostCard/animalPostCard.styles'
 
-export const CardContainer = styled(AnimalCard.CardContainer)`
+export const CardContainer = styled(AnimalCard.CardContainer)<{ $clickable: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 0;
   height: auto;
-  cursor: default;
+  cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
 `
 
 export const Content = styled(AnimalCard.Content)`
@@ -76,9 +83,11 @@ export const StatusContainer = styled(AnimalCard.StatusContainer)`
   white-space: nowrap;
 `
 
-export const CategoryBadge = styled(AnimalCard.StatusContainer).attrs(({ theme }) => ({
-  $color: theme.colors.secondary,
-  $background: theme.colors.neutral,
+export const CategoryBadge = styled(AnimalCard.StatusContainer).attrs<{ $campaignType?: CampaignCategory }>(({ theme, $campaignType }) => ({
+  $color: $campaignType && campaignCategoryColors[$campaignType]
+    ? theme.colors.background
+    : theme.colors.secondary,
+  $background: ($campaignType && campaignCategoryColors[$campaignType]) || theme.colors.neutral,
 }))``
 
 export const Title = styled(AnimalCard.Title)`

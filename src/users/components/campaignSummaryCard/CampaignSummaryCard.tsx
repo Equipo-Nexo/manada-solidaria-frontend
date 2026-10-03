@@ -9,7 +9,8 @@ export type CampaignSummaryCardProps = {
 }
 
 function CampaignSummaryCard({ campaign, onViewMore }: CampaignSummaryCardProps) {
-  const categoryLabel = campaignCategoryLabels[campaign.type.toUpperCase()] ?? 'Campaña'
+  const category = campaign.type.toUpperCase()
+  const categoryLabel = campaignCategoryLabels[category] ?? 'Campaña'
 
   return (
     <PostSummaryCard
@@ -17,7 +18,7 @@ function CampaignSummaryCard({ campaign, onViewMore }: CampaignSummaryCardProps)
       imageUrl={campaign.imageId}
       location={campaign.location}
       description={campaign.description}
-      badges={<CategoryBadge>{categoryLabel}</CategoryBadge>}
+      badges={<CategoryBadge $campaignType={category}>{categoryLabel}</CategoryBadge>}
       onViewMore={onViewMore}
     />
   )

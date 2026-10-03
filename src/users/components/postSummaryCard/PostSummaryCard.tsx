@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { KeyboardEvent, MouseEvent, ReactNode } from 'react'
 import type { Location } from '@/common/app/services/responses/Location'
 import { LocationPin } from '@/common/icons'
 import ImagePreview from '@/common/components/image_preview/ImagePreview'
@@ -14,8 +14,26 @@ export type PostSummaryCardProps = {
 }
 
 function PostSummaryCard({ title, imageUrl, location, description, badges, onViewMore }: PostSummaryCardProps) {
+  const handleCardClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest('button, a')) return
+    onViewMore?.()
+  }
+
+  const handleCardKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if ((event.key === 'Enter' || event.key === ' ') && event.target === event.currentTarget) {
+      event.preventDefault()
+      onViewMore?.()
+    }
+  }
+
   return (
-    <S.CardContainer>
+    <S.CardContainer
+      $clickable={Boolean(onViewMore)}
+      role={onViewMore ? 'link' : undefined}
+      tabIndex={onViewMore ? 0 : undefined}
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+    >
       <S.PhotoContainer>
         <ImagePreview imageId={imageUrl} alt={title} variant="fill" />
       </S.PhotoContainer>
