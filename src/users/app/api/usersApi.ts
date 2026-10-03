@@ -5,8 +5,8 @@ import type { UpdateUserRolesRequest } from './requests/UpdateUserRolesRequest';
 import type { UpdateUserProfileRequest } from './requests/UpdateUserProfileRequest';
 import type { GetUsersResponse } from './responses/GetUsersResponse';
 import type { GetUsersRequest } from './requests/GetUsersRequest';
-import type { GetSpecificUserProfileResponse as GetSpecificUserProfileResponse } from './responses/GetSpecificUserProfileResponse';
-import type { GetSpecificUserProfileRequest as GetSpecificUserProfileRequest } from './requests/GetSpecificUserProfileRequest';
+import type { GetSpecificUserProfileResponse } from './responses/GetSpecificUserProfileResponse';
+import type { GetSpecificUserProfileRequest } from './requests/GetSpecificUserProfileRequest';
 
 export const usersApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -47,7 +47,7 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
         params,
       }),
     }),
-    getExternalUserProfile: builder.query<GetSpecificUserProfileResponse, GetSpecificUserProfileRequest>({
+    getSpecificUserProfile: builder.query<GetSpecificUserProfileResponse, GetSpecificUserProfileRequest>({
       query: ({ userId, type }) => ({
         url: `/users/${userId}`,
         params: { type },
@@ -65,5 +65,5 @@ export const {
   useUpdateUserRolesMutation,
   useUpdateUserProfileMutation,
   useGetUsersQuery,
-  useGetExternalUserProfileQuery,
+  useGetSpecificUserProfileQuery,
 } = usersApi;

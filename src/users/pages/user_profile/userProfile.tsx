@@ -6,7 +6,7 @@ import { CategorySelector, Loader, Message, ScrollHint } from '@/common/componen
 import { useState } from 'react';
 import type { UserPostType } from '@/common/app/services/responses/userResponses';
 import { publicationMessages } from '@/common/utils/Messages';
-import { useGetExternalUserProfileQuery } from '@/users/app/api/usersApi';
+import { useGetSpecificUserProfileQuery } from '@/users/app/api/usersApi';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { roleConfig } from '@/users/utils/CommunityUtils';
 import { normalizeImageUrl } from '@/common/utils/CommonUtils';
@@ -34,7 +34,7 @@ function UserProfile() {
 
     const [selectedCategory, setSelectedCategory] = useState<UserPostType>('animal');
 
-    const { data, isLoading, isFetching, isError, refetch } = useGetExternalUserProfileQuery(
+    const { data, isLoading, isFetching, isError, refetch } = useGetSpecificUserProfileQuery(
         userId ? { userId, type: selectedCategory } : skipToken,
     );
 
