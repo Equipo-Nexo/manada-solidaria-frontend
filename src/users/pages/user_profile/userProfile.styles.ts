@@ -47,6 +47,91 @@ export const BackButton = styled.button`
   }
 `;
 
+export const TitleContainer = styled.div`
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  `
+
+export const TitlesContainer = styled.div`
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+`
+
+export const PageTitle = styled.h1`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  ${({ theme }) => theme.typography.header2};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
+  white-space: nowrap;
+`
+
+export const PageSubtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`
+
+export const ProfileSidebar = styled.aside`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: ${profileCardWidth};
+    min-width: 0;
+    gap: 24px;
+    position: relative;
+    isolation: isolate;
+    padding-top: 40px;
+    padding-bottom: 24px;
+    border-radius: 24px;
+    background: ${({ theme }) => theme.colors.background};
+    box-shadow: 0 4px 24px ${({ theme }) => theme.colors.darkColor}0D;
+
+    &::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 0 0 auto;
+            height: 104px;
+            border-radius: 16px;
+            background: linear-gradient(
+                120deg,
+                ${({ theme }) => theme.colors.neutral} 0%,
+                ${({ theme }) => theme.colors.soft} 65%,
+                ${({ theme }) => theme.colors.tertiary}40 100%
+            );
+    }
+
+    @media (min-width: 768px) {
+        padding-top: 48px;
+
+        &::before {
+            height: 120px;
+            border-radius: 24px;
+        }
+    }
+
+`
+export const SecondaryContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    gap: 24px;
+
+    @media (min-width: 1024px) {
+        gap: 32px;
+    }
+
+`
 
 export const ProfileImageContainer = styled.div`
     display: flex;
@@ -151,12 +236,12 @@ export const Metric = styled.div`
    
 `
 
-export const MetricValue = styled.span`
+export const MetricTitle = styled.span`
     ${({ theme }) => theme.typography.header3};
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     color: ${({ theme }) => theme.colors.brand};
 `
-export const MetricLabel = styled.span`
+export const MetricDescription = styled.span`
     min-width: 0;
     overflow-wrap: anywhere;
     ${({ theme }) => theme.typography.body};
@@ -174,15 +259,14 @@ export const PublicationsAmount = styled.span`
     font-weight: ${({ theme }) => theme.fontWeights.regular};
 `
 
-export const PublicationsContainer = styled.div<{ $hasPosts: boolean; $minHeight: number }>`
+export const PublicationsContainer = styled.div<{ $hasPosts: boolean }>`
   width: ${({ $hasPosts }) => $hasPosts ? '100%' : profileCardWidth};
   align-self: center;
   min-width: 0;
-  min-height: ${({ $minHeight }) => $minHeight}px;
   display: grid;
   grid-template-columns: ${({ $hasPosts }) => $hasPosts
-    ? 'repeat(auto-fit, minmax(min(100%, 325px), 325px))'
-    : 'minmax(0, 1fr)'};
+        ? 'repeat(auto-fit, minmax(min(100%, 325px), 325px))'
+        : 'minmax(0, 1fr)'};
   justify-content: center;
   align-content: start;
   gap: 16px;
@@ -192,8 +276,8 @@ export const PublicationsContainer = styled.div<{ $hasPosts: boolean; $minHeight
 
   @media (min-width: 768px) {
     grid-template-columns: ${({ $hasPosts }) => $hasPosts
-      ? 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))'
-      : 'minmax(0, 1fr)'};
+        ? 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))'
+        : 'minmax(0, 1fr)'};
     gap: 24px;
     align-items: stretch;
   }
@@ -230,18 +314,7 @@ export const RetryButton = styled.button`
     outline-offset: 2px;
   }
 `
-export const SecondaryContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 0;
-    gap: 24px;
 
-    @media (min-width: 1024px) {
-        gap: 32px;
-    }
-
-`
 
 export const ProfilePanel = styled.div`
     display: flex;
@@ -262,50 +335,7 @@ export const ProfilePanel = styled.div`
 
     }
 
-
 `
-
-export const ProfileSidebar = styled.aside`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: ${profileCardWidth};
-    min-width: 0;
-    gap: 24px;
-    position: relative;
-    isolation: isolate;
-    padding-top: 40px;
-    padding-bottom: 24px;
-    border-radius: 24px;
-    background: ${({ theme }) => theme.colors.background};
-    box-shadow: 0 4px 24px ${({ theme }) => theme.colors.darkColor}0D;
-
-    &::before {
-            content: '';
-            position: absolute;
-            z-index: -1;
-            inset: 0 0 auto;
-            height: 104px;
-            border-radius: 16px;
-            background: linear-gradient(
-                120deg,
-                ${({ theme }) => theme.colors.neutral} 0%,
-                ${({ theme }) => theme.colors.soft} 65%,
-                ${({ theme }) => theme.colors.tertiary}40 100%
-            );
-    }
-
-    @media (min-width: 768px) {
-        padding-top: 48px;
-
-        &::before {
-            height: 120px;
-            border-radius: 24px;
-        }
-    }
-
-`
-
 export const ProfileDetails = styled.div`
     display: flex;
     flex-direction: column;
@@ -352,36 +382,4 @@ export const PublicationsSection = styled.section`
         align-items: flex-start;
 
     }
-`
-export const TitleContainer = styled.div`
-    display: flex;
-    width: 100%;
-    min-width: 0;
-    justify-content: center;
-    text-align: center;
-  `
-
-export const TitlesContainer = styled.div`
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-`
-
-export const PageTitle = styled.h1`
-  margin: 0;
-  color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.typography.header2};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  text-align: left;
-  white-space: nowrap;
-`
-
-export const PageSubtitle = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.colors.darkColorMuted};
-  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
-  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `

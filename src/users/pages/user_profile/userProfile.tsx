@@ -3,7 +3,7 @@ import * as S from './userProfile.styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails';
 import { CategorySelector, Loader, Message, ScrollHint } from '@/common/components';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import type { UserPostType } from '@/common/app/services/responses/userResponses';
 import { publicationMessages } from '@/common/utils/Messages';
 import { useGetExternalUserProfileQuery } from '@/users/app/api/usersApi';
@@ -20,8 +20,8 @@ interface MetricsComponentProps {
 function MetricComponent({ value, label }: MetricsComponentProps) {
     return (
         <S.Metric>
-            <S.MetricValue>{value}</S.MetricValue>
-            <S.MetricLabel>{label}</S.MetricLabel>
+            <S.MetricTitle>{value}</S.MetricTitle>
+            <S.MetricDescription>{label}</S.MetricDescription>
         </S.Metric>
     )
 }
@@ -33,37 +33,16 @@ function UserProfile() {
     const { userId } = useParams<{ userId: string }>();
 
     const [selectedCategory, setSelectedCategory] = useState<UserPostType>('animal');
-    const publicationsRef = useRef<HTMLDivElement>(null);
-    const [reservedSpace, setReservedSpace] = useState({ userId, height: 0 });
 
-    const { data: latestData, currentData: data, isFetching: isLoading, isError, refetch } = useGetExternalUserProfileQuery(
+    const { data, isLoading, isFetching, isError, refetch } = useGetExternalUserProfileQuery(
         userId ? { userId, type: selectedCategory } : skipToken,
     );
 
-    // Keep the same user's profile visible while fetching a different post category.
-    const profileData = data ?? (latestData?.id === userId ? latestData : undefined);
-
-    const handleCategoryChange = (category: UserPostType) => {
-        if (category === selectedCategory) return;
-
-        const publications = publicationsRef.current;
-        if (publications) {
-            // Retain enough page height to prevent the browser from clamping the scroll,
-            // including when the next category has fewer posts or no posts at all.
-            setReservedSpace({
-                userId,
-                height: Math.max(0, window.innerHeight - publications.getBoundingClientRect().top),
-            });
-        }
-
-        setSelectedCategory(category);
-    };
-
-    const PHONE_NUMBER = profileData?.profile?.phoneNumber
-        ? `${profileData.profile.phoneNumber.areaCode}${profileData.profile.phoneNumber.number}`
+    const PHONE_NUMBER = data?.profile?.phoneNumber
+        ? `${data.profile.phoneNumber.areaCode}${data.profile.phoneNumber.number}`
         : ""
 
-    const profileImage = normalizeImageUrl(profileData?.profile?.profileImageURL);
+    const profileImage = normalizeImageUrl(data?.profile?.profileImageURL);
 
     const categories = new Map<UserPostType, string>([
         ["animal", "Animales"],
@@ -82,7 +61,7 @@ function UserProfile() {
                     <ArrowLeft aria-hidden="true" />
                 </S.BackButton>
                 <S.TitlesContainer>
-                    <S.PageTitle>Perfil de {profileData?.username}</S.PageTitle>
+                    <S.PageTitle>Perfil de {data?.username}</S.PageTitle>
                     <S.PageSubtitle>
                     </S.PageSubtitle>
                 </S.TitlesContainer>
@@ -94,10 +73,10 @@ function UserProfile() {
                             src={profileImage}
                             alt={`Foto de perfil de usuario`}
                         />
-                        <S.ProfileName>{profileData?.username}</S.ProfileName>
-                        <S.ProfileEmail>{profileData?.profile?.email}</S.ProfileEmail>
+                        <S.ProfileName>{data?.username}</S.ProfileName>
+                        <S.ProfileEmail>{data?.profile?.email}</S.ProfileEmail>
                         <S.RolesContainer>
-                            {profileData?.roles.map((role) => {
+                            {data?.roles.map((role) => {
                                 const config = roleConfig[role]
                                 return (
                                     <S.Role
@@ -114,12 +93,12 @@ function UserProfile() {
                     </S.ProfilePanel>
                     <S.ProfileDetails>
                         <S.MetricsContainer>
-                            <MetricComponent value={profileData?.posts.length?.toString() || '0'} label="Publicaciones realizadas" />
+                            <MetricComponent value={data?.posts.length?.toString() || '0'} label="Publicaciones realizadas" />
                             <MetricComponent value="5" label="Casos exitosos" />
                             <MetricComponent value="10 meses" label="En la comunidad" />
                         </S.MetricsContainer>
                         {PHONE_NUMBER && (
-                            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={profileData!.profile!.phoneNumber!.areaCode} number={profileData!.profile!.phoneNumber!.number} message={`¡Hola! Me comunico desde Manada Solidaria`} />
+                            <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.profile!.phoneNumber!.areaCode} number={data!.profile!.phoneNumber!.number} message={`¡Hola! Me comunico desde Manada Solidaria`} />
                         )}
                     </S.ProfileDetails>
                 </S.ProfileSidebar>
@@ -132,17 +111,15 @@ function UserProfile() {
                         <CategorySelector
                             categories={Array.from(categories.keys())}
                             selectedCategory={selectedCategory}
-                            onCategoryChange={handleCategoryChange}
+                            onCategoryChange={setSelectedCategory}
                             getCategoryLabel={(category) => categories.get(category) || category}
                             ariaLabel="Filtrar publicaciones por categoría"
                         />
                     </S.PublicationsHeader>
 
                     <S.PublicationsContainer
-                        ref={publicationsRef}
                         aria-live="polite"
-                        aria-busy={isLoading}
-                        $minHeight={reservedSpace.userId === userId ? reservedSpace.height : 0}
+                        aria-busy={isFetching}
                         $hasPosts={!isLoading && !isError && Boolean(data?.posts?.length)}
                     >
                         {isLoading && (
