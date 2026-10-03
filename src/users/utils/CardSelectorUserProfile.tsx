@@ -16,7 +16,7 @@ function CardSelector({ post }: { post: ProfilePost }) {
                 key={post.id}
                 {...mapAnimalPostToCardProps({
                     ...post,
-                    imageUrl: post.imageId || '',
+                    imageUrl: post.imageId,
                 })}
                 onViewMore={() => navigate(`/animal/detalle/${post.id}`)}
             />

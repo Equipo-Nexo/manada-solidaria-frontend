@@ -22,8 +22,7 @@ interface Profile {
 export type ProfilePost =
     | (Omit<AnimalPost, 'imageUrl'> & {
         postType: 'animal';
-        imageUrl?: string | null;
-        imageId?: string | null;
+        imageId: string;
     })
     | (CampaignResponse & { postType: 'campaign' })
     | (FundraisingCampaignResponse & { postType: 'fundraising' });
