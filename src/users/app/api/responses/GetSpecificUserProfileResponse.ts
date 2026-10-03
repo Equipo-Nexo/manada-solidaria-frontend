@@ -3,7 +3,7 @@ import type { Role } from "../../types/User.types";
 import type { AnimalPost } from "@/animals/app/types/AnimalPost.types";
 import type { CampaignResponse, FundraisingCampaignResponse } from "@/common/app/types/Campaign.types";
 
-export interface GetExternalUserProfileResponse {
+export interface GetSpecificUserProfileResponse {
     id: string;
     username: string;
     profile: Profile;

@@ -1,6 +1,6 @@
 import type { UserPostType } from '@/common/app/services/responses/userResponses';
 
-export interface GetExternalUserProfileRequest {
+export interface GetSpecificUserProfileRequest {
     userId: string;
     type?: UserPostType;
 }
