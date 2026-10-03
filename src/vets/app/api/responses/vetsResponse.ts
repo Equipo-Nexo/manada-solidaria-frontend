@@ -27,5 +27,7 @@ export type VetResponse = {
   vetPageUrl?: string;
   description: string;
   location: VetLocation;
+  isOpen: boolean;
+  distanceInKm: number | null;
   calendar: VetCalendarEntry[];
 };

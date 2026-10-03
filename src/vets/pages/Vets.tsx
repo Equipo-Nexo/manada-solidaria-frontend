@@ -5,7 +5,7 @@ import { useGetVetsQuery } from "@/vets/app/api/vetsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
 import VetCard from "@/vets/components/vet_card/VetCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGeolocation } from "@/common/hooks/geolocation/useGeolocation";
 import StatusFilter, {
   type VetStatusFilter,
@@ -16,10 +16,15 @@ export default function Vets() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 400);
-  const [sortByDistance, setSortByDistance] = useState(false);
-  const { coordinates, requestCoordinates } = useGeolocation();
   const [statusFilter, setStatusFilter] = useState<VetStatusFilter>("ALL");
-  const openOnly = statusFilter === "OPEN";
+
+  const { coordinates, requestCoordinates, status } = useGeolocation();
+  useEffect(() => {
+    if (status === "idle") {
+      void requestCoordinates();
+    }
+  }, [status, requestCoordinates]);
+
   const {
     data: vets,
     isLoading,
@@ -27,27 +32,25 @@ export default function Vets() {
     refetch,
   } = useGetVetsQuery({
     query: debouncedSearch || undefined,
-    openOnly,
-    userLatitude:
-      sortByDistance && coordinates ? coordinates.latitude : undefined,
-    userLongitude:
-      sortByDistance && coordinates ? coordinates.longitude : undefined,
+    userLatitude: coordinates?.latitude,
+    userLongitude: coordinates?.longitude,
   });
-  const handleSortByDistance = async () => {
-    if (sortByDistance) {
-      setSortByDistance(false);
-      return;
-    }
-    if (coordinates) {
-      setSortByDistance(true);
-      return;
-    }
-    const result = await requestCoordinates();
-    if (result.coordinates) {
-      setSortByDistance(true);
-    }
-  };
 
+  const handleSortByDistance = async () => {
+    if (coordinates) {
+      return;
+    }
+    await requestCoordinates();
+  };
+  const filteredVets = vets?.filter((vet) => {
+    if (statusFilter === "OPEN") {
+      return vet.isOpen;
+    }
+    if (statusFilter === "CLOSED") {
+      return !vet.isOpen;
+    }
+    return true;
+  });
   if (isLoading) {
     return <PawLoader label="Cargando veterinarias..." />;
   }
@@ -90,7 +93,7 @@ export default function Vets() {
 
               <S.DistanceButton
                 type="button"
-                $active={sortByDistance}
+                $active={Boolean(coordinates)}
                 onClick={() => void handleSortByDistance()}
               >
                 <Sort aria-hidden="true" />
@@ -100,7 +103,7 @@ export default function Vets() {
           </S.FiltersContainer>
 
           <S.VetsList>
-            {vets?.map((vet) => (
+            {filteredVets?.map((vet) => (
               <VetCard key={vet.id} vet={vet} />
             ))}
           </S.VetsList>
