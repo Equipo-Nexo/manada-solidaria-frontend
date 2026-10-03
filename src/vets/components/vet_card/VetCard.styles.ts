@@ -63,7 +63,61 @@ export const Information = styled.div`
   gap: 0.25rem;
   padding-top: 0.06rem;
 `;
+export const Status = styled.span<{ $isOpen: boolean }>`
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  white-space: nowrap;
 
+  background: ${({ $isOpen, theme }) =>
+    `color-mix(in srgb, ${$isOpen ? theme.colors.success : theme.colors.error} 15%, transparent)`};
+
+  color: ${({ $isOpen, theme }) =>
+    $isOpen ? theme.colors.success : theme.colors.error};
+
+  font-size: 10px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 14px;
+  letter-spacing: 0.14px;
+`;
+
+export const StatusDot = styled.span<{ $isOpen: boolean }>`
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background: ${({ $isOpen, theme }) =>
+    $isOpen ? theme.colors.success : theme.colors.error};
+  opacity: 0.75;
+`;
+export const InformationRow = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 4px;
+`;
+
+export const Distance = styled.span`
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: ${({ theme }) => theme.colors.secondary};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+  white-space: nowrap;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+`;
 const TruncatedText = styled.p`
   width: 100%;
   margin: 0;
@@ -74,26 +128,29 @@ const TruncatedText = styled.p`
 `;
 
 export const Name = styled(TruncatedText).attrs({ as: "h3" })`
+  min-width: 0;
   font-family: ${({ theme }) => theme.typography.header3.fontFamily};
-  font-size: ${({ theme }) => theme.typography.header3.fontSize};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 1.25rem;
   letter-spacing: -0.0125rem;
 `;
 
 export const Address = styled(TruncatedText)`
-  overflow: visible;
+  flex: 1;
+  min-width: 0;
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 1.25rem;
   letter-spacing: -0.0125rem;
-  text-overflow: clip;
-  white-space: normal;
-  overflow-wrap: anywhere;
 `;
 
 export const TodayHours = styled(Address)`
   flex: 1;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
   line-height: 1.125rem;
 
   @media (max-width: 22.5rem) {
