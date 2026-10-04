@@ -36,11 +36,9 @@ export const Photo = styled.img<{ $variant: ImagePreviewVariant }>`
     object-position: ${({ theme }) => theme.layout.publicationImagePosition};
   `}
 
-  ${({ $variant, theme }) => $variant === 'round' && css`
-    border: 4px solid ${theme.colors.background};
+  ${({ $variant }) => $variant === 'round' && css`
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 10px 28px ${theme.colors.darkColor}24;
   `}
 
   ${({ $variant }) => $variant === 'square' && css`
