@@ -14,6 +14,7 @@ import {
 import Login from "./auth/pages/login/Login";
 import PasswordRecoveryEmail from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryEmail";
 import PasswordRecoveryCodeSent from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryCodeSent";
+import VerifyCode from "./auth/pages/password_recovery/password_recovery_verify_code/VerifyCode";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
 import useAuth from "@hooks/auth/useAuth";
@@ -110,6 +111,7 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
+            <Route path="/recuperar-contrasena/verificar-codigo" element={<VerifyCode />} />
             <Route
               path="/recuperar-contrasena"
               element={<PasswordRecoveryEmail />}
