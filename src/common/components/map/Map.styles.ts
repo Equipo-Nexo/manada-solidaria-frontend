@@ -11,6 +11,7 @@ export const MapFrame = styled.div`
   border-radius: 16px;
   box-shadow: 0 8px 24px rgb(89 65 55 / 12%);
 `
+
 export const Legend = styled.ul`
   position: absolute;
   top: 12px;
@@ -53,5 +54,11 @@ export const LegendItem = styled.li<{ $color?: string }>`
     flex-shrink: 0;
     border-radius: 50%;
     background-color: ${({ theme }) => theme.colors.separator};
+
+    @media (max-width: 390px) {
+      width: 4px;
+      height: 4px;
+      margin: 0 1px;
+    }
   }
 `

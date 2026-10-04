@@ -10,6 +10,7 @@ export interface MapItem {
     name: string;
     status: string;
     firstLineDescription: DescriptionLine;
+    secondLineDescription: DescriptionLine;
     longitude: number;
     latitude: number;
     location: string;

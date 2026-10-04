@@ -4,6 +4,9 @@ import * as Icons from '@/common/icons'
 import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
 import type { MapItem } from '../../app/api/responses/MapResponse'
 import * as S from './MapPublicationsSheetContent.styles'
+import { theme } from '@/common/styles/theme'
+import VetStatusBadge from '@/vets/components/vet_status_badge/VetStatusBadge'
+import { useNavigate } from 'react-router-dom'
 
 type MapPublicationsSheetContentProps = {
   items: MapItem[]
@@ -15,51 +18,71 @@ type MapPublicationsSheetContentProps = {
 }
 
 const descriptionIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
-  calendar: Icons.Calendar,
-  clock: Icons.Clock,
-  gender: Icons.Gender,
-  info: Icons.Info,
-  locationpin: Icons.LocationPin,
-  mappin: Icons.MapPin,
-  pawprint: Icons.PawPrint,
-  phone: Icons.Phone,
-  ruler: Icons.Ruler,
-  stethoscope: Icons.Stethoscope,
-  briefcasemedical: Icons.BriefcaseMedical,
+  'Clock': Icons.Clock,
+  'LocationPin': Icons.LocationPin,
+  'Phone': Icons.Phone,
 }
 
 function MapPublicationsSheetContent({
-  items, groupId, title, color, iconColor, onClose,
+  items, groupId, color, iconColor,
 }: MapPublicationsSheetContentProps) {
+  const navigate = useNavigate();
   const isVet = groupId === 'vets'
   const PublicationIcon = isVet ? Icons.BriefcaseMedical : Icons.PawPrint
+
+  const getPublishedAtDescription = (daysAgo: number) => {
+    if (daysAgo === 0) {
+      return 'hoy'
+    } else if (daysAgo === 1) {
+      return 'hace 1 día'
+    } else {
+      return `hace ${daysAgo} días`
+    }
+  }
+
+  const getSecondLineDescription = (text?: String) => {
+    if (!text && isVet) return 'Hoy cerrado'
+    return text
+  }
+
+  const getHeaderDescription = () => {
+    if (isVet) {
+      return `${items.length} ${items.length === 1 ? 'veterinaria encontrada' : 'veterinarias encontradas'} en esta área`
+    }
+
+    return `${items.length} ${items.length === 1 ? 'publicación encontrada' : 'publicaciones encontradas'} en esta área`
+  }
+
+  const handleRedirect = async (id: string) => {
+    if (isVet) {
+      navigate("/veterinarias", { state: { id }})
+    } else {
+      navigate(`/animal/detalle/${id}`)
+    }
+  }
 
   return (
     <S.Content>
       <S.Header>
-        <S.TypeIcon $background={color} $color={iconColor} aria-hidden="true">
-          <PublicationIcon />
-        </S.TypeIcon>
-        <S.Heading>
-          <S.Title>{title}</S.Title>
-          <S.Count>{items.length} {items.length === 1 ? 'publicación' : 'publicaciones'}</S.Count>
-        </S.Heading>
+        <S.HeaderTitleContainer>
+          <Icons.MapPin width={20} height={20} color={theme.colors.brand} />
+          <S.HeaderTitle>{isVet ? 'Veterinarias' : 'Publicaciones'} en la zona</S.HeaderTitle>
+        </S.HeaderTitleContainer>
+        <S.HeaderDescription>
+          {getHeaderDescription()}
+        </S.HeaderDescription>
       </S.Header>
+
       <S.List aria-label="Publicaciones seleccionadas">
         {items.map((item) => {
-          const animalStatus = !isVet ? AnimalPostStatus[item.status] : undefined
-          const status = isVet
-            ? item.status || 'Veterinaria'
-            : animalStatus?.text ?? (groupId === 'lostAnimals' ? 'Perdido' : 'En la calle')
-          const description = item.firstLineDescription
-          const iconName = description?.iconName?.replace(/[^a-z]/gi, '').toLowerCase()
-          const DescriptionIcon = descriptionIcons[iconName ?? ''] ?? Icons.Info
+          const FirstDescriptionIcon = descriptionIcons[item.firstLineDescription.iconName ?? ''] ?? Icons.Info
+          const SecondDescriptionIcon = descriptionIcons[item.secondLineDescription.iconName ?? ''] ?? Icons.Info
 
           return (
             <S.Card key={item.id}>
               <S.Photo>
                 {item.imageUrl ? (
-                  <ImagePreview imageId={item.imageUrl} alt={item.name} variant="fill" loading="lazy" />
+                    <ImagePreview imageId={item.imageUrl} alt={item.name} variant="fill" loading="lazy" />
                 ) : (
                   <S.PhotoPlaceholder $background={color} $color={iconColor} aria-hidden="true">
                     <PublicationIcon />
@@ -67,31 +90,43 @@ function MapPublicationsSheetContent({
                 )}
               </S.Photo>
               <S.Information>
-                <S.Name>{item.name || (isVet ? 'Veterinaria' : 'Animal sin nombre')}</S.Name>
-                <S.Status
-                  $background={animalStatus?.backgroundColor ?? color}
-                  $color={animalStatus?.fontColor ?? iconColor}
-                >
-                  {status}
-                </S.Status>
-                {description?.text && (
-                  <S.InformationLine>
-                    <DescriptionIcon aria-hidden="true" />
-                    <span>{description.text}</span>
-                  </S.InformationLine>
-                )}
-                {item.location && (
-                  <S.InformationLine>
-                    <Icons.LocationPin aria-hidden="true" />
-                    <span>{item.location}</span>
-                  </S.InformationLine>
-                )}
-                {!isVet && (
-                  <S.DetailLink to={`/animal/detalle/${encodeURIComponent(item.id)}`} onClick={onClose}>
-                    Ver publicación <Icons.ChevronRight aria-hidden="true" />
-                  </S.DetailLink>
-                )}
+                <S.FirstInformationContainer>
+                  <S.FirstLine>
+                    <S.Title>{item.name}</S.Title>
+                    {
+                      isVet ? (
+                        <VetStatusBadge status={item.status} />
+                      ) : (
+                        <S.Status $color={AnimalPostStatus[item.status].fontColor ?? theme.colors.darkColor} $background={AnimalPostStatus[item.status].backgroundColor ?? theme.colors.background}>
+                          {AnimalPostStatus[item.status].text}
+                        </S.Status>
+                      )
+                    }
+                  </S.FirstLine>
+                </S.FirstInformationContainer>
+                <S.SecondInformationContainer>
+                  <S.SecondLine>
+                    <FirstDescriptionIcon width={16} height={16} color={theme.colors.darkColor} />
+                    {
+                      isVet ? (
+                        <S.Description>{item.firstLineDescription.text}</S.Description>
+                      ) : (
+                        <S.Description>Publicado {getPublishedAtDescription(Number(item.firstLineDescription.text))}</S.Description>
+                      )
+                    }
+                    
+                  </S.SecondLine>
+                  <S.ThirdLine>
+                    <SecondDescriptionIcon width={16} height={16} color={theme.colors.darkColor} />
+                    <S.Description>{getSecondLineDescription(item.secondLineDescription.text)}</S.Description>
+                  </S.ThirdLine>
+                </S.SecondInformationContainer>
               </S.Information>
+              <S.RedirectButtonContainer>
+                <S.Redirect onClick={() => handleRedirect(item.id)} aria-label="Ver publicación en el mapa">
+                  <Icons.ChevronRight width={12} height={12} color={theme.colors.darkColor} />
+                </S.Redirect>
+              </S.RedirectButtonContainer>
             </S.Card>
           )
         })}

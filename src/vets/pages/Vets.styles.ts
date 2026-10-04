@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -73,6 +73,37 @@ export const VetsList = styled.div`
 
   @media (min-width: 1238px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+`;
+
+const highlight = keyframes`
+  0%, 100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  50% {
+    box-shadow: 0 0 0 4px #EA5F0960;
+  }
+`;
+
+export const VetContainer = styled.div<{ $selected: boolean }>`
+  border-radius: 12px;
+
+  ${({ $selected }) =>
+    $selected &&
+    css`
+      animation: ${highlight} 1s ease-in-out 3;
+    `}
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+
+    ${({ $selected }) =>
+      $selected &&
+      css`
+        outline: 2px solid #EA5F09;
+        outline-offset: -2px;
+      `}
   }
 `;
 

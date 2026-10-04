@@ -10,9 +10,7 @@ import type { MapItem } from "../app/api/responses/MapResponse";
 import MapPublicationsSheetContent from "../components/publications_sheet/MapPublicationsSheetContent";
 import { MapFilters, type MapFilter } from "../utils/AllPublicationMapUtils";
 
-export type AllPublicationsMapProps = Pick<MapClusterGroup<MapItem>, "onClusterClick" | "onMarkerClick">;
-
-function AllPublicationsMap({ onClusterClick, onMarkerClick }: AllPublicationsMapProps) {
+function AllPublicationsMap() {
   
   const theme = useTheme();
   const { data } = useGetMapQuery();
@@ -81,12 +79,10 @@ function AllPublicationsMap({ onClusterClick, onMarkerClick }: AllPublicationsMa
 
   const handleClusterClick = (items: MapItem[], groupId: string) => {
     if (items.length > 0) setSelection({ items, groupId });
-    onClusterClick?.(items, groupId);
   };
 
   const handleMarkerClick = (item: MapItem, groupId: string) => {
     setSelection({ items: [item], groupId });
-    onMarkerClick?.(item, groupId);
   };
 
   return (
