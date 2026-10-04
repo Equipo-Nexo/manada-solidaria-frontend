@@ -1,4 +1,5 @@
 import type {
+  NewPasswordRequest,
   PasswordRecoveryRequest,
   VerifyCodeRequest,
 } from "./requests/passwordRecoveryRequest";
@@ -21,8 +22,18 @@ export const passwordRecoveryApi = baseAuthenticatedApi.injectEndpoints({
         body,
       }),
     }),
+    resetPassword: builder.mutation<void, NewPasswordRequest>({
+      query: (body) => ({
+        url: "/password-recovery/reset",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useRequestPasswordRecoveryMutation, useVerifyCodeMutation } =
-  passwordRecoveryApi;
+export const {
+  useRequestPasswordRecoveryMutation,
+  useVerifyCodeMutation,
+  useResetPasswordMutation,
+} = passwordRecoveryApi;
