@@ -102,7 +102,7 @@ export const RegisterTitle = styled.h1`
   margin: 4px 0 0;
   color: #261813;
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 32px;
+  font-size: 7vw;
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
@@ -131,7 +131,7 @@ export const RegisterSubtitle = styled.p`
   margin: 8px 0 0;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: 14px;
+  font-size: 4vw;
   font-style: normal;
   font-weight: 400;
   line-height: 20px;

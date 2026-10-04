@@ -93,7 +93,7 @@ function Register() {
         <S.RegisterContent>
           <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
           <S.RegisterTitle>
-            ¡Bienvenido a la <br /> Manada!
+            ¡Unite a la Manada!
           </S.RegisterTitle>
           <S.RegisterSubtitle>
             Formá parte de nuestra comunidad de rescatistas y voluntarios.
