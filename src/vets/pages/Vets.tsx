@@ -17,24 +17,39 @@ export default function Vets() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 400);
   const [statusFilter, setStatusFilter] = useState<VetStatusFilter>("ALL");
-
-  const { coordinates, requestCoordinates, status } = useGeolocation();
+  const { coordinates, requestCoordinates } = useGeolocation();
+  const [locationChecked, setLocationChecked] = useState(false);
   useEffect(() => {
-    if (status === "idle") {
-      void requestCoordinates();
-    }
-  }, [status, requestCoordinates]);
+    const checkLocationPermission = async () => {
+      try {
+        const permission = await navigator.permissions.query({
+          name: "geolocation",
+        });
+        if (permission.state === "granted") {
+          await requestCoordinates();
+        }
+      } finally {
+        setLocationChecked(true);
+      }
+    };
+    void checkLocationPermission();
+  }, [requestCoordinates]);
 
   const {
     data: vets,
     isLoading,
     isError,
     refetch,
-  } = useGetVetsQuery({
-    query: debouncedSearch || undefined,
-    userLatitude: coordinates?.latitude,
-    userLongitude: coordinates?.longitude,
-  });
+  } = useGetVetsQuery(
+    {
+      query: debouncedSearch || undefined,
+      userLatitude: coordinates?.latitude,
+      userLongitude: coordinates?.longitude,
+    },
+    {
+      skip: !locationChecked,
+    },
+  );
 
   const handleSortByDistance = async () => {
     if (coordinates) {
@@ -51,7 +66,7 @@ export default function Vets() {
     }
     return true;
   });
-  if (isLoading) {
+  if (!locationChecked || isLoading) {
     return <PawLoader label="Cargando veterinarias..." />;
   }
 
