@@ -15,8 +15,6 @@ interface PhoneInputProps {
   phoneNumberRef?: Ref<HTMLInputElement>;
   areaCodePlaceholder?: string;
   phoneNumberPlaceholder?: string;
-  required?: boolean;
-  disabled?: boolean;
   showIcon?: boolean;
   error?: string;
 }
@@ -32,8 +30,6 @@ function PhoneInputComponent({
   phoneNumberRef,
   areaCodePlaceholder = "353",
   phoneNumberPlaceholder = "5652355",
-  required,
-  disabled,
   showIcon = true,
   error,
 }: PhoneInputProps) {
@@ -48,8 +44,6 @@ function PhoneInputComponent({
           )}
           <StyledMaskedInput
             type="tel"
-            required={required}
-            disabled={disabled}
             autoComplete="tel-area-code"
             inputRef={areaCodeRef}
             maskType="areaCode"
@@ -65,8 +59,6 @@ function PhoneInputComponent({
         </S.AreaCodeWrapper>
         <StyledMaskedInput
           type="tel"
-          required={required}
-          disabled={disabled}
           autoComplete="tel-local"
           inputRef={phoneNumberRef}
           maskType="phoneNumber"
