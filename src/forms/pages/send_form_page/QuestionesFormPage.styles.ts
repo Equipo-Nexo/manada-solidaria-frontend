@@ -14,6 +14,10 @@ export const MainContainer = styled.div`
     flex-direction: column;
     width: 100%;
     min-width: 0;
+    @media (min-width: 1024px) {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
 `
 export const QueryState = styled.div`
   display: flex;
@@ -31,6 +35,9 @@ export const Header = styled.header`
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
+  @media (min-width: 1024px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const BackButton = styled.button`
@@ -85,6 +92,15 @@ export const SecondaryContainer = styled.div`
   justify-content: center;
   width: 100%;
   min-width: 0;
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    column-gap: 20px;
+    row-gap: 4px;
+    width: fit-content;
+    margin: 0 auto 28px;
+    text-align: left;
+  }
 `
 
 export const AppLogo = styled.img`
@@ -114,6 +130,12 @@ export const AppLogo = styled.img`
     width: 3rem;
     margin-top: 0.5rem;
   }
+  @media (min-width: 1024px) {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 80px;
+    margin-top: 0;
+  }
 `;
 
 export const LogoSubtitle = styled.p`
@@ -126,6 +148,12 @@ export const LogoSubtitle = styled.p`
   @media (max-width: 767px) and (max-height: 650px) {
     font-size: ${({ theme }) => theme.typography.descriptive.fontSize} !important;
   }
+  @media (min-width: 1024px) {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin-bottom: 0;
+  }
 `;
 
 
@@ -136,6 +164,14 @@ export const Title = styled.h2`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: center;
   margin-bottom: 16px;
+  @media (min-width: 1024px) {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    margin-bottom: 0;
+    text-align: left;
+    ${({ theme }) => theme.typography.header1};
+  }
 `
 
 export const Form = styled.form`
@@ -145,11 +181,26 @@ export const Form = styled.form`
   justify-content: center;
   width: 100%;
   gap: 16px;
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 32px;
+  }
 `
 
 export const CategoryContainer = styled.div`
    width: min(100%, 380px);
   min-width: 0;
+  @media (min-width: 1024px) {
+    width: 100%;
+    padding: 24px;
+    border-radius: 20px;
+    background: ${({ theme }) => theme.colors.background};
+    box-shadow:
+      0 2px 6px ${({ theme }) => `${theme.colors.darkColor}0A`},
+      0 12px 32px ${({ theme }) => `${theme.colors.darkColor}1A`};
+  }
 `
 export const FormActionsContainer = styled.div`
   display: grid;
@@ -158,6 +209,13 @@ export const FormActionsContainer = styled.div`
   width: min(100%, 380px);
   margin-top: 16px;
   margin-bottom: 32px;
+  @media (min-width: 1024px) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 560px);
+    gap: 24px;
+    margin-top: 8px;
+  }
 `;
 
 export const ActionButton = styled.button<{ $variant: 'cancel' | 'submit' }>`
@@ -192,6 +250,9 @@ export const CategoryTitle = styled.h3`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
   margin-bottom: 8px;
+  @media (min-width: 1024px) {
+    ${({ theme }) => theme.typography.header2};
+  }
 `
 export const CategoryDescription = styled.p`
   margin: 0;

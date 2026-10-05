@@ -10,7 +10,7 @@ import { createAdoptionFormSchema, type AdoptionFormValues } from '../../app/sch
 import type { AdoptionCategory, AdoptionQuestion } from '../../app/types/AdoptionForm.types';
 import type { AdoptionFormRequest } from '../../app/api/requests/AdoptionFormRequest';
 import { useCreateAdoptionFormMutation, useGetQuestionsQuery } from '../../app/api/adoptionFormsApi';
-import { Loader, Message } from '@/common/components';
+import { Loader, Message, ScrollHint } from '@/common/components';
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError';
 import { InputSelector } from './AdoptionQuestionInputs';
 
@@ -45,7 +45,10 @@ function QuestionsFormPage() {
                     </S.ActionButton>
                 </S.QueryState>
             ) : (
-                <QuestionsForm response={questions} />
+                <>
+                    <QuestionsForm response={questions} />
+                    <ScrollHint />
+                </>
             )}
         </S.MainContainer>
     );
