@@ -32,7 +32,7 @@ function MapPublicationsSheetContent({
   const PublicationIcon = isVet ? Icons.BriefcaseMedical : Icons.PawPrint
 
 
-  const getSecondLineDescription = (text?: String) => {
+  const getSecondLineDescription = (text?: string) => {
     if (!text && isVet) return 'Hoy cerrado'
     return text
   }
