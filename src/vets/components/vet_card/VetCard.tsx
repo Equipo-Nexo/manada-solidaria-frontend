@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import { ChevronRight, Phone, Map, Mail } from "@/common/icons";
+import { ChevronRight, Phone, Map, Mail, MapPin } from "@/common/icons";
 import * as S from "./VetCard.styles";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/common/hooks/toast/useToast";
@@ -76,7 +76,6 @@ function VetCard({ vet, className }: VetCardProps) {
       `Hola ${vet.name}, me comunico con ustedes a través de Manada Solidaria.`,
     );
   };
-
   return (
     <S.Card className={className}>
       <S.Details>
@@ -90,8 +89,22 @@ function VetCard({ vet, className }: VetCardProps) {
 
         <S.Information>
           <S.Name title={vet.name}>{vet.name}</S.Name>
-          <S.Address title={address}>{address}</S.Address>
-          <S.TodayHours title={todayHours}>{todayHours}</S.TodayHours>
+          <S.InformationRow>
+            <S.Address title={address}>{address}</S.Address>
+            {vet.distanceInKm !== null && (
+              <S.Distance>
+                <MapPin aria-hidden="true" />
+                {vet.distanceInKm} km
+              </S.Distance>
+            )}
+          </S.InformationRow>
+          <S.InformationRow>
+            <S.TodayHours title={todayHours}>{todayHours}</S.TodayHours>
+            <S.Status $isOpen={vet.isOpen}>
+              <S.StatusDot $isOpen={vet.isOpen} />
+              {vet.isOpen ? "Abierto" : "Cerrado"}
+            </S.Status>
+          </S.InformationRow>
         </S.Information>
       </S.Details>
 
