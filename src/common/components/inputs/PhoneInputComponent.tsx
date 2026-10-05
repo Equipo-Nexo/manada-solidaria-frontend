@@ -15,6 +15,7 @@ interface PhoneInputProps {
   phoneNumberRef?: Ref<HTMLInputElement>;
   areaCodePlaceholder?: string;
   phoneNumberPlaceholder?: string;
+  showIcon?: boolean;
   error?: string;
 }
 
@@ -29,29 +30,36 @@ function PhoneInputComponent({
   phoneNumberRef,
   areaCodePlaceholder = "353",
   phoneNumberPlaceholder = "5652355",
+  showIcon = true,
   error,
 }: PhoneInputProps) {
   return (
     <>
       <S.PhoneNumberContainer>
         <S.AreaCodeWrapper>
-          <S.PhoneGlyph>
-            <Phone aria-hidden="true" />
-          </S.PhoneGlyph>
+          {showIcon && (
+            <S.PhoneGlyph>
+              <Phone aria-hidden="true" />
+            </S.PhoneGlyph>
+          )}
           <StyledMaskedInput
+            type="tel"
+            autoComplete="tel-area-code"
             inputRef={areaCodeRef}
             maskType="areaCode"
             value={areaCodeValue}
             aria-label="Código de área"
             inputMode="numeric"
             placeholder={areaCodePlaceholder}
-            $hasLeftIcon
+            $hasLeftIcon={showIcon}
             aria-invalid={Boolean(error)}
             onAccept={(value) => onAreaCodeChange(String(value))}
             onBlur={onAreaCodeBlur}
           />
         </S.AreaCodeWrapper>
         <StyledMaskedInput
+          type="tel"
+          autoComplete="tel-local"
           inputRef={phoneNumberRef}
           maskType="phoneNumber"
           value={phoneNumberValue}
