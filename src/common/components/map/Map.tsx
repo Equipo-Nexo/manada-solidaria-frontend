@@ -146,9 +146,6 @@ function Map<TItem = unknown>({
         doubleClickZoom={!enableMarkerOnClick}
         onMapReady={setMap}
       >
-        <div>
-          <p>asdasd</p>
-        </div>
         <MapCNControls showLocate />
         {clusterGroups?.map((group) => (
           <MapCNCluster

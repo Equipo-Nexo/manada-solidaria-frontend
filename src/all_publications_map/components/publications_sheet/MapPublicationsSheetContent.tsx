@@ -7,6 +7,7 @@ import * as S from './MapPublicationsSheetContent.styles'
 import { theme } from '@/common/styles/theme'
 import VetStatusBadge from '@/vets/components/vet_status_badge/VetStatusBadge'
 import { useNavigate } from 'react-router-dom'
+import { getPublishedAtDescription } from '@/common/utils/Messages'
 
 type MapPublicationsSheetContentProps = {
   items: MapItem[]
@@ -30,15 +31,6 @@ function MapPublicationsSheetContent({
   const isVet = groupId === 'vets'
   const PublicationIcon = isVet ? Icons.BriefcaseMedical : Icons.PawPrint
 
-  const getPublishedAtDescription = (daysAgo: number) => {
-    if (daysAgo === 0) {
-      return 'hoy'
-    } else if (daysAgo === 1) {
-      return 'hace 1 día'
-    } else {
-      return `hace ${daysAgo} días`
-    }
-  }
 
   const getSecondLineDescription = (text?: String) => {
     if (!text && isVet) return 'Hoy cerrado'

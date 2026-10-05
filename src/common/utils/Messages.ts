@@ -7,3 +7,13 @@ export const publicationMessages = {
   emptyCampaigns: 'No hay campañas para mostrar.',
   emptyUrgent: 'No hay casos urgentes para mostrar.',
 } as const
+
+export const getPublishedAtDescription = (daysAgo: number) => {
+  if (daysAgo === 0) {
+    return 'hoy'
+  } else if (daysAgo === 1) {
+    return 'ayer'
+  } else {
+    return `hace ${daysAgo} días`
+  }
+}
