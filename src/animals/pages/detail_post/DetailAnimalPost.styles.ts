@@ -33,6 +33,15 @@ export const MainContainer = styled.section`
   }
 `
 
+export const UserProfileContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: none;
+`
+
 export const Header = styled.header`
   display: flex;
   width: 100%;

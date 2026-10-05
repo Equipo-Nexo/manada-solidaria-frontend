@@ -177,7 +177,7 @@ function Login() {
           </S.Form>
           <S.RegisterTextContainer>
             <S.RegisterText>
-              ¿No tienes cuenta? <S.RegisterLink href="/registro">Regístrate</S.RegisterLink>
+              ¿No tienes cuenta? <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
             </S.RegisterText>
           </S.RegisterTextContainer>
 

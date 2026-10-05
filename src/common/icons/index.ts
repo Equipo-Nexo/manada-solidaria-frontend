@@ -64,3 +64,4 @@ export { default as Dog } from "./Dog";
 export { default as Garden } from "./Garden";
 export { default as File } from "./File";
 export { default as MessageSquare } from "./MessageSquare";
+export { default as Sort } from "./Sort";
