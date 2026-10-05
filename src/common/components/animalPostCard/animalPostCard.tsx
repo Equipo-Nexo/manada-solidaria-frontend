@@ -121,20 +121,24 @@ function AnimalPostCard({
 
         {visibleActions.length > 0 && (
           <S.ButtonsContainer $amount={visibleActions.length}>
-            {visibleActions.map(({ id, label, variant, onClick }) => (
+            {visibleActions.map(({ id, label, variant, to, onClick }) => (
               <S.ActionButton
                 key={id}
                 type="button"
                 $variant={variant}
-                onClick={() =>
-                  onClick(
+                onClick={() => {
+                  if (to) {
+                    navigate(to)
+                    return
+                  }
+                  onClick?.(
                     phoneNumber,
                     name,
                     location
                       ? () => handleViewOnMap(location.latitude, location.longitude)
                       : undefined
                   )
-                }
+                }}
               >
                 {label}
               </S.ActionButton>
