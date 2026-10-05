@@ -4,7 +4,6 @@ import { fieldFocusVisible, focusVisible } from '@styles/interactions';
 
 const questionFieldTypography = css`
   ${({ theme }) => theme.typography.body};
-
   @media (max-width: 1024px) {
     font-size: ${({ theme }) => theme.typography.body.fontSize} !important;
   }
@@ -16,6 +15,16 @@ export const MainContainer = styled.div`
     width: 100%;
     min-width: 0;
 `
+export const QueryState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: min(100%, 380px);
+  margin: 0 auto;
+  padding: 24px 0;
+`;
+
 export const Header = styled.header`
   min-height: 48px;
   display: flex;

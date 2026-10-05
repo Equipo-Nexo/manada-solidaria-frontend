@@ -133,7 +133,8 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
-              <Route path="/formulario-adopcion" element={<QuestionsFormPage />} />
+              <Route path="/formulario-adopcion" element={<Navigate to="/animales" replace />} />
+              <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}

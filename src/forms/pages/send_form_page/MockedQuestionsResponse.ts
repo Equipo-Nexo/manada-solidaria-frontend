@@ -2,12 +2,12 @@ import type { AdoptionCategory } from '../../app/types/AdoptionForm.types';
 
 export const adoptionFormMock: AdoptionCategory[] = [
     {
-        id: "home",
+        id: "11111111-1111-4111-a111-111111111111",
         category: "Tu hogar",
         description: "Queremos conocer el lugar donde vivirá el animal.",
         questions: [
             {
-                id: "housing-type",
+                id: "a1000000-0000-4000-a000-000000000001",
                 type: "SELECTION",
                 iconName: "Home",
                 title: "Tipo de vivienda",
@@ -19,10 +19,10 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "rents-home",
+                id: "a1000000-0000-4000-a000-000000000002",
                 type: "SELECTION",
                 iconName: "Building",
-                title: "¿Alquilás?",
+                title: "¿Alquilas?",
                 placeHolder: "Seleccioná una opción",
                 details: [
                     { description: "Sí" },
@@ -30,7 +30,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "pets-allowed",
+                id: "a1000000-0000-4000-a000-000000000003",
                 type: "SELECTION",
                 iconName: "Dog",
                 title: "¿Te permiten mascotas los dueños?",
@@ -42,7 +42,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "enclosed-yard",
+                id: "a1000000-0000-4000-a000-000000000004",
                 type: "SELECTION",
                 iconName: "Garden",
                 title: "¿Contás con patio cerrado?",
@@ -53,7 +53,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "lives-with-others",
+                id: "a1000000-0000-4000-a000-000000000005",
                 type: "SELECTION",
                 iconName: "Users",
                 title: "¿Vivís con otras personas?",
@@ -64,7 +64,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "has-other-pets",
+                id: "a1000000-0000-4000-a000-000000000006",
                 type: "SELECTION",
                 iconName: "PawPrint",
                 title: "¿Tenés otras mascotas?",
@@ -75,7 +75,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "other-pets-description",
+                id: "a1000000-0000-4000-a000-000000000007",
                 type: "TEXT",
                 iconName: "File",
                 title: "Si tenés otras mascotas, contanos cuáles y sus edades...",
@@ -85,13 +85,13 @@ export const adoptionFormMock: AdoptionCategory[] = [
         ],
     },
     {
-        id: "adoption",
+        id: "22222222-2222-4222-a222-222222222222",
         category: "Sobre la adopción",
         description:
             "Estas preguntas ayudan a encontrar la mejor familia para cada animal.",
         questions: [
             {
-                id: "previous-pet-experience",
+                id: "a2000000-0000-4000-a000-000000000001",
                 type: "SELECTION",
                 iconName: "HandHeart",
                 title: "¿Tenés experiencia previa con mascotas?",
@@ -102,7 +102,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "can-cover-pet-expenses",
+                id: "a2000000-0000-4000-a000-000000000002",
                 type: "SELECTION",
                 iconName: "DollarSign",
                 title:
@@ -114,7 +114,7 @@ export const adoptionFormMock: AdoptionCategory[] = [
                 ],
             },
             {
-                id: "additional-information",
+                id: "a2000000-0000-4000-a000-000000000003",
                 type: "TEXT",
                 iconName: "MessageSquare",
                 title: "¿Algo más que quieras contarnos?",

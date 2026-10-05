@@ -46,7 +46,7 @@ const AdoptAction = (variant: ActionVariant): AnimalPostAction => ({
   id: 'adopt',
   label: 'Adoptar',
   variant,
-  to: '/formulario-adopcion',
+  to: '/formulario-adopcion/:postId',
 })
 
 const CollaborateAction = (variant: ActionVariant): AnimalPostAction => ({

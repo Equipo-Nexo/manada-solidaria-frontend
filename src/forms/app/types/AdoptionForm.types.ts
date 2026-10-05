@@ -15,8 +15,3 @@ export interface AdoptionCategory {
   questions: AdoptionQuestion[];
 }
 
-export interface AdoptionFormRequest {
-  answers: { categoryId: string; questionId: string; value: string }[];
-  adoptionReason: string;
-  phoneNumber: { areaCode: string; number: string };
-}

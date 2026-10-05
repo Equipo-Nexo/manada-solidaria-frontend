@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router-dom'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
@@ -128,7 +128,7 @@ function AnimalPostCard({
                 $variant={variant}
                 onClick={() => {
                   if (to) {
-                    navigate(to)
+                    navigate(generatePath(to, { postId: encodeURIComponent(postId) }))
                     return
                   }
                   onClick?.(

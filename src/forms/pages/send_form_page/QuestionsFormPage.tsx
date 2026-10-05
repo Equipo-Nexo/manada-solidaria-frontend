@@ -1,30 +1,63 @@
 import { ArrowLeft, Building, Dog, DollarSign, Garden, HandHeart, House, PawPrint, File, Users, MessageSquare, Heart, Phone } from '@/common/icons';
 import * as S from './QuestionesFormPage.styles';
-import { useNavigate } from 'react-router-dom';
-import { adoptionFormMock } from './MockedQuestionsResponse';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AdoptionQuestionsMock } from '../../utils/AdoptionQuestionsMocked';
 import type { ReactElement } from 'react';
 import { useToast } from '@hooks/toast/useToast';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createAdoptionFormSchema, type AdoptionFormValues } from '../../app/schemas/adoptionFormSchema';
-import type { AdoptionFormRequest, AdoptionQuestion } from '../../app/types/AdoptionForm.types';
+import type { AdoptionCategory, AdoptionQuestion } from '../../app/types/AdoptionForm.types';
+import type { AdoptionFormRequest } from '../../app/api/requests/AdoptionFormRequest';
+import { useCreateAdoptionFormMutation, useGetQuestionsQuery } from '../../app/api/adoptionFormsApi';
+import { Loader, Message } from '@/common/components';
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError';
 import { InputSelector } from './AdoptionQuestionInputs';
 
-interface QuestionsFormPageProps {
-    onSubmit?: (submission: AdoptionFormRequest) => void | Promise<void>;
+function QuestionsFormPage() {
+    const navigate = useNavigate();
+    const { data: questions, isLoading, isError, isFetching, refetch } = useGetQuestionsQuery();
+
+    return (
+        <S.MainContainer>
+            <S.Header>
+                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+                    <ArrowLeft aria-hidden="true" />
+                </S.BackButton>
+            </S.Header>
+            <S.SecondaryContainer>
+                <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
+                <S.LogoSubtitle>Manada Solidaria</S.LogoSubtitle>
+                <S.Title>Formulario de adopción</S.Title>
+            </S.SecondaryContainer>
+            {isLoading ? (
+                <S.QueryState>
+                    <Loader label="Cargando preguntas..." />
+                </S.QueryState>
+            ) : !questions?.length ? (
+                <S.QueryState role="alert">
+                    <Message
+                        message={isError ? 'No pudimos cargar las preguntas.' : 'No hay preguntas disponibles por el momento.'}
+                        iconName="pawPrint"
+                    />
+                    <S.ActionButton type="button" $variant="cancel" onClick={() => void refetch()} disabled={isFetching}>
+                        {isFetching ? 'Reintentando...' : 'Reintentar'}
+                    </S.ActionButton>
+                </S.QueryState>
+            ) : (
+                <QuestionsForm response={questions} />
+            )}
+        </S.MainContainer>
+    );
 }
 
-const response = adoptionFormMock;
-
-const schema = createAdoptionFormSchema(response);
-
-function QuestionsFormPage({ onSubmit }: QuestionsFormPageProps) {
-
+function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
     const navigate = useNavigate();
+    const { postId } = useParams<{ postId: string }>();
+    const [createAdoptionForm] = useCreateAdoptionFormMutation();
 
     const toast = useToast();
+    const schema = createAdoptionFormSchema(response);
 
     const form = useForm<AdoptionFormValues>({
         defaultValues: {
@@ -39,17 +72,24 @@ function QuestionsFormPage({ onSubmit }: QuestionsFormPageProps) {
     const { handleSubmit, formState: { isSubmitting } } = form;
 
     const handleFormSubmit = async (values: AdoptionFormValues) => {
+        if (!postId) {
+            toast.error('Seleccioná una publicación', 'Abrí el formulario desde el botón Adoptar.');
+            return;
+        }
+
         const request: AdoptionFormRequest = {
-            answers: response.flatMap((category) => category.questions.map((question) => ({
-                categoryId: category.id,
-                questionId: question.id,
-                value: values.answers[question.id] ?? '',
-            }))),
-            adoptionReason: values.adoptionReason,
+            adoptionPostId: postId,
+            description: values.adoptionReason,
             phoneNumber: { ...values.phoneNumber },
+            answers: response.flatMap((category) => category.questions.map((question) => ({
+                questionId: question.id,
+                answer: values.answers[question.id] ?? '',
+            }))),
         };
         try {
-            await onSubmit?.(request);
+            await createAdoptionForm(request).unwrap();
+            toast.success('Formulario enviado', 'Tu solicitud de adopción fue enviada correctamente.');
+            navigate(`/animal/detalle/${encodeURIComponent(postId)}`, { replace: true });
         } catch {
             toast.error('No pudimos enviar el formulario', 'Intentá nuevamente.');
         }
@@ -91,46 +131,34 @@ function QuestionsFormPage({ onSubmit }: QuestionsFormPageProps) {
     }
 
     return (
-        <S.MainContainer>
-            <S.Header>
-                <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
-                    <ArrowLeft aria-hidden="true" />
-                </S.BackButton>
-            </S.Header>
-            <S.SecondaryContainer>
-                <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
-                <S.LogoSubtitle>Manada Solidaria</S.LogoSubtitle>
-                <S.Title>Formulario de adopción</S.Title>
-            </S.SecondaryContainer>
-            <FormProvider {...form}>
-                <S.Form
-                    onSubmit={handleSubmit(handleFormSubmit, scrollToFirstFormError)}
-                    aria-busy={isSubmitting}
-                    noValidate
-                >
-                    {response.map((category, categoryIndex) => (
-                        <S.CategoryContainer key={category.id}>
-                            <S.CategoryTitle>{category.category}</S.CategoryTitle>
-                            <S.CategoryDescription>{category.description}</S.CategoryDescription>
-                            <S.QuestionsContainer>
-                                {category.questions.map((question) => (
-                                    QuestionStructure(question)
-                                ))}
-                                {categoryIndex === response.length - 1 && AdoptionQuestionsMock.map(QuestionStructure)}
-                            </S.QuestionsContainer>
-                        </S.CategoryContainer>
-                    ))}
-                    <S.FormActionsContainer>
-                        <S.ActionButton type="button" $variant="cancel" onClick={() => navigate(-1)} disabled={isSubmitting}>
-                            Cancelar
-                        </S.ActionButton>
-                        <S.ActionButton type="submit" $variant="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Enviando...' : 'Enviar'}
-                        </S.ActionButton>
-                    </S.FormActionsContainer>
-                </S.Form>
-            </FormProvider>
-        </S.MainContainer>
+        <FormProvider {...form}>
+            <S.Form
+                onSubmit={handleSubmit(handleFormSubmit, scrollToFirstFormError)}
+                aria-busy={isSubmitting}
+                noValidate
+            >
+                {response.map((category, categoryIndex) => (
+                    <S.CategoryContainer key={category.id}>
+                        <S.CategoryTitle>{category.category}</S.CategoryTitle>
+                        <S.CategoryDescription>{category.description}</S.CategoryDescription>
+                        <S.QuestionsContainer>
+                            {category.questions.map((question) => (
+                                QuestionStructure(question)
+                            ))}
+                            {categoryIndex === response.length - 1 && AdoptionQuestionsMock.map(QuestionStructure)}
+                        </S.QuestionsContainer>
+                    </S.CategoryContainer>
+                ))}
+                <S.FormActionsContainer>
+                    <S.ActionButton type="button" $variant="cancel" onClick={() => navigate(-1)} disabled={isSubmitting}>
+                        Cancelar
+                    </S.ActionButton>
+                    <S.ActionButton type="submit" $variant="submit" disabled={isSubmitting}>
+                        {isSubmitting ? 'Enviando...' : 'Enviar'}
+                    </S.ActionButton>
+                </S.FormActionsContainer>
+            </S.Form>
+        </FormProvider>
 
     )
 }
