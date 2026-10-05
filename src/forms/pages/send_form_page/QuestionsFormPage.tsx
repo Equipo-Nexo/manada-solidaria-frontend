@@ -8,12 +8,12 @@ import { useToast } from '@hooks/toast/useToast';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createAdoptionFormSchema, type AdoptionFormValues } from '../../app/schemas/adoptionFormSchema';
-import type { AdoptionFormSubmission, AdoptionQuestion } from '../../app/types/AdoptionForm.types';
+import type { AdoptionFormRequest, AdoptionQuestion } from '../../app/types/AdoptionForm.types';
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError';
 import { InputSelector } from './AdoptionQuestionInputs';
 
 interface QuestionsFormPageProps {
-    onSubmit?: (submission: AdoptionFormSubmission) => void | Promise<void>;
+    onSubmit?: (submission: AdoptionFormRequest) => void | Promise<void>;
 }
 
 const response = adoptionFormMock;
@@ -39,7 +39,7 @@ function QuestionsFormPage({ onSubmit }: QuestionsFormPageProps) {
     const { handleSubmit, formState: { isSubmitting } } = form;
 
     const handleFormSubmit = async (values: AdoptionFormValues) => {
-        const request: AdoptionFormSubmission = {
+        const request: AdoptionFormRequest = {
             answers: response.flatMap((category) => category.questions.map((question) => ({
                 categoryId: category.id,
                 questionId: question.id,

@@ -18,7 +18,7 @@ const feedbackColors = {
 
 export const theme = {
   colors: {
-    soft: '#FFF1EC',   
+    soft: '#FFF1EC',
     white: '#FFFFFF',
     brand: uxColors.brand,
     tertiary: uxColors.tertiary,
@@ -29,7 +29,6 @@ export const theme = {
     success: uxColors.success,
     darkColor: uxColors.darkColor,
     darkColorMuted: 'rgb(89 65 55 / 82%)',
-    inputPlaceholder: '#807C78',
     stroke: uxColors.stroke,
     background: uxColors.background,
     brandHover: feedbackColors.brandHover,
@@ -44,7 +43,7 @@ export const theme = {
     statusRescuedBackground: uxColors.secondary,
     statusRescuedText: '#FFFFFF',
     statusSearchingtext: '#B3261E',
-    
+
     focus: 'rgb(234 95 9 / 28%)',
     toast: {
       success: uxColors.success,

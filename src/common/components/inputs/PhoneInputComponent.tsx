@@ -15,7 +15,6 @@ interface PhoneInputProps {
   phoneNumberRef?: Ref<HTMLInputElement>;
   areaCodePlaceholder?: string;
   phoneNumberPlaceholder?: string;
-  areaCodeId?: string;
   required?: boolean;
   disabled?: boolean;
   showIcon?: boolean;
@@ -33,9 +32,8 @@ function PhoneInputComponent({
   phoneNumberRef,
   areaCodePlaceholder = "353",
   phoneNumberPlaceholder = "5652355",
-  areaCodeId,
-  required = false,
-  disabled = false,
+  required,
+  disabled,
   showIcon = true,
   error,
 }: PhoneInputProps) {
@@ -50,7 +48,6 @@ function PhoneInputComponent({
           )}
           <StyledMaskedInput
             type="tel"
-            id={areaCodeId}
             required={required}
             disabled={disabled}
             autoComplete="tel-area-code"

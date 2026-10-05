@@ -6,7 +6,6 @@ const questionFieldTypography = css`
   ${({ theme }) => theme.typography.body};
 
   @media (max-width: 1024px) {
-    /* Override the global mobile font size for these form fields only. */
     font-size: ${({ theme }) => theme.typography.body.fontSize} !important;
   }
 `;
@@ -273,7 +272,7 @@ border: 2px solid var(--Stroke, #E1BFB2);
   ${fieldFocusVisible}
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.inputPlaceholder};
+    color: ${({ theme }) => theme.colors.darkColorMuted};
     font-size: ${({ theme }) => theme.typography.body.fontSize};
     opacity: 1;
   }
@@ -295,7 +294,7 @@ export const Selector = styled.select<{ $hasValue: boolean }>`
   border-radius: 16px;
   border: 2px solid ${({ theme }) => theme.colors.stroke};
   background: ${({ theme }) => `${theme.colors.background}`};
-  color: ${({ theme, $hasValue }) => $hasValue ? theme.colors.darkColor : theme.colors.inputPlaceholder};
+  color: ${({ theme, $hasValue }) => $hasValue ? theme.colors.darkColor : theme.colors.darkColorMuted};
   ${questionFieldTypography}
   cursor: pointer;
 

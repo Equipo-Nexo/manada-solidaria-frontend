@@ -15,8 +15,7 @@ export interface AdoptionCategory {
   questions: AdoptionQuestion[];
 }
 
-// Internal submission data; adapt to the endpoint DTO once its contract is available.
-export interface AdoptionFormSubmission {
+export interface AdoptionFormRequest {
   answers: { categoryId: string; questionId: string; value: string }[];
   adoptionReason: string;
   phoneNumber: { areaCode: string; number: string };

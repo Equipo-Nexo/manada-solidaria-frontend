@@ -69,6 +69,7 @@ function PhoneQuestionInput() {
             onAreaCodeChange={areaCode.onChange}
             onPhoneNumberChange={number.onChange}
             error={areaCodeState.error?.message ?? numberState.error?.message}
+            showIcon={false}
         />
     );
 }
