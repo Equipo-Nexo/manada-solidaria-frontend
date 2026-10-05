@@ -88,8 +88,7 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
         };
         try {
             await createAdoptionForm(request).unwrap();
-            toast.success('Formulario enviado', 'Tu solicitud de adopción fue enviada correctamente.');
-            navigate(`/animal/detalle/${encodeURIComponent(postId)}`, { replace: true });
+            navigate(`/formulario-adopcion/enviado/${encodeURIComponent(postId)}`, { replace: true });
         } catch {
             toast.error('No pudimos enviar el formulario', 'Intentá nuevamente.');
         }

@@ -46,6 +46,7 @@ import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 import Community from "./users/pages/community/Community";
 import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
+import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
+  const isAdoptionFormSuccess = actualPath.startsWith('/formulario-adopcion/enviado/');
 
   const usesFullScreenLayout =
     actualPath === "/login" ||
@@ -77,7 +79,8 @@ function App() {
     isPasswordRecovery ||
     isFullScreenPublish ||
     isMobileMenu ||
-    isPublicationDetail;
+    isPublicationDetail ||
+    isAdoptionFormSuccess;
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
@@ -135,6 +138,7 @@ function App() {
               <Route path="/comunidad" element={<Community />} />
               <Route path="/formulario-adopcion" element={<Navigate to="/animales" replace />} />
               <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
+              <Route path="/formulario-adopcion/enviado/:postId" element={<AdoptionFormSuccess />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}

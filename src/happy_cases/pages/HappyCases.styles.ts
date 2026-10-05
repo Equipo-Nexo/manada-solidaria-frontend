@@ -1,5 +1,7 @@
 import styled, { keyframes } from "styled-components";
-import { PawPrint } from "@/common/icons";
+import { PagePaws } from '@/common/styles/PagePaws.styles';
+
+export { PagePaws, PagePaw } from '@/common/styles/PagePaws.styles';
 
 const revealDescription = keyframes`
   from {
@@ -16,34 +18,6 @@ const revealDescription = keyframes`
 type StatusBadgeProps = {
   $status: "FOUND" | "ADOPTED" | "RESCUED";
 };
-
-export const PagePaws = styled.div`
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  color: ${({ theme }) => theme.colors.brand};
-  pointer-events: none;
-`;
-
-type PagePawProps = {
-  $left: number;
-  $top: number;
-  $size: number;
-  $rotation: number;
-  $opacity: number;
-};
-
-export const PagePaw = styled(PawPrint)<PagePawProps>`
-  position: absolute;
-  top: ${({ $top }) => $top}%;
-  left: ${({ $left }) => $left}%;
-  width: ${({ $size }) => $size}px;
-  height: ${({ $size }) => $size}px;
-  color: ${({ theme }) => theme.colors.brand};
-  opacity: ${({ $opacity }) => $opacity};
-  transform: rotate(${({ $rotation }) => $rotation}deg);
-`;
 
 export const Container = styled.section`
   position: relative;
