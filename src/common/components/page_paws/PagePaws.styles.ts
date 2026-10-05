@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { PawPrint } from '@/common/icons';
 
-export const PagePaws = styled.div`
+export const Background = styled.div`
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -18,7 +18,7 @@ type PagePawProps = {
   $opacity: number;
 };
 
-export const PagePaw = styled(PawPrint)<PagePawProps>`
+export const Paw = styled(PawPrint)<PagePawProps>`
   position: absolute;
   top: ${({ $top }) => $top}%;
   left: ${({ $left }) => $left}%;

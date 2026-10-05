@@ -1,7 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { PagePaws } from '@/common/styles/PagePaws.styles';
-
-export { PagePaws, PagePaw } from '@/common/styles/PagePaws.styles';
+import { Background as PagePawsBackground } from '@/common/components/page_paws/PagePaws.styles';
 
 const revealDescription = keyframes`
   from {
@@ -25,7 +23,7 @@ export const Container = styled.section`
   max-width: 370px;
   margin: 0 auto;
   box-sizing: border-box;
-  > *:not(${PagePaws}) {
+  > *:not(${PagePawsBackground}) {
     position: relative;
     z-index: 1;
   }

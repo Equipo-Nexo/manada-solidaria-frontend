@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { focusVisible } from '@styles/interactions';
 
-export { PagePaws, PagePaw } from '@/common/styles/PagePaws.styles';
-
 export const Container = styled.section`
   position: relative;
   isolation: isolate;
@@ -37,13 +35,13 @@ export const Copy = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 284px;
+  width: min(100%, 76vw, 284px);
 `;
 
 export const Title = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.secondary};
-  ${({ theme }) => theme.typography.header2};
+  ${({ theme }) => theme.typography.header3};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
 `;
 
@@ -68,10 +66,10 @@ export const HomeButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: min(100%, 284px);
-  min-height: 56px;
+  width: min(100%, 72vw, 284px);
+  min-height: clamp(44px, 14vw, 56px);
   margin-top: clamp(64px, 12svh, 112px);
-  padding: 14px 24px;
+  padding: 12px 24px;
   border: 0;
   border-radius: 999px;
   background: ${({ theme }) => theme.colors.brand};
