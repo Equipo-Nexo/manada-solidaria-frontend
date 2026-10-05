@@ -42,6 +42,7 @@ import HappyCases from "./happy_cases/pages/HappyCases";
 import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 import Community from "./users/pages/community/Community";
+import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
 import { useEffect } from "react";
 
 function App() {
@@ -126,6 +127,7 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
+              <Route path="/formulario-adopcion" element={<QuestionsFormPage />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}

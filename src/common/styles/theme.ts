@@ -29,6 +29,7 @@ export const theme = {
     success: uxColors.success,
     darkColor: uxColors.darkColor,
     darkColorMuted: 'rgb(89 65 55 / 82%)',
+    inputPlaceholder: '#807C78',
     stroke: uxColors.stroke,
     background: uxColors.background,
     brandHover: feedbackColors.brandHover,
