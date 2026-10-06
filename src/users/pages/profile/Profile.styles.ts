@@ -260,11 +260,7 @@ export const LogoutButton = styled.button`
         outline-offset: 3px;
     }
 `
-
-
 const TRANSITION_DURATION = '160ms'
-
-
 
 export const SwitchGroup = styled.div`
   width: 100%;
@@ -357,11 +353,9 @@ export const RoleName = styled.span`
 `
 
 export const InfoIcon = styled.button`
-
   width: 24px;
   height: 24px;
   cursor: pointer;
-
   align-items: center;
   justify-content: center;
   padding: 0;

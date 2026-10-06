@@ -46,6 +46,7 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
         url: `/users`,
         params,
       }),
+      providesTags: ['userProfile'],
     }),
     getSpecificUserProfile: builder.query<GetSpecificUserProfileResponse, GetSpecificUserProfileRequest>({
       query: ({ userId, type }) => ({
@@ -55,7 +56,7 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
       providesTags: ['userProfile']
     }),
   }),
-  overrideExisting: false,
+  overrideExisting: import.meta.env.DEV,
 })
 
 

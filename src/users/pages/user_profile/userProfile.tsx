@@ -11,6 +11,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { roleConfig } from '@/users/utils/CommunityUtils';
 import { normalizeImageUrl } from '@/common/utils/CommonUtils';
 import CardSelector from '@/users/utils/CardSelectorUserProfile';
+import { capitalizeFirstLetter } from '@/common/utils/TextFormater';
 
 interface MetricsComponentProps {
     value: string;
@@ -61,7 +62,7 @@ function UserProfile() {
                     <ArrowLeft aria-hidden="true" />
                 </S.BackButton>
                 <S.TitlesContainer>
-                    <S.PageTitle>Perfil de {data?.username}</S.PageTitle>
+                    <S.PageTitle>Perfil de {capitalizeFirstLetter(data?.username || '')}</S.PageTitle>
                     <S.PageSubtitle>
                     </S.PageSubtitle>
                 </S.TitlesContainer>
@@ -73,7 +74,7 @@ function UserProfile() {
                             src={profileImage}
                             alt={`Foto de perfil de usuario`}
                         />
-                        <S.ProfileName>{data?.username}</S.ProfileName>
+                        <S.ProfileName>{capitalizeFirstLetter(data?.username || '')}</S.ProfileName>
                         <S.ProfileEmail>{data?.profile?.email}</S.ProfileEmail>
                         <S.RolesContainer>
                             {data?.roles.map((role) => {

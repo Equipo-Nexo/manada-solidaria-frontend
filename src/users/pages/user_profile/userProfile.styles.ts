@@ -227,13 +227,16 @@ export const Metric = styled.div`
     min-height: 76px;
     width: 100%;
     min-width: 0;
-    padding: 12px 8px;
+    padding: 12px 4px;
     box-sizing: border-box;
     gap: 4px;
     text-align: center;
     border-radius: 8px;
     background: ${({ theme }) => theme.colors.neutral};
-   
+
+    @media (min-width: 768px) {
+        padding: 12px 8px;
+    }
 `
 
 export const MetricTitle = styled.span`
@@ -242,12 +245,20 @@ export const MetricTitle = styled.span`
     color: ${({ theme }) => theme.colors.brand};
 `
 export const MetricDescription = styled.span`
+    width: min-content;
+    max-width: 100%;
     min-width: 0;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
     ${({ theme }) => theme.typography.body};
     color: ${({ theme }) => theme.colors.black};
     font-size:${({ theme }) => theme.typography.descriptive.fontSize};
+
+    @media (min-width: 768px) {
+        width: auto;
+        overflow-wrap: anywhere;
+    }
 `
+
 export const PublicationsTitle = styled.h2`
     margin: 0;
     ${({ theme }) => theme.typography.header2};
@@ -341,9 +352,12 @@ export const ProfileDetails = styled.div`
     flex-direction: column;
     width: min(100%, 560px);
     min-width: 0;
+    box-sizing: border-box;
+    padding-inline: 8px;
     gap: 16px;
 
     @media (min-width: 768px) {
+        padding-inline: 0;
 
         ${MetricsContainer} {
             gap: 10px;
