@@ -213,6 +213,7 @@ export const HeaderDescription = styled.p`
   font-weight: 700;
   line-height: 24px; /* 200% */
   color: ${({ theme }) => theme.colors.darkColor};
+  margin-left: 3px;
 `
 export const FirstLine = styled.div`
   display: flex;
@@ -234,6 +235,11 @@ export const ThirdLine = styled.div`
 
 
 export const Status = styled.span<{ $color: string, $background: string }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
   padding: 4px 16px 4px 16px;
   border-radius: 999px;
   color: ${({ $color }) => $color};
