@@ -15,7 +15,8 @@ export type AnimalPostAction = {
   label: string
   variant: 'primary' | 'secondary'
   requiresContactPhone?: boolean
-  onClick: (phoneNumber?: PhoneNumber, animalName?: string, viewMapAction?: () => void) => void; 
+  to?: string
+  onClick?: (phoneNumber?: PhoneNumber, animalName?: string, viewMapAction?: () => void) => void;
 }
 
 export type AnimalPostActionsByStatus = {
@@ -24,7 +25,6 @@ export type AnimalPostActionsByStatus = {
 }
 
 const transitText = (animalName?: string) => `¡Hola! Me gustaria transitar${animalName ? ` a ${animalName}` : "." }`
-const adoptText = (animalName?: string) => `¡Hola! Me gustaria adoptar${animalName ? ` a ${animalName}` : "." }`
 const collaborateText = (animalName?: string) => `¡Hola! Me gustaría colaborar${animalName ? ` con ${animalName}` : "." }`
 const shareInfoText = (animalName?: string) => `¡Hola! Tengo info${animalName ? ` de ${animalName}` : "." }`
 
@@ -46,12 +46,7 @@ const AdoptAction = (variant: ActionVariant): AnimalPostAction => ({
   id: 'adopt',
   label: 'Adoptar',
   variant,
-  requiresContactPhone: true,
-  onClick: (phoneNumber, animalName) =>
-    openWhatsApp(
-      `${phoneNumber?.areaCode}${phoneNumber?.number}`,
-      adoptText(animalName)
-    ),
+  to: '/formulario-adopcion/:postId',
 })
 
 const CollaborateAction = (variant: ActionVariant): AnimalPostAction => ({
