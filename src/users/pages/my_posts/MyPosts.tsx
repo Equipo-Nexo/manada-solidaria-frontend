@@ -9,7 +9,7 @@ import { useToast } from "@hooks/toast/useToast";
 import { BottomSheet, CategorySelector, ImagePreview, Message } from "@components/index.ts";
 import { Clock } from "@icons/index.ts";
 import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
-import { publicationMessages } from "@utils/Messages";
+import { getPublishedAtDescription, publicationMessages } from "@utils/Messages";
 import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
 
 type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
@@ -202,7 +202,7 @@ function MyPosts() {
                                         <S.CardTitle>{title}</S.CardTitle>
                                         <S.CreatedSinceContainer>
                                             <Clock />
-                                            <S.CreatedSince>{createdSince == 0 ? 'Publicado hoy' : `Publicado hace ${createdSince} días`}</S.CreatedSince>
+                                            <S.CreatedSince>Publicado {getPublishedAtDescription(createdSince)}</S.CreatedSince>
                                         </S.CreatedSinceContainer>
                                         {
                                             status && AnimalPostStatus[status] && (

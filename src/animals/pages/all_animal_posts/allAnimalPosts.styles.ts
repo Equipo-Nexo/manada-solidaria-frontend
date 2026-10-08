@@ -108,3 +108,8 @@ export const RetryButton = styled.button`
     outline-offset: 2px;
   }
 `
+
+export const FiltersContainer = styled.div`
+  margin: 0px 0px 16px 0px;
+  padding: 0 16px;
+`

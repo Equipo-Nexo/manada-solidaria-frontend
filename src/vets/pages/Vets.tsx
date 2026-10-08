@@ -1,17 +1,18 @@
 import Arrow from "@/common/icons/Arrow";
 import * as S from "./Vets.styles";
-import { useNavigate } from "react-router-dom";
-import { useGetVetsQuery } from "@/vets/app/api/vetsApi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useGetVetsQuery } from "../app/api/vetsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
-import VetCard from "@/vets/components/vet_card/VetCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useGeolocation } from "@/common/hooks/geolocation/useGeolocation";
 import StatusFilter, {
   type VetStatusFilter,
 } from "@/vets/components/status_filter/StatusFilter";
 import { Search, Sort } from "@/common/icons";
 import { useDebounce } from "@/common/hooks/debounce/useDebounce";
+import VetCard from "../components/vet_card/VetCard";
+
 export default function Vets() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -19,6 +20,11 @@ export default function Vets() {
   const [statusFilter, setStatusFilter] = useState<VetStatusFilter>("ALL");
   const { coordinates, requestCoordinates } = useGeolocation();
   const [locationChecked, setLocationChecked] = useState(false);
+  const location = useLocation();
+  const selectedVetRef = useRef<HTMLDivElement>(null);
+
+  const { id: selectedVetId } = (location.state as { id?: string } | null) ?? {};
+
   useEffect(() => {
     const checkLocationPermission = async () => {
       try {
@@ -34,6 +40,7 @@ export default function Vets() {
     };
     void checkLocationPermission();
   }, [requestCoordinates]);
+  
 
   const {
     data: vets,
@@ -50,6 +57,17 @@ export default function Vets() {
       skip: !locationChecked,
     },
   );
+
+  
+  useEffect(() => {
+    if (!selectedVetId || isError) return;
+
+    selectedVetRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, [vets, selectedVetId, isError]);
+
 
   const handleSortByDistance = async () => {
     if (coordinates) {
@@ -69,7 +87,6 @@ export default function Vets() {
   if (!locationChecked || isLoading) {
     return <PawLoader label="Cargando veterinarias..." />;
   }
-
   return (
     <S.Container>
       <S.Header>
@@ -119,7 +136,13 @@ export default function Vets() {
 
           <S.VetsList>
             {filteredVets?.map((vet) => (
-              <VetCard key={vet.id} vet={vet} />
+              <S.VetContainer
+                key={vet.id}
+                ref={vet.id === selectedVetId ? selectedVetRef : undefined}
+                $selected={vet.id === selectedVetId}
+              >
+                <VetCard vet={vet} />
+              </S.VetContainer>     
             ))}
           </S.VetsList>
         </>
