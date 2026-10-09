@@ -126,7 +126,7 @@ export const RetryButton = styled.button`
     }
 `
 
-export const Card = styled.div`
+export const Card = styled.div<{ $clickable: boolean }>`
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
@@ -136,6 +136,30 @@ export const Card = styled.div`
     box-shadow: 0 4px 12px 0 ${({ theme }) => `${theme.colors.black}14`};
     overflow: hidden;
     height: 130px;
+    cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+
+    ${({ $clickable, theme }) => $clickable && `
+        @media (hover: hover) {
+            &:hover {
+                transform: translateY(-3px);
+                border-color: ${theme.colors.stroke};
+                box-shadow: 0 12px 28px -6px rgb(89 65 55 / 20%);
+            }
+        }
+
+        &:focus-visible {
+            outline: 3px solid ${theme.colors.focus};
+            outline-offset: 2px;
+        }
+    `}
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
 
     @media (min-width: 768px) {
         height: 144px;
@@ -153,15 +177,6 @@ export const Card = styled.div`
             width: calc((100% - 40px) / 3);
         }
     }
-`
-
-export const CardImage = styled.img`
-    width: 35%;
-    height: auto;
-    align-self: stretch;
-    flex-shrink: 0;
-    object-fit: cover;
-    object-position: center;
 `
 
 export const CardContent = styled.div`

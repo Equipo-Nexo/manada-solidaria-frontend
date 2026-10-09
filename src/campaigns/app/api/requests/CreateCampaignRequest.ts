@@ -1,6 +1,7 @@
 import type { Maybe } from "yup";
 import type { CampaignCategory, CampaignType, DonationItem } from "../../types/Campaign.types";
 import type { Location } from "@/common/app/services/responses/Location";
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
 export const campaignFilters = [ '', "DONATION", "CASTRATION", "VACCINATION" ] as const;
 export type CampaignFilter = typeof campaignFilters[number];
@@ -11,7 +12,7 @@ export interface BaseCreateCampaignRequest {
   description: string;
   imageId?: Maybe<string | undefined>;
   location?: Location;
-  phoneNumber: string;  
+  phoneNumber: PhoneNumber;  
   campaignEndDate?: string | null;
 }
 

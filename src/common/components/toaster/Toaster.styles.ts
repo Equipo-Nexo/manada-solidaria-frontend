@@ -17,7 +17,7 @@ export const ToastRegion = styled.div`
   position: fixed;
   top: 14px;
   left: 50%;
-  z-index: 40;
+  z-index: 100;
   width: min(calc(100% - 28px), 410px);
   pointer-events: none;
   transform: translateX(-50%);

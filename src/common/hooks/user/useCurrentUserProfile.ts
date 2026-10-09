@@ -1,7 +1,21 @@
+import { useGetUserProfileQuery } from "@/users/app/api/usersApi";
+import useAuth from "../auth/useAuth";
+import { normalizeImageUrl } from "@/common/utils/CommonUtils";
+
 function useCurrentUserProfile() {
+
+  const { userId } = useAuth();
+  const { data: userData } = useGetUserProfileQuery(userId);
+
+  const storedProfileImage =
+    userData?.profile.profileImageURL ?? '';
+
+  const profileImage = normalizeImageUrl(storedProfileImage);
+
   return {
-    email: 'usuario@manadasolidaria.org',
-    username: 'Usuario',
+    email: userData?.profile.email,
+    username: userData?.username,
+    profileImage,
   }
 }
 

@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, User } from '@icons/index.ts'
 import { ErrorMessage } from '@components/index.ts'
 import { useLoginMutation } from '@auth/app/api/authApi'
@@ -11,14 +11,29 @@ import { useAppPermissions } from '@hooks/permissions/useAppPermissions'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Login.styles'
 import { loginSchema, type LoginFormValues } from '@auth/app/schemas/loginSchema'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { isWebAuthnSupported } from '@auth/app/webauthn/webAuthnAuthentication'
+import { usePasskeyLogin } from '@auth/hooks/usePasskeyLogin'
+import { usePushNotifications } from '@hooks/notifications/usePushNotifications'
+declare const __APP_VERSION__: string;
 
 function Login() {
+  const location = useLocation()
   const navigate = useNavigate()
   const toast = useToast()
   const dispatch = useAppDispatch()
   const { requestLoginPermissions } = useAppPermissions()
+  const { syncExistingSubscription } = usePushNotifications()
   const [login, { isLoading }] = useLoginMutation()
+  const {
+    cancelConditionalLogin,
+    loginWithPasskey,
+    startConditionalLogin,
+    isLoading: isPasskeyLoading,
+  } = usePasskeyLogin()
   const [showPassword, setShowPassword] = useState(false)
+  const passkeySupported = isWebAuthnSupported()
+  const isAuthenticating = isLoading || isPasskeyLoading
   const {
     formState: { errors },
     handleSubmit,
@@ -28,7 +43,20 @@ function Login() {
     resolver: yupResolver(loginSchema),
   })
 
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+  
+  useEffect(() => {
+    const startTimer = window.setTimeout(() => void startConditionalLogin(), 0)
+
+    return () => {
+      window.clearTimeout(startTimer)
+      cancelConditionalLogin()
+    }
+  }, [cancelConditionalLogin, startConditionalLogin])
+
   const handleLogin = ({ username, password }: LoginFormValues) => {
+    cancelConditionalLogin()
     const authorization = `Basic ${btoa(`${username}:${password}`)}`
 
     login({ authorization })
@@ -36,7 +64,13 @@ function Login() {
       .then((tokens) => {
         dispatch(loginSuccess(tokens))
         void requestLoginPermissions()
-        navigate('/home', { replace: true })
+        void syncExistingSubscription().catch(() => {
+          toast.information(
+            'Notificaciones pendientes',
+            'No pudimos sincronizar este dispositivo. Lo intentaremos en el pr\u00f3ximo ingreso.',
+          )
+        })
+        navigate(redirect ? redirect : '/home', { replace: true })
       })
       .catch(() => {
         toast.error(
@@ -47,42 +81,39 @@ function Login() {
   }
 
   const handleForgotPassword = () => {
-    console.log('Olvidé mi contraseña')
+    navigate('/recuperar-contrasena')
   }
 
   return (
     <S.LoginPanel>
       <S.LoginContainer>
-        <S.LoginContent>
           <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
           <S.AppTitle>
-            Manada
-            <br />
-            Solidaria
+            Manada <S.TitleLineBreak /> Solidaria
           </S.AppTitle>
           <S.AppDescription>
-            Ayudemos juntos a quienes más <br />
+            Ayudemos juntos a quienes más <S.TitleLineBreak />
             lo necesitan.
           </S.AppDescription>
 
-          <S.Form onSubmit={handleSubmit(handleLogin)} aria-busy={isLoading} noValidate>
-            <div>
-              <S.WelcomeTitle>¡Hola de nuevo!</S.WelcomeTitle>
-              <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
-            </div>
+          <S.TitlesContainer>
+            <S.WelcomeTitle>¡Que bueno verte<S.TitleLineBreak /> de nuevo!</S.WelcomeTitle>
+            <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
+          </S.TitlesContainer>
 
+          <S.Form onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)} aria-busy={isAuthenticating} noValidate>
             <S.FormFields>
               <S.Field>
-                <S.FieldHeader htmlFor="username">
+                <S.FieldLabelContainer>
                   <User aria-hidden="true" />
-                  <span>Usuario</span>
-                </S.FieldHeader>
+                  <S.FieldLabel htmlFor="username">Usuario</S.FieldLabel>
+                </S.FieldLabelContainer>
                 <S.Input
                   id="username"
                   type="text"
                   placeholder="usuario"
-                  autoComplete="username"
-                  disabled={isLoading}
+                  autoComplete="username webauthn"
+                  disabled={isAuthenticating}
                   aria-describedby={errors.username ? 'username-error' : undefined}
                   aria-invalid={Boolean(errors.username)}
                   $hasError={Boolean(errors.username)}
@@ -92,17 +123,17 @@ function Login() {
               </S.Field>
 
               <S.Field>
-                <S.FieldHeader htmlFor="password">
+                <S.FieldLabelContainer>
                   <Lock aria-hidden="true" />
-                  <span>Contraseña</span>
-                </S.FieldHeader>
+                  <S.FieldLabel>Contraseña</S.FieldLabel>
+                </S.FieldLabelContainer>
                 <S.PasswordInputWrapper>
                   <S.Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder={showPassword ? 'contraseña' : '********'}
                     autoComplete="current-password"
-                    disabled={isLoading}
+                    disabled={isAuthenticating}
                     aria-describedby={errors.password ? 'password-error' : undefined}
                     aria-invalid={Boolean(errors.password)}
                     $hasError={Boolean(errors.password)}
@@ -111,7 +142,7 @@ function Login() {
                   <S.PasswordToggle
                     type="button"
                     aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                    disabled={isLoading}
+                    disabled={isAuthenticating}
                     onClick={() => setShowPassword((currentValue) => !currentValue)}
                   >
                     {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
@@ -124,18 +155,37 @@ function Login() {
                 Olvidé mi contraseña
               </S.RecoveryButton>
 
-              <S.PrimaryButton type="submit" disabled={isLoading}>
+              <S.LoginButton type="submit" disabled={isAuthenticating}>
                 {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
-              </S.PrimaryButton>
+              </S.LoginButton>
+
+              {passkeySupported && (
+                <>
+                  <S.LoginDivider>
+                    <span>o</span>
+                  </S.LoginDivider>
+                  <S.PasskeyButton
+                    type="button"
+                    disabled={isAuthenticating}
+                    onClick={() => void loginWithPasskey()}
+                  >
+                    {isPasskeyLoading ? 'Esperando confirmación...' : 'Ingresar con passkey'}
+                  </S.PasskeyButton>
+                </>
+              )}
             </S.FormFields>
           </S.Form>
+          <S.RegisterTextContainer>
+            <S.RegisterText>
+              ¿No tienes cuenta? <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
+            </S.RegisterText>
+          </S.RegisterTextContainer>
 
-          <S.RegisterText>
-            ¿No tienes cuenta? <S.RegisterLink href="/registro">Regístrate</S.RegisterLink>
-          </S.RegisterText>
-        </S.LoginContent>
       </S.LoginContainer>
-      <S.LoginFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.LoginFooter>
+      <S.FooterContainer>
+        <S.FooterText>© 2026 Manada Solidaria - Cuidando huellas juntos</S.FooterText>
+        <S.FooterText>v{__APP_VERSION__}</S.FooterText>
+      </S.FooterContainer>
     </S.LoginPanel>
   )
 }

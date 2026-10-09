@@ -6,6 +6,9 @@ type ProgressValueProps = {
 type CardProps = {
   $showAlias: boolean;
 };
+type DescriptionProps = {
+  $hasGoal: boolean;
+};
 export const Card = styled.article<CardProps>`
   width: 329px;
   max-width: 100%;
@@ -54,7 +57,7 @@ export const ProgressValue = styled.div<ProgressValueProps>`
   background: ${({ theme }) => theme.colors.secondary};
 `;
 
-export const CaseCard = styled.article`
+export const CaseCard = styled.div`
   display: flex;
   flex: 1 1 0;
   width: calc(100% + 20px);
@@ -66,6 +69,7 @@ export const CaseCard = styled.article`
   background: ${({ theme }) => theme.colors.background};
   margin-inline: -10px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+  cursor: pointer;
 `;
 export const ImageContainer = styled.div`
   flex: 0 0 120px;
@@ -84,14 +88,17 @@ export const CaseImage = styled.img`
 export const CaseContent = styled.div`
   min-width: 0;
   height: 100%;
-  display: flex;
+  display: grid;
   flex: 1;
-  flex-direction: column;
-  align-items: flex-start;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-items: start;
   padding: 4px 8px 16px;
+  gap: 3px;
 `;
 
 export const Title = styled.h3`
+  min-width: 0;
+  min-height: 20px;
   margin: 0;
   overflow: hidden;
   max-width: 100%;
@@ -102,11 +109,12 @@ export const Title = styled.h3`
   line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding-bottom: 4px;
 `;
 
-export const Description = styled.p`
+export const Description = styled.p<DescriptionProps>`
   display: -webkit-box;
+  min-width: 0;
+  min-height: 0;
   width: 100%;
   margin: 4px 0 0;
   overflow: hidden;
@@ -115,10 +123,13 @@ export const Description = styled.p`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 18px;
-  padding-bottom: 4px;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${({ $hasGoal }) => ($hasGoal ? 2 : 4)};
 `;
 
 export const StoryButton = styled.button`
+  flex-shrink: 0;
   width: fit-content;
   margin-top: 1px;
   padding: 0;
@@ -131,6 +142,15 @@ export const StoryButton = styled.button`
   line-height: 20px;
   text-decoration: underline;
   cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;

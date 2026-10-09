@@ -1,26 +1,42 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, Search, PublishButton } from "@icons/index.ts";
-import { ErrorMessage, PhoneInputComponent, DatePicker, ImageUpload, Advice, Loader  } from "@components/index.ts";
+import { Arrow, PublishButton } from "@icons/index.ts";
+import {
+  ErrorMessage,
+  PhoneInputComponent,
+  DatePicker,
+  ImageUpload,
+  Advice,
+  Loader,
+  AutocompleteGeolocation,
+} from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "./EditFundraisingCampaign.styles";
 import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { InferType } from "yup";
 import { editFundraisingSchema } from "@fundraisings/app/schemas/EditFundraisingCampaign.schema";
-import { useGetFundraisingByIdQuery, useUpdateFundraisingCampaignMutation } from "@campaigns/app/api/campaignApi";
+import {
+  useGetFundraisingByIdQuery,
+  useUpdateFundraisingCampaignMutation,
+} from "@campaigns/app/api/campaignApi";
 import { useEffect } from "react";
 import { useToast } from "@hooks/toast/useToast";
 import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
+import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
 
 function EditFundraising() {
-
   const toaster = useToast();
   const navigate = useNavigate();
-  const { fundraisingId } = useParams<{ fundraisingId: string }>()
-  const { data: campaign, isLoading, isError } = useGetFundraisingByIdQuery(fundraisingId || "");
-  const [ updateFundraisingCampaign, { isLoading: isUpdating } ] = useUpdateFundraisingCampaignMutation();
+  const { fundraisingId } = useParams<{ fundraisingId: string }>();
+  const {
+    data: campaign,
+    isLoading,
+    isError,
+  } = useGetFundraisingByIdQuery(fundraisingId || "");
+  const [updateFundraisingCampaign, { isLoading: isUpdating }] =
+    useUpdateFundraisingCampaignMutation();
 
   const {
     register,
@@ -29,7 +45,7 @@ function EditFundraising() {
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(editFundraisingSchema)
+    resolver: yupResolver(editFundraisingSchema),
   });
 
   useEffect(() => {
@@ -40,8 +56,8 @@ function EditFundraising() {
       setValue("collectedAmount", campaign.amountCollected || null);
       setValue("endDate", campaign.campaignEndDate);
       setValue("description", campaign.description);
-      setValue("phoneAreaCode", campaign.phoneNumber.substring(0, 3))
-      setValue("phone", campaign.phoneNumber.substring(3));
+      setValue("phoneAreaCode", campaign.phoneNumber.areaCode);
+      setValue("phone", campaign.phoneNumber.number);
       setValue("imageId", campaign.imageId);
       setValue("location", campaign.location);
     }
@@ -64,29 +80,34 @@ function EditFundraising() {
       description: data.description,
       imageId: data.imageId,
       location: data.location,
-      phoneNumber: `${data.phoneAreaCode}${data.phone}`,
+      phoneNumber: {
+        areaCode: data.phoneAreaCode,
+        number: data.phone,
+      },
       accountAlias: data.accountAlias,
       amountToBeCollected: data.amountToBeCollected,
       amountCollected: data.collectedAmount,
-      campaignEndDate: data.endDate
+      campaignEndDate: data.endDate,
     };
 
-    updateFundraisingCampaign({ postId: fundraisingId || "", body: requestBody })
+    updateFundraisingCampaign({
+      postId: fundraisingId || "",
+      body: requestBody,
+    })
       .unwrap()
       .then(() => {
         navigate(`/editar/exito`, {
-            state: {
-                imageUrl: requestBody.imageId,
-                name: requestBody.title.trim(),
-                onDetailRedirect: '/colectas'
-            },
-        })
+          state: {
+            imageUrl: requestBody.imageId,
+            name: requestBody.title.trim(),
+            onDetailRedirect: `/colectas/${fundraisingId}`,
+          },
+        });
       })
       .catch(() => {
         toaster.error("Error al actualizar la colecta");
-      })
-  }
-
+      });
+  };
   return (
     <S.EditFormContainer>
       <S.Header>
@@ -95,9 +116,12 @@ function EditFundraising() {
         </S.BackButton>
         <S.FormTitle>Editar Colecta de Dinero</S.FormTitle>
       </S.Header>
-      { isLoading && <Loader label="Cargando información de la colecta." /> }
-      { isError || !campaign && <div>Hubo un error al obtener informacion de la colecta.</div> }
-      { !isLoading && !isError && campaign && (
+      {isLoading && <Loader label="Cargando información de la colecta." />}
+      {isError ||
+        (!campaign && (
+          <div>Hubo un error al obtener informacion de la colecta.</div>
+        ))}
+      {!isLoading && !isError && campaign && (
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <S.PublishField>
             <S.PublishLabel>
@@ -142,9 +166,7 @@ function EditFundraising() {
             </S.InputWithIcon>
             <ErrorMessage message={errors.amountToBeCollected?.message} />
           </S.PublishField>
-          <Advice
-            advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar."
-          />
+          <Advice advice="Si conocés el monto que necesitás recaudar, agregá una meta. Esto brinda mayor transparencia y confianza a las personas que desean colaborar." />
           <S.PublishField>
             <S.PublishLabel>Monto recaudado actual</S.PublishLabel>
             <S.InputWithIcon>
@@ -209,23 +231,24 @@ function EditFundraising() {
 
           <S.PublishField as="div">
             <S.PublishLabel>Ubicación</S.PublishLabel>
-            <S.InputWithIcon>
-              <S.IconInput
-                type="text"
-                {...register("location.address")}
-                placeholder="¿Dónde se realizará la campaña?"
-                $hasLeftIcon
-              />
-              <S.FieldIcon aria-hidden="true">
-                <Search />
-              </S.FieldIcon>
-            </S.InputWithIcon>
-            <ErrorMessage message={errors.location?.address?.message} />
-            <S.MapPreview aria-hidden="true" />
-            <S.HelpText>
-              Buscá una dirección o tocá el mapa para marcar el punto.
-            </S.HelpText>
-            <ErrorMessage message={errors.location?.message} />
+            <Controller
+              control={control}
+              name="location"
+              render={({ field, fieldState }) => (
+                <>
+                  <AutocompleteGeolocation
+                    initialLocation={field.value}
+                    placeHolder="¿Dónde se realizará la campaña?"
+                    onChange={(value) =>
+                      field.onChange(
+                        value ? mapGeolocationToLocation(value) : undefined,
+                      )
+                    }
+                  />
+                  <ErrorMessage message={fieldState.error?.message} />
+                </>
+              )}
+            />
           </S.PublishField>
 
           <S.PublishField as="div">
@@ -248,13 +271,13 @@ function EditFundraising() {
                 relevante."
           />
           <S.PublishSubmitButton type="submit" disabled={isUpdating}>
-            { isUpdating ? "Actualizando..." : "Guardar Cambios" }
+            {isUpdating ? "Actualizando..." : "Guardar Cambios"}
             <PublishButton aria-hidden="true" />
           </S.PublishSubmitButton>
         </S.Form>
       )}
     </S.EditFormContainer>
-  )
+  );
 }
 
 export default EditFundraising;

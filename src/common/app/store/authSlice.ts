@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 export type AuthTokens = {
+  userId: string;
   accessToken: string
   refreshToken: string
 }
@@ -10,6 +11,7 @@ type AuthState = AuthTokens & {
 }
 
 const initialState: AuthState = {
+  userId: '',
   accessToken: '',
   refreshToken: '',
   isAuthenticated: false,

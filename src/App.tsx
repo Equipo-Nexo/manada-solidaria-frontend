@@ -1,7 +1,22 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
-import { DesktopAuthenticatedView, MobileAuthenticatedView, InstallButton } from "@components/index.ts"
+import {
+  DesktopAuthenticatedView,
+  MobileAuthenticatedView,
+  InstallButton,
+} from "@components/index.ts";
 import Login from "./auth/pages/login/Login";
+import PasswordRecoveryEmail from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryEmail";
+import PasswordRecoveryCodeSent from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryCodeSent";
+import VerifyCode from "./auth/pages/password_recovery/password_recovery_verify_code/VerifyCode";
+import NewPassword from "./auth/pages/password_recovery/new_password/NewPassword";
+import PasswordResetSuccess from "./auth/pages/password_recovery/new_password/PasswordResetSuccess";
 import PublishFundraising from "./fundraisings/pages/create_fundraising_campaign/PublishFundraising";
 import Register from "./auth/pages/register/Register";
 import useAuth from "@hooks/auth/useAuth";
@@ -19,9 +34,24 @@ import PublishCampaign from "./campaigns/pages/create_campaign/PublishCampaign";
 import AllAnimalsPage from "./animals/pages/all_animal_posts/AllAnimalsPosts";
 import EditAnimalPostForm from "./animals/pages/edit_animal_post/EditAnimalPost";
 import UpdateSuccess from "./common/pages/edit_success/UpdateSuccess";
+import ScrollToTop from "./common/components/routes/ScrollToTop";
+import Profile from "./users/pages/profile/Profile";
+import PersonalData from "./users/pages/personal_data/PersonalData";
+import FundraisingCampaignDetail from "./fundraisings/pages/fundraising_campaign_detail/FundraisingCampaignDetail";
+import AnimalPostDetail from "./animals/pages/detail_post/DetailAnimalPost";
+import Vets from "./vets/pages/Vets";
+import NotFound from "./common/pages/not_found/NotFound";
+import HappyCases from "./happy_cases/pages/HappyCases";
+import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
+import Security from "./users/pages/security/Security";
+import Community from "./users/pages/community/Community";
+import { useEffect } from "react";
+import UserProfile from "./users/pages/user_profile/userProfile";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
     location.pathname === "/publicar/animal" ||
@@ -29,19 +59,49 @@ function App() {
     location.pathname === "/publicar/colecta" ||
     location.pathname === "/editar/exito" ||
     location.pathname.startsWith("/editar/animal/") ||
+    location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
+  const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
+  const isCampaignDetail = location.pathname.startsWith("/campanias/");
+  const isPasswordRecovery =
+    actualPath === "/recuperar-contrasena" ||
+    actualPath.startsWith("/recuperar-contrasena/");
+  const isProfileSection =
+    location.pathname === "/mi-perfil" ||
+    location.pathname.startsWith("/mi-perfil/");
 
   const usesFullScreenLayout =
-    location.pathname === "/login" ||
-    location.pathname === "/registro" ||
+    actualPath === "/login" ||
+    actualPath === "/registro" ||
+    isPasswordRecovery ||
     isFullScreenPublish ||
-    isMobileMenu;
+    isMobileMenu ||
+    isPublicationDetail;
   const showAuthenticatedShell =
-    isAuthenticated && (!usesFullScreenLayout || isMobileMenu);
+    isAuthenticated &&
+    (!usesFullScreenLayout || isMobileMenu) &&
+    !isCampaignDetail &&
+    !isProfileSection;
+
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
+
+  useEffect(() => {
+    if (!isAuthenticated && redirect) {
+      navigate(`/login?redirect=${encodeURIComponent(redirect)}`, {
+        replace: true,
+      });
+    }
+
+    if (isAuthenticated && redirect) {
+      navigate(redirect);
+    }
+  }, []);
 
   return (
     <>
+      <ScrollToTop />
       <AppShell>
         {showAuthenticatedShell && (
           <>
@@ -51,17 +111,19 @@ function App() {
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Register />} />
+            <Route path="/recuperar-contrasena/verificar-codigo" element={<VerifyCode />} />
+            <Route path="/recuperar-contrasena/nueva-contrasena" element={<NewPassword />} />
+            <Route path="/recuperar-contrasena/contrasena-actualizada" element={<PasswordResetSuccess />} />
             <Route
-              path="/login"
-              element={
-                isAuthenticated ? <Navigate to="/home" replace /> : <Login />
-              }
+              path="/recuperar-contrasena"
+              element={<PasswordRecoveryEmail />}
             />
             <Route
-              path="/registro"
-              element={
-                isAuthenticated ? <Navigate to="/home" replace /> : <Register />
-              }
+              path="/recuperar-contrasena/codigo-enviado"
+              element={<PasswordRecoveryCodeSent />}
             />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
@@ -70,16 +132,50 @@ function App() {
               <Route path="/mis-publicaciones" element={<MyPosts />} />
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
-              <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
-              <Route path="/editar/colecta/:fundraisingId" element={<EditFundraising />} />
-              <Route path="/editar/campania/:campaignId" element={<EditCampaign />} />
-              <Route path="/publicar/colecta" element={<PublishFundraising />} />
+              <Route path="/comunidad" element={<Community />} />
+              <Route path="/usuario/:userId" element={<UserProfile />} />
+              <Route
+                path="/editar/animal/:postId"
+                element={<EditAnimalPostForm />}
+              />
+              <Route
+                path="/editar/colecta/:fundraisingId"
+                element={<EditFundraising />}
+              />
+              <Route
+                path="/editar/campania/:campaignId"
+                element={<EditCampaign />}
+              />
+              <Route
+                path="/publicar/colecta"
+                element={<PublishFundraising />}
+              />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
+              <Route
+                path="/colectas/:fundraisingId"
+                element={<FundraisingCampaignDetail />}
+              />
               <Route path="/menu" element={<Menu />} />
+              <Route
+                path="/animal/detalle/:postId"
+                element={<AnimalPostDetail />}
+              />
+              <Route path="/mi-perfil" element={<Profile />} />
+              <Route
+                path="/mi-perfil/datos-personales"
+                element={<PersonalData />}
+              />
+              <Route path="/mi-perfil/seguridad" element={<Security />} />
+              <Route path="/veterinarias" element={<Vets />} />
+              <Route path="/casos-felices" element={<HappyCases />} />
+              <Route
+                path="/campanias/:campaignId"
+                element={<CampaignDetail />}
+              />
             </Route>
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AppContent>
       </AppShell>

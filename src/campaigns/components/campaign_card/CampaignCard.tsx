@@ -1,9 +1,14 @@
+import { type MouseEvent } from 'react'
 import * as S from "./CampaignCard.styles";
 import { LocationPin, Share } from "../../../common/icons";
-import { NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
 import type { Location } from "@services/responses/Location";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
+import { openWhatsApp } from "@/common/utils/Whatsapp";
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
+import { ImagePreview } from "@/common/components";
+import { shareUrl } from '@/common/utils/HandleShare';
+import { normalizeImageUrl } from '@/common/utils/CommonUtils';
 
 export type CampaignCardData = {
   id?: string | number;
@@ -13,12 +18,12 @@ export type CampaignCardData = {
   location?: Location;
   imageUrl: string;
   imageAlt?: string;
+  phoneNumber: PhoneNumber
 };
 
 type CampaignCardProps = {
   campaign: CampaignCardData;
   className?: string;
-  onConsult?: (campaign: CampaignCardData) => void;
   onMoreInfo?: (campaign: CampaignCardData) => void;
   onShare?: (campaign: CampaignCardData) => void;
 };
@@ -26,25 +31,39 @@ type CampaignCardProps = {
 function CampaignCard({
   campaign,
   className,
-  onConsult,
-  onMoreInfo,
-  onShare,
+  onMoreInfo
 }: CampaignCardProps) {
+
+  const handleShareButton = () => {
+    shareUrl({
+      path: `?redirect=/campanias/${campaign.id}`,
+      text: 'Mirá esta campaña, quizás te sirve.',
+      imageUrl: normalizeImageUrl(campaign.imageUrl, true),
+    })    
+  }
+  
+  const openCampaignDetail = (event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest('button, a')) return
+    onMoreInfo?.(campaign)
+  };
+
   return (
-    <S.Card className={className}>
+    <S.Card
+      className={className}
+      $clickable={Boolean(onMoreInfo)}
+      role={onMoreInfo ? "link" : undefined}
+      tabIndex={onMoreInfo ? 0 : undefined}
+      onClick={openCampaignDetail}
+    >
       <S.ImageSection>
-        <S.CampaignImage
-          src={`${import.meta.env.VITE_CLOUDFLARE_URL}${campaign.imageUrl}`} 
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = NOT_FOUND_IMAGE_URL;
-          }}
+        <ImagePreview 
+          imageId={campaign.imageUrl}
           alt={campaign.title}
         />
         <S.ShareButton
           type="button"
           aria-label={`Compartir campaña ${campaign.title}`}
-          onClick={() => onShare?.(campaign)}
+          onClick={handleShareButton}
         >
           <Share aria-hidden="true" />
         </S.ShareButton>
@@ -66,13 +85,22 @@ function CampaignCard({
           <S.Description>{campaign.description}</S.Description>
           <S.MoreInfoButton
             type="button"
-            onClick={() => onMoreInfo?.(campaign)}
+            onClick={(event) => {
+              event.stopPropagation();
+              openCampaignDetail(event);
+            }}
           >
             Ver más información
           </S.MoreInfoButton>
         </S.Content>
 
-        <S.ConsultButton type="button" onClick={() => onConsult?.(campaign)}>
+        <S.ConsultButton type="button" onClick={(event) => {
+          event.stopPropagation();
+          openWhatsApp(
+            `${campaign.phoneNumber.areaCode}${campaign.phoneNumber.number}`,
+            `¡Hola! Me gustaría consultar por la campaña ${campaign.title}`
+          );
+        }}>
           Consultar
         </S.ConsultButton>
       </S.Body>

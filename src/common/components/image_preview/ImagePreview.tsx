@@ -1,0 +1,36 @@
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from '@/common/utils/CommonUtils';
+import * as S from './ImagePreview.styles'
+
+interface ImagePreviewProps {
+    imageId?: string;
+    alt?: string;
+    onError?: () => void;
+    variant?: 'rectangle' | 'round' | 'square' | 'fill';
+    loading?: 'eager' | 'lazy';
+}
+
+export default function ImagePreview({ 
+    imageId, 
+    alt, 
+    onError,
+    variant = 'rectangle',
+    loading,
+}: ImagePreviewProps) {
+    const source = normalizeImageUrl(imageId);
+
+    return (
+        <S.ImageContainer $variant={variant}>
+            <S.Photo
+                $variant={variant}
+                src={source}
+                alt={alt}
+                loading={loading}
+                onError={({ currentTarget }) => {
+                    onError?.();
+                    currentTarget.onerror = null;
+                    currentTarget.src = NOT_FOUND_IMAGE_URL;
+                }}
+            />
+        </S.ImageContainer>
+    )
+}

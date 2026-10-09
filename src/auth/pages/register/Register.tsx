@@ -1,14 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useController, useForm, useWatch } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useSignupMutation } from '@auth/app/api/authApi'
 import { useToast } from '@hooks/toast/useToast'
 import * as S from './Register.styles'
-import { registerSchema, type RegisterFormValues } from '../../app/schemas/registerSchema'
+import { passwordRules, registerSchema, type RegisterFormValues } from '../../app/schemas/registerSchema'
 import type { Role } from '@/users/app/types/User.types'
-import { Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
-import { ErrorMessage } from '@components/index.ts'
+import { Check, Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
+import { ErrorMessage, PhoneInputComponent } from '@components/index.ts'
+import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { Input } from '@/common/components/inputs/Inputs.styles'
 
 function Register() {
   const navigate = useNavigate()
@@ -18,16 +20,40 @@ function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const {
     formState: { errors },
+    control,
     handleSubmit,
     register,
   } = useForm<RegisterFormValues>({
     defaultValues: {
-      phone: '',
+      phoneNumber: {
+        areaCode: '',
+        number: '',
+      },
       isRescuer: false,
       wantsTransporter: false,
     },
     mode: 'onTouched',
     resolver: yupResolver(registerSchema),
+  })
+  const password = useWatch({ control, name: 'password', defaultValue: '' }) ?? ''
+  const passwordRequirements = [
+    {
+      label: `Entre ${passwordRules.minLength} y ${passwordRules.maxLength} caracteres`,
+      met: password.length >= passwordRules.minLength && password.length <= passwordRules.maxLength,
+    },
+    { label: 'Una letra mayúscula', met: passwordRules.uppercase.test(password) },
+    { label: 'Una letra minúscula', met: passwordRules.lowercase.test(password) },
+    { label: 'Un número', met: passwordRules.number.test(password) },
+    { label: 'Un carácter especial', met: passwordRules.specialCharacter.test(password) },
+  ]
+
+  const { field: phoneAreaCodeField, fieldState: phoneAreaCodeState } = useController({
+    control,
+    name: 'phoneNumber.areaCode',
+  })
+  const { field: phoneField, fieldState: phoneState } = useController({
+    control,
+    name: 'phoneNumber.number',
   })
 
   const handleRegister = (values: RegisterFormValues) => {
@@ -46,6 +72,9 @@ function Register() {
       password: values.password,
       repeatedPassword: values.confirmPassword,
       email: values.email,
+      ...(values.phoneNumber.areaCode && values.phoneNumber.number
+        ? { phoneNumber: values.phoneNumber }
+        : {}),
       ...(roles.length > 0 ? { roles } : {}),
     })
       .unwrap()
@@ -53,8 +82,8 @@ function Register() {
         toast.success('Registro creado', 'Ya podés iniciar sesión con tu cuenta.')
         navigate('/login', { replace: true })
       })
-      .catch(() => {
-        toast.error('No pudimos registrarte', 'Revisá los datos e intentá nuevamente.')
+      .catch((error) => {
+        toast.error('No pudimos registrarte', error.data.errors[0])
       })
   }
 
@@ -64,18 +93,18 @@ function Register() {
         <S.RegisterContent>
           <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
           <S.RegisterTitle>
-            ¡Bienvenido a la <br /> Manada!
+            ¡Unite a la Manada!
           </S.RegisterTitle>
           <S.RegisterSubtitle>
             Formá parte de nuestra comunidad de rescatistas y voluntarios.
           </S.RegisterSubtitle>
 
-          <S.Form onSubmit={handleSubmit(handleRegister)} noValidate>
+          <S.Form onSubmit={handleSubmit(handleRegister, scrollToFirstFormError)} noValidate>
             <S.Field>
               <S.FieldLabel htmlFor="username">
                 Nombre de usuario <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
-              <S.Input
+              <Input
                 id="username"
                 type="text"
                 placeholder="Ej: MacaRescate"
@@ -83,7 +112,6 @@ function Register() {
                 disabled={isLoading}
                 aria-describedby={errors.username ? 'register-username-error' : undefined}
                 aria-invalid={Boolean(errors.username)}
-                $hasError={Boolean(errors.username)}
                 {...register('username')}
               />
               <ErrorMessage
@@ -93,26 +121,25 @@ function Register() {
             </S.Field>
 
             <S.Field>
-              <S.FieldLabel htmlFor="phone">Número de teléfono</S.FieldLabel>
-              <S.Input
-                id="phone"
-                type="tel"
-                placeholder="3534 0000-0000"
-                autoComplete="tel"
-                disabled={isLoading}
-                aria-describedby={errors.phone ? 'register-phone-error' : undefined}
-                aria-invalid={Boolean(errors.phone)}
-                $hasError={Boolean(errors.phone)}
-                {...register('phone')}
+              <S.FieldLabel>Número de teléfono</S.FieldLabel>
+              <PhoneInputComponent
+                areaCodeValue={phoneAreaCodeField.value}
+                phoneNumberValue={phoneField.value}
+                onAreaCodeChange={phoneAreaCodeField.onChange}
+                onPhoneNumberChange={phoneField.onChange}
+                onAreaCodeBlur={phoneAreaCodeField.onBlur}
+                onPhoneNumberBlur={phoneField.onBlur}
+                areaCodeRef={phoneAreaCodeField.ref}
+                phoneNumberRef={phoneField.ref}
+                error={phoneAreaCodeState.error?.message ?? phoneState.error?.message}
               />
-              <ErrorMessage id="register-phone-error" message={errors.phone?.message} />
             </S.Field>
 
             <S.Field>
               <S.FieldLabel htmlFor="email">
                 Correo electrónico <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
-              <S.Input
+              <Input
                 id="email"
                 type="email"
                 placeholder="tu@email.com"
@@ -120,7 +147,6 @@ function Register() {
                 disabled={isLoading}
                 aria-describedby={errors.email ? 'register-email-error' : undefined}
                 aria-invalid={Boolean(errors.email)}
-                $hasError={Boolean(errors.email)}
                 {...register('email')}
               />
               <ErrorMessage id="register-email-error" message={errors.email?.message} />
@@ -131,15 +157,18 @@ function Register() {
                 Contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <S.PasswordInputWrapper>
-                <S.Input
+                <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder={showPassword ? 'contraseña' : '********'}
                   autoComplete="new-password"
                   disabled={isLoading}
-                  aria-describedby={errors.password ? 'register-password-error' : undefined}
+                  aria-describedby={
+                    errors.password
+                      ? 'register-password-requirements register-password-error'
+                      : 'register-password-requirements'
+                  }
                   aria-invalid={Boolean(errors.password)}
-                  $hasError={Boolean(errors.password)}
                   {...register('password')}
                 />
                 <S.PasswordToggle
@@ -151,10 +180,20 @@ function Register() {
                   {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
-              <ErrorMessage
-                id="register-password-error"
-                message={errors.password?.message}
-              />
+              <S.PasswordRequirementList id="register-password-requirements">
+                {passwordRequirements.map(({ label, met }) => (
+                  <S.PasswordRequirementItem key={label}>
+                    <S.PasswordRequirementIcon $met={met} aria-hidden="true">
+                      {met && <Check />}
+                    </S.PasswordRequirementIcon>
+                    <span>
+                      <S.VisuallyHidden>{met ? 'Cumple: ' : 'Pendiente: '}</S.VisuallyHidden>
+                      {label}
+                    </span>
+                  </S.PasswordRequirementItem>
+                ))}
+              </S.PasswordRequirementList>
+              
             </S.Field>
 
             <S.Field>
@@ -162,7 +201,7 @@ function Register() {
                 Repetir contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <S.PasswordInputWrapper>
-                <S.Input
+                <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder={showConfirmPassword ? 'contraseña' : '********'}
@@ -172,7 +211,6 @@ function Register() {
                     errors.confirmPassword ? 'register-confirm-password-error' : undefined
                   }
                   aria-invalid={Boolean(errors.confirmPassword)}
-                  $hasError={Boolean(errors.confirmPassword)}
                   {...register('confirmPassword')}
                 />
                 <S.PasswordToggle

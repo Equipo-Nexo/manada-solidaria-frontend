@@ -15,8 +15,14 @@ export const Input = styled.input`
   ${fieldFocusVisible}
 `
 
-export const PhoneNumberContainer = styled.div`display: flex; gap: 6px;`
-export const AreaCodeWrapper = styled.div`position: relative; flex: 0 0 100px;`
+export const PhoneNumberContainer = styled.div`
+  display: flex; 
+  gap: 6px;
+`
+export const AreaCodeWrapper = styled.div`
+  position: relative; 
+  flex: 0 0 110px;
+`
 export const PhoneGlyph = styled.span`position: absolute; z-index: 1; top: 18px; left: 12px; color: ${({ theme }) => theme.colors.darkColor}; svg { width: 18px; height: 18px; }`
 export const AreaCode = styled(Input)`width: 100%; padding-left: 40px;`
 export const PhoneNumber = styled(Input)`min-width: 0;`

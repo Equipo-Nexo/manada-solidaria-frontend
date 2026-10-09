@@ -13,11 +13,11 @@ export type CampaignCategory = typeof campaignCategories[number]
 
 
 export const donationItems = [
-  "FOOD",
-  "MEDICINE",
-  "SHELTER_AND_BEDDING",
-  "TOYS_AND_ACCESSORIES",
   "CLOTHING_AND_BLANKETS",
+  "FOOD",
+  "TOYS_AND_ACCESSORIES",
+  "SHELTER_AND_BEDDING",
+  "MEDICINE",
   "OTHER"
-]
+] as const
 export type DonationItem = typeof donationItems[number]

@@ -18,6 +18,8 @@ const feedbackColors = {
 
 export const theme = {
   colors: {
+    soft: '#FFF1EC',   
+    white: '#FFFFFF',
     brand: uxColors.brand,
     tertiary: uxColors.tertiary,
     neutral: uxColors.neutral,
@@ -28,6 +30,7 @@ export const theme = {
     darkColor: uxColors.darkColor,
     darkColorMuted: 'rgb(89 65 55 / 82%)',
     stroke: uxColors.stroke,
+    separator: '#D1D5DB',
     background: uxColors.background,
     brandHover: feedbackColors.brandHover,
     error: feedbackColors.error,
@@ -38,7 +41,10 @@ export const theme = {
     statusFoundBackground: '#CCF59B',
     statusRewardText: '#356400',
     statusAdoptionText: '#4F378A',
+    statusRescuedBackground: uxColors.secondary,
+    statusRescuedText: '#FFFFFF',
     statusSearchingtext: '#B3261E',
+    
     focus: 'rgb(234 95 9 / 28%)',
     toast: {
       success: uxColors.success,
@@ -56,6 +62,11 @@ export const theme = {
     semibold: 600,
     bold: 700,
     extrabold: 800,
+  },
+  fontSizes: {
+    title: '2rem',
+    subtitle: '1.5rem',
+    normal: '1rem',
   },
   typography: {
     display: {
@@ -189,7 +200,9 @@ export const theme = {
     contentMaxWidth: '1400px',
     mobileNavHeight: '78px',
     publicationCardWidth: '325px',
-    publicationCardHeight: '400px',
+    publicationCardHeight: '452px',
+    publicationImageAspectRatio: '4 / 3',
+    publicationImagePosition: 'center 35%',
   },
 }
 

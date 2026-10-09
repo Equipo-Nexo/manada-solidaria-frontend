@@ -1,6 +1,7 @@
 import type { Maybe } from "yup";
 import type { Location } from "../responses/Location";
 import type { CampaignType } from "@/campaigns/app/types/Campaign.types";
+import type { PhoneNumber } from "../responses/PhoneNumber";
 
 export interface UpdateCampaignRequest {
     type: CampaignType;
@@ -8,7 +9,7 @@ export interface UpdateCampaignRequest {
     description: string;
     imageId?: Maybe<string | undefined>;
     location?: Location | null;
-    phoneNumber: string;
+    phoneNumber: PhoneNumber;
     amountToBeCollected?: number | null;
     campaignEndDate?: string | null;
     newsStartDateTime?: string | null;

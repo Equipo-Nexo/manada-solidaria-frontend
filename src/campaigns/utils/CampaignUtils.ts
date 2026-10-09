@@ -12,6 +12,7 @@ export const mapCampaignToCardData = (
   description: campaign.description,
   location: campaign.location,
   imageUrl: campaign.imageId,
+  phoneNumber: campaign.phoneNumber
 })
 
 export const campaignCategoryLabels: Record<CampaignCategory, string> = {
@@ -20,7 +21,25 @@ export const campaignCategoryLabels: Record<CampaignCategory, string> = {
   'VACCINATION': "Vacunación",
   'DEWORMING': "Desparasitación",
   'OTHER': "Otro",
+  'FUNDRAISING': "Colecta",
 };
+
+export const createCampaignCategoryOptions: Record<Exclude<CampaignCategory, "FUNDRAISING">, string> = {
+  'DONATION': "Donación",
+  'CASTRATION': "Castración",
+  'VACCINATION': "Vacunación",
+  'DEWORMING': "Desparasitación",
+  'OTHER': "Otro",
+};
+
+export const campaignCategoryColors: Record<CampaignCategory, string> = {
+  DONATION: "#B293FF",
+  CASTRATION: "#A95C28",
+  VACCINATION: "#EA5F09",
+  DEWORMING: "#594137",
+  OTHER: "#E1BFB2",
+  FUNDRAISING: "",
+}
 
 export const CAMPAIGN_FILTER_LABELS: Record<CampaignFilter, string> = {
   '': 'Todos',

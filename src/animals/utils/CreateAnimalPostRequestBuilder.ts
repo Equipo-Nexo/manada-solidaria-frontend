@@ -43,6 +43,7 @@ const animalPostRequestBuilders: Record<
       ...commonRequest,
       type: 'ADOPTION',
       inTransit: false,
+      needTransport: true
     }),
   },
 
@@ -51,6 +52,7 @@ const animalPostRequestBuilders: Record<
       ...commonRequest,
       type: 'ADOPTION',
       inTransit: true,
+      needTransport: false
     }),
   },
 }

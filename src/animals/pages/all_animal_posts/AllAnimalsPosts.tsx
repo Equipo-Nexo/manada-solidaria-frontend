@@ -29,7 +29,7 @@ function AllAnimalsPage() {
   return (
     <S.Page>
       <S.Header>
-        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
+        <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
         <S.TitlesContainer>
@@ -42,13 +42,15 @@ function AllAnimalsPage() {
         </S.TitlesContainer>
       </S.Header>
 
-      <CategorySelector
-        categories={animalPostFilters}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
-        ariaLabel="Filtrar publicaciones por categoría"
-      />
+      <S.FiltersContainer>
+        <CategorySelector
+          categories={animalPostFilters}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
+          ariaLabel="Filtrar publicaciones por categoría"
+        />
+      </S.FiltersContainer>
 
       <S.PublicationsContainer aria-live="polite">
         {isLoading && (

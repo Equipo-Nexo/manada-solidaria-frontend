@@ -70,6 +70,11 @@ const bottomNavItemStyles = css<{ $isActive: boolean }>`
     height: 22px;
     stroke-width: 2;
   }
+
+  svg[data-icon='users'] {
+    width: 30px;
+    height: 24px;
+  }
 `
 
 export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`

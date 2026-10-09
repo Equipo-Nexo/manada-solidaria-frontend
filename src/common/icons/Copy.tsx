@@ -1,6 +1,11 @@
 import type { SVGProps } from "react";
+type CopyProps = SVGProps<SVGSVGElement> & {
+  $inverted?: boolean;
+};
 
-function Copy(props: SVGProps<SVGSVGElement>) {
+function Copy({ $inverted = false, ...props }: CopyProps) {
+  const strokeColor = $inverted ? "#EA5F09" : "white";
+  const fillColor = $inverted ? "white" : "#EA5F09";
   return (
     <svg
       width="16"
@@ -10,15 +15,22 @@ function Copy(props: SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <rect x="0.5" y="0.5" width="11" height="11" rx="1.5" stroke="white" />
+      <rect
+        x="0.5"
+        y="0.5"
+        width="11"
+        height="11"
+        rx="1.5"
+        stroke={strokeColor}
+      />
       <rect
         x="4.5"
         y="4.5"
         width="11"
         height="11"
         rx="1.5"
-        fill="#EA5F09"
-        stroke="white"
+        fill={fillColor}
+        stroke={strokeColor}
       />
     </svg>
   );

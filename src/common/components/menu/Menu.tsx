@@ -14,11 +14,10 @@ import {
   User,
   Users,
 } from "@icons/index.ts";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Modal } from "@components/index.ts";
-import { logout } from "@store/authSlice";
-import { useAppDispatch } from "@store/hooks";
 import useCurrentUserProfile from "@hooks/user/useCurrentUserProfile";
+import { useLogout } from "@hooks/auth/useLogout";
 import {
   Avatar,
   Email,
@@ -57,9 +56,6 @@ type MenuLocationState = {
   from?: string;
 };
 
-const profileImage =
-  "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22 viewBox=%220 0 50 50%22%3E%3Crect width=%2250%22 height=%2250%22 rx=%2225%22 fill=%22%23F5E7D4%22/%3E%3Ccircle cx=%2225%22 cy=%2219%22 r=%229%22 fill=%22%23A95C28%22/%3E%3Cpath d=%22M10 44c2.5-9 8.5-14 15-14s12.5 5 15 14%22 fill=%22%23A95C28%22/%3E%3C/svg%3E";
-
 const sections: MenuSection[] = [
   {
     title: "Navegaci\u00f3n",
@@ -67,7 +63,7 @@ const sections: MenuSection[] = [
       { label: "Inicio", path: "/home", activePath: "/home", icon: House },
       {
         label: "Mi perfil",
-        path: "/home",
+        path: "/mi-perfil",
         activePath: "/mi-perfil",
         icon: User,
       },
@@ -78,21 +74,21 @@ const sections: MenuSection[] = [
         icon: History,
       },
       {
-        label: "Servicios",
-        path: "/home",
-        activePath: "/servicios",
+        label: "Veterinarias",
+        path: "/veterinarias",
+        activePath: "/veterinarias",
         icon: BriefcaseMedical,
       },
       {
         label: "Comunidad",
-        path: "/home",
+        path: "/comunidad",
         activePath: "/comunidad",
         icon: Users,
       },
       { label: "Mapa", path: "/mapa", activePath: "/mapa", icon: Map },
       {
         label: "Casos felices",
-        path: "/home",
+        path: "/casos-felices",
         activePath: "/casos-felices",
         icon: Heart,
       },
@@ -125,17 +121,15 @@ const sections: MenuSection[] = [
 
 function Menu({ onNavigate }: MenuProps) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { email, username } = useCurrentUserProfile();
+  const { isLoggingOut, performLogout } = useLogout();
+  const { email, username, profileImage } = useCurrentUserProfile();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const activePath =
     (location.state as MenuLocationState | null)?.from ?? location.pathname;
   const closeLogoutModal = () => setIsLogoutModalOpen(false);
-  const confirmLogout = () => {
-    setIsLogoutModalOpen(false);
-    dispatch(logout());
-    navigate("/login", { replace: true });
+  const confirmLogout = async () => {
+    const didLogout = await performLogout();
+    if (didLogout) setIsLogoutModalOpen(false);
   };
 
   return (
@@ -184,10 +178,14 @@ function Menu({ onNavigate }: MenuProps) {
         title={"Cerrar sesi\u00f3n"}
         primaryLabel={"Cerrar sesi\u00f3n"}
         secondaryLabel="Cancelar"
-        onPrimaryAction={confirmLogout}
+        onPrimaryAction={() => void confirmLogout()}
         onSecondaryAction={closeLogoutModal}
       >
-        <p>{"\u00bfQuer\u00e9s salir de la aplicaci\u00f3n?"}</p>
+        <p>
+          {isLoggingOut
+            ? "Desvinculando este dispositivo..."
+            : "\u00bfQuer\u00e9s salir de la aplicaci\u00f3n?"}
+        </p>
       </Modal>
     </MenuRoot>
   );

@@ -12,6 +12,7 @@ export const authApi = baseAuthenticatedApi.injectEndpoints({
           Authorization: authorization,
         },
       }),
+      invalidatesTags: ['userPosts', 'userProfile']
     }),
     signup: builder.mutation<void, SignupRequest>({
       query: (body) => ({
