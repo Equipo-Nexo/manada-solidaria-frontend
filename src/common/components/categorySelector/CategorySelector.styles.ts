@@ -2,11 +2,9 @@ import styled from 'styled-components'
 
 export const Filters = styled.div`
   display: flex;
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
+  justify-content: space-evenly;
   gap: 20px;
-  padding: 0 16px;
-  margin: 0 auto 16px;
   overflow-x: auto;
   scrollbar-width: none;
 
@@ -18,6 +16,7 @@ export const Filters = styled.div`
     gap: 32px;
     padding-inline: 24px;
     margin-bottom: 24px;
+    justify-content: center;
   }
 `
 

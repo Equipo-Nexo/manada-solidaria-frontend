@@ -109,10 +109,12 @@ function AnimalPostCard({
           </S.BadgesContainer>
         </S.MainInfoContainer>
 
-        <S.Location>
-          <LocationPin aria-hidden="true" />
-          <span>{location?.name}</span>
-        </S.Location>
+        {location?.name && (
+          <S.Location>
+            <LocationPin aria-hidden="true" />
+            <span>{location.name}</span>
+          </S.Location>
+        )}
 
         <S.Description>{description}</S.Description>
         <S.ViewMore type="button" onClick={() => navigate(`/animal/detalle/${postId}`)}>
