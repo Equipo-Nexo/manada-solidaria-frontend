@@ -15,7 +15,7 @@ interface Form {
     animalImageUrl: string,
     description: string | null,
     isRead: boolean,
-    createdAt: Date
+    createdAt: string
 }
 
 

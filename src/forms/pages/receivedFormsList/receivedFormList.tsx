@@ -3,15 +3,20 @@ import * as S from "./receivedFormList.styles";
 import { useNavigate } from "react-router-dom";
 import { CategorySelector } from "@/common/components";
 import { useState } from "react";
-import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
+import { normalizeImageUrl } from "@/common/utils/CommonUtils";
+import { formatDateShort } from "@/common/utils/DateTime";
 import { useGetFormsQuery } from "@/forms/app/api/adoptionFormsApi";
+
 function ReceivedFormList() {
     const navigate = useNavigate();
+    const [selectedCategory, setCategory] = useState("Todos");
+    const { data: receivedForms } = useGetFormsQuery({ filter: 'REVIEWER' });
     const categories = ['Todos', 'Pendientes', 'Revisados']
-    const [selectedCategory, setCategory] = useState("");
-    const { data: forms } = useGetFormsQuery({ filter: 'REVIEWER' });
-    const response = forms;
-    console.log(response)
+    const categoryLabels: Record<string, string> = {
+        Todos: `Todos (${receivedForms?.counters.total ?? 0})`,
+        Pendientes: `Pendientes (${receivedForms?.counters.pending ?? 0})`,
+        Revisados: `Revisados (${receivedForms?.counters.reviewed ?? 0})`,
+    }
     return (
         <S.MainContainer>
             <S.Header>
@@ -29,30 +34,33 @@ function ReceivedFormList() {
                     categories={categories}
                     selectedCategory={selectedCategory}
                     onCategoryChange={setCategory}
-
+                    getCategoryLabel={(category) => categoryLabels[category]}
                     ariaLabel="Filtrar publicaciones por categoría"
                 />
             </S.FiltersContainer>
-            <S.Card>
-                <S.Photo src={NOT_FOUND_IMAGE_URL} alt="Foto de perfil de María Lopez" />
-                <S.Info>
-                    <S.FirstLine>
-                        <S.Name>María Lopez</S.Name>
-                        <S.Status>Pendiente</S.Status>
-                    </S.FirstLine>
+            <S.CardsContainer>
+                {receivedForms?.forms.map((form, index) =>
+                    <S.Card key={index}>
+                        <S.Photo src={normalizeImageUrl(form.animalImageUrl)} alt="Foto de perfil de María Lopez" />
+                        <S.Info>
+                            <S.FirstLine>
+                                <S.Name>María Lopez</S.Name>
+                                <S.Status $isRead={form.isRead}>{form.isRead ? "Revisado" : "Pendiente"}</S.Status>
+                            </S.FirstLine>
+                            <S.CreationDate>
+                                <Calendar aria-hidden="true" />
+                                Enviado el {formatDateShort(form.createdAt)}
+                            </S.CreationDate>
+                            <S.Description>{form.description}</S.Description>
+                            <S.LastLine>
+                                <S.AnimalName><PawPrint aria-hidden="true" />Fisu</S.AnimalName>
+                            </S.LastLine>
+                        </S.Info>
+                        <ChevronRight aria-hidden="true" />
+                    </S.Card>
+                )}
+            </S.CardsContainer>
 
-                    <S.CreationDate>
-                        <Calendar aria-hidden="true" />
-                        Enviado el 18 sep 2026
-                    </S.CreationDate>
-                    <S.Description>Quiero darle un hogar y una familia.</S.Description>
-                    <S.LastLine>
-                        <S.AnimalName><PawPrint aria-hidden="true" />Fisu</S.AnimalName>
-                    </S.LastLine>
-                </S.Info>
-                <ChevronRight aria-hidden="true" />
-
-            </S.Card>
 
 
         </S.MainContainer >

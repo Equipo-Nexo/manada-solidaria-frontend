@@ -10,7 +10,7 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
         }),
         createAdoptionForm: builder.mutation<void, AdoptionFormRequest>({
             query: (body) => ({
-                url: '/users/adoption-forms',
+                url: '/adoption-forms',
                 method: 'POST',
                 body,
             }),

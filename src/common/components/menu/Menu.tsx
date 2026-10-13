@@ -13,6 +13,7 @@ import {
   PawPrint,
   User,
   Users,
+  File
 } from "@icons/index.ts";
 import { useLocation } from "react-router-dom";
 import { Modal } from "@components/index.ts";
@@ -72,6 +73,12 @@ const sections: MenuSection[] = [
         path: "/mis-publicaciones",
         activePath: "/mis-publicaciones",
         icon: History,
+      },
+      {
+        label: "Formularios recibidos",
+        path: "/formularios-recibidos",
+        activePath: "/formularios-recibidos",
+        icon: File,
       },
       {
         label: "Veterinarias",
