@@ -46,6 +46,7 @@ import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 import Community from "./users/pages/community/Community";
 import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
+import AdoptionFormDetail from "./forms/pages/adoption_form_detail/AdoptionFormDetail";
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
 
@@ -71,7 +72,9 @@ function App() {
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
-  const isAdoptionFormSuccess = actualPath.startsWith('/formulario-adopcion/enviado/');
+  const isAdoptionFormSuccess = actualPath.startsWith(
+    "/formulario-adopcion/enviado/",
+  );
 
   const usesFullScreenLayout =
     actualPath === "/login" ||
@@ -80,7 +83,8 @@ function App() {
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail ||
-    isAdoptionFormSuccess;
+    isAdoptionFormSuccess ||
+    actualPath.startsWith("/formulario-recibido/");
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
@@ -117,9 +121,19 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
-            <Route path="/recuperar-contrasena/verificar-codigo" element={<VerifyCode />} />
-            <Route path="/recuperar-contrasena/nueva-contrasena" element={<NewPassword />} />
-            <Route path="/recuperar-contrasena/contrasena-actualizada" element={<PasswordResetSuccess />} />
+
+            <Route
+              path="/recuperar-contrasena/verificar-codigo"
+              element={<VerifyCode />}
+            />
+            <Route
+              path="/recuperar-contrasena/nueva-contrasena"
+              element={<NewPassword />}
+            />
+            <Route
+              path="/recuperar-contrasena/contrasena-actualizada"
+              element={<PasswordResetSuccess />}
+            />
             <Route
               path="/recuperar-contrasena"
               element={<PasswordRecoveryEmail />}
@@ -136,8 +150,18 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
-              <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
-              <Route path="/formulario-adopcion/enviado/:postId" element={<AdoptionFormSuccess />} />
+              <Route
+                path="/formulario-recibido/:adoptionFormId"
+                element={<AdoptionFormDetail />}
+              />
+              <Route
+                path="/formulario-adopcion/:postId"
+                element={<QuestionsFormPage />}
+              />
+              <Route
+                path="/formulario-adopcion/enviado/:postId"
+                element={<AdoptionFormSuccess />}
+              />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}

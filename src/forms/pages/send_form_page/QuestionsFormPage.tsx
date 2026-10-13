@@ -1,8 +1,8 @@
-import { ArrowLeft, Building, Dog, DollarSign, Garden, HandHeart, House, PawPrint, File, Users, MessageSquare, Heart, Phone } from '@/common/icons';
+import { ArrowLeft } from '@/common/icons';
+import { iconsMap } from '../../utils/iconsMap';
 import * as S from './QuestionesFormPage.styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AdoptionQuestionsMock } from '../../utils/AdoptionQuestionsMocked';
-import type { ReactElement } from 'react';
 import { useToast } from '@hooks/toast/useToast';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -97,26 +97,12 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
         }
     };
 
-    const iconsMap: Map<string, ReactElement> = new Map([
-        ['Home', <House />],
-        ['Building', <Building />],
-        ['Dog', <Dog />],
-        ['Garden', <Garden />],
-        ['Users', <Users />],
-        ['PawPrint', <PawPrint />],
-        ['File', <File />],
-        ['HandHeart', <HandHeart />],
-        ['DollarSign', <DollarSign />],
-        ['MessageSquare', <MessageSquare />],
-        ['Heart', <Heart />],
-        ['Phone', <Phone />],
-    ]);
-
     const QuestionStructure = (question: AdoptionQuestion) => {
+        const icon = iconsMap.get(question.iconName);
         return (
             <S.Question key={question.id}>
                 <S.QuestionIcon aria-hidden="true">
-                    {iconsMap.get(question.iconName)}
+                    {icon}
                 </S.QuestionIcon>
                 <S.QuestionContent>
                     <S.QuestionLabel
