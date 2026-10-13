@@ -48,6 +48,8 @@ import Community from "./users/pages/community/Community";
 import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
+import UserProfile from "./users/pages/user_profile/userProfile";
+import ReceivedFormList from "./forms/pages/receivedFormsList/receivedFormList";
 
 function App() {
   const location = useLocation();
@@ -136,8 +138,10 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
+              <Route path="/usuario/:userId" element={<UserProfile />} />
               <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
               <Route path="/formulario-adopcion/enviado/:postId" element={<AdoptionFormSuccess />} />
+              <Route path="/formularios-recibidos" element={<ReceivedFormList />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}

@@ -50,23 +50,35 @@ export const LoadingIndicator = styled.span`
   animation: ${spin} 800ms linear infinite;
 `
 
-export const Marker = styled.div`
+export const Marker = styled.div<{ $iconColor?: string }>`
+  position: relative;
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 48px;
+  height: 56px;
+  padding-bottom: 8px;
   place-items: center;
-  border: 3px solid ${({ theme }) => theme.colors.background};
-  border-radius: 50% 50% 50% 0;
-  background: ${({ theme }) => theme.colors.secondary};
-  color: ${({ theme }) => theme.colors.neutral};
-  box-shadow: 0 4px 12px rgb(89 65 55 / 30%);
-  transform: rotate(-45deg);
+  color: ${({ theme, $iconColor }) => $iconColor ?? theme.colors.neutral};
+  filter: drop-shadow(0 4px 8px ${({ theme }) => theme.colors.secondaryHoverSoft});
 
-  > svg {
-    width: 21px;
-    height: 21px;
-    transform: rotate(45deg);
+  > svg:last-child {
+    position: relative;
+    width: 26px;
+    height: 26px;
   }
+`
+
+export const MarkerShape = styled.svg.attrs({ viewBox: '0 0 48 56' })<{
+  $color?: string
+  $borderColor?: string
+}>`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: ${({ theme, $color }) => $color ?? theme.colors.secondary};
+  stroke: ${({ theme, $borderColor }) => $borderColor ?? theme.colors.background};
+  stroke-width: 2px;
+  stroke-linejoin: round;
 `
 
 export const Controls = styled.div<{ $position: MapControlPosition }>`
