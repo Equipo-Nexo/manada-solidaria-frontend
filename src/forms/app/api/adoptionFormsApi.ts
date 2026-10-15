@@ -1,6 +1,7 @@
 import { baseAuthenticatedApi } from "@common/app/services/base/baseAuthenticatedApi";
 import type { AdoptionFormRequest } from "./requests/AdoptionFormRequest";
 import type { AdoptionCategory } from "../types/AdoptionForm.types";
+import type { FormResponse } from "../types/FormResponse.types";
 import type { AdoptionFormDetailResponse } from "./responses/adoptionFormDetailResponse";
 
 export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
@@ -8,6 +9,7 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
     getQuestions: builder.query<AdoptionCategory[], void>({
       query: () => "/questions",
     }),
+
     createAdoptionForm: builder.mutation<void, AdoptionFormRequest>({
       query: (body) => ({
         url: "/adoption-forms",
@@ -15,15 +17,25 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
         body,
       }),
     }),
+
+    getForms: builder.query<FormResponse, { filter: string }>({
+      query: ({ filter }) => ({
+        url: "/users/adoption-forms",
+        params: { filter },
+      }),
+    }),
+
     getAdoptionFormDetail: builder.query<AdoptionFormDetailResponse, string>({
       query: (adoptionFormId) => `/adoption-forms/${adoptionFormId}`,
     }),
   }),
+
   overrideExisting: false,
 });
 
 export const {
   useGetQuestionsQuery,
   useCreateAdoptionFormMutation,
+  useGetFormsQuery,
   useGetAdoptionFormDetailQuery,
 } = adoptionFormsApi;

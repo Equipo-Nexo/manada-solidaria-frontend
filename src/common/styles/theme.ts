@@ -30,6 +30,7 @@ export const theme = {
     darkColor: uxColors.darkColor,
     darkColorMuted: 'rgb(89 65 55 / 82%)',
     stroke: uxColors.stroke,
+    separator: '#D1D5DB',
     background: uxColors.background,
     brandHover: feedbackColors.brandHover,
     error: feedbackColors.error,

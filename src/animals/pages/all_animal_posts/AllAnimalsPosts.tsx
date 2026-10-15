@@ -42,13 +42,15 @@ function AllAnimalsPage() {
         </S.TitlesContainer>
       </S.Header>
 
-      <CategorySelector
-        categories={animalPostFilters}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
-        ariaLabel="Filtrar publicaciones por categoría"
-      />
+      <S.FiltersContainer>
+        <CategorySelector
+          categories={animalPostFilters}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
+          ariaLabel="Filtrar publicaciones por categoría"
+        />
+      </S.FiltersContainer>
 
       <S.PublicationsContainer aria-live="polite">
         {isLoading && (

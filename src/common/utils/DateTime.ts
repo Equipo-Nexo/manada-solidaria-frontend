@@ -12,6 +12,18 @@ export const formatDateLong = (date: string | Date): string =>
     dateStyle: "long",
   }).format(new Date(date));
 
+export const formatDateShort = (date: string | Date): string => {
+  const parts = new Intl.DateTimeFormat('es-AR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).formatToParts(new Date(date))
+  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? ''
+
+  return `${getPart('day')} ${getPart('month').slice(0, 3)} ${getPart('year')}`
+}
+
 export const formatDateTimeLong = (dateTime: string | Date) => {
   const date = new Date(dateTime)
   const dateParts = new Intl.DateTimeFormat('es-AR', {

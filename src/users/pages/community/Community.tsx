@@ -19,9 +19,10 @@ export default function Community() {
         UserType.Todos,
     )
 
-    const { data: usersData, isLoading } = useGetUsersQuery({
-        role: selectedCategory,
-    })
+    const { data: usersData, isLoading } = useGetUsersQuery(
+        { role: selectedCategory },
+        { refetchOnMountOrArgChange: true },
+    )
 
     const totalMembers = usersData?.length ?? 0
 

@@ -7,7 +7,9 @@ import {
   useMemo,
   useRef,
   useState,
+  type ComponentType,
   type ReactNode,
+  type SVGProps,
 } from 'react'
 import { createPortal } from 'react-dom'
 import * as maplibregl from 'maplibre-gl'
@@ -124,6 +126,9 @@ export type MapCNMarkerProps = Omit<MarkerOptions, 'element'> & {
   longitude: number
   latitude: number
   children?: ReactNode
+  icon?: ComponentType<SVGProps<SVGSVGElement>>
+  iconColor?: string
+  borderColor?: string
   onClick?: () => void
 }
 
@@ -131,6 +136,10 @@ export function MapCNMarker({
   longitude,
   latitude,
   children,
+  color,
+  icon: Icon = MapPin,
+  iconColor,
+  borderColor,
   onClick,
   ...markerOptions
 }: MapCNMarkerProps) {
@@ -149,10 +158,14 @@ export function MapCNMarker({
       element: markerElement,
     }).setLngLat([longitude, latitude]),
   )
-  const notifyClick = useEffectEvent(() => onClick?.())
+  const notifyClick = useEffectEvent((event: MouseEvent) => {
+    if (!onClick) return
+    event.stopPropagation()
+    onClick()
+  })
 
   useEffect(() => {
-    const handleClick = () => notifyClick()
+    const handleClick = (event: MouseEvent) => notifyClick(event)
     markerElement.addEventListener('click', handleClick)
 
     return () => markerElement.removeEventListener('click', handleClick)
@@ -173,8 +186,11 @@ export function MapCNMarker({
 
   return createPortal(
     children ?? (
-      <S.Marker>
-        <MapPin aria-hidden="true" />
+      <S.Marker $iconColor={iconColor}>
+        <S.MarkerShape $color={color} $borderColor={borderColor} aria-hidden="true">
+          <path d="M24 2C11.85 2 2 11.85 2 24c0 9.5 6 17.6 14.4 20.7l6.1 8.5a1.85 1.85 0 0 0 3 0l6.1-8.5C40 41.6 46 33.5 46 24 46 11.85 36.15 2 24 2Z" />
+        </S.MarkerShape>
+        <Icon aria-hidden="true" />
       </S.Marker>
     ),
     markerElement,
