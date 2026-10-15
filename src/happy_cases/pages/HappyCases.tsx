@@ -1,19 +1,16 @@
 import { Arrow, ChevronRight, Heart, PawPrint } from "@/common/icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import * as S from "./HappyCases.styles";
 import { useGetHappyCasesQuery } from "./app/api/happyCasesApi";
-import { Loader } from "@/common/components";
+import { Loader, PagePaws } from "@/common/components";
 import { NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import Stories from "./Stories";
-import { createPagePaws } from "@/common/utils/PagePawUtils";
 import { ANIMAL_POST_STATUS_LABELS } from "@animals/utils/AnimalFormUtils";
 import getOwnerRole from "@/common/utils/GetRoles";
 import CarouselSlider from "@/common/components/carousel_slider/CarouselSlider";
 function HappyCases() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const pagePaws = useMemo(() => createPagePaws(location.key), [location.key]);
   const { data, isLoading } = useGetHappyCasesQuery({});
   const happyCases = data?.content ?? [];
   const recentCases = happyCases.filter(({ isRecent }) => isRecent);
@@ -33,18 +30,7 @@ function HappyCases() {
   }
   return (
     <S.Container>
-      <S.PagePaws aria-hidden="true">
-        {pagePaws.map((paw, index) => (
-          <S.PagePaw
-            key={index}
-            $left={paw.left}
-            $top={paw.top}
-            $size={paw.size}
-            $rotation={paw.rotation}
-            $opacity={paw.opacity}
-          />
-        ))}
-      </S.PagePaws>
+      <PagePaws />
       <S.Intro>
         <S.IntroHeader>
           <S.BackButton onClick={() => navigate("/home")}>
