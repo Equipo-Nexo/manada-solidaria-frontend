@@ -1,8 +1,7 @@
-import { ArrowLeft, Building, Dog, DollarSign, Garden, HandHeart, House, PawPrint, File, Users, MessageSquare, Heart, Phone } from '@/common/icons';
-import * as S from './QuestionesFormPage.styles';
+import { ArrowLeft } from '@/common/icons';
+import * as S from './QuestionsFormPage.styles';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AdoptionQuestionsMock } from '../../utils/AdoptionQuestionsMocked';
-import type { ReactElement } from 'react';
+import { AdoptionQuestionsMock } from '../../utils/HarcodedAdoptionQuestions';
 import { useToast } from '@hooks/toast/useToast';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,11 +11,12 @@ import type { AdoptionFormRequest } from '../../app/api/requests/AdoptionFormReq
 import { useCreateAdoptionFormMutation, useGetQuestionsQuery } from '../../app/api/adoptionFormsApi';
 import { Loader, Message, ScrollHint } from '@/common/components';
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError';
+import { getApiErrorMessage } from '@utils/getApiErrorMessage';
 import { InputSelector } from './AdoptionQuestionInputs';
+import { iconsMap } from '@/forms/utils/QuestionsFormIcons.util';
 
 function QuestionsFormPage() {
     const navigate = useNavigate();
-    const { data: questions, isLoading, isError, isFetching, refetch } = useGetQuestionsQuery();
 
     return (
         <S.MainContainer>
@@ -30,27 +30,50 @@ function QuestionsFormPage() {
                 <S.LogoSubtitle>Manada Solidaria</S.LogoSubtitle>
                 <S.Title>Formulario de adopción</S.Title>
             </S.SecondaryContainer>
-            {isLoading ? (
-                <S.QueryState>
-                    <Loader label="Cargando preguntas..." />
-                </S.QueryState>
-            ) : !questions?.length ? (
-                <S.QueryState role="alert">
-                    <Message
-                        message={isError ? 'No pudimos cargar las preguntas.' : 'No hay preguntas disponibles por el momento.'}
-                        iconName="pawPrint"
-                    />
-                    <S.ActionButton type="button" $variant="cancel" onClick={() => void refetch()} disabled={isFetching}>
-                        {isFetching ? 'Reintentando...' : 'Reintentar'}
-                    </S.ActionButton>
-                </S.QueryState>
-            ) : (
-                <>
-                    <QuestionsForm response={questions} />
-                    <ScrollHint />
-                </>
-            )}
+            <QuestionsContent />
         </S.MainContainer>
+    );
+}
+
+function QuestionsContent() {
+    const { data: questions, isLoading, isError, isFetching, refetch } = useGetQuestionsQuery();
+
+    if (isLoading) {
+        return (
+            <S.QueryState>
+                <Loader label="Cargando preguntas..." />
+            </S.QueryState>
+        );
+    }
+
+    if (!questions?.length) {
+        return (
+            <S.QueryState role="alert">
+                <Message
+                    message={
+                        isError
+                            ? 'No pudimos cargar las preguntas.'
+                            : 'No hay preguntas disponibles por el momento.'
+                    }
+                    iconName="pawPrint"
+                />
+                <S.ActionButton
+                    type="button"
+                    $variant="cancel"
+                    onClick={() => void refetch()}
+                    disabled={isFetching}
+                >
+                    {isFetching ? 'Reintentando...' : 'Reintentar'}
+                </S.ActionButton>
+            </S.QueryState>
+        );
+    }
+
+    return (
+        <>
+            <QuestionsForm response={questions} />
+            <ScrollHint />
+        </>
     );
 }
 
@@ -92,25 +115,10 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
         try {
             await createAdoptionForm(request).unwrap();
             navigate(`/formulario-adopcion/enviado/${encodeURIComponent(postId)}`, { replace: true });
-        } catch {
-            toast.error('No pudimos enviar el formulario', 'Intentá nuevamente.');
+        } catch (error) {
+            toast.error('No pudimos enviar el formulario', getApiErrorMessage(error, 'Intentá nuevamente.'));
         }
     };
-
-    const iconsMap: Map<string, ReactElement> = new Map([
-        ['Home', <House />],
-        ['Building', <Building />],
-        ['Dog', <Dog />],
-        ['Garden', <Garden />],
-        ['Users', <Users />],
-        ['PawPrint', <PawPrint />],
-        ['File', <File />],
-        ['HandHeart', <HandHeart />],
-        ['DollarSign', <DollarSign />],
-        ['MessageSquare', <MessageSquare />],
-        ['Heart', <Heart />],
-        ['Phone', <Phone />],
-    ]);
 
     const QuestionStructure = (question: AdoptionQuestion) => {
         return (

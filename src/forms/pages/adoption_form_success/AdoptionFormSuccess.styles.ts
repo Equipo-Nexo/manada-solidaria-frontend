@@ -47,19 +47,21 @@ export const Title = styled.h1`
 
 export const Thanks = styled.p`
   margin: 6px 0 0;
-  color: ${({ theme }) => theme.colors.darkColor};
+  color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.descriptive};
+  font-weight:${({ theme }) => theme.fontWeights.medium}
 `;
 
 export const Description = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.colors.darkColor};
+  color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.descriptive};
+  font-weight:${({ theme }) => theme.fontWeights.medium}
 `;
 
 export const AnimalName = styled.strong`
   color: ${({ theme }) => theme.colors.secondary};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
 `;
 
 export const HomeButton = styled.button`

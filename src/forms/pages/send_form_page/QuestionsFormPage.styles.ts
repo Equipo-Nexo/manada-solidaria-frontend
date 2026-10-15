@@ -94,9 +94,9 @@ export const SecondaryContainer = styled.div`
   min-width: 0;
   @media (min-width: 1024px) {
     display: grid;
-    grid-template-columns: 80px minmax(0, 1fr);
-    column-gap: 20px;
-    row-gap: 4px;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 0;
     width: fit-content;
     margin: 0 auto 28px;
     text-align: left;
@@ -105,35 +105,35 @@ export const SecondaryContainer = styled.div`
 
 export const AppLogo = styled.img`
   margin-top: 2rem;
-  width: 10rem;
+  width: 7rem;
   height: auto;
   @media (min-width: 768px) {
-    width: 7.5rem;
+    width: 5.25rem;
     margin-top: 1rem;
   }
   @media (max-width: 1300px) and (max-height: 720px) {
-    width: 6rem;
+    width: 4.2rem;
     margin-top: 0.75rem;
   }
 
   @media (max-width: 767px) and (max-height: 850px) {
-    width: 5rem;
+    width: 3.5rem;
     margin-top: 0.75rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
-    width: 7rem;
+    width: 4.9rem;
     margin-top: 0.75rem;
   }
 
   @media (max-width: 767px) and (max-height: 650px) {
-    width: 3rem;
+    width: 2.1rem;
     margin-top: 0.5rem;
   }
   @media (min-width: 1024px) {
     grid-column: 1;
     grid-row: 1 / 3;
-    width: 80px;
+    width: 56px;
     margin-top: 0;
   }
 `;
@@ -249,7 +249,6 @@ export const CategoryTitle = styled.h3`
   font-size: ${({ theme }) => theme.typography.header3.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
-  margin-bottom: 8px;
   @media (min-width: 1024px) {
     ${({ theme }) => theme.typography.header2};
   }
