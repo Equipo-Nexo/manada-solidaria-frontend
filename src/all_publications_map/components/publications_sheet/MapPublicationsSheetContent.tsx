@@ -47,7 +47,7 @@ function MapPublicationsSheetContent({
 
   const handleRedirect = async (id: string) => {
     if (isVet) {
-      navigate("/veterinarias", { state: { id }})
+      navigate("/veterinarias", { state: { id } })
     } else {
       navigate(`/animal/detalle/${id}`)
     }
@@ -71,10 +71,10 @@ function MapPublicationsSheetContent({
           const SecondDescriptionIcon = descriptionIcons[item.secondLineDescription.iconName ?? ''] ?? Icons.Info
 
           return (
-            <S.Card key={item.id}>
+            <S.Card key={item.id} onClick={() => handleRedirect(item.id)}>
               <S.Photo>
                 {item.imageUrl ? (
-                    <ImagePreview imageId={item.imageUrl} alt={item.name} variant="fill" loading="lazy" />
+                  <ImagePreview imageId={item.imageUrl} alt={item.name} variant="fill" loading="lazy" />
                 ) : (
                   <S.PhotoPlaceholder $background={color} $color={iconColor} aria-hidden="true">
                     <PublicationIcon />
@@ -106,7 +106,7 @@ function MapPublicationsSheetContent({
                         <S.Description>Publicado {getPublishedAtDescription(Number(item.firstLineDescription.text))}</S.Description>
                       )
                     }
-                    
+
                   </S.SecondLine>
                   <S.ThirdLine>
                     <SecondDescriptionIcon width={16} height={16} color={theme.colors.darkColor} />
@@ -115,9 +115,7 @@ function MapPublicationsSheetContent({
                 </S.SecondInformationContainer>
               </S.Information>
               <S.RedirectButtonContainer>
-                <S.Redirect onClick={() => handleRedirect(item.id)} aria-label="Ver publicación en el mapa">
-                  <Icons.ChevronRight width={12} height={12} color={theme.colors.darkColor} />
-                </S.Redirect>
+                <Icons.ChevronRight width={12} height={12} color={theme.colors.darkColor} />
               </S.RedirectButtonContainer>
             </S.Card>
           )
