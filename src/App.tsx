@@ -86,7 +86,7 @@ function App() {
     isMobileMenu ||
     isPublicationDetail ||
     isAdoptionFormSuccess ||
-    actualPath.startsWith("/formulario-recibido/");
+    actualPath.startsWith("/formularios-recibidos/");
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
