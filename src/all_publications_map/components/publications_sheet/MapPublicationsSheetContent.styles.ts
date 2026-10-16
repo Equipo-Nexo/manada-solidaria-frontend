@@ -41,9 +41,10 @@ export const Title = styled.h2`
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: 20px; /* 100% */
+  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
   letter-spacing: -0.2px;
   flex: 1;
+  min-width: 0;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -53,7 +54,7 @@ export const Title = styled.h2`
 
   @media (max-width: 390px) {
     font-size: 16px;
-    line-height: 20px;
+    line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   }
 `
 
@@ -66,8 +67,8 @@ export const List = styled.ul`
   display: flex;
   min-height: 0;
   max-height: 55svh;
-  margin: 0;
-  padding: 0 4px 4px 0;
+  margin: 0 -8px;
+  padding: 4px 12px 16px;
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
@@ -80,10 +81,25 @@ export const Card = styled.li`
   flex-direction: row;
   min-width: 0;
   flex-shrink: 0;
-  padding: 7px;
-  border: 1px solid ${({ theme }) => theme.colors.stroke};
+  padding: 8px;
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
+  box-shadow: 0 4px 8px ${({ theme }) => `${theme.colors.black}26`};
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px -6px rgb(89 65 55 / 20%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `
 
 export const Photo = styled.div`
@@ -114,10 +130,11 @@ export const PhotoPlaceholder = styled.div<{ $background: string; $color: string
 
 export const Information = styled.div`
   display: flex;
+  flex: 1;
+  min-width: 0;
   flex-direction: column;
   justify-content: space-evenly;
-  height: clamp(56px, 30vw, 88px);
-  width: 100%;
+  min-height: clamp(60px, 30vw, 88px);
 `
 
 export const FirstInformationContainer = styled.div`
@@ -149,7 +166,7 @@ export const InformationLine = styled.p`
 
   > svg {
     width: 16px;
-    height: 16px;
+    height: 24px;
     flex-shrink: 0;
   }
 `
@@ -252,8 +269,7 @@ export const Status = styled.span<{ $color: string, $background: string }>`
   height: 24px;
 
   @media (max-width: 390px) {
-    font-size: 10px;
-    padding: 2px 8px 2px 8px;
+    font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   }
 `
 
