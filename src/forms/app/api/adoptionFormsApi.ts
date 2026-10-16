@@ -23,13 +23,21 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
         url: "/users/adoption-forms",
         params: { filter },
       }),
+      providesTags: ["AdoptionForms"],
     }),
 
     getAdoptionFormDetail: builder.query<AdoptionFormDetailResponse, string>({
       query: (adoptionFormId) => `/adoption-forms/${adoptionFormId}`,
+      providesTags: ["AdoptionForms"],
+    }),
+    markAdoptionFormAsRead: builder.mutation<void, string>({
+      query: (adoptionFormId) => ({
+        url: `/adoption-forms/${adoptionFormId}/read`,
+        method: "POST",
+      }),
+      invalidatesTags: ["AdoptionForms"],
     }),
   }),
-
   overrideExisting: false,
 });
 
@@ -38,4 +46,5 @@ export const {
   useCreateAdoptionFormMutation,
   useGetFormsQuery,
   useGetAdoptionFormDetailQuery,
+  useMarkAdoptionFormAsReadMutation,
 } = adoptionFormsApi;

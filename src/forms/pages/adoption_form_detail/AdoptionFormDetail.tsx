@@ -4,9 +4,25 @@ import type { AdoptionFormAnswer } from "../../app/types/AdoptionFormDetail.type
 import { iconsMap } from "../../utils/iconsMap";
 import * as S from "./AdoptionFormDetail.styles";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
-import { useGetAdoptionFormDetailQuery } from "@/forms/app/api/adoptionFormsApi";
+import {
+  useGetAdoptionFormDetailQuery,
+  useMarkAdoptionFormAsReadMutation,
+} from "@/forms/app/api/adoptionFormsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
+import {
+  normalizeImageUrl,
+  NOT_FOUND_IMAGE_URL,
+} from "@/common/utils/CommonUtils";
+import { getInitials } from "@/forms/utils/getInitials";
+import { AdoptionQuestionsMock } from "@/forms/utils/AdoptionQuestionsMocked";
+import { formatDateShort } from "@/common/utils/DateTime";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useToast } from "@/common/hooks/toast/useToast";
+
+const adoptionReasonQuestion = AdoptionQuestionsMock.find(
+  (question) => question.id === "adoption-reason",
+);
 
 function Answer({ question }: { question: AdoptionFormAnswer }) {
   const icon = iconsMap.get(question.iconName);
@@ -23,20 +39,33 @@ function Answer({ question }: { question: AdoptionFormAnswer }) {
 
 export default function AdoptionFormDetail() {
   const navigate = useNavigate();
+  const toast = useToast();
   const { adoptionFormId } = useParams<{ adoptionFormId: string }>();
-
   const {
     data: response,
     isLoading,
     isError,
-  } = useGetAdoptionFormDetailQuery(adoptionFormId!, {
-    skip: !adoptionFormId,
-  });
+  } = useGetAdoptionFormDetailQuery(adoptionFormId ?? skipToken);
+
+  const [markAdoptionFormAsRead, { isLoading: isMarkingAsRead }] =
+    useMarkAdoptionFormAsReadMutation();
+
+  const handleMarkAsReviewed = async () => {
+    if (!adoptionFormId || response?.isRead) return;
+
+    try {
+      await markAdoptionFormAsRead(adoptionFormId).unwrap();
+    } catch {
+      toast.error(
+        "No pudimos marcar el formulario como revisado",
+        "Intentá nuevamente.",
+      );
+    }
+  };
 
   if (isLoading) {
     return <PawLoader label="Cargando formulario..." />;
   }
-
   if (isError || !response) {
     return (
       <Message
@@ -45,27 +74,9 @@ export default function AdoptionFormDetail() {
       />
     );
   }
-
-  const initials = (response.applicantName ?? "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("");
-
-  const date = new Date(response.createdAt);
-
-  const formattedDate = Number.isNaN(date.getTime())
-    ? "-"
-    : new Intl.DateTimeFormat("es-AR", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-        .format(date)
-        .replace(/\./g, "");
-
+  const applicantName = response.applicantName?.trim() || "Posible adoptante";
+  const formattedDate = formatDateShort(response.createdAt);
+  const initials = getInitials(response.applicantName);
   return (
     <S.Page>
       <S.Summary>
@@ -80,8 +91,12 @@ export default function AdoptionFormDetail() {
           <S.Header>
             <S.AnimalPhotoFrame>
               <S.AnimalPhoto
-                src={response.animalImageUrl}
-                alt={response.animalName}
+                src={normalizeImageUrl(response.animalImageUrl)}
+                alt={`Foto de ${response.animalName}`}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = NOT_FOUND_IMAGE_URL;
+                }}
               />
             </S.AnimalPhotoFrame>
             <S.AnimalName>{response.animalName}</S.AnimalName>
@@ -90,16 +105,14 @@ export default function AdoptionFormDetail() {
             <S.Avatar aria-hidden="true">{initials}</S.Avatar>
             <S.ApplicantInfo>
               <S.ApplicantHeading>
-                <S.ApplicantName>
-                  {response.applicantName || "Posible Adoptante"}
-                </S.ApplicantName>
+                <S.ApplicantName>{applicantName}</S.ApplicantName>
                 <S.Status $isRead={response.isRead} role="status">
                   {response.isRead ? "Revisado" : "Pendiente"}
                 </S.Status>
               </S.ApplicantHeading>
               <S.SentDate>
                 <Calendar aria-hidden="true" />
-                Enviado el{" "}
+                Enviado el
                 <time dateTime={response.createdAt}>{formattedDate}</time>
               </S.SentDate>
             </S.ApplicantInfo>
@@ -115,48 +128,49 @@ export default function AdoptionFormDetail() {
             <S.CategoryTitle id={`category-${category.categoryId}`}>
               {category.categoryName}
             </S.CategoryTitle>
+
             <S.Answers $compact={index === response.categories.length - 1}>
-              {category.questions.map((question, questionIndex) => (
+              {category.questions.map((question) => (
                 <S.AnswerGroup key={question.questionId}>
-                  {index === response.categories.length - 1 &&
-                    questionIndex === category.questions.length - 1 && (
-                      <Answer
-                        question={{
-                          questionId: "description",
-                          questionTitle: "¿Por qué querés adoptar?",
-                          iconName: "Heart",
-                          answer: response.description,
-                        }}
-                      />
-                    )}
                   <Answer question={question} />
                 </S.AnswerGroup>
               ))}
+
               {index === response.categories.length - 1 &&
-                category.questions.length === 0 && (
-                  <Answer
-                    question={{
-                      questionId: "description",
-                      questionTitle: "¿Por qué querés adoptar?",
-                      iconName: "Heart",
-                      answer: response.description,
-                    }}
-                  />
+                adoptionReasonQuestion && (
+                  <S.AnswerGroup>
+                    <Answer
+                      question={{
+                        questionId: adoptionReasonQuestion.id,
+                        questionTitle: adoptionReasonQuestion.title,
+                        iconName: adoptionReasonQuestion.iconName,
+                        answer: response.description,
+                      }}
+                    />
+                  </S.AnswerGroup>
                 )}
             </S.Answers>
           </S.Category>
         ))}
       </S.Categories>
       <S.Actions>
-        <S.ReviewButton type="button" disabled={response.isRead}>
-          {response.isRead ? "Revisado" : "Marcar como revisado"}
+        <S.ReviewButton
+          type="button"
+          onClick={handleMarkAsReviewed}
+          disabled={response.isRead || isMarkingAsRead}
+        >
+          {isMarkingAsRead
+            ? "Marcando como revisado..."
+            : response.isRead
+              ? "Revisado"
+              : "Marcar como revisado"}
         </S.ReviewButton>
         <S.ContactButton
           type="button"
           onClick={() =>
             openWhatsApp(
               `${response.phoneNumber.areaCode}${response.phoneNumber.number}`,
-              `Hola ${response.applicantName}, me contacto por tu solicitud de adopción de ${response.animalName}.`,
+              `Hola ${applicantName}, me contacto por tu solicitud de adopción de ${response.animalName}.`,
             )
           }
         >

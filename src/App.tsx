@@ -153,10 +153,6 @@ function App() {
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
               <Route
-                path="/formulario-recibido/:adoptionFormId"
-                element={<AdoptionFormDetail />}
-              />
-              <Route
                 path="/formulario-adopcion/:postId"
                 element={<QuestionsFormPage />}
               />
@@ -167,6 +163,10 @@ function App() {
               <Route
                 path="/formularios-recibidos"
                 element={<ReceivedFormList />}
+              />
+              <Route
+                path="/formularios-recibidos/:adoptionFormId"
+                element={<AdoptionFormDetail />}
               />
               <Route path="/usuario/:userId" element={<UserProfile />} />
               <Route
