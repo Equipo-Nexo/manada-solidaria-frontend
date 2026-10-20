@@ -1,0 +1,15 @@
+stash@{0}: WIP on bug.MS-260.modifyMapDetail: 95794d6 [BUG][MS-260]: Make card clickeable. Add shadow instead solid border
+stash@{1}: WIP on feature.MS-239.sendFormPage: 9250c30 [FTR][MS-239]: Implement responsive
+stash@{2}: WIP on feature.MS-239.sendFormPage: 9250c30 [FTR][MS-239]: Implement responsive
+stash@{3}: WIP on dev: afd7899 Merge pull request #80 from Equipo-Nexo/fix.MS-89.floating-button-text
+stash@{4}: WIP on feature.MS-193.vet-list-filters: 1f62495 [FTR][MS-193] Remove import unused
+stash@{5}: WIP on feature.MS-187.notification-permissions: b9c7579 [REF][MS-187]: remove unwanted change
+stash@{6}: WIP on dev: 2365915 Merge pull request #65 from Equipo-Nexo/feature.MS-92.share-post
+stash@{7}: WIP on feature.MS-132.happy-cases: 1530d20 [FTR][MS-132] Add happy cases screen
+stash@{8}: WIP on feature.MS-132.happy-cases: 1530d20 [FTR][MS-132] Add happy cases screen
+stash@{9}: WIP on feature.MS-109.fundraising-detail: 16ce674 [FTR][MS-109] Add changes from code review
+stash@{10}: WIP on feature.MS-139.geolocation-autocomplete: 509f822 [REF][MS-139]: remove default location
+stash@{11}: WIP on feature.MS-139.geolocation-autocomplete: 509f822 [REF][MS-139]: remove default location
+stash@{12}: WIP on feature.MS-94.vet-guard-button: c8cbd78 [FTR][MS-94] Add vet guard schedule to validate active status
+stash@{13}: WIP on feature.MS-115.add-map: b98fc0e [FTR][MS-115]: add all animal publications on map
+stash@{14}: WIP on dev: 7b46943 Merge pull request #21 from Equipo-Nexo/feature.MS-112.errorMessageRefactor

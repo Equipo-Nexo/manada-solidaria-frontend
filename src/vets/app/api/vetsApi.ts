@@ -1,6 +1,7 @@
 import { baseAuthenticatedApi } from "@common/app/services/base/baseAuthenticatedApi";
 import type { VetResponse } from "./responses/vetsResponse";
 import type { GetVetRequest } from "./requests/GetVetRequest";
+import type { GuardStatusResponse } from "./responses/vetGuardResponse";
 
 export const vetsApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,7 +18,10 @@ export const vetsApi = baseAuthenticatedApi.injectEndpoints({
         },
       }),
     }),
+    getGuardStatus: builder.query<GuardStatusResponse, void>({
+      query: () => "/guards/status",
+    }),
   }),
 });
 
-export const { useGetVetsQuery } = vetsApi;
+export const { useGetVetsQuery, useGetGuardStatusQuery } = vetsApi;

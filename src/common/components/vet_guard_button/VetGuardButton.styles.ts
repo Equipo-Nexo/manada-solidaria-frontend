@@ -14,7 +14,26 @@ export const Wrapper = styled.div`
     gap: 16px;
   }
 `;
-
+export const MessageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 120px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+`;
+export const RetryButton = styled.button`
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 999px;
+  color: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.brand};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  cursor: pointer;
+`;
 export const Card = styled.article<VariantProps>`
   width: 100%;
   min-width: 0;
