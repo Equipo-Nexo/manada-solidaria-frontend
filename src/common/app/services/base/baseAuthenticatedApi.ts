@@ -50,5 +50,13 @@ export const baseAuthenticatedApi = createApi({
   reducerPath: "authenticatedApi",
   baseQuery: baseQueryWithUnauthorizedLogout,
   endpoints: () => ({}),
-  tagTypes: ["userPosts", "AnimalPosts", "Campaigns", "userProfile", "Vets", "map"],
+  tagTypes: [
+    "userPosts",
+    "AnimalPosts",
+    "Campaigns",
+    "userProfile",
+    "Vets",
+    "map",
+    "Notifications",
+  ],
 });

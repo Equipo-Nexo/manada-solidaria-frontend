@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-import { softInteractiveHover } from '@styles/interactions'
+import { softInteractiveHover } from "@styles/interactions";
 
 export const HeaderRoot = styled.header<{ $isVisible: boolean }>`
   width: 100%;
@@ -10,8 +10,8 @@ export const HeaderRoot = styled.header<{ $isVisible: boolean }>`
   justify-content: space-between;
   padding: 0 24px;
   background: ${({ theme }) => theme.colors.neutral};
-  pointer-events: ${({ $isVisible }) => ($isVisible ? 'auto' : 'none')};
-  transform: translateY(${({ $isVisible }) => ($isVisible ? '0' : '-100%')});
+  pointer-events: ${({ $isVisible }) => ($isVisible ? "auto" : "none")};
+  transform: translateY(${({ $isVisible }) => ($isVisible ? "0" : "-100%")});
   transition: transform 220ms ease;
   will-change: transform;
 
@@ -28,7 +28,7 @@ export const HeaderRoot = styled.header<{ $isVisible: boolean }>`
   @media (max-width: 420px) {
     padding: 0 18px;
   }
-`
+`;
 
 export const Brand = styled.div`
   min-width: 0;
@@ -39,43 +39,38 @@ export const Brand = styled.div`
   @media (max-width: 420px) {
     gap: 12px;
   }
-`
+`;
 
-export const IconButton = styled.button`
+export const MenuButton = styled.button`
   width: 44px;
   height: 44px;
   flex: 0 0 auto;
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: center;
   border: 0;
-  border-radius: 999px;
+  border-radius: 50%;
   background: transparent;
   color: ${({ theme }) => theme.colors.darkColor};
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
-
+  transition:
+    background 160ms ease,
+    color 160ms ease;
   ${softInteractiveHover}
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
-
   svg {
     width: 24px;
     height: 24px;
     stroke-width: 2.2;
   }
-`
-
-export const MenuButton = styled(IconButton)`
-  display: none;
 
   @media (min-width: 768px) {
     display: inline-flex;
   }
-`
+`;
 
 export const Logo = styled.div`
   width: 52px;
@@ -97,7 +92,7 @@ export const Logo = styled.div`
     width: 50px;
     height: 40px;
   }
-`
+`;
 
 export const Greeting = styled.p`
   margin: 0;
@@ -113,4 +108,4 @@ export const Greeting = styled.p`
   @media (max-width: 420px) {
     font-size: ${({ theme }) => theme.typography.header3.fontSize};
   }
-`
+`;
