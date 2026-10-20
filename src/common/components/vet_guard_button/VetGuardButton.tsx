@@ -39,7 +39,6 @@ function VetGuardButton({
     isError,
     refetch,
   } = useGetGuardStatusQuery(undefined, {
-    refetchOnFocus: true,
     pollingInterval: 300000,
   });
   const isActive = guardStatus?.active === true;
