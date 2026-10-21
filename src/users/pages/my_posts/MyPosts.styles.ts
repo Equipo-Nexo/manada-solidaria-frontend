@@ -265,14 +265,14 @@ export const Button = styled.button`
     }
 `
 
-export const Status = styled.div<{ $backgroundColor: string, $fontColor: string }>`
+export const Status = styled.button<{ $backgroundColor: string, $fontColor: string, $interactive: boolean }>`
+    border: 0;
     border-radius: 9999px;
     background: ${({ $backgroundColor }) => $backgroundColor};
     color: ${({ $fontColor }) => $fontColor};
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     display: flex;
-    width: 116px;
-    height: 28px;
+    width: 140px;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -281,7 +281,23 @@ export const Status = styled.div<{ $backgroundColor: string, $fontColor: string 
     font-style: normal;
     font-weight: 700;
     line-height: 19.5px;
-    margin-top: 10px
+    margin-top: 10px;
+    gap: 4px;
+    height: 40px;
+    padding: 4px 12px;
+    cursor: ${({ $interactive }) => $interactive ? 'pointer' : 'default'};
+
+    &:focus-visible {
+        outline: 3px solid ${({ theme }) => theme.colors.focus};
+        outline-offset: 2px;
+    }
+
+    > svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        color: inherit;
+    }
 `
 
 export const BottomSheetContent = styled.div`
