@@ -33,12 +33,7 @@ function VetGuardButton({
   desktopReminder = "Recordá: el sistema de guardia rotativo es únicamente para urgencias",
 }: VetGuardButtonProps) {
   const navigate = useNavigate();
-  const {
-    data: guardStatus,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetGuardStatusQuery();
+  const { data: guardStatus, isLoading, isError } = useGetGuardStatusQuery();
   const isActive = guardStatus?.active === true;
 
   const title = isActive ? activeTitle : inactiveTitle;

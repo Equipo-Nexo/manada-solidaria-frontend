@@ -72,7 +72,9 @@ function App() {
   const isProfileSection =
     location.pathname === "/mi-perfil" ||
     location.pathname.startsWith("/mi-perfil/");
-  const isAdoptionFormSuccess = actualPath.startsWith('/formulario-adopcion/enviado/');
+  const isAdoptionFormSuccess = actualPath.startsWith(
+    "/formulario-adopcion/enviado/",
+  );
 
   const usesFullScreenLayout =
     actualPath === "/login" ||
@@ -101,7 +103,7 @@ function App() {
     if (isAuthenticated && redirect) {
       navigate(redirect);
     }
-  }, []);
+  }, [isAuthenticated, redirect, navigate]);
 
   return (
     <>
@@ -118,9 +120,18 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
-            <Route path="/recuperar-contrasena/verificar-codigo" element={<VerifyCode />} />
-            <Route path="/recuperar-contrasena/nueva-contrasena" element={<NewPassword />} />
-            <Route path="/recuperar-contrasena/contrasena-actualizada" element={<PasswordResetSuccess />} />
+            <Route
+              path="/recuperar-contrasena/verificar-codigo"
+              element={<VerifyCode />}
+            />
+            <Route
+              path="/recuperar-contrasena/nueva-contrasena"
+              element={<NewPassword />}
+            />
+            <Route
+              path="/recuperar-contrasena/contrasena-actualizada"
+              element={<PasswordResetSuccess />}
+            />
             <Route
               path="/recuperar-contrasena"
               element={<PasswordRecoveryEmail />}
@@ -137,8 +148,14 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
-              <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
-              <Route path="/formulario-adopcion/enviado/:postId" element={<AdoptionFormSuccess />} />
+              <Route
+                path="/formulario-adopcion/:postId"
+                element={<QuestionsFormPage />}
+              />
+              <Route
+                path="/formulario-adopcion/enviado/:postId"
+                element={<AdoptionFormSuccess />}
+              />
               <Route path="/usuario/:userId" element={<UserProfile />} />
               <Route
                 path="/editar/animal/:postId"
