@@ -41,7 +41,7 @@ export const Title = styled.h2`
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+  line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   letter-spacing: -0.2px;
   flex: 1;
   min-width: 0;
@@ -54,7 +54,7 @@ export const Title = styled.h2`
 
   @media (max-width: 390px) {
     font-size: 16px;
-    line-height: ${({ theme }) => theme.typography.header3.lineHeight};
+    line-height: ${({ theme }) => theme.typography.body.lineHeight};
   }
 `
 
@@ -121,7 +121,6 @@ export const PhotoPlaceholder = styled.div<{ $background: string; $color: string
   place-items: center;
   background: ${({ $background }) => $background};
   color: ${({ $color }) => $color};
-
   > svg {
     width: 32px;
     height: 32px;
