@@ -6,7 +6,7 @@ import PawLoader from "../pawLoader/PawLoader";
 import Message from "../message/message";
 
 const VET_GUARD_PHONE_NUMBER = "+5493534791156";
-const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 15-4791156";
+const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 4791156";
 const VET_PATH = "/veterinarias";
 
 type VetGuardButtonProps = {
@@ -38,9 +38,7 @@ function VetGuardButton({
     isLoading,
     isError,
     refetch,
-  } = useGetGuardStatusQuery(undefined, {
-    pollingInterval: 300000,
-  });
+  } = useGetGuardStatusQuery();
   const isActive = guardStatus?.active === true;
 
   const title = isActive ? activeTitle : inactiveTitle;
@@ -71,12 +69,27 @@ function VetGuardButton({
       <S.Wrapper className={className}>
         <S.MessageContainer role="alert">
           <Message
-            message="No se pudo consultar el estado de la guardia veterinaria."
+            message="No pudimos actualizar el estado de la guardia veterinaria."
             iconName="pawPrint"
           />
-          <S.RetryButton type="button" onClick={() => void refetch()}>
-            Reintentar
-          </S.RetryButton>
+
+          {guardStatus?.active === true && (
+            <S.EmergencyContact>
+              <S.ErrorDescription>
+                Si tenés una urgencia, podés intentar comunicarte:
+              </S.ErrorDescription>
+
+              <S.ErrorPhoneLink href={`tel:${phoneNumber}`}>
+                <S.ErrorPhoneIcon>
+                  <Phone aria-hidden="true" />
+                </S.ErrorPhoneIcon>
+
+                <S.ErrorPhoneContent>
+                  <S.ErrorPhoneNumber>{phoneDisplayNumber}</S.ErrorPhoneNumber>
+                </S.ErrorPhoneContent>
+              </S.ErrorPhoneLink>
+            </S.EmergencyContact>
+          )}
         </S.MessageContainer>
       </S.Wrapper>
     );
