@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query";
 import useAuth from "@hooks/auth/useAuth";
@@ -9,15 +8,23 @@ import {
 import NotificationList from "../components/notification_list/NotificationList";
 import * as S from "./NotificationPage.styles";
 import Arrow from "@/common/icons/Arrow";
+import Check from "@/common/icons/Check";
 function NotificationPage() {
   const navigate = useNavigate();
   const { userId } = useAuth();
   const { data, isLoading, isError, refetch } = useGetUserNotificationsQuery(
     userId ?? skipToken,
   );
-  const [markAllNotificationsAsRead] = useMarkAllNotificationsAsReadMutation();
-  const hasMarkedAsRead = useRef(false);
+  const [markAllNotificationsAsRead, { isLoading: isMarkingAll }] =
+    useMarkAllNotificationsAsReadMutation();
   const notifications = data?.notifications ?? [];
+  const handleMarkAllAsRead = async () => {
+    try {
+      await markAllNotificationsAsRead().unwrap();
+    } catch (error) {
+      console.error("Error al marcar las notificaciones como leídas", error);
+    }
+  };
 
   return (
     <S.Page>
@@ -31,6 +38,17 @@ function NotificationPage() {
         </S.BackButton>
 
         <S.Title>Notificaciones</S.Title>
+        {data?.hasUnreadNotification && (
+          <S.MarkAllButton
+            type="button"
+            onClick={handleMarkAllAsRead}
+            disabled={isMarkingAll}
+            aria-busy={isMarkingAll}
+          >
+            <Check aria-hidden="true" />
+            <span>{isMarkingAll ? "Marcando..." : "Marcar todas como leídas"}</span>
+          </S.MarkAllButton>
+        )}
       </S.Header>
 
       <S.Content>
