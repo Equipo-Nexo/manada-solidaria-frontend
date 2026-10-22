@@ -1,5 +1,5 @@
-import { useState, type KeyboardEvent, type MouseEvent } from "react";
-import { ArrowLeft, Pencil, Trash } from "../../../common/icons"
+import { useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import { ArrowLeft, ChevronDown, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -11,6 +11,9 @@ import { Clock } from "@icons/index.ts";
 import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
 import { getPublishedAtDescription, publicationMessages } from "@utils/Messages";
 import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
+import { getPossibleStatuses } from "@/users/utils/Status.utils";
+import AnimalPostStatusSheet from "@/users/components/animal_post_status_sheet/AnimalPostStatusSheet";
+import { isFinalAnimalPostStatus } from '@animals/utils/AnimalPostStatusUtils';
 
 type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
 
@@ -36,6 +39,19 @@ function MyPosts() {
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
+    const [statusPost, setStatusPost] = useState<GetUserPostsResponse | null>(null)
+    const statusCardRef = useRef<HTMLElement | null>(null)
+    const selectedPostTitle = selectedPost?.title?.trim()
+
+    const handleStatusButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLButtonElement>) => {
+        statusCardRef.current = event.currentTarget.closest<HTMLElement>('[role="link"]')
+        setStatusPost(post)
+    }
+
+    const closeStatusSheet = () => {
+        setStatusPost(null)
+        statusCardRef.current?.focus()
+    }
 
     const handleFilterChange = (filter: PostFilter) => {
         setSearchParams((currentParams) => {
@@ -52,6 +68,8 @@ function MyPosts() {
     }
 
     const handleEditButton = (post: GetUserPostsResponse) => {
+        if (post.postType === 'animal' && isFinalAnimalPostStatus(post.status)) return
+
         const editByPostType: Record<UserPostType, (postId: string) => void> = {
             campaign: (postId) => navigate(`/editar/campania/${postId}`),
             animal: (postId) => navigate(`/editar/animal/${postId}`),
@@ -119,24 +137,33 @@ function MyPosts() {
 
     return (
         <S.MyPostsRoot>
+            {statusPost && (
+                <AnimalPostStatusSheet key={statusPost.id} post={statusPost} onClose={closeStatusSheet} />
+            )}
             <BottomSheet
                 isOpen={openBottomSheet}
-                onClose={() => setOpenBottomSheet(false)}
+                ariaLabel="Confirmar eliminación de publicación"
+                onClose={closeBottomSheet}
             >
                 <S.BottomSheetContent>
                     <S.BottomSheetTitle>Eliminar publicación</S.BottomSheetTitle>
-                    <S.BottomSheetDescription>¿Estás seguro de eliminar {<S.PostTitle>{selectedPost?.title}</S.PostTitle>}? No podrás volver atrás esta acción</S.BottomSheetDescription>
+                    <S.BottomSheetDescription>
+                        ¿Estás seguro de eliminar la publicación{selectedPostTitle && <> de <S.PostTitle>{selectedPostTitle}</S.PostTitle></>}?
+                    </S.BottomSheetDescription>
+                    <S.BottomSheetButtonContainer>
+                        <S.BottomSheetButton
+                            type="button"
+                            $primary
+                            $destructive
+                            onClick={() => selectedPost && handleAcceptDelete(selectedPost)}
+                        >Sí, eliminar</S.BottomSheetButton>
+                        <S.BottomSheetButton
+                            type="button"
+                            $primary={false}
+                            onClick={closeBottomSheet}
+                        >No, cancelar</S.BottomSheetButton>
+                    </S.BottomSheetButtonContainer>
                 </S.BottomSheetContent>
-                <S.BottomSheetButtonContainer>
-                    <S.BottomSheetButton
-                        $primary
-                        onClick={() => selectedPost && handleAcceptDelete(selectedPost)}
-                    >Si, eliminar</S.BottomSheetButton>
-                    <S.BottomSheetButton
-                        $primary={false}
-                        onClick={closeBottomSheet}
-                    >No, cancelar</S.BottomSheetButton>
-                </S.BottomSheetButtonContainer>
             </BottomSheet>
             <S.Header>
                 <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
@@ -183,6 +210,8 @@ function MyPosts() {
                         </S.MessageContainer>
                     )}
                     {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType }) => {
+                        const canChangeStatus = postType === 'animal' && getPossibleStatuses(status).length > 0
+                        const canEdit = postType !== 'animal' || !isFinalAnimalPostStatus(status)
                         return (
                             <S.Card
                                 key={id}
@@ -192,11 +221,13 @@ function MyPosts() {
                                 onClick={(event) => handleClickButton({ id, imageId, title, createdSince, status, postType }, event)}
                                 onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
                             >
-                                <ImagePreview
-                                    imageId={imageId}
-                                    alt={title}
-                                    variant="square"
-                                />
+                                <S.CardImage>
+                                    <ImagePreview
+                                        imageId={imageId}
+                                        alt={title}
+                                        variant="fill"
+                                    />
+                                </S.CardImage>
                                 <S.CardContent>
                                     <S.CardInformationContainer>
                                         <S.CardTitle>{title}</S.CardTitle>
@@ -207,20 +238,33 @@ function MyPosts() {
                                         {
                                             status && AnimalPostStatus[status] && (
                                                 <S.Status
+                                                    as={canChangeStatus ? 'button' : 'span'}
+                                                    type={canChangeStatus ? 'button' : undefined}
+                                                    $interactive={canChangeStatus}
                                                     $backgroundColor={AnimalPostStatus[status].backgroundColor}
                                                     $fontColor={AnimalPostStatus[status].fontColor}
-                                                >{AnimalPostStatus[status].text}</S.Status>
+                                                    aria-label={canChangeStatus ? `Cambiar estado de ${title}: ${AnimalPostStatus[status].text}` : undefined}
+                                                    aria-haspopup={canChangeStatus ? 'dialog' : undefined}
+                                                    onClick={canChangeStatus ? (event: MouseEvent<HTMLButtonElement>) =>
+                                                        handleStatusButton({ id, imageId, title, createdSince, status, postType }, event)
+                                                        : undefined}
+                                                >
+                                                    {AnimalPostStatus[status].text}
+                                                    {canChangeStatus && <ChevronDown aria-hidden="true" />}
+                                                </S.Status>
                                             )
                                         }
                                     </S.CardInformationContainer>
                                     <S.ButtonsContainer>
-                                        <S.Button
-                                            type="button"
-                                            aria-label={`Editar ${title}`}
-                                            onClick={() => handleEditButton({ id, imageId, title, createdSince, status, postType })}
-                                        >
-                                            <Pencil width={17} height={17} />
-                                        </S.Button>
+                                        {canEdit && (
+                                            <S.Button
+                                                type="button"
+                                                aria-label={`Editar ${title}`}
+                                                onClick={() => handleEditButton({ id, imageId, title, createdSince, status, postType })}
+                                            >
+                                                <Pencil width={17} height={17} />
+                                            </S.Button>
+                                        )}
                                         <S.Button onClick={() => handleDeleteButton({ id, imageId, title, createdSince, status, postType })}>
                                             <Trash width={17} height={17} />
                                         </S.Button>
