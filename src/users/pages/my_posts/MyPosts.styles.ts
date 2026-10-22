@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+export {
+    Content as BottomSheetContent,
+    Title as BottomSheetTitle,
+    Description as BottomSheetDescription,
+    Actions as BottomSheetButtonContainer,
+    ActionButton as BottomSheetButton,
+} from '@components/bottomSheet/ConfirmationSheet.styles'
+
 export const MyPostsRoot = styled.section`
     display: flex;
     width: 100%;
@@ -71,7 +79,10 @@ export const CreatedSinceContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 4px
+    gap: 4px;
+    min-width: 0;
+
+    > svg { flex-shrink: 0; }
 `
 
 export const CardsContainer = styled.div`
@@ -135,7 +146,7 @@ export const Card = styled.div<{ $clickable: boolean }>`
     border: 1px solid ${({ theme }) => `${theme.colors.stroke}33`};
     box-shadow: 0 4px 12px 0 ${({ theme }) => `${theme.colors.black}14`};
     overflow: hidden;
-    height: 130px;
+    min-height: 130px;
     cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
     transition:
         transform 180ms ease,
@@ -179,6 +190,27 @@ export const Card = styled.div<{ $clickable: boolean }>`
     }
 `
 
+export const CardImage = styled.div`
+    position: relative;
+    flex: 0 0 128px;
+    overflow: hidden;
+
+    > div {
+        position: absolute;
+        inset: 0;
+    }
+
+    img { object-position: center; }
+
+    @media (max-width: 369px) {
+        flex-basis: 28%;
+    }
+
+    @media (min-width: 768px) {
+        flex-basis: 142px;
+    }
+`
+
 export const CardContent = styled.div`
     display: flex;
     flex-direction: row;
@@ -188,6 +220,11 @@ export const CardContent = styled.div`
     justify-content: space-between;
     gap: 16px;
     padding: 16px 16px 16px 8px;
+
+    @media (max-width: 369px) {
+        gap: 8px;
+        padding: 8px;
+    }
 
     @media (min-width: 768px) {
         gap: 8px;
@@ -273,6 +310,7 @@ export const Status = styled.button<{ $backgroundColor: string, $fontColor: stri
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     display: flex;
     width: 140px;
+    max-width: 100%;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -298,46 +336,15 @@ export const Status = styled.button<{ $backgroundColor: string, $fontColor: stri
         flex-shrink: 0;
         color: inherit;
     }
-`
 
-export const BottomSheetContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-
-`
-
-export const BottomSheetTitle = styled.h2`
-    color: ${({ theme }) => theme.colors.black};
-`
-
-export const BottomSheetDescription = styled.p`
-    color: ${({ theme }) => theme.colors.black};
-    text-align: center;
+    @media (max-width: 369px) {
+        min-height: 40px;
+        height: auto;
+        padding: 4px 8px;
+        overflow-wrap: anywhere;
+    }
 `
 
 export const PostTitle = styled.span`
     font-weight: bold;
-`
-
-export const BottomSheetButtonContainer = styled.div`
-    margin-top: 12px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-`
-export const BottomSheetButton = styled.button<{ $primary: boolean }>`
-    width: 100%;
-    background: ${({ $primary, theme }) => $primary ? theme.colors.error : theme.colors.background};
-    color: ${({ $primary, theme }) => $primary ? theme.colors.background : theme.colors.darkColor};
-    border: ${({ $primary, theme }) => $primary ? 'none' : `2px solid ${theme.colors.stroke}`};
-    padding: 16px 16px;
-    border-radius: 12px;
-    text-align: left;
-    font-weight: bold;
-    height: 62px;
-    cursor: pointer;
 `

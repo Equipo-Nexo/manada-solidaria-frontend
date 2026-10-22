@@ -40,9 +40,9 @@ function AnimalPostStatusConfirmationSheet({
   if (!option) return null
 
   const title = option.finalAction
-    ? `¿${name} ${option.finalAction}?`
+    ? `¿El animal ${option.finalAction}?`
     : `¿Cambiar el estado de ${name} a ${option.label.toLowerCase()}?`
-  const confirmLabel = option.finalAction ? `Sí, ${name} ${option.finalAction}` : 'Sí, cambiar estado'
+  const confirmLabel = option.finalAction ? `Sí, ${option.finalAction}` : 'Sí, cambiar estado'
 
   return (
     <BottomSheet isOpen ariaLabel="Confirmar cambio de estado" onClose={onClose}>
@@ -54,7 +54,7 @@ function AnimalPostStatusConfirmationSheet({
             : option.description}
         </S.Description>
         <S.Actions>
-          <S.ActionButton type="button" $primary disabled={isLoading} onClick={() => onConfirm(option)}>
+          <S.ActionButton type="button" $primary aria-busy={isLoading} disabled={isLoading} onClick={() => onConfirm(option)}>
             {isLoading ? 'Actualizando...' : confirmLabel}
           </S.ActionButton>
           <S.ActionButton type="button" $primary={false} disabled={isLoading} onClick={onCancel}>
