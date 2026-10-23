@@ -100,7 +100,7 @@ export const CardsContainer = styled.div`
     }
 `
 
-export const Card = styled.div`
+export const Card = styled.div<{ $hasAnimalName: boolean }>`
     position: relative;
     display: flex;
     align-items: center; 
@@ -108,9 +108,9 @@ export const Card = styled.div`
     gap: 8px;
     width: 100%;
     min-width: 0;
-    min-height: 130px;
+    min-height: ${({ $hasAnimalName }) => $hasAnimalName ? '130px' : '102px'};
     box-sizing: border-box;
-    padding: 20px 36px 8px 8px;
+    padding: ${({ $hasAnimalName }) => $hasAnimalName ? '20px 36px 8px 8px' : '16px 36px 16px 8px'};
     border-radius: 8px;
     border: 1px solid ${({ theme }) => theme.colors.background};
     background: ${({ theme }) => theme.colors.background};
@@ -144,7 +144,8 @@ export const Card = styled.div`
     }
 
     @media (min-width: 768px) {
-        min-height: 144px;
+        min-height: ${({ $hasAnimalName }) => $hasAnimalName ? '144px' : '112px'};
+        align-self: start;
 
         &:only-child {
             width: calc((100% - 20px) / 2);
@@ -184,7 +185,6 @@ export const FirstLine = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-right: -20px;
 `
 
 export const Name = styled.p`

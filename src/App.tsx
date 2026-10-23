@@ -49,7 +49,7 @@ import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
 import UserProfile from "./users/pages/user_profile/userProfile";
-import ReceivedFormList from "./forms/pages/receivedFormsList/receivedFormList";
+import ReceivedFormList from "./forms/pages/received_forms_list/receivedFormList";
 
 function App() {
   const location = useLocation();
