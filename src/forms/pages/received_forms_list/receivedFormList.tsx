@@ -38,9 +38,9 @@ function ReceivedFormList() {
                     ariaLabel="Filtrar publicaciones por categoría"
                 />
             </S.FiltersContainer>
-            <S.CardsContainer>
+            <S.CardsContainer $hasSingleCard={receivedForms?.forms.length === 1}>
                 {receivedForms?.forms.map((form, index) =>
-                    <S.Card key={index} $hasAnimalName={form.animalName != ""}>
+                    <S.Card key={index}>
                         <S.Photo src={normalizeImageUrl(form.animalImageUrl)} alt={`Foto de perfil de ${form.applicantName}`} />
                         <S.Info>
                             <S.FirstLine>
@@ -51,7 +51,7 @@ function ReceivedFormList() {
                                 <Calendar aria-hidden="true" />
                                 Enviado el {formatDateShort(form.createdAt)}
                             </S.CreationDate>
-                            {form.description?.trim() && <S.Description>{form.description}</S.Description>}
+                            <S.Description>{form.description?.trim() || "Sin descripción"}</S.Description>
                             {form.animalName?.trim() &&
                                 <S.LastLine>
                                     <S.AnimalName><PawPrint aria-hidden="true" />{form.animalName}</S.AnimalName>

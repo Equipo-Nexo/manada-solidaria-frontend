@@ -82,7 +82,7 @@ export const FiltersContainer = styled.div`
   padding: 0 16px;
 `
 
-export const CardsContainer = styled.div`
+export const CardsContainer = styled.div<{ $hasSingleCard: boolean }>`
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -90,17 +90,22 @@ export const CardsContainer = styled.div`
 
     @media (min-width: 768px) {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: ${({ $hasSingleCard }) => $hasSingleCard
+            ? 'minmax(0, calc((100% - 20px) / 2))'
+            : 'repeat(2, minmax(0, 1fr))'};
+        justify-content: center;
         align-content: start;
         gap: 20px;
     }
 
     @media (min-width: 1238px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: ${({ $hasSingleCard }) => $hasSingleCard
+            ? 'minmax(0, calc((100% - 40px) / 3))'
+            : 'repeat(3, minmax(0, 1fr))'};
     }
 `
 
-export const Card = styled.div<{ $hasAnimalName: boolean }>`
+export const Card = styled.div`
     position: relative;
     display: flex;
     align-items: center; 
@@ -108,9 +113,9 @@ export const Card = styled.div<{ $hasAnimalName: boolean }>`
     gap: 8px;
     width: 100%;
     min-width: 0;
-    min-height: ${({ $hasAnimalName }) => $hasAnimalName ? '130px' : '102px'};
+    min-height: 130px;
     box-sizing: border-box;
-    padding: ${({ $hasAnimalName }) => $hasAnimalName ? '20px 36px 8px 8px' : '16px 36px 16px 8px'};
+    padding: 16px 36px 16px 8px;
     border-radius: 8px;
     border: 1px solid ${({ theme }) => theme.colors.background};
     background: ${({ theme }) => theme.colors.background};
@@ -144,20 +149,8 @@ export const Card = styled.div<{ $hasAnimalName: boolean }>`
     }
 
     @media (min-width: 768px) {
-        min-height: ${({ $hasAnimalName }) => $hasAnimalName ? '144px' : '112px'};
+        min-height: 144px;
         align-self: start;
-
-        &:only-child {
-            width: calc((100% - 20px) / 2);
-            grid-column: 1 / -1;
-            justify-self: center;
-        }
-    }
-
-    @media (min-width: 1238px) {
-        &:only-child {
-            width: calc((100% - 40px) / 3);
-        }
     }
 
 `
@@ -174,6 +167,7 @@ export const Photo = styled.img`
 export const Info = styled.div`
     display: flex;
     flex: 1;
+    align-self: stretch;
     min-width: 0;
     flex-direction: column;
     gap: 8px;
