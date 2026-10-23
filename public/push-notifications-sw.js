@@ -12,11 +12,11 @@ self.addEventListener('push', (event) => {
     Promise.resolve()
       .then(() => event.data.json())
       .then(async (payload) => {
+        console.info('asdasd', payload)
         console.info('[Web Push] Payload recibido', {
           title: payload?.title,
           body: payload?.body,
-          tag: payload?.tag,
-          url: payload?.url,
+          tag: payload?.tag
         })
 
         if (typeof payload?.title !== 'string' || typeof payload?.body !== 'string') {
@@ -24,16 +24,28 @@ self.addEventListener('push', (event) => {
           return
         }
 
+        const actions = (payload.actions ?? []).map((action, index) => ({
+          ...action,
+          id: `action-${index}`,
+        }));
+
         await self.registration.showNotification(payload.title, {
           body: payload.body,
-          icon: payload.icon,
-          badge: payload.badge,
+          ...(payload.icon ? { icon: payload.icon } : {}),
+          ...(payload.badge ? { badge: payload.badge } : {}),
           tag: payload.tag,
           data: {
-            ...(payload.data && typeof payload.data === 'object' ? payload.data : {}),
+            ...(payload.data && typeof payload.data === "object"
+              ? payload.data
+              : {}),
             url: payload.url,
+            actions,
           },
-        })
+          actions: actions.map(({ id, title }) => ({
+            action: id,
+            title,
+          })),
+        });
 
         console.info('[Web Push] Notificaci\u00f3n mostrada', {
           title: payload.title,
@@ -48,25 +60,46 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
 
-  const relativeUrl = event.notification.data?.url ?? '/home'
-  const targetUrl = new URL(relativeUrl, self.location.origin).href
+  const data = event.notification.data ?? {}
+  const actions = data.actions ?? []
 
-  console.info('[Web Push] Click en notificaci\u00f3n', { targetUrl })
+  const selectedAction = event.action
+    ? actions.find((action) => action.id === event.action)
+    : actions.find((action) => action.type === 'REDIRECT')
+
+  // Si se pulsó un botón desconocido, no hacemos nada.
+  if (event.action && !selectedAction) return
+
+  if (selectedAction?.type === 'CLOSE') return
+
+  if (selectedAction && selectedAction.type !== 'REDIRECT') return
+
+  // Al tocar el cuerpo, usamos el primer REDIRECT o la URL por defecto.
+  const relativeUrl = selectedAction?.url ?? data.url ?? '/home'
+  const targetUrl = new URL(relativeUrl, self.location.origin)
+
+  if (targetUrl.origin !== self.location.origin) return
 
   event.waitUntil(
-    clients
-      .matchAll({
+    (async () => {
+      const windowClients = await self.clients.matchAll({
         type: 'window',
         includeUncontrolled: true,
       })
-      .then((windowClients) => {
-        for (const client of windowClients) {
-          if ('focus' in client) {
-            return client.navigate(targetUrl).then(() => client.focus())
-          }
-        }
 
-        return clients.openWindow(targetUrl)
-      }),
+      const client = windowClients.find(
+        (client) => new URL(client.url).origin === targetUrl.origin,
+      )
+
+      if (client) {
+        const navigatedClient = await client.navigate(targetUrl.href)
+
+        if (navigatedClient) {
+          return navigatedClient.focus()
+        }
+      }
+
+      return self.clients.openWindow(targetUrl.href)
+    })(),
   )
 })

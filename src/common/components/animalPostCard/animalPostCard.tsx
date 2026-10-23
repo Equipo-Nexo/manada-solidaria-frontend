@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router-dom'
 import { AnimalPostStatus } from '@utils/AnimalPostUtils'
 import { LocationPin, Share } from '../../icons'
 import { getAnimalPostActions } from './animalPostActions'
@@ -123,20 +123,24 @@ function AnimalPostCard({
 
         {visibleActions.length > 0 && (
           <S.ButtonsContainer $amount={visibleActions.length}>
-            {visibleActions.map(({ id, label, variant, onClick }) => (
+            {visibleActions.map(({ id, label, variant, to, onClick }) => (
               <S.ActionButton
                 key={id}
                 type="button"
                 $variant={variant}
-                onClick={() =>
-                  onClick(
+                onClick={() => {
+                  if (to) {
+                    navigate(generatePath(to, { postId: encodeURIComponent(postId) }))
+                    return
+                  }
+                  onClick?.(
                     phoneNumber,
                     name,
                     location
                       ? () => handleViewOnMap(location.latitude, location.longitude)
                       : undefined
                   )
-                }
+                }}
               >
                 {label}
               </S.ActionButton>

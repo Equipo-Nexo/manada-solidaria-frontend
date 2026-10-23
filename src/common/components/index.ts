@@ -21,6 +21,7 @@ export { default as Message } from "./message/message";
 export { default as Modal } from "./modal/Modal";
 export { default as Navbar } from "./navbar/Navbar";
 export { default as Loader } from "./pawLoader/PawLoader";
+export { default as PagePaws } from "./page_paws/PagePaws";
 export { default as PublishFloatingButton } from "./publishFloatingButton/PublishFloatingButton";
 export { default as PublishOptions } from "./publishOptions/PublishOptions";
 export { default as ScrollHint } from "./scroll_hint/ScrollHint";
