@@ -1,3 +1,5 @@
+importScripts('/service_workers/notificationActionStrategies.js')
+
 self.addEventListener('push', (event) => {
   console.info('[Web Push] Evento push recibido', {
     hasData: Boolean(event.data),
@@ -62,44 +64,15 @@ self.addEventListener('notificationclick', (event) => {
 
   const data = event.notification.data ?? {}
   const actions = data.actions ?? []
-
-  const selectedAction = event.action
-    ? actions.find((action) => action.id === event.action)
-    : actions.find((action) => action.type === 'REDIRECT')
-
-  // Si se pulsó un botón desconocido, no hacemos nada.
-  if (event.action && !selectedAction) return
-
-  if (selectedAction?.type === 'CLOSE') return
-
-  if (selectedAction && selectedAction.type !== 'REDIRECT') return
-
   // Al tocar el cuerpo, usamos el primer REDIRECT o la URL por defecto.
-  const relativeUrl = selectedAction?.url ?? data.url ?? '/home'
-  const targetUrl = new URL(relativeUrl, self.location.origin)
+  const action = event.action
+    ? actions.find((action) => action.id === event.action)
+    : actions.find((action) => action.type === 'REDIRECT') ?? { type: 'REDIRECT' }
+  const strategy = notificationActionStrategies.get(action?.type)
 
-  if (targetUrl.origin !== self.location.origin) return
+  if (!strategy) return
 
   event.waitUntil(
-    (async () => {
-      const windowClients = await self.clients.matchAll({
-        type: 'window',
-        includeUncontrolled: true,
-      })
-
-      const client = windowClients.find(
-        (client) => new URL(client.url).origin === targetUrl.origin,
-      )
-
-      if (client) {
-        const navigatedClient = await client.navigate(targetUrl.href)
-
-        if (navigatedClient) {
-          return navigatedClient.focus()
-        }
-      }
-
-      return self.clients.openWindow(targetUrl.href)
-    })(),
+    Promise.resolve().then(() => strategy({ action, data })),
   )
 })
