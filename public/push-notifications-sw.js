@@ -14,13 +14,6 @@ self.addEventListener('push', (event) => {
     Promise.resolve()
       .then(() => event.data.json())
       .then(async (payload) => {
-        console.info('asdasd', payload)
-        console.info('[Web Push] Payload recibido', {
-          title: payload?.title,
-          body: payload?.body,
-          tag: payload?.tag
-        })
-
         if (typeof payload?.title !== 'string' || typeof payload?.body !== 'string') {
           console.warn('[Web Push] Payload descartado: title y body deben ser strings')
           return
@@ -48,12 +41,6 @@ self.addEventListener('push', (event) => {
             title,
           })),
         });
-
-        console.info('[Web Push] Notificaci\u00f3n mostrada', {
-          title: payload.title,
-          tag: payload.tag,
-          url: payload.url,
-        })
       })
       .catch((error) => console.error('[Web Push] No se pudo procesar la notificaci\u00f3n', error)),
   )
