@@ -40,13 +40,14 @@ export const SummaryFrame = styled.div`
     box-shadow: 0 4px 12px 0 ${({ theme }) => `${theme.colors.black}14`};
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 24px;
       bottom: 24px;
       left: 50%;
       width: 1px;
-      background: ${({ theme }) => `linear-gradient(to bottom, transparent, ${theme.colors.black}24 25%, ${theme.colors.black}24 75%, transparent)`};
+      background: ${({ theme }) =>
+        `linear-gradient(to bottom, transparent, ${theme.colors.black}24 25%, ${theme.colors.black}24 75%, transparent)`};
       pointer-events: none;
     }
   }
@@ -88,18 +89,16 @@ export const BackButton = styled.button`
   }
 `;
 export const AnimalPhotoFrame = styled.div`
-  position: relative;
-  overflow: hidden;
   width: 88px;
   height: 92px;
-  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export const AnimalPhoto = styled.img`
-  position: absolute;
-  width: 169.05%;
-  height: 233%;
-  left: 0.07%;
-  top: -66.5%;
+  width: 88px;
+  height: 92px;
+  border-radius: 50%;
   object-fit: cover;
 `;
 export const AnimalName = styled.h1`
@@ -185,8 +184,10 @@ export const Status = styled.span<{ $isRead: boolean }>`
   top: 18px;
   padding: 2px 12px;
   border-radius: 999px;
-  background: ${({ theme, $isRead }) => $isRead ? theme.colors.statusFoundBackground : theme.colors.neutral};
-  color: ${({ theme, $isRead }) => $isRead ? theme.colors.success : theme.colors.brand};
+  background: ${({ theme, $isRead }) =>
+    $isRead ? theme.colors.statusFoundBackground : theme.colors.neutral};
+  color: ${({ theme, $isRead }) =>
+    $isRead ? theme.colors.success : theme.colors.brand};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   @media (min-width: 1024px) {

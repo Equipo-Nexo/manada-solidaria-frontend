@@ -10,10 +10,7 @@ import {
 } from "@/forms/app/api/adoptionFormsApi";
 import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
-import {
-  normalizeImageUrl,
-  NOT_FOUND_IMAGE_URL,
-} from "@/common/utils/CommonUtils";
+import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import { getInitials } from "@/forms/utils/getInitials";
 import { AdoptionQuestionsMock } from "@/forms/utils/AdoptionQuestionsMocked";
 import { formatDateShort } from "@/common/utils/DateTime";
@@ -76,7 +73,7 @@ export default function AdoptionFormDetail() {
   }
   const applicantName = response.applicantName?.trim() || "Posible adoptante";
   const formattedDate = formatDateShort(response.createdAt);
-  const initials = getInitials(response.applicantName);
+  const hasApplicantName = Boolean(response.applicantName?.trim());
   return (
     <S.Page>
       <S.Summary>
@@ -93,16 +90,16 @@ export default function AdoptionFormDetail() {
               <S.AnimalPhoto
                 src={normalizeImageUrl(response.animalImageUrl)}
                 alt={`Foto de ${response.animalName}`}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = NOT_FOUND_IMAGE_URL;
-                }}
               />
             </S.AnimalPhotoFrame>
             <S.AnimalName>{response.animalName}</S.AnimalName>
           </S.Header>
           <S.ApplicantCard>
-            <S.Avatar aria-hidden="true">{initials}</S.Avatar>
+            {hasApplicantName && (
+              <S.Avatar aria-hidden="true">
+                {getInitials(response.applicantName)}
+              </S.Avatar>
+            )}
             <S.ApplicantInfo>
               <S.ApplicantHeading>
                 <S.ApplicantName>{applicantName}</S.ApplicantName>

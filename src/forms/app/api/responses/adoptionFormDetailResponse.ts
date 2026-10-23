@@ -1,3 +1,4 @@
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 import type { AdoptionFormAnswer } from "../../types/AdoptionFormDetail.types";
 
 export interface AdoptionFormDetailResponse {
@@ -8,7 +9,7 @@ export interface AdoptionFormDetailResponse {
   applicantId: string;
   applicantName: string;
   description: string;
-  phoneNumber: { areaCode: string; number: string };
+  phoneNumber: PhoneNumber;
   isRead: boolean;
   createdAt: string;
   categories: {
