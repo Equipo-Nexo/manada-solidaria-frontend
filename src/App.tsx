@@ -140,8 +140,8 @@ function App() {
               <Route path="/comunidad" element={<Community />} />
               <Route path="/usuario/:userId" element={<UserProfile />} />
               <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
-              <Route path="/formulario-adopcion/enviado/:postId" element={<AdoptionFormSuccess />} />
               <Route path="/formularios-recibidos" element={<ReceivedFormList />} />
+              <Route path="/formulario-adopcion/enviado/:postId" element={<AdoptionFormSuccess />} />
               <Route
                 path="/editar/animal/:postId"
                 element={<EditAnimalPostForm />}
