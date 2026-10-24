@@ -49,6 +49,7 @@ import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
 import UserProfile from "./users/pages/user_profile/userProfile";
+import NotificationPage from "./notifications/pages/NotificationPage";
 
 function App() {
   const location = useLocation();
@@ -60,6 +61,7 @@ function App() {
     location.pathname === "/publicar/campania" ||
     location.pathname === "/publicar/colecta" ||
     location.pathname === "/editar/exito" ||
+    location.pathname === "/notificaciones" ||
     location.pathname.startsWith("/editar/animal/") ||
     location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
@@ -142,6 +144,7 @@ function App() {
             />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
+              <Route path="/notificaciones" element={<NotificationPage />} />
               <Route path="/campanias" element={<Campaigns />} />
               <Route path="/mapa" element={<AllPublicationsMap />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />
