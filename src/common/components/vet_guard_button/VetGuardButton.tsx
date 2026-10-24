@@ -49,7 +49,6 @@ function VetGuardButton({
       window.location.href = `tel:${phoneNumber}`;
       return;
     }
-
     navigate(vetPath);
   };
   if (isLoading) {
@@ -64,27 +63,9 @@ function VetGuardButton({
       <S.Wrapper className={className}>
         <S.MessageContainer role="alert">
           <Message
-            message="No pudimos actualizar el estado de la guardia veterinaria."
+            message="No pudimos consultar el estado de la guardia veterinaria."
             iconName="pawPrint"
           />
-
-          {guardStatus?.active === true && (
-            <S.EmergencyContact>
-              <S.ErrorDescription>
-                Si tenés una urgencia, podés intentar comunicarte:
-              </S.ErrorDescription>
-
-              <S.ErrorPhoneLink href={`tel:${phoneNumber}`}>
-                <S.ErrorPhoneIcon>
-                  <Phone aria-hidden="true" />
-                </S.ErrorPhoneIcon>
-
-                <S.ErrorPhoneContent>
-                  <S.ErrorPhoneNumber>{phoneDisplayNumber}</S.ErrorPhoneNumber>
-                </S.ErrorPhoneContent>
-              </S.ErrorPhoneLink>
-            </S.EmergencyContact>
-          )}
         </S.MessageContainer>
       </S.Wrapper>
     );
