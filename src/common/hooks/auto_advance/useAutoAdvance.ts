@@ -14,7 +14,7 @@ export const useAutoAdvance = ({
   onNext,
 }: UseAutoAdvanceProps) => {
   useEffect(() => {
-    if (totalItems <= 1) return;
+    if (totalItems === 0) return;
 
     const timer = setTimeout(() => {
       onNext();

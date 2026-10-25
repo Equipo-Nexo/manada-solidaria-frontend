@@ -39,11 +39,11 @@ const animalPostRequestBuilders: Record<
   },
 
   [PublicationReason.Adoption]: {
-    build: (_, commonRequest) => ({
+    build: (values, commonRequest) => ({
       ...commonRequest,
       type: 'ADOPTION',
       inTransit: false,
-      needTransport: true
+      needTransport: values.needsTransport
     }),
   },
 

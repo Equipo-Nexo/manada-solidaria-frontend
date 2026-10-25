@@ -1,15 +1,16 @@
-import { Bell, Menu } from '../../icons'
-import useCurrentUserProfile from '@hooks/user/useCurrentUserProfile'
-import useHeaderVisibility from '@hooks/ui/useHeaderVisibility'
-import { Brand, Greeting, HeaderRoot, IconButton, Logo, MenuButton } from './Header.styles'
+import { Menu } from "../../icons";
+import useCurrentUserProfile from "@hooks/user/useCurrentUserProfile";
+import useHeaderVisibility from "@hooks/ui/useHeaderVisibility";
+import { Brand, Greeting, HeaderRoot, Logo, MenuButton } from "./Header.styles";
+import NotificationBell from "@/notifications/components/notification_bell/NotificationBell";
 
 type HeaderProps = {
-  onMenuClick?: () => void
-}
+  onMenuClick?: () => void;
+};
 
 function Header({ onMenuClick }: HeaderProps) {
-  const { username } = useCurrentUserProfile()
-  const isVisible = useHeaderVisibility()
+  const { username } = useCurrentUserProfile();
+  const isVisible = useHeaderVisibility();
 
   return (
     <HeaderRoot $isVisible={isVisible}>
@@ -23,11 +24,9 @@ function Header({ onMenuClick }: HeaderProps) {
         <Greeting>Hola, {username}</Greeting>
       </Brand>
 
-      <IconButton type="button" aria-label="Notificaciones">
-        <Bell aria-hidden="true" />
-      </IconButton>
+      <NotificationBell />
     </HeaderRoot>
-  )
+  );
 }
 
-export default Header
+export default Header;

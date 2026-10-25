@@ -14,6 +14,15 @@ export const Wrapper = styled.div`
     gap: 16px;
   }
 `;
+export const MessageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 120px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+`;
 
 export const Card = styled.article<VariantProps>`
   width: 100%;
