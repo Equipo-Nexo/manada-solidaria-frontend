@@ -175,22 +175,23 @@ export const Info = styled.div`
 `
 
 export const FirstLine = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    --status-width: 96px;
+    display: flow-root;
 `
 
 export const Name = styled.p`
-    flex: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     min-width: 0;
     margin: 0;
+    padding-right: calc(var(--status-width) / 2);
     color: ${({ theme }) => theme.colors.black};
     ${({ theme }) => theme.typography.header3};
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+    white-space: normal;
 `
 
 interface StatusInterface {
@@ -198,17 +199,21 @@ interface StatusInterface {
 }
 
 export const Status = styled.span<StatusInterface>`
+    float: right;
     display: inline-flex;
-    flex-shrink: 0;
     align-items: center;
     justify-content: center;
+    width: var(--status-width);
     height: 24px;
+    margin-left: 8px;
+    margin-right: calc(var(--status-width) / -2);
     padding: 2px 10px;
     border-radius: 999px;
     background: ${({ theme, $isRead }) => $isRead ? theme.colors.statusFoundBackground : theme.colors.neutral};
     color: ${({ theme, $isRead }) => $isRead ? theme.colors.success : theme.colors.brand};
     ${({ theme }) => theme.typography.body};
     font-weight: ${({ theme }) => theme.fontWeights.bold};
+    white-space: nowrap;
 
 `
 

@@ -44,8 +44,10 @@ function ReceivedFormList() {
                         <S.Photo src={normalizeImageUrl(form.animalImageUrl)} alt={`Foto de perfil de ${form.applicantName}`} />
                         <S.Info>
                             <S.FirstLine>
-                                <S.Name>{form.applicantName}</S.Name>
-                                <S.Status $isRead={form.isRead}>{form.isRead ? "Revisado" : "Pendiente"}</S.Status>
+                                <S.Name>
+                                    <S.Status $isRead={form.isRead}>{form.isRead ? "Revisado" : "Pendiente"}</S.Status>
+                                    {form.applicantName}
+                                </S.Name>
                             </S.FirstLine>
                             <S.CreationDate>
                                 <Calendar aria-hidden="true" />
