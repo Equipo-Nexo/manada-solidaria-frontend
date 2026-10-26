@@ -1,7 +1,7 @@
 import { ArrowLeft, Calendar, ChevronRight, PawPrint } from "@/common/icons";
 import * as S from "./receivedFormList.styles";
 import { useNavigate } from "react-router-dom";
-import { CategorySelector } from "@/common/components";
+import { CategorySelector, Message } from "@/common/components";
 import { useState } from "react";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import { formatDateShort } from "@/common/utils/DateTime";
@@ -9,19 +9,32 @@ import { useGetFormsQuery } from "@/forms/app/api/adoptionFormsApi";
 
 function ReceivedFormList() {
   const navigate = useNavigate();
-  const [selectedCategory, setCategory] = useState("Todos");
+  const [selectedCategory, setCategory] = useState("ALL");
 
-  const { data: receivedForms } = useGetFormsQuery({
+  const {
+    data: receivedForms,
+    currentData,
+    isFetching,
+    isError,
+  } = useGetFormsQuery({
     filter: "REVIEWER",
+    status: selectedCategory,
   });
 
-  const categories = ["Todos", "Pendientes", "Revisados"];
-
-  const categoryLabels: Record<string, string> = {
-    Todos: `Todos (${receivedForms?.counters.total ?? 0})`,
-    Pendientes: `Pendientes (${receivedForms?.counters.pending ?? 0})`,
-    Revisados: `Revisados (${receivedForms?.counters.reviewed ?? 0})`,
-  };
+  const categories = [
+    {
+      value: "ALL",
+      label: `Todos (${receivedForms?.counters.total ?? 0})`,
+    },
+    {
+      value: "PENDING",
+      label: `Pendientes (${receivedForms?.counters.pending ?? 0})`,
+    },
+    {
+      value: "REVIEWED",
+      label: `Revisados (${receivedForms?.counters.reviewed ?? 0})`,
+    },
+  ];
 
   return (
     <S.MainContainer>
@@ -42,40 +55,45 @@ function ReceivedFormList() {
 
       <S.FiltersContainer>
         <CategorySelector
-          categories={categories}
+          categories={categories.map((category) => category.value)}
           selectedCategory={selectedCategory}
           onCategoryChange={setCategory}
-          getCategoryLabel={(category) => categoryLabels[category]}
-          ariaLabel="Filtrar formularios por estado"
+          getCategoryLabel={(value) =>
+            categories.find((category) => category.value === value)?.label ?? value
+          }
         />
       </S.FiltersContainer>
 
-      <S.CardsContainer $hasSingleCard={receivedForms?.forms?.length === 1}>
-        {receivedForms?.forms?.map((form) => (
-          <S.Card key={form.id} to={`/formularios-recibidos/${form.id}`}>
+      <S.CardsContainer $hasSingleCard={currentData?.forms?.length === 1}>
+        {!isFetching && !isError && currentData?.forms?.length === 0 && (
+          <S.QueryState role="status">
+            <Message
+              message="No hay formularios para esta categoría."
+              iconName="pawPrint"
+            />
+          </S.QueryState>
+        )}
+
+        {currentData?.forms?.map((form) => (
+          <S.Card key={form.id} to={`/ formularios - recibidos / ${form.id}`}>
             <S.Photo
               src={normalizeImageUrl(form.animalImageUrl)}
               alt={`Foto de ${form.animalName || "animal en adopción"}`}
             />
-
             <S.Info>
               <S.FirstLine>
                 <S.Name>{form.applicantName}</S.Name>
-
                 <S.Status $isRead={form.isRead}>
                   {form.isRead ? "Revisado" : "Pendiente"}
                 </S.Status>
               </S.FirstLine>
-
               <S.CreationDate>
                 <Calendar aria-hidden="true" />
                 Enviado el {formatDateShort(form.createdAt)}
               </S.CreationDate>
-
               <S.Description>
                 {form.description?.trim() || "Sin descripción"}
               </S.Description>
-
               {form.animalName?.trim() && (
                 <S.LastLine>
                   <S.AnimalName>
@@ -85,7 +103,6 @@ function ReceivedFormList() {
                 </S.LastLine>
               )}
             </S.Info>
-
             <ChevronRight aria-hidden="true" />
           </S.Card>
         ))}
