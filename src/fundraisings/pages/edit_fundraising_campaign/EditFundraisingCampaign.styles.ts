@@ -3,29 +3,34 @@ import { fieldFocusVisible, focusVisible } from "@styles/interactions";
 
 export const EditFormContainer = styled.div`
   width: 100%;
-
-  @media (min-width: 768px) {
-    width: min(100%, 640px);
-    margin: 0 auto;
-  }
-`
+  min-width: 0;
+  min-height: 100svh;
+  color: ${({ theme }) => theme.colors.darkColor};
+  background: ${({ theme }) => theme.colors.background};
+  font-family: ${({ theme }) => theme.fonts.body};
+  text-align: left;
+`;
 
 export const Header = styled.header`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 11px;
-
-  @media (min-width: 768px) {
-    gap: 8px;
-  }
-`
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  padding: 16px 8px;
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+`;
 
 export const BackButton = styled.button`
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
-  flex: 0 0 48px;
+  flex: 0 0 40px;
   align-items: center;
   justify-content: center;
   border: 0;
@@ -34,46 +39,42 @@ export const BackButton = styled.button`
   background: transparent;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
-
-  @media (min-width: 768px) {
-    width: 40px;
-    height: 40px;
-    flex-basis: 40px;
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
   }
-`
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 export const FormTitle = styled.h1`
-    margin: 0;
-    color: ${({ theme }) => theme.colors.black};
-    font-size: ${({ theme }) => theme.typography.header1.fontSize};
-    font-weight: ${({ theme }) => theme.typography.header1.fontWeight};
-    line-height: ${({ theme }) => theme.typography.header1.lineHeight};
-
-  @media (min-width: 768px) {
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    line-height: ${({ theme }) => theme.typography.header2.lineHeight};
-  }
-`
+  min-width: 0;
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+  text-align: left;
+  overflow-wrap: anywhere;
+`;
 
 export const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.background};
-    text-align: left;
-    gap: 16px;
-    margin-top: 17px;
-
-  @media (min-width: 768px) {
-    gap: 14px;
-    margin-top: 20px;
-  }
-`
+  width: min(100%, 560px);
+  min-width: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  background: ${({ theme }) => theme.colors.background};
+  text-align: left;
+`;
 
 export const PublishLabel = styled.label`
   color: ${({ theme }) => theme.colors.black};
@@ -82,23 +83,23 @@ export const PublishLabel = styled.label`
   font-size: ${({ theme }) => theme.typography.header3.fontSize};
 `;
 
-
-
 export const PublishField = styled.div<{
   $hidden?: boolean;
 }>`
   display: ${({ $hidden }) => ($hidden ? "none" : "flex")};
   flex-direction: column;
+  min-width: 0;
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
 
-  > [role='alert'] {
+  > [role="alert"] {
     margin-top: 12px;
   }
 `;
 
 export const PublishInput = styled.input`
   width: 100%;
+  min-width: 0;
   height: 56px;
   border: 2px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
@@ -115,15 +116,11 @@ export const PublishInput = styled.input`
   }
 
   ${fieldFocusVisible}
-
-  @media (min-width: 768px) {
-    height: 48px;
-    border-radius: 10px;
-    padding: 11px 16px;
-  }
 `;
 
 export const PublishTextarea = styled.textarea`
+  width: 100%;
+  min-width: 0;
   min-height: 155px;
   resize: vertical;
   border: 2px solid ${({ theme }) => theme.colors.stroke};
@@ -140,10 +137,9 @@ export const PublishTextarea = styled.textarea`
   }
   ${fieldFocusVisible}
 
-  @media (min-width: 768px) {
+  @media (max-width: 480px) {
     min-height: 120px;
-    border-radius: 10px;
-    padding: 12px 16px;
+    padding: 12px;
   }
 `;
 
@@ -164,9 +160,9 @@ export const PublishSubmitButton = styled.button`
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   ${focusVisible}
 
-  @media (min-width: 768px) {
-    height: 48px;
-    align-self: flex-end;
+  &:disabled {
+    cursor: wait;
+    opacity: 0.7;
   }
 `;
 
@@ -189,7 +185,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   border-radius: 999px;
   border: 2px solid
     ${({ theme, $isSelected }) =>
-    $isSelected ? theme.colors.secondary : theme.colors.stroke};
+      $isSelected ? theme.colors.secondary : theme.colors.stroke};
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.secondary : theme.colors.background};
   color: ${({ theme, $isSelected }) =>
@@ -212,7 +208,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   &:hover:not(:disabled) {
     border-color: ${({ theme }) => theme.colors.secondary};
     background: ${({ theme, $isSelected }) =>
-    $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
+      $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
   }
 `;
 
@@ -228,7 +224,7 @@ export const InputWithIcon = styled.div`
   position: relative;
 `;
 
-export const IconInput = styled(PublishInput) <{
+export const IconInput = styled(PublishInput)<{
   $hasLeftIcon?: boolean;
   $hasRightIcon?: boolean;
 }>`
@@ -243,14 +239,11 @@ export const FieldIcon = styled.span<{
   top: 50%;
   ${({ $position }) => ($position === "right" ? "right: 16px;" : "left: 18px;")}
   transform: translateY(-50%);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: ${({ theme }) => theme.colors.darkColor};
   pointer-events: none;
-
   svg {
     width: 20px;
     height: 20px;
@@ -291,7 +284,6 @@ export const DonationOption = styled.label`
   align-items: center;
   gap: 16px;
   cursor: pointer;
-
   span {
     color: ${({ theme }) => theme.colors.black};
     font-size: ${({ theme }) => theme.typography.body.fontSize};
@@ -302,21 +294,16 @@ export const DonationCheckbox = styled.input.attrs({
   type: "checkbox",
 })`
   appearance: none;
-
   width: 20px;
   height: 20px;
-
   border: 2px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 2px;
   background: ${({ theme }) => theme.colors.background};
-
   cursor: pointer;
-
   &:checked {
     background: ${({ theme }) => theme.colors.secondary};
     border-color: ${({ theme }) => theme.colors.secondary};
   }
-
   &:checked::after {
     content: "✓";
     display: flex;
@@ -328,7 +315,6 @@ export const DonationCheckbox = styled.input.attrs({
     width: 100%;
     height: 100%;
   }
-
   ${focusVisible}
 `;
 export const MapPreview = styled.div`
@@ -371,4 +357,3 @@ export const UploadHint = styled.span`
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `;
-
