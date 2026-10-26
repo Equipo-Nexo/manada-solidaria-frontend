@@ -18,6 +18,7 @@ import { mapFundraisingToCardData } from "@components/fundraisingCard/mapFundrai
 import { publicationMessages } from "@utils/Messages";
 import * as S from "./Home.styles";
 import { mapCampaignToCardData } from "@/campaigns/utils/CampaignUtils";
+import CarouselSlider from "@/common/components/carousel_slider/CarouselSlider";
 const MAX_POSTS_PER_SECTION = 10;
 
 function Home() {
@@ -145,14 +146,17 @@ function Home() {
             />
           </S.MessageContainer>
         )}
-        {!isLoading &&
-          !isError &&
-          recentAnimals.map((animal) => (
-            <AnimalPostCard
-              key={animal.id}
-              {...mapAnimalPostToCardProps(animal)}
-            />
-          ))}
+        {!isLoading && !isError && recentAnimals.length > 0 && (
+          <CarouselSlider
+            items={recentAnimals}
+            visibleItems={4}
+            autoAdvance={false}
+            showArrowsOnHover
+            renderItem={(recentAnimal) => (
+              <AnimalPostCard {...mapAnimalPostToCardProps(recentAnimal)} />
+            )}
+          />
+        )}
       </Carousel>
 
       <Carousel

@@ -6,9 +6,18 @@ import { useAutoAdvance } from "@/common/hooks/auto_advance/useAutoAdvance";
 type CarouselSliderProps<T> = {
   items: T[];
   renderItem: (item: T) => ReactNode;
+  visibleItems?: number;
+  autoAdvance?: boolean;
+  showArrowsOnHover?: boolean;
 };
 
-function CarouselSlider<T>({ items, renderItem }: CarouselSliderProps<T>) {
+function CarouselSlider<T>({
+  items,
+  renderItem,
+  visibleItems = 1,
+  autoAdvance = true,
+  showArrowsOnHover = false,
+}: CarouselSliderProps<T>) {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -46,14 +55,14 @@ function CarouselSlider<T>({ items, renderItem }: CarouselSliderProps<T>) {
 
   useAutoAdvance({
     currentIndex: activeIndex,
-    totalItems: items.length,
-    onNext: handleNext,
+    totalItems: autoAdvance ? items.length : 0,
+    onNext: autoAdvance ? handleNext : () => {},
   });
 
   if (items.length === 0) return null;
 
   return (
-    <S.CarouselArea>
+    <S.CarouselArea $showArrowsOnHover={showArrowsOnHover}>
       <S.CarouselArrow
         type="button"
         $direction="previous"
@@ -66,7 +75,9 @@ function CarouselSlider<T>({ items, renderItem }: CarouselSliderProps<T>) {
 
       <S.Carousel ref={carouselRef} onScroll={handleCarouselScroll}>
         {items.map((item, index) => (
-          <S.CarouselItem key={index}>{renderItem(item)}</S.CarouselItem>
+          <S.CarouselItem key={index} $visibleItems={visibleItems}>
+            {renderItem(item)}
+          </S.CarouselItem>
         ))}
       </S.Carousel>
 
