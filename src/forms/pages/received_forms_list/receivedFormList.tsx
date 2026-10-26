@@ -45,9 +45,10 @@ function ReceivedFormList() {
                         <S.Info>
                             <S.FirstLine>
                                 <S.Name>
-                                    <S.Status $isRead={form.isRead}>{form.isRead ? "Revisado" : "Pendiente"}</S.Status>
+
                                     {form.applicantName}
                                 </S.Name>
+                                <S.Status $isRead={form.isRead}>{form.isRead ? "Revisado" : "Pendiente"}</S.Status>
                             </S.FirstLine>
                             <S.CreationDate>
                                 <Calendar aria-hidden="true" />
