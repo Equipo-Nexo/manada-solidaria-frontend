@@ -91,8 +91,8 @@ export const CardsContainer = styled.div<{ $hasSingleCard: boolean }>`
     @media (min-width: 768px) {
         display: grid;
         grid-template-columns: ${({ $hasSingleCard }) => $hasSingleCard
-            ? 'minmax(0, calc((100% - 20px) / 2))'
-            : 'repeat(2, minmax(0, 1fr))'};
+        ? 'minmax(0, calc((100% - 20px) / 2))'
+        : 'repeat(2, minmax(0, 1fr))'};
         justify-content: center;
         align-content: start;
         gap: 20px;
@@ -100,8 +100,8 @@ export const CardsContainer = styled.div<{ $hasSingleCard: boolean }>`
 
     @media (min-width: 1238px) {
         grid-template-columns: ${({ $hasSingleCard }) => $hasSingleCard
-            ? 'minmax(0, calc((100% - 40px) / 3))'
-            : 'repeat(3, minmax(0, 1fr))'};
+        ? 'minmax(0, calc((100% - 40px) / 3))'
+        : 'repeat(3, minmax(0, 1fr))'};
     }
 `
 
@@ -175,8 +175,9 @@ export const Info = styled.div`
 `
 
 export const FirstLine = styled.div`
-    --status-width: 96px;
-    display: flow-root;
+    
+    display: flex;
+    flex-direction:row;
 `
 
 export const Name = styled.p`
@@ -195,7 +196,7 @@ export const Name = styled.p`
 `
 
 interface StatusInterface {
-  $isRead: boolean;
+    $isRead: boolean;
 }
 
 export const Status = styled.span<StatusInterface>`
@@ -205,7 +206,7 @@ export const Status = styled.span<StatusInterface>`
     justify-content: center;
     width: var(--status-width);
     height: 24px;
-    margin-left: 8px;
+    margin-left:auto;
     margin-right: calc(var(--status-width) / -2);
     padding: 2px 10px;
     border-radius: 999px;
