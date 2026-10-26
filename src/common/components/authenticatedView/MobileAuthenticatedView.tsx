@@ -23,7 +23,10 @@ function MobileAuthenticatedView() {
     location.pathname.startsWith("/colectas/") ||
     location.pathname.startsWith("/editar/exito");
   const hideBottomNavigation =
-    hideNavigation || location.pathname === "/mi-perfil/datos-personales";
+    hideNavigation ||
+    location.pathname.startsWith("/formulario-adopcion/") ||
+    location.pathname === "/mi-perfil/datos-personales" ||
+    location.pathname === "/formularios-recibidos";
   const showHeader =
     location.pathname !== "/menu" &&
     (!hideNavigation ||
