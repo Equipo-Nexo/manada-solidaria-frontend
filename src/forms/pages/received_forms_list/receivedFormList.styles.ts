@@ -83,7 +83,7 @@ export const FiltersContainer = styled.div`
   padding: 0 16px;
 `;
 
-export const CardsContainer = styled.div`
+export const CardsContainer = styled.div<{ $hasSingleCard: boolean }>`
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -91,13 +91,20 @@ export const CardsContainer = styled.div`
 
   @media (min-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: ${({ $hasSingleCard }) =>
+      $hasSingleCard
+        ? "minmax(0, calc((100% - 20px) / 2))"
+        : "repeat(2, minmax(0, 1fr))"};
+    justify-content: center;
     align-content: start;
     gap: 20px;
   }
 
   @media (min-width: 1238px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: ${({ $hasSingleCard }) =>
+      $hasSingleCard
+        ? "minmax(0, calc((100% - 40px) / 3))"
+        : "repeat(3, minmax(0, 1fr))"};
   }
 `;
 
@@ -111,7 +118,7 @@ export const Card = styled(Link)`
   min-width: 0;
   min-height: 130px;
   box-sizing: border-box;
-  padding: 20px 36px 8px 8px;
+  padding: 16px 36px 16px 8px;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors.background};
   background: ${({ theme }) => theme.colors.background};
@@ -133,6 +140,8 @@ export const Card = styled(Link)`
     }
   }
 
+  ${focusVisible}
+
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
@@ -149,18 +158,7 @@ export const Card = styled(Link)`
 
   @media (min-width: 768px) {
     min-height: 144px;
-
-    &:only-child {
-      width: calc((100% - 20px) / 2);
-      grid-column: 1 / -1;
-      justify-self: center;
-    }
-  }
-
-  @media (min-width: 1238px) {
-    &:only-child {
-      width: calc((100% - 40px) / 3);
-    }
+    align-self: start;
   }
 `;
 
@@ -175,6 +173,7 @@ export const Photo = styled.img`
 export const Info = styled.div`
   display: flex;
   flex: 1;
+  align-self: stretch;
   min-width: 0;
   flex-direction: column;
   gap: 8px;
@@ -183,13 +182,15 @@ export const Info = styled.div`
 
 export const FirstLine = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
-  margin-right: -20px;
 `;
 
 export const Name = styled.p`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   flex: 1;
   min-width: 0;
   margin: 0;
@@ -197,14 +198,12 @@ export const Name = styled.p`
   ${({ theme }) => theme.typography.header3};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 `;
 
 interface StatusInterface {
   $isRead: boolean;
 }
-
 export const Status = styled.span<StatusInterface>`
   display: inline-flex;
   flex-shrink: 0;
@@ -219,6 +218,7 @@ export const Status = styled.span<StatusInterface>`
     $isRead ? theme.colors.success : theme.colors.brand};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
+  white-space: nowrap;
 `;
 
 export const CreationDate = styled.p`

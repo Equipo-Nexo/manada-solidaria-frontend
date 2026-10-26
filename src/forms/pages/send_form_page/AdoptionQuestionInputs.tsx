@@ -2,7 +2,7 @@ import { useController, useFormContext, useWatch } from 'react-hook-form';
 import { ErrorMessage, PhoneInputComponent } from '@/common/components';
 import type { AdoptionFormValues } from '../../app/schemas/adoptionFormSchema';
 import type { AdoptionQuestion } from '../../app/types/AdoptionForm.types';
-import * as S from './QuestionesFormPage.styles';
+import * as S from './QuestionsFormPage.styles';
 
 interface AdoptionQuestionInputProps {
     question: AdoptionQuestion;

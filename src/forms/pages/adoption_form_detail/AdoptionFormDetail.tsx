@@ -12,7 +12,7 @@ import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import { getInitials } from "@/forms/utils/getInitials";
-import { AdoptionQuestionsMock } from "@/forms/utils/AdoptionQuestionsMocked";
+import { AdoptionQuestionsMock } from "@/forms/utils/HarcodedAdoptionQuestions";
 import { formatDateShort } from "@/common/utils/DateTime";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useToast } from "@/common/hooks/toast/useToast";

@@ -13,6 +13,7 @@ interface Form {
     id: string,
     animalName: string | null,
     animalImageUrl: string,
+    applicantName: string,
     description: string | null,
     isRead: boolean,
     createdAt: string

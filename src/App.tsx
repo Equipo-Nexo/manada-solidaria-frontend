@@ -50,7 +50,8 @@ import AdoptionFormDetail from "./forms/pages/adoption_form_detail/AdoptionFormD
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
 import UserProfile from "./users/pages/user_profile/userProfile";
-import ReceivedFormList from "./forms/pages/receivedFormsList/receivedFormList";
+import ReceivedFormList from "./forms/pages/received_forms_list/receivedFormList";
+import NotificationPage from "./notifications/pages/NotificationPage";
 
 function App() {
   const location = useLocation();
@@ -62,6 +63,7 @@ function App() {
     location.pathname === "/publicar/campania" ||
     location.pathname === "/publicar/colecta" ||
     location.pathname === "/editar/exito" ||
+    location.pathname === "/notificaciones" ||
     location.pathname.startsWith("/editar/animal/") ||
     location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
@@ -106,7 +108,7 @@ function App() {
     if (isAuthenticated && redirect) {
       navigate(redirect);
     }
-  }, []);
+  }, [isAuthenticated, redirect, navigate]);
 
   return (
     <>
@@ -146,6 +148,7 @@ function App() {
             />
             <Route element={<PrivateRoutes />}>
               <Route path="/home" element={<Home />} />
+              <Route path="/notificaciones" element={<NotificationPage />} />
               <Route path="/campanias" element={<Campaigns />} />
               <Route path="/mapa" element={<AllPublicationsMap />} />
               <Route path="/mis-publicaciones" element={<MyPosts />} />

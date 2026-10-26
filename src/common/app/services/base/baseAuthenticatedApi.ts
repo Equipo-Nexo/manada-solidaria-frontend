@@ -58,5 +58,6 @@ export const baseAuthenticatedApi = createApi({
     "Vets",
     "map",
     "AdoptionForms",
+    "Notifications",
   ],
 });
