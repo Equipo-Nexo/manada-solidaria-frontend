@@ -7,11 +7,13 @@ export const MainContainer = styled.div`
   flex-direction: column;
   width: 100%;
   min-width: 0;
+
   @media (min-width: 1024px) {
     max-width: 1280px;
     margin: 0 auto;
   }
 `;
+
 export const QueryState = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,6 +30,7 @@ export const Header = styled.header`
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
+
   @media (min-width: 1024px) {
     margin-bottom: 0;
   }
@@ -46,10 +49,12 @@ export const BackButton = styled.button`
   background: transparent;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
+
   svg {
     width: 48px;
     height: 48px;
   }
+
   ${focusVisible}
 `;
 
@@ -79,7 +84,7 @@ export const PageSubtitle = styled.p`
 `;
 
 export const FiltersContainer = styled.div`
-  margin: 0px 0px 16px 0px;
+  margin: 0 0 16px;
   padding: 0 16px;
 `;
 
@@ -204,6 +209,7 @@ export const Name = styled.p`
 interface StatusInterface {
   $isRead: boolean;
 }
+
 export const Status = styled.span<StatusInterface>`
   display: inline-flex;
   flex-shrink: 0;
