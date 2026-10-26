@@ -8,6 +8,8 @@ type CarouselProps = {
   onSeeAll?: () => void;
   headerContent?: React.ReactNode;
   seeAllLabel?: string;
+  allowContentOverflow?: boolean;
+  highlightNavigationOnHover?: boolean;
 };
 
 function Carousel({
@@ -16,11 +18,16 @@ function Carousel({
   onSeeAll,
   headerContent,
   seeAllLabel = "Ver todos",
+  allowContentOverflow = false,
+  highlightNavigationOnHover = false,
 }: CarouselProps) {
   const titleId = useId();
 
   return (
-    <S.Section aria-labelledby={titleId}>
+    <S.Section
+      aria-labelledby={titleId}
+      $highlightNavigationOnHover={highlightNavigationOnHover}
+    >
       <S.Header>
         <S.Title id={titleId}>{title}</S.Title>
         {onSeeAll && (
@@ -36,7 +43,9 @@ function Carousel({
       </S.Header>
       <S.HeaderContent>{headerContent}</S.HeaderContent>
 
-      <S.Content aria-label={title}>{children}</S.Content>
+      <S.Content aria-label={title} $allowOverflow={allowContentOverflow}>
+        {children}
+      </S.Content>
     </S.Section>
   );
 }

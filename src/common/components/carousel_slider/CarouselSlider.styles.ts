@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type CarouselArrowProps = {
   $direction: "previous" | "next";
 };
 type CarouselAreaProps = {
   $showArrowsOnHover: boolean;
+  $hideArrowsOnMobile: boolean;
 };
 export const Carousel = styled.div`
   display: flex;
@@ -12,10 +13,11 @@ export const Carousel = styled.div`
   min-width: 0;
   gap: 16px;
   overflow-x: auto;
+  padding-top: 8px;
+  padding-bottom: 16px;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -95,14 +97,6 @@ export const CarouselArrow = styled.button<CarouselArrowProps>`
     cursor: default;
   }
 `;
-export const CarouselArea = styled.div<{
-  $showArrowsOnHover?: boolean;
-}>`
-  position: relative;
-  width: 100%;
-  min-width: 0;
-`;
-
 export const CarouselIndicators = styled.div`
   display: flex;
   align-items: center;
@@ -112,6 +106,88 @@ export const CarouselIndicators = styled.div`
 
   @media (min-width: 1024px) {
     height: 40px;
+  }
+`;
+
+export const CarouselArea = styled.div<CarouselAreaProps>`
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  ${({ $hideArrowsOnMobile }) =>
+    $hideArrowsOnMobile &&
+    css`
+      @media (max-width: 767px), (hover: none), (pointer: coarse) {
+        ${CarouselArrow} {
+          display: none;
+        }
+      }
+    `}
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  --arrow-width: 16px;
+
+  @media (min-width: 768px) {
+    --arrow-width: 28px;
+  }
+
+  ${Carousel} {
+    position: relative;
+    grid-area: 1 / 1;
+  }
+
+  ${CarouselIndicators} {
+    grid-area: 2 / 1;
+  }
+
+  ${CarouselArrow} {
+    grid-area: 1 / 1;
+    top: 50%;
+    right: calc(-1 * var(--arrow-width) - 2px);
+    left: auto;
+    width: var(--arrow-width);
+    height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: none;
+
+    &:first-child {
+      right: auto;
+      left: calc(-1 * var(--arrow-width) - 2px);
+    }
+
+    &:hover:not(:disabled) {
+      background: ${({ theme }) => theme.colors.neutral};
+      color: ${({ theme }) => theme.colors.secondary};
+      transform: translateY(-50%);
+    }
+
+    &:focus-visible {
+      outline-offset: -3px;
+    }
+  }
+
+  ${({ $showArrowsOnHover }) =>
+    $showArrowsOnHover &&
+    css`
+      @media (hover: hover) and (pointer: fine) {
+        ${CarouselArrow}:not(:disabled) {
+          opacity: 0.45;
+        }
+
+        &:hover ${CarouselArrow}:not(:disabled),
+        &:focus-within ${CarouselArrow}:not(:disabled) {
+          opacity: 1;
+        }
+      }
+    `}
+
+  @media (prefers-reduced-motion: reduce) {
+    ${CarouselArrow} {
+      transition: none;
+    }
   }
 `;
 
