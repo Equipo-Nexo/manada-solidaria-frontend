@@ -55,7 +55,6 @@ function HappyCases() {
         {hasRecentCases && (
           <CarouselSlider
             items={recentCases}
-            arrowPlacement="outside"
             hideArrowsOnMobile
             renderItem={(happyCase) => (
               <S.FeaturedCard key={happyCase.id}>
