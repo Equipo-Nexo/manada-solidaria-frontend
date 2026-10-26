@@ -18,10 +18,10 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
       }),
     }),
 
-    getForms: builder.query<FormResponse, { filter: string }>({
-      query: ({ filter }) => ({
+    getForms: builder.query<FormResponse, { filter: string, status: string }>({
+      query: ({ filter, status }) => ({
         url: "/users/adoption-forms",
-        params: { filter },
+        params: { filter, status },
       }),
       providesTags: ["AdoptionForms"],
     }),

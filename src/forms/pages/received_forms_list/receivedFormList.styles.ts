@@ -15,6 +15,7 @@ export const MainContainer = styled.div`
 `;
 
 export const QueryState = styled.div`
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
