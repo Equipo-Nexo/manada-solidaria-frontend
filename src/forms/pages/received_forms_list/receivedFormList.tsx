@@ -75,7 +75,7 @@ function ReceivedFormList() {
         )}
 
         {currentData?.forms?.map((form) => (
-          <S.Card key={form.id} to={`/ formularios - recibidos / ${form.id}`}>
+          <S.Card key={form.id} to={`/formularios-recibidos/${form.id}`}>
             <S.Photo
               src={normalizeImageUrl(form.animalImageUrl)}
               alt={`Foto de ${form.animalName || "animal en adopción"}`}
