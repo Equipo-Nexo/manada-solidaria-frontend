@@ -4,7 +4,7 @@ import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
-import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
+import { useDeleteAnimalPostMutation, useUpdateAnimalPostStatusMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
 import { BottomSheet, CategorySelector, ImagePreview, Message } from "@components/index.ts";
 import { Clock } from "@icons/index.ts";
@@ -12,8 +12,9 @@ import type { GetUserPostsResponse, UserPostType } from "@services/responses/use
 import { getPublishedAtDescription, publicationMessages } from "@utils/Messages";
 import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
 import { getPossibleStatuses } from "@/users/utils/Status.utils";
-import AnimalPostStatusSheet from "@/users/components/animal_post_status_sheet/AnimalPostStatusSheet";
 import { isFinalAnimalPostStatus } from '@animals/utils/AnimalPostStatusUtils';
+import UpdatePostStatusSheet from "@/users/components/animal_post_status_sheet/UpdatePostStatusSheet";
+import { getApiErrorMessage } from "@utils/getApiErrorMessage";
 
 type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
 
@@ -37,6 +38,7 @@ function MyPosts() {
     const { data: userPosts, isError, isLoading, refetch } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
+    const [updateStatus] = useUpdateAnimalPostStatusMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
     const [statusPost, setStatusPost] = useState<GetUserPostsResponse | null>(null)
@@ -135,10 +137,39 @@ function MyPosts() {
         }
     }
 
+    const handleChangeStatus = async (status: string) => {
+        if (!statusPost) return;
+
+        const option = getPossibleStatuses(statusPost.status).find(
+            (option) => option.value === status,
+        );
+
+        if (!option) return;
+
+        try {
+            await updateStatus({
+                postId: statusPost.id,
+                status: option.value,
+            }).unwrap();
+
+            toast.success(
+                "Estado actualizado",
+                `El estado cambió.`,
+            );
+
+            closeStatusSheet();
+        } catch (error) {
+            toast.error(
+                "No pudimos cambiar el estado",
+                getApiErrorMessage(error, "Intentá nuevamente."),
+            );
+        }
+    };
+
     return (
         <S.MyPostsRoot>
             {statusPost && (
-                <AnimalPostStatusSheet key={statusPost.id} post={statusPost} onClose={closeStatusSheet} />
+                <UpdatePostStatusSheet onClose={closeStatusSheet} onChangeStatus={handleChangeStatus}></UpdatePostStatusSheet>
             )}
             <BottomSheet
                 isOpen={openBottomSheet}

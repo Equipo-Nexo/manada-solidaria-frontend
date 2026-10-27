@@ -11,8 +11,32 @@ import BottomSheet from '@components/bottomSheet/BottomSheet'
 import { Check } from '@icons/index'
 import * as S from './AnimalPostStatusSheet.styles'
 
+
+interface Button {
+  label: string
+  handleClick: () => void
+}
+
+interface PossibleStatus {
+  title: string,
+  isFinalStatus: boolean,
+  bottomSheetTitle: string,
+  bottomSheetDescription: string,
+  primaryButton: Button,
+  secondaryButton: Button
+}
+
+interface UpdatePostStatusSheet {
+  postId: string,
+  name: string,
+  currentStatus: string,
+  possibleStatus: PossibleStatus[],
+
+}
+
 type AnimalPostStatusSheetProps = {
   post: { id: string; title: string; status: string }
+  onChangeStatus: (status: string) => void
   onClose: () => void
 }
 
@@ -119,7 +143,7 @@ const sheetsByOptionCount = {
   2: AnimalPostStatusOptionsSheet,
 }
 
-function AnimalPostStatusSheet({ post, onClose }: AnimalPostStatusSheetProps) {
+function AnimalPostStatusSheet({ post, onClose, onChangeStatus }: AnimalPostStatusSheetProps) {
   const possibleStatuses = getPossibleStatuses(post.status)
   const [confirmation, setConfirmation] = useState<AnimalStatusOption | null>(
     possibleStatuses.length === 1 ? possibleStatuses[0] : null,
@@ -167,22 +191,24 @@ function AnimalPostStatusSheet({ post, onClose }: AnimalPostStatusSheetProps) {
 
   if (possibleStatuses.length === 0) return null
 
-  // La clave 2 agrupa cualquier cantidad de opciones mayor o igual a dos.
   const optionCount = confirmation || possibleStatuses.length === 1 ? 1 : 2
   const StatusSheet = sheetsByOptionCount[optionCount]
 
+
   return (
-    <StatusSheet
-      name={name}
-      currentStatus={post.status}
-      options={getStatusSelectorOptions(post.status)}
-      option={confirmation}
-      isLoading={isLoading}
-      onSelect={handleSelect}
-      onConfirm={handleUpdate}
-      onCancel={handleBack}
-      onClose={handleClose}
-    />
+    <div><button onClick={() => onChangeStatus("Perro")}>Presionar</button></div>
+    // <StatusSheet
+    //   name={name}
+    //   currentStatus={post.status}
+    //   options={getStatusSelectorOptions(post.status)}
+    //   option={confirmation}
+    //   isLoading={isLoading}
+    //   onSelect={handleSelect}
+    //   onConfirm={handleUpdate}
+    //   onCancel={handleBack}
+    //   onClose={handleClose}
+    // //tengo que pasar los estados posibles, el color de cada pildora y el método al cual llamar
+    // />
   )
 }
 
