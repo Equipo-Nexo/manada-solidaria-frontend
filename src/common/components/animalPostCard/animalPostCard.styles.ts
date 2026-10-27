@@ -1,9 +1,13 @@
-import styled from 'styled-components'
+import { theme } from "@/common/styles/theme";
+import styled from "styled-components";
 
 export const CardContainer = styled.article`
   width: ${({ theme }) => theme.layout.publicationCardWidth};
-  height: ${({ theme }) => theme.layout.publicationCardHeight};
-  overflow: hidden;
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
   border: 1px solid rgb(190 202 191 / 30%);
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
@@ -13,7 +17,8 @@ export const CardContainer = styled.article`
     transform 180ms ease,
     border-color 180ms ease,
     box-shadow 180ms ease;
-
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
   @media (hover: hover) {
     &:hover {
       transform: translateY(-3px);
@@ -25,13 +30,14 @@ export const CardContainer = styled.article`
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
-`
+`;
 
 export const PhotoContainer = styled.div`
   position: relative;
+  flex: 0 0 auto;
   overflow: hidden;
-`
-
+  border-radius: 11px 11px 0 0;
+`;
 export const ShareButton = styled.button`
   position: absolute;
   top: 12px;
@@ -65,7 +71,7 @@ export const ShareButton = styled.button`
 
 export const RewardInfo = styled.button<{ $expanded: boolean }>`
   display: inline-flex;
-  width: ${({ $expanded }) => ($expanded ? '112px' : '32px')};
+  width: ${({ $expanded }) => ($expanded ? "112px" : "32px")};
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
@@ -103,44 +109,57 @@ export const RewardInfo = styled.button<{ $expanded: boolean }>`
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
-`
+`;
 
 export const Content = styled.div`
-  padding: 10px 13px 6px;
-`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+  padding: 10px 13px 12px;
+`;
 
 export const MainInfoContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-`
+`;
 
 export const BadgesContainer = styled.div`
   display: flex;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
   align-items: center;
   gap: 5px;
-`
+`;
 
 export const Title = styled.h2`
   min-width: 0;
-  flex: 1;
+  flex: 1 1 120px;
   overflow: hidden;
   margin: 0;
   color: ${({ theme }) => theme.colors.brand};
-  font-family: ${({ theme }) => theme.typography.header1.fontFamily};
-  font-size: ${({ theme }) => theme.typography.header1.fontSize};
-  font-style: ${({ theme }) => theme.typography.header1.fontStyle};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  line-height: ${({ theme }) => theme.typography.header1.lineHeight};
+  font-family: ${({ theme }) => theme.typography.header2.fontFamily};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-style: ${({ theme }) => theme.typography.header2.fontStyle};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
-`
+`;
 
-export const StatusContainer = styled.span<{ $color: string, $background: string }>`
-  flex-shrink: 0;
+export const StatusContainer = styled.span<{
+  $color: string;
+  $background: string;
+}>`
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 4px 16px 4px 16px;
   border-radius: 999px;
   color: ${({ $color }) => $color};
@@ -150,12 +169,11 @@ export const StatusContainer = styled.span<{ $color: string, $background: string
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
   text-align: center;
-`
+`;
 
 export const Location = styled.div`
   display: flex;
   min-width: 0;
-  flex: 1;
   align-items: center;
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
@@ -170,19 +188,19 @@ export const Location = styled.div`
   }
 
   span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
-
-`
+`;
 
 export const Description = styled.p`
   display: -webkit-box;
   overflow: hidden;
-  margin: 0px;
-  min-height:40px;
-  max-height: calc(${({ theme }) => theme.typography.body.lineHeight} * 2);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  margin: 0;
+  min-height: calc(2 * ${({ theme }) => theme.typography.body.lineHeight});
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.typography.body.fontFamily};
   font-size: ${({ theme }) => theme.typography.body.fontSize};
@@ -190,16 +208,16 @@ export const Description = styled.p`
   font-weight: ${({ theme }) => theme.typography.body.fontWeight};
   line-height: ${({ theme }) => theme.typography.body.lineHeight};
   overflow-wrap: anywhere;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  text-align:left;
-  justify-content:center;
-`
+  text-align: left;
+
+  &:empty {
+    display: none;
+  }
+`;
 
 export const ViewMore = styled.button`
   display: block;
-  margin-top: 3px;
+  align-self: flex-start;
   padding: 2px;
   border: 0;
   color: ${({ theme }) => theme.colors.secondary};
@@ -211,25 +229,60 @@ export const ViewMore = styled.button`
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
-`
+`;
 
+export const LikesContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+`;
+
+export const LikeButton = styled.button<{ $isLiked: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  svg {
+    width: 20px;
+    height: 22px;
+    color: ${({ $isLiked }) => ($isLiked ? "#F04452" : theme.colors.darkColor)};
+  }
+`;
+export const LikesCount = styled.span`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.darkColor};
+`;
 export const ButtonsContainer = styled.div<{ $amount: number }>`
   display: grid;
-  grid-template-columns: ${({ $amount }) => ($amount === 1 ? '1fr' : 'repeat(2, 1fr)')};
-  gap: 17px;
-  margin-top: 8px;
-`
+  grid-template-columns: ${({ $amount }) =>
+    $amount === 1
+      ? "minmax(0, 1fr)"
+      : "repeat(auto-fit, minmax(min(100%, 125px), 1fr))"};
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px 10px;
+`;
 
-export const ActionButton = styled.button<{ $variant: 'primary' | 'secondary' }>`
+export const ActionButton = styled.button<{
+  $variant: "primary" | "secondary";
+}>`
   min-width: 0;
-  height: 48px;
-  padding-inline: 8px;
+  min-height: 48px;
+  padding: 10px 12px;
+  white-space: normal;
+  overflow-wrap: anywhere;
   border: 0;
   border-radius: 999px;
   color: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.background : theme.colors.brand};
+    $variant === "primary" ? theme.colors.background : theme.colors.brand};
   background: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.brand : theme.colors.neutral};
+    $variant === "primary" ? theme.colors.brand : theme.colors.neutral};
   font-family: ${({ theme }) => theme.typography.action.fontFamily};
   font-size: 14px;
   font-style: ${({ theme }) => theme.typography.action.fontStyle};
@@ -249,22 +302,28 @@ export const ActionButton = styled.button<{ $variant: 'primary' | 'secondary' }>
   @media (hover: hover) {
     &:hover {
       color: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.background : theme.colors.secondary};
+        $variant === "primary"
+          ? theme.colors.background
+          : theme.colors.secondary};
       background: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.brandHover : theme.colors.neutral};
+        $variant === "primary"
+          ? theme.colors.brandHover
+          : theme.colors.neutral};
       box-shadow: ${({ $variant }) =>
-    $variant === 'primary'
-      ? '0 6px 14px rgb(234 95 9 / 24%)'
-      : '0 4px 12px rgb(169 92 40 / 14%)'};
+        $variant === "primary"
+          ? "0 6px 14px rgb(234 95 9 / 24%)"
+          : "0 4px 12px rgb(169 92 40 / 14%)"};
       transform: translateY(-1px);
     }
   }
 
   &:active {
     color: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.background : theme.colors.secondary};
+      $variant === "primary"
+        ? theme.colors.background
+        : theme.colors.secondary};
     background: ${({ theme, $variant }) =>
-    $variant === 'primary' ? theme.colors.brandHover : theme.colors.neutral};
+      $variant === "primary" ? theme.colors.brandHover : theme.colors.neutral};
     transform: translateY(0) scale(0.98);
   }
-`
+`;
