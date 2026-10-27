@@ -3,6 +3,7 @@ import {
   useLikeAnimalPostMutation,
   useDislikeAnimalPostMutation,
 } from "@animals/app/api/animalPostsApi";
+import { useToast } from "@/common/hooks/toast/useToast";
 
 type UseAnimalPostLikeProps = {
   postId: string;
@@ -16,6 +17,7 @@ export function useAnimalPostLike({
   const [likeAnimalPost, { isLoading: isLiking }] = useLikeAnimalPostMutation();
   const [dislikeAnimalPost, { isLoading: isDisliking }] =
     useDislikeAnimalPostMutation();
+  const toast = useToast();
   const isPendingRef = useRef(false);
   const executeLike = async (shouldLike: boolean): Promise<boolean> => {
     if (isPendingRef.current) return false;
@@ -28,8 +30,13 @@ export function useAnimalPostLike({
         await dislikeAnimalPost(postId).unwrap();
       }
       return true;
-    } catch (error) {
-      console.error("Error al actualizar el like:", error);
+    } catch {
+      toast.error(
+        shouldLike
+          ? "No pudimos registrar tu apoyo"
+          : "No pudimos quitar tu apoyo",
+        "Intentá nuevamente.",
+      );
       return false;
     } finally {
       isPendingRef.current = false;

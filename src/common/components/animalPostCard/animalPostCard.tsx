@@ -23,8 +23,6 @@ export type AnimalPostCardProps = {
   reward?: number;
   reactedByMe?: boolean;
   reactionsCount?: number;
-  onShare?: () => void;
-  onViewMore?: () => void;
 };
 
 function AnimalPostCard({
@@ -41,6 +39,7 @@ function AnimalPostCard({
 }: AnimalPostCardProps) {
   const navigate = useNavigate();
   const [isRewardExpanded, setIsRewardExpanded] = useState(false);
+  const [heartAnimation, setHeartAnimation] = useState(0);
   const { toggleLike, giveLike, isUpdatingLike } = useAnimalPostLike({
     postId,
     reactedByMe,
@@ -49,6 +48,7 @@ function AnimalPostCard({
     if (event.target instanceof Element && event.target.closest("button")) {
       return;
     }
+    setHeartAnimation((animation) => animation + 1);
     if (reactedByMe || isUpdatingLike) return;
     void giveLike();
   };
@@ -91,6 +91,15 @@ function AnimalPostCard({
     <S.CardContainer>
       <S.PhotoContainer onDoubleClick={handlePhotoDoubleClick}>
         <ImagePreview imageId={imageUrl} alt={name} />
+        {heartAnimation > 0 && (
+          <S.PhotoHeart
+            key={heartAnimation}
+            aria-hidden="true"
+            onAnimationEnd={() => setHeartAnimation(0)}
+          >
+            <Heart filled />
+          </S.PhotoHeart>
+        )}
         <S.ShareButton
           type="button"
           aria-label={`Compartir publicación de ${name}`}
@@ -156,7 +165,9 @@ function AnimalPostCard({
           >
             <Heart filled={reactedByMe} aria-hidden="true" />
           </S.LikeButton>
-          <S.LikesCount>{reactionsCount} apoyos</S.LikesCount>
+          <S.LikesCount>
+            {reactionsCount} {reactionsCount === 1 ? "apoyo" : "apoyos"}
+          </S.LikesCount>
         </S.LikesContainer>
         {visibleActions.length > 0 && (
           <S.ButtonsContainer $amount={visibleActions.length}>

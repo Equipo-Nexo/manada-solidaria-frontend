@@ -1,5 +1,17 @@
 import { theme } from "@/common/styles/theme";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const photoHeartAnimation = keyframes`
+  0% { opacity: 0; transform: scale(0.4); }
+  12% { opacity: 0.85; transform: scale(1.15); }
+  20%, 75% { opacity: 0.85; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.85); }
+`;
+
+const photoHeartReducedAnimation = keyframes`
+  0%, 75% { opacity: 0.85; }
+  100% { opacity: 0; }
+`;
 
 export const CardContainer = styled.article`
   width: ${({ theme }) => theme.layout.publicationCardWidth};
@@ -38,6 +50,31 @@ export const PhotoContainer = styled.div`
   overflow: hidden;
   border-radius: 11px 11px 0 0;
 `;
+
+export const PhotoHeart = styled.span`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.background};
+  pointer-events: none;
+  animation: ${photoHeartAnimation} 1s ease-out forwards;
+
+  svg {
+    width: 110px;
+    height: 110px;
+    max-width: 45%;
+    max-height: 60%;
+    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 18%));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-name: ${photoHeartReducedAnimation};
+  }
+`;
+
 export const ShareButton = styled.button`
   position: absolute;
   top: 12px;
@@ -88,24 +125,20 @@ export const RewardInfo = styled.button<{ $expanded: boolean }>`
   transition:
     width 180ms ease,
     box-shadow 180ms ease;
-
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
-
   @media (hover: hover) {
     &:hover {
       box-shadow: 0 2px 8px rgb(53 100 0 / 20%);
     }
   }
-
   span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
