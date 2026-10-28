@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { campaignCategories, type CampaignCategory } from "../types/Campaign.types";
-import { locationSchema } from "@/common/utils/Location.schema";
+import { locationSchema } from "@/common/utils/LocationUtils";
 import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
 export const publishCampaignSchema = yup.object({

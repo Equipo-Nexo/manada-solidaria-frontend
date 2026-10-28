@@ -50,8 +50,8 @@ function CampaingDetail() {
         campaignId!,
     );
 
-    const location = campaignData?.location.name || 'Ubicación no informada'
-    const address = campaignData?.location.address || ''
+    const location = campaignData?.location.city || 'Ubicación no informada'
+    const address = campaignData?.location.street || ''
     const PHONE_NUMBER = campaignData?.phoneNumber
         ? `${campaignData?.phoneNumber.areaCode}${campaignData?.phoneNumber.number}`
         : ""

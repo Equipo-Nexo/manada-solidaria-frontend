@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 import type { CampaignDetailsType } from '@models/Campaign.types'
-import { locationSchema } from '@utils/Location.schema'
+import { locationSchema } from '@/common/utils/LocationUtils'
 import { campaignCategories, type CampaignCategory } from '../types/Campaign.types'
 import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
 

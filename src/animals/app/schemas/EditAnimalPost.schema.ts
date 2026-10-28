@@ -10,7 +10,7 @@ import {
   type AnimalSize,
 } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
-import { locationSchema } from '@utils/Location.schema'
+import { locationSchema } from '@/common/utils/LocationUtils'
 import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
 
 export const editAnimalPostSchema = yup.object({

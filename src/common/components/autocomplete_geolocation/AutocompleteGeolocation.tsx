@@ -24,7 +24,7 @@ function AutocompleteGeolocation({
 
     const { coordinates, requestCoordinates } = useGeolocation()
     const [direction, setDirection] = useState(
-        initialLocation?.address ?? initialLocation?.name ?? EMPTY_DIRECTION
+        initialLocation?.street ?? initialLocation?.city ?? EMPTY_DIRECTION
     )
     const [debouncedDirection, setDebouncedDirection] = useState(EMPTY_DIRECTION)
     const [selectedLocation, setSelectedLocation] = useState<GeolocationResponse | null>(null)
@@ -32,7 +32,7 @@ function AutocompleteGeolocation({
     const [isInputFocused, setInputIsFocused] = useState(false)
     const onChangeRef = useRef(onChange)
     const initialDirection = initialLocation
-        ? `${initialLocation.address} ${initialLocation.number}, ${initialLocation.name}`
+        ? `${initialLocation.street} ${initialLocation.houseNumber}, ${initialLocation.city}`
         : EMPTY_DIRECTION
 
     useEffect(() => {

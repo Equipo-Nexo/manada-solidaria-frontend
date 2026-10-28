@@ -73,7 +73,7 @@ function CampaignCard({
         <S.MetaRow>
           <S.Location>
             <LocationPin aria-hidden="true" />
-            <span>{campaign.location?.name}</span>
+            <span>{campaign.location?.city}</span>
           </S.Location>
           <S.TypeBadge $campaignType={campaign.type}>
             {campaign.type == 'OTHER' ? 'General' : campaignCategoryLabels[campaign.type]}

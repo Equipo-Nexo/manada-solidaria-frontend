@@ -32,9 +32,9 @@ function FundraisingCampaignDetail() {
       copyAlias(data.accountAlias);
     }
   };
-  const location = data?.location.name || 'Ubicación no informada'
+  const location = data?.location.city || 'Ubicación no informada'
 
-  const address = data?.location.address || ''
+  const address = data?.location.street || ''
 
   const PHONE_NUMBER = data?.phoneNumber
     ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
