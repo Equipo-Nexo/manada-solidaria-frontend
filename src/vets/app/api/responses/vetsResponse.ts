@@ -1,15 +1,8 @@
+import type { Location } from "@/common/app/services/responses/Location";
+
 export type VetPhoneNumber = {
   areaCode: string;
   number: string;
-};
-
-export type VetLocation = {
-  id: string;
-  name: string;
-  address: string;
-  number: number;
-  latitude: number;
-  longitude: number;
 };
 
 export type VetCalendarEntry = {
@@ -26,7 +19,7 @@ export type VetResponse = {
   profilePictureUrl?: string;
   vetPageUrl?: string;
   description: string;
-  location: VetLocation;
+  location: Location;
   isOpen: boolean;
   distanceInKm: number | null;
   calendar: VetCalendarEntry[];
