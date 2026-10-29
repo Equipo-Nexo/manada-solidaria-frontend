@@ -130,6 +130,7 @@ export type MapCNMarkerProps = Omit<MarkerOptions, 'element'> & {
   icon?: ComponentType<SVGProps<SVGSVGElement>>
   iconColor?: string
   borderColor?: string
+  highlighted?: boolean
   onClick?: () => void
 }
 
@@ -141,6 +142,7 @@ export function MapCNMarker({
   icon: Icon = MapPin,
   iconColor,
   borderColor,
+  highlighted = false,
   onClick,
   ...markerOptions
 }: MapCNMarkerProps) {
@@ -185,10 +187,16 @@ export function MapCNMarker({
     marker.setLngLat([longitude, latitude])
   }, [latitude, longitude, marker])
 
+  useEffect(() => {
+    // The stacking order belongs to MapLibre's outer element, not its portal content.
+    markerElement.style.setProperty('z-index', highlighted ? '2' : '')
+    markerElement.setAttribute('aria-label', highlighted ? 'Ubicación seleccionada' : 'Ver ubicación')
+  }, [highlighted, markerElement])
+
   return createPortal(
     children ?? (
-      <S.Marker $iconColor={iconColor}>
-        <S.MarkerShape $color={color} $borderColor={borderColor} aria-hidden="true">
+      <S.Marker $iconColor={iconColor} $highlighted={highlighted}>
+        <S.MarkerShape $color={color} $borderColor={borderColor} $highlighted={highlighted} aria-hidden="true">
           <path d="M24 2C11.85 2 2 11.85 2 24c0 9.5 6 17.6 14.4 20.7l6.1 8.5a1.85 1.85 0 0 0 3 0l6.1-8.5C40 41.6 46 33.5 46 24 46 11.85 36.15 2 24 2Z" />
         </S.MarkerShape>
         <Icon aria-hidden="true" />

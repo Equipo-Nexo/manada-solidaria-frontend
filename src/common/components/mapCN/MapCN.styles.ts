@@ -50,14 +50,14 @@ export const LoadingIndicator = styled.span`
   animation: ${spin} 800ms linear infinite;
 `
 
-export const Marker = styled.div<{ $iconColor?: string }>`
+export const Marker = styled.div<{ $iconColor?: string; $highlighted: boolean }>`
   position: relative;
   display: grid;
   width: 48px;
   height: 56px;
   padding-bottom: 8px;
   place-items: center;
-  color: ${({ theme, $iconColor }) => $iconColor ?? theme.colors.neutral};
+  color: ${({ theme, $iconColor, $highlighted }) => $highlighted ? theme.colors.secondary : $iconColor ?? theme.colors.neutral};
   filter: drop-shadow(0 4px 8px ${({ theme }) => theme.colors.secondaryHoverSoft});
 
   > svg:last-child {
@@ -70,13 +70,14 @@ export const Marker = styled.div<{ $iconColor?: string }>`
 export const MarkerShape = styled.svg.attrs({ viewBox: '0 0 48 56' })<{
   $color?: string
   $borderColor?: string
+  $highlighted: boolean
 }>`
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  fill: ${({ theme, $color }) => $color ?? theme.colors.secondary};
-  stroke: ${({ theme, $borderColor }) => $borderColor ?? theme.colors.background};
+  fill: ${({ theme, $color, $highlighted }) => $highlighted ? theme.colors.secondarySoft : $color ?? theme.colors.secondary};
+  stroke: ${({ theme, $borderColor, $highlighted }) => $highlighted ? theme.colors.secondary : $borderColor ?? theme.colors.background};
   stroke-width: 2px;
   stroke-linejoin: round;
 `

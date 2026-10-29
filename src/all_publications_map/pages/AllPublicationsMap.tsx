@@ -107,6 +107,7 @@ function AllPublicationsMap() {
           enableMarkerOnClick={false}
           center={point}
           markPoint={point}
+          highlightMarkPoint
           onClusterClick={handleClusterClick}
           onMarkerClick={handleMarkerClick}
         />

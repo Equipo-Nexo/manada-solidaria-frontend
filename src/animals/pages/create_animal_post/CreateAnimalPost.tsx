@@ -53,7 +53,6 @@ function CreateAnimalPost() {
     handleSubmit,
     register,
     resetField,
-    getValues
   } = useForm<NewAnimalPostFormValues>({
     resolver: yupResolver(newAnimalPostSchema),
     defaultValues: newAnimalPostDefaultValues,
