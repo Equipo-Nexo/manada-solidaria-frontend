@@ -112,6 +112,7 @@ export const ANIMAL_POST_STATUS_LABELS: Record<
   ADOPTION: "En adopción",
   LOST: "Perdido",
   IN_STREET: "En la calle",
+  TO_RESCUE: "En la calle",
   CREATED: undefined,
   SEARCHING: "Perdido",
   FOUND: "Encontrado",

@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMemo } from 'react'
 import { Controller, useController, useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Advice, OptionsComponent, PhoneInputComponent, ErrorMessage, ImageUpload, SelectorComponent, AutocompleteGeolocation } from '@components/index.ts'
 import { editAnimalPostSchema, type EditAnimalPostFormValues } from '@animals/app/schemas/EditAnimalPost.schema'
 import * as S from './EditAnimalPost.styles'
@@ -17,6 +17,7 @@ import { ColorSelectorComponent } from '@animals/components'
 import { mapGeolocationToLocation } from '@utils/mapGeolocationToLocation'
 import FormContainer from '@/common/components/form_container/FormContainer'
 import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
+import { isFinalAnimalPostStatus } from '@animals/utils/AnimalPostStatusUtils'
 
 const getPublicationReason = (type: AnimalPostFilter): PublicationReason => {
     if (type === 'IN_STREET') return PublicationReason.Street
@@ -50,6 +51,7 @@ function EditAnimalPostForm() {
 
     const [editAnimalPost, { isLoading }] = useEditAnimalPostMutation()
     const { data: animalPostData } = useGetAnimalPostQuery(postId || '', { skip: !postId })
+    const isFinalStatus = animalPostData ? isFinalAnimalPostStatus(animalPostData.status) : false
 
     const defaultValues = useMemo(
         () => animalPostData && EditAnimalPostDefaultValues(animalPostData),
@@ -78,7 +80,7 @@ function EditAnimalPostForm() {
     })
 
     const handleEditAnimalPost = async (values: EditAnimalPostFormValues) => {
-        if (!postId || !animalPostData) return
+        if (!postId || !animalPostData || isFinalStatus) return
         const phoneNumber = (!values.areaCode || !values.phoneNumber) ? undefined : {
             areaCode: values.areaCode,
             number: values.phoneNumber
@@ -113,6 +115,10 @@ function EditAnimalPostForm() {
             }).catch(() => {
                 toast.error('No pudimos actualizar la publicación', 'Revisá los datos e intentá nuevamente.')
             })
+    }
+
+    if (isFinalStatus) {
+        return <Navigate to={`/animal/detalle/${postId}`} replace />
     }
 
     return (

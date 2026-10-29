@@ -1,18 +1,26 @@
-import { useState, type KeyboardEvent, type MouseEvent } from "react";
-import { ArrowLeft, Pencil, Trash } from "../../../common/icons"
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import { ArrowLeft, ChevronDown, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDeleteCampaignMutation } from "@campaigns/app/api/campaignApi";
-import { useDeleteAnimalPostMutation } from "@animals/app/api/animalPostsApi";
+import { useDeleteAnimalPostMutation, useUpdateAnimalPostStatusMutation } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
 import { BottomSheet, CategorySelector, ImagePreview, Message } from "@components/index.ts";
 import { Clock } from "@icons/index.ts";
 import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
 import { getPublishedAtDescription, publicationMessages } from "@utils/Messages";
 import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
+import { getPossibleStatuses } from "@/users/utils/StatusUtils";
+import { isFinalAnimalPostStatus } from '@animals/utils/AnimalPostStatusUtils';
+import UpdatePostStatusSheet from "@/users/components/animal_post_status_sheet/UpdatePostStatusSheet";
+import { getApiErrorMessage } from "@utils/getApiErrorMessage";
+import type { UpdateAnimalPostStatusRequest } from "@/animals/app/api/requests/animalPostRequests";
+import { StatusLogic } from "./utils/AnimalStatusLogic";
+import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
 
 type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
+
 
 const POST_FILTERS: PostFilter[] = ['', 'animal', 'campaign', 'fundraising']
 const POST_FILTER_LABELS: Record<PostFilter, string> = {
@@ -34,8 +42,25 @@ function MyPosts() {
     const { data: userPosts, isError, isLoading, refetch } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
+    const [updateStatus, { isLoading: isUpdatingStatus }] = useUpdateAnimalPostStatusMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
+    const [statusPost, setStatusPost] = useState<GetUserPostsResponse | null>(null)
+    const statusCardRef = useRef<HTMLElement | null>(null)
+    const selectedPostTitle = selectedPost?.title?.trim()
+
+    useEffect(() => {
+        if (!statusPost) statusCardRef.current?.focus()
+    }, [statusPost])
+
+    const handleStatusButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLButtonElement>) => {
+        statusCardRef.current = event.currentTarget.closest<HTMLElement>('[role="link"]')
+        setStatusPost(post)
+    }
+
+    const closeStatusSheet = () => {
+        setStatusPost(null)
+    }
 
     const handleFilterChange = (filter: PostFilter) => {
         setSearchParams((currentParams) => {
@@ -52,6 +77,8 @@ function MyPosts() {
     }
 
     const handleEditButton = (post: GetUserPostsResponse) => {
+        if (post.postType === 'animal' && isFinalAnimalPostStatus(post.status)) return
+
         const editByPostType: Record<UserPostType, (postId: string) => void> = {
             campaign: (postId) => navigate(`/editar/campania/${postId}`),
             animal: (postId) => navigate(`/editar/animal/${postId}`),
@@ -117,26 +144,77 @@ function MyPosts() {
         }
     }
 
+    const changeStatusSelector = (publicationType: UserPostType, status: UpdateAnimalPostStatusRequest["status"]) => {
+        switch (publicationType) {
+            case 'animal':
+                return handleChangeStatus(status)
+            //acá agregar los demás tipos de publicaciones
+            default:
+                throw new Error(`Cambio de estado no implementado para ${publicationType}`)
+        }
+    }
+
+    const handleChangeStatus = async (status: UpdateAnimalPostStatusRequest["status"]) => {
+        if (!statusPost || isUpdatingStatus) return;
+        if (!getPossibleStatuses(statusPost.status).some((option) => option.value === status)) return;
+        try {
+            await updateStatus({
+                postId: statusPost.id,
+                status: status,
+            }).unwrap();
+
+            toast.success(
+                "Estado actualizado",
+                `El estado cambió a ${ANIMAL_POST_STATUS_LABELS[status]}.`,
+            );
+
+            closeStatusSheet();
+        } catch (error) {
+            toast.error(
+                "No pudimos cambiar el estado",
+                getApiErrorMessage(error, "Intentá nuevamente."),
+            );
+        }
+    };
+
+    const statusSheetProps = statusPost ? StatusLogic({
+        post: statusPost,
+        onChangeStatus: (status) => {
+            if (!statusPost) return;
+            return changeStatusSelector(statusPost.postType, status);
+        },
+        onClose: closeStatusSheet,
+    }) : null;
+
     return (
         <S.MyPostsRoot>
+            {statusPost && statusSheetProps && (
+                <UpdatePostStatusSheet key={statusPost.id} {...statusSheetProps} />
+            )}
             <BottomSheet
                 isOpen={openBottomSheet}
-                onClose={() => setOpenBottomSheet(false)}
+                ariaLabel="Confirmar eliminación de publicación"
+                onClose={closeBottomSheet}
             >
                 <S.BottomSheetContent>
                     <S.BottomSheetTitle>Eliminar publicación</S.BottomSheetTitle>
-                    <S.BottomSheetDescription>¿Estás seguro de eliminar {<S.PostTitle>{selectedPost?.title}</S.PostTitle>}? No podrás volver atrás esta acción</S.BottomSheetDescription>
+                    <S.BottomSheetDescription>
+                        ¿Estás seguro de eliminar la publicación{selectedPostTitle && <> de <S.PostTitle>{selectedPostTitle}</S.PostTitle></>}?
+                    </S.BottomSheetDescription>
+                    <S.BottomSheetButtonContainer>
+                        <S.BottomSheetButton
+                            type="button"
+                            $primary
+                            $destructive
+                            onClick={() => selectedPost && handleAcceptDelete(selectedPost)}
+                        >Sí, eliminar</S.BottomSheetButton>
+                        <S.BottomSheetButton
+                            type="button"
+                            $primary={false}
+                            onClick={closeBottomSheet}
+                        >No, cancelar</S.BottomSheetButton>
+                    </S.BottomSheetButtonContainer>
                 </S.BottomSheetContent>
-                <S.BottomSheetButtonContainer>
-                    <S.BottomSheetButton
-                        $primary
-                        onClick={() => selectedPost && handleAcceptDelete(selectedPost)}
-                    >Si, eliminar</S.BottomSheetButton>
-                    <S.BottomSheetButton
-                        $primary={false}
-                        onClick={closeBottomSheet}
-                    >No, cancelar</S.BottomSheetButton>
-                </S.BottomSheetButtonContainer>
             </BottomSheet>
             <S.Header>
                 <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
@@ -183,6 +261,8 @@ function MyPosts() {
                         </S.MessageContainer>
                     )}
                     {!isLoading && !isError && userPosts?.map(({ id, imageId, title, createdSince, status, postType }) => {
+                        const canChangeStatus = postType === 'animal' && getPossibleStatuses(status).length > 0
+                        const canEdit = postType !== 'animal' || !isFinalAnimalPostStatus(status)
                         return (
                             <S.Card
                                 key={id}
@@ -192,11 +272,13 @@ function MyPosts() {
                                 onClick={(event) => handleClickButton({ id, imageId, title, createdSince, status, postType }, event)}
                                 onKeyDown={(event) => handlePostKeyDown({ id, imageId, title, createdSince, status, postType }, event)}
                             >
-                                <ImagePreview
-                                    imageId={imageId}
-                                    alt={title}
-                                    variant="square"
-                                />
+                                <S.CardImage>
+                                    <ImagePreview
+                                        imageId={imageId}
+                                        alt={title}
+                                        variant="fill"
+                                    />
+                                </S.CardImage>
                                 <S.CardContent>
                                     <S.CardInformationContainer>
                                         <S.CardTitle>{title}</S.CardTitle>
@@ -207,20 +289,33 @@ function MyPosts() {
                                         {
                                             status && AnimalPostStatus[status] && (
                                                 <S.Status
+                                                    as={canChangeStatus ? 'button' : 'span'}
+                                                    type={canChangeStatus ? 'button' : undefined}
+                                                    $interactive={canChangeStatus}
                                                     $backgroundColor={AnimalPostStatus[status].backgroundColor}
                                                     $fontColor={AnimalPostStatus[status].fontColor}
-                                                >{AnimalPostStatus[status].text}</S.Status>
+                                                    aria-label={canChangeStatus ? `Cambiar estado de ${title}: ${AnimalPostStatus[status].text}` : undefined}
+                                                    aria-haspopup={canChangeStatus ? 'dialog' : undefined}
+                                                    onClick={canChangeStatus ? (event: MouseEvent<HTMLButtonElement>) =>
+                                                        handleStatusButton({ id, imageId, title, createdSince, status, postType }, event)
+                                                        : undefined}
+                                                >
+                                                    {AnimalPostStatus[status].text}
+                                                    {canChangeStatus && <ChevronDown aria-hidden="true" />}
+                                                </S.Status>
                                             )
                                         }
                                     </S.CardInformationContainer>
                                     <S.ButtonsContainer>
-                                        <S.Button
-                                            type="button"
-                                            aria-label={`Editar ${title}`}
-                                            onClick={() => handleEditButton({ id, imageId, title, createdSince, status, postType })}
-                                        >
-                                            <Pencil width={17} height={17} />
-                                        </S.Button>
+                                        {canEdit && (
+                                            <S.Button
+                                                type="button"
+                                                aria-label={`Editar ${title}`}
+                                                onClick={() => handleEditButton({ id, imageId, title, createdSince, status, postType })}
+                                            >
+                                                <Pencil width={17} height={17} />
+                                            </S.Button>
+                                        )}
                                         <S.Button onClick={() => handleDeleteButton({ id, imageId, title, createdSince, status, postType })}>
                                             <Trash width={17} height={17} />
                                         </S.Button>
