@@ -214,12 +214,10 @@ export function MapCNControls({
   const { map } = useMapCN()
 
   const zoomIn = useCallback(() => {
-    console.log(map?.getZoom())
     map?.zoomTo(map.getZoom() + 1, { duration: 300 })
   }, [map])
 
   const zoomOut = useCallback(() => {
-    console.log(map?.getZoom())
     map?.zoomTo(map.getZoom() - 1, { duration: 300 })
   }, [map])
 

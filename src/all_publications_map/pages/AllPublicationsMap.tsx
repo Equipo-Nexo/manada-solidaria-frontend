@@ -22,11 +22,9 @@ function AllPublicationsMap() {
     const latitude = Number(searchParams.get("latitude"));
     const longitude = Number(searchParams.get("longitude"));
     if (!latitude || !longitude) {
-      console.log('returning undefined')
       return undefined;
     }
 
-    console.log('returning point')
     return {
       lat: Number(latitude),
       lng: Number(longitude),

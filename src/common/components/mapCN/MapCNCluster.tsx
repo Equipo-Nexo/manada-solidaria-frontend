@@ -54,9 +54,10 @@ export function MapCNCluster<TItem>({
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
       cluster: true,
-      maxzoom: 18,
-      clusterRadius: 20,
-      clusterMaxZoom: 18,
+      // Keep coincident publications grouped throughout the map's zoom range.
+      maxzoom: Math.ceil(map.getMaxZoom()) + 1,
+      clusterRadius: 50,
+      clusterMaxZoom: Math.ceil(map.getMaxZoom()),
     })
 
     map.addLayer({
