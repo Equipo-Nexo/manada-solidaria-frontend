@@ -7,7 +7,7 @@ import type { GeolocationResponse, Location } from '@/common/app/services/respon
 import type { MapPoint } from '../map/Map';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useGeolocation } from '@/common/hooks/geolocation/useGeolocation';
-import { getAddress, getLocationErrorMessage } from '@/common/utils/LocationUtils';
+import { getLocationErrorMessage } from '@/common/utils/LocationUtils';
 import type { FieldErrors } from 'react-hook-form';
 
 const EMPTY_DIRECTION = "";
