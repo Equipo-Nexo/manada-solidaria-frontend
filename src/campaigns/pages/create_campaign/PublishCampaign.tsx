@@ -37,6 +37,7 @@ function PublishCampaign() {
       donationNeeds: [],
     }
   });
+
   const onSubmit = async (data: PublishCampaignForm) => {
     const request = buildCreateCampaignRequest(data)
 
@@ -234,15 +235,15 @@ function PublishCampaign() {
           <Controller
             control={control}
             name="location"
-            render={({ field, fieldState }) => (
+            render={({ field }) => (
               <>
                 <AutocompleteGeolocation
                   placeHolder="¿Dónde se realizará la campaña?"
                   onChange={(value) =>
                     field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                   }
+                  errors={errors.location}
                 />
-                <ErrorMessage message={fieldState.error?.message} />
               </>
             )}
           />

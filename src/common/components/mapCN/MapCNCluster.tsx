@@ -54,8 +54,9 @@ export function MapCNCluster<TItem>({
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
       cluster: true,
-      clusterRadius: 50,
-      clusterMaxZoom: 14,
+      maxzoom: 18,
+      clusterRadius: 20,
+      clusterMaxZoom: 18,
     })
 
     map.addLayer({
@@ -120,7 +121,7 @@ export function MapCNCluster<TItem>({
       const [lng, lat] = feature.geometry.coordinates
 
       try {
-        const [leaves, zoom] = await Promise.all([
+        const [leaves] = await Promise.all([
           source.getClusterLeaves(clusterId, pointCount, 0),
           source.getClusterExpansionZoom(clusterId),
         ])
@@ -131,7 +132,7 @@ export function MapCNCluster<TItem>({
           return point ? [point.data] : []
         })
 
-        map.easeTo({ center: [lng, lat], zoom, duration: 600 })
+        map.easeTo({ center: [lng, lat], duration: 600 })
         notifyClusterClick(items)
       } catch (error) {
         if (active) console.error('No se pudo seleccionar el cluster.', error)

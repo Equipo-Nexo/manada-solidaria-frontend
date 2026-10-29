@@ -15,6 +15,12 @@ export const MainContainer = styled.div`
     gap: 8px;
 `
 
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
+
 export const Input = styled.input`
   width: 100%;
   height: ${FORM_STYLE_VALUES.controlHeight};

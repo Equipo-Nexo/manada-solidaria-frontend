@@ -19,18 +19,21 @@ function AllPublicationsMap() {
   const [searchParams] = useSearchParams();
 
   const point = useMemo(() => {
-    const latitude = searchParams.get("latitude");
-    const longitude = searchParams.get("longitude");
-
+    const latitude = Number(searchParams.get("latitude"));
+    const longitude = Number(searchParams.get("longitude"));
     if (!latitude || !longitude) {
+      console.log('returning undefined')
       return undefined;
     }
 
+    console.log('returning point')
     return {
       lat: Number(latitude),
       lng: Number(longitude),
     };
   }, [searchParams]);
+
+
 
   const clusterGroups = useMemo<(MapClusterGroup<MapItem> & { label: string })[]>(() => [
     {
@@ -105,6 +108,7 @@ function AllPublicationsMap() {
           legends={clusterGroups.map((group) => ({ id: group.id, label: group.label, icon: group.marker?.icon, iconColor: group.marker?.iconColor }))}
           enableMarkerOnClick={false}
           center={point}
+          markPoint={point}
           onClusterClick={handleClusterClick}
           onMarkerClick={handleMarkerClick}
         />

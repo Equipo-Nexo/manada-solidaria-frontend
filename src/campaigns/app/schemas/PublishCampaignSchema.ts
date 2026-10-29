@@ -3,6 +3,14 @@ import { campaignCategories, type CampaignCategory } from "../types/Campaign.typ
 import { locationSchema } from "@/common/utils/LocationUtils";
 import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
+const campaignLocationSchema = locationSchema.shape({
+  street: yup.string().required('La calle es obligatoria'),
+  houseNumber: yup
+    .number()
+    .typeError('La altura debe ser un número')
+    .required('La altura es obligatoria'),
+});
+
 export const publishCampaignSchema = yup.object({
   title: yup.string().required("Ingresá un título para la campaña.").max(100),
   imageId: yup.string().notRequired(),
@@ -72,7 +80,7 @@ export const publishCampaignSchema = yup.object({
   phoneAreaCode: phoneAreaCodeSchema.required("Ingresá un código de área."),
   phone: phoneNumberSchema.required("Ingresá un número de teléfono."),
 
-  location: locationSchema,
+  location: campaignLocationSchema,
   donationNeeds: yup.array().when("category", {
     is: "DONATION",
     then: (schema) =>

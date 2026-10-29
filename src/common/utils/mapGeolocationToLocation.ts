@@ -6,8 +6,9 @@ export const mapGeolocationToLocation = (
   country: geolocation.country,
   city: geolocation.city,
   formatted: geolocation.formatted,
-  street: geolocation.street,
-  houseNumber: Number(geolocation.housenumber),
+  street: geolocation.street ? geolocation.street : undefined,
+  district: geolocation.district,
+  houseNumber: geolocation.housenumber ? Number(geolocation.housenumber) : undefined,
   latitude: geolocation.lat,
   longitude: geolocation.lon,
 })

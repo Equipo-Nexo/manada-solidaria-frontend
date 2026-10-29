@@ -13,8 +13,12 @@ import {
 } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
 import { parseRewardAmount } from '@utils/rewardAmount'
-import type { GeolocationResponse } from '@/common/app/services/responses/Location'
 import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
+import { locationSchema } from '@/common/utils/LocationUtils'
+
+const animalPostLocationSchema = locationSchema.shape({
+  district: yup.string().required("Debe ingresar el barrio"),
+})
 
 export const newAnimalPostSchema = yup.object({
   imageId: yup.string().required('Seleccioná una foto del animal.'),
@@ -22,9 +26,7 @@ export const newAnimalPostSchema = yup.object({
     .mixed<PublicationReason>()
     .oneOf(Object.values(PublicationReason))
     .required('Seleccioná un motivo de publicación.'),
-  location: yup
-    .mixed<GeolocationResponse>()
-    .required('Seleccioná la ubicación del animal.'),
+  location: animalPostLocationSchema,
   animalType: yup
     .mixed<AnimalType>()
     .oneOf(animalTypes)

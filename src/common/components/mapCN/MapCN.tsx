@@ -54,6 +54,7 @@ export const MapCN = forwardRef<MapCNRef, MapCNProps>(function MapCN(
   },
   forwardedRef,
 ) {
+
   const canvasRef = useRef<HTMLDivElement>(null)
   const optionsRef = useRef({ ...mapOptions, center, zoom })
   const [map, setMap] = useState<MapLibreMap | null>(null)
@@ -213,10 +214,12 @@ export function MapCNControls({
   const { map } = useMapCN()
 
   const zoomIn = useCallback(() => {
+    console.log(map?.getZoom())
     map?.zoomTo(map.getZoom() + 1, { duration: 300 })
   }, [map])
 
   const zoomOut = useCallback(() => {
+    console.log(map?.getZoom())
     map?.zoomTo(map.getZoom() - 1, { duration: 300 })
   }, [map])
 
