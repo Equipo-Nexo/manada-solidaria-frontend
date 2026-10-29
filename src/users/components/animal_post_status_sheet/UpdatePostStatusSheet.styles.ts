@@ -3,11 +3,6 @@ import { focusVisible } from '@styles/interactions'
 
 export { Content, Title, Description, Actions, ActionButton } from '@components/bottomSheet/ConfirmationSheet.styles'
 
-export const Pending = styled.p`
-  ${({ theme }) => theme.typography.descriptive};
-  color: ${({ theme }) => theme.colors.secondary};
-`
-
 export const Options = styled.div`
   display: flex;
   width: 100%;

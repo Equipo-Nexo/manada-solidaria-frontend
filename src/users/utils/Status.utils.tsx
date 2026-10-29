@@ -10,12 +10,12 @@ export type AnimalStatusOption = {
   finalAction?: string
 }
 
-const statusConfig: Record<AnimalStatusTarget, { order: number; description: string; finalAction?: string }> = {
-  SEARCHING_ADOPT_AND_TRANSIT: { order: 1, description: 'Busca familia o tránsito (hogar provisorio)' },
-  SEARCHING_ADOPT: { order: 2, description: 'Está bajo cuidado temporal y busca un hogar' },
-  ADOPTED: { order: 3, description: 'Encontró un hogar definitivo', finalAction: 'fue adoptado' },
-  FOUND: { order: 4, description: 'Se reencontró con su familia', finalAction: 'fue encontrado' },
-  RESCUED: { order: 5, description: 'Ya está a salvo', finalAction: 'fue rescatado' },
+const statusConfig: Record<AnimalStatusTarget, { description: string; finalAction?: string }> = {
+  SEARCHING_ADOPT_AND_TRANSIT: { description: 'Busca familia o tránsito (hogar provisorio)' },
+  SEARCHING_ADOPT: { description: 'Está bajo cuidado temporal y busca un hogar' },
+  ADOPTED: { description: 'Encontró un hogar definitivo', finalAction: 'fue adoptado' },
+  FOUND: { description: 'Se reencontró con su familia', finalAction: 'fue encontrado' },
+  RESCUED: { description: 'Ya está a salvo', finalAction: 'fue rescatado' },
 }
 
 const transitions: Record<AnimalPostStatus, readonly AnimalStatusTarget[]> = {
@@ -37,15 +37,4 @@ function toOption(value: AnimalStatusTarget): AnimalStatusOption {
 export function getPossibleStatuses(currentStatus: string): AnimalStatusOption[] {
   if (!Object.hasOwn(transitions, currentStatus)) return []
   return transitions[currentStatus as AnimalPostStatus].map(toOption)
-}
-
-export function getStatusSelectorOptions(currentStatus: string): AnimalStatusOption[] {
-  const nextStatuses = getPossibleStatuses(currentStatus)
-  if (nextStatuses.length <= 1) return nextStatuses
-
-  const options = Object.hasOwn(statusConfig, currentStatus)
-    ? [...nextStatuses, toOption(currentStatus as AnimalStatusTarget)]
-    : nextStatuses
-
-  return options.sort((a, b) => statusConfig[a.value].order - statusConfig[b.value].order)
 }
