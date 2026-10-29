@@ -13,12 +13,15 @@ interface StatusLogicParams {
 }
 
 export function StatusLogic({ post, onChangeStatus, onClose }: StatusLogicParams): UpdatePostStatusSheetProps {
-  const name = post.title?.trim() || 'el animal'
+  const name = post.title?.trim()
   const currentStatus = AnimalPostStatus[post.status]
   const config = Object.hasOwn(animalStatusConfig, post.status)
     ? animalStatusConfig[post.status as AnimalPostStatusValue]
     : animalStatusConfig.CREATED
-  const personalize = (text: string) => text.replaceAll('{name}', () => name)
+  const personalize = (text: string) => text.replace(
+    /\{(name|Name)\}/g,
+    (_placeholder, token: string) => name || (token === 'Name' ? 'El animal' : 'el animal'),
+  )
 
   return {
     bottomSheetTitle: personalize(config.bottomSheetTitle),

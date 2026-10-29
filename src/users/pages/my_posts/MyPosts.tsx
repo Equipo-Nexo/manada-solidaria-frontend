@@ -11,7 +11,7 @@ import { Clock } from "@icons/index.ts";
 import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
 import { getPublishedAtDescription, publicationMessages } from "@utils/Messages";
 import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
-import { getPossibleStatuses } from "@/users/utils/Status.utils";
+import { getPossibleStatuses } from "@/users/utils/StatusUtils";
 import { isFinalAnimalPostStatus } from '@animals/utils/AnimalPostStatusUtils';
 import UpdatePostStatusSheet from "@/users/components/animal_post_status_sheet/UpdatePostStatusSheet";
 import { getApiErrorMessage } from "@utils/getApiErrorMessage";
