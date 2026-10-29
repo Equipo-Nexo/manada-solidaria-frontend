@@ -10,13 +10,14 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
+  createTransform,
   persistReducer,
   persistStore,
 } from "redux-persist";
-import storageSession from "redux-persist/es/storage/session";
 import { baseAuthenticatedApi } from "../services/base/baseAuthenticatedApi";
 import { baseApi } from "../services/base/baseApi";
-import authReducer, { logout } from "./authSlice";
+import authReducer, { logout, type AuthState } from "./authSlice";
+import storage from "redux-persist/es/storage";
 
 const authListenerMiddleware = createListenerMiddleware();
 
@@ -43,11 +44,28 @@ const rootReducer = combineReducers({
   [baseAuthenticatedApi.reducerPath]: baseAuthenticatedApi.reducer,
 });
 
+type AppState = ReturnType<typeof rootReducer>;
+
+const authTransform = createTransform<AuthState, AuthState, AppState, AppState>(
+  ({ userId, accessToken, isAuthenticated }) => ({
+    userId,
+    accessToken,
+    isAuthenticated,
+  }),
+  ({ userId, accessToken, isAuthenticated }) => ({
+    userId,
+    accessToken,
+    isAuthenticated,
+  }),
+  { whitelist: ["auth"] },
+);
+
 const persistedReducer = persistReducer(
   {
     key: "manadaSolidaria",
-    storage: storageSession,
+    storage,
     whitelist: ["auth"],
+    transforms: [authTransform],
   },
   rootReducer,
 );
