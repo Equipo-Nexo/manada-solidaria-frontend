@@ -16,7 +16,7 @@ import { parseRewardAmount } from '@utils/rewardAmount'
 import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
 import { locationSchema } from '@/common/utils/LocationUtils'
 
-const animalPostLocationSchema = locationSchema.shape({
+export const animalPostLocationSchema = locationSchema.shape({
   district: yup.string().required("Debe ingresar el barrio"),
 })
 

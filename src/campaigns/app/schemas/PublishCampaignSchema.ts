@@ -3,7 +3,7 @@ import { campaignCategories, type CampaignCategory } from "../types/Campaign.typ
 import { locationSchema } from "@/common/utils/LocationUtils";
 import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
-const campaignLocationSchema = locationSchema.shape({
+export const campaignLocationSchema = locationSchema.shape({
   street: yup.string().required('La calle es obligatoria'),
   houseNumber: yup
     .number()

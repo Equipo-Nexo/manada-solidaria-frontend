@@ -7,7 +7,7 @@ import type { GeolocationResponse, Location } from '@/common/app/services/respon
 import type { MapPoint } from '../map/Map';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useGeolocation } from '@/common/hooks/geolocation/useGeolocation';
-import { getLocationErrorMessage } from '@/common/utils/LocationUtils';
+import { getAddress, getLocationErrorMessage } from '@/common/utils/LocationUtils';
 import type { FieldErrors } from 'react-hook-form';
 
 const EMPTY_DIRECTION = "";
@@ -25,19 +25,14 @@ function AutocompleteGeolocation({
     onChange,
     errors
 }: AutocompleteGeolocationProps) {
-
     const { coordinates, requestCoordinates } = useGeolocation()
-    const [direction, setDirection] = useState(
-        initialLocation?.street ?? initialLocation?.city ?? EMPTY_DIRECTION
-    )
+    const [editedDirection, setDirection] = useState<string | null>(null)
+    const direction = editedDirection ?? (initialLocation ? initialLocation.formatted : EMPTY_DIRECTION)
     const [debouncedDirection, setDebouncedDirection] = useState(EMPTY_DIRECTION)
     const [selectedLocation, setSelectedLocation] = useState<GeolocationResponse | null>(null)
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
     const [isInputFocused, setInputIsFocused] = useState(false)
     const onChangeRef = useRef(onChange)
-    const initialDirection = initialLocation
-        ? `${initialLocation.street} ${initialLocation.houseNumber}, ${initialLocation.city}`
-        : EMPTY_DIRECTION
 
     useEffect(() => {
         onChangeRef.current = onChange
@@ -75,7 +70,7 @@ function AutocompleteGeolocation({
     )
 
     const effectiveLocation = selectedPoint ? reverseLocation ?? null : selectedLocation
-    const displayedDirection = effectiveLocation?.formatted ?? (direction || initialDirection)
+    const displayedDirection = effectiveLocation?.formatted ?? direction
 
     useEffect(() => {
         if (effectiveLocation) onChangeRef.current?.(effectiveLocation)

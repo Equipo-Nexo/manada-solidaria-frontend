@@ -38,7 +38,11 @@ const EditAnimalPostDefaultValues = (
         areaCode: animalPost.phoneNumber ? animalPost.phoneNumber.areaCode : '',
         phoneNumber: animalPost.phoneNumber ? animalPost.phoneNumber.number : '',
         story: animalPost.description,
-        location: animalPost.location,
+        location: { 
+            ...animalPost.location, 
+            street: animalPost.location.street ? animalPost.location.street : undefined, 
+            houseNumber: animalPost.location.houseNumber ? animalPost.location.houseNumber : undefined
+        },
     }
 }
 
@@ -146,16 +150,14 @@ function EditAnimalPostForm() {
                 <Controller
                     name="location"
                     control={control}
-                    render={({ field, fieldState }) => (
+                    render={({ field }) => (
                         <>
                             <AutocompleteGeolocation
                                 initialLocation={field.value}
                                 placeHolder="¿En dónde se encuentra el animal?"
-                                onChange={(value) =>
-                                    field.onChange(value ? mapGeolocationToLocation(value) : undefined)
-                                }
+                                onChange={(value) => field.onChange(value ? mapGeolocationToLocation(value) : undefined)}
+                                errors={errors.location}
                             />
-                            <ErrorMessage message={fieldState.error?.message} />
                         </>
                     )}
                 />

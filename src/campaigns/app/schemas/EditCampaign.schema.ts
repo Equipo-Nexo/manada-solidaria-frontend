@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 import type { CampaignDetailsType } from '@models/Campaign.types'
-import { locationSchema } from '@/common/utils/LocationUtils'
 import { campaignCategories, type CampaignCategory } from '../types/Campaign.types'
 import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
+import { campaignLocationSchema } from './PublishCampaignSchema'
 
 export const editCampaignSchema = yup.object({
   category: yup
@@ -51,7 +51,7 @@ export const editCampaignSchema = yup.object({
   }),
   phoneAreaCode: phoneAreaCodeSchema.required('Ingresá un código de área.'),
   phone: phoneNumberSchema.required('Ingresá un número de teléfono.'),
-  location: locationSchema,
+  location: campaignLocationSchema,
   imageId: yup.string().defined().default(''),
 })
 

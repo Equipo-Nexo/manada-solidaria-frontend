@@ -14,11 +14,13 @@ export const locationSchema: ObjectSchema<Location> = yup.object({
   longitude: yup.number().required(),
 });
 
-export const getAddress = ({ street, houseNumber, district }: Location) => {
+export const getAddress = (location: Location) => {
+  const { street, houseNumber, district, city, country } = location
   const hasAddress = !!street?.trim() && houseNumber != null;
   
   if (hasAddress) return `${street} ${houseNumber}`
-  if (district) return district
+  if (district) return `${district}, ${city}`
+  return `${city}, ${country}`
 }
 
 
@@ -33,9 +35,5 @@ export const getLocationErrorMessage = (
 
   if (fieldErrors.length === 0) return undefined;
 
-  if (fieldErrors.length === 1) {
-    return String(fieldErrors[0].message);
-  }
-
-  return 'Seleccioná una ubicación válida de las sugerencias para continuar.';
+  return String(fieldErrors[0].message);
 };

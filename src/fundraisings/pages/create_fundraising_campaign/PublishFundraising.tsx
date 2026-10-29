@@ -51,6 +51,8 @@ function PublishFundraising() {
     },
   });
 
+  console.log('errors', errors)
+
   const onSubmit = async (data: PublishFundraisingForm) => {
     const request: FundraisingCampaignRequest = {
       type: "FUNDRAISING",
@@ -202,15 +204,15 @@ function PublishFundraising() {
         <Controller
           control={control}
           name="location"
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <>
               <AutocompleteGeolocation
                 placeHolder="¿Dónde se realizará la campaña?"
                 onChange={(value) =>
                   field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                 }
+                errors={errors.location}
               />
-              <ErrorMessage message={fieldState.error?.message} />
             </>
           )}
         />
