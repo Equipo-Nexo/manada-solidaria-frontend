@@ -144,6 +144,16 @@ function MyPosts() {
         }
     }
 
+    const changeStatusSelector = (publicationType: UserPostType, status: UpdateAnimalPostStatusRequest["status"]) => {
+        switch (publicationType) {
+            case 'animal':
+                return handleChangeStatus(status)
+            //acá agregar los demás tipos de publicaciones
+            default:
+                throw new Error(`Cambio de estado no implementado para ${publicationType}`)
+        }
+    }
+
     const handleChangeStatus = async (status: UpdateAnimalPostStatusRequest["status"]) => {
         if (!statusPost || isUpdatingStatus) return;
         if (!getPossibleStatuses(statusPost.status).some((option) => option.value === status)) return;
@@ -169,7 +179,10 @@ function MyPosts() {
 
     const statusSheetProps = statusPost ? StatusLogic({
         post: statusPost,
-        onChangeStatus: handleChangeStatus,
+        onChangeStatus: (status) => {
+            if (!statusPost) return;
+            return changeStatusSelector(statusPost.postType, status);
+        },
         onClose: closeStatusSheet,
     }) : null;
 
