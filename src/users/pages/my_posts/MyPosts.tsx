@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
 import { ArrowLeft, ChevronDown, Pencil, Trash } from "../../../common/icons"
 import * as S from "./MyPosts.styles"
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
@@ -15,8 +15,12 @@ import { getPossibleStatuses } from "@/users/utils/Status.utils";
 import { isFinalAnimalPostStatus } from '@animals/utils/AnimalPostStatusUtils';
 import UpdatePostStatusSheet from "@/users/components/animal_post_status_sheet/UpdatePostStatusSheet";
 import { getApiErrorMessage } from "@utils/getApiErrorMessage";
+import type { UpdateAnimalPostStatusRequest } from "@/animals/app/api/requests/animalPostRequests";
+import { StatusLogic } from "./utils/AnimalStatusLogic";
+import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
 
 type PostFilter = '' | 'animal' | 'campaign' | 'fundraising';
+
 
 const POST_FILTERS: PostFilter[] = ['', 'animal', 'campaign', 'fundraising']
 const POST_FILTER_LABELS: Record<PostFilter, string> = {
@@ -38,12 +42,16 @@ function MyPosts() {
     const { data: userPosts, isError, isLoading, refetch } = useGetUserPostsQuery(selectedFilter);
     const [deleteCampaign] = useDeleteCampaignMutation();
     const [deleteAnimalPost] = useDeleteAnimalPostMutation();
-    const [updateStatus] = useUpdateAnimalPostStatusMutation();
+    const [updateStatus, { isLoading: isUpdatingStatus }] = useUpdateAnimalPostStatusMutation();
     const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null)
     const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false)
     const [statusPost, setStatusPost] = useState<GetUserPostsResponse | null>(null)
     const statusCardRef = useRef<HTMLElement | null>(null)
     const selectedPostTitle = selectedPost?.title?.trim()
+
+    useEffect(() => {
+        if (!statusPost) statusCardRef.current?.focus()
+    }, [statusPost])
 
     const handleStatusButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLButtonElement>) => {
         statusCardRef.current = event.currentTarget.closest<HTMLElement>('[role="link"]')
@@ -52,7 +60,6 @@ function MyPosts() {
 
     const closeStatusSheet = () => {
         setStatusPost(null)
-        statusCardRef.current?.focus()
     }
 
     const handleFilterChange = (filter: PostFilter) => {
@@ -137,24 +144,18 @@ function MyPosts() {
         }
     }
 
-    const handleChangeStatus = async (status: string) => {
-        if (!statusPost) return;
-
-        const option = getPossibleStatuses(statusPost.status).find(
-            (option) => option.value === status,
-        );
-
-        if (!option) return;
-
+    const handleChangeStatus = async (status: UpdateAnimalPostStatusRequest["status"]) => {
+        if (!statusPost || isUpdatingStatus) return;
+        if (!getPossibleStatuses(statusPost.status).some((option) => option.value === status)) return;
         try {
             await updateStatus({
                 postId: statusPost.id,
-                status: option.value,
+                status: status,
             }).unwrap();
 
             toast.success(
                 "Estado actualizado",
-                `El estado cambió.`,
+                `El estado cambió a ${ANIMAL_POST_STATUS_LABELS[status]}.`,
             );
 
             closeStatusSheet();
@@ -166,10 +167,16 @@ function MyPosts() {
         }
     };
 
+    const statusSheetProps = statusPost ? StatusLogic({
+        post: statusPost,
+        onChangeStatus: handleChangeStatus,
+        onClose: closeStatusSheet,
+    }) : null;
+
     return (
         <S.MyPostsRoot>
-            {statusPost && (
-                <UpdatePostStatusSheet onClose={closeStatusSheet} onChangeStatus={handleChangeStatus}></UpdatePostStatusSheet>
+            {statusPost && statusSheetProps && (
+                <UpdatePostStatusSheet key={statusPost.id} {...statusSheetProps} />
             )}
             <BottomSheet
                 isOpen={openBottomSheet}
