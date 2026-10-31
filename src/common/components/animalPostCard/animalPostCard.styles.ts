@@ -50,23 +50,31 @@ export const PhotoContainer = styled.div`
   overflow: hidden;
   border-radius: 11px 11px 0 0;
 `;
-
-export const PhotoHeart = styled.span`
+export const PhotoHeart = styled.span<{
+  $x: number;
+  $y: number;
+}>`
   position: absolute;
-  inset: 0;
-  z-index: 1;
+  left: ${({ $x }) => `${$x}px`};
+  top: ${({ $y }) => `${$y}px`};
+
+  width: 70px;
+  height: 70px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.colors.background};
+
   pointer-events: none;
-  animation: ${photoHeartAnimation} 1s ease-out forwards;
+  z-index: 5;
+
+  color: ${({ theme }) => theme.colors.background};
+
+  animation: ${photoHeartAnimation} 800ms ease-out forwards;
 
   svg {
-    width: 110px;
-    height: 110px;
-    max-width: 45%;
-    max-height: 60%;
+    width: 100%;
+    height: 100%;
     filter: drop-shadow(0 2px 8px rgb(0 0 0 / 18%));
   }
 

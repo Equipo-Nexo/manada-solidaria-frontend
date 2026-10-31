@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from "react";
+import { useState, type MouseEvent, type PointerEvent } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
 import { Heart, LocationPin, Share } from "../../icons";
@@ -11,6 +11,7 @@ import ImagePreview from "../image_preview/ImagePreview";
 import { shareUrl } from "@/common/utils/HandleShare";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import { useAnimalPostLike } from "@/animals/hooks/useAnimalPostLike";
+import { useDoubleTap } from "@/common/hooks/gestures/useDoubleTap";
 
 export type AnimalPostCardProps = {
   postId: string;
@@ -24,7 +25,11 @@ export type AnimalPostCardProps = {
   reactedByMe?: boolean;
   reactionsCount?: number;
 };
-
+type HeartAnimation = {
+  x: number;
+  y: number;
+  id: number;
+};
 function AnimalPostCard({
   postId,
   name,
@@ -39,19 +44,43 @@ function AnimalPostCard({
 }: AnimalPostCardProps) {
   const navigate = useNavigate();
   const [isRewardExpanded, setIsRewardExpanded] = useState(false);
-  const [heartAnimation, setHeartAnimation] = useState(0);
+
+  const [heartAnimation, setHeartAnimation] = useState<HeartAnimation | null>(
+    null,
+  );
   const { toggleLike, giveLike, isUpdatingLike } = useAnimalPostLike({
     postId,
     reactedByMe,
   });
-  const handlePhotoDoubleClick = (event: MouseEvent<HTMLElement>) => {
-    if (event.target instanceof Element && event.target.closest("button")) {
-      return;
-    }
-    setHeartAnimation((animation) => animation + 1);
+  const handlePhotoLike = (
+    event: MouseEvent<HTMLElement> | PointerEvent<HTMLElement>,
+  ) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    setHeartAnimation({
+      x,
+      y,
+      id: Date.now(),
+    });
     if (reactedByMe || isUpdatingLike) return;
     void giveLike();
   };
+  const handlePhotoDoubleClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest("button, a")) {
+      return;
+    }
+    if (
+      "pointerType" in event.nativeEvent &&
+      event.nativeEvent.pointerType !== "mouse"
+    ) {
+      return;
+    }
+    handlePhotoLike(event);
+  };
+  const doubleTapHandlers = useDoubleTap({
+    onDoubleTap: handlePhotoLike,
+  });
   const hasReward =
     status === ANIMAL_POST_STATUS_LABELS.LOST &&
     typeof reward === "number" &&
@@ -89,13 +118,18 @@ function AnimalPostCard({
 
   return (
     <S.CardContainer>
-      <S.PhotoContainer onDoubleClick={handlePhotoDoubleClick}>
+      <S.PhotoContainer
+        onDoubleClick={handlePhotoDoubleClick}
+        {...doubleTapHandlers}
+      >
         <ImagePreview imageId={imageUrl} alt={name} />
-        {heartAnimation > 0 && (
+        {heartAnimation && (
           <S.PhotoHeart
-            key={heartAnimation}
+            key={heartAnimation.id}
+            $x={heartAnimation.x}
+            $y={heartAnimation.y}
             aria-hidden="true"
-            onAnimationEnd={() => setHeartAnimation(0)}
+            onAnimationEnd={() => setHeartAnimation(null)}
           >
             <Heart filled />
           </S.PhotoHeart>
