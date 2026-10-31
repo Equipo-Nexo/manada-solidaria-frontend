@@ -1,5 +1,8 @@
-import { getAnimalName, type AnimalPost } from '@/animals/app/types/AnimalPost.types'
-import type { AnimalPostCardProps } from './animalPostCard'
+import {
+  getAnimalName,
+  type AnimalPost,
+} from "@/animals/app/types/AnimalPost.types";
+import type { AnimalPostCardProps } from "./animalPostCard";
 
 export const mapAnimalPostToCardProps = (
   post: AnimalPost,
@@ -13,5 +16,7 @@ export const mapAnimalPostToCardProps = (
     imageUrl: post.imageUrl,
     phoneNumber: post.phoneNumber,
     reward: post.reward ?? undefined,
-  }
-}
+    reactedByMe: post.reactedByMe,
+    reactionsCount: post.reactionsCount,
+  };
+};
