@@ -10,8 +10,8 @@ import {
   type AnimalSize,
 } from '@/animals/app/types/AnimalPost.types'
 import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
-import { locationSchema } from '@utils/Location.schema'
 import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
+import { animalPostLocationSchema } from './CreateAnimalPost.schema'
 
 export const editAnimalPostSchema = yup.object({
     publicationReason: yup
@@ -19,7 +19,7 @@ export const editAnimalPostSchema = yup.object({
         .oneOf(Object.values(PublicationReason))
         .required(),
     imageId: yup.string().required('Seleccioná una foto del animal.'),
-    location: locationSchema,
+    location: animalPostLocationSchema,
     name: yup.string().trim().max(30, 'El nombre no puede superar los 30 caracteres.').default(''),
     animalSex: yup
         .mixed<AnimalSex>()

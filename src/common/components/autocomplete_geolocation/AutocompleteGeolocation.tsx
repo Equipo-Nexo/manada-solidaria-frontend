@@ -1,5 +1,5 @@
 import { Search } from '@/common/icons';
-import { Map } from '@components/index.ts'
+import { ErrorMessage, Map } from '@components/index.ts'
 import * as S from './AutocompleteGeolocation.styles'
 import { useGetGeolocationReverseQuery, useGetGeolocationsQuery } from '@/common/app/services/apis/geolocationApi';
 import { useEffect, useRef, useState } from 'react';
@@ -7,6 +7,8 @@ import type { GeolocationResponse, Location } from '@/common/app/services/respon
 import type { MapPoint } from '../map/Map';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useGeolocation } from '@/common/hooks/geolocation/useGeolocation';
+import { getLocationErrorMessage } from '@/common/utils/LocationUtils';
+import type { FieldErrors } from 'react-hook-form';
 
 const EMPTY_DIRECTION = "";
 
@@ -14,26 +16,23 @@ interface AutocompleteGeolocationProps {
     placeHolder?: string
     initialLocation?: Location;
     onChange?: (value: GeolocationResponse | null) => void;
+    errors?: FieldErrors<Location>;
 }
 
 function AutocompleteGeolocation({
     placeHolder,
     initialLocation,
-    onChange
+    onChange,
+    errors
 }: AutocompleteGeolocationProps) {
-
     const { coordinates, requestCoordinates } = useGeolocation()
-    const [direction, setDirection] = useState(
-        initialLocation?.address ?? initialLocation?.name ?? EMPTY_DIRECTION
-    )
+    const [editedDirection, setDirection] = useState<string | null>(null)
+    const direction = editedDirection ?? (initialLocation ? initialLocation.formatted : EMPTY_DIRECTION)
     const [debouncedDirection, setDebouncedDirection] = useState(EMPTY_DIRECTION)
     const [selectedLocation, setSelectedLocation] = useState<GeolocationResponse | null>(null)
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
     const [isInputFocused, setInputIsFocused] = useState(false)
     const onChangeRef = useRef(onChange)
-    const initialDirection = initialLocation
-        ? `${initialLocation.address} ${initialLocation.number}, ${initialLocation.name}`
-        : EMPTY_DIRECTION
 
     useEffect(() => {
         onChangeRef.current = onChange
@@ -71,7 +70,7 @@ function AutocompleteGeolocation({
     )
 
     const effectiveLocation = selectedPoint ? reverseLocation ?? null : selectedLocation
-    const displayedDirection = effectiveLocation?.formatted ?? (direction || initialDirection)
+    const displayedDirection = effectiveLocation?.formatted ?? direction
 
     useEffect(() => {
         if (effectiveLocation) onChangeRef.current?.(effectiveLocation)
@@ -90,49 +89,52 @@ function AutocompleteGeolocation({
 
     return (
         <S.MainContainer>
-            <S.IconInputWrapper>
-                <Search aria-hidden="true" />
-                <S.AutocompleteContainer>
-                    <S.Input
-                        value={displayedDirection}
-                        onChange={(event) => {
-                            setDirection(event.target.value)
-                            setSelectedLocation(null)
-                            setSelectedPoint(null)
-                            onChange?.(null)
-                        }}
-                        onFocus={() => setInputIsFocused(true)}
-                        onBlur={() => {
-                            setTimeout(() => setInputIsFocused(false), 150)
-                        }}
-                        placeholder={placeHolder}
-                    />
+            <S.InputContainer>
+                <S.IconInputWrapper>
+                    <Search aria-hidden="true" />
+                    <S.AutocompleteContainer>
+                            <S.Input
+                                value={displayedDirection}
+                                onChange={(event) => {
+                                    setDirection(event.target.value)
+                                    setSelectedLocation(null)
+                                    setSelectedPoint(null)
+                                    onChange?.(null)
+                                }}
+                                onFocus={() => setInputIsFocused(true)}
+                                onBlur={() => {
+                                    setTimeout(() => setInputIsFocused(false), 150)
+                                }}
+                                placeholder={placeHolder}
+                            />
 
-                    {isFetching && (
-                        <S.AutocompleteDropdown>
-                            <S.AutocompleteMessage>
-                                Buscando direcciones...
-                            </S.AutocompleteMessage>
-                        </S.AutocompleteDropdown>
-                    )}
 
-                    {isInputFocused && !isFetching && locations.length > 0 && !selectedLocation && (
-                        <S.AutocompleteDropdown>
-                            {locations.map((location) => (
-                                <S.AutocompleteItem
-                                    key={location.formatted}
-                                    type="button"
-                                    onMouseDown={(event) => event.preventDefault()}
-                                    onClick={() => handleSelectLocation(location)}
-                                >
-                                    {location.formatted}
-                                </S.AutocompleteItem>
-                            ))}
-                        </S.AutocompleteDropdown>
-                    )}
-                </S.AutocompleteContainer>
-            </S.IconInputWrapper>
+                        {isFetching && (
+                            <S.AutocompleteDropdown>
+                                <S.AutocompleteMessage>
+                                    Buscando direcciones...
+                                </S.AutocompleteMessage>
+                            </S.AutocompleteDropdown>
+                        )}
 
+                        {isInputFocused && !isFetching && locations.length > 0 && !selectedLocation && (
+                            <S.AutocompleteDropdown>
+                                {locations.map((location) => (
+                                    <S.AutocompleteItem
+                                        key={location.formatted}
+                                        type="button"
+                                        onMouseDown={(event) => event.preventDefault()}
+                                        onClick={() => handleSelectLocation(location)}
+                                    >
+                                        {location.formatted}
+                                    </S.AutocompleteItem>
+                                ))}
+                            </S.AutocompleteDropdown>
+                        )}
+                    </S.AutocompleteContainer>
+                </S.IconInputWrapper>
+                <ErrorMessage id={'location'} message={getLocationErrorMessage(errors)} />
+            </S.InputContainer>
             <S.MapContainer>
                 <S.MapWrapper >
                     <Map 

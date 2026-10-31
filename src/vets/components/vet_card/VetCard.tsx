@@ -11,6 +11,7 @@ import {
 import type { VetResponse } from "@/vets/app/api/responses/vetsResponse";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 import { openGmail } from "@/common/utils/Gmail";
+import { getAddress } from "@/common/utils/LocationUtils";
 
 export type ScheduleDay = {
   day: string;
@@ -40,16 +41,6 @@ function VetCard({ vet, className }: VetCardProps) {
   const imageUrl = vet.profilePictureUrl
     ? `${import.meta.env.VITE_CLOUDFLARE_URL}${vet.profilePictureUrl}`
     : undefined;
-  const formatVetAddress = (
-    address?: string | null,
-    number?: number | null,
-  ) => {
-    if (!address && !number) {
-      return "Dirección no disponible";
-    }
-    return [address, number].filter(Boolean).join(" ");
-  };
-  const address = formatVetAddress(vet.location.address, vet.location.number);
 
   const handleContact = () => {
     openWhatsApp(
@@ -90,7 +81,7 @@ function VetCard({ vet, className }: VetCardProps) {
         <S.Information>
           <S.Name title={vet.name}>{vet.name}</S.Name>
           <S.InformationRow>
-            <S.Address title={address}>{address}</S.Address>
+            <S.Address>{getAddress(vet.location)}</S.Address>
             {vet.distanceInKm !== null && (
               <S.Distance>
                 <MapPin aria-hidden="true" />

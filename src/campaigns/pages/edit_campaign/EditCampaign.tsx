@@ -217,16 +217,16 @@ function EditCampaign() {
         <Controller
           control={control}
           name="location"
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <>
               <AutocompleteGeolocation
                 initialLocation={field.value}
                 placeHolder="¿Dónde se realizará la campaña?"
+                errors={errors.location}
                 onChange={(value) =>
                   field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                 }
               />
-              <ErrorMessage message={fieldState.error?.message} />
             </>
           )}
         />

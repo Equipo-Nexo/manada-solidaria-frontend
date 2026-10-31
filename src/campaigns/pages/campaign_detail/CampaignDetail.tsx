@@ -13,6 +13,7 @@ import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { useState } from "react";
 import { shareUrl } from "@/common/utils/HandleShare";
+import { getAddress } from "@/common/utils/LocationUtils";
 
 interface DateInfoProps {
     label: string;
@@ -50,8 +51,6 @@ function CampaingDetail() {
         campaignId!,
     );
 
-    const location = campaignData?.location.name || 'Ubicación no informada'
-    const address = campaignData?.location.address || ''
     const PHONE_NUMBER = campaignData?.phoneNumber
         ? `${campaignData?.phoneNumber.areaCode}${campaignData?.phoneNumber.number}`
         : ""
@@ -137,8 +136,8 @@ function CampaingDetail() {
                             </S.DescriptionSection>
                             {campaignData?.location && (
                                 <MapDetailsComponent
-                                    location={location}
-                                    address={address}
+                                    location={campaignData.location.city}
+                                    address={getAddress(campaignData.location)}
                                     locationPath={`/mapa?latitude=${campaignData.location.latitude}&longitude=${campaignData.location.longitude}`}
                                 />)}
                         </S.DetailsColumn>

@@ -1,5 +1,7 @@
 import { MapCN, MapCNCluster, MapCNControls, MapCNMarker, type MapCNClusterProps, type MapCNMarkerProps } from "../mapCN";
 import * as S from "./Map.styles";
+import * as MarkerStyles from "../mapCN/MapCN.styles";
+import { Heart } from "../../icons";
 import { useEffect, useMemo, useState } from "react";
 import type { Map as MapLibreMap, MapMouseEvent } from "maplibre-gl";
 import { useGeolocation } from "@hooks/geolocation/useGeolocation";
@@ -17,6 +19,7 @@ interface MapProps<TItem> {
   legends?: Legend[];
   clusterGroups?: MapClusterGroup<TItem>[];
   markPoint?: MapPoint | null;
+  highlightMarkPoint?: boolean;
   enableMarkerOnClick?: boolean;
   center?: MapPoint;
   onPointSelect?: (point: MapPoint) => void;
@@ -34,6 +37,7 @@ function Map<TItem = unknown>({
   markPoints,
   clusterGroups,
   markPoint = null,
+  highlightMarkPoint = false,
   enableMarkerOnClick = true,
   center,
   onPointSelect,
@@ -130,7 +134,7 @@ function Map<TItem = unknown>({
 
   return (
     <S.MapFrame>
-      {legends.length > 0 && (
+      {(legends.length > 0 || (markPoint && highlightMarkPoint)) && (
         <S.Legend aria-label="Leyendas del mapa">
           {legends.map(({ id, label, icon: Icon, iconColor }) => (
             <S.LegendItem key={id} $color={iconColor}>
@@ -138,6 +142,19 @@ function Map<TItem = unknown>({
               {label}
             </S.LegendItem>
           ))}
+          {markPoint && highlightMarkPoint && (
+            <S.LegendItem>
+              <S.LegendMarker aria-hidden="true">
+                <MarkerStyles.Marker $highlighted>
+                  <MarkerStyles.MarkerShape $highlighted>
+                    <path d="M24 2C11.85 2 2 11.85 2 24c0 9.5 6 17.6 14.4 20.7l6.1 8.5a1.85 1.85 0 0 0 3 0l6.1-8.5C40 41.6 46 33.5 46 24 46 11.85 36.15 2 24 2Z" />
+                  </MarkerStyles.MarkerShape>
+                  <Heart />
+                </MarkerStyles.Marker>
+              </S.LegendMarker>
+              Ubicación seleccionada
+            </S.LegendItem>
+          )}
         </S.Legend>
       )}
       <MapCN
@@ -163,7 +180,7 @@ function Map<TItem = unknown>({
           />
         ))}
         {markPoint && (
-          <MapCNMarker longitude={markPoint.lng} latitude={markPoint.lat} />
+          <MapCNMarker longitude={markPoint.lng} latitude={markPoint.lat} highlighted={highlightMarkPoint} icon={highlightMarkPoint ? Heart : undefined} />
         )}
       </MapCN>
     </S.MapFrame>

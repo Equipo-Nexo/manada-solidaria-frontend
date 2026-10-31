@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { locationSchema } from "@utils/Location.schema";
+import { locationSchema } from "@/common/utils/LocationUtils";
 import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
 export const publishFundraisingSchema = yup.object({
