@@ -7,4 +7,5 @@ export type GetUserPostsResponse = {
   status: string;
   createdSince: number;
   postType: UserPostType;
+  type?: string;
 }
