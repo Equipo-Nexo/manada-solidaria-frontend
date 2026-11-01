@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { BriefcaseMedical, Phone, Stethoscope, Warning } from "@icons/index";
 import * as S from "./VetGuardButton.styles";
-import { isVetGuardActive } from "./vetGuardSchedule";
+import { useGetGuardStatusQuery } from "@/vets/app/api/vetsApi";
+import PawLoader from "../pawLoader/PawLoader";
+import Message from "../message/message";
 
 const VET_GUARD_PHONE_NUMBER = "+5493534791156";
-const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 15-4791156";
+const VET_GUARD_DISPLAY_PHONE_NUMBER = "0353 4791156";
 const VET_PATH = "/veterinarias";
 
 type VetGuardButtonProps = {
@@ -31,7 +33,9 @@ function VetGuardButton({
   desktopReminder = "Recordá: el sistema de guardia rotativo es únicamente para urgencias",
 }: VetGuardButtonProps) {
   const navigate = useNavigate();
-  const isActive = isVetGuardActive();
+  const { data: guardStatus, isLoading, isError } = useGetGuardStatusQuery();
+  const isActive = guardStatus?.active === true;
+
   const title = isActive ? activeTitle : inactiveTitle;
   const description = isActive ? activeDescription : inactiveDescription;
   const mobileStatusLabel = isActive ? "Guardia Activa" : "Guardia Inactiva";
@@ -45,10 +49,27 @@ function VetGuardButton({
       window.location.href = `tel:${phoneNumber}`;
       return;
     }
-
     navigate(vetPath);
   };
-
+  if (isLoading) {
+    return (
+      <S.Wrapper className={className}>
+        <PawLoader label="Consultando estado de la guardia veterinaria..." />
+      </S.Wrapper>
+    );
+  }
+  if (isError || !guardStatus) {
+    return (
+      <S.Wrapper className={className}>
+        <S.MessageContainer role="alert">
+          <Message
+            message="No pudimos consultar el estado de la guardia veterinaria."
+            iconName="pawPrint"
+          />
+        </S.MessageContainer>
+      </S.Wrapper>
+    );
+  }
   return (
     <S.Wrapper className={className}>
       <S.Card $isActive={isActive}>
