@@ -6,7 +6,6 @@ import {
   DatePicker,
   ImageUpload,
   Advice,
-  Loader,
   AutocompleteGeolocation,
 } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
@@ -23,6 +22,7 @@ import { useEffect } from "react";
 import { useToast } from "@hooks/toast/useToast";
 import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
+import PawLoader from "@/common/components/pawLoader/PawLoader";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
 
@@ -116,12 +116,13 @@ function EditFundraising() {
         </S.BackButton>
         <S.FormTitle>Editar Colecta de Dinero</S.FormTitle>
       </S.Header>
-      {isLoading && <Loader label="Cargando información de la colecta." />}
-      {isError ||
-        (!campaign && (
-          <div>Hubo un error al obtener informacion de la colecta.</div>
-        ))}
-      {!isLoading && !isError && campaign && (
+      {isLoading ? (
+        <S.LoaderContainer>
+          <PawLoader label="Cargando información de la colecta." />
+        </S.LoaderContainer>
+      ) : isError || !campaign ? (
+        <div>Hubo un error al obtener información de la colecta.</div>
+      ) : (
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <S.PublishField>
             <S.PublishLabel>

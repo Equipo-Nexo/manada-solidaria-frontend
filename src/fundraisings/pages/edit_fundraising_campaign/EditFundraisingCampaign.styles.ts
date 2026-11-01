@@ -63,7 +63,12 @@ export const FormTitle = styled.h1`
   text-align: left;
   overflow-wrap: anywhere;
 `;
-
+export const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+`;
 export const Form = styled.form`
   width: min(100%, 560px);
   min-width: 0;
