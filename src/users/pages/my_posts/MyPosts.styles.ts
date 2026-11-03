@@ -1,10 +1,18 @@
-import styled from 'styled-components'
+import styled, { css } from "styled-components";
+
+export {
+  Content as BottomSheetContent,
+  Title as BottomSheetTitle,
+  Description as BottomSheetDescription,
+  Actions as BottomSheetButtonContainer,
+  ActionButton as BottomSheetButton,
+} from "@components/bottomSheet/ConfirmationSheet.styles";
 
 export const MyPostsRoot = styled.section`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
 `;
 
 export const Header = styled.header`
@@ -13,7 +21,7 @@ export const Header = styled.header`
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
-`
+`;
 
 export const BackButton = styled.button`
   width: 48px;
@@ -32,8 +40,10 @@ export const BackButton = styled.button`
     width: 48px;
     height: 48px;
   }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; }
-`
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+  }
+`;
 
 export const TitlesContainer = styled.div`
   display: flex;
@@ -42,7 +52,7 @@ export const TitlesContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-`
+`;
 
 export const PageTitle = styled.h1`
   margin: 0;
@@ -51,98 +61,100 @@ export const PageTitle = styled.h1`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
   white-space: nowrap;
-`
+`;
 
 export const PageSubtitle = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.darkColorMuted};
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
-`
+`;
 
 export const Content = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+`;
 
 export const CreatedSinceContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 4px
-`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+
+  > svg {
+    flex-shrink: 0;
+  }
+`;
 
 export const CardsContainer = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    margin-top: 20px;
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  align-content: start;
+  gap: 10px;
+  margin-top: 20px;
 
-    @media (min-width: 768px) {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-content: start;
-        gap: 20px;
-    }
-
-    @media (min-width: 1238px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-`
+  @media (min-width: 768px) {
+    gap: 20px;
+  }
+`;
 
 export const MessageContainer = styled.div`
-    display: flex;
-    width: min(100%, 325px);
-    height: 180px;
-    margin: 0 auto;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    text-align: center;
+  display: flex;
+  width: min(100%, 325px);
+  height: 180px;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
 
-    @media (min-width: 768px) {
-        grid-column: 1 / -1;
-    }
-`
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+  }
+`;
 
 export const RetryButton = styled.button`
-    min-height: 40px;
-    padding: 8px 20px;
-    border: 0;
-    border-radius: 999px;
-    color: ${({ theme }) => theme.colors.background};
-    background: ${({ theme }) => theme.colors.brand};
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: ${({ theme }) => theme.typography.body.fontSize};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    cursor: pointer;
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 999px;
+  color: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.brand};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  cursor: pointer;
 
-    &:focus-visible {
-        outline: 3px solid ${({ theme }) => theme.colors.focus};
-        outline-offset: 2px;
-    }
-`
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 
-export const Card = styled.div<{ $clickable: boolean }>`
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-    background-color: ${({ theme }) => theme.colors.background};
-    border-radius: 12px;
-    border: 1px solid ${({ theme }) => `${theme.colors.stroke}33`};
-    box-shadow: 0 4px 12px 0 ${({ theme }) => `${theme.colors.black}14`};
-    overflow: hidden;
-    height: 130px;
-    cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
-    transition:
-        transform 180ms ease,
-        border-color 180ms ease,
-        box-shadow 180ms ease;
+export const Card = styled.div<{ $clickable: boolean; $fundraising?: boolean }>`
+  display: flex;
+  flex-direction: row;
+  min-width: 0;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-radius: 12px;
+  border: 1px solid ${({ theme }) => `${theme.colors.stroke}33`};
+  box-shadow: 0 4px 12px 0 ${({ theme }) => `${theme.colors.black}14`};
+  overflow: hidden;
+  min-height: 130px;
+  cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 
-    ${({ $clickable, theme }) => $clickable && `
+  ${({ $clickable, theme }) =>
+    $clickable &&
+    `
         @media (hover: hover) {
             &:hover {
                 transform: translateY(-3px);
@@ -157,171 +169,249 @@ export const Card = styled.div<{ $clickable: boolean }>`
         }
     `}
 
-    @media (prefers-reduced-motion: reduce) {
-        transition: none;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  @media (min-width: 768px) {
+    min-height: 144px;
+
+    &:only-child {
+      width: min(100%, 600px);
+      grid-column: 1 / -1;
+      justify-self: center;
     }
+  }
 
-    @media (min-width: 768px) {
-        height: 144px;
-        margin-bottom: 0;
+  ${({ $fundraising }) =>
+    $fundraising &&
+    css`
+      min-height: 140px;
+      height: auto;
+      ${CardContent} {
+        padding: 5px 8px;
+        gap: 8px;
+      }
+      ${CardInformationContainer} {
+        align-self: center;
+        gap: 2px;
+      }
+      ${CardTitle} {
+        line-height: 20px;
+      }
+      ${CreatedSince} {
+        line-height: 16px;
+      }
+      ${CreatedSinceContainer} > svg {
+        width: 14px;
+        height: 14px;
+      }
+      ${Status} {
+        margin-top: 0;
+      }
+    `}
 
-        &:only-child {
-            width: calc((100% - 20px) / 2);
+  ${({ $fundraising }) => css`
+    @media (min-width: 768px) and (max-width: 1023px) {
+      container: my-post-card / inline-size;
+
+      @container my-post-card (min-width: 560px) {
+        ${CardImage} {
+          flex-basis: 28%;
+        }
+
+        ${CardContent} {
+          padding: 16px;
+          gap: 16px;
+        }
+
+        ${CardInformationContainer} {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-self: center;
+          align-items: center;
+          gap: ${$fundraising ? "8px 16px" : "6px 16px"};
+
+          > * {
             grid-column: 1 / -1;
-            justify-self: center;
-        }
-    }
+          }
 
-    @media (min-width: 1238px) {
-        &:only-child {
-            width: calc((100% - 40px) / 3);
+          > ${CardTitle}, > ${CreatedSinceContainer} {
+            grid-column: 1;
+          }
+
+          > ${CreatedSinceContainer} {
+            justify-content: flex-start;
+          }
+
+          > ${Status} {
+            grid-column: 2;
+            grid-row: 1;
+            margin-top: 0;
+          }
         }
+      }
     }
-`
+  `}
+`;
+
+export const CardImage = styled.div`
+  position: relative;
+  flex: 0 0 128px;
+  overflow: hidden;
+
+  > div {
+    position: absolute;
+    inset: 0;
+  }
+
+  img {
+    object-position: center;
+  }
+
+  @media (max-width: 369px) {
+    flex-basis: 28%;
+  }
+
+  @media (min-width: 768px) {
+    flex-basis: 142px;
+  }
+`;
 
 export const CardContent = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    min-width: 0;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 16px 16px 16px 8px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 16px 16px 8px;
 
-    @media (min-width: 768px) {
-        gap: 8px;
-        padding: 12px 12px 12px 8px;
-    }
-`
+  @media (max-width: 369px) {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  @media (min-width: 768px) {
+    gap: 8px;
+    padding: 12px 12px 12px 8px;
+  }
+`;
 
 export const CardInformationContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-self: flex-start;
-    flex: 1;
-    min-width: 0;
-    text-align: left;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+`;
 export const CardTitle = styled.h2`
-    color: ${({ theme }) => theme.colors.brand};
-    font-family: ${({ theme }) => theme.typography.header2.fontFamily};
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    font-style: ${({ theme }) => theme.typography.header2.fontStyle};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    line-height: ${({ theme }) => theme.typography.header2.lineHeight};
-    letter-spacing: -0.2px;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;  
-    text-overflow: ellipsis;
-`
+  color: ${({ theme }) => theme.colors.brand};
+  font-family: ${({ theme }) => theme.typography.header2.fontFamily};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-style: ${({ theme }) => theme.typography.header2.fontStyle};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: ${({ theme }) => theme.typography.header2.lineHeight};
+  letter-spacing: -0.2px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 export const CreatedSince = styled.p`
-    color: ${({ theme }) => theme.colors.darkColor};
-    font-family: ${({ theme }) => theme.typography.metadata.fontFamily};
-    font-size: ${({ theme }) => theme.typography.metadata.fontSize};
-    font-style: ${({ theme }) => theme.typography.metadata.fontStyle};
-    font-weight: ${({ theme }) => theme.typography.metadata.fontWeight};
-    line-height: ${({ theme }) => theme.typography.metadata.lineHeight};
-    letter-spacing: 0.24px;
-`
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-family: ${({ theme }) => theme.typography.metadata.fontFamily};
+  font-size: ${({ theme }) => theme.typography.metadata.fontSize};
+  font-style: ${({ theme }) => theme.typography.metadata.fontStyle};
+  font-weight: ${({ theme }) => theme.typography.metadata.fontWeight};
+  line-height: ${({ theme }) => theme.typography.metadata.lineHeight};
+  letter-spacing: 0.24px;
+`;
 
 export const ButtonsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    justify-content: center;
-    gap: 8px;
-    align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+`;
 
 export const Button = styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9999px;
-    border: none;
-    color: ${({ theme }) => theme.colors.darkColor};
-    background: ${({ theme }) => theme.colors.neutral};
-    box-shadow: 0 1px 2px 0 ${({ theme }) => `${theme.colors.black}0D`};
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: none;
+  color: ${({ theme }) => theme.colors.darkColor};
+  background: ${({ theme }) => theme.colors.neutral};
+  box-shadow: 0 1px 2px 0 ${({ theme }) => `${theme.colors.black}0D`};
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 
-    @media (min-width: 600px) {
-        width: 60px;
-        height: 60px;
-        font-size: 50px;
-    }
+  @media (min-width: 600px) {
+    width: 44px;
+    height: 44px;
+  }
 
-    &:hover {
-        background: ${({ theme }) => theme.colors.secondaryHoverSoft};
-    }
+  &:hover {
+    background: ${({ theme }) => theme.colors.secondaryHoverSoft};
+  }
 
-    &:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.colors.focus};
-        outline-offset: 2px;
-    }
-`
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 
-export const Status = styled.div<{ $backgroundColor: string, $fontColor: string }>`
-    border-radius: 9999px;
-    background: ${({ $backgroundColor }) => $backgroundColor};
-    color: ${({ $fontColor }) => $fontColor};
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    display: flex;
-    width: 116px;
-    height: 28px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 19.5px;
-    margin-top: 10px
-`
+export const Status = styled.button<{
+  $backgroundColor: string;
+  $fontColor: string;
+  $interactive: boolean;
+}>`
+  border: 0;
+  border-radius: 9999px;
+  background: ${({ $backgroundColor }) => $backgroundColor};
+  color: ${({ $fontColor }) => $fontColor};
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  width: 124px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  ${({ theme }) => theme.typography.descriptive};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  margin-top: 10px;
+  gap: 4px;
+  height: 34px;
+  padding: 4px 12px;
+  cursor: ${({ $interactive }) => ($interactive ? "pointer" : "default")};
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+  > svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: inherit;
+  }
 
-export const BottomSheetContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-
-`
-
-export const BottomSheetTitle = styled.h2`
-    color: ${({ theme }) => theme.colors.black};
-`
-
-export const BottomSheetDescription = styled.p`
-    color: ${({ theme }) => theme.colors.black};
-    text-align: center;
-`
-
+  @media (max-width: 369px) {
+    padding: 4px 8px;
+  }
+`;
+export const CampaignSubtitle = styled.p`
+  margin-top: 6px;
+  color: ${({ theme }) => theme.colors.darkColorMuted};
+  ${({ theme }) => theme.typography.descriptive};
+  text-align: left;
+`;
 export const PostTitle = styled.span`
-    font-weight: bold;
-`
-
-export const BottomSheetButtonContainer = styled.div`
-    margin-top: 12px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-`
-export const BottomSheetButton = styled.button<{ $primary: boolean }>`
-    width: 100%;
-    background: ${({ $primary, theme }) => $primary ? theme.colors.error : theme.colors.background};
-    color: ${({ $primary, theme }) => $primary ? theme.colors.background : theme.colors.darkColor};
-    border: ${({ $primary, theme }) => $primary ? 'none' : `2px solid ${theme.colors.stroke}`};
-    padding: 16px 16px;
-    border-radius: 12px;
-    text-align: left;
-    font-weight: bold;
-    height: 62px;
-    cursor: pointer;
-`
+  font-weight: bold;
+`;

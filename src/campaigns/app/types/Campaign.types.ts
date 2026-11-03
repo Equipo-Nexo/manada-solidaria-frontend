@@ -21,3 +21,5 @@ export const donationItems = [
   "OTHER"
 ] as const
 export type DonationItem = typeof donationItems[number]
+
+export type CampaignStatus = 'CREATED' | 'STARTED' | 'FINISHED' | 'CANCELLED' | 'COMPLETED'

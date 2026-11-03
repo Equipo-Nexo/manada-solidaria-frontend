@@ -66,3 +66,8 @@ export type EditAnimalPostMutationRequest = {
   body: EditAnimalPostRequest
 }
 
+export type UpdateAnimalPostStatusRequest = {
+  postId: string
+  status: Exclude<AnimalPostStatus, 'CREATED' | 'SEARCHING' | 'TO_RESCUE'>
+}
+

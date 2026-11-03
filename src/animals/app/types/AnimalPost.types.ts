@@ -15,7 +15,7 @@ export type AnimalPostStatus =
   | "SEARCHING_ADOPT_AND_TRANSIT"
   | "SEARCHING_ADOPT"
   | "ADOPTED"
-  | "IN_STREET"
+  | "TO_RESCUE"
   | "RESCUED";
 export type AnimalGender = "MALE" | "FEMALE";
 

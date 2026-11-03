@@ -3,6 +3,7 @@ import type {
   CreateAnimalPostRequest,
   EditAnimalPostMutationRequest,
   GetAnimalPostsRequest,
+  UpdateAnimalPostStatusRequest,
 } from "./requests/animalPostRequests";
 import type { AnimalPostResponse } from "./responses/animalPostResponses";
 import type { Page } from "@/common/app/types/Page";
@@ -47,6 +48,18 @@ export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
       invalidatesTags: ["AnimalPosts", "userPosts"],
     }),
 
+    updateAnimalPostStatus: builder.mutation<
+      AnimalPostResponse,
+      UpdateAnimalPostStatusRequest
+    >({
+      query: ({ postId, status }) => ({
+        url: `/animal-posts/${postId}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["AnimalPosts", "userPosts", "map"],
+    }),
+
     createAnimalPost: builder.mutation<
       AnimalPostResponse,
       CreateAnimalPostRequest
@@ -83,6 +96,7 @@ export const {
   useDeleteAnimalPostMutation,
   useGetAnimalPostQuery,
   useGetAnimalPostsQuery,
+  useUpdateAnimalPostStatusMutation,
   useEditAnimalPostMutation,
   useLikeAnimalPostMutation,
   useDislikeAnimalPostMutation,

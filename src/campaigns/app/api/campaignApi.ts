@@ -1,10 +1,20 @@
-import { baseAuthenticatedApi } from '@services/base/baseAuthenticatedApi'
-import type { CampaignDetailsResponse, CampaignPageResponse, FundraisingCampaignPageResponse, FundraisingCampaignResponse } from "@app/types/Campaign.types";
-import type { CampaignFilter, CreateCampaignRequest } from './requests/CreateCampaignRequest';
-import type { CampaignType } from '../types/Campaign.types';
-import type { EditCampaignMutationRequest, UpdateFundraisingCampaignRequest } from './requests/EditCampaignRequest';
-
-
+import type { UpdateCampaignStatusRequest } from "./requests/UpdateCampaignStatusRequest";
+import { baseAuthenticatedApi } from "@services/base/baseAuthenticatedApi";
+import type {
+  CampaignDetailsResponse,
+  CampaignPageResponse,
+  FundraisingCampaignPageResponse,
+  FundraisingCampaignResponse,
+} from "@app/types/Campaign.types";
+import type {
+  CampaignFilter,
+  CreateCampaignRequest,
+} from "./requests/CreateCampaignRequest";
+import type { CampaignType } from "../types/Campaign.types";
+import type {
+  EditCampaignMutationRequest,
+  UpdateFundraisingCampaignRequest,
+} from "./requests/EditCampaignRequest";
 
 export interface GetCampaignsRequest {
   category?: CampaignFilter;
@@ -17,7 +27,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
     deleteCampaign: builder.mutation<void, string>({
       query: (campaignId) => ({
         url: `/campaigns/${campaignId}`,
-        method: 'DELETE'
+        method: "DELETE",
       }),
       invalidatesTags: ["userPosts", "Campaigns"],
     }),
@@ -33,7 +43,10 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ["Campaigns"],
     }),
-    getFundraisingCampaigns: builder.query<FundraisingCampaignPageResponse, void>({
+    getFundraisingCampaigns: builder.query<
+      FundraisingCampaignPageResponse,
+      void
+    >({
       query: () => ({
         url: "/campaigns/fundraising_campaigns",
         method: "GET",
@@ -42,7 +55,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
 
     getCampaign: builder.query<CampaignDetailsResponse, string>({
       query: (campaignId) => `/campaigns/${campaignId}`,
-      providesTags: ['Campaigns'],
+      providesTags: ["Campaigns"],
     }),
 
     getFundraisingById: builder.query<FundraisingCampaignResponse, string>({
@@ -50,25 +63,28 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
         url: `/campaigns/${postId}`,
         method: "GET",
       }),
-      providesTags: ['Campaigns'],
+      providesTags: ["Campaigns"],
     }),
 
-    updateFundraisingCampaign: builder.mutation<void, { postId: string; body: UpdateFundraisingCampaignRequest }>({
+    updateFundraisingCampaign: builder.mutation<
+      void,
+      { postId: string; body: UpdateFundraisingCampaignRequest }
+    >({
       query: ({ postId, body }) => ({
         url: `/campaigns/${postId}`,
         method: "PUT",
         body,
       }),
-      invalidatesTags: ['Campaigns', 'userPosts'],
+      invalidatesTags: ["Campaigns", "userPosts"],
     }),
-    
+
     editCampaign: builder.mutation<void, EditCampaignMutationRequest>({
       query: ({ campaignId, body }) => ({
         url: `/campaigns/${campaignId}`,
-        method: 'PUT',
+        method: "PUT",
         body,
       }),
-      invalidatesTags: ['Campaigns', 'userPosts'],
+      invalidatesTags: ["Campaigns", "userPosts"],
     }),
 
     createCampaign: builder.mutation<void, CreateCampaignRequest>({
@@ -79,11 +95,22 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       invalidatesTags: ["Campaigns", "userPosts"],
     }),
+    updateCampaignStatus: builder.mutation<
+      CampaignDetailsResponse,
+      UpdateCampaignStatusRequest
+    >({
+      query: ({ campaignId, status }) => ({
+        url: `/campaigns/${campaignId}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["Campaigns", "userPosts", "map"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { 
+export const {
   useDeleteCampaignMutation,
   useGetFundraisingByIdQuery,
   useUpdateFundraisingCampaignMutation,
@@ -92,4 +119,5 @@ export const {
   useGetCampaignQuery,
   useGetCampaignsQuery,
   useGetFundraisingCampaignsQuery,
+  useUpdateCampaignStatusMutation,
 } = campaignApi;
