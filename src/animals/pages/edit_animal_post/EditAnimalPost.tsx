@@ -154,7 +154,7 @@ function EditAnimalPostForm() {
                         <>
                             <AutocompleteGeolocation
                                 initialLocation={field.value}
-                                placeHolder="¿En dónde se encuentra el animal?"
+                                placeHolder="Podés indicar una ubicación aproximada, como un barrio."
                                 onChange={(value) => field.onChange(value ? mapGeolocationToLocation(value) : undefined)}
                                 errors={errors.location}
                             />

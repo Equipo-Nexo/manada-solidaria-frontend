@@ -200,14 +200,14 @@ function PublishFundraising() {
       </S.PublishField>
 
       <S.PublishField as="div">
-        <S.PublishLabel>Ubicación</S.PublishLabel>
+        <S.PublishLabel>Ubicación<S.RequiredMark>*</S.RequiredMark></S.PublishLabel>
         <Controller
           control={control}
           name="location"
           render={({ field }) => (
             <>
               <AutocompleteGeolocation
-                placeHolder="¿Dónde se realizará la campaña?"
+                placeHolder="Podés indicar una ubicación aproximada, como la ciudad."
                 onChange={(value) =>
                   field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                 }

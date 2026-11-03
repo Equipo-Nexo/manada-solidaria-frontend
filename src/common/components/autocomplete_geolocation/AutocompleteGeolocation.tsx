@@ -147,8 +147,7 @@ function AutocompleteGeolocation({
                     />
                 </S.MapWrapper>
                 <S.Suggestion>
-                    Buscá una dirección o tocá el mapa para marcar la zona aproximada. Evitá
-                    compartir tu dirección exacta.
+                    Buscá una dirección o tocá dos veces el mapa para marcar la ubicación deseada.
                 </S.Suggestion>
             </S.MapContainer>
         </S.MainContainer>

@@ -238,7 +238,7 @@ function PublishCampaign() {
             render={({ field }) => (
               <>
                 <AutocompleteGeolocation
-                  placeHolder="¿Dónde se realizará la campaña?"
+                  placeHolder="Ingresá una dirección que incluya calle y número."
                   onChange={(value) =>
                     field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                   }

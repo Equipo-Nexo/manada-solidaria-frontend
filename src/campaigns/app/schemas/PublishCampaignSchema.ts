@@ -4,11 +4,11 @@ import { locationSchema } from "@/common/utils/LocationUtils";
 import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
 export const campaignLocationSchema = locationSchema.shape({
-  street: yup.string().required('La calle es obligatoria'),
+  street: yup.string().required('La calle y su altura es obligatoria'),
   houseNumber: yup
     .number()
     .typeError('La altura debe ser un número')
-    .required('La altura es obligatoria'),
+    .required('La calle y su altura es obligatoria'),
 });
 
 export const publishCampaignSchema = yup.object({

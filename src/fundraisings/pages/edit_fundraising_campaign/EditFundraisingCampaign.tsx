@@ -244,7 +244,7 @@ function EditFundraising() {
                 <>
                   <AutocompleteGeolocation
                     initialLocation={field.value}
-                    placeHolder="¿Dónde se realizará la campaña?"
+                    placeHolder="Podés indicar una ubicación aproximada, como la ciudad"
                     errors={errors.location}
                     onChange={(value) =>
                       field.onChange(

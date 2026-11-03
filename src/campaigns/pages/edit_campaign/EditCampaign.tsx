@@ -221,7 +221,7 @@ function EditCampaign() {
             <>
               <AutocompleteGeolocation
                 initialLocation={field.value}
-                placeHolder="¿Dónde se realizará la campaña?"
+                placeHolder="Ingresá una dirección que incluya calle y número."
                 errors={errors.location}
                 onChange={(value) =>
                   field.onChange(value ? mapGeolocationToLocation(value) : undefined)
