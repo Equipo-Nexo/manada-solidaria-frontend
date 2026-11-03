@@ -7,8 +7,9 @@ export const imagesApi = baseApi.injectEndpoints({
         query: ({ url, image, contentType }) => ({
             url,
             method: 'PUT',
+            credentials: 'omit',
             headers: {
-                "Content-Type": contentType
+              "Content-Type": contentType
             },
             body: image
         })
