@@ -1,10 +1,24 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { CarouselArrow } from "../carousel_slider/CarouselSlider.styles";
 
-export const Section = styled.section`
+export const Section = styled.section<{ $highlightNavigationOnHover?: boolean }>`
   width: 100%;
   max-width: 100%;
   min-width: 0;
   align-self: stretch;
+
+  ${({ $highlightNavigationOnHover }) =>
+    $highlightNavigationOnHover &&
+    css`
+      @media (hover: hover) and (pointer: fine) {
+        &&:hover ${CarouselArrow}:not(:disabled),
+        &&:focus-within ${CarouselArrow}:not(:disabled) {
+          opacity: 1;
+          background: ${({ theme }) => theme.colors.secondary};
+          color: ${({ theme }) => theme.colors.neutral};
+        }
+      }
+    `}
 `;
 
 export const Header = styled.div`
@@ -59,14 +73,16 @@ export const SeeAllButton = styled.button`
   }
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<{ $allowOverflow?: boolean }>`
   display: flex;
   width: 100%;
   max-width: 100%;
   min-width: 0;
+  align-items: flex-start;
   gap: 12px;
   overflow-x: auto;
   overflow-y: hidden;
+  ${({ $allowOverflow }) => $allowOverflow && "overflow: visible;"}
   padding: 2px 2px 14px;
   scroll-padding-inline: 2px;
   scroll-snap-type: x mandatory;
