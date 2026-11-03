@@ -29,11 +29,13 @@ function CarouselSlider<T>({
   indicatorMode = "active",
 }: CarouselSliderProps<T>) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [indicatorIndex, setIndicatorIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
   const carouselRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollFrameRef = useRef<number | null>(null);
 
-  const updateSeenItems = useCallback(() => {
+  const updateSeenItems = useCallback((syncNavigation = true) => {
     const carousel = carouselRef.current;
     const item = carousel?.firstElementChild as HTMLElement | null;
     if (!carousel || !item) return;
@@ -54,13 +56,14 @@ function CarouselSlider<T>({
           Math.max(0, Math.round(carousel.scrollLeft / step)),
         );
     setVisibleCount(count);
-    setActiveIndex(index);
+    setIndicatorIndex(index);
+    if (syncNavigation) setActiveIndex(index);
   }, [items.length]);
 
   useEffect(() => {
     const carousel = carouselRef.current;
     if (!carousel) return;
-    const observer = new ResizeObserver(updateSeenItems);
+    const observer = new ResizeObserver(() => updateSeenItems());
     observer.observe(carousel);
     if (carousel.firstElementChild) observer.observe(carousel.firstElementChild);
     return () => observer.disconnect();
@@ -69,6 +72,7 @@ function CarouselSlider<T>({
   useEffect(
     () => () => {
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      if (scrollFrameRef.current !== null) cancelAnimationFrame(scrollFrameRef.current);
     },
     [],
   );
@@ -78,6 +82,13 @@ function CarouselSlider<T>({
   const handleCarouselScroll = () => {
     const carousel = carouselRef.current;
     if (!carousel) return;
+    // Follow the visible slide without replacing the destination of rapid arrow clicks.
+    if (scrollFrameRef.current === null) {
+      scrollFrameRef.current = requestAnimationFrame(() => {
+        scrollFrameRef.current = null;
+        updateSeenItems(false);
+      });
+    }
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
@@ -156,8 +167,8 @@ function CarouselSlider<T>({
             key={index}
             $active={
               indicatorMode === "seen"
-                ? index >= activeIndex && index < activeIndex + visibleCount
-                : index === activeIndex
+                ? index >= indicatorIndex && index < indicatorIndex + visibleCount
+                : index === indicatorIndex
             }
             aria-hidden="true"
           />
