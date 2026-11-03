@@ -44,23 +44,27 @@ function CarouselSlider<T>({
 
     const count = Math.min(
       items.length,
-      Math.max(1, Math.round((carousel.clientWidth + gap) / step)),
+      Math.max(1, Math.floor((carousel.clientWidth + gap + 1) / step)),
     );
-    const index = Math.min(
-      items.length - count,
-      Math.max(0, Math.round(carousel.scrollLeft / step)),
-    );
+    const atEnd = carousel.scrollWidth - carousel.clientWidth - carousel.scrollLeft <= 1;
+    const index = atEnd
+      ? items.length - count
+      : Math.min(
+          items.length - count,
+          Math.max(0, Math.round(carousel.scrollLeft / step)),
+        );
     setVisibleCount(count);
     setActiveIndex(index);
   }, [items.length]);
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    if (indicatorMode !== "seen" || !carousel) return;
+    if (!carousel) return;
     const observer = new ResizeObserver(updateSeenItems);
     observer.observe(carousel);
+    if (carousel.firstElementChild) observer.observe(carousel.firstElementChild);
     return () => observer.disconnect();
-  }, [indicatorMode, updateSeenItems]);
+  }, [updateSeenItems]);
 
   useEffect(
     () => () => {
@@ -69,10 +73,7 @@ function CarouselSlider<T>({
     [],
   );
 
-  const lastIndex =
-    indicatorMode === "seen"
-      ? Math.max(0, items.length - visibleCount)
-      : items.length - 1;
+  const lastIndex = Math.max(0, items.length - visibleCount);
 
   const handleCarouselScroll = () => {
     const carousel = carouselRef.current;
@@ -82,14 +83,7 @@ function CarouselSlider<T>({
     }
 
     scrollTimeoutRef.current = setTimeout(() => {
-      if (indicatorMode === "seen") {
-        updateSeenItems();
-        return;
-      }
-      const item = carousel.firstElementChild as HTMLElement | null;
-      if (!item) return;
-      const index = Math.round(carousel.scrollLeft / item.offsetWidth);
-      setActiveIndex(index);
+      updateSeenItems();
     }, 100);
   };
 
@@ -100,17 +94,14 @@ function CarouselSlider<T>({
       const item = carousel?.children[index] as HTMLElement | undefined;
       if (!carousel || !item) return;
       carousel.scrollTo({
-        left:
-          indicatorMode === "seen"
-            ? carousel.scrollLeft +
-              item.getBoundingClientRect().left -
-              carousel.getBoundingClientRect().left
-            : item.offsetLeft,
+        left: carousel.scrollLeft +
+          item.getBoundingClientRect().left -
+          carousel.getBoundingClientRect().left,
         behavior: "smooth",
       });
       setActiveIndex(index);
     },
-    [indicatorMode, lastIndex],
+    [lastIndex],
   );
 
   const handleNext = useCallback(() => {
@@ -143,7 +134,7 @@ function CarouselSlider<T>({
 
       <S.Carousel ref={carouselRef} onScroll={handleCarouselScroll}>
         {items.map((item, index) => (
-          <S.CarouselItem key={index} $visibleItems={visibleItems}>
+          <S.CarouselItem key={index} $visibleItems={Math.max(1, Math.floor(visibleItems) || 1)}>
             {renderItem(item)}
           </S.CarouselItem>
         ))}

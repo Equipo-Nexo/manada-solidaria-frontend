@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+import { CardContainer as AnimalCard } from "../animalPostCard/animalPostCard.styles";
+import { Card as CampaignCard } from "@campaigns/components/campaign_card/CampaignCard.styles";
 
 type CarouselArrowProps = {
   $direction: "previous" | "next";
@@ -11,7 +13,9 @@ export const Carousel = styled.div`
   display: flex;
   width: 100%;
   min-width: 0;
-  gap: 16px;
+  gap: 8px;
+  align-items: flex-start;
+  flex-shrink: 0;
   overflow-x: auto;
   padding-top: 8px;
   padding-bottom: 16px;
@@ -25,27 +29,35 @@ export const Carousel = styled.div`
 
 export const CarouselItem = styled.div<{ $visibleItems: number }>`
   flex: 0 0 100%;
-  min-width: 0;
+  min-width: min(100%, ${({ theme }) => theme.layout.publicationCardWidth});
+  align-self: flex-start;
   box-sizing: border-box;
   scroll-snap-align: start;
 
-  @media (min-width: 768px) {
+  @container (min-width: 658px) {
     flex-basis: ${({ $visibleItems }) =>
-      $visibleItems === 1 ? "100%" : "calc((100% - 16px) / 2)"};
+      `calc((100% - ${(Math.min(2, $visibleItems) - 1) * 8}px) / ${Math.min(2, $visibleItems)})`};
   }
 
-  @media (min-width: 1024px) {
+  @container (min-width: 991px) {
     flex-basis: ${({ $visibleItems }) =>
-      $visibleItems === 1 ? "100%" : "calc((100% - 32px) / 3)"};
+      `calc((100% - ${(Math.min(3, $visibleItems) - 1) * 8}px) / ${Math.min(3, $visibleItems)})`};
   }
 
-  @media (min-width: 1440px) {
+  @container (min-width: 1324px) {
     flex-basis: ${({ $visibleItems }) =>
-      `calc((100% - ${($visibleItems - 1) * 16}px) / ${$visibleItems})`};
+      `calc((100% - ${($visibleItems - 1) * 8}px) / ${$visibleItems})`};
   }
 
-  > * {
+  && > * {
     width: 100%;
+    max-width: 100%;
+    flex-shrink: 0;
+  }
+
+  && > ${AnimalCard}, && > ${CampaignCard} {
+    height: auto;
+    min-height: ${({ theme }) => theme.layout.publicationCardHeight};
   }
 `;
 
@@ -111,12 +123,15 @@ export const CarouselIndicators = styled.div`
 
 export const CarouselArea = styled.div<CarouselAreaProps>`
   position: relative;
+  container-type: inline-size;
   width: 100%;
   min-width: 0;
+  flex-shrink: 0;
+  align-self: flex-start;
   ${({ $hideArrowsOnMobile }) =>
     $hideArrowsOnMobile &&
     css`
-      @media (max-width: 767px), (hover: none), (pointer: coarse) {
+      @media (max-width: 767px) {
         ${CarouselArrow} {
           display: none;
         }
@@ -168,21 +183,6 @@ export const CarouselArea = styled.div<CarouselAreaProps>`
       outline-offset: -3px;
     }
   }
-
-  ${({ $showArrowsOnHover }) =>
-    $showArrowsOnHover &&
-    css`
-      @media (hover: hover) and (pointer: fine) {
-        ${CarouselArrow}:not(:disabled) {
-          opacity: 0.45;
-        }
-
-        &:hover ${CarouselArrow}:not(:disabled),
-        &:focus-within ${CarouselArrow}:not(:disabled) {
-          opacity: 1;
-        }
-      }
-    `}
 
   @media (prefers-reduced-motion: reduce) {
     ${CarouselArrow} {

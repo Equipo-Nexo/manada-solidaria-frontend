@@ -78,6 +78,7 @@ export const Content = styled.div<{ $allowOverflow?: boolean }>`
   width: 100%;
   max-width: 100%;
   min-width: 0;
+  align-items: flex-start;
   gap: 12px;
   overflow-x: auto;
   overflow-y: hidden;
