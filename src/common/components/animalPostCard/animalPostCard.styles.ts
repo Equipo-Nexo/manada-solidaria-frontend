@@ -2,14 +2,33 @@ import { theme } from "@/common/styles/theme";
 import styled, { keyframes } from "styled-components";
 
 const photoHeartAnimation = keyframes`
-  0% { opacity: 0; transform: scale(0.4); }
-  12% { opacity: 0.85; transform: scale(1.15); }
-  20%, 75% { opacity: 0.85; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.85); }
-`;
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.4) rotate(-12deg);
+  }
 
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1.15) rotate(5deg);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1) rotate(0deg);
+  }
+
+  75% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1) rotate(5deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-35px) scale(0.85) rotate(10deg);
+  }
+`;
 const photoHeartReducedAnimation = keyframes`
-  0%, 75% { opacity: 0.85; }
+  0%, 75% { opacity: 1; }
   100% { opacity: 0; }
 `;
 
@@ -53,29 +72,38 @@ export const PhotoContainer = styled.div`
 export const PhotoHeart = styled.span<{
   $x: number;
   $y: number;
+  $tone: number;
 }>`
   position: absolute;
   left: ${({ $x }) => `${$x}px`};
   top: ${({ $y }) => `${$y}px`};
-
+  translate: -50% -50%;
   width: 70px;
   height: 70px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   pointer-events: none;
   z-index: 5;
-
-  color: ${({ theme }) => theme.colors.background};
-
+  color: ${({ theme, $tone }) =>
+    [
+      theme.colors.brand,
+      theme.colors.secondary,
+      theme.colors.background,
+      theme.colors.tertiary,
+    ][$tone]};
+  stop:first-child {
+    stop-color: ${({ theme, $tone }) =>
+      `color-mix(in srgb, ${theme.colors[$tone === 2 ? "tertiary" : "background"]} 30%, currentColor)`};
+  }
+  stop:last-child {
+    stop-color: currentColor;
+  }
   animation: ${photoHeartAnimation} 800ms ease-out forwards;
-
   svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 18%));
+    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 25%));
   }
 
   @media (prefers-reduced-motion: reduce) {

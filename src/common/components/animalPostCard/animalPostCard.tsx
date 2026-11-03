@@ -1,4 +1,4 @@
-import { useState, type MouseEvent, type PointerEvent } from "react";
+import { useId, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
 import { Heart, LocationPin, Share } from "../../icons";
@@ -43,6 +43,9 @@ function AnimalPostCard({
   reactionsCount = 0,
 }: AnimalPostCardProps) {
   const navigate = useNavigate();
+  const heartGradientId = useId();
+  const heartSequence = useRef(0);
+  const photoPointerType = useRef<string | null>(null);
   const [isRewardExpanded, setIsRewardExpanded] = useState(false);
 
   const [heartAnimation, setHeartAnimation] = useState<HeartAnimation | null>(
@@ -61,12 +64,14 @@ function AnimalPostCard({
     setHeartAnimation({
       x,
       y,
-      id: Date.now(),
+      id: heartSequence.current++,
     });
     if (reactedByMe || isUpdatingLike) return;
     void giveLike();
   };
   const handlePhotoDoubleClick = (event: MouseEvent<HTMLElement>) => {
+    // Touch is handled by useDoubleTap, including browsers emitting a MouseEvent afterward.
+    if (photoPointerType.current === "touch") return;
     if (event.target instanceof Element && event.target.closest("button, a")) {
       return;
     }
@@ -119,6 +124,9 @@ function AnimalPostCard({
   return (
     <S.CardContainer>
       <S.PhotoContainer
+        onPointerDownCapture={(event) => {
+          photoPointerType.current = event.pointerType;
+        }}
         onDoubleClick={handlePhotoDoubleClick}
         {...doubleTapHandlers}
       >
@@ -128,10 +136,18 @@ function AnimalPostCard({
             key={heartAnimation.id}
             $x={heartAnimation.x}
             $y={heartAnimation.y}
+            $tone={heartAnimation.id % 4}
             aria-hidden="true"
             onAnimationEnd={() => setHeartAnimation(null)}
           >
-            <Heart filled />
+            <Heart filled fill={`url(#${heartGradientId})`}>
+              <defs>
+                <linearGradient id={heartGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" />
+                  <stop offset="65%" />
+                </linearGradient>
+              </defs>
+            </Heart>
           </S.PhotoHeart>
         )}
         <S.ShareButton
