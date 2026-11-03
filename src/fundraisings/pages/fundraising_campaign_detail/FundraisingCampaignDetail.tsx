@@ -13,6 +13,7 @@ import { formatDateTimeLong } from "@/common/utils/DateTime";
 import { useState } from "react";
 import { shareUrl } from "@/common/utils/HandleShare";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
+import { getAddress } from "@/common/utils/LocationUtils";
 function FundraisingCampaignDetail() {
   const navigate = useNavigate();
   const [cropImage, setCropImage] = useState(false);
@@ -32,9 +33,6 @@ function FundraisingCampaignDetail() {
       copyAlias(data.accountAlias);
     }
   };
-  const location = data?.location.name || 'Ubicación no informada'
-
-  const address = data?.location.address || ''
 
   const PHONE_NUMBER = data?.phoneNumber
     ? `${data?.phoneNumber.areaCode}${data?.phoneNumber.number}`
@@ -147,8 +145,8 @@ function FundraisingCampaignDetail() {
                 <S.LocationCard>
                   <S.MapPreview aria-hidden="true"><S.MapMarker /></S.MapPreview>
                   <S.LocationContent>
-                    <S.LocationTitle>{location}</S.LocationTitle>
-                    <S.LocationAddress>{address}</S.LocationAddress>
+                    <S.LocationTitle>{data.location.city}</S.LocationTitle>
+                    <S.LocationAddress>{getAddress(data.location)}</S.LocationAddress>
                     <S.MapLink
                       type="button"
                       onClick={() => navigate(

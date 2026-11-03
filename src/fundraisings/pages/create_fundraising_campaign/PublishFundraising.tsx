@@ -51,6 +51,8 @@ function PublishFundraising() {
     },
   });
 
+  console.log('errors', errors)
+
   const onSubmit = async (data: PublishFundraisingForm) => {
     const request: FundraisingCampaignRequest = {
       type: "FUNDRAISING",
@@ -198,19 +200,19 @@ function PublishFundraising() {
       </S.PublishField>
 
       <S.PublishField as="div">
-        <S.PublishLabel>Ubicación</S.PublishLabel>
+        <S.PublishLabel>Ubicación<S.RequiredMark>*</S.RequiredMark></S.PublishLabel>
         <Controller
           control={control}
           name="location"
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <>
               <AutocompleteGeolocation
-                placeHolder="¿Dónde se realizará la campaña?"
+                placeHolder="Podés indicar una ubicación aproximada, como la ciudad."
                 onChange={(value) =>
                   field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                 }
+                errors={errors.location}
               />
-              <ErrorMessage message={fieldState.error?.message} />
             </>
           )}
         />

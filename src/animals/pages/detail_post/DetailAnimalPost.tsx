@@ -17,6 +17,7 @@ import { formatDateLong } from '@/common/utils/DateTime'
 import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
 import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
 import { shareUrl } from '@/common/utils/HandleShare'
+import { getAddress } from '@/common/utils/LocationUtils'
 
 function AnimalPostDetail() {
 
@@ -51,10 +52,6 @@ function AnimalPostDetail() {
 
   const animalKind = animalKinds.find(({ value }) => value === postData.animal.type)?.label
     ?? 'No informado'
-
-  const location = postData.location.name || 'Ubicación no informada'
-
-  const address = postData.location.address || ''
 
   const status = AnimalPostStatus[postData.status]
 
@@ -139,8 +136,8 @@ function AnimalPostDetail() {
           </S.GeneralDataContainer>
 
           <MapDetailsComponent
-            location={location}
-            address={address}
+            location={postData.location.city}
+            address={getAddress(postData.location)}
             locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
           />
 

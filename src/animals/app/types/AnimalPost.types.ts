@@ -88,6 +88,11 @@ export const animalColorLabels: Record<AnimalColor, string> = {
   OTHER: "Otro",
 };
 
+
+export interface AnimalPostLocation extends Location {
+  district: string
+}
+
 export type AnimalPost = {
   id: string;
   type: AnimalPostType;
@@ -95,7 +100,7 @@ export type AnimalPost = {
   description: string;
   imageUrl: string;
   animal: Animal;
-  location: Location;
+  location: AnimalPostLocation;
   status: AnimalPostStatus;
   createdAt: string;
   ownerId: string;

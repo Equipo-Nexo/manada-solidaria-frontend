@@ -109,10 +109,10 @@ function AnimalPostCard({
           </S.BadgesContainer>
         </S.MainInfoContainer>
 
-        {location?.name && (
+        {location?.city && (
           <S.Location>
             <LocationPin aria-hidden="true" />
-            <span>{location.name}</span>
+            <span>{location.city}</span>
           </S.Location>
         )}
 

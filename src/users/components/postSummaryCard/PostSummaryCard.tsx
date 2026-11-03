@@ -42,10 +42,10 @@ function PostSummaryCard({ title, imageUrl, location, description, badges, onVie
           <S.Title>{title}</S.Title>
           {badges && <S.BadgesContainer>{badges}</S.BadgesContainer>}
         </S.MainInfoContainer>
-        {location?.name && (
+        {location?.city && (
           <S.Location>
             <LocationPin aria-hidden="true" />
-            <span>{location.name}</span>
+            <span>{location.city}</span>
           </S.Location>
         )}
         <S.Description>{description}</S.Description>
