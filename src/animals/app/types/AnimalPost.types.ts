@@ -107,6 +107,8 @@ export type AnimalPost = {
   owner: Owner;
   phoneNumber?: PhoneNumber;
   reward: number | null;
+  reactedByMe: boolean;
+  reactionsCount: number;
 };
 
 export type Animal = {
