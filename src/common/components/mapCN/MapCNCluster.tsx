@@ -54,8 +54,10 @@ export function MapCNCluster<TItem>({
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
       cluster: true,
+      // Keep coincident publications grouped throughout the map's zoom range.
+      maxzoom: Math.ceil(map.getMaxZoom()) + 1,
       clusterRadius: 50,
-      clusterMaxZoom: 14,
+      clusterMaxZoom: Math.ceil(map.getMaxZoom()),
     })
 
     map.addLayer({
@@ -120,7 +122,7 @@ export function MapCNCluster<TItem>({
       const [lng, lat] = feature.geometry.coordinates
 
       try {
-        const [leaves, zoom] = await Promise.all([
+        const [leaves] = await Promise.all([
           source.getClusterLeaves(clusterId, pointCount, 0),
           source.getClusterExpansionZoom(clusterId),
         ])
@@ -131,7 +133,7 @@ export function MapCNCluster<TItem>({
           return point ? [point.data] : []
         })
 
-        map.easeTo({ center: [lng, lat], zoom, duration: 600 })
+        map.easeTo({ center: [lng, lat], duration: 600 })
         notifyClusterClick(items)
       } catch (error) {
         if (active) console.error('No se pudo seleccionar el cluster.', error)

@@ -46,9 +46,11 @@ import CampaignDetail from "./campaigns/pages/campaign_detail/CampaignDetail";
 import Security from "./users/pages/security/Security";
 import Community from "./users/pages/community/Community";
 import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
+import AdoptionFormDetail from "./forms/pages/adoption_form_detail/AdoptionFormDetail";
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
 import { useEffect } from "react";
 import UserProfile from "./users/pages/user_profile/userProfile";
+import ReceivedFormList from "./forms/pages/received_forms_list/receivedFormList";
 import NotificationPage from "./notifications/pages/NotificationPage";
 
 function App() {
@@ -85,7 +87,8 @@ function App() {
     isFullScreenPublish ||
     isMobileMenu ||
     isPublicationDetail ||
-    isAdoptionFormSuccess;
+    isAdoptionFormSuccess ||
+    actualPath.startsWith("/formularios-recibidos/");
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
@@ -122,6 +125,7 @@ function App() {
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
+
             <Route
               path="/recuperar-contrasena/verificar-codigo"
               element={<VerifyCode />}
@@ -158,6 +162,14 @@ function App() {
               <Route
                 path="/formulario-adopcion/enviado/:postId"
                 element={<AdoptionFormSuccess />}
+              />
+              <Route
+                path="/formularios-recibidos"
+                element={<ReceivedFormList />}
+              />
+              <Route
+                path="/formularios-recibidos/:adoptionFormId"
+                element={<AdoptionFormDetail />}
               />
               <Route path="/usuario/:userId" element={<UserProfile />} />
               <Route

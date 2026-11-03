@@ -62,3 +62,15 @@ export const LegendItem = styled.li<{ $color?: string }>`
     }
   }
 `
+
+export const LegendMarker = styled.span`
+  display: block;
+  width: 20px;
+  height: 24px;
+  flex-shrink: 0;
+
+  > div {
+    transform: scale(0.36);
+    transform-origin: top left;
+  }
+`

@@ -90,20 +90,15 @@ export const CreatedSinceContainer = styled.div`
 `;
 
 export const CardsContainer = styled.div`
-  display: flex;
+  display: grid;
   flex: 1;
-  flex-direction: column;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  align-content: start;
+  gap: 10px;
   margin-top: 20px;
 
   @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content: start;
     gap: 20px;
-  }
-
-  @media (min-width: 1238px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 `;
 
@@ -144,7 +139,7 @@ export const RetryButton = styled.button`
 export const Card = styled.div<{ $clickable: boolean; $fundraising?: boolean }>`
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  min-width: 0;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 12px;
   border: 1px solid ${({ theme }) => `${theme.colors.stroke}33`};
@@ -179,19 +174,12 @@ export const Card = styled.div<{ $clickable: boolean; $fundraising?: boolean }>`
   }
 
   @media (min-width: 768px) {
-    height: 144px;
-    margin-bottom: 0;
+    min-height: 144px;
 
     &:only-child {
-      width: calc((100% - 20px) / 2);
+      width: min(100%, 600px);
       grid-column: 1 / -1;
       justify-self: center;
-    }
-  }
-
-  @media (min-width: 1238px) {
-    &:only-child {
-      width: calc((100% - 40px) / 3);
     }
   }
 
@@ -200,7 +188,6 @@ export const Card = styled.div<{ $clickable: boolean; $fundraising?: boolean }>`
     css`
       min-height: 140px;
       height: auto;
-      margin-bottom: 8px;
       ${CardContent} {
         padding: 5px 8px;
         gap: 8px;
@@ -223,6 +210,49 @@ export const Card = styled.div<{ $clickable: boolean; $fundraising?: boolean }>`
         margin-top: 0;
       }
     `}
+
+  ${({ $fundraising }) => css`
+    @media (min-width: 768px) and (max-width: 1023px) {
+      container: my-post-card / inline-size;
+
+      @container my-post-card (min-width: 560px) {
+        ${CardImage} {
+          flex-basis: 28%;
+        }
+
+        ${CardContent} {
+          padding: 16px;
+          gap: 16px;
+        }
+
+        ${CardInformationContainer} {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-self: center;
+          align-items: center;
+          gap: ${$fundraising ? "8px 16px" : "6px 16px"};
+
+          > * {
+            grid-column: 1 / -1;
+          }
+
+          > ${CardTitle}, > ${CreatedSinceContainer} {
+            grid-column: 1;
+          }
+
+          > ${CreatedSinceContainer} {
+            justify-content: flex-start;
+          }
+
+          > ${Status} {
+            grid-column: 2;
+            grid-row: 1;
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  `}
 `;
 
 export const CardImage = styled.div`
@@ -324,9 +354,8 @@ export const Button = styled.button`
   cursor: pointer;
 
   @media (min-width: 600px) {
-    width: 60px;
-    height: 60px;
-    font-size: 50px;
+    width: 44px;
+    height: 44px;
   }
 
   &:hover {

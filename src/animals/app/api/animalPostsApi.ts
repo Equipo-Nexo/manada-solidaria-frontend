@@ -1,18 +1,21 @@
-import { baseAuthenticatedApi } from '@common/app/services/base/baseAuthenticatedApi'
+import { baseAuthenticatedApi } from "@common/app/services/base/baseAuthenticatedApi";
 import type {
   CreateAnimalPostRequest,
   EditAnimalPostMutationRequest,
   GetAnimalPostsRequest,
   UpdateAnimalPostStatusRequest,
-} from './requests/animalPostRequests'
-import type { AnimalPostResponse } from './responses/animalPostResponses'
-import type { Page } from '@/common/app/types/Page'
+} from "./requests/animalPostRequests";
+import type { AnimalPostResponse } from "./responses/animalPostResponses";
+import type { Page } from "@/common/app/types/Page";
 
 export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAnimalPosts: builder.query<Page<AnimalPostResponse>, GetAnimalPostsRequest>({
+    getAnimalPosts: builder.query<
+      Page<AnimalPostResponse>,
+      GetAnimalPostsRequest
+    >({
       query: ({ status, type, page = 0, size = 10 }) => ({
-        url: '/animal-posts',
+        url: "/animal-posts",
         params: {
           ...(status ? { status } : {}),
           ...(type ? { type } : {}),
@@ -20,51 +23,73 @@ export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
           size,
         },
       }),
-      providesTags: ['AnimalPosts'],
+      providesTags: ["AnimalPosts"],
     }),
 
     getAnimalPost: builder.query<AnimalPostResponse, string>({
       query: (postId) => `/animal-posts/${postId}`,
-      providesTags: ['AnimalPosts'],
+      providesTags: ["AnimalPosts"],
     }),
 
     deleteAnimalPost: builder.mutation<void, string>({
       query: (postId) => ({
         url: `/animal-posts/${postId}`,
-        method: 'DELETE'
+        method: "DELETE",
       }),
-      invalidatesTags: ['AnimalPosts', 'userPosts'],
+      invalidatesTags: ["AnimalPosts", "userPosts"],
     }),
 
     editAnimalPost: builder.mutation<void, EditAnimalPostMutationRequest>({
       query: ({ postId, body }) => ({
         url: `/animal-posts/${postId}`,
-        method: 'PUT',
+        method: "PUT",
         body,
       }),
-      invalidatesTags: ['AnimalPosts', 'userPosts'],
+      invalidatesTags: ["AnimalPosts", "userPosts"],
     }),
 
-    updateAnimalPostStatus: builder.mutation<AnimalPostResponse, UpdateAnimalPostStatusRequest>({
+    updateAnimalPostStatus: builder.mutation<
+      AnimalPostResponse,
+      UpdateAnimalPostStatusRequest
+    >({
       query: ({ postId, status }) => ({
         url: `/animal-posts/${postId}/status`,
-        method: 'PATCH',
+        method: "PATCH",
         body: { status },
       }),
-      invalidatesTags: ['AnimalPosts', 'userPosts', 'map'],
+      invalidatesTags: ["AnimalPosts", "userPosts", "map"],
     }),
 
-    createAnimalPost: builder.mutation<AnimalPostResponse, CreateAnimalPostRequest>({
+    createAnimalPost: builder.mutation<
+      AnimalPostResponse,
+      CreateAnimalPostRequest
+    >({
       query: (body) => ({
-        url: '/animal-posts',
-        method: 'POST',
+        url: "/animal-posts",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['AnimalPosts', 'userPosts'],
+      invalidatesTags: ["AnimalPosts", "userPosts"],
+    }),
+
+    likeAnimalPost: builder.mutation<void, string>({
+      query: (animalPostId) => ({
+        url: `/animal-posts/${animalPostId}/like`,
+        method: "POST",
+      }),
+      invalidatesTags: ["AnimalPosts"],
+    }),
+
+    dislikeAnimalPost: builder.mutation<void, string>({
+      query: (animalPostId) => ({
+        url: `/animal-posts/${animalPostId}/dislike`,
+        method: "POST",
+      }),
+      invalidatesTags: ["AnimalPosts"],
     }),
   }),
   overrideExisting: false,
-})
+});
 
 export const {
   useCreateAnimalPostMutation,
@@ -72,5 +97,7 @@ export const {
   useGetAnimalPostQuery,
   useGetAnimalPostsQuery,
   useUpdateAnimalPostStatusMutation,
-  useEditAnimalPostMutation
-} = animalPostsApi
+  useEditAnimalPostMutation,
+  useLikeAnimalPostMutation,
+  useDislikeAnimalPostMutation,
+} = animalPostsApi;

@@ -1,3 +1,5 @@
+importScripts('/service_workers/notificationActionStrategies.js')
+
 self.addEventListener('push', (event) => {
   console.info('[Web Push] Evento push recibido', {
     hasData: Boolean(event.data),
@@ -12,34 +14,33 @@ self.addEventListener('push', (event) => {
     Promise.resolve()
       .then(() => event.data.json())
       .then(async (payload) => {
-        console.info('[Web Push] Payload recibido', {
-          title: payload?.title,
-          body: payload?.body,
-          tag: payload?.tag,
-          url: payload?.url,
-        })
-
         if (typeof payload?.title !== 'string' || typeof payload?.body !== 'string') {
           console.warn('[Web Push] Payload descartado: title y body deben ser strings')
           return
         }
 
+        const actions = (payload.actions ?? []).map((action, index) => ({
+          ...action,
+          id: `action-${index}`,
+        }));
+
         await self.registration.showNotification(payload.title, {
           body: payload.body,
-          icon: payload.icon,
-          badge: payload.badge,
+          ...(payload.icon ? { icon: payload.icon } : {}),
+          ...(payload.badge ? { badge: payload.badge } : {}),
           tag: payload.tag,
           data: {
-            ...(payload.data && typeof payload.data === 'object' ? payload.data : {}),
+            ...(payload.data && typeof payload.data === "object"
+              ? payload.data
+              : {}),
             url: payload.url,
+            actions,
           },
-        })
-
-        console.info('[Web Push] Notificaci\u00f3n mostrada', {
-          title: payload.title,
-          tag: payload.tag,
-          url: payload.url,
-        })
+          actions: actions.map(({ id, title }) => ({
+            action: id,
+            title,
+          })),
+        });
       })
       .catch((error) => console.error('[Web Push] No se pudo procesar la notificaci\u00f3n', error)),
   )
@@ -48,25 +49,17 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
 
-  const relativeUrl = event.notification.data?.url ?? '/home'
-  const targetUrl = new URL(relativeUrl, self.location.origin).href
+  const data = event.notification.data ?? {}
+  const actions = data.actions ?? []
+  // Al tocar el cuerpo, usamos el primer REDIRECT o la URL por defecto.
+  const action = event.action
+    ? actions.find((action) => action.id === event.action)
+    : actions.find((action) => action.type === 'REDIRECT') ?? { type: 'REDIRECT' }
+  const strategy = notificationActionStrategies.get(action?.type)
 
-  console.info('[Web Push] Click en notificaci\u00f3n', { targetUrl })
+  if (!strategy) return
 
   event.waitUntil(
-    clients
-      .matchAll({
-        type: 'window',
-        includeUncontrolled: true,
-      })
-      .then((windowClients) => {
-        for (const client of windowClients) {
-          if ('focus' in client) {
-            return client.navigate(targetUrl).then(() => client.focus())
-          }
-        }
-
-        return clients.openWindow(targetUrl)
-      }),
+    Promise.resolve().then(() => strategy({ action, data })),
   )
 })

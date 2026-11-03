@@ -1,13 +1,15 @@
-import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
-import type { AnimalPostCardProps } from '@/common/components/animalPostCard/animalPostCard'
-import PostSummaryCard from '../postSummaryCard/PostSummaryCard'
-import * as S from './AnimalPostSummaryCard.styles'
-import { StatusContainer } from '../postSummaryCard/PostSummaryCard.styles'
+import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
+import type { AnimalPostCardProps } from "@/common/components/animalPostCard/animalPostCard";
+import PostSummaryCard from "../postSummaryCard/PostSummaryCard";
+import * as S from "./AnimalPostSummaryCard.styles";
+import { StatusContainer } from "../postSummaryCard/PostSummaryCard.styles";
 
 export type AnimalPostSummaryCardProps = Pick<
   AnimalPostCardProps,
-  'name' | 'status' | 'location' | 'description' | 'imageUrl' | 'reward' | 'onViewMore'
->
+  "name" | "status" | "location" | "description" | "imageUrl" | "reward"
+> & {
+  onViewMore?: () => void;
+};
 
 function AnimalPostSummaryCard({
   name,
@@ -18,15 +20,18 @@ function AnimalPostSummaryCard({
   reward,
   onViewMore,
 }: AnimalPostSummaryCardProps) {
-  const statusInfo = status ? AnimalPostStatus[status] : undefined
+  const statusInfo = status ? AnimalPostStatus[status] : undefined;
   const formattedReward =
-    status === 'SEARCHING' && typeof reward === 'number' && Number.isFinite(reward) && reward > 0
-      ? new Intl.NumberFormat('es-AR', {
-        style: 'currency',
-        currency: 'ARS',
-        maximumFractionDigits: 0,
-      }).format(reward)
-      : undefined
+    status === "SEARCHING" &&
+    typeof reward === "number" &&
+    Number.isFinite(reward) &&
+    reward > 0
+      ? new Intl.NumberFormat("es-AR", {
+          style: "currency",
+          currency: "ARS",
+          maximumFractionDigits: 0,
+        }).format(reward)
+      : undefined;
 
   return (
     <PostSummaryCard
@@ -43,14 +48,17 @@ function AnimalPostSummaryCard({
             </S.RewardInfo>
           )}
           {statusInfo && (
-            <StatusContainer $color={statusInfo.fontColor} $background={statusInfo.backgroundColor}>
+            <StatusContainer
+              $color={statusInfo.fontColor}
+              $background={statusInfo.backgroundColor}
+            >
               {statusInfo.text}
             </StatusContainer>
           )}
         </>
       }
     />
-  )
+  );
 }
 
-export default AnimalPostSummaryCard
+export default AnimalPostSummaryCard;

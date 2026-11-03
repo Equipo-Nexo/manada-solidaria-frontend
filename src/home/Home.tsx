@@ -18,6 +18,7 @@ import { mapFundraisingToCardData } from "@components/fundraisingCard/mapFundrai
 import { publicationMessages } from "@utils/Messages";
 import * as S from "./Home.styles";
 import { mapCampaignToCardData } from "@/campaigns/utils/CampaignUtils";
+import CarouselSlider from "@/common/components/carousel_slider/CarouselSlider";
 const MAX_POSTS_PER_SECTION = 10;
 
 function Home() {
@@ -59,6 +60,8 @@ function Home() {
       <Carousel
         title="Casos urgentes"
         onSeeAll={() => navigate("/colectas")}
+        allowContentOverflow
+        highlightNavigationOnHover
         headerContent={
           <Advice
             title="Información importante"
@@ -102,21 +105,32 @@ function Home() {
           )}
         {!isFundraisingLoading &&
           !isFundraisingError &&
-          fundraisings.map((fundraising) => (
-            <FundraisingCard
-              key={fundraising.id}
-              fundraising={mapFundraisingToCardData(fundraising)}
-              showAlias={false}
-              onViewStory={(fundraising) => {
-                navigate(`/colectas/${fundraising.id}`);
-              }}
+          fundraisings.length > 0 && (
+            <CarouselSlider
+              items={fundraisings}
+              visibleItems={4}
+              indicatorMode="seen"
+              autoAdvance={false}
+              showArrowsOnHover
+              hideArrowsOnMobile
+              renderItem={(fundraising) => (
+                <FundraisingCard
+                  fundraising={mapFundraisingToCardData(fundraising)}
+                  showAlias={false}
+                  onViewStory={(fundraising) => {
+                    navigate(`/colectas/${fundraising.id}`);
+                  }}
+                />
+              )}
             />
-          ))}
+          )}
       </Carousel>
 
       <Carousel
         title="Últimos animales publicados"
         onSeeAll={() => navigate("/animales")}
+        allowContentOverflow
+        highlightNavigationOnHover
       >
         {isLoading && (
           <S.MessageContainer>
@@ -145,18 +159,25 @@ function Home() {
             />
           </S.MessageContainer>
         )}
-        {!isLoading &&
-          !isError &&
-          recentAnimals.map((animal) => (
-            <AnimalPostCard
-              key={animal.id}
-              {...mapAnimalPostToCardProps(animal)}
-            />
-          ))}
+        {!isLoading && !isError && recentAnimals.length > 0 && (
+          <CarouselSlider
+            items={recentAnimals}
+            visibleItems={4}
+            indicatorMode="seen"
+            autoAdvance={false}
+            showArrowsOnHover
+            hideArrowsOnMobile
+            renderItem={(recentAnimal) => (
+              <AnimalPostCard {...mapAnimalPostToCardProps(recentAnimal)} />
+            )}
+          />
+        )}
       </Carousel>
 
       <Carousel
         title="Enterate de las novedades"
+        allowContentOverflow
+        highlightNavigationOnHover
         onSeeAll={() => navigate("/campanias")}
       >
         {isCampaignsLoading && (
@@ -189,17 +210,25 @@ function Home() {
             />
           </S.MessageContainer>
         )}
-        {!isCampaignsLoading &&
-          !isCampaignsError &&
-          campaigns.map((campaign) => (
-            <CampaignCard
-              key={campaign.id}
-              campaign={mapCampaignToCardData(campaign)}
-              onMoreInfo={(selectedCampaign) => {
-                navigate(`/campanias/${selectedCampaign.id}`);
-              }}
-            />
-          ))}
+
+        {!isCampaignsLoading && !isCampaignsError && campaigns.length > 0 && (
+          <CarouselSlider
+            items={campaigns}
+            visibleItems={4}
+            indicatorMode="seen"
+            autoAdvance={false}
+            showArrowsOnHover
+            hideArrowsOnMobile
+            renderItem={(campaign) => (
+              <CampaignCard
+                campaign={mapCampaignToCardData(campaign)}
+                onMoreInfo={(selectedCampaign) => {
+                  navigate(`/campanias/${selectedCampaign.id}`);
+                }}
+              />
+            )}
+          />
+        )}
       </Carousel>
     </S.HomePage>
   );

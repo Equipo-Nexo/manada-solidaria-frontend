@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 interface MapProps {
     location: string,
-    address: string,
+    address?: string,
     locationPath: string
 }
 

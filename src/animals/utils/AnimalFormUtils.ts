@@ -84,7 +84,7 @@ export const animalKinds: ReadonlyArray<AnimalSelectorOption> = [
 
 export const ANIMAL_POST_FILTER_LABELS: Record<AnimalPostFilter, string> = {
   "": "Todos",
-  ["ADOPTION"]: "En adopcion",
+  ["ADOPTION"]: "En adopción",
   ["LOST"]: `Perdidos`,
   ["IN_STREET"]: "En la calle",
 };

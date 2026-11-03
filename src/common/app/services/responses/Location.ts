@@ -15,9 +15,12 @@ export interface GeolocationResponse {
 }
 
 export interface Location {
-  name: string;
-  address: string;
-  number: number;
+  country: string;
+  city: string;
+  formatted: string;
+  district?: string;
+  street?: string;
+  houseNumber?: number;
   latitude: number;
   longitude: number;
 }
