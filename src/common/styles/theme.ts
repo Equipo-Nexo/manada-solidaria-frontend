@@ -25,6 +25,7 @@ export const theme = {
     neutral: uxColors.neutral,
     black: uxColors.black,
     secondary: uxColors.secondary,
+    secondarySoft: '#F4E7DC',
     secondaryHoverSoft: 'rgb(169 92 40 / 12%)',
     success: uxColors.success,
     darkColor: uxColors.darkColor,

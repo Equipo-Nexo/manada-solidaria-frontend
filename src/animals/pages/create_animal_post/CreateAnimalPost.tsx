@@ -116,7 +116,7 @@ function CreateAnimalPost() {
         color: values.color,
       },
       phoneNumber: phoneNumber,
-      location: mapGeolocationToLocation(values.location),
+      location: values.location,
     };
 
     createAnimalPost(buildRequest(values, commonRequest))
@@ -216,13 +216,13 @@ function CreateAnimalPost() {
         <Controller
           name="location"
           control={control}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <>
               <AutocompleteGeolocation
-                placeHolder="¿En dónde se encuentra el animal?"
-                onChange={field.onChange}
+                placeHolder="Podés indicar una ubicación aproximada, como un barrio."
+                onChange={(value) => field.onChange(value ? mapGeolocationToLocation(value) : undefined)}
+                errors={errors.location}
               />
-              <ErrorMessage message={fieldState.error?.message} />
             </>
           )}
         />

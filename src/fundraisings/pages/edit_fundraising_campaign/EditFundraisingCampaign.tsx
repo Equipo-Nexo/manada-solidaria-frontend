@@ -6,7 +6,6 @@ import {
   DatePicker,
   ImageUpload,
   Advice,
-  Loader,
   AutocompleteGeolocation,
 } from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
@@ -23,6 +22,7 @@ import { useEffect } from "react";
 import { useToast } from "@hooks/toast/useToast";
 import type { UpdateFundraisingCampaignRequest } from "@/campaigns/app/api/requests/EditCampaignRequest";
 import { mapGeolocationToLocation } from "@utils/mapGeolocationToLocation";
+import PawLoader from "@/common/components/pawLoader/PawLoader";
 
 export type EditFundraisingForm = InferType<typeof editFundraisingSchema>;
 
@@ -59,7 +59,13 @@ function EditFundraising() {
       setValue("phoneAreaCode", campaign.phoneNumber.areaCode);
       setValue("phone", campaign.phoneNumber.number);
       setValue("imageId", campaign.imageId);
-      setValue("location", campaign.location);
+      setValue("location", {
+          ...campaign.location,
+          district: campaign.location.district ? campaign.location.district : undefined,
+          street: campaign.location.street ? campaign.location.street : undefined,
+          houseNumber: campaign.location.houseNumber ? campaign.location.houseNumber : undefined
+        }
+      );
     }
   }, [isLoading, campaign, setValue]);
 
@@ -116,12 +122,13 @@ function EditFundraising() {
         </S.BackButton>
         <S.FormTitle>Editar Colecta de Dinero</S.FormTitle>
       </S.Header>
-      {isLoading && <Loader label="Cargando información de la colecta." />}
-      {isError ||
-        (!campaign && (
-          <div>Hubo un error al obtener informacion de la colecta.</div>
-        ))}
-      {!isLoading && !isError && campaign && (
+      {isLoading ? (
+        <S.LoaderContainer>
+          <PawLoader label="Cargando información de la colecta." />
+        </S.LoaderContainer>
+      ) : isError || !campaign ? (
+        <div>Hubo un error al obtener información de la colecta.</div>
+      ) : (
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <S.PublishField>
             <S.PublishLabel>
@@ -238,7 +245,8 @@ function EditFundraising() {
                 <>
                   <AutocompleteGeolocation
                     initialLocation={field.value}
-                    placeHolder="¿Dónde se realizará la campaña?"
+                    placeHolder="Podés indicar una ubicación aproximada, como la ciudad"
+                    errors={errors.location}
                     onChange={(value) =>
                       field.onChange(
                         value ? mapGeolocationToLocation(value) : undefined,
