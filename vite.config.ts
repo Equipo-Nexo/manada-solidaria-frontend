@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
-import { readFileSync } from 'fs'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { VitePWA } from "vite-plugin-pwa";
+import { readFileSync } from "fs";
 import { fileURLToPath, URL } from "node:url";
 
-const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'))
+const pkg = JSON.parse(readFileSync("./package.json", "utf-8"));
 
 export default defineConfig({
   define: {
@@ -13,19 +13,31 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-      "@components": fileURLToPath(new URL("./src/common/components", import.meta.url)),
+      "@components": fileURLToPath(
+        new URL("./src/common/components", import.meta.url),
+      ),
       "@hooks": fileURLToPath(new URL("./src/common/hooks", import.meta.url)),
-      "@services": fileURLToPath(new URL("./src/common/app/services", import.meta.url)),
+      "@services": fileURLToPath(
+        new URL("./src/common/app/services", import.meta.url),
+      ),
       "@utils": fileURLToPath(new URL("./src/common/utils", import.meta.url)),
-      "@models": fileURLToPath(new URL("./src/common/app/types", import.meta.url)),
+      "@models": fileURLToPath(
+        new URL("./src/common/app/types", import.meta.url),
+      ),
       "@icons": fileURLToPath(new URL("./src/common/icons", import.meta.url)),
       "@styles": fileURLToPath(new URL("./src/common/styles", import.meta.url)),
-      "@images": fileURLToPath(new URL("./src/common/assets/images", import.meta.url)),
-      "@store": fileURLToPath(new URL("./src/common/app/store", import.meta.url)),
+      "@images": fileURLToPath(
+        new URL("./src/common/assets/images", import.meta.url),
+      ),
+      "@store": fileURLToPath(
+        new URL("./src/common/app/store", import.meta.url),
+      ),
       "@app": fileURLToPath(new URL("./src/common/app", import.meta.url)),
       "@animals": fileURLToPath(new URL("./src/animals", import.meta.url)),
       "@campaigns": fileURLToPath(new URL("./src/campaigns", import.meta.url)),
-      "@fundraisings": fileURLToPath(new URL("./src/fundraisings", import.meta.url)),
+      "@fundraisings": fileURLToPath(
+        new URL("./src/fundraisings", import.meta.url),
+      ),
       "@auth": fileURLToPath(new URL("./src/auth", import.meta.url)),
       "@users": fileURLToPath(new URL("./src/users", import.meta.url)),
       "@common": fileURLToPath(new URL("./src/common", import.meta.url)),
@@ -34,34 +46,35 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: "autoUpdate",
       workbox: {
-        importScripts: ['/push-notifications-sw.js'],
+        importScripts: ["/push-notifications-sw.js"],
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       },
       devOptions: {
         enabled: true,
       },
       manifest: {
-        name: 'Manada Solidaria',
-        short_name: 'ManadaSolidaria',
-        description: 'AplicaciÃ³n Manada Solidaria',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
-        display: 'standalone',
-        start_url: '/',
+        name: "Manada Solidaria",
+        short_name: "ManadaSolidaria",
+        description: "AplicaciÃ³n Manada Solidaria",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        start_url: "/",
         icons: [
           {
-            src: '/pwa-192.png',
-            sizes: '192x192',
-            type: 'image/png',
+            src: "/pwa-192.png",
+            sizes: "192x192",
+            type: "image/png",
           },
           {
-            src: '/pwa-512.png',
-            sizes: '512x512',
-            type: 'image/png',
+            src: "/pwa-512.png",
+            sizes: "512x512",
+            type: "image/png",
           },
         ],
       },
     }),
   ],
-})
+});
