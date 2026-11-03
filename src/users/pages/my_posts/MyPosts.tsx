@@ -46,6 +46,12 @@ import { getApiErrorMessage } from "@utils/getApiErrorMessage";
 import type { UpdateAnimalPostStatusRequest } from "@/animals/app/api/requests/animalPostRequests";
 import { StatusLogic } from "./utils/AnimalStatusLogic";
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
+import UpdateFundraisingStatus from "@/users/components/fundraising_status/UpdateFundraisingStatus";
+import {
+  getFundraisingStatusInfo,
+  hasFundraisingStatusActions,
+  isFinalFundraisingStatus,
+} from "./utils/FundraisingStatusConfig";
 
 type PostFilter = "" | "animal" | "campaign" | "fundraising";
 
@@ -131,6 +137,12 @@ function MyPosts() {
       isFinalCampaignStatus(post.status)
     )
       return;
+    if (
+      post.postType === "fundraising" &&
+      isFinalFundraisingStatus(post.status)
+    ) {
+      return;
+    }
 
     const editByPostType: Record<UserPostType, (postId: string) => void> = {
       campaign: (postId) => navigate(`/editar/campania/${postId}`),
@@ -210,21 +222,6 @@ function MyPosts() {
     }
   };
 
-  const changeStatusSelector = (
-    publicationType: UserPostType,
-    status: UpdateAnimalPostStatusRequest["status"],
-  ) => {
-    switch (publicationType) {
-      case "animal":
-        return handleChangeStatus(status);
-      //acá agregar los demás tipos de publicaciones
-      default:
-        throw new Error(
-          `Cambio de estado no implementado para ${publicationType}`,
-        );
-    }
-  };
-
   const handleChangeStatus = async (
     status: UpdateAnimalPostStatusRequest["status"],
   ) => {
@@ -259,10 +256,7 @@ function MyPosts() {
     statusPost?.postType === "animal"
       ? StatusLogic({
           post: statusPost,
-          onChangeStatus: (status) => {
-            if (!statusPost) return;
-            return changeStatusSelector(statusPost.postType, status);
-          },
+          onChangeStatus: handleChangeStatus,
           onClose: closeStatusSheet,
         })
       : null;
@@ -271,6 +265,13 @@ function MyPosts() {
     <S.MyPostsRoot>
       {statusPost?.postType === "campaign" && (
         <UpdateCampaignStatus
+          key={statusPost.id}
+          post={statusPost}
+          onClose={closeStatusSheet}
+        />
+      )}
+      {statusPost?.postType === "fundraising" && (
+        <UpdateFundraisingStatus
           key={statusPost.id}
           post={statusPost}
           onClose={closeStatusSheet}
@@ -376,18 +377,23 @@ function MyPosts() {
               const statusInfo =
                 postType === "campaign"
                   ? getCampaignStatusInfo(status, post.type)
-                  : AnimalPostStatus[status];
+                  : postType === "fundraising"
+                    ? getFundraisingStatusInfo(status)
+                    : AnimalPostStatus[status];
               const canChangeStatus =
                 postType === "animal"
                   ? getPossibleStatuses(status).length > 0
-                  : postType === "campaign" &&
-                    hasCampaignStatusActions(status, post.type);
+                  : postType === "campaign"
+                    ? hasCampaignStatusActions(status, post.type)
+                    : postType === "fundraising" &&
+                      hasFundraisingStatusActions(status);
               const canEdit =
                 postType === "animal"
                   ? !isFinalAnimalPostStatus(status)
-                  : postType !== "campaign" ||
-                    !isNewsCampaign(post.type) ||
-                    !isFinalCampaignStatus(status);
+                  : postType === "fundraising"
+                    ? !isFinalFundraisingStatus(status)
+                    : !isNewsCampaign(post.type) ||
+                      !isFinalCampaignStatus(status);
               return (
                 <S.Card
                   key={id}

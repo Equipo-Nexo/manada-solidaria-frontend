@@ -4,6 +4,7 @@ import Copy from "../../icons/Copy";
 import Transfer from "../../icons/Transfer";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import ImagePreview from "../image_preview/ImagePreview";
+import ProgressBar from "../progress_bar/ProgressBar";
 
 export type FundraisingCardData = {
   id?: string;
@@ -52,7 +53,7 @@ function FundraisingCard({
     <S.Card className={className} $showAlias={showAlias}>
       <S.CaseCard onClick={() => onViewStory?.(fundraising)}>
         <S.ImageContainer>
-          <ImagePreview 
+          <ImagePreview
             imageId={fundraising.imageUrl}
             alt={fundraising.title}
             variant="fill"
@@ -75,10 +76,7 @@ function FundraisingCard({
       {hasGoal && (
         <S.ProgressSection>
           <S.GoalText>Meta a recaudar: {formatAmount(goal)}</S.GoalText>
-
-          <S.ProgressTrack aria-label={`Progreso de la colecta: ${progress}%`}>
-            <S.ProgressValue $progress={progress} />
-          </S.ProgressTrack>
+          <ProgressBar progress={progress} label="Progreso de la colecta" />
         </S.ProgressSection>
       )}
       {showAlias && (

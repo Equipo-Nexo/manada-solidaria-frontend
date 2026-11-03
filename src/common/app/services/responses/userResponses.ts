@@ -1,4 +1,4 @@
-export type UserPostType = 'animal' | 'campaign' | 'fundraising';
+export type UserPostType = "animal" | "campaign" | "fundraising";
 
 export type GetUserPostsResponse = {
   id: string;
@@ -8,4 +8,6 @@ export type GetUserPostsResponse = {
   createdSince: number;
   postType: UserPostType;
   type?: string;
-}
+  amountCollected?: number;
+  amountToBeCollected?: number;
+};

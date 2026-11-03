@@ -42,21 +42,6 @@ export const GoalText = styled.p`
   line-height: 20px;
 `;
 
-export const ProgressTrack = styled.div`
-  width: 100%;
-  height: 9px;
-  overflow: hidden;
-  border-radius: 10px;
-  background: rgb(234 95 9 / 35%);
-`;
-
-export const ProgressValue = styled.div<ProgressValueProps>`
-  width: ${({ $progress }) => `${$progress}%`};
-  height: 100%;
-  border-radius: inherit;
-  background: ${({ theme }) => theme.colors.secondary};
-`;
-
 export const CaseCard = styled.div`
   display: flex;
   flex: 1 1 0;
