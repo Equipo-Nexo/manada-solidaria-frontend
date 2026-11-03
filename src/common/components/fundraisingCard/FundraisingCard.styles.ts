@@ -1,8 +1,5 @@
 import styled from "styled-components";
 
-type ProgressValueProps = {
-  $progress: number;
-};
 type CardProps = {
   $showAlias: boolean;
 };

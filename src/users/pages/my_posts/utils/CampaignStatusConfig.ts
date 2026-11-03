@@ -16,7 +16,7 @@ export const campaignStatusConfig = {
     text: "Pendiente",
     description: "La campaña todavía no comenzó.",
     backgroundColor: theme.colors.tertiary,
-    fontColor: theme.colors.statusCampaignPendingText,
+    fontColor: theme.colors.statusAdoptionText,
   },
   STARTED: {
     text: "En curso",

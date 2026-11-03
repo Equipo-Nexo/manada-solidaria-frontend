@@ -1,4 +1,5 @@
 import type { UpdateAnimalPostStatusRequest } from "@animals/app/api/requests/animalPostRequests";
+import type { ReactNode } from "react";
 
 export type PostStatus = UpdateAnimalPostStatusRequest["status"];
 
@@ -43,4 +44,5 @@ export interface UpdatePostStatusSheetProps<
   possibleStatus: PossibleStatus<TStatus>[];
   onClose: () => void;
   isLoading?: boolean;
+  children?: ReactNode;
 }

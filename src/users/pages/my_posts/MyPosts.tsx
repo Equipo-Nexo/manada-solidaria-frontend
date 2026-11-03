@@ -46,7 +46,7 @@ import { getApiErrorMessage } from "@utils/getApiErrorMessage";
 import type { UpdateAnimalPostStatusRequest } from "@/animals/app/api/requests/animalPostRequests";
 import { StatusLogic } from "./utils/AnimalStatusLogic";
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
-import UpdateFundraisingStatus from "@/users/components/fundraising_status/UpdateFundraisingStatus";
+import UpdateFundraisingStatus, { FundraisingProgress } from "@/users/components/fundraising_status/UpdateFundraisingStatus";
 import {
   getFundraisingStatusInfo,
   hasFundraisingStatusActions,
@@ -398,6 +398,7 @@ function MyPosts() {
                 <S.Card
                   key={id}
                   $clickable
+                  $fundraising={postType === "fundraising"}
                   role="link"
                   tabIndex={0}
                   onClick={(event) => handleClickButton(post, event)}
@@ -450,6 +451,7 @@ function MyPosts() {
                           {getCampaignTypeLabel(post.type)}
                         </S.CampaignSubtitle>
                       )}
+                      {postType === "fundraising" && <FundraisingProgress post={post} />}
                     </S.CardInformationContainer>
                     <S.ButtonsContainer>
                       {canEdit && (

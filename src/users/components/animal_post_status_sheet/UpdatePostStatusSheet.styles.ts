@@ -1,6 +1,37 @@
 import styled from 'styled-components'
 import { focusVisible } from '@styles/interactions'
 
+export const FundraisingProgress = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+  &:empty { display: none; }
+  [role="progressbar"] { max-width: 155px; }
+`;
+
+export const FundraisingGoal = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.darkColor};
+  ${({ theme }) => theme.typography.descriptive};
+  line-height: 20px;
+  overflow-wrap: anywhere;
+`;
+
+export const FundraisingSubtitle = styled.p<{ $completed: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: ${({ theme, $completed }) => $completed ? theme.colors.success : theme.colors.statusCampaignFinishedText};
+  ${({ theme }) => theme.typography.descriptive};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 20px;
+  svg { width: 15px; height: 15px; flex-shrink: 0; }
+`;
+
 export { Content, Title, Description, Actions, ActionButton } from '@components/bottomSheet/ConfirmationSheet.styles'
 
 export const Options = styled.div`

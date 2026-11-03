@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export {
   Content as BottomSheetContent,
@@ -141,7 +141,7 @@ export const RetryButton = styled.button`
   }
 `;
 
-export const Card = styled.div<{ $clickable: boolean }>`
+export const Card = styled.div<{ $clickable: boolean; $fundraising?: boolean }>`
   display: flex;
   flex-direction: row;
   margin-bottom: 10px;
@@ -194,6 +194,35 @@ export const Card = styled.div<{ $clickable: boolean }>`
       width: calc((100% - 40px) / 3);
     }
   }
+
+  ${({ $fundraising }) =>
+    $fundraising &&
+    css`
+      min-height: 140px;
+      height: auto;
+      margin-bottom: 8px;
+      ${CardContent} {
+        padding: 5px 8px;
+        gap: 8px;
+      }
+      ${CardInformationContainer} {
+        align-self: center;
+        gap: 2px;
+      }
+      ${CardTitle} {
+        line-height: 20px;
+      }
+      ${CreatedSince} {
+        line-height: 16px;
+      }
+      ${CreatedSinceContainer} > svg {
+        width: 14px;
+        height: 14px;
+      }
+      ${Status} {
+        margin-top: 0;
+      }
+    `}
 `;
 
 export const CardImage = styled.div`
@@ -321,19 +350,16 @@ export const Status = styled.button<{
   color: ${({ $fontColor }) => $fontColor};
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   display: flex;
-  width: 140px;
-  max-width: 100%;
+  width: 124px;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 19.5px;
+  ${({ theme }) => theme.typography.descriptive};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   margin-top: 10px;
   gap: 4px;
-  height: 40px;
+  height: 34px;
   padding: 4px 12px;
   cursor: ${({ $interactive }) => ($interactive ? "pointer" : "default")};
   &:focus-visible {
@@ -341,17 +367,14 @@ export const Status = styled.button<{
     outline-offset: 2px;
   }
   > svg {
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
     color: inherit;
   }
 
   @media (max-width: 369px) {
-    min-height: 40px;
-    height: auto;
     padding: 4px 8px;
-    overflow-wrap: anywhere;
   }
 `;
 export const CampaignSubtitle = styled.p`

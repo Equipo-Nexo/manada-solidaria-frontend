@@ -5,8 +5,7 @@ import {
   canChangeFundraisingStatus,
 } from "./FundraisingStatusConfig";
 
-type FundraisingStatus = "CREATED" | "COMPLETED" | "FINISHED";
-type EditableFundraisingStatus = "COMPLETED" | "FINISHED";
+import type { FundraisingStatus, EditableFundraisingStatus } from "./FundraisingStatusConfig";
 
 interface FundraisingStatusLogicParams {
   status: FundraisingStatus;

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { useUpdateCampaignStatusMutation } from "@campaigns/app/api/campaignApi";
 import type { GetUserPostsResponse } from "@services/responses/userResponses";
 import { useToast } from "@hooks/toast/useToast";
@@ -20,23 +20,17 @@ type Props = {
 
 export default function UpdateCampaignStatus({ post, onClose }: Props) {
   const [updateStatus, { isLoading }] = useUpdateCampaignStatusMutation();
-  const pending = useRef(false);
+  const [pending, setPending] = useState(false);
   const toast = useToast();
 
   const close = () => {
-    if (!pending.current) onClose();
+    if (!pending) onClose();
   };
-
   const updateCampaignStatus = async (status: CampaignStatus) => {
-    if (
-      pending.current ||
-      !canChangeCampaignStatus(post.status, status, post.type)
-    ) {
+    if (pending || !canChangeCampaignStatus(post.status, status, post.type)) {
       return;
     }
-
-    pending.current = true;
-
+    setPending(true);
     try {
       await updateStatus({
         campaignId: post.id,
@@ -55,7 +49,7 @@ export default function UpdateCampaignStatus({ post, onClose }: Props) {
         getApiErrorMessage(error, "Intentá nuevamente."),
       );
     } finally {
-      pending.current = false;
+      setPending(false);
     }
   };
 
@@ -72,5 +66,7 @@ export default function UpdateCampaignStatus({ post, onClose }: Props) {
     onClose: close,
   });
 
-  return <UpdatePostStatusSheet {...sheetProps} isLoading={isLoading} />;
+  return (
+    <UpdatePostStatusSheet {...sheetProps} isLoading={isLoading || pending} />
+  );
 }
