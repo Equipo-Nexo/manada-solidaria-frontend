@@ -14,6 +14,7 @@ import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { useState } from "react";
 import { shareUrl } from "@/common/utils/HandleShare";
 import { getAddress } from "@/common/utils/LocationUtils";
+import Layout from "@/common/components/layout/Layout";
 
 interface DateInfoProps {
     label: string;
@@ -40,7 +41,7 @@ function DateInfoComponent({ label, dateTime }: DateInfoProps) {
     )
 }
 
-function CampaingDetail() {
+function CampaignDetail() {
 
     const navigate = useNavigate();
     const [cropImage, setCropImage] = useState(false)
@@ -72,87 +73,71 @@ function CampaingDetail() {
     }        
 
     return (
-        <S.Page>
-            <S.Header>
-                <S.BackButton onClick={() => navigate("/home")}>
-                    <Arrow aria-hidden="true" />
-                </S.BackButton>
-                <S.FormTitle>Información Campaña</S.FormTitle>
-            </S.Header>
-            {isLoading && <Loader label="Cargando información de la colecta." />}
-            {isError ||
-                (!campaignData && (
-                    <div>Hubo un error al obtener informacion de la colecta.</div>
-                ))}
-            {!isLoading && !isError && campaignData && (
-                <S.Content>
-                    <S.HeroLayout>
-                        <S.PhotoContainer $cropped={cropImage}>
-                            <S.CampaignImage
-                                src={campaignImageUrl}
-                                alt={campaignData?.title ?? "Imagen de la colecta"}
-                                $cropped={cropImage}
-                                onLoad={({ currentTarget }) => {
-                                    const ratio = currentTarget.naturalWidth / currentTarget.naturalHeight
-                                    setCropImage(ratio < 0.65 || ratio > 2)
-                                }}
-                            />
-                        </S.PhotoContainer>
-                        <S.DetailsColumn>
-                            <S.CampaignInfo>
-                                <S.CampaignHeading>
-                                    <S.Title>{campaignData?.title}</S.Title>
-                                    {campaignCategory && (
-                                        <S.CampaignTypeBadge $campaignType={campaignCategory}>
-                                            {campaignCategory === "OTHER"
-                                                ? "General"
-                                                : campaignCategoryLabels[campaignCategory]}
-                                        </S.CampaignTypeBadge>
-                                    )}
-                                </S.CampaignHeading>
-                                {campaignData.newsStartDateTime &&
-                                    <DateInfoComponent
-                                        label="Inicio campaña"
-                                        dateTime={campaignData.newsStartDateTime}
-                                    />}
-                                {(campaignData.newsEndDateTime || campaignData.campaignEndDate) &&
-                                    <DateInfoComponent
-                                        label="Fin campaña"
-                                        dateTime={campaignData.newsEndDateTime || campaignData.campaignEndDate}
-                                    />
-                                }
-                            </S.CampaignInfo>
+        <Layout
+            title={`Información de la Campaña`}
+        >
+            <S.PhotoContainer $cropped={cropImage}>
+                <S.CampaignImage
+                    src={campaignImageUrl}
+                    alt={campaignData?.title ?? "Imagen de la colecta"}
+                    $cropped={cropImage}
+                    onLoad={({ currentTarget }) => {
+                        const ratio = currentTarget.naturalWidth / currentTarget.naturalHeight
+                        setCropImage(ratio < 0.65 || ratio > 2)
+                    }}
+                />
+            </S.PhotoContainer>
+            <S.DetailsColumn>
+                <S.CampaignInfo>
+                    <S.CampaignHeading>
+                        <S.Title>{campaignData?.title}</S.Title>
+                        {campaignCategory && (
+                            <S.CampaignTypeBadge $campaignType={campaignCategory}>
+                                {campaignCategory === "OTHER"
+                                    ? "General"
+                                    : campaignCategoryLabels[campaignCategory]}
+                            </S.CampaignTypeBadge>
+                        )}
+                    </S.CampaignHeading>
+                    {campaignData && campaignData.newsStartDateTime &&
+                        <DateInfoComponent
+                            label="Inicio campaña"
+                            dateTime={campaignData.newsStartDateTime}
+                        />}
+                    {campaignData && (campaignData.newsEndDateTime || campaignData.campaignEndDate) &&
+                        <DateInfoComponent
+                            label="Fin campaña"
+                            dateTime={campaignData.newsEndDateTime || campaignData.campaignEndDate}
+                        />
+                    }
+                </S.CampaignInfo>
 
-                            <DonationItems items={campaignData.items} />
+                {campaignData && <DonationItems items={campaignData.items} />}
 
-                            <S.DescriptionSection>
-                                <S.Title>
-                                    <OpenBook aria-hidden="true" width="20" height="14" />
-                                    Descripción
-                                </S.Title>
-                                <S.CampaignDescription>
-                                    {campaignData?.description}
-                                </S.CampaignDescription>
-                            </S.DescriptionSection>
-                            {campaignData?.location && (
-                                <MapDetailsComponent
-                                    location={campaignData.location.city}
-                                    address={getAddress(campaignData.location)}
-                                    locationPath={`/mapa?latitude=${campaignData.location.latitude}&longitude=${campaignData.location.longitude}`}
-                                />)}
-                        </S.DetailsColumn>
-                    </S.HeroLayout>
-                    <S.BottomInfoRow>
-                        <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
-                        <S.ShareButton type="submit" onClick={handleShareButton}>
-                            <Share aria-hidden="true" />
-                            Compartir Campaña
-                        </S.ShareButton>
-                    </S.BottomInfoRow>
-                </S.Content>
-            )}
-            {!isLoading && !isError && campaignData && <ScrollHint />}
-        </S.Page>
+                <S.DescriptionSection>
+                    <S.Title>
+                        <OpenBook aria-hidden="true" width="20" height="14" />
+                        Descripción
+                    </S.Title>
+                    <S.CampaignDescription>
+                        {campaignData?.description}
+                    </S.CampaignDescription>
+                </S.DescriptionSection>
+                {campaignData?.location && (
+                    <MapDetailsComponent
+                        location={campaignData.location.city}
+                        address={getAddress(campaignData.location)}
+                        locationPath={`/mapa?latitude=${campaignData.location.latitude}&longitude=${campaignData.location.longitude}`}
+                    />)}
+            </S.DetailsColumn>
+            <S.BottomInfoRow>
+                {/* <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} /> */}
+                <S.ShareButton type="submit" onClick={handleShareButton}>
+                    <Share aria-hidden="true" />
+                    Compartir Campaña
+                </S.ShareButton>
+            </S.BottomInfoRow>
+        </Layout>
     )
 }
-export default CampaingDetail;
+export default CampaignDetail;
