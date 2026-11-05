@@ -20,14 +20,18 @@ function MobileAuthenticatedView() {
 
   const hideNavigation =
     routesWithoutNavigation.includes(location.pathname) ||
+    location.pathname.startsWith("/editar/exito") ||
     location.pathname.startsWith("/colectas/") ||
-    location.pathname.startsWith("/editar/exito");
+    location.pathname.startsWith("/campanias") ||
+    location.pathname.startsWith("/animal/detalle");
+
   const hideBottomNavigation =
     hideNavigation ||
     location.pathname.startsWith("/formulario-adopcion/") ||
     location.pathname === "/mi-perfil/datos-personales" ||
     location.pathname === "/formularios-recibidos";
-  const showHeader =
+  
+    const showHeader =
     location.pathname !== "/menu" &&
     (!hideNavigation ||
       location.pathname === "/mis-publicaciones" ||

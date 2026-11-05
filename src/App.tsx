@@ -68,8 +68,7 @@ function App() {
     location.pathname.startsWith("/editar/colecta/") ||
     location.pathname.startsWith("/editar/campania/");
   const isMobileMenu = location.pathname === "/menu";
-  const isPublicationDetail = location.pathname.startsWith("/animal/detalle/");
-  const isCampaignDetail = location.pathname.startsWith("/campanias/");
+
   const isPasswordRecovery =
     actualPath === "/recuperar-contrasena" ||
     actualPath.startsWith("/recuperar-contrasena/");
@@ -86,13 +85,12 @@ function App() {
     isPasswordRecovery ||
     isFullScreenPublish ||
     isMobileMenu ||
-    isPublicationDetail ||
     isAdoptionFormSuccess ||
     actualPath.startsWith("/formularios-recibidos/");
+
   const showAuthenticatedShell =
     isAuthenticated &&
     (!usesFullScreenLayout || isMobileMenu) &&
-    !isCampaignDetail &&
     !isProfileSection;
 
   const params = new URLSearchParams(location.search);
@@ -110,6 +108,8 @@ function App() {
     }
   }, [isAuthenticated, redirect, navigate]);
 
+
+  console.log('usesFullScreenLayout',usesFullScreenLayout)
   return (
     <>
       <ScrollToTop />

@@ -18,6 +18,7 @@ import MapDetailsComponent from '@/common/components/map_details_component/MapDe
 import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
 import { shareUrl } from '@/common/utils/HandleShare'
 import { getAddress } from '@/common/utils/LocationUtils'
+import Layout from '@/common/components/layout/Layout'
 
 function AnimalPostDetail() {
 
@@ -84,12 +85,9 @@ function AnimalPostDetail() {
   }
 
   return (
-    <S.MainContainer>
-      <S.Header>
-        <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver"><Arrow aria-hidden="true" /></S.BackButton>
-        <S.PageTitle>Detalle de Publicación</S.PageTitle>
-      </S.Header>
-
+    <Layout
+      title={`Detalle de Publicación`}
+    >
       <S.HeroLayout>
         <S.PhotoContainer>
           <S.Photo
@@ -173,7 +171,7 @@ function AnimalPostDetail() {
         </S.ShareButton>
       </S.BottomInfoRow>
       <ScrollHint />
-    </S.MainContainer>
+    </Layout>
   )
 }
 

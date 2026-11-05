@@ -42,18 +42,6 @@ export const UserProfileContainer = styled.div`
   box-shadow: none;
 `
 
-export const Header = styled.header`
-  display: flex;
-  width: 100%;
-  min-height: 48px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 2px;
-  padding: 0;
-  background: ${({ theme }) => theme.colors.background};
-
-`
-
 export const HeroLayout = styled.div`
   display: flex;
   width: 100%;
@@ -73,28 +61,6 @@ export const DetailsColumn = styled.div`
   min-width: 0;
   flex-direction: column;
   gap: 16px;
-`
-
-export const BackButton = styled.button`
-  width: 40px; 
-  height: 40px; 
-  display: grid; 
-  flex: 0 0 auto; 
-  place-items: center; 
-  border: 0;
-  border-radius: 50%; background: ${({ theme }) => theme.colors.background}; 
-  color: ${({ theme }) => theme.colors.black}; cursor: pointer;
-  svg { width: 22px; height: 22px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; 
-  outline-offset: 2px; }
-`
-
-export const PageTitle = styled.h1`
- margin: 0;
-  color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.typography.header2.fontSize};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  text-align: left;
 `
 export const PhotoContainer = styled.div`
   display:flex;
