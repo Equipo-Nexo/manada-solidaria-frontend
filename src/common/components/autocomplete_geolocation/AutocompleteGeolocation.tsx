@@ -28,7 +28,7 @@ function AutocompleteGeolocation({
     const { coordinates, requestCoordinates } = useGeolocation()
     const [editedDirection, setDirection] = useState<string | null>(null)
     const direction = editedDirection ?? (initialLocation ? initialLocation.formatted : EMPTY_DIRECTION)
-    const [debouncedDirection, setDebouncedDirection] = useState(EMPTY_DIRECTION)
+    const [debouncedDirection, setDebouncedDirection] = useState(initialLocation ? initialLocation.formatted : EMPTY_DIRECTION)
     const [selectedLocation, setSelectedLocation] = useState<GeolocationResponse | null>(null)
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
     const [isInputFocused, setInputIsFocused] = useState(false)
