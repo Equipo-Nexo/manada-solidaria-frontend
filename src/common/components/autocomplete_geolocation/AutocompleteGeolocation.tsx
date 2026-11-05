@@ -54,6 +54,8 @@ function AutocompleteGeolocation({
         { text: debouncedDirection, latitude: coordinates?.latitude, longitude: coordinates?.longitude  },
         {
             skip:
+            debouncedDirection === null ||
+            debouncedDirection === EMPTY_DIRECTION ||
             debouncedDirection.length < 3 ||
             selectedLocation !== null ||
             selectedPoint !== null,
