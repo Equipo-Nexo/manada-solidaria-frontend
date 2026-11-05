@@ -43,7 +43,7 @@ export function usePasskeyLogin() {
         'Notificaciones pendientes',
         'No pudimos sincronizar este dispositivo. Lo intentaremos en el pr\u00f3ximo ingreso.',
       )
-    })
+    })    
     navigate(redirect ? redirect : '/home', { replace: true })
   }, [authenticate, dispatch, navigate, redirect, requestLoginPermissions, syncExistingSubscription, toast])
 
