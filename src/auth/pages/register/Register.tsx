@@ -1,23 +1,38 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
-import { useController, useForm, useWatch } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { useSignupMutation } from '@auth/app/api/authApi'
-import { useToast } from '@hooks/toast/useToast'
-import * as S from './Register.styles'
-import { passwordRules, registerSchema, type RegisterFormValues } from '../../app/schemas/registerSchema'
-import type { Role } from '@/users/app/types/User.types'
-import { Check, Eye, EyeOff, HandHeart, PawPrint, CarFront } from '@icons/index.ts'
-import { ErrorMessage, PhoneInputComponent } from '@components/index.ts'
-import { scrollToFirstFormError } from '@utils/scrollToFirstFormError'
-import { Input } from '@/common/components/inputs/Inputs.styles'
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { useController, useForm, useWatch } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useSignupMutation } from "@auth/app/api/authApi";
+import { useToast } from "@hooks/toast/useToast";
+import * as S from "./Register.styles";
+import {
+  passwordRules,
+  registerSchema,
+  type RegisterFormValues,
+} from "../../app/schemas/registerSchema";
+import type { Role } from "@/users/app/types/User.types";
+import {
+  Check,
+  Eye,
+  EyeOff,
+  HandHeart,
+  PawPrint,
+  CarFront,
+} from "@icons/index.ts";
+import { ErrorMessage, PhoneInputComponent } from "@components/index.ts";
+import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
+import { Input } from "@/common/components/inputs/Inputs.styles";
+import TermsAndConditions from "../terms_and_conditions/TermsAndConditions";
+import { termsAndConditions } from "@/auth/utils/termsAndConditions";
 
 function Register() {
-  const navigate = useNavigate()
-  const toast = useToast()
-  const [signup, { isLoading }] = useSignupMutation()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const navigate = useNavigate();
+  const toast = useToast();
+  const [signup, { isLoading }] = useSignupMutation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const {
     formState: { errors },
     control,
@@ -26,47 +41,66 @@ function Register() {
   } = useForm<RegisterFormValues>({
     defaultValues: {
       phoneNumber: {
-        areaCode: '',
-        number: '',
+        areaCode: "",
+        number: "",
       },
       isRescuer: false,
       wantsTransporter: false,
     },
-    mode: 'onTouched',
+    mode: "onTouched",
     resolver: yupResolver(registerSchema),
-  })
-  const password = useWatch({ control, name: 'password', defaultValue: '' }) ?? ''
+  });
+  const password =
+    useWatch({ control, name: "password", defaultValue: "" }) ?? "";
   const passwordRequirements = [
     {
       label: `Entre ${passwordRules.minLength} y ${passwordRules.maxLength} caracteres`,
-      met: password.length >= passwordRules.minLength && password.length <= passwordRules.maxLength,
+      met:
+        password.length >= passwordRules.minLength &&
+        password.length <= passwordRules.maxLength,
     },
-    { label: 'Una letra mayúscula', met: passwordRules.uppercase.test(password) },
-    { label: 'Una letra minúscula', met: passwordRules.lowercase.test(password) },
-    { label: 'Un número', met: passwordRules.number.test(password) },
-    { label: 'Un carácter especial', met: passwordRules.specialCharacter.test(password) },
-  ]
+    {
+      label: "Una letra mayúscula",
+      met: passwordRules.uppercase.test(password),
+    },
+    {
+      label: "Una letra minúscula",
+      met: passwordRules.lowercase.test(password),
+    },
+    { label: "Un número", met: passwordRules.number.test(password) },
+    {
+      label: "Un carácter especial",
+      met: passwordRules.specialCharacter.test(password),
+    },
+  ];
 
-  const { field: phoneAreaCodeField, fieldState: phoneAreaCodeState } = useController({
-    control,
-    name: 'phoneNumber.areaCode',
-  })
+  const { field: phoneAreaCodeField, fieldState: phoneAreaCodeState } =
+    useController({
+      control,
+      name: "phoneNumber.areaCode",
+    });
   const { field: phoneField, fieldState: phoneState } = useController({
     control,
-    name: 'phoneNumber.number',
-  })
+    name: "phoneNumber.number",
+  });
 
   const handleRegister = (values: RegisterFormValues) => {
-    const roles: Role[] = []
+    const roles: Role[] = [];
 
     if (values.isRescuer) {
-      roles.push('RESCUER')
+      roles.push("RESCUER");
     }
 
     if (values.wantsTransporter) {
-      roles.push('CARRIAGE')
+      roles.push("CARRIAGE");
     }
-
+    if (!acceptedTerms) {
+      toast.error(
+        "Términos y Condiciones",
+        "Debés aceptar los Términos y Condiciones para registrarte.",
+      );
+      return;
+    }
     signup({
       username: values.username,
       password: values.password,
@@ -76,33 +110,40 @@ function Register() {
         ? { phoneNumber: values.phoneNumber }
         : {}),
       ...(roles.length > 0 ? { roles } : {}),
+      termsAccepted: acceptedTerms,
+      termsVersion: termsAndConditions.termsVersion,
     })
       .unwrap()
       .then(() => {
-        toast.success('Registro creado', 'Ya podés iniciar sesión con tu cuenta.')
-        navigate('/login', { replace: true })
+        toast.success(
+          "Registro creado",
+          "Ya podés iniciar sesión con tu cuenta.",
+        );
+        navigate("/login", { replace: true });
       })
       .catch((error) => {
-        toast.error('No pudimos registrarte', error.data.errors[0])
-      })
-  }
+        toast.error("No pudimos registrarte", error.data.errors[0]);
+      });
+  };
 
   return (
     <S.RegisterPanel>
       <S.RegisterContainer>
         <S.RegisterContent>
           <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
-          <S.RegisterTitle>
-            ¡Unite a la Manada!
-          </S.RegisterTitle>
+          <S.RegisterTitle>¡Unite a la Manada!</S.RegisterTitle>
           <S.RegisterSubtitle>
             Formá parte de nuestra comunidad de rescatistas y voluntarios.
           </S.RegisterSubtitle>
 
-          <S.Form onSubmit={handleSubmit(handleRegister, scrollToFirstFormError)} noValidate>
+          <S.Form
+            onSubmit={handleSubmit(handleRegister, scrollToFirstFormError)}
+            noValidate
+          >
             <S.Field>
               <S.FieldLabel htmlFor="username">
-                Nombre de usuario <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+                Nombre de usuario{" "}
+                <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <Input
                 id="username"
@@ -110,9 +151,11 @@ function Register() {
                 placeholder="Ej: MacaRescate"
                 autoComplete="username"
                 disabled={isLoading}
-                aria-describedby={errors.username ? 'register-username-error' : undefined}
+                aria-describedby={
+                  errors.username ? "register-username-error" : undefined
+                }
                 aria-invalid={Boolean(errors.username)}
-                {...register('username')}
+                {...register("username")}
               />
               <ErrorMessage
                 id="register-username-error"
@@ -131,13 +174,16 @@ function Register() {
                 onPhoneNumberBlur={phoneField.onBlur}
                 areaCodeRef={phoneAreaCodeField.ref}
                 phoneNumberRef={phoneField.ref}
-                error={phoneAreaCodeState.error?.message ?? phoneState.error?.message}
+                error={
+                  phoneAreaCodeState.error?.message ?? phoneState.error?.message
+                }
               />
             </S.Field>
 
             <S.Field>
               <S.FieldLabel htmlFor="email">
-                Correo electrónico <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+                Correo electrónico{" "}
+                <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <Input
                 id="email"
@@ -145,11 +191,16 @@ function Register() {
                 placeholder="tu@email.com"
                 autoComplete="email"
                 disabled={isLoading}
-                aria-describedby={errors.email ? 'register-email-error' : undefined}
+                aria-describedby={
+                  errors.email ? "register-email-error" : undefined
+                }
                 aria-invalid={Boolean(errors.email)}
-                {...register('email')}
+                {...register("email")}
               />
-              <ErrorMessage id="register-email-error" message={errors.email?.message} />
+              <ErrorMessage
+                id="register-email-error"
+                message={errors.email?.message}
+              />
             </S.Field>
 
             <S.Field>
@@ -159,25 +210,33 @@ function Register() {
               <S.PasswordInputWrapper>
                 <Input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder={showPassword ? 'contraseña' : '********'}
+                  type={showPassword ? "text" : "password"}
+                  placeholder={showPassword ? "contraseña" : "********"}
                   autoComplete="new-password"
                   disabled={isLoading}
                   aria-describedby={
                     errors.password
-                      ? 'register-password-requirements register-password-error'
-                      : 'register-password-requirements'
+                      ? "register-password-requirements register-password-error"
+                      : "register-password-requirements"
                   }
                   aria-invalid={Boolean(errors.password)}
-                  {...register('password')}
+                  {...register("password")}
                 />
                 <S.PasswordToggle
                   type="button"
-                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  aria-label={
+                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                  }
                   disabled={isLoading}
-                  onClick={() => setShowPassword((currentValue) => !currentValue)}
+                  onClick={() =>
+                    setShowPassword((currentValue) => !currentValue)
+                  }
                 >
-                  {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
+                  {showPassword ? (
+                    <EyeOff aria-hidden="true" />
+                  ) : (
+                    <Eye aria-hidden="true" />
+                  )}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
               <S.PasswordRequirementList id="register-password-requirements">
@@ -187,41 +246,53 @@ function Register() {
                       {met && <Check />}
                     </S.PasswordRequirementIcon>
                     <span>
-                      <S.VisuallyHidden>{met ? 'Cumple: ' : 'Pendiente: '}</S.VisuallyHidden>
+                      <S.VisuallyHidden>
+                        {met ? "Cumple: " : "Pendiente: "}
+                      </S.VisuallyHidden>
                       {label}
                     </span>
                   </S.PasswordRequirementItem>
                 ))}
               </S.PasswordRequirementList>
-              
             </S.Field>
 
             <S.Field>
               <S.FieldLabel htmlFor="confirmPassword">
-                Repetir contraseña <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
+                Repetir contraseña{" "}
+                <S.RequiredMark aria-hidden="true">*</S.RequiredMark>
               </S.FieldLabel>
               <S.PasswordInputWrapper>
                 <Input
                   id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder={showConfirmPassword ? 'contraseña' : '********'}
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder={showConfirmPassword ? "contraseña" : "********"}
                   autoComplete="new-password"
                   disabled={isLoading}
                   aria-describedby={
-                    errors.confirmPassword ? 'register-confirm-password-error' : undefined
+                    errors.confirmPassword
+                      ? "register-confirm-password-error"
+                      : undefined
                   }
                   aria-invalid={Boolean(errors.confirmPassword)}
-                  {...register('confirmPassword')}
+                  {...register("confirmPassword")}
                 />
                 <S.PasswordToggle
                   type="button"
                   aria-label={
-                    showConfirmPassword ? 'Ocultar repetir contraseña' : 'Mostrar repetir contraseña'
+                    showConfirmPassword
+                      ? "Ocultar repetir contraseña"
+                      : "Mostrar repetir contraseña"
                   }
                   disabled={isLoading}
-                  onClick={() => setShowConfirmPassword((currentValue) => !currentValue)}
+                  onClick={() =>
+                    setShowConfirmPassword((currentValue) => !currentValue)
+                  }
                 >
-                  {showConfirmPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
+                  {showConfirmPassword ? (
+                    <EyeOff aria-hidden="true" />
+                  ) : (
+                    <Eye aria-hidden="true" />
+                  )}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
               <ErrorMessage
@@ -236,7 +307,11 @@ function Register() {
                   <HandHeart aria-hidden="true" />
                   <span>¿Sos rescatista?</span>
                 </S.SwitchLabelContent>
-                <S.SwitchInput type="checkbox" disabled={isLoading} {...register('isRescuer')} />
+                <S.SwitchInput
+                  type="checkbox"
+                  disabled={isLoading}
+                  {...register("isRescuer")}
+                />
                 <S.SwitchControl aria-hidden="true" />
               </S.SwitchRow>
               <S.SwitchRow>
@@ -244,29 +319,80 @@ function Register() {
                   <CarFront aria-hidden="true" />
                   <span>¿Deseas ser transportista?</span>
                 </S.SwitchLabelContent>
-                <S.SwitchInput type="checkbox" disabled={isLoading} {...register('wantsTransporter')} />
+                <S.SwitchInput
+                  type="checkbox"
+                  disabled={isLoading}
+                  {...register("wantsTransporter")}
+                />
                 <S.SwitchControl aria-hidden="true" />
               </S.SwitchRow>
             </S.SwitchGroup>
 
             <S.HelpText>
-              Esta información podrás modificarla en cualquier momento desde tu perfil
+              Esta información podrás modificarla en cualquier momento desde tu
+              perfil
             </S.HelpText>
 
+            <S.TermsRow>
+              <S.TermsCheckboxLabel>
+                <S.TermsCheckbox
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  aria-labelledby="register-terms-label"
+                  onChange={() => {
+                    if (!acceptedTerms) {
+                      setShowTerms(true);
+                    } else {
+                      setAcceptedTerms(false);
+                    }
+                  }}
+                />
+                <S.TermsCheckboxControl aria-hidden="true">
+                  {acceptedTerms && <Check />}
+                </S.TermsCheckboxControl>
+              </S.TermsCheckboxLabel>
+              <S.TermsText id="register-terms-label">
+                He leído y acepto los{" "}
+                <S.TermsLink
+                  href="#terminos-y-condiciones"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setShowTerms(true);
+                  }}
+                  aria-haspopup="dialog"
+                >
+                  Términos y Condiciones
+                </S.TermsLink>{" "}
+                de Manada Solidaria
+                <S.RequiredMark aria-hidden="true"> *</S.RequiredMark>
+              </S.TermsText>
+            </S.TermsRow>
+
             <S.PrimaryButton type="submit" disabled={isLoading}>
-              {isLoading ? 'Registrando...' : 'Registrarse'}
+              {isLoading ? "Registrando..." : "Registrarse"}
               <PawPrint aria-hidden="true" />
             </S.PrimaryButton>
 
             <S.LoginText>
-              ¿Ya tienes cuenta? <S.LoginLink to="/login">Inicia sesión</S.LoginLink>
+              ¿Ya tienes cuenta?{" "}
+              <S.LoginLink to="/login">Inicia sesión</S.LoginLink>
             </S.LoginText>
           </S.Form>
         </S.RegisterContent>
       </S.RegisterContainer>
-      <S.RegisterFooter>© 2026 Manada Solidaria - Cuidando huellas juntos</S.RegisterFooter>
+      <S.RegisterFooter>
+        © 2026 Manada Solidaria - Cuidando huellas juntos
+      </S.RegisterFooter>
+      <TermsAndConditions
+        isOpen={showTerms}
+        onClose={() => setShowTerms(false)}
+        onAccept={() => {
+          setAcceptedTerms(true);
+          setShowTerms(false);
+        }}
+      />
     </S.RegisterPanel>
-  )
+  );
 }
 
-export default Register
+export default Register;
