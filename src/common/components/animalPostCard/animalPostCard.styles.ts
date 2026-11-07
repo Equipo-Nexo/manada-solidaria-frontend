@@ -33,6 +33,7 @@ const photoHeartReducedAnimation = keyframes`
 `;
 
 export const CardContainer = styled.article`
+  position: relative;
   width: ${({ theme }) => theme.layout.publicationCardWidth};
   max-width: 100%;
   min-width: 0;
@@ -62,7 +63,12 @@ export const CardContainer = styled.article`
     transition: none;
   }
 `;
-
+export const PostActionsContainer = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 20;
+`;
 export const PhotoContainer = styled.div`
   position: relative;
   flex: 0 0 auto;
@@ -108,37 +114,6 @@ export const PhotoHeart = styled.span<{
 
   @media (prefers-reduced-motion: reduce) {
     animation-name: ${photoHeartReducedAnimation};
-  }
-`;
-
-export const ShareButton = styled.button`
-  position: absolute;
-  top: 12px;
-  right: 15px;
-  width: 40px;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.black};
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 10%),
-    0 2px 4px -2px rgb(0 0 0 / 10%);
-  cursor: pointer;
-  backdrop-filter: blur(2px);
-  -webkit-tap-highlight-color: transparent;
-
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
   }
 `;
 

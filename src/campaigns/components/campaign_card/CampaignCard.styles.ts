@@ -4,6 +4,7 @@ import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryColors } from "@/campaigns/utils/CampaignUtils";
 
 export const Card = styled.article<{ $clickable: boolean }>`
+  position: relative;
   width: ${({ theme }) => theme.layout.publicationCardWidth};
   height: ${({ theme }) => theme.layout.publicationCardHeight};
   overflow: hidden;
@@ -11,7 +12,6 @@ export const Card = styled.article<{ $clickable: boolean }>`
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 8px 24px -4px rgb(0 109 65 / 8%);
-  cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -46,7 +46,12 @@ export const ImageSection = styled.div`
   overflow: hidden;
   background: ${({ theme }) => theme.colors.neutral};
 `;
-
+export const PostActionsContainer = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 20;
+`;
 export const CampaignImage = styled.img`
   display: block;
   width: 100%;
@@ -54,41 +59,11 @@ export const CampaignImage = styled.img`
   object-fit: cover;
 `;
 
-export const ShareButton = styled.button`
-  position: absolute;
-  top: 12px;
-  right: 15px;
-  width: 40px;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.black};
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 10%),
-    0 2px 4px -2px rgb(0 0 0 / 10%);
-  cursor: pointer;
-  backdrop-filter: blur(2px);
-  -webkit-tap-highlight-color: transparent;
-
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
-  }
-`;
-
 export const Body = styled.div`
   display: flex;
   flex-direction: column;
   height: 208px;
+  cursor: pointer;
   padding: 10px 16px 16px;
 `;
 
