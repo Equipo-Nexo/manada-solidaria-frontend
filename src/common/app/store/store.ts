@@ -18,6 +18,7 @@ import { baseAuthenticatedApi } from "../services/base/baseAuthenticatedApi";
 import { baseApi } from "../services/base/baseApi";
 import authReducer, { logout, type AuthState } from "./authSlice";
 import storage from "redux-persist/es/storage";
+import { loginSuccessListener } from "@/auth/listeners/LoginSuccessListener";
 
 const authListenerMiddleware = createListenerMiddleware();
 
@@ -78,6 +79,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
+      .prepend(loginSuccessListener.middleware)
       .prepend(authListenerMiddleware.middleware)
       .concat(baseApi.middleware, baseAuthenticatedApi.middleware),
 });
