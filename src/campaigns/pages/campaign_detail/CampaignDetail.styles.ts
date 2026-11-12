@@ -109,12 +109,12 @@ export const BottomInfoRow = styled.section`
   flex-direction: column;
   gap: 16px;
 `;
+
 export const CampaignInfo = styled.section`
-    display:flex;
-    flex-direction:column;
+  display:flex;
+  flex-direction:column;
   width: 100%;
   box-sizing: border-box;
-  padding: 20px;
   gap:12px;
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};

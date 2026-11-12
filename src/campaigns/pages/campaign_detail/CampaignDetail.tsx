@@ -131,7 +131,7 @@ function CampaignDetail() {
                     />)}
             </S.DetailsColumn>
             <S.BottomInfoRow>
-                {/* <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} /> */}
+                <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
                 <S.ShareButton type="submit" onClick={handleShareButton}>
                     <Share aria-hidden="true" />
                     Compartir Campaña
