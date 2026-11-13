@@ -46,18 +46,26 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: "autoUpdate",
-      workbox: {
-        importScripts: ["/push-notifications-sw.js"],
+      strategies: "injectManifest",
+      srcDir: "src/service_workers",
+      filename: "sw.js",
+
+      injectManifest: {
+        injectionPoint: undefined,
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       },
+
+      registerType: "autoUpdate",
+
       devOptions: {
         enabled: true,
+        type: "module",
       },
+
       manifest: {
         name: "Manada Solidaria",
         short_name: "ManadaSolidaria",
-        description: "AplicaciÃ³n Manada Solidaria",
+        description: "Aplicación Manada Solidaria",
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
@@ -75,6 +83,6 @@ export default defineConfig({
           },
         ],
       },
-    }),
+    })
   ],
 });
