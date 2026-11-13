@@ -14,18 +14,32 @@ export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
       Page<AnimalPostResponse>,
       GetAnimalPostsRequest
     >({
-      query: ({ status, type, page = 0, size = 10 }) => ({
+      query: ({
+        status,
+        type,
+        animalType,
+        animalSize,
+        animalGender,
+        animalAge,
+        animalColor,
+        page = 0,
+        size = 10,
+      }) => ({
         url: "/animal-posts",
         params: {
-          ...(status ? { status } : {}),
-          ...(type ? { type } : {}),
+          ...(status && { status }),
+          ...(type && { type }),
+          ...(animalType && { animalType }),
+          ...(animalSize && { animalSize }),
+          ...(animalGender && { animalGender }),
+          ...(animalAge && { animalAge }),
+          ...(animalColor && { animalColor }),
           page,
           size,
         },
       }),
       providesTags: ["AnimalPosts"],
     }),
-
     getAnimalPost: builder.query<AnimalPostResponse, string>({
       query: (postId) => `/animal-posts/${postId}`,
       providesTags: ["AnimalPosts"],
