@@ -32,12 +32,12 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const {
     formState: { errors },
     control,
     handleSubmit,
     register,
+    setValue,
   } = useForm<RegisterFormValues>({
     defaultValues: {
       phoneNumber: {
@@ -46,9 +46,15 @@ function Register() {
       },
       isRescuer: false,
       wantsTransporter: false,
+      acceptedTerms: false,
     },
     mode: "onTouched",
     resolver: yupResolver(registerSchema),
+  });
+  const acceptedTerms = useWatch({
+    control,
+    name: "acceptedTerms",
+    defaultValue: false,
   });
   const password =
     useWatch({ control, name: "password", defaultValue: "" }) ?? "";
@@ -94,13 +100,7 @@ function Register() {
     if (values.wantsTransporter) {
       roles.push("CARRIAGE");
     }
-    if (!acceptedTerms) {
-      toast.error(
-        "Términos y Condiciones",
-        "Debés aceptar los Términos y Condiciones para registrarte.",
-      );
-      return;
-    }
+
     signup({
       username: values.username,
       password: values.password,
@@ -110,7 +110,7 @@ function Register() {
         ? { phoneNumber: values.phoneNumber }
         : {}),
       ...(roles.length > 0 ? { roles } : {}),
-      termsAccepted: acceptedTerms,
+      termsAccepted: values.acceptedTerms,
       termsVersion: termsAndConditions.termsVersion,
     })
       .unwrap()
@@ -332,42 +332,44 @@ function Register() {
               Esta información podrás modificarla en cualquier momento desde tu
               perfil
             </S.HelpText>
-
-            <S.TermsRow>
-              <S.TermsCheckboxLabel>
-                <S.TermsCheckbox
-                  type="checkbox"
-                  checked={acceptedTerms}
-                  aria-labelledby="register-terms-label"
-                  onChange={() => {
-                    if (!acceptedTerms) {
-                      setShowTerms(true);
-                    } else {
-                      setAcceptedTerms(false);
+            <S.TermsField>
+              <S.TermsRow>
+                <S.TermsCheckboxLabel>
+                  <S.TermsCheckbox
+                    type="checkbox"
+                    disabled={isLoading}
+                    {...register("acceptedTerms")}
+                    aria-labelledby="register-terms-label"
+                    aria-invalid={Boolean(errors.acceptedTerms)}
+                    aria-describedby={
+                      errors.acceptedTerms ? "register-terms-error" : undefined
                     }
-                  }}
-                />
-                <S.TermsCheckboxControl aria-hidden="true">
-                  {acceptedTerms && <Check />}
-                </S.TermsCheckboxControl>
-              </S.TermsCheckboxLabel>
-              <S.TermsText id="register-terms-label">
-                He leído y acepto los{" "}
-                <S.TermsLink
-                  href="#terminos-y-condiciones"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setShowTerms(true);
-                  }}
-                  aria-haspopup="dialog"
-                >
-                  Términos y Condiciones
-                </S.TermsLink>{" "}
-                de Manada Solidaria
-                <S.RequiredMark aria-hidden="true"> *</S.RequiredMark>
-              </S.TermsText>
-            </S.TermsRow>
-
+                  />
+                  <S.TermsCheckboxControl aria-hidden="true">
+                    {acceptedTerms && <Check />}
+                  </S.TermsCheckboxControl>
+                </S.TermsCheckboxLabel>
+                <S.TermsText id="register-terms-label">
+                  He leído y acepto los{" "}
+                  <S.TermsLink
+                    href="#terminos-y-condiciones"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setShowTerms(true);
+                    }}
+                    aria-haspopup="dialog"
+                  >
+                    Términos y Condiciones
+                  </S.TermsLink>{" "}
+                  de Manada Solidaria
+                  <S.RequiredMark aria-hidden="true"> *</S.RequiredMark>
+                </S.TermsText>
+              </S.TermsRow>
+              <ErrorMessage
+                id="register-terms-error"
+                message={errors.acceptedTerms?.message}
+              />
+            </S.TermsField>
             <S.PrimaryButton type="submit" disabled={isLoading}>
               {isLoading ? "Registrando..." : "Registrarse"}
               <PawPrint aria-hidden="true" />
@@ -387,7 +389,11 @@ function Register() {
         isOpen={showTerms}
         onClose={() => setShowTerms(false)}
         onAccept={() => {
-          setAcceptedTerms(true);
+          setValue("acceptedTerms", true, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+          });
           setShowTerms(false);
         }}
       />

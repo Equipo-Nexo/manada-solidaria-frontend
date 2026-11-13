@@ -70,11 +70,9 @@ function TermsAndConditions({
           <S.UpdatedAt>{termsAndConditions.updatedAt}</S.UpdatedAt>
         </S.Introduction>
         <p>{termsAndConditions.introduction}</p>
-        {termsAndConditions.sections.map((section, index) => (
+        {termsAndConditions.sections.map((section) => (
           <S.Section key={section.title}>
-            <S.SectionTitle>
-              {index + 1}. {section.title}
-            </S.SectionTitle>
+            <S.SectionTitle>{section.title}</S.SectionTitle>
             {section.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}

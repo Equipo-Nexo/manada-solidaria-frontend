@@ -13,14 +13,14 @@ export const termsAndConditions = {
     "Al registrarte en Manada Solidaria, aceptás los Términos y Condiciones. Te sugerimos leerlos con atención.",
   sections: [
     {
-      title: "Sobre Manada Solidaria",
+      title: "1. Sobre Manada Solidaria",
       paragraphs: [
         "Manada Solidaria es una plataforma digital destinada a conectar personas interesadas en el bienestar animal, facilitando la difusión de animales perdidos, encontrados y en adopción, así como el acceso a información sobre veterinarias, campañas y otras iniciativas solidarias.",
         "Al registrarte y utilizar la plataforma, aceptás los presentes Términos y Condiciones y reconocés haber recibido información sobre el tratamiento de tus datos personales.",
       ],
     },
     {
-      title: "Registro de usuario",
+      title: "2. Registro de usuario",
       paragraphs: [
         "Para crear una cuenta en Manada Solidaria, solicitamos un nombre de usuario, una dirección de correo electrónico y una contraseña.",
         "Podés elegir libremente tu nombre de usuario, sin necesidad de utilizar tu nombre real, siempre que no sea ofensivo, engañoso o suplante la identidad de otra persona.",
@@ -29,7 +29,7 @@ export const termsAndConditions = {
       ],
     },
     {
-      title: "Uso de la ubicación geográfica",
+      title: "3. Uso de la ubicación geográfica",
       paragraphs: [
         "Manada Solidaria puede solicitar acceso a tu ubicación geográfica para ofrecer funcionalidades relacionadas con la cercanía y localización de servicios y reportes.",
         "La ubicación se utiliza principalmente para:",
@@ -46,7 +46,7 @@ export const termsAndConditions = {
       ],
     },
     {
-      title: "Número de teléfono y visibilidad pública",
+      title: "4. Número de teléfono y visibilidad pública",
       paragraphs: [
         "Durante el registro, podés proporcionar voluntariamente tu número de teléfono.",
         "Si decidís participar en la sección Comunidad y habilitás la publicación de tu número, este podrá ser visualizado por otros usuarios de Manada Solidaria para facilitar el contacto relacionado con actividades de rescate, tránsito, adopción y colaboración animal.",
@@ -55,7 +55,7 @@ export const termsAndConditions = {
       ],
     },
     {
-      title: "Publicaciones y responsabilidad de los usuarios",
+      title: "5. Publicaciones y responsabilidad de los usuarios",
       paragraphs: [
         "Las personas usuarias son responsables de la información, fotografías y demás contenidos que publiquen.",
         "Al utilizar Manada Solidaria, te comprometés a:",
@@ -71,7 +71,7 @@ export const termsAndConditions = {
       ],
     },
     {
-      title: "Información sobre veterinarias y campañas",
+      title: "6. Información sobre veterinarias y campañas",
       paragraphs: [
         "La plataforma puede proporcionar información sobre veterinarias, servicios de guardia, campañas y actividades relacionadas con el bienestar animal.",
         "Esta información tiene carácter informativo y puede estar sujeta a modificaciones.",
@@ -79,7 +79,7 @@ export const termsAndConditions = {
       ],
     },
     {
-      title: "Protección de datos personales",
+      title: "7. Protección de datos personales",
       paragraphs: [
         "Manada Solidaria se compromete a tratar los datos personales conforme a la legislación argentina aplicable, especialmente la Ley 25.326 de Protección de Datos Personales.",
         "Los datos se utilizarán para las finalidades informadas, adoptando medidas de seguridad adecuadas para protegerlos contra accesos no autorizados, pérdidas o usos indebidos.",
@@ -87,14 +87,14 @@ export const termsAndConditions = {
       ],
     },
     {
-      title: "Modificaciones de los términos",
+      title: "8. Modificaciones de los términos",
       paragraphs: [
         "Manada Solidaria podrá actualizar estos Términos y Condiciones para reflejar cambios en sus funcionalidades, servicios o requisitos legales.",
         "Cuando las modificaciones sean relevantes, se informarán a los usuarios por los medios adecuados.",
       ],
     },
     {
-      title: "Contacto",
+      title: "9. Contacto",
       paragraphs: [
         "Para consultas relacionadas con estos términos, la privacidad o el tratamiento de datos personales, podés comunicarte a través de:",
         "Correo electrónico: 06nexo@gmail.com",

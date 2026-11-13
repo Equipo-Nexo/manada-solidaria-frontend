@@ -64,7 +64,9 @@ export const TermsCheckboxControl = styled.span`
   border: 2px solid ${({ theme }) => theme.colors.brand};
   border-radius: 2px;
   color: ${({ theme }) => theme.colors.white};
-  transition: background 180ms ease, box-shadow 180ms ease;
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease;
   svg {
     width: 16px;
     height: 16px;
@@ -72,7 +74,9 @@ export const TermsCheckboxControl = styled.span`
   }
   @media (prefers-reduced-motion: reduce) {
     transition: none;
-    svg { animation: none; }
+    svg {
+      animation: none;
+    }
   }
 `;
 
@@ -99,7 +103,9 @@ export const TermsLink = styled.a`
   text-decoration-color: transparent;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: color 160ms ease, text-decoration-color 160ms ease;
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
   &:hover {
     color: ${({ theme }) => theme.colors.brandHover};
     text-decoration-color: currentColor;
@@ -694,5 +700,10 @@ export const RegisterFooter = styled.p`
 
   @media (min-width: 768px) and (max-height: 720px) {
     width: min(100%, 720px);
+  }
+`;
+export const TermsField = styled(Field)`
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
   }
 `;
