@@ -1,7 +1,13 @@
-import { useId, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import {
+  useId,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
-import { Heart, LocationPin, Share } from "../../icons";
+import { Heart, LocationPin } from "../../icons";
 import { getAnimalPostActions } from "./animalPostActions";
 import * as S from "./animalPostCard.styles";
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
@@ -12,6 +18,7 @@ import { shareUrl } from "@/common/utils/HandleShare";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import { useAnimalPostLike } from "@/animals/hooks/useAnimalPostLike";
 import { useDoubleTap } from "@/common/hooks/gestures/useDoubleTap";
+import PostActionsMenu from "../post_actions_menu/PostActionsMenu";
 
 export type AnimalPostCardProps = {
   postId: string;
@@ -142,7 +149,13 @@ function AnimalPostCard({
           >
             <Heart filled fill={`url(#${heartGradientId})`}>
               <defs>
-                <linearGradient id={heartGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient
+                  id={heartGradientId}
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
                   <stop offset="0%" />
                   <stop offset="65%" />
                 </linearGradient>
@@ -150,13 +163,13 @@ function AnimalPostCard({
             </Heart>
           </S.PhotoHeart>
         )}
-        <S.ShareButton
-          type="button"
-          aria-label={`Compartir publicación de ${name}`}
-          onClick={handleShareButton}
-        >
-          <Share aria-hidden="true" />
-        </S.ShareButton>
+        <S.PostActionsContainer>
+          <PostActionsMenu
+            postId={postId}
+            type="ANIMAL_POST"
+            onShare={handleShareButton}
+          />
+        </S.PostActionsContainer>
       </S.PhotoContainer>
 
       <S.Content onClick={handleCardClick}>
