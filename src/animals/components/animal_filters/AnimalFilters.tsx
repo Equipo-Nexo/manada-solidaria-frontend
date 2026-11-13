@@ -21,7 +21,7 @@ import {
 } from "@/animals/app/types/AnimalPost.types";
 import type { AnimalFilters as AnimalFiltersType } from "@animals/app/api/requests/animalPostRequests";
 import * as S from "./AnimalFilters.styles";
-
+const filterableAnimalSexes = animalSexes.filter((sex) => sex !== "UNKNOWN");
 type AnimalFiltersProps = {
   isOpen: boolean;
   filters: AnimalFiltersType;
@@ -107,7 +107,11 @@ function AnimalFilters({
               Sexo
             </S.GroupTitle>
             <S.OptionsContainer>
-              {renderOptions("animalGender", animalSexes, animalSexLabels)}
+              {renderOptions(
+                "animalGender",
+                filterableAnimalSexes,
+                animalSexLabels,
+              )}
             </S.OptionsContainer>
           </S.FilterGroup>
 
