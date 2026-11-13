@@ -7,7 +7,7 @@ import {
 } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
-import { Heart, LocationPin, Share } from "../../icons";
+import { Heart, LocationPin } from "../../icons";
 import { getAnimalPostActions } from "./animalPostActions";
 import * as S from "./animalPostCard.styles";
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";

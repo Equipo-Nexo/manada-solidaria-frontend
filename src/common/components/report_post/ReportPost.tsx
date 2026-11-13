@@ -9,14 +9,17 @@ import { useToast } from "@/common/hooks/toast/useToast";
 type ReportPostProps = {
   postId: string;
   type: ReportPostType;
-  renderTrigger?: (openReport: () => void, disabled: boolean) => ReactNode;
+  renderTrigger?: (
+    openReport: () => void,
+    disabled: boolean,
+    reported: boolean,
+  ) => ReactNode;
 };
 
 function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
   const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [createReport, { isLoading }] = useCreateReportMutation();
-  const [message, setMessage] = useState<string | null>(null);
   const [reported, setReported] = useState(false);
 
   const handleReport = async () => {
@@ -26,7 +29,6 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
         "Reporte enviado correctamente. Gracias por tu colaboración.",
       );
       setReported(true);
-      setMessage("Tu reporte se registró correctamente.");
       setIsOpen(false);
     } catch (error) {
       const status =
@@ -36,32 +38,29 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
 
       switch (status) {
         case 400:
-          setMessage("No podés reportar tu propia publicación.");
-          break;
-        case 401:
-          setMessage("Tu sesión expiró. Iniciá sesión nuevamente.");
+          toast.error("No podés reportar tu propia publicación.");
           break;
         case 404:
-          setMessage("Esta publicación ya no está disponible.");
+          toast.error("Esta publicación ya no está disponible.");
           break;
         case 409:
           setReported(true);
-          setMessage("Ya reportaste esta publicación anteriormente.");
+          toast.error("Ya reportaste esta publicación anteriormente.");
           setIsOpen(false);
           break;
         default:
-          setMessage("No pudimos registrar el reporte. Intentá nuevamente.");
+          toast.error("No pudimos registrar el reporte. Intentá nuevamente.");
       }
     }
   };
   const openReport = () => {
-    setMessage(null);
+    if (reported || isLoading) return;
     setIsOpen(true);
   };
   return (
     <>
       {renderTrigger ? (
-        renderTrigger(openReport, reported || isLoading)
+        renderTrigger(openReport, reported || isLoading, reported)
       ) : (
         <S.ReportButton
           type="button"
@@ -69,7 +68,7 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
           disabled={reported || isLoading}
         >
           <Warning aria-hidden="true" />
-          {reported ? "Reportado" : "Reportar publicación"}
+          {reported ? "Publicación reportada" : "Reportar publicación"}
         </S.ReportButton>
       )}
 
@@ -98,10 +97,6 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
                 comunidad, podés enviarnos un reporte para su revisión.
               </S.Description>
 
-              {message && (
-                <S.ErrorMessage role="alert">{message}</S.ErrorMessage>
-              )}
-
               <S.Actions>
                 <S.CancelButton
                   type="button"
@@ -123,7 +118,6 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
           </S.Overlay>,
           document.body,
         )}
-      {!isOpen && message && <S.Feedback role="status">{message}</S.Feedback>}
     </>
   );
 }

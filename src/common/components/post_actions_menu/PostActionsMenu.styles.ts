@@ -69,6 +69,11 @@ export const MenuOption = styled.button`
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focus};
   }
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
+    background: transparent;
+  }
 
   svg {
     flex-shrink: 0;

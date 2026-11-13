@@ -51,7 +51,7 @@ function PostActionsMenu({ postId, type, onShare }: PostActionsMenuProps) {
         <ReportPost
           postId={postId}
           type={type}
-          renderTrigger={(openReport, disabled) => (
+          renderTrigger={(openReport, disabled, reported) => (
             <S.MenuOption
               type="button"
               disabled={disabled}
@@ -61,7 +61,7 @@ function PostActionsMenu({ postId, type, onShare }: PostActionsMenuProps) {
               }}
             >
               <Warning aria-hidden="true" />
-              Reportar publicación
+              {reported ? "Reporte enviado" : "Reportar publicación"}
             </S.MenuOption>
           )}
         />
