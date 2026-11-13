@@ -21,7 +21,6 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [createReport, { isLoading }] = useCreateReportMutation();
   const [reported, setReported] = useState(false);
-
   const handleReport = async () => {
     try {
       await createReport({ postId, type }).unwrap();
@@ -29,7 +28,6 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
         "Reporte enviado correctamente. Gracias por tu colaboración.",
       );
       setReported(true);
-      setIsOpen(false);
     } catch (error) {
       const status =
         typeof error === "object" && error !== null && "status" in error
@@ -40,17 +38,21 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
         case 400:
           toast.error("No podés reportar tu propia publicación.");
           break;
+
         case 404:
           toast.error("Esta publicación ya no está disponible.");
           break;
+
         case 409:
           setReported(true);
           toast.error("Ya reportaste esta publicación anteriormente.");
-          setIsOpen(false);
           break;
+
         default:
           toast.error("No pudimos registrar el reporte. Intentá nuevamente.");
       }
+    } finally {
+      setIsOpen(false);
     }
   };
   const openReport = () => {
