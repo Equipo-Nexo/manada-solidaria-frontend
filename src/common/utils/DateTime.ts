@@ -50,3 +50,4 @@ export const formatDateTimeLong = (dateTime: string | Date) => {
     time: `${formattedTime} hs`,
   };
 };
+
