@@ -109,6 +109,7 @@ export type AnimalPost = {
   reward: number | null;
   reactedByMe: boolean;
   reactionsCount: number;
+  hasCompletedAdoptionForm: boolean;
 };
 
 export type Animal = {
