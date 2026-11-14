@@ -13,7 +13,6 @@ import { useAppPermissions } from '@hooks/permissions/useAppPermissions'
 import { useToast } from '@hooks/toast/useToast'
 import { loginSuccess } from '@store/authSlice'
 import { useAppDispatch } from '@store/hooks'
-import { usePushNotifications } from '@hooks/notifications/usePushNotifications'
 
 function isUserCancellation(error: unknown): boolean {
   return error instanceof DOMException && (error.name === 'NotAllowedError' || error.name === 'AbortError')
@@ -24,7 +23,6 @@ export function usePasskeyLogin() {
   const dispatch = useAppDispatch()
   const toast = useToast()
   const { requestLoginPermissions } = useAppPermissions()
-  const { syncExistingSubscription } = usePushNotifications()
   const [getOptions] = useGetPasskeyAuthenticationOptionsMutation()
   const [authenticate, authenticationState] = useAuthenticateWithPasskeyMutation()
   const [isManualLoginLoading, setIsManualLoginLoading] = useState(false)
@@ -38,14 +36,8 @@ export function usePasskeyLogin() {
 
     dispatch(loginSuccess(tokens))
     void requestLoginPermissions()
-    void syncExistingSubscription().catch(() => {
-      toast.information(
-        'Notificaciones pendientes',
-        'No pudimos sincronizar este dispositivo. Lo intentaremos en el pr\u00f3ximo ingreso.',
-      )
-    })    
     navigate(redirect ? redirect : '/home', { replace: true })
-  }, [authenticate, dispatch, navigate, redirect, requestLoginPermissions, syncExistingSubscription, toast])
+  }, [authenticate, dispatch, navigate, redirect, requestLoginPermissions])
 
   const cancelConditionalLogin = useCallback(() => {
     conditionalControllerRef.current?.abort()

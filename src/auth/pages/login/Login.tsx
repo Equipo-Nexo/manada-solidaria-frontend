@@ -17,7 +17,6 @@ import {
 import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 import { isWebAuthnSupported } from "@auth/app/webauthn/webAuthnAuthentication";
 import { usePasskeyLogin } from "@auth/hooks/usePasskeyLogin";
-import { usePushNotifications } from "@hooks/notifications/usePushNotifications";
 declare const __APP_VERSION__: string;
 
 function Login() {
@@ -26,7 +25,6 @@ function Login() {
   const toast = useToast();
   const dispatch = useAppDispatch();
   const { requestLoginPermissions } = useAppPermissions();
-  const { syncExistingSubscription } = usePushNotifications();
   const [login, { isLoading }] = useLoginMutation();
   const {
     cancelConditionalLogin,
@@ -67,12 +65,6 @@ function Login() {
       .then((tokens) => {
         dispatch(loginSuccess(tokens));
         void requestLoginPermissions();
-        void syncExistingSubscription().catch(() => {
-          toast.information(
-            "Notificaciones pendientes",
-            "No pudimos sincronizar este dispositivo. Lo intentaremos en el pr\u00f3ximo ingreso.",
-          );
-        });
         navigate(redirect ? redirect : "/home", { replace: true });
       })
       .catch(() => {
