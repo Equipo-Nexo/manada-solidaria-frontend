@@ -279,6 +279,7 @@ export const LikesContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
   padding: 4px 0;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
@@ -286,6 +287,7 @@ export const LikesContainer = styled.div`
 
 export const LikeButton = styled.button<{ $isLiked: boolean }>`
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -299,8 +301,37 @@ export const LikeButton = styled.button<{ $isLiked: boolean }>`
   }
 `;
 export const LikesCount = styled.span`
+  flex: 0 0 auto;
   font-size: 12px;
   color: ${({ theme }) => theme.colors.darkColor};
+  white-space: nowrap;
+`;
+
+export const AdoptionStatus = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-left: auto;
+  color: ${({ theme }) => theme.colors.statusRewardText};
+  ${({ theme }) => theme.typography.descriptive};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  cursor: default;
+
+  &::before {
+    content: '';
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.success};
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 export const ButtonsContainer = styled.div<{ $amount: number }>`
   display: grid;
@@ -343,6 +374,7 @@ export const ActionButton = styled.button<{
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
+
   @media (hover: hover) {
     &:hover {
       color: ${({ theme, $variant }) =>
