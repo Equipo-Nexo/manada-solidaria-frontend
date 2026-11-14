@@ -6,6 +6,8 @@ export interface GetUserProfileResponse {
     username: string;
     profile: Profile;
     roles: Role[];
+    createdAt: string;
+    metrics: Metrics;
 }
 
 interface Profile {
@@ -14,4 +16,9 @@ interface Profile {
     email: string;
     phoneNumber: PhoneNumber | null;
     profileImageURL: string | undefined;
+}
+
+interface Metrics {
+    totalPosts: number;
+    happyCases: number;
 }
