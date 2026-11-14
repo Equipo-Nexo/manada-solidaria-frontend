@@ -52,6 +52,12 @@ export const formatMembershipDuration = (
         return `${months} ${months === 1 ? "mes" : "meses"}`;
     }
 
+    if (days === 0) {
+        return new Date(createdAt).toDateString() === currentDate.toDateString()
+            ? "Desde hoy"
+            : "Menos de un día";
+    }
+
     return `${days} ${days === 1 ? "día" : "días"}`;
 };
 
