@@ -1,8 +1,8 @@
 import type { AuthTokens } from '@store/authSlice'
-import { baseAuthenticatedApi } from '@app/services/base/baseAuthenticatedApi'
 import type { LoginRequest, SignupRequest } from '@auth/app/api/requests/authRequests'
+import { baseApi } from '@/common/app/services/base/baseApi'
 
-export const authApi = baseAuthenticatedApi.injectEndpoints({
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthTokens, LoginRequest>({
       query: ({ authorization }) => ({
@@ -11,8 +11,7 @@ export const authApi = baseAuthenticatedApi.injectEndpoints({
         headers: {
           Authorization: authorization,
         },
-      }),
-      invalidatesTags: ['userPosts', 'userProfile']
+      })
     }),
     signup: builder.mutation<void, SignupRequest>({
       query: (body) => ({
