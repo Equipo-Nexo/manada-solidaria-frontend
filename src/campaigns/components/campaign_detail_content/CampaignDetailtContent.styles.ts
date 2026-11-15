@@ -2,6 +2,23 @@ import styled from "styled-components";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryColors } from "@/campaigns/utils/CampaignUtils";
 
+export { DetailImage as CampaignImage } from '@/common/components/detailImage/DetailImage.styles'
+
+export const CampaignDetailContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const CampaignInformation = styled.section`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+`
+
 export const Page = styled.div`
   display: flex;
   width: min(100%, 390px);
@@ -76,34 +93,27 @@ export const HeroLayout = styled.div`
     gap: 28px;
   }
 `;
+
 export const DetailsColumn = styled.div`
   display: flex;
   min-width: 0;
   flex-direction: column;
+  flex: 1;
   gap: 16px;
 `;
-export const PhotoContainer = styled.div<{ $cropped: boolean }>`
+
+export const PhotoContainer = styled.div`
   display: block;
   position: relative;
   width: 100%;
-  height: ${({ $cropped }) => ($cropped ? '320px' : 'auto')};
+  min-width: 0;
   overflow: hidden;
   border-radius: 12px;
   margin-bottom: 16px;
+  flex: 1;
+  align-self: flex-start;
+`;
 
-  @media (min-width: 768px) {
-    height: ${({ $cropped }) => ($cropped ? 'clamp(360px, 42vw, 580px)' : 'auto')};
-    align-self: start;
-  }
-`;
-export const CampaignImage = styled.img<{ $cropped: boolean }>`
-  display: block;
-  width: 100%;
-  height: ${({ $cropped }) => ($cropped ? '100%' : 'auto')};
-  object-fit: ${({ $cropped }) => ($cropped ? 'cover' : 'initial')};
-  object-position: center;
-  border-radius: 12px;
-`;
 export const BottomInfoRow = styled.section`
   display: flex;
   width: 100%;

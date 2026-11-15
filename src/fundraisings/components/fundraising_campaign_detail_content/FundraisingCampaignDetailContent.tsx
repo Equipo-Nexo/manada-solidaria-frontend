@@ -9,7 +9,6 @@ import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
-import { useState } from "react";
 import { shareUrl } from "@/common/utils/HandleShare";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { getAddress } from "@/common/utils/LocationUtils";
@@ -17,7 +16,6 @@ import { getAddress } from "@/common/utils/LocationUtils";
 export default function FundraisingCampaignDetailContent(
     data: FundraisingCampaignResponse
 ) {
-    const [cropImage, setCropImage] = useState(false);
     const navigate = useNavigate();
     const goal = data?.amountToBeCollected;
     const collected = data?.amountCollected ?? 0;
@@ -47,16 +45,10 @@ export default function FundraisingCampaignDetailContent(
     return (
         <>
             <S.HeroLayout>
-                <S.PhotoContainer $cropped={cropImage}>
+                <S.PhotoContainer>
                     <S.FundraisingImage
                         src={normalizeImageUrl(data?.imageId)}
                         alt={data?.title ?? "Imagen de la colecta"}
-                        $cropped={cropImage}
-                        onLoad={({ currentTarget }) => {
-                            const ratio =
-                                currentTarget.naturalWidth / currentTarget.naturalHeight;
-                            setCropImage(ratio < 0.65 || ratio > 2);
-                        }}
                     />
                 </S.PhotoContainer>
                 <S.DetailsColumn>

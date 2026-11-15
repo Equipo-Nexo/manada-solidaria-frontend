@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+export { DetailImage as Photo } from '@/common/components/detailImage/DetailImage.styles'
+
 export const StateContainer = styled.section`
   display: grid;
   min-height: 100svh;
@@ -49,10 +51,10 @@ export const HeroLayout = styled.div`
   gap: 16px;
 
   @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+    flex-direction: row;
     align-items: stretch;
     gap: 28px;
+    margin-bottom: 16px;
   }
 `
 
@@ -61,21 +63,15 @@ export const DetailsColumn = styled.div`
   min-width: 0;
   flex-direction: column;
   gap: 16px;
+  flex: 1;
 `
 export const PhotoContainer = styled.div`
-  display:flex;
-  position:relative;
-  width:100%;
-  height:398px;
-  @media (min-width: 768px) {
-    height: auto;
-    min-height: 0;
-    align-self: stretch;
-  }
-`
-export const Photo = styled.img`
-  display: block; width: 100%; height: 100%; object-fit: cover;
-  border-radius:12px;
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  align-self: flex-start;
 `
 
 export const GeneralDataContainer = styled.article`

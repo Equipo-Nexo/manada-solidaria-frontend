@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+export { DetailImage as FundraisingImage } from '@/common/components/detailImage/DetailImage.styles'
+
 export const Page = styled.div`
   display: flex;
   width: min(100%, 390px);
@@ -62,43 +64,36 @@ export const Content = styled.div`
 `;
 export const HeroLayout = styled.div`
   display: flex;
-  width: 100%;
   flex-direction: column;
   gap: 16px;
 
   @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+    margin-bottom: 16px;
     align-items: stretch;
     gap: 28px;
+    flex-direction: row;
   }
 `;
+
 export const DetailsColumn = styled.div`
   display: flex;
   min-width: 0;
   flex-direction: column;
   gap: 16px;
+  flex: 1;
 `;
-export const PhotoContainer = styled.div<{ $cropped: boolean }>`
-  position: relative;
+
+export const PhotoContainer = styled.div`
   width: 100%;
-  height: ${({ $cropped }) => ($cropped ? "320px" : "auto")};
+  min-width: 0;
   overflow: hidden;
   border-radius: 12px;
-
-  @media (min-width: 768px) {
-    height: ${({ $cropped }) =>
-      $cropped ? "clamp(360px, 42vw, 580px)" : "auto"};
-    align-self: start;
-  }
-`;
-export const FundraisingImage = styled.img<{ $cropped: boolean }>`
-  display: block;
-  width: 100%;
-  height: ${({ $cropped }) => ($cropped ? "100%" : "auto")};
-  object-fit: ${({ $cropped }) => ($cropped ? "cover" : "initial")};
-  object-position: center;
-  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  flex: 1;
+  align-self: flex-start;
 `;
 export const BottomInfoRow = styled.section`
   display: flex;
