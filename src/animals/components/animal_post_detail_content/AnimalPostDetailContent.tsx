@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from '@/common/icons'
-import { Advice, ImagePreview, ScrollHint } from '@components/index.ts'
+import { Advice, ImagePreview } from '@components/index.ts'
 import GenderIcon from '@/common/icons/Gender'
 import BookIcon from '@/common/icons/Book'
 import { animalAgeLabels, animalColorLabels, animalSexLabels, animalSizeLabels, getAnimalName, type AnimalPost, type AnimalPostType } from '@/animals/app/types/AnimalPost.types'
