@@ -243,6 +243,8 @@ function Profile() {
     "permission-default": "Recib\u00ed avisos importantes aunque la app est\u00e9 cerrada",
     "permission-denied": "El permiso est\u00e1 bloqueado en la configuraci\u00f3n del navegador",
     subscribed: "Las notificaciones est\u00e1n activadas en este dispositivo",
+    "sync-pending":
+      "Notificaciones pendientes de sincronización. Volveremos a intentarlo automáticamente.",
     "not-subscribed": "Las notificaciones est\u00e1n desactivadas en este dispositivo",
   }[pushNotificationStatus];
 
@@ -505,14 +507,18 @@ function Profile() {
               <S.SwitchToggle>
                 <S.SwitchInput
                   type="checkbox"
-                  checked={pushNotificationStatus === "subscribed"}
+                  checked={
+                    pushNotificationStatus === "subscribed" ||
+                    pushNotificationStatus === "sync-pending"
+                  }
                   disabled={
                     isUpdatingPushNotifications ||
                     pushNotificationStatus === "unsupported" ||
                     pushNotificationStatus === "permission-denied"
                   }
                   aria-label={
-                    pushNotificationStatus === "subscribed"
+                    pushNotificationStatus === "subscribed" ||
+                    pushNotificationStatus === "sync-pending"
                       ? "Desactivar notificaciones"
                       : "Activar notificaciones"
                   }

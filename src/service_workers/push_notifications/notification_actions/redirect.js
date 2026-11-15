@@ -1,4 +1,4 @@
-async function redirectNotificationAction({ action, data }) {
+export async function redirectNotificationAction({ action, data }) {
   const relativeUrl = action.url ?? data.url ?? '/home'
   const targetUrl = new URL(relativeUrl, self.location.origin)
 

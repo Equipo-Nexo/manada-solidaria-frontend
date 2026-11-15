@@ -6,7 +6,7 @@ import {
   Message,
 } from "@components/index.ts";
 import { mapAnimalPostToCardProps } from "@components/animalPostCard/mapAnimalPostToCardProps";
-import { ArrowLeft } from "@icons/index.ts";
+import { ArrowLeft, FilterIcon } from "@icons/index.ts";
 import * as S from "./allAnimalPosts.styles";
 import { publicationMessages } from "@utils/Messages";
 import {
@@ -18,13 +18,37 @@ import {
   ANIMAL_POST_FILTER_LABELS,
   animalPostTypeToFilter,
 } from "@/animals/utils/AnimalFormUtils";
-
+import type { AnimalFilters as AnimalFiltersType } from "@animals/app/api/requests/animalPostRequests";
+import AnimalFilters from "@/animals/components/animal_filters/AnimalFilters";
 const PAGE_SIZE = 10;
 
 function AllAnimalsPage() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] =
     useState<AnimalPostFilter>("");
+  const [appliedFilters, setAppliedFilters] = useState<AnimalFiltersType>({});
+  const hasAppliedFilters = Object.values(appliedFilters).some(
+    (value) => value !== undefined,
+  );
+
+  const [draftFilters, setDraftFilters] = useState<AnimalFiltersType>({});
+
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
+  const handleOpenFilters = () => {
+    setDraftFilters({ ...appliedFilters });
+    setIsFiltersOpen(true);
+  };
+
+  const handleApplyFilters = () => {
+    setAppliedFilters(draftFilters);
+    setIsFiltersOpen(false);
+  };
+  const handleClearFilters = () => {
+    setDraftFilters({});
+    setAppliedFilters({});
+    setIsFiltersOpen(false);
+  };
   const {
     data: animalPosts,
     isError,
@@ -32,11 +56,12 @@ function AllAnimalsPage() {
     refetch,
   } = useGetAnimalPostsQuery({
     type: animalPostTypeToFilter(selectedCategory),
+    ...appliedFilters,
+    page: 0,
     size: PAGE_SIZE,
   });
   const posts = animalPosts?.content ?? [];
   const totalElements = animalPosts?.totalElements ?? 0;
-
   return (
     <S.Page>
       <S.Header>
@@ -55,6 +80,17 @@ function AllAnimalsPage() {
               : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`}
           </S.PageSubtitle>
         </S.TitlesContainer>
+        <S.FilterButton
+          type="button"
+          $hasAppliedFilters={hasAppliedFilters}
+          onClick={handleOpenFilters}
+          aria-label={hasAppliedFilters
+            ? "Abrir filtros de animales, hay filtros aplicados"
+            : "Abrir filtros de animales"}
+        >
+          <S.FilterButtonLabel>Filtros</S.FilterButtonLabel>
+          <FilterIcon width={20} height={20} aria-hidden="true" />
+        </S.FilterButton>
       </S.Header>
 
       <S.FiltersContainer>
@@ -109,6 +145,14 @@ function AllAnimalsPage() {
             );
           })}
       </S.PublicationsContainer>
+      <AnimalFilters
+        isOpen={isFiltersOpen}
+        filters={draftFilters}
+        onChange={setDraftFilters}
+        onApply={handleApplyFilters}
+        onClose={() => setIsFiltersOpen(false)}
+        onClear={handleClearFilters}
+      />
     </S.Page>
   );
 }

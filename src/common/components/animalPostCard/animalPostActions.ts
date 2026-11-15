@@ -117,9 +117,15 @@ export const animalPostActions: AnimalPostActionsByStatus[] = [
 export const getAnimalPostActions = (
   status: AnimalPostStatusText,
   phoneNumber?: PhoneNumber,
+  hasCompletedAdoptionForm = false,
 ): AnimalPostAction[] => {
   const actions = animalPostActions.find((item) => item.status === status)?.actions ?? []
   const hasContactPhone = Boolean(phoneNumber)
 
-  return actions.filter((action) => !action.requiresContactPhone || hasContactPhone)
+  return actions.filter((action) => {
+    if (action.requiresContactPhone && !hasContactPhone) return false
+    if (action.id === 'adopt' && hasCompletedAdoptionForm) return false
+
+    return true
+  })
 }

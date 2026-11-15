@@ -16,6 +16,7 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: (_result, error) => error ? [] : ["AnimalPosts"],
     }),
 
     getForms: builder.query<FormResponse, { filter: string, status: string }>({

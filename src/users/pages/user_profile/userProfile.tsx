@@ -6,16 +6,28 @@ import { CategorySelector, Loader, Message, ScrollHint } from '@/common/componen
 import { useState } from 'react';
 import type { UserPostType } from '@/common/app/services/responses/userResponses';
 import { publicationMessages } from '@/common/utils/Messages';
-import { useGetSpecificUserProfileQuery } from '@/users/app/api/usersApi';
+import { useGetSpecificUserProfileQuery, useGetUserProfileQuery } from '@/users/app/api/usersApi';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { roleConfig } from '@/users/utils/CommunityUtils';
 import { normalizeImageUrl } from '@/common/utils/CommonUtils';
 import CardSelector from '@/users/utils/CardSelectorUserProfile';
 import { capitalizeFirstLetter } from '@/common/utils/TextFormater';
+import { formatMembershipDuration } from '@/users/pages/user_profile/Utils.userProfile';
+import { months } from '@/common/utils/MonthsDictionaryUtils';
 
 interface MetricsComponentProps {
     value: string;
     label: string;
+}
+
+const memberSinceFormater = (dateString: string): string | null => {
+    if (Number.isNaN(new Date(dateString).getTime())) return null;
+
+    const [year, month] = dateString.split('-');
+    const monthName = months[month];
+    if (!year || !monthName) return null;
+
+    return `Miembro desde ${monthName} ${year}`;
 }
 
 function MetricComponent({ value, label }: MetricsComponentProps) {
@@ -39,11 +51,16 @@ function UserProfile() {
         userId ? { userId, type: selectedCategory } : skipToken,
     );
 
+    const { data: userMetrics } = useGetUserProfileQuery(
+        userId ? userId : skipToken,
+    );
+
     const PHONE_NUMBER = data?.profile?.phoneNumber
         ? `${data.profile.phoneNumber.areaCode}${data.profile.phoneNumber.number}`
         : ""
 
     const profileImage = normalizeImageUrl(data?.profile?.profileImageURL);
+    const memberSince = memberSinceFormater(userMetrics?.createdAt || '');
 
     const categories = new Map<UserPostType, string>([
         ["animal", "Animales"],
@@ -90,13 +107,13 @@ function UserProfile() {
                                 )
                             })}
                         </S.RolesContainer>
-                        <S.UserInfo>Miembro desde Marzo 2025</S.UserInfo>
+                        {memberSince && <S.UserInfo>{memberSince}</S.UserInfo>}
                     </S.ProfilePanel>
                     <S.ProfileDetails>
                         <S.MetricsContainer>
-                            <MetricComponent value={data?.posts.length?.toString() || '0'} label="Publicaciones realizadas" />
-                            <MetricComponent value="5" label="Casos exitosos" />
-                            <MetricComponent value="10 meses" label="En la comunidad" />
+                            <MetricComponent value={userMetrics?.metrics?.totalPosts?.toString() ?? '-'} label="Publicaciones realizadas" />
+                            <MetricComponent value={userMetrics?.metrics?.happyCases?.toString() ?? '-'} label="Casos exitosos" />
+                            <MetricComponent value={formatMembershipDuration(userMetrics?.createdAt || '')} label="En la comunidad" />
                         </S.MetricsContainer>
                         {PHONE_NUMBER && (
                             <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.profile!.phoneNumber!.areaCode} number={data!.profile!.phoneNumber!.number} message={`¡Hola! Me comunico desde Manada Solidaria`} />

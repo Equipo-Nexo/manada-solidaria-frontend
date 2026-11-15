@@ -18,5 +18,6 @@ export const mapAnimalPostToCardProps = (
     reward: post.reward ?? undefined,
     reactedByMe: post.reactedByMe,
     reactionsCount: post.reactionsCount,
+    hasCompletedAdoptionForm: post.hasCompletedAdoptionForm,
   };
 };

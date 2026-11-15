@@ -52,8 +52,10 @@ import { useEffect } from "react";
 import UserProfile from "./users/pages/user_profile/userProfile";
 import ReceivedFormList from "./forms/pages/received_forms_list/receivedFormList";
 import NotificationPage from "./notifications/pages/NotificationPage";
+import { usePushSubscriptionSync } from "@hooks/notifications/usePushSubscriptionSync";
 
 function App() {
+  usePushSubscriptionSync();
   const location = useLocation();
   const navigate = useNavigate();
   const actualPath = location.pathname;

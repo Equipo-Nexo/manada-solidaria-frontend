@@ -1,6 +1,6 @@
 import { type MouseEvent } from "react";
 import * as S from "./CampaignCard.styles";
-import { LocationPin, Share } from "../../../common/icons";
+import { LocationPin } from "../../../common/icons";
 import type { Location } from "@services/responses/Location";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
@@ -9,9 +9,10 @@ import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 import { ImagePreview } from "@/common/components";
 import { shareUrl } from "@/common/utils/HandleShare";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
+import PostActionsMenu from "@/common/components/post_actions_menu/PostActionsMenu";
 
 export type CampaignCardData = {
-  id?: string | number;
+  id: string;
   type: CampaignCategory;
   title: string;
   description: string;
@@ -49,20 +50,19 @@ function CampaignCard({ campaign, className, onMoreInfo }: CampaignCardProps) {
       $clickable={Boolean(onMoreInfo)}
       role={onMoreInfo ? "link" : undefined}
       tabIndex={onMoreInfo ? 0 : undefined}
-      onClick={openCampaignDetail}
     >
       <S.ImageSection>
         <ImagePreview imageId={campaign.imageUrl} alt={campaign.title} />
-        <S.ShareButton
-          type="button"
-          aria-label={`Compartir campaña ${campaign.title}`}
-          onClick={handleShareButton}
-        >
-          <Share aria-hidden="true" />
-        </S.ShareButton>
+        <S.PostActionsContainer>
+          <PostActionsMenu
+            postId={campaign.id}
+            type="CAMPAIGN"
+            onShare={handleShareButton}
+          />
+        </S.PostActionsContainer>
       </S.ImageSection>
 
-      <S.Body>
+      <S.Body onClick={openCampaignDetail}>
         <S.MetaRow>
           <S.Location>
             <LocationPin aria-hidden="true" />

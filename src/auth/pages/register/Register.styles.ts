@@ -1,7 +1,123 @@
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
 
-const formWidth = '284px'
+const checkAppear = keyframes`
+  from { opacity: 0; transform: scale(0.65); }
+  to { opacity: 1; transform: scale(1); }
+`;
+
+const formWidth = "284px";
+
+export const TermsRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, 329px);
+  text-align: left;
+
+  @media (min-width: 768px) {
+    width: 100%;
+  }
+`;
+
+export const TermsCheckboxLabel = styled.label`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 42px;
+  height: 44px;
+  cursor: pointer;
+`;
+
+export const TermsCheckbox = styled.input`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  &:focus-visible + span {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 3px;
+  }
+  &:checked + span {
+    background: ${({ theme }) => theme.colors.brand};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.soft};
+  }
+  @media (hover: hover) {
+    &:hover + span {
+      box-shadow: 0 0 0 4px ${({ theme }) => theme.colors.soft};
+    }
+  }
+`;
+
+export const TermsCheckboxControl = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid ${({ theme }) => theme.colors.brand};
+  border-radius: 2px;
+  color: ${({ theme }) => theme.colors.white};
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease;
+  svg {
+    width: 16px;
+    height: 16px;
+    animation: ${checkAppear} 180ms ease-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    svg {
+      animation: none;
+    }
+  }
+`;
+
+export const TermsText = styled.p`
+  min-width: 0;
+  margin: 0;
+  color: ${({ theme }) => theme.colors.darkColor};
+  ${({ theme }) => theme.typography.body};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+  @media (min-width: 768px) {
+    white-space: nowrap;
+  }
+`;
+
+export const TermsLink = styled.a`
+  padding: 0;
+  border: 0;
+  color: ${({ theme }) => theme.colors.brand};
+  font: inherit;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
+  &:hover {
+    color: ${({ theme }) => theme.colors.brandHover};
+    text-decoration-color: currentColor;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 
 export const RegisterPanel = styled.section`
   width: 100%;
@@ -25,7 +141,7 @@ export const RegisterPanel = styled.section`
     padding-top: 8px;
     padding-bottom: 4px;
   }
-`
+`;
 
 export const RegisterContainer = styled.div`
   position: relative;
@@ -46,7 +162,7 @@ export const RegisterContainer = styled.div`
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     bottom: 0;
@@ -54,7 +170,7 @@ export const RegisterContainer = styled.div`
     height: 8px;
     background: linear-gradient(90deg, #ea5f09 0%, #cbb6ff 50%, #a95c28 100%);
   }
-`
+`;
 
 export const RegisterContent = styled.div`
   width: 100%;
@@ -78,7 +194,7 @@ export const RegisterContent = styled.div`
   @media (min-width: 768px) and (max-height: 720px) {
     padding: 12px 24px 18px;
   }
-`
+`;
 
 export const AppLogo = styled.img`
   width: 112px;
@@ -96,7 +212,7 @@ export const AppLogo = styled.img`
     width: 72px;
     height: 67px;
   }
-`
+`;
 
 export const RegisterTitle = styled.h1`
   margin: 4px 0 0;
@@ -124,7 +240,7 @@ export const RegisterTitle = styled.h1`
       display: none;
     }
   }
-`
+`;
 
 export const RegisterSubtitle = styled.p`
   width: min(100%, ${formWidth});
@@ -141,7 +257,7 @@ export const RegisterSubtitle = styled.p`
     width: min(100%, 360px);
     margin-top: 4px;
   }
-`
+`;
 
 export const Form = styled.form`
   width: 100%;
@@ -163,7 +279,7 @@ export const Form = styled.form`
     gap: 10px 16px;
     margin-top: 10px;
   }
-`
+`;
 
 export const Field = styled.div`
   width: 100%;
@@ -205,7 +321,7 @@ export const Field = styled.div`
       grid-row: 3;
     }
   }
-`
+`;
 
 export const FieldLabel = styled.label`
   color: ${({ theme }) => theme.colors.darkColor};
@@ -219,11 +335,12 @@ export const FieldLabel = styled.label`
   @media (min-width: 768px) and (max-height: 720px) {
     line-height: 18px;
   }
-`
+`;
 
 export const RequiredMark = styled.span`
   color: ${({ theme }) => theme.colors.brand};
-`
+  font-weight: 600;
+`;
 
 export const Input = styled.input<{ $hasError?: boolean }>`
   display: flex;
@@ -231,7 +348,7 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   height: 56px;
   padding: 15px 24px;
   border: 2px solid
-    ${({ $hasError, theme }) => ($hasError ? theme.colors.error : '#f7ddd3')};
+    ${({ $hasError, theme }) => ($hasError ? theme.colors.error : "#f7ddd3")};
   border-radius: 8px;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.montserrat};
@@ -258,11 +375,12 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   }
 
   &:focus-visible {
-    border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.brand)};
+    border-color: ${({ $hasError, theme }) =>
+      $hasError ? theme.colors.error : theme.colors.brand};
     outline: none;
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }
-`
+`;
 
 export const PasswordInputWrapper = styled.div`
   position: relative;
@@ -271,7 +389,7 @@ export const PasswordInputWrapper = styled.div`
   ${Input} {
     padding-right: 52px;
   }
-`
+`;
 
 export const PasswordToggle = styled.button`
   position: absolute;
@@ -303,7 +421,7 @@ export const PasswordToggle = styled.button`
     height: 20px;
     stroke-width: 2.25;
   }
-`
+`;
 
 export const PasswordRequirementList = styled.ul`
   display: flex;
@@ -312,7 +430,7 @@ export const PasswordRequirementList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-`
+`;
 
 export const PasswordRequirementItem = styled.li`
   display: flex;
@@ -322,7 +440,7 @@ export const PasswordRequirementItem = styled.li`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
-`
+`;
 
 export const PasswordRequirementIcon = styled.span<{ $met: boolean }>`
   width: 16px;
@@ -331,16 +449,18 @@ export const PasswordRequirementIcon = styled.span<{ $met: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.stroke)};
+  border: 1.5px solid
+    ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.stroke)};
   border-radius: 50%;
-  background: ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.background)};
+  background: ${({ $met, theme }) =>
+    $met ? theme.colors.success : theme.colors.background};
   color: ${({ theme }) => theme.colors.background};
 
   svg {
     width: 12px;
     height: 12px;
   }
-`
+`;
 
 export const VisuallyHidden = styled.span`
   position: absolute;
@@ -349,7 +469,7 @@ export const VisuallyHidden = styled.span`
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-`
+`;
 
 export const SwitchGroup = styled.div`
   display: flex;
@@ -372,7 +492,7 @@ export const SwitchGroup = styled.div`
     gap: 12px;
     padding: 14px;
   }
-`
+`;
 
 export const SwitchRow = styled.label`
   display: flex;
@@ -396,7 +516,7 @@ export const SwitchRow = styled.label`
     min-height: 48px;
     padding: 8px 12px;
   }
-`
+`;
 
 export const SwitchLabelContent = styled.span`
   display: inline-flex;
@@ -410,7 +530,7 @@ export const SwitchLabelContent = styled.span`
     flex: 0 0 20px;
     stroke-width: 2;
   }
-`
+`;
 
 export const SwitchInput = styled.input`
   position: absolute;
@@ -420,7 +540,7 @@ export const SwitchInput = styled.input`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
-`
+`;
 
 export const SwitchControl = styled.span`
   position: relative;
@@ -432,7 +552,7 @@ export const SwitchControl = styled.span`
   transition: background 160ms ease;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 4px;
     left: 4px;
@@ -456,7 +576,7 @@ export const SwitchControl = styled.span`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const HelpText = styled.p`
   margin: 0;
@@ -471,7 +591,7 @@ export const HelpText = styled.p`
   @media (min-width: 768px) {
     grid-column: 1 / -1;
   }
-`
+`;
 
 export const PrimaryButton = styled.button`
   width: 100%;
@@ -492,7 +612,9 @@ export const PrimaryButton = styled.button`
   font-weight: 700;
   line-height: 24px;
   text-align: center;
-  transition: background 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
 
   @media (min-width: 768px) {
     width: 100%;
@@ -526,7 +648,7 @@ export const PrimaryButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const LoginText = styled.p`
   margin: 0;
@@ -547,7 +669,7 @@ export const LoginText = styled.p`
     line-height: 18px;
     margin-top: 6px;
   }
-`
+`;
 
 export const LoginLink = styled(Link)`
   color: #9f3d00;
@@ -559,7 +681,7 @@ export const LoginLink = styled(Link)`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const RegisterFooter = styled.p`
   width: min(100%, 430px);
@@ -579,4 +701,9 @@ export const RegisterFooter = styled.p`
   @media (min-width: 768px) and (max-height: 720px) {
     width: min(100%, 720px);
   }
-`
+`;
+export const TermsField = styled(Field)`
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+  }
+`;

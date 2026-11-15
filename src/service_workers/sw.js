@@ -1,8 +1,9 @@
-importScripts('/service_workers/notificationActionStrategies.js')
+import { notificationActionStrategies } from './push_notifications/notificationActionStrategies.js'
 
 self.addEventListener('push', (event) => {
-  console.info('[Web Push] Evento push recibido', {
+  console.debug('[Web Push] Evento push recibido', {
     hasData: Boolean(event.data),
+    data: event.data ? event.data.json() : null,
   })
 
   if (!event.data) {

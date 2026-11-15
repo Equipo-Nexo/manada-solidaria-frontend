@@ -1,7 +1,13 @@
-import { useId, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import {
+  useId,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
-import { Heart, LocationPin, Share } from "../../icons";
+import { Heart, LocationPin } from "../../icons";
 import { getAnimalPostActions } from "./animalPostActions";
 import * as S from "./animalPostCard.styles";
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
@@ -12,6 +18,7 @@ import { shareUrl } from "@/common/utils/HandleShare";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 import { useAnimalPostLike } from "@/animals/hooks/useAnimalPostLike";
 import { useDoubleTap } from "@/common/hooks/gestures/useDoubleTap";
+import PostActionsMenu from "../post_actions_menu/PostActionsMenu";
 
 export type AnimalPostCardProps = {
   postId: string;
@@ -24,6 +31,7 @@ export type AnimalPostCardProps = {
   reward?: number;
   reactedByMe?: boolean;
   reactionsCount?: number;
+  hasCompletedAdoptionForm?: boolean;
 };
 type HeartAnimation = {
   x: number;
@@ -41,6 +49,7 @@ function AnimalPostCard({
   reward,
   reactedByMe = false,
   reactionsCount = 0,
+  hasCompletedAdoptionForm = false,
 }: AnimalPostCardProps) {
   const navigate = useNavigate();
   const heartGradientId = useId();
@@ -93,21 +102,21 @@ function AnimalPostCard({
     reward > 0;
   const formattedReward = hasReward
     ? new Intl.NumberFormat("es-AR", {
-        style: "currency",
-        currency: "ARS",
-        maximumFractionDigits: 0,
-      }).format(reward)
+      style: "currency",
+      currency: "ARS",
+      maximumFractionDigits: 0,
+    }).format(reward)
     : undefined;
 
   const visibleActions = status
-    ? getAnimalPostActions(AnimalPostStatus[status].text, phoneNumber)
+    ? getAnimalPostActions(AnimalPostStatus[status].text, phoneNumber, hasCompletedAdoptionForm)
     : [];
 
   const handleViewOnMap = (latitude: number, longitude: number) => {
     navigate(`/mapa?latitude=${latitude}&longitude=${longitude}`);
   };
   const handleCardClick = (event: MouseEvent<HTMLElement>) => {
-    if (event.target instanceof Element && event.target.closest("button, a")) {
+    if (event.target instanceof Element && event.target.closest('button, a, [role="status"]')) {
       return;
     }
     navigate(`/animal/detalle/${postId}`);
@@ -142,7 +151,13 @@ function AnimalPostCard({
           >
             <Heart filled fill={`url(#${heartGradientId})`}>
               <defs>
-                <linearGradient id={heartGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient
+                  id={heartGradientId}
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
                   <stop offset="0%" />
                   <stop offset="65%" />
                 </linearGradient>
@@ -150,13 +165,13 @@ function AnimalPostCard({
             </Heart>
           </S.PhotoHeart>
         )}
-        <S.ShareButton
-          type="button"
-          aria-label={`Compartir publicación de ${name}`}
-          onClick={handleShareButton}
-        >
-          <Share aria-hidden="true" />
-        </S.ShareButton>
+        <S.PostActionsContainer>
+          <PostActionsMenu
+            postId={postId}
+            type="ANIMAL_POST"
+            onShare={handleShareButton}
+          />
+        </S.PostActionsContainer>
       </S.PhotoContainer>
 
       <S.Content onClick={handleCardClick}>
@@ -218,6 +233,15 @@ function AnimalPostCard({
           <S.LikesCount>
             {reactionsCount} {reactionsCount === 1 ? "apoyo" : "apoyos"}
           </S.LikesCount>
+          {hasCompletedAdoptionForm && (
+            <S.AdoptionStatus
+              role="status"
+              aria-label="Ya enviaste un formulario de adopción para este animal"
+              title="Ya enviaste un formulario de adopción para este animal"
+            >
+              <span>Adopción solicitada</span>
+            </S.AdoptionStatus>
+          )}
         </S.LikesContainer>
         {visibleActions.length > 0 && (
           <S.ButtonsContainer $amount={visibleActions.length}>
@@ -238,7 +262,7 @@ function AnimalPostCard({
                     name,
                     location
                       ? () =>
-                          handleViewOnMap(location.latitude, location.longitude)
+                        handleViewOnMap(location.latitude, location.longitude)
                       : undefined,
                   );
                 }}
