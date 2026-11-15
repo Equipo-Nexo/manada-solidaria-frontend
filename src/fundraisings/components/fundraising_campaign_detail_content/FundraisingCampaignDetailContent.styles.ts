@@ -2,105 +2,39 @@ import styled from "styled-components";
 
 export { DetailImage as FundraisingImage } from '@/common/components/detailImage/DetailImage.styles'
 
-export const Page = styled.div`
+export const ContentContainer = styled.div`
   display: flex;
-  width: min(100%, 390px);
-  min-height: 100svh;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
-  margin: 0 auto;
-  padding: 0 16px 16px;
-  background: ${({ theme }) => theme.colors.background};
-
-  @media (min-width: 768px) {
-    width: min(100%, 1080px);
-    min-height: auto;
-    gap: 24px;
-    padding: 28px 32px 48px;
-  }
-`;
-export const Header = styled.header`
-  display: flex;
-  width: 100%;
-  min-height: 48px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 2px;
-  padding: 0;
-  background: ${({ theme }) => theme.colors.background};
-`;
-
-export const BackButton = styled.button`
-  width: 40px; height: 40px; 
-  display: grid; 
-  flex: 0 0 auto; 
-  place-items: center; 
-  border: 0;
-  border-radius: 50%; 
-  background: ${({ theme }) => theme.colors.background}; 
-  color: ${({ theme }) => theme.colors.black}; 
-  cursor: pointer;
-  svg { width: 22px; height: 22px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; 
-  outline-offset: 2px; }
 `
-export const FormTitle = styled.h1`
-    margin: 0;
-    color: ${({ theme }) => theme.colors.black};
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    text-align: left;
-`;
-export const Content = styled.div`
+export const InformationContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`
+
+export const ContactContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
+
+export const FundraisingInformationContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-sizing: border-box;
-  @media (min-width: 768px) {
-    gap: 24px;
-  }
-`;
-export const HeroLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  @media (min-width: 768px) {
-    margin-bottom: 16px;
-    align-items: stretch;
-    gap: 28px;
-    flex-direction: row;
-  }
-`;
-
-export const DetailsColumn = styled.div`
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1;
-`;
+  gap: 8px;
+`
 
 export const PhotoContainer = styled.div`
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 800px;
-  flex: 1;
-  align-self: flex-start;
+
 `;
-export const BottomInfoRow = styled.section`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 16px;
-`;
+
 export const FundraisingInfo = styled.section`
   width: 100%;
   box-sizing: border-box;
@@ -109,10 +43,11 @@ export const FundraisingInfo = styled.section`
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
-type TitleProps = {
+
+
+export const Title = styled.h2<{
   $iconColor?: "black" | "secondary";
-};
-export const Title = styled.h2<TitleProps>`
+}>`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -126,6 +61,7 @@ export const Title = styled.h2<TitleProps>`
     $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
   }
 `;
+
 export const FundraisingEndDate = styled.div`
   display: flex;
   align-items: center;
@@ -144,12 +80,14 @@ export const FundraisingEndDate = styled.div`
     color: ${({ theme }) => theme.colors.brand};
   }
 `;
+
 export const EndDateContent = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
   gap: 2px;
 `;
+
 export const EndDateLabel = styled.p`
   font-size: 14px;
   line-height: 14px;
@@ -162,6 +100,7 @@ export const EndDateValue = styled.p`
   color: ${({ theme }) => theme.colors.black};
   line-height: 16px;
 `;
+
 export const AliasSection = styled.section`
   display: flex;
   align-items: center;
@@ -174,6 +113,7 @@ export const AliasSection = styled.section`
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
+
 export const IconContainer = styled.div`
   display: flex;
   align-items: center;
@@ -184,18 +124,21 @@ export const IconContainer = styled.div`
     height: 20px;
   }
 `;
+
 export const AliasContent = styled.div`
   min-width: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
 `;
+
 export const AliasLabel = styled.span`
   text-align: left;
   color: ${({ theme }) => theme.colors.black};
   font-size: 11px;
   line-height: 1rem;
 `;
+
 export const AliasValue = styled.span`
   text-align: left;
   overflow: hidden;
@@ -206,10 +149,10 @@ export const AliasValue = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-type CopyButtonProps = {
+
+export const CopyButton = styled.button<{
   $copied?: boolean;
-};
-export const CopyButton = styled.button<CopyButtonProps>`
+}>`
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
@@ -242,6 +185,7 @@ export const CopyButton = styled.button<CopyButtonProps>`
     outline-offset: 2px;
   }
 `;
+
 export const FundraisingGoal = styled.section`
   width: 100%;
   box-sizing: border-box;
@@ -250,24 +194,28 @@ export const FundraisingGoal = styled.section`
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
+
 export const GoalHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
 `;
+
 export const GoalAmount = styled.p`
   color: ${({ theme }) => theme.colors.secondary};
   font-size: 18px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 22px;
 `;
+
 export const GoalPercentage = styled.p`
   color: ${({ theme }) => theme.colors.black};
   font-size: 1rem;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
 `;
+
 export const ProgressTrack = styled.div`
   width: 100%;
   height: 9px;
@@ -276,38 +224,42 @@ export const ProgressTrack = styled.div`
   background: rgb(234 95 9 / 35%);
 `;
 
-type ProgressValueProps = {
-  $progress: number;
-};
 
-export const ProgressValue = styled.div<ProgressValueProps>`
+export const ProgressValue = styled.div<{
+  $progress: number;
+}>`
   width: ${({ $progress }) => `${$progress}%`};
   height: 100%;
   border-radius: inherit;
   background: ${({ theme }) => theme.colors.secondary};
 `;
+
 export const GoalFooter = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 12px;
   margin-top: 7px;
 `;
+
 export const CollectedAmount = styled.span`
   color: ${({ theme }) => theme.colors.darkColor};
   font-size: 12px;
   line-height: 16px;
 `;
+
 export const RemainingAmount = styled.span`
   color: ${({ theme }) => theme.colors.darkColor};
   font-size: 12px;
   line-height: 16px;
   text-align: right;
 `;
+
 export const DescriptionSection = styled.section`
   width: 100%;
   box-sizing: border-box;
   padding: 0 8px;
 `;
+
 export const FundraisingDescription = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};

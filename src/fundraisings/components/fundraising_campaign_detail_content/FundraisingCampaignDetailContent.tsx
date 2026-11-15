@@ -43,15 +43,15 @@ export default function FundraisingCampaignDetailContent(
     }
 
     return (
-        <>
-            <S.HeroLayout>
+        <S.ContentContainer>
+            <S.InformationContent>
                 <S.PhotoContainer>
                     <S.FundraisingImage
                         src={normalizeImageUrl(data?.imageId)}
                         alt={data?.title ?? "Imagen de la colecta"}
                     />
                 </S.PhotoContainer>
-                <S.DetailsColumn>
+                <S.FundraisingInformationContainer>
                     <S.FundraisingInfo>
                         <S.Title>{data?.title}</S.Title>
                         {data && data.campaignEndDate && (
@@ -135,10 +135,9 @@ export default function FundraisingCampaignDetailContent(
                             </S.LocationContent>
                         </S.LocationCard>
                     )}
-                </S.DetailsColumn>
-            </S.HeroLayout>
-
-            <S.BottomInfoRow>
+                </S.FundraisingInformationContainer>
+            </S.InformationContent>
+            <S.ContactContent>
                 {PHONE_NUMBER && (
                     <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data!.title} />
                 )}
@@ -146,7 +145,7 @@ export default function FundraisingCampaignDetailContent(
                     <Share aria-hidden="true" />
                     Compartir colecta
                 </S.ShareButton>
-            </S.BottomInfoRow>
-        </>
+            </S.ContactContent>
+        </S.ContentContainer>
     )
 }
