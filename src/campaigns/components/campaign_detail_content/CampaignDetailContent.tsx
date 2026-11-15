@@ -115,13 +115,13 @@ export default function CampaignDetailContent({ campaignData }: { campaignData: 
                 </S.DetailsColumn>
             </S.CampaignInformation>
 
-            <S.BottomInfoRow>
+            <S.ContactContent>
                 <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
                 <S.ShareButton type="submit" onClick={() => handleShareButton(campaignData.id)}>
                     <Share aria-hidden="true" />
                     Compartir Campaña
                 </S.ShareButton>
-            </S.BottomInfoRow>
+            </S.ContactContent>
         </S.CampaignDetailContentContainer>
     )
 

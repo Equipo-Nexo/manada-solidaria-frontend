@@ -7,17 +7,26 @@ export { DetailImage as CampaignImage } from '@/common/components/detailImage/De
 export const CampaignDetailContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 16px;
 `
 
 export const CampaignInformation = styled.section`
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  flex-direction: column;
+  gap: 16px;
 
-  @media (max-width: 767px) {
-    flex-direction: column;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
   }
 `
+
+export const ContactContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
+
 
 export const Page = styled.div`
   display: flex;
