@@ -4,7 +4,7 @@ import { Arrow } from "@/common/icons";
 import PawLoader from "../pawLoader/PawLoader";
 import Message from "../message/message";
 
-interface LayoutProps { 
+interface LayoutProps {
   children: React.ReactNode;
   title: string;
   backTo?: string;
@@ -14,36 +14,23 @@ interface LayoutProps {
   errorMessage?: string;
 }
 
-export default function Layout({ 
-  children, 
-  title, 
+export default function Layout({
+  children,
+  title,
   backTo,
   isLoading = false,
   loadingMessage = "Cargando...",
   isError = false,
-  errorMessage = "Ocurrió un error al cargar la página." 
+  errorMessage = "Ocurrió un error al cargar la página."
 }: LayoutProps) {
   const navigate = useNavigate();
-
-  const LoadingContent = () => (
-    <S.LoaderContainer>
-      <PawLoader label={loadingMessage} />
-    </S.LoaderContainer>
-  );
-
-  const ErrorContent = () => (
-    <S.StateContainer role="alert">
-      <Message message={errorMessage} iconName="pawPrint" />
-    </S.StateContainer>
-  );
-
 
   return (
     <S.LayoutContainer>
       <S.Header>
-        <S.BackButton 
-          type="button" 
-          onClick={() => navigate(backTo || '/home')} 
+        <S.BackButton
+          type="button"
+          onClick={() => navigate(backTo || '/home')}
           aria-label="Volver"
         >
           <Arrow aria-hidden="true" />
@@ -51,9 +38,17 @@ export default function Layout({
         <S.PageTitle>{title}</S.PageTitle>
       </S.Header>
       <S.LayoutContent>
-          { isLoading && <LoadingContent /> }
-          { !isLoading && isError && <ErrorContent /> }
-          { !isLoading && !isError && children }
+        {isLoading && (
+          <S.LoaderContainer>
+            <PawLoader label={loadingMessage} />
+          </S.LoaderContainer>
+        )}
+        {!isLoading && isError && (
+          <S.StateContainer role="alert">
+            <Message message={errorMessage} iconName="pawPrint" />
+          </S.StateContainer>
+        )}
+        {!isLoading && !isError && children}
       </S.LayoutContent>
     </S.LayoutContainer>
   )
