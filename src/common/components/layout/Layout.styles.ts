@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const LayoutContainer = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
 `;
 
 export const LayoutContent = styled.div`
@@ -38,10 +39,19 @@ export const BackButton = styled.button`
 export const PageTitle = styled.h1`
     margin: 0;
     color: ${({ theme }) => theme.colors.black};
-    // font-size: ${({ theme }) => theme.typography.header2.fontSize};
     font-size: clamp(1rem, 4vw, 1.5rem);
     line-height: 1.2;
     overflow-wrap: break-word;
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     text-align: left;
+`
+
+export const LoaderContainer = styled.section`
+`
+
+export const StateContainer = styled.section`
+`
+
+export const Message = styled.p`
+    color: ${({ theme }) => theme.colors.black};
 `

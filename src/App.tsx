@@ -110,8 +110,6 @@ function App() {
     }
   }, [isAuthenticated, redirect, navigate]);
 
-
-  console.log('usesFullScreenLayout',usesFullScreenLayout)
   return (
     <>
       <ScrollToTop />
