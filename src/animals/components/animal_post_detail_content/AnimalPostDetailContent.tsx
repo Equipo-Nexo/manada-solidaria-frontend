@@ -53,78 +53,76 @@ export default function AnimalPostDetailContent({ postData }: { postData: Animal
     }
 
     return (
-        <>
-            <S.HeroLayout>
-                <S.PhotoContainer>
-                    <S.Photo
-                        src={normalizeImageUrl(postData.imageUrl)}
-                        alt={name}
-                        onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
-                    />
-                </S.PhotoContainer>
-
-                <S.DetailsColumn>
-                    <S.GeneralDataContainer>
-                        <S.GeneralData>
-                            <S.Name>{name}</S.Name>
-                            {status && (
-                                <S.Status $backgroundColor={status.backgroundColor} $fontColor={status.fontColor}>
-                                    {status.text ?? postData.status}
-                                </S.Status>
-                            )}
-                        </S.GeneralData>
-                        <S.TimeContainer>
-                            <Clock aria-hidden="true" />
-                            <span>Publicado el {formatDateLong(postData.createdAt)}</span>
-                        </S.TimeContainer>
-                        {postData.reward != null && postData.reward > 0 && (
-                            <S.InfoContainer $variant="reward">
-                                <S.RewardIconContainer><Money aria-hidden="true" /></S.RewardIconContainer>
-                                <S.ValuesContainer>
-                                    <S.Label>Recompensa ofrecida</S.Label>
-                                    <S.Info>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(postData.reward)}</S.Info>
-                                </S.ValuesContainer>
-                            </S.InfoContainer>
-                        )}
-                        <S.InfoContainer $variant="author">
-                            <S.UserProfileContainer>
-                                <ImagePreview
-                                    imageId={postData.owner.profileImageURL}
-                                    alt={`Foto de perfil de ${postData.owner.username}`}
-                                    variant="round"
-                                />
-                            </S.UserProfileContainer>
-                            <S.ValuesContainer>
-                                <S.Label>Publicado por <strong>{postData.owner.username}</strong></S.Label>
-                                <S.AuthorRole>{getOwnerRole(postData.owner.roles)}</S.AuthorRole>
-                            </S.ValuesContainer>
-                        </S.InfoContainer>
-                    </S.GeneralDataContainer>
-
-                    <MapDetailsComponent
-                        location={postData.location.city}
-                        address={getAddress(postData.location)}
-                        locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
-                    />
-
-                    <S.FeaturesGrid aria-label={`Características de ${name}`}>
-                        {feature(PawPrint, 'Especie', animalKind)}
-                        {feature(GenderIcon, 'Sexo', animalSexLabels[postData.animal.gender])}
-                        {feature(Ruler, 'Tamaño', animalSizeLabels[postData.animal.size])}
-                        {feature(Calendar, 'Edad', animalAgeLabels[postData.animal.age])}
-                        {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
-
-                    </S.FeaturesGrid>
-
-                    <S.StorySection>
-                        <S.SectionTitle>
-                            <BookIcon />Su historia</S.SectionTitle>
-                        <S.StoryText>{postData.description}</S.StoryText>
-                    </S.StorySection>
-                </S.DetailsColumn>
-            </S.HeroLayout>
-
-            <S.BottomInfoRow>
+        <S.DetailContentContainer>
+            <S.InformationContent>
+                <S.AnimalPostInformationContainer>
+                    <S.HeroLayout>
+                        <S.PhotoContainer>
+                            <S.Photo
+                                src={normalizeImageUrl(postData.imageUrl)}
+                                alt={name}
+                                onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
+                            />
+                        </S.PhotoContainer>
+                        <S.DetailsColumn>
+                            <S.GeneralDataContainer>
+                                <S.GeneralData>
+                                    <S.Name>{name}</S.Name>
+                                    {status && (
+                                        <S.Status $backgroundColor={status.backgroundColor} $fontColor={status.fontColor}>
+                                            {status.text ?? postData.status}
+                                        </S.Status>
+                                    )}
+                                </S.GeneralData>
+                                <S.TimeContainer>
+                                    <Clock aria-hidden="true" />
+                                    <span>Publicado el {formatDateLong(postData.createdAt)}</span>
+                                </S.TimeContainer>
+                                {postData.reward != null && postData.reward > 0 && (
+                                    <S.InfoContainer $variant="reward">
+                                        <S.RewardIconContainer><Money aria-hidden="true" /></S.RewardIconContainer>
+                                        <S.ValuesContainer>
+                                            <S.Label>Recompensa ofrecida</S.Label>
+                                            <S.Info>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(postData.reward)}</S.Info>
+                                        </S.ValuesContainer>
+                                    </S.InfoContainer>
+                                )}
+                                <S.InfoContainer $variant="author">
+                                    <S.UserProfileContainer>
+                                        <ImagePreview
+                                            imageId={postData.owner.profileImageURL}
+                                            alt={`Foto de perfil de ${postData.owner.username}`}
+                                            variant="round"
+                                        />
+                                    </S.UserProfileContainer>
+                                    <S.ValuesContainer>
+                                        <S.Label>Publicado por <strong>{postData.owner.username}</strong></S.Label>
+                                        <S.AuthorRole>{getOwnerRole(postData.owner.roles)}</S.AuthorRole>
+                                    </S.ValuesContainer>
+                                </S.InfoContainer>
+                            </S.GeneralDataContainer>
+                            <MapDetailsComponent
+                                location={postData.location.city}
+                                address={getAddress(postData.location)}
+                                locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
+                            />
+                            <S.FeaturesGrid aria-label={`Características de ${name}`}>
+                                {feature(PawPrint, 'Especie', animalKind)}
+                                {feature(GenderIcon, 'Sexo', animalSexLabels[postData.animal.gender])}
+                                {feature(Ruler, 'Tamaño', animalSizeLabels[postData.animal.size])}
+                                {feature(Calendar, 'Edad', animalAgeLabels[postData.animal.age])}
+                                {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
+                            </S.FeaturesGrid>
+                            <S.StorySection>
+                                <S.SectionTitle>
+                                    <BookIcon />Su historia</S.SectionTitle>
+                                <S.StoryText>{postData.description}</S.StoryText>
+                            </S.StorySection>
+                        </S.DetailsColumn>
+                    </S.HeroLayout>
+                </S.AnimalPostInformationContainer>
+            </S.InformationContent>
+            <S.ContactContent>
                 {PHONE_NUMBER != "" && (
                     <>
                         <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={postData!.phoneNumber!.areaCode} number={postData!.phoneNumber!.number} name={postData?.name ?? ""} />
@@ -137,8 +135,8 @@ export default function AnimalPostDetailContent({ postData }: { postData: Animal
                     <Share aria-hidden="true" />
                     Compartir Publicación
                 </S.ShareButton>
-            </S.BottomInfoRow>
-            <ScrollHint />
-        </>
+            </S.ContactContent>
+        </S.DetailContentContainer>
+
     )
 }

@@ -32,7 +32,9 @@ export const FundraisingInformationContainer = styled.div`
 `
 
 export const PhotoContainer = styled.div`
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const FundraisingInfo = styled.section`

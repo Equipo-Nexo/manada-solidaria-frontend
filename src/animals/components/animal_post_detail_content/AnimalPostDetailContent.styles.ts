@@ -2,6 +2,39 @@ import styled from 'styled-components'
 
 export { DetailImage as Photo } from '@/common/components/detailImage/DetailImage.styles'
 
+
+export const DetailContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
+
+export const InformationContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`
+
+export const ContactContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
+
+export const AnimalPostInformationContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+
+
 export const StateContainer = styled.section`
   display: grid;
   min-height: 100svh;
@@ -66,12 +99,6 @@ export const DetailsColumn = styled.div`
   flex: 1;
 `
 export const PhotoContainer = styled.div`
-  display: flex;
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  flex: 1;
-  align-self: flex-start;
 `
 
 export const GeneralDataContainer = styled.article`
