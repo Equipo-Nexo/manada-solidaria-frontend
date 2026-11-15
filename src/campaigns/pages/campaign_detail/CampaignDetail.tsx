@@ -1,12 +1,11 @@
 import { useGetCampaignQuery } from "@/campaigns/app/api/campaignApi";
-import { Loader, ScrollHint } from "@/common/components";
 import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
 import DonationItems from "@/campaigns/components/donation_items/DonationItems";
-import { Arrow, Calendar, Share } from "@/common/icons";
+import { Calendar, Share } from "@/common/icons";
 import OpenBook from "@/common/icons/OpenBook";
 import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { formatDateTimeLong } from "@/common/utils/DateTime";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as S from "./CampaignDetail.styles"
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
@@ -43,12 +42,11 @@ function DateInfoComponent({ label, dateTime }: DateInfoProps) {
 
 function CampaignDetail() {
 
-    const navigate = useNavigate();
     const [cropImage, setCropImage] = useState(false)
 
     const { campaignId } = useParams<{ campaignId: string }>();
 
-    const { data: campaignData, isLoading, isError } = useGetCampaignQuery(
+    const { data: campaignData } = useGetCampaignQuery(
         campaignId!,
     );
 
@@ -123,15 +121,20 @@ function CampaignDetail() {
                         {campaignData?.description}
                     </S.CampaignDescription>
                 </S.DescriptionSection>
-                {campaignData?.location && (
-                    <MapDetailsComponent
-                        location={campaignData.location.city}
-                        address={getAddress(campaignData.location)}
-                        locationPath={`/mapa?latitude=${campaignData.location.latitude}&longitude=${campaignData.location.longitude}`}
-                    />)}
+                <S.MapContainer>
+                    {campaignData?.location && (
+                        <MapDetailsComponent
+                            location={campaignData.location.city}
+                            address={getAddress(campaignData.location)}
+                            locationPath={`/mapa?latitude=${campaignData.location.latitude}&longitude=${campaignData.location.longitude}`}
+                        />)}
+                </S.MapContainer>
+
             </S.DetailsColumn>
             <S.BottomInfoRow>
-                <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
+                {PHONE_NUMBER && (
+                    <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
+                )}
                 <S.ShareButton type="submit" onClick={handleShareButton}>
                     <Share aria-hidden="true" />
                     Compartir Campaña

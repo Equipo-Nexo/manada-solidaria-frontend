@@ -150,8 +150,11 @@ function FundraisingCampaignDetail() {
           )}
         </S.DetailsColumn>
       </S.HeroLayout>
+
       <S.BottomInfoRow>
-        {/* <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data && data.phoneNumber ? data.phoneNumber.areaCode : undefined} number={data && data.phoneNumber ? data.phoneNumber.number : undefined} name={data?.title ?? ""} /> */}
+        {PHONE_NUMBER && (
+          <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={data!.phoneNumber!.areaCode} number={data!.phoneNumber!.number} name={data!.title} />
+        )}
         <S.ShareButton onClick={handleShareButton}>
           <Share aria-hidden="true" />
           Compartir colecta
