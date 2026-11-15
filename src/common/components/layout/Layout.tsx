@@ -52,7 +52,7 @@ export default function Layout({
       </S.Header>
       <S.LayoutContent>
           { isLoading && <LoadingContent /> }
-          { isError && <ErrorContent /> }
+          { !isLoading && isError && <ErrorContent /> }
           { !isLoading && !isError && children }
       </S.LayoutContent>
     </S.LayoutContainer>

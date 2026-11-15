@@ -1,145 +1,25 @@
 import { useGetCampaignQuery } from "@/campaigns/app/api/campaignApi";
-import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
-import DonationItems from "@/campaigns/components/donation_items/DonationItems";
-import { Calendar, Share } from "@/common/icons";
-import OpenBook from "@/common/icons/OpenBook";
-import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
-import { formatDateTimeLong } from "@/common/utils/DateTime";
-import { useParams } from "react-router-dom";
-import * as S from "./CampaignDetail.styles"
-import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
-import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
-import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
-import { useState } from "react";
-import { shareUrl } from "@/common/utils/HandleShare";
-import { getAddress } from "@/common/utils/LocationUtils";
 import Layout from "@/common/components/layout/Layout";
-
-interface DateInfoProps {
-    label: string;
-    dateTime?: string;
-}
-
-function DateInfoComponent({ label, dateTime }: DateInfoProps) {
-    if (!dateTime) return null
-
-    const formatted = formatDateTimeLong(dateTime)
-
-    return (
-        <S.CampaignEndDate>
-            <Calendar aria-hidden="true" />
-            <S.EndDateContent>
-                <S.EndDateLabel>{label}</S.EndDateLabel>
-                <S.EndDateValue>
-                    {formatted.date}
-                    <br />
-                    {formatted.time}
-                </S.EndDateValue>
-            </S.EndDateContent>
-        </S.CampaignEndDate>
-    )
-}
+import CampaignDetailContent from "@/campaigns/components/campaign_detail_content/CampaignDetailContent";
+import { useParams } from "react-router-dom";
 
 function CampaignDetail() {
 
-    const [cropImage, setCropImage] = useState(false)
-
     const { campaignId } = useParams<{ campaignId: string }>();
 
-    const { data: campaignData } = useGetCampaignQuery(
+    const { data: campaignData, isLoading, isError } = useGetCampaignQuery(
         campaignId!,
     );
-
-    const PHONE_NUMBER = campaignData?.phoneNumber
-        ? `${campaignData?.phoneNumber.areaCode}${campaignData?.phoneNumber.number}`
-        : ""
-    const categoryCandidate = (campaignData?.category ?? campaignData?.type)?.toUpperCase()
-    const campaignCategory = categoryCandidate !== "FUNDRAISING" &&
-        campaignCategories.includes(categoryCandidate as CampaignCategory)
-        ? categoryCandidate as CampaignCategory
-        : undefined
-    const campaignImageUrl = campaignData?.imageId
-        ? `${import.meta.env.VITE_CLOUDFLARE_URL}${campaignData.imageId}`
-        : NOT_FOUND_IMAGE_URL
-
-    const handleShareButton = () => {
-        shareUrl({
-            path: `?redirect=/campanias/${campaignId}`,
-            text: 'Mirá esta campaña, quizás te sirve.',
-            imageUrl: normalizeImageUrl(campaignData?.imageUrl, true)
-        })            
-    }        
 
     return (
         <Layout
             title={`Información de la Campaña`}
+            isLoading={isLoading}
+            loadingMessage="Cargando campaña..."
+            isError={isError || !campaignData}
+            errorMessage="No pudimos cargar esta campaña."            
         >
-            <S.PhotoContainer $cropped={cropImage}>
-                <S.CampaignImage
-                    src={campaignImageUrl}
-                    alt={campaignData?.title ?? "Imagen de la colecta"}
-                    $cropped={cropImage}
-                    onLoad={({ currentTarget }) => {
-                        const ratio = currentTarget.naturalWidth / currentTarget.naturalHeight
-                        setCropImage(ratio < 0.65 || ratio > 2)
-                    }}
-                />
-            </S.PhotoContainer>
-            <S.DetailsColumn>
-                <S.CampaignInfo>
-                    <S.CampaignHeading>
-                        <S.Title>{campaignData?.title}</S.Title>
-                        {campaignCategory && (
-                            <S.CampaignTypeBadge $campaignType={campaignCategory}>
-                                {campaignCategory === "OTHER"
-                                    ? "General"
-                                    : campaignCategoryLabels[campaignCategory]}
-                            </S.CampaignTypeBadge>
-                        )}
-                    </S.CampaignHeading>
-                    {campaignData && campaignData.newsStartDateTime &&
-                        <DateInfoComponent
-                            label="Inicio campaña"
-                            dateTime={campaignData.newsStartDateTime}
-                        />}
-                    {campaignData && (campaignData.newsEndDateTime || campaignData.campaignEndDate) &&
-                        <DateInfoComponent
-                            label="Fin campaña"
-                            dateTime={campaignData.newsEndDateTime || campaignData.campaignEndDate}
-                        />
-                    }
-                </S.CampaignInfo>
-
-                {campaignData && <DonationItems items={campaignData.items} />}
-
-                <S.DescriptionSection>
-                    <S.Title>
-                        <OpenBook aria-hidden="true" width="20" height="14" />
-                        Descripción
-                    </S.Title>
-                    <S.CampaignDescription>
-                        {campaignData?.description}
-                    </S.CampaignDescription>
-                </S.DescriptionSection>
-                <S.MapContainer>
-                    {campaignData?.location && (
-                        <MapDetailsComponent
-                            location={campaignData.location.city}
-                            address={getAddress(campaignData.location)}
-                            locationPath={`/mapa?latitude=${campaignData.location.latitude}&longitude=${campaignData.location.longitude}`}
-                        />)}
-                </S.MapContainer>
-
-            </S.DetailsColumn>
-            <S.BottomInfoRow>
-                {PHONE_NUMBER && (
-                    <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={campaignData!.phoneNumber!.areaCode} number={campaignData!.phoneNumber!.number} name={campaignData!.title} />
-                )}
-                <S.ShareButton type="submit" onClick={handleShareButton}>
-                    <Share aria-hidden="true" />
-                    Compartir Campaña
-                </S.ShareButton>
-            </S.BottomInfoRow>
+           { campaignData && <CampaignDetailContent campaignData={campaignData} />}
         </Layout>
     )
 }
