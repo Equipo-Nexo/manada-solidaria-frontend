@@ -12,7 +12,7 @@ export const List = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
 
   & > article {
     width: 100%;
