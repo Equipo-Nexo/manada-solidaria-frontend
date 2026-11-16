@@ -36,6 +36,12 @@ export const BackButton = styled.button`
     }
 `
 
+export const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`
+
 export const PageTitle = styled.h1`
     margin: 0;
     color: ${({ theme }) => theme.colors.black};
@@ -44,6 +50,9 @@ export const PageTitle = styled.h1`
     overflow-wrap: break-word;
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     text-align: left;
+`
+
+export const Subtitle = styled.p`
 `
 
 export const LoaderContainer = styled.section`

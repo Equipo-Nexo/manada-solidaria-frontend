@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const List = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 16px;
 
@@ -10,9 +10,11 @@ export const List = styled.div`
     width: 100%;
   }
 `;
+
 export const AdviceItem = styled.div`
   grid-column: 1 / -1;
 `;
+
 export const MessageContainer = styled.div`
   display: flex;
   width: min(100%, 325px);

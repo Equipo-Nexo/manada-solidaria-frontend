@@ -7,6 +7,7 @@ import Message from "../message/message";
 interface LayoutProps {
   children: React.ReactNode;
   title: string;
+  subtitle?: string;
   backTo?: string;
   isLoading?: boolean;
   loadingMessage?: string;
@@ -18,10 +19,11 @@ export default function Layout({
   children,
   title,
   backTo,
+  subtitle,
   isLoading = false,
   loadingMessage = "Cargando...",
   isError = false,
-  errorMessage = "Ocurrió un error al cargar la página."
+  errorMessage = "Ocurrió un error al cargar la página.",
 }: LayoutProps) {
   const navigate = useNavigate();
 
@@ -35,7 +37,10 @@ export default function Layout({
         >
           <Arrow aria-hidden="true" />
         </S.BackButton>
-        <S.PageTitle>{title}</S.PageTitle>
+        <S.TitleContainer>
+          <S.PageTitle>{title}</S.PageTitle>
+          { subtitle && <S.Subtitle>{subtitle}</S.Subtitle> }
+        </S.TitleContainer>
       </S.Header>
       <S.LayoutContent>
         {isLoading && (
