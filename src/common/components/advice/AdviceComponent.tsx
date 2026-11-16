@@ -9,13 +9,15 @@ interface AdviceComponentProps {
 function AdviceComponent({ title = "Consejo", advice }: AdviceComponentProps) {
   return (
     <S.Container>
-      <S.Icon>
-        <Info aria-hidden="true" />
-      </S.Icon>
-      <div>
+      <S.IconContainer>
+        <S.Icon>
+          <Info aria-hidden="true" />
+        </S.Icon>
+      </S.IconContainer>
+      <S.TextContainer>
         <S.Title>{title}</S.Title>
         <S.Description>{advice}</S.Description>
-      </div>
+      </S.TextContainer>
     </S.Container>
   );
 }

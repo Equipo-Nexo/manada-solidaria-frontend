@@ -1,5 +1,17 @@
 import styled from "styled-components";
 
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const IconContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+`
+
 export const Container = styled.aside`
   display: flex;
   gap: 8px;
@@ -11,7 +23,14 @@ export const Container = styled.aside`
   text-align: left;
   justify-content: flex-start;
   align-items: center;
-  width: 100%
+  width: 100%;
+
+    
+  @media(max-width: 768px) {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: start;
+  }
 `;
 
 export const Icon = styled.span`
