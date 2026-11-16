@@ -9,7 +9,7 @@ function AnimalPostDetail() {
 
   return (
     <Layout
-      title={`Detalle de Publicación`}
+      title={`Detalle de la Publicación`}
       isLoading={isLoading}
       loadingMessage="Cargando publicación..."
       isError={isError || !postData}

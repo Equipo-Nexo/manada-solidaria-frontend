@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.aside`
-  display: grid;
-  grid-template-columns: 24px 1fr;
+  display: flex;
   gap: 8px;
   border: 2px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
@@ -10,6 +9,9 @@ export const Container = styled.aside`
   background: ${({ theme }) => theme.colors.neutral};
   font-family: ${({ theme }) => theme.fonts.body};
   text-align: left;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%
 `;
 
 export const Icon = styled.span`
