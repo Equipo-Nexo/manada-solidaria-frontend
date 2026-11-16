@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+
+export const Content = styled.div`
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+`
+
 export const List = styled.div`
   display: flex;
   flex-direction: column;
@@ -8,6 +16,11 @@ export const List = styled.div`
 
   & > article {
     width: 100%;
+  }
+
+  @media(min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
   }
 `;
 

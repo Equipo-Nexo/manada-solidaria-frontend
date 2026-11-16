@@ -25,21 +25,23 @@ function FundraisingList({
   }
 
   return (
-    <S.List>
+    <S.Content>
       <Advice
         title="Información importante"
         advice="El progreso de la colecta no se actualiza en tiempo real. Se refleja cuando la rescatista verifica las transferencias."
       />      
-      {fundraisings.map((fundraising) => (
-        <FundraisingCard
-          key={fundraising.id}
-          fundraising={fundraising}
-          onViewStory={(fundraising) => {
-            navigate(`/colectas/${fundraising.id}`);
-          }}
-        />
-      ))}
-    </S.List>
+      <S.List>
+        {fundraisings.map((fundraising) => (
+          <FundraisingCard
+            key={fundraising.id}
+            fundraising={fundraising}
+            onViewStory={(fundraising) => {
+              navigate(`/colectas/${fundraising.id}`);
+            }}
+          />
+        ))}
+      </S.List>
+    </S.Content>
   );
 }
 
