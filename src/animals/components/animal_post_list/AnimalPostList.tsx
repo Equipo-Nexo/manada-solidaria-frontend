@@ -7,17 +7,20 @@ export default function AnimalPostList({
   posts
 }: { posts: AnimalPost[] }) {
   return (
-    <S.ListContainer>
-      {
-        posts.map((post) => {
-          return (
-            <AnimalPostCard
-              key={post.id}
-              {...mapAnimalPostToCardProps(post)}
-            />
-          )
-        })
-      }
-    </S.ListContainer>
+    <S.Content>
+
+      <S.ListContainer>
+        {
+          posts.map((post) => {
+            return (
+              <AnimalPostCard
+                key={post.id}
+                {...mapAnimalPostToCardProps(post)}
+              />
+            )
+          })
+        }
+      </S.ListContainer>
+    </S.Content>
   )
 }

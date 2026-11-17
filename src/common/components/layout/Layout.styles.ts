@@ -15,9 +15,14 @@ export const Header = styled.header`
   width: 100%;
   min-height: 48px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   background: ${({ theme }) => theme.colors.background};
   margin-bottom: 11px;
+`
+
+export const ButtonAndTitleContainer = styled.div`
+    display: flex;
+    flex-direction: row;
 `
 
 export const BackButton = styled.button`

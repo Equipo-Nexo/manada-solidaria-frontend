@@ -70,8 +70,40 @@ function AllAnimalsPage() {
       subtitle={isLoading ? "Cargando resultados..." : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`}
       isLoading={isLoading}
       isError={isError}
+      headerAction={
+        <S.FilterButton
+          type="button"
+          $hasAppliedFilters={hasAppliedFilters}
+          onClick={handleOpenFilters}
+          aria-label={hasAppliedFilters
+            ? "Abrir filtros de animales, hay filtros aplicados"
+            : "Abrir filtros de animales"}
+        >
+          <S.FilterButtonLabel>Filtros</S.FilterButtonLabel>
+          <FilterIcon width={20} height={20} aria-hidden="true" />
+        </S.FilterButton>
+      }
     >
+      <S.FiltersContainer>
+        
+        
+        <CategorySelector
+          categories={animalPostFilters}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
+          ariaLabel="Filtrar publicaciones por categoría"
+        />
+      </S.FiltersContainer>
       <AnimalPostList posts={posts}/>
+      <AnimalFilters
+        isOpen={isFiltersOpen}
+        filters={draftFilters}
+        onChange={setDraftFilters}
+        onApply={handleApplyFilters}
+        onClose={() => setIsFiltersOpen(false)}
+        onClear={handleClearFilters}
+      />
       
     </Layout>
     // <S.Page>
@@ -89,28 +121,10 @@ function AllAnimalsPage() {
     // {}
     //       </S.PageSubtitle>
     //     </S.TitlesContainer>
-    //     <S.FilterButton
-    //       type="button"
-    //       $hasAppliedFilters={hasAppliedFilters}
-    //       onClick={handleOpenFilters}
-    //       aria-label={hasAppliedFilters
-    //         ? "Abrir filtros de animales, hay filtros aplicados"
-    //         : "Abrir filtros de animales"}
-    //     >
-    //       <S.FilterButtonLabel>Filtros</S.FilterButtonLabel>
-    //       <FilterIcon width={20} height={20} aria-hidden="true" />
-    //     </S.FilterButton>
+        
     //   </S.Header>
 
-    //   <S.FiltersContainer>
-    //     <CategorySelector
-    //       categories={animalPostFilters}
-    //       selectedCategory={selectedCategory}
-    //       onCategoryChange={setSelectedCategory}
-    //       getCategoryLabel={(category) => ANIMAL_POST_FILTER_LABELS[category]}
-    //       ariaLabel="Filtrar publicaciones por categoría"
-    //     />
-    //   </S.FiltersContainer>
+
 
     //   <S.PublicationsContainer aria-live="polite">
     //     {isLoading && (
@@ -144,14 +158,7 @@ function AllAnimalsPage() {
     //     )}
 
     //   </S.PublicationsContainer>
-    //   <AnimalFilters
-    //     isOpen={isFiltersOpen}
-    //     filters={draftFilters}
-    //     onChange={setDraftFilters}
-    //     onApply={handleApplyFilters}
-    //     onClose={() => setIsFiltersOpen(false)}
-    //     onClear={handleClearFilters}
-    //   />
+      
     // </S.Page>
   );
 }

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Filters = styled.div`
   display: flex;
-  width: 100%;
+  // width: 100%;
   justify-content: space-evenly;
   gap: 20px;
   overflow-x: auto;

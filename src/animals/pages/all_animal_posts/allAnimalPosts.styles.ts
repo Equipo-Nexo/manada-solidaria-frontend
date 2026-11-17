@@ -172,6 +172,9 @@ export const RetryButton = styled.button`
 `;
 
 export const FiltersContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   margin: 0px 0px 16px 0px;
-  padding: 0 16px;
+  gap: 16px;
+  justify-content: center;
 `;

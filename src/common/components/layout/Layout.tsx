@@ -13,6 +13,7 @@ interface LayoutProps {
   loadingMessage?: string;
   isError?: boolean;
   errorMessage?: string;
+  headerAction?: React.ReactNode;
 }
 
 export default function Layout({
@@ -20,6 +21,7 @@ export default function Layout({
   title,
   backTo,
   subtitle,
+  headerAction,
   isLoading = false,
   loadingMessage = "Cargando...",
   isError = false,
@@ -30,17 +32,20 @@ export default function Layout({
   return (
     <S.LayoutContainer>
       <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate(backTo || '/home')}
-          aria-label="Volver"
-        >
-          <Arrow aria-hidden="true" />
-        </S.BackButton>
-        <S.TitleContainer>
-          <S.PageTitle>{title}</S.PageTitle>
-          { subtitle && <S.Subtitle>{subtitle}</S.Subtitle> }
-        </S.TitleContainer>
+        <S.ButtonAndTitleContainer>
+          <S.BackButton
+            type="button"
+            onClick={() => navigate(backTo || '/home')}
+            aria-label="Volver"
+          >
+            <Arrow aria-hidden="true" />
+          </S.BackButton>
+          <S.TitleContainer>
+            <S.PageTitle>{title}</S.PageTitle>
+            { subtitle && <S.Subtitle>{subtitle}</S.Subtitle> }
+          </S.TitleContainer>
+        </S.ButtonAndTitleContainer>
+        { headerAction }
       </S.Header>
       <S.LayoutContent>
         {isLoading && (
