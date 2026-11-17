@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  AnimalPostCard,
   CategorySelector,
-  Message,
 } from "@components/index.ts";
-import { mapAnimalPostToCardProps } from "@components/animalPostCard/mapAnimalPostToCardProps";
-import { ArrowLeft, FilterIcon } from "@icons/index.ts";
+import { FilterIcon } from "@icons/index.ts";
 import * as S from "./allAnimalPosts.styles";
-import { publicationMessages } from "@utils/Messages";
 import {
   animalPostFilters,
   type AnimalPostFilter,
@@ -25,9 +20,7 @@ import AnimalPostList from "@/animals/components/animal_post_list/AnimalPostList
 const PAGE_SIZE = 10;
 
 function AllAnimalsPage() {
-  const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] =
-    useState<AnimalPostFilter>("");
+  const [selectedCategory, setSelectedCategory] = useState<AnimalPostFilter>("");
   const [appliedFilters, setAppliedFilters] = useState<AnimalFiltersType>({});
   const hasAppliedFilters = Object.values(appliedFilters).some(
     (value) => value !== undefined,

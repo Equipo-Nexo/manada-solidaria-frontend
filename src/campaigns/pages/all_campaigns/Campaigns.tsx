@@ -1,10 +1,8 @@
 import { useGetCampaignsQuery } from "@campaigns/app/api/campaignApi";
 import CampaignList from "@campaigns/components/campaign_list/CampaignList";
 import { useNavigate } from "react-router-dom";
-import * as S from "./Campaigns.styles";
 import { useState } from "react";
 import { CategorySelector } from "@components/index.ts";
-import { ArrowLeft } from "@icons/index.ts";
 import { campaignFilters, type CampaignFilter } from "@/campaigns/app/api/requests/CreateCampaignRequest";
 import { CAMPAIGN_FILTER_LABELS, mapCampaignToCardData } from "@/campaigns/utils/CampaignUtils";
 import Layout from "@/common/components/layout/Layout";
@@ -39,20 +37,6 @@ function Campaigns() {
         onMoreInfo={(campaign) => navigate(`/campanias/${campaign.id}`)}
       />
     </Layout>
-    // <S.Page>
-    //   <S.Header>
-    //     <S.BackButton type="button" onClick={() => navigate('/home')} aria-label="Volver">
-    //       <ArrowLeft aria-hidden="true" />
-    //     </S.BackButton>
-    //     <S.TitlesContainer>
-    //       <S.PageTitle>Campañas</S.PageTitle>
-    //       <S.PageSubtitle>
-            
-    //       </S.PageSubtitle>
-    //     </S.TitlesContainer>
-    //   </S.Header>
-      
-    // </S.Page>
   );
 }
 
