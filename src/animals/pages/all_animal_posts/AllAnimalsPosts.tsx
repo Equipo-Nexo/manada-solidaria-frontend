@@ -85,8 +85,6 @@ function AllAnimalsPage() {
       }
     >
       <S.FiltersContainer>
-        
-        
         <CategorySelector
           categories={animalPostFilters}
           selectedCategory={selectedCategory}
@@ -95,7 +93,9 @@ function AllAnimalsPage() {
           ariaLabel="Filtrar publicaciones por categoría"
         />
       </S.FiltersContainer>
+
       <AnimalPostList posts={posts}/>
+      
       <AnimalFilters
         isOpen={isFiltersOpen}
         filters={draftFilters}
@@ -106,60 +106,6 @@ function AllAnimalsPage() {
       />
       
     </Layout>
-    // <S.Page>
-    //   <S.Header>
-    //     <S.BackButton
-    //       type="button"
-    //       onClick={() => navigate("/home")}
-    //       aria-label="Volver"
-    //     >
-    //       <ArrowLeft aria-hidden="true" />
-    //     </S.BackButton>
-    //     <S.TitlesContainer>
-    //       <S.PageTitle>Animales publicados</S.PageTitle>
-    //       <S.PageSubtitle>
-    // {}
-    //       </S.PageSubtitle>
-    //     </S.TitlesContainer>
-        
-    //   </S.Header>
-
-
-
-    //   <S.PublicationsContainer aria-live="polite">
-    //     {isLoading && (
-    //       <S.MessageContainer>
-    //         <Message
-    //           message={publicationMessages.loading}
-    //           iconName="pawPrint"
-    //         />
-    //       </S.MessageContainer>
-    //     )}
-
-    //     {isError && (
-    //       <S.MessageContainer role="alert">
-    //         <Message
-    //           message={publicationMessages.loadError}
-    //           iconName="pawPrint"
-    //         />
-    //         <S.RetryButton type="button" onClick={() => void refetch()}>
-    //           Reintentar
-    //         </S.RetryButton>
-    //       </S.MessageContainer>
-    //     )}
-
-    //     {!isLoading && !isError && posts.length === 0 && (
-    //       <S.MessageContainer>
-    //         <Message
-    //           message={publicationMessages.emptyCategory}
-    //           iconName="pawPrint"
-    //         />
-    //       </S.MessageContainer>
-    //     )}
-
-    //   </S.PublicationsContainer>
-      
-    // </S.Page>
   );
 }
 

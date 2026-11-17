@@ -22,7 +22,7 @@ function MobileAuthenticatedView() {
     routesWithoutNavigation.includes(location.pathname) ||
     location.pathname.startsWith("/editar/exito") ||
     location.pathname.startsWith("/colectas/") ||
-    location.pathname.startsWith("/campanias") ||
+    location.pathname.startsWith("/campanias/") ||
     location.pathname.startsWith("/animal/detalle");
 
   const hideBottomNavigation =
@@ -39,6 +39,7 @@ function MobileAuthenticatedView() {
       location.pathname === "/veterinarias") &&
     location.pathname !== "/editar/exito";
 
+  console.log('showHeader', showHeader)
   return (
     <MobileViewChrome>
       {showHeader && <Header />}
