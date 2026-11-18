@@ -1,7 +1,10 @@
 import type { Location } from "@services/responses/Location";
-import type { CampaignCategory, CampaignType, DonationItem } from "@/campaigns/app/types/Campaign.types";
+import type {
+  CampaignCategory,
+  CampaignType,
+  DonationItem,
+} from "@/campaigns/app/types/Campaign.types";
 import type { PhoneNumber } from "../services/responses/PhoneNumber";
-
 
 export interface CampaignLocation extends Location {
   street: string;
@@ -18,6 +21,13 @@ export type CampaignResponse = {
   accountAlias?: string;
   amountToBeCollected?: number;
   location: CampaignLocation | undefined;
+  ownerId: string;
+  owner: {
+    username: string;
+    roles: string[];
+    profileImageURL: string | null;
+  };
+  createdAt: string;
 };
 
 export type FundraisingCampaignResponse = CampaignResponse & {
@@ -27,7 +37,7 @@ export type FundraisingCampaignResponse = CampaignResponse & {
   phoneNumber: PhoneNumber;
   campaignEndDate: string;
   location: CampaignLocation;
-}
+};
 
 export type CampaignPageResponse = {
   content: CampaignResponse[];
@@ -60,4 +70,11 @@ export type CampaignDetailsResponse = {
   campaignEndDate?: string;
   newsStartDateTime?: string;
   newsEndDateTime?: string;
+  createdAt: string;
+  ownerId: string;
+  owner: {
+    username: string;
+    roles: string[];
+    profileImageURL: string | null;
+  };
 };
