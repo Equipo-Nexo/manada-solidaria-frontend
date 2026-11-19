@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Lock, User } from "@icons/index.ts";
@@ -17,6 +17,7 @@ import {
 import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 import { isWebAuthnSupported } from "@auth/app/webauthn/webAuthnAuthentication";
 import { usePasskeyLogin } from "@auth/hooks/usePasskeyLogin";
+import { getPostAuthDestination } from "@auth/utils/authNavigation";
 declare const __APP_VERSION__: string;
 
 function Login() {
@@ -27,9 +28,8 @@ function Login() {
   const { requestLoginPermissions } = useAppPermissions();
   const [login, { isLoading }] = useLoginMutation();
   const {
-    cancelConditionalLogin,
+    cancelPasskeyLogin,
     loginWithPasskey,
-    startConditionalLogin,
     isLoading: isPasskeyLoading,
   } = usePasskeyLogin();
   const [showPassword, setShowPassword] = useState(false);
@@ -44,20 +44,10 @@ function Login() {
     resolver: yupResolver(loginSchema),
   });
 
-  const params = new URLSearchParams(location.search);
-  const redirect = params.get("redirect");
-
-  useEffect(() => {
-    const startTimer = window.setTimeout(() => void startConditionalLogin(), 0);
-
-    return () => {
-      window.clearTimeout(startTimer);
-      cancelConditionalLogin();
-    };
-  }, [cancelConditionalLogin, startConditionalLogin]);
+  const destination = getPostAuthDestination(location);
 
   const handleLogin = ({ username, password }: LoginFormValues) => {
-    cancelConditionalLogin();
+    cancelPasskeyLogin();
     const authorization = `Basic ${btoa(`${username}:${password}`)}`;
 
     login({ authorization })
@@ -65,7 +55,7 @@ function Login() {
       .then((tokens) => {
         dispatch(loginSuccess(tokens));
         void requestLoginPermissions();
-        navigate(redirect ? redirect : "/home", { replace: true });
+        navigate(destination, { replace: true });
       })
       .catch(() => {
         toast.error(
@@ -76,6 +66,7 @@ function Login() {
   };
 
   const handleForgotPassword = () => {
+    cancelPasskeyLogin();
     navigate("/recuperar-contrasena");
   };
 

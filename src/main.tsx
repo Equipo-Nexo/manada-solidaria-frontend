@@ -12,6 +12,7 @@ import { theme } from "@styles/theme.ts";
 import { defineCustomElements } from "@ionic/pwa-elements/loader";
 import "cally";
 import "./pwa";
+import AuthSessionGate from "@auth/components/AuthSessionGate";
 
 declare const __APP_VERSION__: string;
 
@@ -27,7 +28,9 @@ createRoot(document.getElementById("root")!).render(
           <GlobalStyle />
           <BrowserRouter>
             <ToastProvider>
-              <App />
+              <AuthSessionGate>
+                <App />
+              </AuthSessionGate>
             </ToastProvider>
           </BrowserRouter>
         </ThemeProvider>
