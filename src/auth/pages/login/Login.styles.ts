@@ -30,6 +30,11 @@ export const LoginContainer = styled.div`
     padding-top: 12px;
   }
 
+  @media(min-width: 1000px) {
+    flex-direction: row;
+    width: 60%;
+  }
+
 `
 
 export const LoginHeader = styled.div`
@@ -42,9 +47,19 @@ export const LoginHeader = styled.div`
   @media(min-width: 361px) {
     gap: 12px;
   }
+
+  @media(min-width: 1000px) {
+    gap: 24px;
+    flex: 1;
+  }
 `
 
 export const HeaderTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media(min-width: 1000px) {
+    gap: 8px;
+  }
 `
 
 export const FooterContainer = styled.div`
@@ -88,6 +103,10 @@ export const AppLogo = styled.img`
   @media(min-width: 361px) {
     width: 8rem;
   }
+
+  @media(min-width: 1000px) {
+    width: 16rem;
+  }
 `;
 
 export const AppTitle = styled.h1`
@@ -97,6 +116,10 @@ export const AppTitle = styled.h1`
   @media(min-width: 361px) {
     font-size: 1.5rem;
   }
+
+  @media(min-width: 1000px) {
+    font-size: 2rem;
+  }
 `
 
 export const AppDescription = styled.p`
@@ -104,6 +127,10 @@ export const AppDescription = styled.p`
   
   @media(min-width: 361px) {
     font-size: 1rem;
+  }
+
+  @media(min-width: 1000px) {
+    font-size: 1.2rem;
   }
 `
 
@@ -132,6 +159,10 @@ export const Form = styled.form`
   padding: 0 2rem;
   width: 100%;
   margin-top: 1rem;
+
+  @media(min-width: 1000px) {
+    flex: 1;
+  }
 `
 export const FormFields = styled.div`
   display: flex;
@@ -283,6 +314,11 @@ export const LoginButton = styled.button`
 
   @media(min-width: 361px) {
     height: 3rem;
+    font-size: 1rem;
+  }
+
+  @media(min-width: 1000px) {
+    height: 4rem;
     font-size: 1rem;
   }
 `

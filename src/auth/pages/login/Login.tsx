@@ -161,7 +161,7 @@ function Login() {
             <S.RecoveryButton type="button" onClick={handleForgotPassword}>
               Olvidé mi contraseña
             </S.RecoveryButton>
-            
+
             <S.ButtonsContainer>
 
               <S.LoginButton type="submit" disabled={isAuthenticating}>
@@ -186,14 +186,14 @@ function Login() {
               )}
             </S.ButtonsContainer>
           </S.FormFields>
+          <S.RegisterTextContainer>
+            <S.RegisterText>
+              ¿No tienes cuenta?{" "}
+              <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
+            </S.RegisterText>
+          </S.RegisterTextContainer>
         </S.Form>
 
-        <S.RegisterTextContainer>
-          <S.RegisterText>
-            ¿No tienes cuenta?{" "}
-            <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
-          </S.RegisterText>
-        </S.RegisterTextContainer>
       </S.LoginContainer>
 
       <S.FooterContainer>
