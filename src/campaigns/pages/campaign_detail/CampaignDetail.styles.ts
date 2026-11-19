@@ -89,6 +89,7 @@ export const PhotoContainer = styled.div<{ $cropped: boolean }>`
   height: ${({ $cropped }) => ($cropped ? '320px' : 'auto')};
   overflow: hidden;
   border-radius: 12px;
+  margin-bottom: 16px;
 
   @media (min-width: 768px) {
     height: ${({ $cropped }) => ($cropped ? 'clamp(360px, 42vw, 580px)' : 'auto')};
@@ -109,16 +110,17 @@ export const BottomInfoRow = styled.section`
   flex-direction: column;
   gap: 16px;
 `;
+
 export const CampaignInfo = styled.section`
-    display:flex;
-    flex-direction:column;
+  display:flex;
+  flex-direction:column;
   width: 100%;
   box-sizing: border-box;
-  padding: 20px;
   gap:12px;
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  padding: 24px;
 `;
 type TitleProps = {
   $iconColor?: "black" | "secondary";
@@ -190,8 +192,13 @@ export const IconContainer = styled.div`
 export const DescriptionSection = styled.section`
   width: 100%;
   box-sizing: border-box;
-  padding: 0 8px;
+  padding: 8px;
 `;
+
+export const MapContainer = styled.section`
+  margin-bottom: 23px;
+`
+
 export const CampaignDescription = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};

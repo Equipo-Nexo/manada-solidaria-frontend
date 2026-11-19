@@ -333,7 +333,7 @@ export const LocationCard = styled.section`
   width:100%;
   background: ${({ theme }) => theme.colors.background}; 
   box-shadow: 0 2px 8px rgb(55 37 28 / 18%);
-
+  margin-bottom: 24px;
   @media (min-width: 768px) {
     min-height: 140px;
     margin-top: 0;
