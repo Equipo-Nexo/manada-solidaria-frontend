@@ -18,6 +18,7 @@ import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 import { isWebAuthnSupported } from "@auth/app/webauthn/webAuthnAuthentication";
 import { usePasskeyLogin } from "@auth/hooks/usePasskeyLogin";
 import { getPostAuthDestination } from "@auth/utils/authNavigation";
+import { Input } from "@/common/components/inputs/Inputs.styles";
 declare const __APP_VERSION__: string;
 
 function Login() {
@@ -73,24 +74,19 @@ function Login() {
   return (
     <S.LoginPanel>
       <S.LoginContainer>
-        <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
-        <S.AppTitle>
-          Manada <S.TitleLineBreak /> Solidaria
-        </S.AppTitle>
-        <S.AppDescription>
-          Ayudemos juntos a quienes más <S.TitleLineBreak />
-          lo necesitan.
-        </S.AppDescription>
+        <S.LoginHeader>
+          <S.AppLogo src="/logo.svg" alt="Manada Solidaria" />
+          <S.HeaderTextContainer>
+            <S.AppTitle>
+              Manada Solidaria
+            </S.AppTitle>
+            <S.AppDescription>
+              Ayudemos juntos a quienes más <S.TitleLineBreak />
+              lo necesitan.
+            </S.AppDescription>
+          </S.HeaderTextContainer>
+        </S.LoginHeader>
 
-        <S.TitlesContainer>
-          <S.WelcomeTitle>
-            ¡Qué bueno verte
-            <S.TitleLineBreak /> de nuevo!
-          </S.WelcomeTitle>
-          <S.WelcomeSubtitle>
-            Inicia sesión para seguir ayudando
-          </S.WelcomeSubtitle>
-        </S.TitlesContainer>
 
         <S.Form
           onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)}
@@ -103,7 +99,7 @@ function Login() {
                 <User aria-hidden="true" />
                 <S.FieldLabel htmlFor="username">Usuario</S.FieldLabel>
               </S.FieldLabelContainer>
-              <S.Input
+              <Input
                 id="username"
                 type="text"
                 placeholder="usuario"
@@ -113,7 +109,6 @@ function Login() {
                   errors.username ? "username-error" : undefined
                 }
                 aria-invalid={Boolean(errors.username)}
-                $hasError={Boolean(errors.username)}
                 {...register("username")}
               />
               <ErrorMessage
@@ -128,7 +123,7 @@ function Login() {
                 <S.FieldLabel>Contraseña</S.FieldLabel>
               </S.FieldLabelContainer>
               <S.PasswordInputWrapper>
-                <S.Input
+                <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder={showPassword ? "contraseña" : "********"}
@@ -138,7 +133,6 @@ function Login() {
                     errors.password ? "password-error" : undefined
                   }
                   aria-invalid={Boolean(errors.password)}
-                  $hasError={Boolean(errors.password)}
                   {...register("password")}
                 />
                 <S.PasswordToggle
@@ -167,29 +161,33 @@ function Login() {
             <S.RecoveryButton type="button" onClick={handleForgotPassword}>
               Olvidé mi contraseña
             </S.RecoveryButton>
+            
+            <S.ButtonsContainer>
 
-            <S.LoginButton type="submit" disabled={isAuthenticating}>
-              {isLoading ? "Ingresando..." : "Iniciar Sesión"}
-            </S.LoginButton>
+              <S.LoginButton type="submit" disabled={isAuthenticating}>
+                {isLoading ? "Ingresando..." : "Iniciar Sesión"}
+              </S.LoginButton>
 
-            {passkeySupported && (
-              <>
-                <S.LoginDivider>
-                  <span>o</span>
-                </S.LoginDivider>
-                <S.PasskeyButton
-                  type="button"
-                  disabled={isAuthenticating}
-                  onClick={() => void loginWithPasskey()}
-                >
-                  {isPasskeyLoading
-                    ? "Esperando confirmación..."
-                    : "Ingresar con passkey"}
-                </S.PasskeyButton>
-              </>
-            )}
+              {passkeySupported && (
+                <>
+                  <S.LoginDivider>
+                    <span>o</span>
+                  </S.LoginDivider>
+                  <S.PasskeyButton
+                    type="button"
+                    disabled={isAuthenticating}
+                    onClick={() => void loginWithPasskey()}
+                  >
+                    {isPasskeyLoading
+                      ? "Esperando confirmación..."
+                      : "Ingresar con passkey"}
+                  </S.PasskeyButton>
+                </>
+              )}
+            </S.ButtonsContainer>
           </S.FormFields>
         </S.Form>
+
         <S.RegisterTextContainer>
           <S.RegisterText>
             ¿No tienes cuenta?{" "}
@@ -197,9 +195,10 @@ function Login() {
           </S.RegisterText>
         </S.RegisterTextContainer>
       </S.LoginContainer>
+
       <S.FooterContainer>
         <S.FooterText>
-          © 2026 Manada Solidaria - Cuidando huellas juntos
+          © 2026 Manada Solidaria
         </S.FooterText>
         <S.FooterText>v{__APP_VERSION__}</S.FooterText>
       </S.FooterContainer>

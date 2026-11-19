@@ -128,11 +128,6 @@ function PasskeyLogin() {
       <S.Card>
         <S.BrandLogo src="/logo.svg" alt="Manada Solidaria" />
 
-        <S.FingerprintBadge aria-hidden="true">
-          <Fingerprint />
-        </S.FingerprintBadge>
-
-        <S.Title id="passkey-login-title">¡Qué bueno verte de nuevo!</S.Title>
         <S.Subtitle>Ingresá de forma rápida y segura</S.Subtitle>
         <S.Explanation>
           Usá la huella, el reconocimiento facial o el PIN de este dispositivo. No
