@@ -16,14 +16,14 @@ export const LoginPanel = styled.section`
 export const LoginContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
   border-radius: 32px;
-  height: 80dvh;
+  height: 85dvh;
   width: min(100%, 400px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: 24px;
-  gap: 8px;
+  gap: 5px;
 
   @media(min-width: 361px) {
     gap: 16px;
@@ -58,7 +58,7 @@ export const FooterContainer = styled.div`
 `
 
 export const FooterText = styled.p`
-  font-size: 8px;
+  font-size: 10px;
 
   @media(min-width: 361px) {
     font-size: 12px;
@@ -92,7 +92,7 @@ export const AppLogo = styled.img`
 
 export const AppTitle = styled.h1`
   color: ${({ theme }) => theme.colors.brand};
-  font-size: 1rem;
+  font-size: 1.2rem;
   
   @media(min-width: 361px) {
     font-size: 1.5rem;
@@ -100,7 +100,7 @@ export const AppTitle = styled.h1`
 `
 
 export const AppDescription = styled.p`
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   
   @media(min-width: 361px) {
     font-size: 1rem;
@@ -271,7 +271,7 @@ export const RecoveryButton = styled.button`
 
 export const LoginButton = styled.button`
   width: 100%;
-  height: 2rem;
+  height: 2.5rem;
   border-radius: 9999px;
   border: none;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
