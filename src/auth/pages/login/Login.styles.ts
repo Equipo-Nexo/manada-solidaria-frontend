@@ -16,7 +16,7 @@ export const LoginPanel = styled.section`
 export const LoginContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
   border-radius: 32px;
-  min-height: min(80dvh, 900px);
+  height: 80dvh;
   width: min(100%, 400px);
   display: flex;
   flex-direction: column;
