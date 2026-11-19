@@ -26,6 +26,8 @@ authListenerMiddleware.startListening({
   actionCreator: logout,
   effect: (_action, { dispatch }) => {
     const runningRequests = [
+      ...dispatch(baseApi.util.getRunningQueriesThunk()),
+      ...dispatch(baseApi.util.getRunningMutationsThunk()),
       ...dispatch(baseAuthenticatedApi.util.getRunningQueriesThunk()),
       ...dispatch(baseAuthenticatedApi.util.getRunningMutationsThunk()),
     ];
@@ -46,8 +48,14 @@ const rootReducer = combineReducers({
 });
 
 type AppState = ReturnType<typeof rootReducer>;
+type PersistedAuthState = Omit<AuthState, "sessionStatus">;
 
-const authTransform = createTransform<AuthState, AuthState, AppState, AppState>(
+const authTransform = createTransform<
+  AuthState,
+  PersistedAuthState,
+  AppState,
+  AppState
+>(
   ({ userId, accessToken, isAuthenticated }) => ({
     userId,
     accessToken,
@@ -57,6 +65,7 @@ const authTransform = createTransform<AuthState, AuthState, AppState, AppState>(
     userId,
     accessToken,
     isAuthenticated,
+    sessionStatus: isAuthenticated ? "checking" : "unauthenticated",
   }),
   { whitelist: ["auth"] },
 );

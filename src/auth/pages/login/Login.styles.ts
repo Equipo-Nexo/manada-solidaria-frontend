@@ -11,35 +11,54 @@ export const LoginPanel = styled.section`
   background: ${({ theme }) => theme.colors.neutral};
   padding: max(0px, env(safe-area-inset-top)) 16px max(0px, env(safe-area-inset-bottom));
   overflow-y: auto;
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    justify-content: flex-start;
-    padding-top: max(8px, env(safe-area-inset-top));
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    padding-top: max(4px, env(safe-area-inset-top));
-  }
 `
 
 export const LoginContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
   border-radius: 32px;
-  min-height: min(90dvh, 900px);
+  height: 85dvh;
   width: min(100%, 400px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 24px;
+  gap: 5px;
 
-  @media (min-width: 768px) {
-    width: min(100%, 380px);
-    min-height: min(86dvh, 820px);
+  @media(min-width: 361px) {
+    gap: 16px;
+    padding-top: 12px;
   }
 
-  @media (min-width: 768px) and (max-height: 720px) {
-    width: min(100%, 340px);
-    min-height: min(88dvh, 625px);
+  @media(min-width: 1000px) {
+    flex-direction: row;
+    width: 60%;
+  }
+
+`
+
+export const LoginHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  
+  @media(min-width: 361px) {
+    gap: 12px;
+  }
+
+  @media(min-width: 1000px) {
+    gap: 24px;
+    flex: 1;
+  }
+`
+
+export const HeaderTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media(min-width: 1000px) {
+    gap: 8px;
   }
 `
 
@@ -51,125 +70,67 @@ export const FooterContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 5px;
-
-  @media (min-width: 768px) {
-    min-height: 30px;    
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    min-height: 32px;
-  }
-
-  @media (max-width: 767px) and (max-height: 670px) {
-    min-height: 28px;
-  }
 `
 
 export const FooterText = styled.p`
-  @media (min-width: 768px) {
-    font-size: 0.6875rem;
-    line-height: 1.35;
+  font-size: 10px;
+
+  @media(min-width: 361px) {
+    font-size: 12px;
   }
 
-  @media (max-width: 1300px) and (max-height: 720px) {
-    font-size: 0.8rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    font-size: 0.625rem;
-    line-height: 1.2;
-  }
 `
 
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+
+  @media(min-width: 361px) {
+    gap: 8px;
+    margin-top: 12px;
+  }
+`;
+
 export const TitleLineBreak = styled.br`
-  display: none;
 `
 
 export const AppLogo = styled.img`
-  margin-top: 2rem;
-  width: 10rem;
+  width: 6rem;
   height: auto;
 
-  @media (min-width: 768px) {
-    width: 7.5rem;
-    margin-top: 1rem;
+  @media(min-width: 361px) {
+    width: 8rem;
   }
 
-  @media (max-width: 1300px) and (max-height: 720px) {
-    width: 6rem;
-    margin-top: 0.75rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 850px) {
-    width: 5rem;
-    margin-top: 0.75rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    width: 7rem;
-    margin-top: 0.75rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    width: 3rem;
-    margin-top: 0.5rem;
+  @media(min-width: 1000px) {
+    width: 16rem;
   }
 `;
 
 export const AppTitle = styled.h1`
   color: ${({ theme }) => theme.colors.brand};
-  font-size: ${({ theme }) => theme.fontSizes.title};
-  margin-top: 1rem;
-
-  @media (min-width: 768px) {
-    margin-top: 0.625rem;
-    font-size: 1.625rem;
-    line-height: 1.15;
-  }
-
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 1.8rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 850px) {
-    margin-top: 0.375rem;
+  font-size: 1.2rem;
+  
+  @media(min-width: 361px) {
     font-size: 1.5rem;
-    line-height: 1.1;
   }
 
-  @media (max-width: 767px) and (max-height: 750px) {
-    margin-top: 0.375rem;
-    font-size: 1.3rem;
-    line-height: 1.1;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    display: none;
+  @media(min-width: 1000px) {
+    font-size: 2rem;
   }
 `
 
 export const AppDescription = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.normal};
-  margin-top: 5px;
-
-  @media (min-width: 768px) {
-    margin-top: 3px;
-    font-size: 0.8125rem;
-    line-height: 1.35;
+  font-size: 0.8rem;
+  
+  @media(min-width: 361px) {
+    font-size: 1rem;
   }
 
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    margin-top: 2px;
-    font-size: 0.75rem;
-    line-height: 1.2;
-  }
-
-  @media (max-width: 767px) and (max-height: 670px) {
-    display: none;
+  @media(min-width: 1000px) {
+    font-size: 1.2rem;
   }
 `
 
@@ -178,72 +139,18 @@ export const TitlesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1px;
-
-  @media (min-width: 768px) {
-    margin-top: 1rem;
-  }
-  @media (max-width: 1300px) and (max-height: 720px) {
-   margin-top: 0.625rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    margin-top: 0.625rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 670px) {
-    margin-top: 0.375rem;
-  }
 `
 
 export const WelcomeTitle = styled.h2`
   font-size: ${({theme}) => theme.fontSizes.subtitle};
   font-weight: ${({theme}) => theme.fontWeights.bold};
   color: ${({theme}) => theme.colors.black};
-
-  @media (min-width: 768px) {
-    font-size: 1.25rem;
-    line-height: 1.2;
-  }
-
-
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 1.2rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    font-size: 1rem;
-    line-height: 1.15;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    font-size: 0.9rem;
-    line-height: 1.1;
-  }
 `
 
 export const WelcomeSubtitle = styled.p`
   font-size: ${({theme}) => theme.fontSizes.normal};
   font-weight: ${({theme}) => theme.fontWeights.regular};
   color: ${({theme}) => theme.colors.black};
-
-  @media (min-width: 768px) {
-    font-size: 0.8125rem;
-    line-height: 1.35;
-  }
-
-  
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    font-size: 0.6rem;
-    line-height: 1.2;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    font-size: 0.75rem;
-  }
 `
 
 export const Form = styled.form`
@@ -253,48 +160,15 @@ export const Form = styled.form`
   width: 100%;
   margin-top: 1rem;
 
-  @media (min-width: 768px) {
-    padding: 0 3rem;
-    margin-top: 0.75rem;
-  }
-
-  @media (min-width: 768px) and (max-height: 720px) {
-    padding-right: 1.75rem;
-    padding-left: 1.75rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    margin-top: 0.625rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    margin-top: 0.375rem;
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
+  @media(min-width: 1000px) {
+    flex: 1;
   }
 `
 export const FormFields = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
-
-  @media (min-width: 768px) {
-    gap: 0.75rem;
-  }
-
-  
-  @media (max-width: 1300px) and (max-height: 720px) {
-   gap: 0.7rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    gap: 0.625rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    gap: 0.375rem;
-  }
 `
 
 export const Field = styled.div`
@@ -302,11 +176,7 @@ export const Field = styled.div`
   flex-direction: column;
   align-items: start;
   width: 100%;
-  gap: 4px;
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    gap: 2px;
-  }
+  gap: 6px;
 `
 
 export const FieldLabelContainer = styled.div`
@@ -315,32 +185,19 @@ export const FieldLabelContainer = styled.div`
   gap: 8px;
   align-items: center;
   justify-content: center;
-
-  @media (min-width: 768px) {
-    gap: 6px;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  @media (max-width: 1300px) and (max-height: 720px) {
-   gap: 6px;
-  }
 `
 
 export const FieldLabel = styled.label`
-  color: ${({ theme }) => theme.colors.darkColor };
-  font-size: ${({ theme }) => theme.fontSizes.normal };
-  font-weight: ${({ theme }) => theme.fontWeights.semibold };
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.14px;
 
-  @media (min-width: 768px) {
-    font-size: 0.8125rem;
-  }
-
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.88rem;
+  @media (min-width: 768px) and (max-height: 720px) {
+    line-height: 18px;
   }
 `
 
@@ -350,28 +207,6 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   background: ${({theme}) => theme.colors.soft};
   border: none;
   border-radius: 12px;
-
-  @media (min-width: 768px) {
-    min-height: 42px;
-    padding: 0.6875rem 1.25rem;
-    border-radius: 10px;
-    font-size: 0.875rem;
-  }
-  
-  @media (max-width: 1300px) and (max-height: 720px) {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;   
-  }
-  
-  @media (max-width: 767px) and (max-height: 750px) {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    min-height: 44px;
-    padding: 0.625rem 1.25rem;
-  }
 `
 
 export const PasswordInputWrapper = styled.div`
@@ -380,12 +215,6 @@ export const PasswordInputWrapper = styled.div`
 
   ${Input} {
     padding-right: 52px;
-  }
-
-  @media (max-width: 767px) {
-    ${Input} {
-      padding-right: 44px;
-    }
   }
 `
 
@@ -449,13 +278,10 @@ export const RecoveryButton = styled.button`
   text-align: center;
   text-decoration: underline;
   text-underline-offset: 2px;
+  margin-top: 6px;
 
-  @media (min-width: 768px) {
-    font-size: 0.8125rem;
-  }
-
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
+  @media(min-width: 361px) {
+    margin-top: 12px;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -476,31 +302,24 @@ export const RecoveryButton = styled.button`
 
 export const LoginButton = styled.button`
   width: 100%;
-  height: 3rem;
+  height: 2.5rem;
   border-radius: 9999px;
   border: none;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.white};
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
 
-  @media (min-width: 768px) {
-    height: 2.5rem;
-    font-size: 0.875rem;
+  @media(min-width: 361px) {
+    height: 3rem;
+    font-size: 1rem;
   }
 
-  @media (max-width: 1300px) and (max-height: 720px) {
-    height: 2.5rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    height: 2rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 670px) {
-    max-height: 32px;
+  @media(min-width: 1000px) {
+    height: 4rem;
+    font-size: 1rem;
   }
 `
 
@@ -542,37 +361,12 @@ export const PasskeyButton = styled(LoginButton)`
 export const RegisterTextContainer = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
-
-  @media (min-width: 768px) {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 750px) {
-    margin-top: 0.625rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    margin-top: 0.375rem;
-  }
 `
 
 export const RegisterText = styled.p`
   color: ${({ theme }) => theme.colors.darkColor};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSizes.normal};
-
-  @media (min-width: 768px) {
-    font-size: 0.8125rem;
-  }
-
-  @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    font-size: 0.875rem;
-  }
 `
 
 export const RegisterLink = styled.a`
@@ -580,11 +374,4 @@ export const RegisterLink = styled.a`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   font-size: ${({ theme }) => theme.fontSizes.normal};
 
-  @media (min-width: 768px) {
-    font-size: 0.8125rem;
-  }
-
-  @media (max-width: 767px) and (max-height: 650px) {
-    font-size: 0.875rem;
-  }
 `

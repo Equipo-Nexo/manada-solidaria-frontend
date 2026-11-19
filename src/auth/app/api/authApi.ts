@@ -13,6 +13,13 @@ export const authApi = baseApi.injectEndpoints({
         },
       })
     }),
+    refreshSession: builder.mutation<AuthTokens, void>({
+      query: () => ({
+        url: '/auth/refresh',
+        method: 'POST',
+        timeout: 15_000,
+      }),
+    }),
     signup: builder.mutation<void, SignupRequest>({
       query: (body) => ({
         url: '/auth/signup',
@@ -24,4 +31,8 @@ export const authApi = baseApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useLoginMutation, useSignupMutation } = authApi
+export const {
+  useLoginMutation,
+  useRefreshSessionMutation,
+  useSignupMutation,
+} = authApi

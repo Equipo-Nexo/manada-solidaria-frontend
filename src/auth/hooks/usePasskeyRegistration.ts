@@ -4,6 +4,7 @@ import {
   useRegisterPasskeyMutation,
 } from '@auth/app/api/passkeyRegistrationApi'
 import { createPasskeyCredential } from '@auth/app/webauthn/webAuthnRegistration'
+import { setPasskeyPreferred } from '@auth/services/passkeyPreference'
 import { useToast } from '@hooks/toast/useToast'
 
 function isUserCancellation(error: unknown): boolean {
@@ -29,6 +30,8 @@ export function usePasskeyRegistration() {
       if (!result.success) {
         throw new Error('PASSKEY_REGISTRATION_REJECTED')
       }
+
+      setPasskeyPreferred()
 
       toast.success(
         'Passkey configurada',
