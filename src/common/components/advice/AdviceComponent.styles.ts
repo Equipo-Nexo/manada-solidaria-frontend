@@ -25,7 +25,6 @@ export const Container = styled.aside`
   align-items: center;
   width: 100%;
 
-    
   @media(max-width: 768px) {
     display: grid;
     grid-template-columns: 24px 1fr;

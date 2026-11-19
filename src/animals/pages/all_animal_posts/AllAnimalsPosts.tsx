@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  AnimalPostCard,
   CategorySelector,
-  Message,
 } from "@components/index.ts";
-import { mapAnimalPostToCardProps } from "@components/animalPostCard/mapAnimalPostToCardProps";
-import { ArrowLeft, FilterIcon } from "@icons/index.ts";
+import { FilterIcon } from "@icons/index.ts";
 import * as S from "./allAnimalPosts.styles";
-import { publicationMessages } from "@utils/Messages";
 import {
   animalPostFilters,
   type AnimalPostFilter,
@@ -20,12 +15,12 @@ import {
 } from "@/animals/utils/AnimalFormUtils";
 import type { AnimalFilters as AnimalFiltersType } from "@animals/app/api/requests/animalPostRequests";
 import AnimalFilters from "@/animals/components/animal_filters/AnimalFilters";
+import Layout from "@/common/components/layout/Layout";
+import AnimalPostList from "@/animals/components/animal_post_list/AnimalPostList";
 const PAGE_SIZE = 10;
 
 function AllAnimalsPage() {
-  const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] =
-    useState<AnimalPostFilter>("");
+  const [selectedCategory, setSelectedCategory] = useState<AnimalPostFilter>("");
   const [appliedFilters, setAppliedFilters] = useState<AnimalFiltersType>({});
   const hasAppliedFilters = Object.values(appliedFilters).some(
     (value) => value !== undefined,
@@ -53,7 +48,6 @@ function AllAnimalsPage() {
     data: animalPosts,
     isError,
     isLoading,
-    refetch,
   } = useGetAnimalPostsQuery({
     type: animalPostTypeToFilter(selectedCategory),
     ...appliedFilters,
@@ -62,24 +56,14 @@ function AllAnimalsPage() {
   });
   const posts = animalPosts?.content ?? [];
   const totalElements = animalPosts?.totalElements ?? 0;
+
   return (
-    <S.Page>
-      <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate("/home")}
-          aria-label="Volver"
-        >
-          <ArrowLeft aria-hidden="true" />
-        </S.BackButton>
-        <S.TitlesContainer>
-          <S.PageTitle>Animales publicados</S.PageTitle>
-          <S.PageSubtitle>
-            {isLoading
-              ? "Cargando resultados..."
-              : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`}
-          </S.PageSubtitle>
-        </S.TitlesContainer>
+    <Layout
+      title="Animales publicados"
+      subtitle={isLoading ? "Cargando resultados..." : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`}
+      isLoading={isLoading}
+      isError={isError}
+      headerAction={
         <S.FilterButton
           type="button"
           $hasAppliedFilters={hasAppliedFilters}
@@ -91,8 +75,8 @@ function AllAnimalsPage() {
           <S.FilterButtonLabel>Filtros</S.FilterButtonLabel>
           <FilterIcon width={20} height={20} aria-hidden="true" />
         </S.FilterButton>
-      </S.Header>
-
+      }
+    >
       <S.FiltersContainer>
         <CategorySelector
           categories={animalPostFilters}
@@ -103,48 +87,8 @@ function AllAnimalsPage() {
         />
       </S.FiltersContainer>
 
-      <S.PublicationsContainer aria-live="polite">
-        {isLoading && (
-          <S.MessageContainer>
-            <Message
-              message={publicationMessages.loading}
-              iconName="pawPrint"
-            />
-          </S.MessageContainer>
-        )}
-
-        {isError && (
-          <S.MessageContainer role="alert">
-            <Message
-              message={publicationMessages.loadError}
-              iconName="pawPrint"
-            />
-            <S.RetryButton type="button" onClick={() => void refetch()}>
-              Reintentar
-            </S.RetryButton>
-          </S.MessageContainer>
-        )}
-
-        {!isLoading && !isError && posts.length === 0 && (
-          <S.MessageContainer>
-            <Message
-              message={publicationMessages.emptyCategory}
-              iconName="pawPrint"
-            />
-          </S.MessageContainer>
-        )}
-
-        {!isLoading &&
-          !isError &&
-          posts.map((post) => {
-            return (
-              <AnimalPostCard
-                key={post.id}
-                {...mapAnimalPostToCardProps(post)}
-              />
-            );
-          })}
-      </S.PublicationsContainer>
+      <AnimalPostList posts={posts}/>
+      
       <AnimalFilters
         isOpen={isFiltersOpen}
         filters={draftFilters}
@@ -153,7 +97,8 @@ function AllAnimalsPage() {
         onClose={() => setIsFiltersOpen(false)}
         onClear={handleClearFilters}
       />
-    </S.Page>
+      
+    </Layout>
   );
 }
 

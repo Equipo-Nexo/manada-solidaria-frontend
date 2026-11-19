@@ -15,9 +15,14 @@ export const Header = styled.header`
   width: 100%;
   min-height: 48px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   background: ${({ theme }) => theme.colors.background};
   margin-bottom: 11px;
+`
+
+export const ButtonAndTitleContainer = styled.div`
+    display: flex;
+    flex-direction: row;
 `
 
 export const BackButton = styled.button`
@@ -36,6 +41,13 @@ export const BackButton = styled.button`
     }
 `
 
+export const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+`
+
 export const PageTitle = styled.h1`
     margin: 0;
     color: ${({ theme }) => theme.colors.black};
@@ -44,6 +56,9 @@ export const PageTitle = styled.h1`
     overflow-wrap: break-word;
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     text-align: left;
+`
+
+export const Subtitle = styled.p`
 `
 
 export const LoaderContainer = styled.section`

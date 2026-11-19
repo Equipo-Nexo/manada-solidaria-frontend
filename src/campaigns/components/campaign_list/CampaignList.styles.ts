@@ -1,18 +1,33 @@
 import styled from "styled-components";
 
-export const List = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
-  justify-content: center;
+
+export const Content = styled.div`
+  display: flex;
   gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+`
+
+export const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
 
   & > article {
     width: 100%;
   }
+
+  @media(min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
+  }
 `;
+
 export const AdviceItem = styled.div`
   grid-column: 1 / -1;
 `;
+
 export const MessageContainer = styled.div`
   display: flex;
   width: min(100%, 325px);
