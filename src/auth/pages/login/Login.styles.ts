@@ -16,7 +16,7 @@ export const LoginPanel = styled.section`
 export const LoginContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
   border-radius: 32px;
-  min-height: min(90dvh, 900px);
+  min-height: min(80dvh, 900px);
   width: min(100%, 400px);
   display: flex;
   flex-direction: column;
@@ -58,10 +58,10 @@ export const FooterContainer = styled.div`
 `
 
 export const FooterText = styled.p`
-  font-size: 12px;
+  font-size: 8px;
 
   @media(min-width: 361px) {
-    font-size: 16px;
+    font-size: 12px;
   }
 
 `
