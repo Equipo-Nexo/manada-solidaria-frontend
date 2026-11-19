@@ -82,28 +82,28 @@ export const TitleLineBreak = styled.br`
 `
 
 export const AppLogo = styled.img`
-  width: 8rem;
+  width: 6rem;
   height: auto;
 
   @media(min-width: 361px) {
-    width: 10rem;
+    width: 8rem;
   }
 `;
 
 export const AppTitle = styled.h1`
   color: ${({ theme }) => theme.colors.brand};
-  font-size: 1.5rem;
+  font-size: 1rem;
   
   @media(min-width: 361px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `
 
 export const AppDescription = styled.p`
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   
   @media(min-width: 361px) {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 `
 
@@ -271,7 +271,7 @@ export const RecoveryButton = styled.button`
 
 export const LoginButton = styled.button`
   width: 100%;
-  height: 3rem;
+  height: 2rem;
   border-radius: 9999px;
   border: none;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
@@ -282,8 +282,8 @@ export const LoginButton = styled.button`
   cursor: pointer;
 
   @media(min-width: 361px) {
-    height: 4rem;
-    font-size: 1.2rem;
+    height: 3rem;
+    font-size: 1rem;
   }
 `
 
