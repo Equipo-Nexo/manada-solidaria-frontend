@@ -21,6 +21,13 @@ export type CampaignResponse = {
   accountAlias?: string;
   amountToBeCollected?: number;
   location: CampaignLocation | undefined;
+  ownerId: string;
+  owner: {
+    username: string;
+    roles: string[];
+    profileImageURL: string | null;
+  };
+  createdAt: string;
 };
 
 export type FundraisingCampaignResponse = CampaignResponse & {
@@ -63,4 +70,11 @@ export type CampaignDetailsResponse = {
   campaignEndDate?: string;
   newsStartDateTime?: string;
   newsEndDateTime?: string;
+  createdAt: string;
+  ownerId: string;
+  owner: {
+    username: string;
+    roles: string[];
+    profileImageURL: string | null;
+  };
 };

@@ -26,6 +26,24 @@ export const ContactContent = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+export const UserProfileContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: none;
+`;
+export const ValuesContainer = styled.div`
+  min-width: 0;
+  text-align: left;
+`;
+export const AuthorRole = styled.p`
+  margin: 4px 0 0;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`;
 
 export const Page = styled.div`
   display: flex;
@@ -151,15 +169,14 @@ type TitleProps = {
 };
 export const Title = styled.h2<TitleProps>`
   display: flex;
-  width: 208px;
   align-items: center;
   gap: 8px;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   color: ${({ theme }) => theme.colors.black};
   text-align: left;
-  font-size: ${({ theme }) => theme.typography.header2};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  line-height: 22px;
+  line-height: 20px;
   svg {
     color: ${({ $iconColor, theme }) =>
       $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
@@ -194,7 +211,49 @@ export const EndDateLabel = styled.p`
   line-height: 14px;
   color: ${({ theme }) => theme.colors.black};
 `;
-
+export const Label = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  line-height: 17px;
+  strong {
+    color: ${({ theme }) => theme.colors.black};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+  }
+`;
+export const InfoContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  height: 72px;
+  background: ${({ theme }) => theme.colors.neutral};
+`;
+export const TimeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: 11px;
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+`;
+export const AuthorCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+  justify-content: center;
+`;
 export const EndDateValue = styled.p`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.medium};
@@ -264,7 +323,9 @@ export const CampaignHeading = styled.div`
   }
 `;
 
-export const CampaignTypeBadge = styled.span<{ $campaignType: CampaignCategory }>`
+export const CampaignTypeBadge = styled.span<{
+  $campaignType: CampaignCategory;
+}>`
   height: 28px;
   box-sizing: border-box;
   flex: 0 0 auto;
@@ -278,5 +339,4 @@ export const CampaignTypeBadge = styled.span<{ $campaignType: CampaignCategory }
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
-  display: flex;
 `;

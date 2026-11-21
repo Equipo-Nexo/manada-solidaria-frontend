@@ -70,16 +70,14 @@ export default function AnimalPostDetailContent({ postData }: { postData: Animal
       <S.InformationContent>
         <S.AnimalPostInformationContainer>
           <S.HeroLayout>
-            <S.PhotoContainer>
-              <S.Photo
-                src={normalizeImageUrl(postData.imageUrl)}
-                alt={name}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = NOT_FOUND_IMAGE_URL;
-                }}
-              />
-            </S.PhotoContainer>
+            <S.Photo
+              src={normalizeImageUrl(postData.imageUrl)}
+              alt={name}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = NOT_FOUND_IMAGE_URL;
+              }}
+            />
             <S.DetailsColumn>
               <S.GeneralDataContainer>
                 <S.GeneralData>

@@ -1,16 +1,18 @@
 import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
 import DonationItems from "@/campaigns/components/donation_items/DonationItems";
-import { Calendar, Share } from "@/common/icons";
+import { Calendar, Clock, Share } from "@/common/icons";
 import OpenBook from "@/common/icons/OpenBook";
 import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
-import { formatDateTimeLong } from "@/common/utils/DateTime";
-import * as S from "./CampaignDetailtContent.styles";
+import { formatDateLong, formatDateTimeLong } from "@/common/utils/DateTime";
+import * as S from "./CampaignDetailContent.styles";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { shareUrl } from "@/common/utils/HandleShare";
 import { getAddress } from "@/common/utils/LocationUtils";
 import type { CampaignDetailsResponse } from "@/common/app/types/Campaign.types";
+import getOwnerRole from "@/common/utils/GetRoles";
+import { ImagePreview } from "@/common/components";
 
 interface DateInfoProps {
   label: string;
@@ -84,6 +86,10 @@ export default function CampaignDetailContent({
                 </S.CampaignTypeBadge>
               )}
             </S.CampaignHeading>
+            <S.TimeContainer>
+              <Clock aria-hidden="true" />
+              <span>Publicado el {formatDateLong(campaignData.createdAt)}</span>
+            </S.TimeContainer>
             {campaignData.newsStartDateTime && (
               <DateInfoComponent label="Inicio campaña" dateTime={campaignData.newsStartDateTime} />
             )}
@@ -94,7 +100,23 @@ export default function CampaignDetailContent({
               />
             )}
           </S.CampaignInfo>
-
+          <S.AuthorCard>
+            <S.InfoContainer>
+              <S.UserProfileContainer>
+                <ImagePreview
+                  imageId={campaignData.owner.profileImageURL ?? undefined}
+                  alt={`Foto de perfil de ${campaignData.owner.username}`}
+                  variant="round"
+                />
+              </S.UserProfileContainer>
+              <S.ValuesContainer>
+                <S.Label>
+                  Publicado por <strong>{campaignData.owner.username}</strong>
+                </S.Label>
+                <S.AuthorRole>{getOwnerRole(campaignData.owner.roles)}</S.AuthorRole>
+              </S.ValuesContainer>
+            </S.InfoContainer>
+          </S.AuthorCard>
           <DonationItems items={campaignData.items} />
 
           <S.DescriptionSection>

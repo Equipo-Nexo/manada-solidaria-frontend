@@ -1,5 +1,5 @@
 import type { FundraisingCampaignResponse } from "@/common/app/types/Campaign.types";
-import { Check, OpenMap, Share } from "@/common/icons";
+import { Check, Clock, OpenMap, Share } from "@/common/icons";
 import { useNavigate } from "react-router-dom";
 import * as S from "./FundraisingCampaignDetailContent.styles";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
@@ -8,10 +8,12 @@ import Copy from "@/common/icons/Copy";
 import useCopyToClipboard from "@/common/hooks/clipboard/useCopyToClipboard";
 import Transfer from "@/common/icons/Transfer";
 import OpenBook from "@/common/icons/OpenBook";
-import { formatDateTimeLong } from "@/common/utils/DateTime";
+import { formatDateLong, formatDateTimeLong } from "@/common/utils/DateTime";
 import { shareUrl } from "@/common/utils/HandleShare";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
 import { getAddress } from "@/common/utils/LocationUtils";
+import getOwnerRole from "@/common/utils/GetRoles";
+import { ImagePreview } from "@/common/components";
 
 export default function FundraisingCampaignDetailContent(data: FundraisingCampaignResponse) {
   const navigate = useNavigate();
@@ -50,6 +52,10 @@ export default function FundraisingCampaignDetailContent(data: FundraisingCampai
         <S.FundraisingInformationContainer>
           <S.FundraisingInfo>
             <S.Title>{data?.title}</S.Title>
+            <S.TimeContainer>
+              <Clock aria-hidden="true" />
+              <span>Publicado el {formatDateLong(data.createdAt)}</span>
+            </S.TimeContainer>
             {data && data.campaignEndDate && (
               <S.FundraisingEndDate>
                 <Calendar aria-hidden="true" />
@@ -60,6 +66,24 @@ export default function FundraisingCampaignDetailContent(data: FundraisingCampai
               </S.FundraisingEndDate>
             )}
           </S.FundraisingInfo>
+          <S.AuthorCard>
+            <S.InfoContainer>
+              <S.UserProfileContainer>
+                <ImagePreview
+                  imageId={data?.owner.profileImageURL ?? undefined}
+                  alt={`Foto de perfil de ${data.owner.username}`}
+                  variant="round"
+                />
+              </S.UserProfileContainer>
+              <S.ValuesContainer>
+                <S.Label>
+                  Publicado por <strong>{data.owner.username}</strong>
+                </S.Label>
+                <S.AuthorRole>{getOwnerRole(data.owner.roles)}</S.AuthorRole>
+              </S.ValuesContainer>
+            </S.InfoContainer>
+          </S.AuthorCard>
+
           <S.AliasSection>
             <S.IconContainer>
               <Transfer aria-hidden="true" />
@@ -70,7 +94,6 @@ export default function FundraisingCampaignDetailContent(data: FundraisingCampai
             </S.AliasContent>
             <S.CopyButton type="button" onClick={handleCopyAlias} $copied={copiedAlias}>
               {copiedAlias ? <Check aria-hidden="true" /> : <Copy $inverted aria-hidden="true" />}
-
               {copiedAlias ? "Alias copiado" : "Copiar alias"}
             </S.CopyButton>
           </S.AliasSection>

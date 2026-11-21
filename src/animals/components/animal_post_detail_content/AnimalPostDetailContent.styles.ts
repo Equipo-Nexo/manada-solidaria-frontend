@@ -95,7 +95,6 @@ export const DetailsColumn = styled.div`
   gap: 16px;
   flex: 1;
 `;
-export const PhotoContainer = styled.div``;
 
 export const GeneralDataContainer = styled.article`
   display: flex;
@@ -160,7 +159,7 @@ export const InfoContainer = styled.div<{ $variant: "reward" | "author" }>`
   padding: 16px;
   border-radius: 12px;
   height: 72px;
-  margin-top: ${({ $variant }) => ($variant === "author" ? "16px" : "0")};
+  margin-top: ${({ $variant }) => ($variant === "author" ? "4px" : "0")};
   background: ${({ $variant, theme }) =>
     $variant === "reward" ? "#E3FFC1" : theme.colors.neutral};
 `;
