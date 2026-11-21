@@ -3,11 +3,7 @@ import { ChevronRight, Phone, Map, Mail, MapPin } from "@/common/icons";
 import * as S from "./VetCard.styles";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/common/hooks/toast/useToast";
-import {
-  formatSchedule,
-  getCurrentDayOfWeek,
-  getTodayHours,
-} from "@/vets/utils/VetScheduleUtils";
+import { formatSchedule, getCurrentDayOfWeek, getTodayHours } from "@/vets/utils/VetScheduleUtils";
 import type { VetResponse } from "@/vets/app/api/responses/vetsResponse";
 import { openWhatsApp } from "@/common/utils/Whatsapp";
 import { openGmail } from "@/common/utils/Gmail";
@@ -50,9 +46,7 @@ function VetCard({ vet, className }: VetCardProps) {
   };
 
   const handleMap = () => {
-    navigate(
-      `/mapa?latitude=${vet.location.latitude}&longitude=${vet.location.longitude}`,
-    );
+    navigate(`/mapa?latitude=${vet.location.latitude}&longitude=${vet.location.longitude}`);
   };
 
   const handleEmail = () => {
@@ -109,11 +103,7 @@ function VetCard({ vet, className }: VetCardProps) {
           Contactar
         </S.ContactButton>
 
-        <S.IconButton
-          type="button"
-          aria-label={`Ver ubicación de ${vet.name}`}
-          onClick={handleMap}
-        >
+        <S.IconButton type="button" aria-label={`Ver ubicación de ${vet.name}`} onClick={handleMap}>
           <Map aria-hidden="true" />
         </S.IconButton>
         {vet.email && (

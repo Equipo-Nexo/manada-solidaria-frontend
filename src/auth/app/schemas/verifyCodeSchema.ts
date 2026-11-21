@@ -7,8 +7,7 @@ export const verifyCodeSchema = yup.object({
     .test(
       "complete-code",
       "Ingresá los 6 dígitos del código",
-      (value) =>
-        value?.length === 6 && value.every((digit) => /^\d$/.test(digit)),
+      (value) => value?.length === 6 && value.every((digit) => /^\d$/.test(digit)),
     )
     .required("Ingresá el código de verificación"),
 });

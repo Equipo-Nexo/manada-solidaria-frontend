@@ -2,10 +2,7 @@ import { useState } from "react";
 import { BottomSheet } from "@/common/components";
 import * as S from "./UpdatePostStatusSheet.styles";
 import { Check } from "@/common/icons";
-import type {
-  PossibleStatus,
-  UpdatePostStatusSheetProps,
-} from "./UpdatePostStatusSheet.types";
+import type { PossibleStatus, UpdatePostStatusSheetProps } from "./UpdatePostStatusSheet.types";
 
 const ConfirmationSheet = <TStatus extends string>({
   status,
@@ -23,19 +20,12 @@ const ConfirmationSheet = <TStatus extends string>({
         $primary
         disabled={isLoading}
         aria-busy={isLoading}
-        onClick={() =>
-          void status.primaryButton.handleClick(status.backendValue)
-        }
+        onClick={() => void status.primaryButton.handleClick(status.backendValue)}
       >
         {status.primaryButton.label}
       </S.ActionButton>
 
-      <S.ActionButton
-        type="button"
-        $primary={false}
-        disabled={isLoading}
-        onClick={onCancel}
-      >
+      <S.ActionButton type="button" $primary={false} disabled={isLoading} onClick={onCancel}>
         {status.secondaryButton.label}
       </S.ActionButton>
     </S.Actions>
@@ -73,19 +63,14 @@ const OptionsSheet = <TStatus extends string>({
   );
 };
 
-function UpdatePostStatusSheet<TStatus extends string>(
-  props: UpdatePostStatusSheetProps<TStatus>,
-) {
-  const [selectedStatus, setSelectedStatus] =
-    useState<PossibleStatus<TStatus> | null>(null);
+function UpdatePostStatusSheet<TStatus extends string>(props: UpdatePostStatusSheetProps<TStatus>) {
+  const [selectedStatus, setSelectedStatus] = useState<PossibleStatus<TStatus> | null>(null);
 
   const totalPossibleStatus = props.possibleStatus.length;
 
-  const singleStatus =
-    totalPossibleStatus === 1 ? props.possibleStatus[0] : null;
+  const singleStatus = totalPossibleStatus === 1 ? props.possibleStatus[0] : null;
 
-  const needsConfirmation =
-    selectedStatus ?? (singleStatus?.isFinalStatus ? singleStatus : null);
+  const needsConfirmation = selectedStatus ?? (singleStatus?.isFinalStatus ? singleStatus : null);
 
   const handleSelectStatus = (option: PossibleStatus<TStatus>) => {
     if (props.isLoading) return;
@@ -118,13 +103,10 @@ function UpdatePostStatusSheet<TStatus extends string>(
       onClose={props.isLoading ? () => {} : props.onClose}
     >
       <S.Content tabIndex={-1} aria-busy={props.isLoading}>
-        <S.Title>
-          {needsConfirmation?.confirmationTitle ?? props.bottomSheetTitle}
-        </S.Title>
+        <S.Title>{needsConfirmation?.confirmationTitle ?? props.bottomSheetTitle}</S.Title>
 
         <S.Description>
-          {needsConfirmation?.confirmationDescription ??
-            props.bottomSheetDescription}
+          {needsConfirmation?.confirmationDescription ?? props.bottomSheetDescription}
         </S.Description>
 
         {needsConfirmation ? (
@@ -138,8 +120,7 @@ function UpdatePostStatusSheet<TStatus extends string>(
             {props.possibleStatus.map((option) => {
               const selected =
                 option.backendValue ===
-                (selectedStatus?.backendValue ??
-                  props.currentStatus.backendValue);
+                (selectedStatus?.backendValue ?? props.currentStatus.backendValue);
 
               return (
                 <OptionsSheet

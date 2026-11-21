@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { PawPrint } from '../../icons'
-import { FloatingButton } from './PublishFloatingButton.styles'
-import PublishOptions from '../publishOptions/PublishOptions'
+import { useState } from "react";
+import { PawPrint } from "../../icons";
+import { FloatingButton } from "./PublishFloatingButton.styles";
+import PublishOptions from "../publishOptions/PublishOptions";
 
 interface PublishFloatingButtonProps {
   showText?: boolean;
 }
 
 function PublishFloatingButton({ showText = true }: PublishFloatingButtonProps) {
-  const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false)
+  const [isPublishOptionsOpen, setIsPublishOptionsOpen] = useState(false);
 
   return (
     <>
@@ -20,7 +20,7 @@ function PublishFloatingButton({ showText = true }: PublishFloatingButtonProps) 
         $showText={showText}
       >
         <PawPrint aria-hidden="true" />
-        { showText && <span>Publicar</span> }
+        {showText && <span>Publicar</span>}
       </FloatingButton>
       <PublishOptions
         isOpen={isPublishOptionsOpen}
@@ -28,7 +28,7 @@ function PublishFloatingButton({ showText = true }: PublishFloatingButtonProps) 
         onClose={() => setIsPublishOptionsOpen(false)}
       />
     </>
-  )
+  );
 }
 
-export default PublishFloatingButton
+export default PublishFloatingButton;

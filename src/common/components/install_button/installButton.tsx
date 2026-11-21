@@ -1,57 +1,57 @@
-import { useEffect, useState } from 'react'
-import { InstallPromptButton } from './installButton.styles'
+import { useEffect, useState } from "react";
+import { InstallPromptButton } from "./installButton.styles";
 
 type BeforeInstallPromptEvent = Event & {
-  prompt: () => Promise<void>
+  prompt: () => Promise<void>;
   userChoice: Promise<{
-    outcome: 'accepted' | 'dismissed'
-    platform: string
-  }>
-}
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+};
 
 function InstallButton() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [isVisible, setVisible] = useState(false)
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isVisible, setVisible] = useState(false);
 
   useEffect(() => {
     const handler = (event: Event) => {
-      event.preventDefault()
+      event.preventDefault();
 
-      setDeferredPrompt(event as BeforeInstallPromptEvent)
-      setVisible(true)
+      setDeferredPrompt(event as BeforeInstallPromptEvent);
+      setVisible(true);
 
       setTimeout(() => {
-        setVisible(false)
-      }, 6000)
-    }
+        setVisible(false);
+      }, 6000);
+    };
 
-    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener("beforeinstallprompt", handler);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handler)
-    }
-  }, [])
+      window.removeEventListener("beforeinstallprompt", handler);
+    };
+  }, []);
 
   const installApp = async () => {
-    if (!deferredPrompt) return
+    if (!deferredPrompt) return;
 
-    await deferredPrompt.prompt()
+    await deferredPrompt.prompt();
 
-    const choice = await deferredPrompt.userChoice
+    const choice = await deferredPrompt.userChoice;
 
-    console.log('Install choice:', choice.outcome)
+    console.log("Install choice:", choice.outcome);
 
-    setDeferredPrompt(null)
-    setVisible(false)
-  }
+    setDeferredPrompt(null);
+    setVisible(false);
+  };
 
-  if (!deferredPrompt) return null
+  if (!deferredPrompt) return null;
 
   return (
     <InstallPromptButton type="button" onClick={installApp} $isVisible={isVisible}>
       Instalar app
     </InstallPromptButton>
-  )
+  );
 }
 
-export default InstallButton
+export default InstallButton;

@@ -224,10 +224,8 @@ export const CopyButton = styled.button<{
   padding: 6px 4px;
   border: 1px solid ${({ theme }) => theme.colors.brand};
   border-radius: 10px;
-  background: ${({ $copied, theme }) =>
-    $copied ? theme.colors.brand : theme.colors.background};
-  color: ${({ $copied, theme }) =>
-    $copied ? theme.colors.background : theme.colors.brand};
+  background: ${({ $copied, theme }) => ($copied ? theme.colors.brand : theme.colors.background)};
+  color: ${({ $copied, theme }) => ($copied ? theme.colors.background : theme.colors.brand)};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -351,24 +349,9 @@ export const MapPreview = styled.div`
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(
-      34deg,
-      transparent 42%,
-      rgb(255 255 255 / 75%) 43% 47%,
-      transparent 48%
-    ),
-    linear-gradient(
-      94deg,
-      transparent 54%,
-      rgb(255 255 255 / 70%) 55% 59%,
-      transparent 60%
-    ),
-    repeating-linear-gradient(
-      25deg,
-      transparent 0 15px,
-      rgb(223 192 143 / 48%) 16px 18px
-    ),
-    #c1ddd7;
+    linear-gradient(34deg, transparent 42%, rgb(255 255 255 / 75%) 43% 47%, transparent 48%),
+    linear-gradient(94deg, transparent 54%, rgb(255 255 255 / 70%) 55% 59%, transparent 60%),
+    repeating-linear-gradient(25deg, transparent 0 15px, rgb(223 192 143 / 48%) 16px 18px), #c1ddd7;
   &::after {
     content: "";
     position: absolute;

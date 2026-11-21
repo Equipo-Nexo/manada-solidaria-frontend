@@ -174,7 +174,7 @@ export const Title = styled.h2<TitleProps>`
   margin: 0 0 8px;
   color: ${({ theme }) => theme.colors.black};
   text-align: left;
-  font-size: ${({ theme }) => theme.typography.header2};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: 20px;
   svg {
@@ -339,5 +339,4 @@ export const CampaignTypeBadge = styled.span<{
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
-  display: flex;
 `;

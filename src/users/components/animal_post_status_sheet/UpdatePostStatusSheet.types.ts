@@ -35,9 +35,7 @@ export interface CurrentStatus {
   backendValue: string;
 }
 
-export interface UpdatePostStatusSheetProps<
-  TStatus extends string = PostStatus,
-> {
+export interface UpdatePostStatusSheetProps<TStatus extends string = PostStatus> {
   bottomSheetTitle: string;
   bottomSheetDescription: string;
   currentStatus: CurrentStatus;

@@ -24,18 +24,11 @@ function Carousel({
   const titleId = useId();
 
   return (
-    <S.Section
-      aria-labelledby={titleId}
-      $highlightNavigationOnHover={highlightNavigationOnHover}
-    >
+    <S.Section aria-labelledby={titleId} $highlightNavigationOnHover={highlightNavigationOnHover}>
       <S.Header>
         <S.Title id={titleId}>{title}</S.Title>
         {onSeeAll && (
-          <S.SeeAllButton
-            type="button"
-            aria-label={`${seeAllLabel}: ${title}`}
-            onClick={onSeeAll}
-          >
+          <S.SeeAllButton type="button" aria-label={`${seeAllLabel}: ${title}`} onClick={onSeeAll}>
             <span>{seeAllLabel}</span>
             <ChevronRight aria-hidden="true" />
           </S.SeeAllButton>

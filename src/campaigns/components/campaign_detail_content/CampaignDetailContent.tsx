@@ -2,17 +2,11 @@ import MapDetailsComponent from "@/common/components/map_details_component/MapDe
 import DonationItems from "@/campaigns/components/donation_items/DonationItems";
 import { Calendar, Clock, Share } from "@/common/icons";
 import OpenBook from "@/common/icons/OpenBook";
-import {
-  normalizeImageUrl,
-  NOT_FOUND_IMAGE_URL,
-} from "@/common/utils/CommonUtils";
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@/common/utils/CommonUtils";
 import { formatDateLong, formatDateTimeLong } from "@/common/utils/DateTime";
-import * as S from "./CampaignDetailtContent.styles";
+import * as S from "./CampaignDetailContent.styles";
 import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
-import {
-  campaignCategories,
-  type CampaignCategory,
-} from "@/campaigns/app/types/Campaign.types";
+import { campaignCategories, type CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
 import { shareUrl } from "@/common/utils/HandleShare";
 import { getAddress } from "@/common/utils/LocationUtils";
@@ -27,7 +21,9 @@ interface DateInfoProps {
 
 function DateInfoComponent({ label, dateTime }: DateInfoProps) {
   if (!dateTime) return null;
+
   const formatted = formatDateTimeLong(dateTime);
+
   return (
     <S.CampaignEndDate>
       <Calendar aria-hidden="true" />
@@ -51,9 +47,7 @@ export default function CampaignDetailContent({
   const PHONE_NUMBER = campaignData?.phoneNumber
     ? `${campaignData?.phoneNumber.areaCode}${campaignData?.phoneNumber.number}`
     : "";
-  const categoryCandidate = (
-    campaignData?.category ?? campaignData?.type
-  )?.toUpperCase();
+  const categoryCandidate = (campaignData?.category ?? campaignData?.type)?.toUpperCase();
   const campaignCategory =
     categoryCandidate !== "FUNDRAISING" &&
     campaignCategories.includes(categoryCandidate as CampaignCategory)
@@ -97,17 +91,12 @@ export default function CampaignDetailContent({
               <span>Publicado el {formatDateLong(campaignData.createdAt)}</span>
             </S.TimeContainer>
             {campaignData.newsStartDateTime && (
-              <DateInfoComponent
-                label="Inicio campaña"
-                dateTime={campaignData.newsStartDateTime}
-              />
+              <DateInfoComponent label="Inicio campaña" dateTime={campaignData.newsStartDateTime} />
             )}
             {(campaignData.newsEndDateTime || campaignData.campaignEndDate) && (
               <DateInfoComponent
                 label="Fin campaña"
-                dateTime={
-                  campaignData.newsEndDateTime || campaignData.campaignEndDate
-                }
+                dateTime={campaignData.newsEndDateTime || campaignData.campaignEndDate}
               />
             )}
           </S.CampaignInfo>
@@ -124,9 +113,7 @@ export default function CampaignDetailContent({
                 <S.Label>
                   Publicado por <strong>{campaignData.owner.username}</strong>
                 </S.Label>
-                <S.AuthorRole>
-                  {getOwnerRole(campaignData.owner.roles)}
-                </S.AuthorRole>
+                <S.AuthorRole>{getOwnerRole(campaignData.owner.roles)}</S.AuthorRole>
               </S.ValuesContainer>
             </S.InfoContainer>
           </S.AuthorCard>
@@ -137,9 +124,7 @@ export default function CampaignDetailContent({
               <OpenBook aria-hidden="true" width="20" height="14" />
               Descripción
             </S.Title>
-            <S.CampaignDescription>
-              {campaignData?.description}
-            </S.CampaignDescription>
+            <S.CampaignDescription>{campaignData?.description}</S.CampaignDescription>
           </S.DescriptionSection>
           <S.MapContainer>
             {campaignData?.location && (
@@ -160,10 +145,7 @@ export default function CampaignDetailContent({
           number={campaignData!.phoneNumber!.number}
           name={campaignData!.title}
         />
-        <S.ShareButton
-          type="submit"
-          onClick={() => handleShareButton(campaignData.id)}
-        >
+        <S.ShareButton type="submit" onClick={() => handleShareButton(campaignData.id)}>
           <Share aria-hidden="true" />
           Compartir Campaña
         </S.ShareButton>

@@ -1,10 +1,10 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "styled-components";
 
 const spin = keyframes`
   to {
     transform: rotate(360deg);
   }
-`
+`;
 
 export const MapRoot = styled.div`
   position: relative;
@@ -24,12 +24,12 @@ export const MapRoot = styled.div`
     color: ${({ theme }) => theme.colors.darkColor};
     font-size: 10px;
   }
-`
+`;
 
 export const MapCanvas = styled.div`
   position: absolute;
   inset: 0;
-`
+`;
 
 export const LoadingOverlay = styled.div`
   position: absolute;
@@ -39,7 +39,7 @@ export const LoadingOverlay = styled.div`
   place-items: center;
   background: ${({ theme }) => theme.colors.neutral};
   color: ${({ theme }) => theme.colors.secondary};
-`
+`;
 
 export const LoadingIndicator = styled.span`
   width: 32px;
@@ -48,7 +48,7 @@ export const LoadingIndicator = styled.span`
   border-top-color: currentColor;
   border-radius: 50%;
   animation: ${spin} 800ms linear infinite;
-`
+`;
 
 export const Marker = styled.div<{ $iconColor?: string; $highlighted: boolean }>`
   position: relative;
@@ -57,7 +57,7 @@ export const Marker = styled.div<{ $iconColor?: string; $highlighted: boolean }>
   height: 56px;
   padding-bottom: 8px;
   place-items: center;
-  color: ${({ theme, $iconColor, $highlighted }) => $highlighted ? theme.colors.secondary : $iconColor ?? theme.colors.neutral};
+  color: ${({ theme, $iconColor, $highlighted }) => ($highlighted ? theme.colors.secondary : ($iconColor ?? theme.colors.neutral))};
   filter: drop-shadow(0 4px 8px ${({ theme }) => theme.colors.secondaryHoverSoft});
 
   > svg:last-child {
@@ -65,22 +65,22 @@ export const Marker = styled.div<{ $iconColor?: string; $highlighted: boolean }>
     width: 26px;
     height: 26px;
   }
-`
+`;
 
-export const MarkerShape = styled.svg.attrs({ viewBox: '0 0 48 56' })<{
-  $color?: string
-  $borderColor?: string
-  $highlighted: boolean
+export const MarkerShape = styled.svg.attrs({ viewBox: "0 0 48 56" })<{
+  $color?: string;
+  $borderColor?: string;
+  $highlighted: boolean;
 }>`
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  fill: ${({ theme, $color, $highlighted }) => $highlighted ? theme.colors.secondarySoft : $color ?? theme.colors.secondary};
-  stroke: ${({ theme, $borderColor, $highlighted }) => $highlighted ? theme.colors.secondary : $borderColor ?? theme.colors.background};
+  fill: ${({ theme, $color, $highlighted }) => ($highlighted ? theme.colors.secondarySoft : ($color ?? theme.colors.secondary))};
+  stroke: ${({ theme, $borderColor, $highlighted }) => ($highlighted ? theme.colors.secondary : ($borderColor ?? theme.colors.background))};
   stroke-width: 2px;
   stroke-linejoin: round;
-`
+`;
 
 export const Controls = styled.div<{ $position: MapControlPosition }>`
   position: absolute;
@@ -94,13 +94,13 @@ export const Controls = styled.div<{ $position: MapControlPosition }>`
   box-shadow: 0 3px 12px rgb(89 65 55 / 18%);
 
   ${({ $position }) => {
-    const [vertical, horizontal] = $position.split('-')
+    const [vertical, horizontal] = $position.split("-");
     return `
-      ${vertical}: ${vertical === 'bottom' ? '28px' : '12px'};
+      ${vertical}: ${vertical === "bottom" ? "28px" : "12px"};
       ${horizontal}: 12px;
-    `
+    `;
   }}
-`
+`;
 
 export const ControlButton = styled.button`
   display: grid;
@@ -134,10 +134,6 @@ export const ControlButton = styled.button`
     width: 20px;
     height: 20px;
   }
-`
+`;
 
-export type MapControlPosition =
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right'
+export type MapControlPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";

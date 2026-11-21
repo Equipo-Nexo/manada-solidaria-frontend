@@ -122,22 +122,17 @@ export const GeneralData = styled.div`
 export const Name = styled.h2`
   margin: 0;
   color: ${({ theme }) => theme.colors.brand};
-  font: ${({ theme }) =>
-    `${theme.fontWeights.bold} ${theme.typography.header1.fontSize}/${theme.typography.header1.lineHeight} ${theme.fonts.body}`};
+  font: ${({ theme }) => `${theme.fontWeights.bold} ${theme.typography.header1.fontSize}/${theme.typography.header1.lineHeight} ${theme.fonts.body}`};
 `;
 
-export const Status = styled.span<{
-  $backgroundColor?: string;
-  $fontColor?: string;
-}>`
+export const Status = styled.span<{ $backgroundColor?: string; $fontColor?: string }>`
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   display: flex;
   width: 112px;
   height: 28px;
-  background: ${({ $backgroundColor, theme }) =>
-    $backgroundColor ?? theme.colors.neutral};
+  background: ${({ $backgroundColor, theme }) => $backgroundColor ?? theme.colors.neutral};
   color: ${({ $fontColor, theme }) => $fontColor ?? theme.colors.darkColor};
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -147,8 +142,6 @@ export const TimeContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-top: 10px;
-  margin-bottom: 16px;
   color: ${({ theme }) => theme.colors.darkColor};
   font-size: 11px;
   line-height: 16px;
@@ -156,6 +149,7 @@ export const TimeContainer = styled.div`
     width: 13px;
     height: 13px;
   }
+  margin-bottom: 16px;
 `;
 
 export const InfoContainer = styled.div<{ $variant: "reward" | "author" }>`

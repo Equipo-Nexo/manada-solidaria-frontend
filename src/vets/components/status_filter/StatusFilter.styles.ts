@@ -14,12 +14,9 @@ export const FilterButton = styled.button<{
   justify-content: space-between;
   gap: 10px;
   padding: 8px 12px;
-  border: 1px solid
-    ${({ $active, theme }) =>
-      $active ? theme.colors.brand : theme.colors.stroke};
+  border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.brand : theme.colors.stroke)};
   border-radius: 10px;
-  background: ${({ $active, theme }) =>
-    $active ? "#F6E7D3" : theme.colors.background};
+  background: ${({ $active, theme }) => ($active ? "#F6E7D3" : theme.colors.background)};
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 14px;

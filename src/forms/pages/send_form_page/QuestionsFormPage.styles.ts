@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
-import { ChevronDown } from '@/common/icons';
-import { fieldFocusVisible, focusVisible } from '@styles/interactions';
+import styled, { css } from "styled-components";
+import { ChevronDown } from "@/common/icons";
+import { fieldFocusVisible, focusVisible } from "@styles/interactions";
 
 const questionFieldTypography = css`
   ${({ theme }) => theme.typography.body};
@@ -10,15 +10,15 @@ const questionFieldTypography = css`
 `;
 
 export const MainContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-    @media (min-width: 1024px) {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  @media (min-width: 1024px) {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+`;
 export const QueryState = styled.div`
   display: flex;
   flex-direction: column;
@@ -101,7 +101,7 @@ export const SecondaryContainer = styled.div`
     margin: 0 auto 28px;
     text-align: left;
   }
-`
+`;
 
 export const AppLogo = styled.img`
   margin-top: 2rem;
@@ -156,7 +156,6 @@ export const LogoSubtitle = styled.p`
   }
 `;
 
-
 export const Title = styled.h2`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
@@ -172,7 +171,7 @@ export const Title = styled.h2`
     text-align: left;
     ${({ theme }) => theme.typography.header1};
   }
-`
+`;
 
 export const Form = styled.form`
   display: flex;
@@ -187,10 +186,10 @@ export const Form = styled.form`
     align-items: stretch;
     gap: 32px;
   }
-`
+`;
 
 export const CategoryContainer = styled.div`
-   width: min(100%, 380px);
+  width: min(100%, 380px);
   min-width: 0;
   @media (min-width: 1024px) {
     width: 100%;
@@ -201,7 +200,7 @@ export const CategoryContainer = styled.div`
       0 2px 6px ${({ theme }) => `${theme.colors.darkColor}0A`},
       0 12px 32px ${({ theme }) => `${theme.colors.darkColor}1A`};
   }
-`
+`;
 export const FormActionsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -218,7 +217,7 @@ export const FormActionsContainer = styled.div`
   }
 `;
 
-export const ActionButton = styled.button<{ $variant: 'cancel' | 'submit' }>`
+export const ActionButton = styled.button<{ $variant: "cancel" | "submit" }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -227,8 +226,8 @@ export const ActionButton = styled.button<{ $variant: 'cancel' | 'submit' }>`
   padding: 12px 16px;
   border: 0;
   border-radius: 999px;
-  background: ${({ theme, $variant }) => $variant === 'cancel' ? theme.colors.neutral : theme.colors.brand};
-  color: ${({ theme, $variant }) => $variant === 'cancel' ? theme.colors.brand : theme.colors.neutral};
+  background: ${({ theme, $variant }) => ($variant === "cancel" ? theme.colors.neutral : theme.colors.brand)};
+  color: ${({ theme, $variant }) => ($variant === "cancel" ? theme.colors.brand : theme.colors.neutral)};
   ${({ theme }) => theme.typography.action};
   cursor: pointer;
   ${focusVisible}
@@ -252,7 +251,7 @@ export const CategoryTitle = styled.h3`
   @media (min-width: 1024px) {
     ${({ theme }) => theme.typography.header2};
   }
-`
+`;
 export const CategoryDescription = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
@@ -260,25 +259,25 @@ export const CategoryDescription = styled.p`
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
   text-align: left;
   margin-bottom: 16px;
-`
+`;
 export const QuestionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-`
+`;
 export const Question = styled.div`
-    display: grid;
-    grid-template-columns: 24px minmax(0, 1fr);
-    align-items: start;
-    column-gap: 12px;
-`
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 12px;
+`;
 export const QuestionContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    text-align: left;
-    gap: 4px;
-`
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+  gap: 4px;
+`;
 export const QuestionIcon = styled.div`
   display: flex;
   align-items: center;
@@ -292,50 +291,47 @@ export const QuestionIcon = styled.div`
     height: 24px;
   }
 
-    svg [fill]:not([fill='none']) {
-        fill: currentColor;
-    }
+  svg [fill]:not([fill="none"]) {
+    fill: currentColor;
+  }
 
-    svg [stroke]:not([stroke='none']) {
-        stroke: currentColor;
-    }
-`
+  svg [stroke]:not([stroke="none"]) {
+    stroke: currentColor;
+  }
+`;
 export const QuestionLabel = styled.label`
   width: 100%;
   min-width: 0;
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-`
+`;
 export const QuestionInput = styled.input`
   width: 100%;
-    padding: 8px;
-    border: 1px solid ${({ theme }) => theme.colors.darkColorMuted};
-    border-radius: 4px;
-    font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
-    line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
-    ${fieldFocusVisible}
-`
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.darkColorMuted};
+  border-radius: 4px;
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+  ${fieldFocusVisible}
+`;
 export const RequiredMark = styled.span`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-
-
 export const TextArea = styled.textarea`
   display: flex;
-height: 95px;
-padding: 16px;
-justify-content: center;
-align-items: flex-start;
-flex-shrink: 0;
-align-self: stretch;
-border-radius: 12px;
-border: 2px solid var(--Stroke, #E1BFB2);
+  height: 95px;
+  padding: 16px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 2px solid var(--Stroke, #e1bfb2);
 
   width: 100%;
-  height:120px
-;
+  height: 120px;
   ${questionFieldTypography}
   color: ${({ theme }) => theme.colors.darkColor};
   ${fieldFocusVisible}
@@ -345,8 +341,7 @@ border: 2px solid var(--Stroke, #E1BFB2);
     font-size: ${({ theme }) => theme.typography.body.fontSize};
     opacity: 1;
   }
-    
-`
+`;
 export const SelectorContainer = styled.div`
   position: relative;
   width: 100%;
@@ -363,7 +358,7 @@ export const Selector = styled.select<{ $hasValue: boolean }>`
   border-radius: 16px;
   border: 2px solid ${({ theme }) => theme.colors.stroke};
   background: ${({ theme }) => `${theme.colors.background}`};
-  color: ${({ theme, $hasValue }) => $hasValue ? theme.colors.darkColor : theme.colors.darkColorMuted};
+  color: ${({ theme, $hasValue }) => ($hasValue ? theme.colors.darkColor : theme.colors.darkColorMuted)};
   ${questionFieldTypography}
   cursor: pointer;
 
@@ -386,4 +381,3 @@ export const SelectorArrow = styled(ChevronDown)`
   color: ${({ theme }) => theme.colors.secondary};
   pointer-events: none;
 `;
-

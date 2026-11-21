@@ -92,12 +92,9 @@ export const PhotoHeart = styled.span<{
   pointer-events: none;
   z-index: 5;
   color: ${({ theme, $tone }) =>
-    [
-      theme.colors.brand,
-      theme.colors.secondary,
-      theme.colors.background,
-      theme.colors.tertiary,
-    ][$tone]};
+    [theme.colors.brand, theme.colors.secondary, theme.colors.background, theme.colors.tertiary][
+      $tone
+    ]};
   stop:first-child {
     stop-color: ${({ theme, $tone }) =>
       `color-mix(in srgb, ${theme.colors[$tone === 2 ? "tertiary" : "background"]} 30%, currentColor)`};
@@ -319,7 +316,7 @@ export const AdoptionStatus = styled.span`
   cursor: default;
 
   &::before {
-    content: '';
+    content: "";
     flex: 0 0 auto;
     width: 6px;
     height: 6px;
@@ -336,9 +333,7 @@ export const AdoptionStatus = styled.span`
 export const ButtonsContainer = styled.div<{ $amount: number }>`
   display: grid;
   grid-template-columns: ${({ $amount }) =>
-    $amount === 1
-      ? "minmax(0, 1fr)"
-      : "repeat(auto-fit, minmax(min(100%, 125px), 1fr))"};
+    $amount === 1 ? "minmax(0, 1fr)" : "repeat(auto-fit, minmax(min(100%, 125px), 1fr))"};
   gap: 10px;
   margin-top: auto;
   padding-top: 8px 10px;
@@ -378,13 +373,9 @@ export const ActionButton = styled.button<{
   @media (hover: hover) {
     &:hover {
       color: ${({ theme, $variant }) =>
-        $variant === "primary"
-          ? theme.colors.background
-          : theme.colors.secondary};
+        $variant === "primary" ? theme.colors.background : theme.colors.secondary};
       background: ${({ theme, $variant }) =>
-        $variant === "primary"
-          ? theme.colors.brandHover
-          : theme.colors.neutral};
+        $variant === "primary" ? theme.colors.brandHover : theme.colors.neutral};
       box-shadow: ${({ $variant }) =>
         $variant === "primary"
           ? "0 6px 14px rgb(234 95 9 / 24%)"
@@ -395,9 +386,7 @@ export const ActionButton = styled.button<{
 
   &:active {
     color: ${({ theme, $variant }) =>
-      $variant === "primary"
-        ? theme.colors.background
-        : theme.colors.secondary};
+      $variant === "primary" ? theme.colors.background : theme.colors.secondary};
     background: ${({ theme, $variant }) =>
       $variant === "primary" ? theme.colors.brandHover : theme.colors.neutral};
     transform: translateY(0) scale(0.98);

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const RewardInfo = styled.span`
   padding: 4px 8px;
@@ -9,4 +9,4 @@ export const RewardInfo = styled.span`
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
-`
+`;

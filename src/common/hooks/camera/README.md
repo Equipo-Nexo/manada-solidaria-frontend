@@ -5,15 +5,15 @@ Hook reutilizable para tomar fotos y elegir imagenes desde galeria usando Capaci
 ## Import
 
 ```tsx
-import { useCamera } from '../../hooks/camera/useCamera'
+import { useCamera } from "../../hooks/camera/useCamera";
 ```
 
 ## Uso basico
 
 ```tsx
 function PublishPhoto() {
-  const { capturedPhoto, chooseFromGallery, status, takePhoto } = useCamera()
-  const isLoading = status === 'requesting'
+  const { capturedPhoto, chooseFromGallery, status, takePhoto } = useCamera();
+  const isLoading = status === "requesting";
 
   return (
     <>
@@ -25,7 +25,7 @@ function PublishPhoto() {
       </button>
       {capturedPhoto && <img src={capturedPhoto.url} alt="Foto seleccionada" />}
     </>
-  )
+  );
 }
 ```
 
@@ -52,18 +52,18 @@ function PublishPhoto() {
 ## Subir al backend
 
 ```tsx
-const { capturedPhoto, takePhoto } = useCamera()
+const { capturedPhoto, takePhoto } = useCamera();
 
 const handleSubmit = async () => {
-  const photo = capturedPhoto ?? (await takePhoto())
+  const photo = capturedPhoto ?? (await takePhoto());
 
   if (!photo?.file) {
-    return
+    return;
   }
 
-  const formData = new FormData()
-  formData.append('photo', photo.file)
-}
+  const formData = new FormData();
+  formData.append("photo", photo.file);
+};
 ```
 
 ## Notas

@@ -1,6 +1,6 @@
-import { baseAuthenticatedApi } from '../base/baseAuthenticatedApi'
-import type { GetPresignedUrlRequest } from '../requests/presignedUrlRequest';
-import type { PresignedUrlResponse } from '../responses/imageResponses';
+import { baseAuthenticatedApi } from "../base/baseAuthenticatedApi";
+import type { GetPresignedUrlRequest } from "../requests/presignedUrlRequest";
+import type { PresignedUrlResponse } from "../responses/imageResponses";
 
 export const imagesApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,9 +10,9 @@ export const imagesApi = baseAuthenticatedApi.injectEndpoints({
         method: "POST",
         body,
       }),
-    })
+    }),
   }),
   overrideExisting: false,
-})
+});
 
 export const { useGetPresignedUrlMutation } = imagesApi;

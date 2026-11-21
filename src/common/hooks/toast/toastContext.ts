@@ -1,19 +1,19 @@
-import { createContext, type ReactNode } from 'react'
+import { createContext, type ReactNode } from "react";
 
 export type ToastInput = {
-  title: string
-  description?: string
-  time?: number
-}
+  title: string;
+  description?: string;
+  time?: number;
+};
 
 export type ToastApi = {
-  success: (toast: string | ToastInput, description?: string, time?: number) => void
-  error: (toast: string | ToastInput, description?: string, time?: number) => void
-  information: (toast: string | ToastInput, description?: string, time?: number) => void
-}
+  success: (toast: string | ToastInput, description?: string, time?: number) => void;
+  error: (toast: string | ToastInput, description?: string, time?: number) => void;
+  information: (toast: string | ToastInput, description?: string, time?: number) => void;
+};
 
 export type ToastProviderProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
-export const ToastContext = createContext<ToastApi | null>(null)
+export const ToastContext = createContext<ToastApi | null>(null);

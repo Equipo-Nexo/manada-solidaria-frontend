@@ -1,15 +1,15 @@
-import type { CampaignCardData } from '@/campaigns/components/campaign_card/CampaignCard'
-import { CampaignCard, Message } from '@components/index.ts'
-import * as S from './CampaignList.styles'
-import { publicationMessages } from '@utils/Messages'
+import type { CampaignCardData } from "@/campaigns/components/campaign_card/CampaignCard";
+import { CampaignCard, Message } from "@components/index.ts";
+import * as S from "./CampaignList.styles";
+import { publicationMessages } from "@utils/Messages";
 
 type CampaignListProps = {
-  campaigns: CampaignCardData[]
-  isError: boolean
-  isLoading: boolean
-  onRetry: () => void
-  onMoreInfo: (campaign: CampaignCardData) => void
-}
+  campaigns: CampaignCardData[];
+  isError: boolean;
+  isLoading: boolean;
+  onRetry: () => void;
+  onMoreInfo: (campaign: CampaignCardData) => void;
+};
 
 function CampaignList({ campaigns, isError, isLoading, onRetry, onMoreInfo }: CampaignListProps) {
   if (isLoading) {
@@ -17,7 +17,7 @@ function CampaignList({ campaigns, isError, isLoading, onRetry, onMoreInfo }: Ca
       <S.MessageContainer>
         <Message message={publicationMessages.loading} iconName="pawPrint" />
       </S.MessageContainer>
-    )
+    );
   }
 
   if (isError) {
@@ -28,18 +28,15 @@ function CampaignList({ campaigns, isError, isLoading, onRetry, onMoreInfo }: Ca
           Reintentar
         </S.RetryButton>
       </S.MessageContainer>
-    )
+    );
   }
 
   if (campaigns.length === 0) {
     return (
       <S.MessageContainer>
-        <Message
-          message={publicationMessages.emptyCategory}
-          iconName="pawPrint"
-        />
+        <Message message={publicationMessages.emptyCategory} iconName="pawPrint" />
       </S.MessageContainer>
-    )
+    );
   }
 
   return (
@@ -48,7 +45,7 @@ function CampaignList({ campaigns, isError, isLoading, onRetry, onMoreInfo }: Ca
         <CampaignCard key={campaign.id} campaign={campaign} onMoreInfo={onMoreInfo} />
       ))}
     </S.List>
-  )
+  );
 }
 
-export default CampaignList
+export default CampaignList;

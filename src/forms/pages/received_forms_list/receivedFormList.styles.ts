@@ -98,9 +98,7 @@ export const CardsContainer = styled.div<{ $hasSingleCard: boolean }>`
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: ${({ $hasSingleCard }) =>
-      $hasSingleCard
-        ? "minmax(0, calc((100% - 20px) / 2))"
-        : "repeat(2, minmax(0, 1fr))"};
+      $hasSingleCard ? "minmax(0, calc((100% - 20px) / 2))" : "repeat(2, minmax(0, 1fr))"};
     justify-content: center;
     align-content: start;
     gap: 20px;
@@ -108,9 +106,7 @@ export const CardsContainer = styled.div<{ $hasSingleCard: boolean }>`
 
   @media (min-width: 1238px) {
     grid-template-columns: ${({ $hasSingleCard }) =>
-      $hasSingleCard
-        ? "minmax(0, calc((100% - 40px) / 3))"
-        : "repeat(3, minmax(0, 1fr))"};
+      $hasSingleCard ? "minmax(0, calc((100% - 40px) / 3))" : "repeat(3, minmax(0, 1fr))"};
   }
 `;
 
@@ -141,8 +137,7 @@ export const Card = styled(Link)`
     &:hover {
       transform: translateY(-3px);
       border-color: ${({ theme }) => theme.colors.stroke};
-      box-shadow: 0 12px 28px -6px
-        ${({ theme }) => `${theme.colors.darkColor}33`};
+      box-shadow: 0 12px 28px -6px ${({ theme }) => `${theme.colors.darkColor}33`};
     }
   }
 
@@ -221,8 +216,7 @@ export const Status = styled.span<StatusInterface>`
   border-radius: 999px;
   background: ${({ theme, $isRead }) =>
     $isRead ? theme.colors.statusFoundBackground : theme.colors.neutral};
-  color: ${({ theme, $isRead }) =>
-    $isRead ? theme.colors.success : theme.colors.brand};
+  color: ${({ theme, $isRead }) => ($isRead ? theme.colors.success : theme.colors.brand)};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   white-space: nowrap;

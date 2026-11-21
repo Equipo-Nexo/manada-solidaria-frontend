@@ -10,11 +10,7 @@ type TermsAndConditionsProps = {
   onAccept: () => void;
 };
 
-function TermsAndConditions({
-  isOpen,
-  onClose,
-  onAccept,
-}: TermsAndConditionsProps) {
+function TermsAndConditions({ isOpen, onClose, onAccept }: TermsAndConditionsProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
@@ -47,11 +43,7 @@ function TermsAndConditions({
     >
       <S.Header>
         <S.Title id={titleId}>Términos y Condiciones</S.Title>
-        <S.CloseButton
-          type="button"
-          aria-label="Cerrar términos y condiciones"
-          onClick={onClose}
-        >
+        <S.CloseButton type="button" aria-label="Cerrar términos y condiciones" onClick={onClose}>
           <X aria-hidden="true" />
         </S.CloseButton>
       </S.Header>

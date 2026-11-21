@@ -1,7 +1,7 @@
-import { fieldFocusVisible } from '@/common/styles/interactions'
-import styled from 'styled-components'
+import { fieldFocusVisible } from "@/common/styles/interactions";
+import styled from "styled-components";
 
-const cardShadow = '0 4px 8px rgb(0 0 0 / 25%)'
+const cardShadow = "0 4px 8px rgb(0 0 0 / 25%)";
 
 export const MainContainer = styled.form`
   position: relative;
@@ -15,7 +15,7 @@ export const MainContainer = styled.form`
   @media (min-width: 768px) {
     max-width: 840px;
   }
-`
+`;
 
 export const Header = styled.header`
   min-height: 48px;
@@ -70,35 +70,35 @@ export const PageTitle = styled.h1`
 export const AdviceWrapper = styled.div`
   width: 100%;
   margin-top: 8px;
-`
+`;
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
   margin-top: 20px;
   text-align: left;
-`
+`;
 
 export const Title = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.header2};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-`
+`;
 
 export const Description = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
   line-height: 16px;
-`
+`;
 
 export const PersonalDataContainer = styled.div`
   width: 100%;
   display: grid;
   gap: 8px;
   margin-top: 16px;
-  margin-bottom:16px;
+  margin-bottom: 16px;
   border-radius: 16px;
   padding: 24px;
   background: ${({ theme }) => theme.colors.background};
@@ -112,7 +112,7 @@ export const PersonalDataContainer = styled.div`
     background: transparent;
     box-shadow: none;
   }
-`
+`;
 
 export const DataPanel = styled.section`
   display: flex;
@@ -120,7 +120,9 @@ export const DataPanel = styled.section`
   flex-direction: column;
   gap: 8px;
 
-  > label:not(:first-child) { margin-top: 8px; }
+  > label:not(:first-child) {
+    margin-top: 8px;
+  }
 
   @media (min-width: 768px) {
     min-height: 100%;
@@ -129,7 +131,7 @@ export const DataPanel = styled.section`
     background: ${({ theme }) => theme.colors.background};
     box-shadow: ${cardShadow};
   }
-`
+`;
 export const UsernameContainer = styled.div`
   width: 100%;
   display: grid;
@@ -146,7 +148,7 @@ export const UsernameContainer = styled.div`
     gap: 10px;
     padding: 10px 12px;
   }
-`
+`;
 
 export const UsernameIcon = styled.span`
   width: 40px;
@@ -172,7 +174,7 @@ export const UsernameIcon = styled.span`
       height: 19px;
     }
   }
-`
+`;
 
 export const UsernameContent = styled.div`
   min-width: 0;
@@ -180,13 +182,13 @@ export const UsernameContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-`
+`;
 
 export const UsernameLabel = styled.span`
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.descriptive};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-`
+`;
 
 export const Username = styled.span`
   max-width: 100%;
@@ -195,7 +197,7 @@ export const Username = styled.span`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
   overflow-wrap: anywhere;
-`
+`;
 
 export const Label = styled.label`
   width: 100%;
@@ -204,8 +206,10 @@ export const Label = styled.label`
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-`
-export const Required = styled.span`color: ${({ theme }) => theme.colors.brand};`
+`;
+export const Required = styled.span`
+  color: ${({ theme }) => theme.colors.brand};
+`;
 
 export const Input = styled.input`
   width: 100%;
@@ -217,14 +221,17 @@ export const Input = styled.input`
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.header3};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; opacity: 0.65; }
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+    opacity: 0.65;
+  }
   ${fieldFocusVisible}
   &:disabled {
     opacity: 1;
     cursor: default;
     pointer-events: none;
   }
-`
+`;
 
 export const PasswordContainer = styled.section`
   width: 100%;
@@ -236,7 +243,7 @@ export const PasswordContainer = styled.section`
   padding: 24px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: ${cardShadow};
-`
+`;
 
 export const ChangePasswordButton = styled.button`
   width: 100%;
@@ -251,9 +258,11 @@ export const ChangePasswordButton = styled.button`
   color: ${({ theme }) => theme.colors.brand};
   ${({ theme }) => theme.typography.action};
   cursor: pointer;
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
-`
-
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 
 export const SubmitButton = styled.button`
   width: calc(100% - 32px);
@@ -273,8 +282,14 @@ export const SubmitButton = styled.button`
   ${({ theme }) => theme.typography.action};
   cursor: pointer;
   transition: background 160ms ease;
-  svg { width: 20px; height: 20px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
   &:disabled {
     background: ${({ theme }) => theme.colors.stroke};
     cursor: not-allowed;
@@ -284,4 +299,4 @@ export const SubmitButton = styled.button`
     width: 100%;
     max-width: none;
   }
-`
+`;

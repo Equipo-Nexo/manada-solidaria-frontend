@@ -9,10 +9,7 @@ type UseAnimalPostLikeProps = {
   reactedByMe: boolean;
 };
 
-export function useAnimalPostLike({
-  postId,
-  reactedByMe,
-}: UseAnimalPostLikeProps) {
+export function useAnimalPostLike({ postId, reactedByMe }: UseAnimalPostLikeProps) {
   const [likeAnimalPost] = useLikeAnimalPostMutation();
   const [dislikeAnimalPost] = useDislikeAnimalPostMutation();
 

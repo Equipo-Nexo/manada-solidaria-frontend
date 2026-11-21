@@ -13,8 +13,7 @@ export const Digit = styled.input<{ $hasError: boolean }>`
   height: 54px;
   padding: 0;
   border: 1px solid
-    ${({ theme, $hasError }) =>
-      $hasError ? theme.colors.error : theme.colors.brand};
+    ${({ theme, $hasError }) => ($hasError ? theme.colors.error : theme.colors.brand)};
   border-radius: 8px;
   background: ${({ theme }) => `${theme.colors.neutral}99`};
   color: ${({ theme }) => theme.colors.darkColor};

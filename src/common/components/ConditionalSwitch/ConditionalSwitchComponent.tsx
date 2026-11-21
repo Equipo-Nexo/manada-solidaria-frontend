@@ -1,16 +1,16 @@
-import type { InputHTMLAttributes, Ref } from 'react'
-import { CarFront, DollarSign, Money } from '@icons/index.ts'
-import { ErrorMessage } from '@components/index.ts'
-import * as S from './ConditionalSwitchComponent.styles'
+import type { InputHTMLAttributes, Ref } from "react";
+import { CarFront, DollarSign, Money } from "@icons/index.ts";
+import { ErrorMessage } from "@components/index.ts";
+import * as S from "./ConditionalSwitchComponent.styles";
 
 interface ConditionalSwitchProps {
-  label: string
-  variant: 'transport' | 'reward'
-  checked: boolean
-  onChange: (checked: boolean) => void
-  rewardInputProps?: InputHTMLAttributes<HTMLInputElement>
-  rewardInputRef?: Ref<HTMLInputElement>
-  rewardError?: string
+  label: string;
+  variant: "transport" | "reward";
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  rewardInputProps?: InputHTMLAttributes<HTMLInputElement>;
+  rewardInputRef?: Ref<HTMLInputElement>;
+  rewardError?: string;
 }
 
 function ConditionalSwitchComponent({
@@ -22,14 +22,18 @@ function ConditionalSwitchComponent({
   rewardInputRef,
   rewardError,
 }: ConditionalSwitchProps) {
-  const describedBy = variant === 'transport' ? 'transport-help' : 'reward-input'
+  const describedBy = variant === "transport" ? "transport-help" : "reward-input";
 
   return (
     <S.ConditionalSwitchSection>
       <S.SwitchGroup>
         <S.SwitchRow>
           <S.SwitchLabelContent>
-            {variant === 'transport' ? <CarFront aria-hidden="true" /> : <Money aria-hidden="true" />}
+            {variant === "transport" ? (
+              <CarFront aria-hidden="true" />
+            ) : (
+              <Money aria-hidden="true" />
+            )}
             {label}
           </S.SwitchLabelContent>
           <S.SwitchInput
@@ -40,15 +44,15 @@ function ConditionalSwitchComponent({
           />
           <S.SwitchControl aria-hidden="true" />
         </S.SwitchRow>
-        {variant === 'transport' && checked && (
+        {variant === "transport" && checked && (
           <S.SwitchHelpText id="transport-help" aria-live="polite">
-            Si seleccionas esta opción, se enviará una notificación a los transportistas de
-            la app para que se comuniquen con vos.
+            Si seleccionas esta opción, se enviará una notificación a los transportistas de la app
+            para que se comuniquen con vos.
           </S.SwitchHelpText>
         )}
       </S.SwitchGroup>
 
-      {variant === 'reward' && checked && rewardInputProps && (
+      {variant === "reward" && checked && rewardInputProps && (
         <S.RewardField id="reward-input" aria-live="polite">
           <S.RewardInputWrapper>
             <DollarSign aria-hidden="true" />
@@ -64,7 +68,7 @@ function ConditionalSwitchComponent({
         </S.RewardField>
       )}
     </S.ConditionalSwitchSection>
-  )
+  );
 }
 
-export default ConditionalSwitchComponent
+export default ConditionalSwitchComponent;

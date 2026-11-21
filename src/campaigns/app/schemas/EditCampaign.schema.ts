@@ -1,8 +1,8 @@
-import * as yup from 'yup'
-import type { CampaignDetailsType } from '@models/Campaign.types'
-import { campaignCategories, type CampaignCategory } from '../types/Campaign.types'
-import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
-import { campaignLocationSchema } from './PublishCampaignSchema'
+import * as yup from "yup";
+import type { CampaignDetailsType } from "@models/Campaign.types";
+import { campaignCategories, type CampaignCategory } from "../types/Campaign.types";
+import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
+import { campaignLocationSchema } from "./PublishCampaignSchema";
 
 export const editCampaignSchema = yup.object({
   category: yup
@@ -12,47 +12,59 @@ export const editCampaignSchema = yup.object({
   title: yup
     .string()
     .trim()
-    .required('Ingresá un título para la campaña.')
-    .max(100, 'El título no puede superar los 100 caracteres.'),
+    .required("Ingresá un título para la campaña.")
+    .max(100, "El título no puede superar los 100 caracteres."),
   description: yup
     .string()
     .trim()
-    .required('Ingresá una descripción.')
-    .max(200, 'La descripción no puede superar los 200 caracteres.'),
-  startDate: yup.string().defined().default('').when('category', {
-    is: (type: CampaignDetailsType) => type !== 'DONATION',
-    then: (schema) => schema.required('Seleccioná una fecha de inicio.'),
-  }),
+    .required("Ingresá una descripción.")
+    .max(200, "La descripción no puede superar los 200 caracteres."),
+  startDate: yup
+    .string()
+    .defined()
+    .default("")
+    .when("category", {
+      is: (type: CampaignDetailsType) => type !== "DONATION",
+      then: (schema) => schema.required("Seleccioná una fecha de inicio."),
+    }),
   endDate: yup
     .string()
     .defined()
-    .default('')
-    .when('category', {
-      is: (type: CampaignDetailsType) => type !== 'DONATION',
-      then: (schema) => schema.required('Seleccioná una fecha de fin.'),
+    .default("")
+    .when("category", {
+      is: (type: CampaignDetailsType) => type !== "DONATION",
+      then: (schema) => schema.required("Seleccioná una fecha de fin."),
       otherwise: (schema) => schema.optional(),
     })
     .test(
-      'not-before-start-date',
-      'La fecha de fin debe ser mayor o igual a la fecha de inicio.',
+      "not-before-start-date",
+      "La fecha de fin debe ser mayor o igual a la fecha de inicio.",
       function (endDate) {
-        const { category, startDate } = this.parent
-        if (category === 'DONATION' || !startDate || !endDate) return true
-        return endDate >= startDate
+        const { category, startDate } = this.parent;
+        if (category === "DONATION" || !startDate || !endDate) return true;
+        return endDate >= startDate;
       },
     ),
-  startTime: yup.string().defined().default('').when('category', {
-    is: (type: CampaignDetailsType) => type !== 'DONATION',
-    then: (schema) => schema.required('Ingresá una hora de inicio.'),
-  }),
-  endTime: yup.string().defined().default('').when('category', {
-    is: (type: CampaignDetailsType) => type !== 'DONATION',
-    then: (schema) => schema.required('Ingresá una hora de fin.'),
-  }),
-  phoneAreaCode: phoneAreaCodeSchema.required('Ingresá un código de área.'),
-  phone: phoneNumberSchema.required('Ingresá un número de teléfono.'),
+  startTime: yup
+    .string()
+    .defined()
+    .default("")
+    .when("category", {
+      is: (type: CampaignDetailsType) => type !== "DONATION",
+      then: (schema) => schema.required("Ingresá una hora de inicio."),
+    }),
+  endTime: yup
+    .string()
+    .defined()
+    .default("")
+    .when("category", {
+      is: (type: CampaignDetailsType) => type !== "DONATION",
+      then: (schema) => schema.required("Ingresá una hora de fin."),
+    }),
+  phoneAreaCode: phoneAreaCodeSchema.required("Ingresá un código de área."),
+  phone: phoneNumberSchema.required("Ingresá un número de teléfono."),
   location: campaignLocationSchema,
-  imageId: yup.string().defined().default(''),
-})
+  imageId: yup.string().defined().default(""),
+});
 
-export type EditCampaignFormValues = yup.InferType<typeof editCampaignSchema>
+export type EditCampaignFormValues = yup.InferType<typeof editCampaignSchema>;

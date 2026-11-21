@@ -64,8 +64,7 @@ export const CarouselItem = styled.div<{ $visibleItems: number }>`
 export const CarouselArrow = styled.button<CarouselArrowProps>`
   position: absolute;
   top: 50%;
-  ${({ $direction }) =>
-    $direction === "previous" ? "left: 8px;" : "right: 8px;"}
+  ${({ $direction }) => ($direction === "previous" ? "left: 8px;" : "right: 8px;")}
   z-index: 2;
   display: flex;
   width: 46px;
@@ -89,8 +88,7 @@ export const CarouselArrow = styled.button<CarouselArrowProps>`
     width: 10px;
     height: 18px;
     flex-shrink: 0;
-    transform: ${({ $direction }) =>
-      $direction === "previous" ? "rotate(180deg)" : "none"};
+    transform: ${({ $direction }) => ($direction === "previous" ? "rotate(180deg)" : "none")};
   }
 
   &:hover:not(:disabled) {
@@ -196,6 +194,5 @@ export const Indicator = styled.span<{ $active: boolean }>`
   height: 8px;
   flex: 0 0 8px;
   border-radius: 50%;
-  background: ${({ $active, theme }) =>
-    $active ? theme.colors.brand : theme.colors.stroke};
+  background: ${({ $active, theme }) => ($active ? theme.colors.brand : theme.colors.stroke)};
 `;

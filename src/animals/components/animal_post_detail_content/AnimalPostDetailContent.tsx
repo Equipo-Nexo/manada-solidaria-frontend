@@ -1,13 +1,5 @@
 import type { ComponentType } from "react";
-import {
-  Calendar,
-  Clock,
-  ColorPalet,
-  Money,
-  PawPrint,
-  Ruler,
-  Share,
-} from "@/common/icons";
+import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from "@/common/icons";
 import { Advice, ImagePreview } from "@components/index.ts";
 import GenderIcon from "@/common/icons/Gender";
 import BookIcon from "@/common/icons/Book";
@@ -31,18 +23,13 @@ import ContactCardComponent from "@/common/components/contact_details_component/
 import { shareUrl } from "@/common/utils/HandleShare";
 import { getAddress } from "@/common/utils/LocationUtils";
 
-export default function AnimalPostDetailContent({
-  postData,
-}: {
-  postData: AnimalPost;
-}) {
+export default function AnimalPostDetailContent({ postData }: { postData: AnimalPost }) {
   const PHONE_NUMBER = postData?.phoneNumber
     ? `${postData?.phoneNumber.areaCode}${postData?.phoneNumber.number}`
     : "";
   const name = getAnimalName(postData.name, postData.animal.type);
   const animalKind =
-    animalKinds.find(({ value }) => value === postData.animal.type)?.label ??
-    "No informado";
+    animalKinds.find(({ value }) => value === postData.animal.type)?.label ?? "No informado";
   const status = AnimalPostStatus[postData.status];
 
   const feature = (Icon: ComponentType, label: string, value: string) => (
@@ -137,9 +124,7 @@ export default function AnimalPostDetailContent({
                     <S.Label>
                       Publicado por <strong>{postData.owner.username}</strong>
                     </S.Label>
-                    <S.AuthorRole>
-                      {getOwnerRole(postData.owner.roles)}
-                    </S.AuthorRole>
+                    <S.AuthorRole>{getOwnerRole(postData.owner.roles)}</S.AuthorRole>
                   </S.ValuesContainer>
                 </S.InfoContainer>
               </S.GeneralDataContainer>
@@ -150,27 +135,13 @@ export default function AnimalPostDetailContent({
               />
               <S.FeaturesGrid aria-label={`Características de ${name}`}>
                 {feature(PawPrint, "Especie", animalKind)}
-                {feature(
-                  GenderIcon,
-                  "Sexo",
-                  animalSexLabels[postData.animal.gender],
-                )}
-                {feature(
-                  Ruler,
-                  "Tamaño",
-                  animalSizeLabels[postData.animal.size],
-                )}
-                {feature(
-                  Calendar,
-                  "Edad",
-                  animalAgeLabels[postData.animal.age],
-                )}
+                {feature(GenderIcon, "Sexo", animalSexLabels[postData.animal.gender])}
+                {feature(Ruler, "Tamaño", animalSizeLabels[postData.animal.size])}
+                {feature(Calendar, "Edad", animalAgeLabels[postData.animal.age])}
                 {feature(
                   ColorPalet,
                   "Color predominante",
-                  postData.animal.color
-                    ? animalColorLabels[postData.animal.color]
-                    : "No informado",
+                  postData.animal.color ? animalColorLabels[postData.animal.color] : "No informado",
                 )}
               </S.FeaturesGrid>
               <S.StorySection>
@@ -194,10 +165,7 @@ export default function AnimalPostDetailContent({
               name={postData?.name ?? ""}
             />
             <S.AdviceArea>
-              <Advice
-                title=""
-                advice={adviceDescriptionSelector(postData.type)}
-              />
+              <Advice title="" advice={adviceDescriptionSelector(postData.type)} />
             </S.AdviceArea>
           </>
         )}

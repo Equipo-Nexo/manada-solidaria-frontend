@@ -11,9 +11,5 @@ export const openWhatsApp = (phoneNumber: string, text: string) => {
     return;
   }
 
-  window.open(
-    `https://wa.me/${phone}?text=${message}`,
-    "_blank",
-    "noopener,noreferrer",
-  );
+  window.open(`https://wa.me/${phone}?text=${message}`, "_blank", "noopener,noreferrer");
 };

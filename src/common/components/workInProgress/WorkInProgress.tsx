@@ -1,14 +1,14 @@
-import { PawPrint } from '../../icons'
-import * as S from './WorkInProgress.styles'
+import { PawPrint } from "../../icons";
+import * as S from "./WorkInProgress.styles";
 
 type WorkInProgressProps = {
-  title?: string
-  description?: string
-}
+  title?: string;
+  description?: string;
+};
 
 function WorkInProgress({
-  title = 'Estamos trabajando en esto',
-  description = 'Muy pronto vas a poder disfrutar de esta sección.',
+  title = "Estamos trabajando en esto",
+  description = "Muy pronto vas a poder disfrutar de esta sección.",
 }: WorkInProgressProps) {
   return (
     <S.Container role="status" aria-live="polite">
@@ -27,7 +27,7 @@ function WorkInProgress({
         <S.Description>{description}</S.Description>
       </S.Content>
     </S.Container>
-  )
+  );
 }
 
-export default WorkInProgress
+export default WorkInProgress;

@@ -189,8 +189,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   padding: 8px 18px;
   border-radius: 999px;
   border: 2px solid
-    ${({ theme, $isSelected }) =>
-      $isSelected ? theme.colors.secondary : theme.colors.stroke};
+    ${({ theme, $isSelected }) => ($isSelected ? theme.colors.secondary : theme.colors.stroke)};
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.secondary : theme.colors.background};
   color: ${({ theme, $isSelected }) =>

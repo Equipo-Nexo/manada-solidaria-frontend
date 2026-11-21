@@ -6,9 +6,7 @@ import PawLoader from "@/common/components/pawLoader/PawLoader";
 import { Message } from "@/common/components";
 import { useEffect, useState, useRef } from "react";
 import { useGeolocation } from "@/common/hooks/geolocation/useGeolocation";
-import StatusFilter, {
-  type VetStatusFilter,
-} from "@/vets/components/status_filter/StatusFilter";
+import StatusFilter, { type VetStatusFilter } from "@/vets/components/status_filter/StatusFilter";
 import { Search, Sort } from "@/common/icons";
 import { useDebounce } from "@/common/hooks/debounce/useDebounce";
 import VetCard from "../components/vet_card/VetCard";
@@ -40,7 +38,6 @@ export default function Vets() {
     };
     void checkLocationPermission();
   }, [requestCoordinates]);
-  
 
   const {
     data: vets,
@@ -58,7 +55,6 @@ export default function Vets() {
     },
   );
 
-  
   useEffect(() => {
     if (!selectedVetId || isError) return;
 
@@ -67,7 +63,6 @@ export default function Vets() {
       block: "center",
     });
   }, [vets, selectedVetId, isError]);
-
 
   const handleSortByDistance = async () => {
     if (coordinates) {
@@ -97,10 +92,7 @@ export default function Vets() {
       </S.Header>
       {isError ? (
         <S.MessageContainer role="alert">
-          <Message
-            message="No se pudieron cargar las veterinarias."
-            iconName="pawPrint"
-          />
+          <Message message="No se pudieron cargar las veterinarias." iconName="pawPrint" />
 
           <S.RetryButton type="button" onClick={() => void refetch()}>
             Reintentar
@@ -142,7 +134,7 @@ export default function Vets() {
                 $selected={vet.id === selectedVetId}
               >
                 <VetCard vet={vet} />
-              </S.VetContainer>     
+              </S.VetContainer>
             ))}
           </S.VetsList>
         </>

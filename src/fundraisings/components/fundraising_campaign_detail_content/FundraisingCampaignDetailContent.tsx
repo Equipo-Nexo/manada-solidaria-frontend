@@ -15,16 +15,12 @@ import { getAddress } from "@/common/utils/LocationUtils";
 import getOwnerRole from "@/common/utils/GetRoles";
 import { ImagePreview } from "@/common/components";
 
-export default function FundraisingCampaignDetailContent(
-  data: FundraisingCampaignResponse,
-) {
+export default function FundraisingCampaignDetailContent(data: FundraisingCampaignResponse) {
   const navigate = useNavigate();
   const goal = data?.amountToBeCollected;
   const collected = data?.amountCollected ?? 0;
   const hasGoal = goal != null && goal > 0;
-  const progress = hasGoal
-    ? Math.min(100, Math.round((collected / goal) * 100))
-    : 0;
+  const progress = hasGoal ? Math.min(100, Math.round((collected / goal) * 100)) : 0;
   const { copied: copiedAlias, copy: copyAlias } = useCopyToClipboard();
   const handleCopyAlias = () => {
     if (data?.accountAlias) {
@@ -65,9 +61,7 @@ export default function FundraisingCampaignDetailContent(
                 <Calendar aria-hidden="true" />
                 <S.EndDateContent>
                   <S.EndDateLabel>Fin colecta</S.EndDateLabel>
-                  <S.EndDateValue>
-                    {formatDateTimeLong(data.campaignEndDate).date}
-                  </S.EndDateValue>
+                  <S.EndDateValue>{formatDateTimeLong(data.campaignEndDate).date}</S.EndDateValue>
                 </S.EndDateContent>
               </S.FundraisingEndDate>
             )}
@@ -98,17 +92,8 @@ export default function FundraisingCampaignDetailContent(
               <S.AliasLabel>ALIAS PARA TRANSFERIR</S.AliasLabel>
               <S.AliasValue>{data?.accountAlias}</S.AliasValue>
             </S.AliasContent>
-            <S.CopyButton
-              type="button"
-              onClick={handleCopyAlias}
-              $copied={copiedAlias}
-            >
-              {copiedAlias ? (
-                <Check aria-hidden="true" />
-              ) : (
-                <Copy $inverted aria-hidden="true" />
-              )}
-
+            <S.CopyButton type="button" onClick={handleCopyAlias} $copied={copiedAlias}>
+              {copiedAlias ? <Check aria-hidden="true" /> : <Copy $inverted aria-hidden="true" />}
               {copiedAlias ? "Alias copiado" : "Copiar alias"}
             </S.CopyButton>
           </S.AliasSection>
@@ -127,8 +112,7 @@ export default function FundraisingCampaignDetailContent(
                   ${collected.toLocaleString("es-AR")} recaudados
                 </S.CollectedAmount>
                 <S.RemainingAmount>
-                  Faltan $
-                  {Math.max(goal - collected, 0).toLocaleString("es-AR")}
+                  Faltan ${Math.max(goal - collected, 0).toLocaleString("es-AR")}
                 </S.RemainingAmount>
               </S.GoalFooter>
             </S.FundraisingGoal>
@@ -138,9 +122,7 @@ export default function FundraisingCampaignDetailContent(
               <OpenBook aria-hidden="true" width="20" height="14" />
               Descripción
             </S.Title>
-            <S.FundraisingDescription>
-              {data?.description}
-            </S.FundraisingDescription>
+            <S.FundraisingDescription>{data?.description}</S.FundraisingDescription>
           </S.DescriptionSection>
           {data?.location && (
             <S.LocationCard>
@@ -149,9 +131,7 @@ export default function FundraisingCampaignDetailContent(
               </S.MapPreview>
               <S.LocationContent>
                 <S.LocationTitle>{data.location.city}</S.LocationTitle>
-                <S.LocationAddress>
-                  {getAddress(data.location)}
-                </S.LocationAddress>
+                <S.LocationAddress>{getAddress(data.location)}</S.LocationAddress>
                 <S.MapLink
                   type="button"
                   onClick={() =>

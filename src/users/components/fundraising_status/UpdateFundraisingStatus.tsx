@@ -30,11 +30,7 @@ export function FundraisingProgress({ post }: Pick<Props, "post">) {
   const progress = getFundraisingProgress(post);
   const completed = post.status === "COMPLETED";
   const finished = post.status === "FINISHED";
-  const subtitle = completed
-    ? "Meta alcanzada"
-    : finished
-      ? "Colecta finalizada"
-      : null;
+  const subtitle = completed ? "Meta alcanzada" : finished ? "Colecta finalizada" : null;
 
   return (
     <S.FundraisingProgress>
@@ -58,9 +54,7 @@ export function FundraisingProgress({ post }: Pick<Props, "post">) {
                   ? theme.colors.fundraisingFinishedProgress
                   : undefined
             }
-            backgroundColor={
-              finished ? `${theme.colors.statusStreetBackground}59` : undefined
-            }
+            backgroundColor={finished ? `${theme.colors.statusStreetBackground}59` : undefined}
           />
         </>
       )}
@@ -97,19 +91,13 @@ export default function UpdateFundraisingStatus({ post, onClose }: Props) {
       );
       onClose();
     } catch (error) {
-      toast.error(
-        "No pudimos cambiar el estado",
-        getApiErrorMessage(error, "Intentá nuevamente."),
-      );
+      toast.error("No pudimos cambiar el estado", getApiErrorMessage(error, "Intentá nuevamente."));
     } finally {
       setPending(false);
     }
   };
 
-  if (
-    post.postType !== "fundraising" ||
-    !hasFundraisingStatusActions(post.status)
-  ) {
+  if (post.postType !== "fundraising" || !hasFundraisingStatusActions(post.status)) {
     return null;
   }
   const sheetProps = FundraisingStatusLogic({

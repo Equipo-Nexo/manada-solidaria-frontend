@@ -16,10 +16,7 @@ type StoriesProps = {
 function Stories({ cases, initialIndex, onClose }: StoriesProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const currentCase = cases[currentIndex];
-  const pagePaws = useMemo(
-    () => createPagePaws(`stories-${cases.length}`),
-    [cases.length],
-  );
+  const pagePaws = useMemo(() => createPagePaws(`stories-${cases.length}`), [cases.length]);
   const handleNext = useCallback(() => {
     if (currentIndex >= cases.length - 1) {
       onClose();
@@ -104,11 +101,7 @@ function Stories({ cases, initialIndex, onClose }: StoriesProps) {
                 }}
               />
               <S.Username>{currentCase.owner.username}</S.Username>
-              <S.CloseButton
-                type="button"
-                onClick={onClose}
-                aria-label="Cerrar historias"
-              >
+              <S.CloseButton type="button" onClick={onClose} aria-label="Cerrar historias">
                 <X />
               </S.CloseButton>
             </S.UserInfo>

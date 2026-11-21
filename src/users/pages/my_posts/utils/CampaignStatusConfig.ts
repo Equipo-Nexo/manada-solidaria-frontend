@@ -47,12 +47,9 @@ export const campaignStatusConfig = {
 >;
 
 export const isNewsCampaign = (type?: string) =>
-  ["NEWS", "VACCINATION", "CASTRATION", "DEWORMING", "OTHER"].includes(
-    type?.toUpperCase() ?? "",
-  );
+  ["NEWS", "VACCINATION", "CASTRATION", "DEWORMING", "OTHER"].includes(type?.toUpperCase() ?? "");
 
-export const isDonationCampaign = (type?: string) =>
-  type?.toUpperCase() === "DONATION";
+export const isDonationCampaign = (type?: string) => type?.toUpperCase() === "DONATION";
 
 export const campaignTypeLabels: Record<string, string> = {
   DONATION: "Campaña de donación",
@@ -70,8 +67,7 @@ export function getCampaignStatusInfo(status: string, type?: string) {
     !Object.hasOwn(campaignStatusConfig, status)
   )
     return undefined;
-  if (isDonationCampaign(type) && status === "CREATED")
-    return campaignStatusConfig.STARTED;
+  if (isDonationCampaign(type) && status === "CREATED") return campaignStatusConfig.STARTED;
   return campaignStatusConfig[status as CampaignStatus];
 }
 
@@ -81,12 +77,8 @@ export function canChangeCampaignStatus(
   type?: string,
 ): target is UpdateCampaignStatusRequest["status"] {
   if (isDonationCampaign(type))
-    return (
-      current === "CREATED" && (target === "COMPLETED" || target === "FINISHED")
-    );
-  return (
-    isNewsCampaign(type) && current === "STARTED" && target === "CANCELLED"
-  );
+    return current === "CREATED" && (target === "COMPLETED" || target === "FINISHED");
+  return isNewsCampaign(type) && current === "STARTED" && target === "CANCELLED";
 }
 
 export function hasCampaignStatusActions(current: string, type?: string) {

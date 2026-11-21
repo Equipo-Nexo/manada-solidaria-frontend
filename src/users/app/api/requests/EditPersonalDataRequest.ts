@@ -1,9 +1,9 @@
-import type { PhoneNumber } from '@/common/app/services/responses/PhoneNumber'
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
 export interface EditPersonalDataRequest {
-    name?: string;
-    lastname?: string | null;
-    email: string;
-    phoneNumber: PhoneNumber | null;
-    profileImageURL: string;
+  name?: string;
+  lastname?: string | null;
+  email: string;
+  phoneNumber: PhoneNumber | null;
+  profileImageURL: string;
 }

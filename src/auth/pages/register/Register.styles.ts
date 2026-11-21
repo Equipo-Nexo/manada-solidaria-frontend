@@ -347,8 +347,7 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
   height: 56px;
   padding: 15px 24px;
-  border: 2px solid
-    ${({ $hasError, theme }) => ($hasError ? theme.colors.error : "#f7ddd3")};
+  border: 2px solid ${({ $hasError, theme }) => ($hasError ? theme.colors.error : "#f7ddd3")};
   border-radius: 8px;
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.montserrat};
@@ -449,11 +448,9 @@ export const PasswordRequirementIcon = styled.span<{ $met: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid
-    ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.stroke)};
+  border: 1.5px solid ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.stroke)};
   border-radius: 50%;
-  background: ${({ $met, theme }) =>
-    $met ? theme.colors.success : theme.colors.background};
+  background: ${({ $met, theme }) => ($met ? theme.colors.success : theme.colors.background)};
   color: ${({ theme }) => theme.colors.background};
 
   svg {

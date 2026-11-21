@@ -1,11 +1,15 @@
-import { useParams } from 'react-router-dom'
-import { useGetAnimalPostQuery } from '@/animals/app/api/animalPostsApi'
-import AnimalPostDetailContent from '@/animals/components/animal_post_detail_content/AnimalPostDetailContent'
-import Layout from '@/common/components/layout/Layout'
+import { useParams } from "react-router-dom";
+import { useGetAnimalPostQuery } from "@/animals/app/api/animalPostsApi";
+import AnimalPostDetailContent from "@/animals/components/animal_post_detail_content/AnimalPostDetailContent";
+import Layout from "@/common/components/layout/Layout";
 
 function AnimalPostDetail() {
-  const { postId } = useParams<{ postId: string }>()
-  const { data: postData, isLoading, isError } = useGetAnimalPostQuery(postId ?? '', { skip: !postId })
+  const { postId } = useParams<{ postId: string }>();
+  const {
+    data: postData,
+    isLoading,
+    isError,
+  } = useGetAnimalPostQuery(postId ?? "", { skip: !postId });
 
   return (
     <Layout
@@ -17,9 +21,7 @@ function AnimalPostDetail() {
     >
       {postData && <AnimalPostDetailContent postData={postData} />}
     </Layout>
-  )
+  );
 }
 
-export default AnimalPostDetail
-
-
+export default AnimalPostDetail;

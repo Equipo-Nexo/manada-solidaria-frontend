@@ -1,5 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { DatePicker, ImageUpload, Advice, ErrorMessage, PhoneInputComponent, AutocompleteGeolocation } from "@components/index.ts";
+import {
+  DatePicker,
+  ImageUpload,
+  Advice,
+  ErrorMessage,
+  PhoneInputComponent,
+  AutocompleteGeolocation,
+} from "@components/index.ts";
 import { StyledMaskedInput } from "@components/maskedInput/maskedInput.styles";
 import * as S from "@campaigns/pages/create_campaign/PublishForm.styles";
 import { Controller, useController, useForm } from "react-hook-form";
@@ -47,11 +54,11 @@ function PublishFundraising() {
       description: "",
       phoneAreaCode: "",
       phone: "",
-      imageId: undefined
+      imageId: undefined,
     },
   });
 
-  console.log('errors', errors)
+  console.log("errors", errors);
 
   const onSubmit = async (data: PublishFundraisingForm) => {
     const request: FundraisingCampaignRequest = {
@@ -61,7 +68,7 @@ function PublishFundraising() {
       imageId: data.imageId,
       phoneNumber: {
         areaCode: data.phoneAreaCode,
-        number: data.phone
+        number: data.phone,
       },
       location: data.location,
       accountAlias: data.accountAlias,
@@ -72,17 +79,11 @@ function PublishFundraising() {
     createCampaign(request)
       .unwrap()
       .then(() => {
-        toast.success(
-          "Colecta publicada",
-          "La colecta se publicó correctamente.",
-        );
+        toast.success("Colecta publicada", "La colecta se publicó correctamente.");
         navigate("/home");
       })
       .catch(() => {
-        toast.error(
-          "No pudimos publicar la colecta",
-          "Intentá nuevamente en unos minutos.",
-        );
+        toast.error("No pudimos publicar la colecta", "Intentá nuevamente en unos minutos.");
       });
   };
 
@@ -90,18 +91,17 @@ function PublishFundraising() {
     control,
     name: "phoneAreaCode",
   });
-  const { field: phoneNumberField, fieldState: phoneNumberState } =
-    useController({
-      control,
-      name: "phone",
-    });
+  const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
+    control,
+    name: "phone",
+  });
 
   return (
     <FormContainer
-      pageTitle='Publicar Colecta de Dinero'
-      buttonText='Publicar Colecta de Dinero'
+      pageTitle="Publicar Colecta de Dinero"
+      buttonText="Publicar Colecta de Dinero"
       isLoadingForm={isLoading}
-      loadingButtonText='Publicando...'
+      loadingButtonText="Publicando..."
       handleSubmit={handleSubmit(onSubmit, scrollToFirstFormError)}
     >
       <S.PublishField>
@@ -120,11 +120,7 @@ function PublishFundraising() {
         <S.PublishLabel>
           Alias <S.RequiredMark>*</S.RequiredMark>
         </S.PublishLabel>
-        <S.PublishInput
-          type="text"
-          {...register("accountAlias")}
-          placeholder="maca.123.mp"
-        />
+        <S.PublishInput type="text" {...register("accountAlias")} placeholder="maca.123.mp" />
         <ErrorMessage message={errors.accountAlias?.message} />
       </S.PublishField>
 
@@ -189,18 +185,17 @@ function PublishFundraising() {
           onPhoneNumberBlur={phoneNumberField.onBlur}
           areaCodeRef={areaCodeField.ref}
           phoneNumberRef={phoneNumberField.ref}
-          error={
-            areaCodeState.error?.message ?? phoneNumberState.error?.message
-          }
+          error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
         />
         <S.HelpText>
-          El número es requerido para envío de comprobante de pago o para
-          consultas.
+          El número es requerido para envío de comprobante de pago o para consultas.
         </S.HelpText>
       </S.PublishField>
 
       <S.PublishField as="div">
-        <S.PublishLabel>Ubicación<S.RequiredMark>*</S.RequiredMark></S.PublishLabel>
+        <S.PublishLabel>
+          Ubicación<S.RequiredMark>*</S.RequiredMark>
+        </S.PublishLabel>
         <Controller
           control={control}
           name="location"
@@ -224,9 +219,7 @@ function PublishFundraising() {
           control={control}
           name="imageId"
           render={({ field }) => (
-            <ImageUpload
-              onImageSelected={(imageId) => field.onChange(imageId)}
-            />
+            <ImageUpload onImageSelected={(imageId) => field.onChange(imageId)} />
           )}
         />
         <ErrorMessage message={errors.imageId?.message} />

@@ -4,7 +4,6 @@ import FundraisingList from "./FundraisingList";
 import Layout from "@/common/components/layout/Layout";
 
 function Fundraising() {
-
   const { data, isError, isLoading } = useGetFundraisingCampaignsQuery();
 
   const fundraisings = data?.content ?? [];
@@ -14,13 +13,15 @@ function Fundraising() {
   return (
     <Layout
       title="Casos urgentes"
-      subtitle={isLoading ? "Cargando resultados..." : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}` }
+      subtitle={
+        isLoading
+          ? "Cargando resultados..."
+          : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`
+      }
       isLoading={isLoading}
       isError={isError}
     >
-      <FundraisingList
-        fundraisings={fundraisingCards}
-      />
+      <FundraisingList fundraisings={fundraisingCards} />
     </Layout>
   );
 }

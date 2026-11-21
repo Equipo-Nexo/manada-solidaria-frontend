@@ -1,12 +1,4 @@
-import {
-  ArrowLeft,
-  Bell,
-  Camera,
-  ChevronRight,
-  HandHeart,
-  Info,
-  Pencil,
-} from "@/common/icons";
+import { ArrowLeft, Bell, Camera, ChevronRight, HandHeart, Info, Pencil } from "@/common/icons";
 import * as S from "./Profile.styles";
 import TransitIcon from "@/common/icons/Home";
 import TransportIcon from "@icons/CarFront";
@@ -31,38 +23,38 @@ import type { Role } from "@/users/app/types/User.types";
 import { useToast } from "@hooks/toast/useToast";
 import { useGetPresignedUrlMutation } from "@/common/app/services/apis/imagesApi";
 import { useUploadImageMutation } from "@/common/app/services/apis/cloudflareApi";
-import { rolesInformation, type RoleInformation, type UpdatableRoleNames, type UpdatableRoles } from "./Utils.profile";
+import {
+  rolesInformation,
+  type RoleInformation,
+  type UpdatableRoleNames,
+  type UpdatableRoles,
+} from "./Utils.profile";
 import type { RoleName } from "@/users/app/types/User.types";
 import type { HandHeartProps } from "@icons/HandHeart";
 import { useLogout } from "@hooks/auth/useLogout";
 import { usePushNotifications } from "@hooks/notifications/usePushNotifications";
 
-
-
 const roleCodes: Record<UpdatableRoleNames, UpdatableRoles> = {
   Rescatista: "RESCUER",
   "Hogar de tránsito": "TRANSITIONAL_HOME",
-  Transportista: "CARRIAGE"
+  Transportista: "CARRIAGE",
 };
 
 const roleLabels: Record<UpdatableRoles, RoleName> = {
   RESCUER: "Rescatista",
   TRANSITIONAL_HOME: "Hogar de tránsito",
-  CARRIAGE: "Transportista"
+  CARRIAGE: "Transportista",
 };
 
 const editableRoles = Object.values(roleCodes);
 
 const getRequestError = (error: unknown) => {
-  if (!error || typeof error !== "object" || !("data" in error))
-    return undefined;
+  if (!error || typeof error !== "object" || !("data" in error)) return undefined;
   const data = error.data;
   if (typeof data === "string") return data;
   if (!data || typeof data !== "object") return undefined;
-  if ("message" in data && typeof data.message === "string")
-    return data.message;
-  if ("errors" in data && Array.isArray(data.errors))
-    return data.errors.join(" ");
+  if ("message" in data && typeof data.message === "string") return data.message;
+  if ("errors" in data && Array.isArray(data.errors)) return data.errors.join(" ");
   return undefined;
 };
 
@@ -73,13 +65,9 @@ function Profile() {
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  const [selectedRole, setSelectedRole] = useState<RoleInformation | null>(
-    null,
-  );
+  const [selectedRole, setSelectedRole] = useState<RoleInformation | null>(null);
 
-  const [roleOverrides, setRoleOverrides] = useState<
-    Partial<Record<Role, boolean>>
-  >({});
+  const [roleOverrides, setRoleOverrides] = useState<Partial<Record<Role, boolean>>>({});
 
   const {
     capturedPhoto,
@@ -115,18 +103,13 @@ function Profile() {
   const { data: userData } = useGetUserProfileQuery(userId);
 
   const [updateUserRoles] = useUpdateUserRolesMutation();
-  const [getPresignedUrl, { isLoading: isGettingPresignedUrl }] =
-    useGetPresignedUrlMutation();
-  const [uploadImage, { isLoading: isUploadingImage }] =
-    useUploadImageMutation();
-  const [updateUserProfile, { isLoading: isUpdatingProfile }] =
-    useUpdateUserProfileMutation();
-  const isSavingPhoto =
-    isGettingPresignedUrl || isUploadingImage || isUpdatingProfile;
+  const [getPresignedUrl, { isLoading: isGettingPresignedUrl }] = useGetPresignedUrlMutation();
+  const [uploadImage, { isLoading: isUploadingImage }] = useUploadImageMutation();
+  const [updateUserProfile, { isLoading: isUpdatingProfile }] = useUpdateUserProfileMutation();
+  const isSavingPhoto = isGettingPresignedUrl || isUploadingImage || isUpdatingProfile;
 
   const activeRoles = editableRoles.filter(
-    (roleCode) =>
-      roleOverrides[roleCode] ?? userData?.roles.includes(roleCode) ?? false,
+    (roleCode) => roleOverrides[roleCode] ?? userData?.roles.includes(roleCode) ?? false,
   );
 
   function handleRoleInformation(roleName: UpdatableRoleNames) {
@@ -201,10 +184,7 @@ function Profile() {
       }).unwrap();
       toaster.success("Foto de perfil actualizada");
     } catch (error) {
-      toaster.error(
-        "No pudimos actualizar la foto de perfil",
-        getRequestError(error),
-      );
+      toaster.error("No pudimos actualizar la foto de perfil", getRequestError(error));
     }
   };
 
@@ -230,8 +210,7 @@ function Profile() {
   };
 
   const storedProfileImage = userData?.profile.profileImageURL ?? "";
-  const profileImage =
-    capturedPhoto?.url || normalizeImageUrl(storedProfileImage);
+  const profileImage = capturedPhoto?.url || normalizeImageUrl(storedProfileImage);
 
   const confirmLogout = async () => {
     const didLogout = await performLogout();
@@ -335,33 +314,24 @@ function Profile() {
         onSecondaryAction={() => setIsLogoutModalOpen(false)}
       >
         <p>
-          {isLoggingOut
-            ? "Desvinculando este dispositivo..."
-            : "¿Querés salir de la aplicación?"}
+          {isLoggingOut ? "Desvinculando este dispositivo..." : "¿Querés salir de la aplicación?"}
         </p>
       </Modal>
       <BottomSheet
         isOpen={openBottomSheet}
         onClose={() => setOpenBottomSheet(false)}
         ariaLabel={
-          selectedRole
-            ? `Información sobre el rol ${selectedRole.name}`
-            : "Información del rol"
+          selectedRole ? `Información sobre el rol ${selectedRole.name}` : "Información del rol"
         }
       >
         <S.BottomSheetContent>
           {selectedRole && (
             <S.BottomSheetRoleIcon>
-              <selectedRole.Icon
-                {...selectedRole.iconProps}
-                aria-hidden="true"
-              />
+              <selectedRole.Icon {...selectedRole.iconProps} aria-hidden="true" />
             </S.BottomSheetRoleIcon>
           )}
           <S.BottomSheetTitle>{selectedRole?.name}</S.BottomSheetTitle>
-          <S.BottomSheetDescription>
-            {selectedRole?.description}
-          </S.BottomSheetDescription>
+          <S.BottomSheetDescription>{selectedRole?.description}</S.BottomSheetDescription>
         </S.BottomSheetContent>
       </BottomSheet>
       <BottomSheet
@@ -371,9 +341,7 @@ function Profile() {
       >
         <S.PhotoSheetHeader>
           <S.PhotoSheetTitle>Seleccionar origen</S.PhotoSheetTitle>
-          <S.PhotoSheetDescription>
-            ¿Desde dónde quieres subir la foto?
-          </S.PhotoSheetDescription>
+          <S.PhotoSheetDescription>¿Desde dónde quieres subir la foto?</S.PhotoSheetDescription>
         </S.PhotoSheetHeader>
         <S.PhotoSheetActions>
           <S.PhotoSheetAction
@@ -401,9 +369,7 @@ function Profile() {
               <Gallery aria-hidden="true" />
             </S.PhotoSheetActionIcon>
             <S.PhotoSheetActionCopy>
-              <S.PhotoSheetActionTitle>
-                Elegir de la galería
-              </S.PhotoSheetActionTitle>
+              <S.PhotoSheetActionTitle>Elegir de la galería</S.PhotoSheetActionTitle>
               <S.PhotoSheetActionDescription>
                 Busca en tus fotos guardadas
               </S.PhotoSheetActionDescription>
@@ -428,11 +394,7 @@ function Profile() {
         />
       )}
       <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate(-1)}
-          aria-label="Volver"
-        >
+        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
         <S.TitlesContainer>
@@ -441,10 +403,7 @@ function Profile() {
       </S.Header>
       <S.ProfileImageContainer>
         <S.ProfileImageWrapper>
-          <S.ProfileImage
-            src={profileImage}
-            alt={`Foto de perfil de usuario`}
-          />
+          <S.ProfileImage src={profileImage} alt={`Foto de perfil de usuario`} />
           <S.EditProfileImageButton
             type="button"
             aria-label="Editar foto de perfil"
@@ -461,8 +420,8 @@ function Profile() {
         <S.RolesContainer>
           <S.Label>Roles Actuales</S.Label>
           <S.Description>
-            Activá los roles que querés cumplir en la red. Tocá el ícono de
-            información para saber en qué consiste cada uno.
+            Activá los roles que querés cumplir en la red. Tocá el ícono de información para saber
+            en qué consiste cada uno.
           </S.Description>
           <S.RolesList>
             {SwitchRoleComponent("Rescatista", HandHeart, {
@@ -475,8 +434,7 @@ function Profile() {
         <S.ItemsMainContainer>
           <S.Label>Cuenta y Actividad</S.Label>
           <S.Description>
-            Accedé a tus publicaciones y actualizá tus datos personales cuando
-            lo necesites.
+            Accedé a tus publicaciones y actualizá tus datos personales cuando lo necesites.
           </S.Description>
           <S.ItemsList>
             {ItemComponent(

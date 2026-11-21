@@ -186,8 +186,7 @@ export const Status = styled.span<{ $isRead: boolean }>`
   border-radius: 999px;
   background: ${({ theme, $isRead }) =>
     $isRead ? theme.colors.statusFoundBackground : theme.colors.neutral};
-  color: ${({ theme, $isRead }) =>
-    $isRead ? theme.colors.success : theme.colors.brand};
+  color: ${({ theme, $isRead }) => ($isRead ? theme.colors.success : theme.colors.brand)};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   @media (min-width: 1024px) {

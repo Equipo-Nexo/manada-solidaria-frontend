@@ -10,10 +10,7 @@ import type { Page } from "@/common/app/types/Page";
 
 export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAnimalPosts: builder.query<
-      Page<AnimalPostResponse>,
-      GetAnimalPostsRequest
-    >({
+    getAnimalPosts: builder.query<Page<AnimalPostResponse>, GetAnimalPostsRequest>({
       query: ({
         status,
         type,
@@ -62,10 +59,7 @@ export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
       invalidatesTags: ["AnimalPosts", "userPosts"],
     }),
 
-    updateAnimalPostStatus: builder.mutation<
-      AnimalPostResponse,
-      UpdateAnimalPostStatusRequest
-    >({
+    updateAnimalPostStatus: builder.mutation<AnimalPostResponse, UpdateAnimalPostStatusRequest>({
       query: ({ postId, status }) => ({
         url: `/animal-posts/${postId}/status`,
         method: "PATCH",
@@ -74,10 +68,7 @@ export const animalPostsApi = baseAuthenticatedApi.injectEndpoints({
       invalidatesTags: ["AnimalPosts", "userPosts", "map"],
     }),
 
-    createAnimalPost: builder.mutation<
-      AnimalPostResponse,
-      CreateAnimalPostRequest
-    >({
+    createAnimalPost: builder.mutation<AnimalPostResponse, CreateAnimalPostRequest>({
       query: (body) => ({
         url: "/animal-posts",
         method: "POST",

@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react';
+import type { SVGProps } from "react";
 
 function ChevronDown(props: SVGProps<SVGSVGElement>) {
   return (

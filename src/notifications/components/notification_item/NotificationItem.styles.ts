@@ -4,9 +4,7 @@ export const Item = styled.li<{ $unread: boolean }>`
   list-style: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   background-color: ${({ $unread, theme }) =>
-    $unread
-      ? `color-mix(in srgb, ${theme.colors.neutral} 45%, transparent)`
-      : "transparent"};
+    $unread ? `color-mix(in srgb, ${theme.colors.neutral} 45%, transparent)` : "transparent"};
   &:last-child {
     border-bottom: none;
   }

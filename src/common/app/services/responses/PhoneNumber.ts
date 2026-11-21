@@ -1,4 +1,4 @@
 export interface PhoneNumber {
-    areaCode: string
-    number: string
+  areaCode: string;
+  number: string;
 }

@@ -1,23 +1,23 @@
-import type { Location } from "@/common/app/services/responses/Location"
-import type { CampaignCategory, CampaignType } from "../../types/Campaign.types"
-import type { Maybe } from "yup"
-import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber"
+import type { Location } from "@/common/app/services/responses/Location";
+import type { CampaignCategory, CampaignType } from "../../types/Campaign.types";
+import type { Maybe } from "yup";
+import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
 export interface BaseEditCampaignRequest {
-  type: CampaignType
-  title: string
-  description: string
-  imageId: Maybe<string | undefined>
-  phoneNumber: PhoneNumber
-  location: Location
+  type: CampaignType;
+  title: string;
+  description: string;
+  imageId: Maybe<string | undefined>;
+  phoneNumber: PhoneNumber;
+  location: Location;
 }
 
 export interface EditDonationCampaignRequest extends BaseEditCampaignRequest {
-  campaignEndDate: string
+  campaignEndDate: string;
 }
 
 export interface EditNewsCampaignRequest extends BaseEditCampaignRequest {
-  category: CampaignCategory
+  category: CampaignCategory;
 }
 
 export interface UpdateFundraisingCampaignRequest extends BaseEditCampaignRequest {
@@ -27,9 +27,9 @@ export interface UpdateFundraisingCampaignRequest extends BaseEditCampaignReques
   accountAlias: string;
 }
 
-export type EditCampaignRequest = EditDonationCampaignRequest | EditNewsCampaignRequest 
+export type EditCampaignRequest = EditDonationCampaignRequest | EditNewsCampaignRequest;
 
 export type EditCampaignMutationRequest = {
-  campaignId: string
-  body: EditCampaignRequest
-}
+  campaignId: string;
+  body: EditCampaignRequest;
+};

@@ -1,11 +1,14 @@
-import * as S from '@animals/pages/create_animal_post/CreateAnimalPost.styles'
-import type { AnimalColor } from '../app/types/AnimalPost.types'
-import { colors } from '@animals/utils/AnimalFormUtils'
-import { ColorPalet } from '@/common/icons'
+import * as S from "@animals/pages/create_animal_post/CreateAnimalPost.styles";
+import type { AnimalColor } from "../app/types/AnimalPost.types";
+import { colors } from "@animals/utils/AnimalFormUtils";
+import { ColorPalet } from "@/common/icons";
 
-export default function ColorSelectorComponent({ selected, onSelect }: {
-  selected?: AnimalColor
-  onSelect: (color: AnimalColor) => void
+export default function ColorSelectorComponent({
+  selected,
+  onSelect,
+}: {
+  selected?: AnimalColor;
+  onSelect: (color: AnimalColor) => void;
 }) {
   return (
     <S.ColorsContainer role="radiogroup" aria-label="Color predominante">
@@ -25,5 +28,5 @@ export default function ColorSelectorComponent({ selected, onSelect }: {
         </S.ColorItem>
       ))}
     </S.ColorsContainer>
-  )
+  );
 }

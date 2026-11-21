@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "styled-components";
 
 const backdropEnter = keyframes`
   from {
@@ -8,7 +8,7 @@ const backdropEnter = keyframes`
   to {
     opacity: 1;
   }
-`
+`;
 
 const panelEnter = keyframes`
   from {
@@ -18,7 +18,7 @@ const panelEnter = keyframes`
   to {
     transform: translateY(0);
   }
-`
+`;
 
 const modalEnter = keyframes`
   from {
@@ -30,7 +30,7 @@ const modalEnter = keyframes`
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-`
+`;
 
 export const BottomSheetBackdrop = styled.div`
   position: fixed;
@@ -46,7 +46,7 @@ export const BottomSheetBackdrop = styled.div`
     align-items: center;
     padding: 32px;
   }
-`
+`;
 
 export const BottomSheetPanel = styled.div`
   position: relative;
@@ -63,7 +63,7 @@ export const BottomSheetPanel = styled.div`
     padding: 10px 18px 18px;
     animation: ${modalEnter} 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
-`
+`;
 
 export const BottomSheetCloseButton = styled.button`
   top: 16px;
@@ -90,13 +90,13 @@ export const BottomSheetCloseButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const BottomSheetCloseButtonContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
-`
+`;
 
 export const BottomSheetHandle = styled.div`
   width: 42px;
@@ -108,10 +108,10 @@ export const BottomSheetHandle = styled.div`
   @media (min-width: 768px) {
     display: none;
   }
-`
+`;
 
 export const BottomSheetContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`
+`;

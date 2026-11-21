@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function Map(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function Map(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default Map
+export default Map;

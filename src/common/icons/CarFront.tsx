@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function CarFront(props: SVGProps<SVGSVGElement>) {
   return (
@@ -16,7 +16,7 @@ function CarFront(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default CarFront
+export default CarFront;
