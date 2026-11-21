@@ -36,9 +36,7 @@ export const newPasswordSchema = yup.object({
     .test(
       "requirements",
       "La contraseña debe cumplir todos los requisitos.",
-      (value) =>
-        !value ||
-        passwordRequirements.every((requirement) => requirement.test(value)),
+      (value) => !value || passwordRequirements.every((requirement) => requirement.test(value)),
     ),
   confirmPassword: yup
     .string()

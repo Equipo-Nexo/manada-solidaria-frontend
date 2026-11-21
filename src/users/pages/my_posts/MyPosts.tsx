@@ -6,13 +6,7 @@ import {
   isNewsCampaign,
   getCampaignTypeLabel,
 } from "./utils/CampaignStatusConfig";
-import {
-  useEffect,
-  useRef,
-  useState,
-  type KeyboardEvent,
-  type MouseEvent,
-} from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
 import { ArrowLeft, ChevronDown, Pencil, Trash } from "../../../common/icons";
 import * as S from "./MyPosts.styles";
 import { useGetUserPostsQuery } from "@/users/app/api/usersApi";
@@ -23,21 +17,10 @@ import {
   useUpdateAnimalPostStatusMutation,
 } from "@animals/app/api/animalPostsApi";
 import { useToast } from "@hooks/toast/useToast";
-import {
-  BottomSheet,
-  CategorySelector,
-  ImagePreview,
-  Message,
-} from "@components/index.ts";
+import { BottomSheet, CategorySelector, ImagePreview, Message } from "@components/index.ts";
 import { Clock } from "@icons/index.ts";
-import type {
-  GetUserPostsResponse,
-  UserPostType,
-} from "@services/responses/userResponses";
-import {
-  getPublishedAtDescription,
-  publicationMessages,
-} from "@utils/Messages";
+import type { GetUserPostsResponse, UserPostType } from "@services/responses/userResponses";
+import { getPublishedAtDescription, publicationMessages } from "@utils/Messages";
 import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
 import { getPossibleStatuses } from "@/users/utils/StatusUtils";
 import { isFinalAnimalPostStatus } from "@animals/utils/AnimalPostStatusUtils";
@@ -46,7 +29,9 @@ import { getApiErrorMessage } from "@utils/getApiErrorMessage";
 import type { UpdateAnimalPostStatusRequest } from "@/animals/app/api/requests/animalPostRequests";
 import { StatusLogic } from "./utils/AnimalStatusLogic";
 import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
-import UpdateFundraisingStatus, { FundraisingProgress } from "@/users/components/fundraising_status/UpdateFundraisingStatus";
+import UpdateFundraisingStatus, {
+  FundraisingProgress,
+} from "@/users/components/fundraising_status/UpdateFundraisingStatus";
 import {
   getFundraisingStatusInfo,
   hasFundraisingStatusActions,
@@ -71,26 +56,14 @@ function MyPosts() {
   const [searchParams, setSearchParams] = useSearchParams();
   const toast = useToast();
   const filterParam = searchParams.get("tipo");
-  const selectedFilter: PostFilter = isPostFilter(filterParam)
-    ? filterParam
-    : "";
-  const {
-    data: userPosts,
-    isError,
-    isLoading,
-    refetch,
-  } = useGetUserPostsQuery(selectedFilter);
+  const selectedFilter: PostFilter = isPostFilter(filterParam) ? filterParam : "";
+  const { data: userPosts, isError, isLoading, refetch } = useGetUserPostsQuery(selectedFilter);
   const [deleteCampaign] = useDeleteCampaignMutation();
   const [deleteAnimalPost] = useDeleteAnimalPostMutation();
-  const [updateStatus, { isLoading: isUpdatingStatus }] =
-    useUpdateAnimalPostStatusMutation();
-  const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(
-    null,
-  );
+  const [updateStatus, { isLoading: isUpdatingStatus }] = useUpdateAnimalPostStatusMutation();
+  const [selectedPost, setSelectedPost] = useState<GetUserPostsResponse | null>(null);
   const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false);
-  const [statusPost, setStatusPost] = useState<GetUserPostsResponse | null>(
-    null,
-  );
+  const [statusPost, setStatusPost] = useState<GetUserPostsResponse | null>(null);
   const statusCardRef = useRef<HTMLElement | null>(null);
   const selectedPostTitle = selectedPost?.title?.trim();
 
@@ -98,12 +71,8 @@ function MyPosts() {
     if (!statusPost) statusCardRef.current?.focus();
   }, [statusPost]);
 
-  const handleStatusButton = (
-    post: GetUserPostsResponse,
-    event: MouseEvent<HTMLButtonElement>,
-  ) => {
-    statusCardRef.current =
-      event.currentTarget.closest<HTMLElement>('[role="link"]');
+  const handleStatusButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLButtonElement>) => {
+    statusCardRef.current = event.currentTarget.closest<HTMLElement>('[role="link"]');
     setStatusPost(post);
   };
 
@@ -129,18 +98,14 @@ function MyPosts() {
   };
 
   const handleEditButton = (post: GetUserPostsResponse) => {
-    if (post.postType === "animal" && isFinalAnimalPostStatus(post.status))
-      return;
+    if (post.postType === "animal" && isFinalAnimalPostStatus(post.status)) return;
     if (
       post.postType === "campaign" &&
       isNewsCampaign(post.type) &&
       isFinalCampaignStatus(post.status)
     )
       return;
-    if (
-      post.postType === "fundraising" &&
-      isFinalFundraisingStatus(post.status)
-    ) {
+    if (post.postType === "fundraising" && isFinalFundraisingStatus(post.status)) {
       return;
     }
 
@@ -167,24 +132,14 @@ function MyPosts() {
     detailByPostType[post.postType](post.id);
   };
 
-  const handleClickButton = (
-    post: GetUserPostsResponse,
-    event: MouseEvent<HTMLElement>,
-  ) => {
-    if (event.target instanceof Element && event.target.closest("button, a"))
-      return;
+  const handleClickButton = (post: GetUserPostsResponse, event: MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest("button, a")) return;
 
     openPostDetail(post);
   };
 
-  const handlePostKeyDown = (
-    post: GetUserPostsResponse,
-    event: KeyboardEvent<HTMLElement>,
-  ) => {
-    if (
-      (event.key === "Enter" || event.key === " ") &&
-      event.target === event.currentTarget
-    ) {
+  const handlePostKeyDown = (post: GetUserPostsResponse, event: KeyboardEvent<HTMLElement>) => {
+    if ((event.key === "Enter" || event.key === " ") && event.target === event.currentTarget) {
       event.preventDefault();
       openPostDetail(post);
     }
@@ -196,10 +151,7 @@ function MyPosts() {
   };
 
   const handleAcceptDelete = async (post: GetUserPostsResponse) => {
-    const deletePostByType: Record<
-      UserPostType,
-      (postId: string) => Promise<void>
-    > = {
+    const deletePostByType: Record<UserPostType, (postId: string) => Promise<void>> = {
       campaign: (postId) => deleteCampaign(postId).unwrap(),
       animal: (postId) => deleteAnimalPost(postId).unwrap(),
       fundraising: (postId) => deleteCampaign(postId).unwrap(),
@@ -208,30 +160,17 @@ function MyPosts() {
 
     try {
       await deletePost(post.id);
-      toast.success(
-        "Publicación eliminada",
-        "La publicación se eliminó correctamente.",
-      );
+      toast.success("Publicación eliminada", "La publicación se eliminó correctamente.");
     } catch {
-      toast.error(
-        "No pudimos eliminar la publicación",
-        "Intentá nuevamente en unos minutos.",
-      );
+      toast.error("No pudimos eliminar la publicación", "Intentá nuevamente en unos minutos.");
     } finally {
       closeBottomSheet();
     }
   };
 
-  const handleChangeStatus = async (
-    status: UpdateAnimalPostStatusRequest["status"],
-  ) => {
+  const handleChangeStatus = async (status: UpdateAnimalPostStatusRequest["status"]) => {
     if (!statusPost || isUpdatingStatus) return;
-    if (
-      !getPossibleStatuses(statusPost.status).some(
-        (option) => option.value === status,
-      )
-    )
-      return;
+    if (!getPossibleStatuses(statusPost.status).some((option) => option.value === status)) return;
     try {
       await updateStatus({
         postId: statusPost.id,
@@ -245,10 +184,7 @@ function MyPosts() {
 
       closeStatusSheet();
     } catch (error) {
-      toast.error(
-        "No pudimos cambiar el estado",
-        getApiErrorMessage(error, "Intentá nuevamente."),
-      );
+      toast.error("No pudimos cambiar el estado", getApiErrorMessage(error, "Intentá nuevamente."));
     }
   };
 
@@ -264,18 +200,10 @@ function MyPosts() {
   return (
     <S.MyPostsRoot>
       {statusPost?.postType === "campaign" && (
-        <UpdateCampaignStatus
-          key={statusPost.id}
-          post={statusPost}
-          onClose={closeStatusSheet}
-        />
+        <UpdateCampaignStatus key={statusPost.id} post={statusPost} onClose={closeStatusSheet} />
       )}
       {statusPost?.postType === "fundraising" && (
-        <UpdateFundraisingStatus
-          key={statusPost.id}
-          post={statusPost}
-          onClose={closeStatusSheet}
-        />
+        <UpdateFundraisingStatus key={statusPost.id} post={statusPost} onClose={closeStatusSheet} />
       )}
       {statusPost && statusSheetProps && (
         <UpdatePostStatusSheet key={statusPost.id} {...statusSheetProps} />
@@ -306,22 +234,14 @@ function MyPosts() {
             >
               Sí, eliminar
             </S.BottomSheetButton>
-            <S.BottomSheetButton
-              type="button"
-              $primary={false}
-              onClick={closeBottomSheet}
-            >
+            <S.BottomSheetButton type="button" $primary={false} onClick={closeBottomSheet}>
               No, cancelar
             </S.BottomSheetButton>
           </S.BottomSheetButtonContainer>
         </S.BottomSheetContent>
       </BottomSheet>
       <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate("/home")}
-          aria-label="Volver"
-        >
+        <S.BackButton type="button" onClick={() => navigate("/home")} aria-label="Volver">
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
         <S.TitlesContainer>
@@ -344,18 +264,12 @@ function MyPosts() {
         <S.CardsContainer>
           {isLoading && (
             <S.MessageContainer>
-              <Message
-                message={publicationMessages.loading}
-                iconName="pawPrint"
-              />
+              <Message message={publicationMessages.loading} iconName="pawPrint" />
             </S.MessageContainer>
           )}
           {isError && (
             <S.MessageContainer role="alert">
-              <Message
-                message={publicationMessages.loadError}
-                iconName="pawPrint"
-              />
+              <Message message={publicationMessages.loadError} iconName="pawPrint" />
               <S.RetryButton type="button" onClick={() => void refetch()}>
                 Reintentar
               </S.RetryButton>
@@ -363,17 +277,13 @@ function MyPosts() {
           )}
           {!isLoading && !isError && userPosts?.length === 0 && (
             <S.MessageContainer>
-              <Message
-                message={publicationMessages.emptyCategory}
-                iconName="pawPrint"
-              />
+              <Message message={publicationMessages.emptyCategory} iconName="pawPrint" />
             </S.MessageContainer>
           )}
           {!isLoading &&
             !isError &&
             userPosts?.map((post) => {
-              const { id, imageId, title, createdSince, status, postType } =
-                post;
+              const { id, imageId, title, createdSince, status, postType } = post;
               const statusInfo =
                 postType === "campaign"
                   ? getCampaignStatusInfo(status, post.type)
@@ -385,15 +295,13 @@ function MyPosts() {
                   ? getPossibleStatuses(status).length > 0
                   : postType === "campaign"
                     ? hasCampaignStatusActions(status, post.type)
-                    : postType === "fundraising" &&
-                      hasFundraisingStatusActions(status);
+                    : postType === "fundraising" && hasFundraisingStatusActions(status);
               const canEdit =
                 postType === "animal"
                   ? !isFinalAnimalPostStatus(status)
                   : postType === "fundraising"
                     ? !isFinalFundraisingStatus(status)
-                    : !isNewsCampaign(post.type) ||
-                      !isFinalCampaignStatus(status);
+                    : !isNewsCampaign(post.type) || !isFinalCampaignStatus(status);
               return (
                 <S.Card
                   key={id}
@@ -405,11 +313,7 @@ function MyPosts() {
                   onKeyDown={(event) => handlePostKeyDown(post, event)}
                 >
                   <S.CardImage>
-                    <ImagePreview
-                      imageId={imageId}
-                      alt={title}
-                      variant="fill"
-                    />
+                    <ImagePreview imageId={imageId} alt={title} variant="fill" />
                   </S.CardImage>
                   <S.CardContent>
                     <S.CardInformationContainer>
@@ -441,15 +345,11 @@ function MyPosts() {
                           }
                         >
                           {statusInfo.text}
-                          {canChangeStatus && (
-                            <ChevronDown aria-hidden="true" />
-                          )}
+                          {canChangeStatus && <ChevronDown aria-hidden="true" />}
                         </S.Status>
                       )}
                       {postType === "campaign" && (
-                        <S.CampaignSubtitle>
-                          {getCampaignTypeLabel(post.type)}
-                        </S.CampaignSubtitle>
+                        <S.CampaignSubtitle>{getCampaignTypeLabel(post.type)}</S.CampaignSubtitle>
                       )}
                       {postType === "fundraising" && <FundraisingProgress post={post} />}
                     </S.CardInformationContainer>

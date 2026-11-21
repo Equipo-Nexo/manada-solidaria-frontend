@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  useController,
-  type Control,
-  type FieldValues,
-  type Path,
-} from "react-hook-form";
+import { useController, type Control, type FieldValues, type Path } from "react-hook-form";
 import Calendar from "../../icons/Calendar";
 import * as S from "./DatePicker.styles";
 
@@ -103,11 +98,7 @@ function DatePicker<
       {isOpen && (
         <S.CalendarContainer>
           <S.CallyStyles />
-          <calendar-date
-            ref={calendarRef}
-            className="cally"
-            value={field.value ?? ""}
-          >
+          <calendar-date ref={calendarRef} className="cally" value={field.value ?? ""}>
             <S.PreviousIcon slot="previous" aria-label="Anterior" />
             <S.NextIcon slot="next" aria-label="Siguiente" />
             <calendar-month />

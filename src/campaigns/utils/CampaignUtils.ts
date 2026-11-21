@@ -1,14 +1,9 @@
 import type { CampaignResponse } from "@/common/app/types/Campaign.types";
 import type { CampaignCardData } from "../components/campaign_card/CampaignCard";
-import type {
-  CampaignCategory,
-  DonationItem,
-} from "../app/types/Campaign.types";
+import type { CampaignCategory, DonationItem } from "../app/types/Campaign.types";
 import type { CampaignFilter } from "../app/api/requests/CreateCampaignRequest";
 
-export const mapCampaignToCardData = (
-  campaign: CampaignResponse,
-): CampaignCardData => ({
+export const mapCampaignToCardData = (campaign: CampaignResponse): CampaignCardData => ({
   id: campaign.id,
   type: campaign.type.toUpperCase(),
   title: campaign.title,

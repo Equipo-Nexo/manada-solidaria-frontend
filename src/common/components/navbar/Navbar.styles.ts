@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import { NavLink } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 export const BottomNav = styled.nav<{ $isMenuOpen: boolean }>`
   position: fixed;
@@ -11,7 +11,7 @@ export const BottomNav = styled.nav<{ $isMenuOpen: boolean }>`
   @media (min-width: 768px) {
     display: none;
   }
-`
+`;
 
 export const BottomNavContent = styled.div`
   width: min(100%, ${({ theme }) => theme.layout.contentMaxWidth});
@@ -23,7 +23,7 @@ export const BottomNavContent = styled.div`
   margin: 0 auto;
   border-radius: 25px 25px 0 0;
   background: ${({ theme }) => theme.colors.neutral};
-`
+`;
 
 const bottomNavItemStyles = css<{ $isActive: boolean }>`
   position: relative;
@@ -48,14 +48,14 @@ const bottomNavItemStyles = css<{ $isActive: boolean }>`
   transition: color 160ms ease;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -9px;
     left: 50%;
     width: 54px;
     height: 4px;
     border-radius: 999px;
-    background: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : 'transparent')};
+    background: ${({ $isActive, theme }) => ($isActive ? theme.colors.secondary : "transparent")};
     transform: translateX(-50%);
     transition: background 160ms ease;
   }
@@ -71,19 +71,19 @@ const bottomNavItemStyles = css<{ $isActive: boolean }>`
     stroke-width: 2;
   }
 
-  svg[data-icon='users'] {
+  svg[data-icon="users"] {
     width: 30px;
     height: 24px;
   }
-`
+`;
 
 export const BottomNavItem = styled(NavLink)<{ $isActive: boolean }>`
   ${bottomNavItemStyles}
-`
+`;
 
 export const BottomNavButton = styled.button<{ $isActive: boolean }>`
   ${bottomNavItemStyles}
-`
+`;
 
 export const PublishWrapper = styled.div`
   position: relative;
@@ -102,7 +102,7 @@ export const PublishWrapper = styled.div`
     position: absolute;
     top: 46px;
   }
-`
+`;
 
 export const PublishButton = styled.button`
   position: absolute;
@@ -120,7 +120,9 @@ export const PublishButton = styled.button`
   box-shadow: 0 8px 18px rgb(169 92 40 / 28%);
   cursor: pointer;
   transform: translateX(-50%);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
@@ -141,4 +143,4 @@ export const PublishButton = styled.button`
     width: 30px;
     height: 30px;
   }
-`
+`;

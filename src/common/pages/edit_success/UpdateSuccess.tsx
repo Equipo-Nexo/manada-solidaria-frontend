@@ -1,18 +1,18 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import { ImagePreview } from '../../components'
-import { Check, Eye, History } from '../../icons'
-import * as S from './UpdateSuccess.styles'
+import { useLocation, useNavigate } from "react-router-dom";
+import { ImagePreview } from "../../components";
+import { Check, Eye, History } from "../../icons";
+import * as S from "./UpdateSuccess.styles";
 
 interface UpdateSuccessProps {
-  imageUrl?: string
-  name: string
-  onDetailRedirect: string
+  imageUrl?: string;
+  name: string;
+  onDetailRedirect: string;
 }
 
 function UpdateSuccess() {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const { imageUrl, name, onDetailRedirect } = location.state as UpdateSuccessProps
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { imageUrl, name, onDetailRedirect } = location.state as UpdateSuccessProps;
 
   return (
     <S.Container>
@@ -27,13 +27,12 @@ function UpdateSuccess() {
         <S.Copy>
           <S.Title>¡Cambios guardados!</S.Title>
           <S.Description>
-            La información de <S.AnimalName>{name}</S.AnimalName> ha sido actualizada
-            correctamente.
+            La información de <S.AnimalName>{name}</S.AnimalName> ha sido actualizada correctamente.
           </S.Description>
         </S.Copy>
 
         <S.Actions>
-          <S.PrimaryButton type="button" onClick={() => navigate('/mis-publicaciones')}>
+          <S.PrimaryButton type="button" onClick={() => navigate("/mis-publicaciones")}>
             <History aria-hidden="true" />
             Volver a mis publicaciones
           </S.PrimaryButton>
@@ -44,7 +43,7 @@ function UpdateSuccess() {
         </S.Actions>
       </S.Content>
     </S.Container>
-  )
+  );
 }
 
-export default UpdateSuccess
+export default UpdateSuccess;

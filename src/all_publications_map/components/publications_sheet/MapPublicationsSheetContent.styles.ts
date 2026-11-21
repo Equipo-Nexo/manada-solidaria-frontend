@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const Content = styled.div`
   display: flex;
@@ -8,9 +8,7 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 16px;
   text-align: left;
-`
-
-
+`;
 
 export const TypeIcon = styled.span<{ $background: string; $color: string }>`
   display: grid;
@@ -27,11 +25,11 @@ export const TypeIcon = styled.span<{ $background: string; $color: string }>`
     width: 24px;
     height: 24px;
   }
-`
+`;
 
 export const Heading = styled.div`
   min-width: 0;
-`
+`;
 
 export const Title = styled.h2`
   ${({ theme }) => theme.typography.header2};
@@ -56,12 +54,12 @@ export const Title = styled.h2`
     font-size: 16px;
     line-height: ${({ theme }) => theme.typography.body.lineHeight};
   }
-`
+`;
 
 export const Count = styled.p`
   ${({ theme }) => theme.typography.descriptive};
   color: ${({ theme }) => theme.colors.darkColorMuted};
-`
+`;
 
 export const List = styled.ul`
   display: flex;
@@ -74,7 +72,7 @@ export const List = styled.ul`
   overflow-y: auto;
   overscroll-behavior: contain;
   list-style: none;
-`
+`;
 
 export const Card = styled.li`
   display: flex;
@@ -100,7 +98,7 @@ export const Card = styled.li`
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
-`
+`;
 
 export const Photo = styled.div`
   display: flex;
@@ -112,7 +110,7 @@ export const Photo = styled.div`
   overflow: hidden;
   border-radius: 10px;
   margin-right: 12px;
-`
+`;
 
 export const PhotoPlaceholder = styled.div<{ $background: string; $color: string }>`
   display: grid;
@@ -125,7 +123,7 @@ export const PhotoPlaceholder = styled.div<{ $background: string; $color: string
     width: 32px;
     height: 32px;
   }
-`
+`;
 
 export const Information = styled.div`
   display: flex;
@@ -134,26 +132,25 @@ export const Information = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   min-height: clamp(60px, 30vw, 88px);
-`
+`;
 
 export const FirstInformationContainer = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
 export const SecondInformationContainer = styled.div`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 3px;
-`
-
+`;
 
 export const Name = styled.h3`
   ${({ theme }) => theme.typography.header3};
   color: ${({ theme }) => theme.colors.darkColor};
   overflow-wrap: anywhere;
-`
+`;
 
 export const InformationLine = styled.p`
   display: flex;
@@ -168,7 +165,7 @@ export const InformationLine = styled.p`
     height: 24px;
     flex-shrink: 0;
   }
-`
+`;
 
 export const DetailLink = styled(Link)`
   display: inline-flex;
@@ -193,7 +190,7 @@ export const DetailLink = styled(Link)`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const Header = styled.header`
   display: flex;
@@ -201,15 +198,15 @@ export const Header = styled.header`
   flex-shrink: 0;
   align-items: flex-start;
   padding-left: 20px;
-`
+`;
 
 export const HeaderTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 7px
-`
+  gap: 7px;
+`;
 
 export const HeaderTitle = styled.h2`
   text-align: center;
@@ -219,7 +216,7 @@ export const HeaderTitle = styled.h2`
   font-weight: 700;
   line-height: 20px;
   color: ${({ theme }) => theme.colors.black};
-`
+`;
 
 export const HeaderDescription = styled.p`
   text-align: center;
@@ -230,27 +227,26 @@ export const HeaderDescription = styled.p`
   line-height: 24px; /* 200% */
   color: ${({ theme }) => theme.colors.darkColor};
   margin-left: 3px;
-`
+`;
 export const FirstLine = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-`
+`;
 export const SecondLine = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 4px;
-`
+`;
 export const ThirdLine = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 4px;
-`
+`;
 
-
-export const Status = styled.span<{ $color: string, $background: string }>`
+export const Status = styled.span<{ $color: string; $background: string }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -270,19 +266,19 @@ export const Status = styled.span<{ $color: string, $background: string }>`
   @media (max-width: 390px) {
     font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   }
-`
+`;
 
 export const RedirectButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 export const Redirect = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-`
+`;
 
 export const Description = styled.p`
   color: ${({ theme }) => theme.colors.darkColor};
@@ -302,4 +298,4 @@ export const Description = styled.p`
     font-size: 10px;
     line-height: 14px;
   }
-`
+`;

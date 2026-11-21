@@ -2,9 +2,7 @@ import { ANIMAL_POST_STATUS_LABELS } from "@/animals/utils/AnimalFormUtils";
 import type { Location } from "@/common/app/services/responses/Location";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
-export const getAnimalPostStatus = (
-  backendStatus: AnimalPostStatus,
-): string | undefined => {
+export const getAnimalPostStatus = (backendStatus: AnimalPostStatus): string | undefined => {
   return ANIMAL_POST_STATUS_LABELS[backendStatus];
 };
 
@@ -68,14 +66,7 @@ export const animalSexLabels: Record<AnimalSex, string> = {
   UNKNOWN: "Sin definir",
 };
 
-export const animalColors = [
-  "GRAY",
-  "BLACK",
-  "BLONDE",
-  "BROWN",
-  "WHITE",
-  "OTHER",
-] as const;
+export const animalColors = ["GRAY", "BLACK", "BLONDE", "BROWN", "WHITE", "OTHER"] as const;
 
 export type AnimalColor = (typeof animalColors)[number];
 
@@ -88,9 +79,8 @@ export const animalColorLabels: Record<AnimalColor, string> = {
   OTHER: "Otro",
 };
 
-
 export interface AnimalPostLocation extends Location {
-  district: string
+  district: string;
 }
 
 export type AnimalPost = {

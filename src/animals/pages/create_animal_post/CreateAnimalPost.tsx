@@ -17,14 +17,8 @@ import {
   type NewAnimalPostFormValues,
 } from "@animals/app/schemas/CreateAnimalPost.schema";
 import * as S from "./CreateAnimalPost.styles";
-import {
-  animalAgeLabels,
-  animalSexLabels,
-} from "@/animals/app/types/AnimalPost.types";
-import {
-  buildRequest,
-  PublicationReason,
-} from "@/animals/utils/CreateAnimalPostRequestBuilder";
+import { animalAgeLabels, animalSexLabels } from "@/animals/app/types/AnimalPost.types";
+import { buildRequest, PublicationReason } from "@/animals/utils/CreateAnimalPostRequestBuilder";
 import { newAnimalPostDefaultValues } from "@utils/DefaultValues";
 import { useCreateAnimalPostMutation } from "@animals/app/api/animalPostsApi";
 import type { BaseAnimalPostRequest } from "@/animals/app/api/requests/animalPostRequests";
@@ -69,11 +63,10 @@ function CreateAnimalPost() {
     control,
     name: "areaCode",
   });
-  const { field: phoneNumberField, fieldState: phoneNumberState } =
-    useController({
-      control,
-      name: "phoneNumber",
-    });
+  const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
+    control,
+    name: "phoneNumber",
+  });
 
   const animalType = useWatch({
     control,
@@ -122,17 +115,11 @@ function CreateAnimalPost() {
     createAnimalPost(buildRequest(values, commonRequest))
       .unwrap()
       .then(() => {
-        toast.success(
-          "Publicación creada",
-          "El animal fue publicado correctamente.",
-        );
+        toast.success("Publicación creada", "El animal fue publicado correctamente.");
         navigate("/home", { replace: true });
       })
       .catch(() =>
-        toast.error(
-          "No pudimos publicar el animal",
-          "Revisá los datos e intentá nuevamente.",
-        ),
+        toast.error("No pudimos publicar el animal", "Revisá los datos e intentá nuevamente."),
       );
   };
 
@@ -142,10 +129,7 @@ function CreateAnimalPost() {
       buttonText="Publicar animal"
       isLoadingForm={isLoading}
       loadingButtonText="Publicando..."
-      handleSubmit={handleSubmit(
-        handleCreateAnimalPost,
-        scrollToFirstFormError,
-      )}
+      handleSubmit={handleSubmit(handleCreateAnimalPost, scrollToFirstFormError)}
     >
       <S.FieldGroup>
         <Controller
@@ -157,10 +141,7 @@ function CreateAnimalPost() {
                 label="Seleccionar foto"
                 onImageSelected={(imageId) => field.onChange(imageId)}
               />
-              <ErrorMessage
-                id="photo-error"
-                message={fieldState.error?.message}
-              />
+              <ErrorMessage id="photo-error" message={fieldState.error?.message} />
             </>
           )}
         />
@@ -182,9 +163,7 @@ function CreateAnimalPost() {
               <S.OptionsGroup
                 role="radiogroup"
                 aria-labelledby="publication-reason-label"
-                aria-describedby={
-                  fieldState.error ? "publication-reason-error" : undefined
-                }
+                aria-describedby={fieldState.error ? "publication-reason-error" : undefined}
                 aria-invalid={Boolean(fieldState.error)}
               >
                 {publicationReasons.map((reason) => (
@@ -195,16 +174,11 @@ function CreateAnimalPost() {
                     description={reason.description}
                     value={reason.value}
                     selected={field.value === reason.value}
-                    onSelect={(value) =>
-                      handlePublicationReasonChange(value, field.onChange)
-                    }
+                    onSelect={(value) => handlePublicationReasonChange(value, field.onChange)}
                   />
                 ))}
               </S.OptionsGroup>
-              <ErrorMessage
-                id="publication-reason-error"
-                message={fieldState.error?.message}
-              />
+              <ErrorMessage id="publication-reason-error" message={fieldState.error?.message} />
             </>
           )}
         />
@@ -220,7 +194,9 @@ function CreateAnimalPost() {
             <>
               <AutocompleteGeolocation
                 placeHolder="Podés indicar una ubicación aproximada, como un barrio."
-                onChange={(value) => field.onChange(value ? mapGeolocationToLocation(value) : undefined)}
+                onChange={(value) =>
+                  field.onChange(value ? mapGeolocationToLocation(value) : undefined)
+                }
                 errors={errors.location}
               />
             </>
@@ -243,10 +219,7 @@ function CreateAnimalPost() {
                 hasError={Boolean(fieldState.error)}
                 onSelect={field.onChange}
               />
-              <ErrorMessage
-                id="animal-type-error"
-                message={fieldState.error?.message}
-              />
+              <ErrorMessage id="animal-type-error" message={fieldState.error?.message} />
             </>
           )}
         />
@@ -315,9 +288,7 @@ function CreateAnimalPost() {
               <S.OptionsGroup
                 role="radiogroup"
                 aria-labelledby="animal-size-label"
-                aria-describedby={
-                  fieldState.error ? "animal-size-error" : undefined
-                }
+                aria-describedby={fieldState.error ? "animal-size-error" : undefined}
                 aria-invalid={Boolean(fieldState.error)}
               >
                 {animalSize(animalType).map((size) => (
@@ -332,10 +303,7 @@ function CreateAnimalPost() {
                   />
                 ))}
               </S.OptionsGroup>
-              <ErrorMessage
-                id="animal-size-error"
-                message={fieldState.error?.message}
-              />
+              <ErrorMessage id="animal-size-error" message={fieldState.error?.message} />
             </>
           )}
         />
@@ -346,19 +314,14 @@ function CreateAnimalPost() {
           name="color"
           control={control}
           render={({ field }) => (
-            <ColorSelectorComponent
-              selected={field.value ?? undefined}
-              onSelect={field.onChange}
-            />
+            <ColorSelectorComponent selected={field.value ?? undefined} onSelect={field.onChange} />
           )}
         />
       </S.FieldGroup>
       <S.FieldGroup>
         <S.Label>
           Número de teléfono
-          {selectedReason !== PublicationReason.Street && (
-            <S.Required> *</S.Required>
-          )}
+          {selectedReason !== PublicationReason.Street && <S.Required> *</S.Required>}
         </S.Label>
         <PhoneInputComponent
           areaCodeValue={areaCodeField.value}
@@ -369,9 +332,7 @@ function CreateAnimalPost() {
           onPhoneNumberBlur={phoneNumberField.onBlur}
           areaCodeRef={areaCodeField.ref}
           phoneNumberRef={phoneNumberField.ref}
-          error={
-            areaCodeState.error?.message ?? phoneNumberState.error?.message
-          }
+          error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
         />
         <S.Suggestion>
           {selectedReason === PublicationReason.Street
@@ -383,10 +344,7 @@ function CreateAnimalPost() {
         <S.Label>
           Contanos su historia <S.Required>*</S.Required>
         </S.Label>
-        <DescriptionComponent
-          publicationReason={selectedReason}
-          registration={register("story")}
-        />
+        <DescriptionComponent publicationReason={selectedReason} registration={register("story")} />
         <ErrorMessage message={errors.story?.message} />
       </S.FieldGroup>
       {selectedReason === PublicationReason.Adoption && (

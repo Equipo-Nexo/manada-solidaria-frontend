@@ -8,11 +8,7 @@ type UseAutoAdvanceProps = {
   onNext: () => void;
 };
 
-export const useAutoAdvance = ({
-  currentIndex,
-  totalItems,
-  onNext,
-}: UseAutoAdvanceProps) => {
+export const useAutoAdvance = ({ currentIndex, totalItems, onNext }: UseAutoAdvanceProps) => {
   useEffect(() => {
     if (totalItems === 0) return;
 

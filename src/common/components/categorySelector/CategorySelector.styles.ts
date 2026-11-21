@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Filters = styled.div`
   display: flex;
@@ -18,13 +18,12 @@ export const Filters = styled.div`
     margin-bottom: 24px;
     justify-content: center;
   }
-`
+`;
 
 export const FilterButton = styled.button<{ $active: boolean }>`
   padding: 0 0 8px;
   border: 0;
-  border-bottom: 2px solid
-    ${({ $active, theme }) => ($active ? theme.colors.black : 'transparent')};
+  border-bottom: 2px solid ${({ $active, theme }) => ($active ? theme.colors.black : "transparent")};
   color: ${({ theme }) => theme.colors.black};
   background: none;
   font-family: ${({ theme }) => theme.fonts.body};
@@ -48,4 +47,4 @@ export const FilterButton = styled.button<{ $active: boolean }>`
     font-size: ${({ theme }) => theme.typography.header3.fontSize};
     line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   }
-`
+`;

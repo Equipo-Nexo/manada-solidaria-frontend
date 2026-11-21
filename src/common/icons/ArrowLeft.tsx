@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function ArrowLeft(props: SVGProps<SVGSVGElement>) {
   return (
@@ -9,7 +9,7 @@ function ArrowLeft(props: SVGProps<SVGSVGElement>) {
         fill="black"
       />
     </svg>
-  )
+  );
 }
 
-export default ArrowLeft
+export default ArrowLeft;

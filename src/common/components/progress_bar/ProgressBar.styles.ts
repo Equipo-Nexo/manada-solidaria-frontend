@@ -15,8 +15,7 @@ export const ProgressTrack = styled.div<ProgressTrackProps>`
   height: ${({ $height }) => $height ?? "9px"};
   overflow: hidden;
   border-radius: 10px;
-  background: ${({ $backgroundColor }) =>
-    $backgroundColor ?? "rgb(234 95 9 / 35%)"};
+  background: ${({ $backgroundColor }) => $backgroundColor ?? "rgb(234 95 9 / 35%)"};
 `;
 
 export const ProgressValue = styled.div<ProgressValueProps>`

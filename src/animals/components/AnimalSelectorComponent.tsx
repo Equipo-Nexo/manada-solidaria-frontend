@@ -1,6 +1,6 @@
-import * as S from '@animals/pages/create_animal_post/CreateAnimalPost.styles'
-import type { AnimalType } from "../app/types/AnimalPost.types"
-import type { AnimalSelectorOption } from "../utils/AnimalFormUtils"
+import * as S from "@animals/pages/create_animal_post/CreateAnimalPost.styles";
+import type { AnimalType } from "../app/types/AnimalPost.types";
+import type { AnimalSelectorOption } from "../utils/AnimalFormUtils";
 
 function AnimalSelectorComponent({
   options,
@@ -9,11 +9,11 @@ function AnimalSelectorComponent({
   hasError = false,
   onSelect,
 }: {
-  options: ReadonlyArray<AnimalSelectorOption>
-  selected?: AnimalType
-  errorId?: string
-  hasError?: boolean
-  onSelect: (type: AnimalType) => void
+  options: ReadonlyArray<AnimalSelectorOption>;
+  selected?: AnimalType;
+  errorId?: string;
+  hasError?: boolean;
+  onSelect: (type: AnimalType) => void;
 }) {
   return (
     <S.AnimalItemContainer
@@ -36,7 +36,7 @@ function AnimalSelectorComponent({
         </S.AnimalItem>
       ))}
     </S.AnimalItemContainer>
-  )
+  );
 }
 
-export default AnimalSelectorComponent
+export default AnimalSelectorComponent;

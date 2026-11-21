@@ -1,10 +1,4 @@
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
@@ -72,14 +66,10 @@ function App() {
   const isMobileMenu = location.pathname === "/menu";
 
   const isPasswordRecovery =
-    actualPath === "/recuperar-contrasena" ||
-    actualPath.startsWith("/recuperar-contrasena/");
+    actualPath === "/recuperar-contrasena" || actualPath.startsWith("/recuperar-contrasena/");
   const isProfileSection =
-    location.pathname === "/mi-perfil" ||
-    location.pathname.startsWith("/mi-perfil/");
-  const isAdoptionFormSuccess = actualPath.startsWith(
-    "/formulario-adopcion/enviado/",
-  );
+    location.pathname === "/mi-perfil" || location.pathname.startsWith("/mi-perfil/");
+  const isAdoptionFormSuccess = actualPath.startsWith("/formulario-adopcion/enviado/");
 
   const usesFullScreenLayout =
     actualPath === "/login" ||
@@ -91,9 +81,7 @@ function App() {
     actualPath.startsWith("/formularios-recibidos/");
 
   const showAuthenticatedShell =
-    isAuthenticated &&
-    (!usesFullScreenLayout || isMobileMenu) &&
-    !isProfileSection;
+    isAuthenticated && (!usesFullScreenLayout || isMobileMenu) && !isProfileSection;
 
   const params = new URLSearchParams(location.search);
   const redirect = params.get("redirect");
@@ -126,22 +114,13 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
 
-            <Route
-              path="/recuperar-contrasena/verificar-codigo"
-              element={<VerifyCode />}
-            />
-            <Route
-              path="/recuperar-contrasena/nueva-contrasena"
-              element={<NewPassword />}
-            />
+            <Route path="/recuperar-contrasena/verificar-codigo" element={<VerifyCode />} />
+            <Route path="/recuperar-contrasena/nueva-contrasena" element={<NewPassword />} />
             <Route
               path="/recuperar-contrasena/contrasena-actualizada"
               element={<PasswordResetSuccess />}
             />
-            <Route
-              path="/recuperar-contrasena"
-              element={<PasswordRecoveryEmail />}
-            />
+            <Route path="/recuperar-contrasena" element={<PasswordRecoveryEmail />} />
             <Route
               path="/recuperar-contrasena/codigo-enviado"
               element={<PasswordRecoveryCodeSent />}
@@ -155,63 +134,33 @@ function App() {
               <Route path="/publicar/animal" element={<NewAnimalPostForm />} />
               <Route path="/editar/exito" element={<UpdateSuccess />} />
               <Route path="/comunidad" element={<Community />} />
-              <Route
-                path="/formulario-adopcion/:postId"
-                element={<QuestionsFormPage />}
-              />
+              <Route path="/formulario-adopcion/:postId" element={<QuestionsFormPage />} />
               <Route
                 path="/formulario-adopcion/enviado/:postId"
                 element={<AdoptionFormSuccess />}
               />
-              <Route
-                path="/formularios-recibidos"
-                element={<ReceivedFormList />}
-              />
+              <Route path="/formularios-recibidos" element={<ReceivedFormList />} />
               <Route
                 path="/formularios-recibidos/:adoptionFormId"
                 element={<AdoptionFormDetail />}
               />
               <Route path="/usuario/:userId" element={<UserProfile />} />
-              <Route
-                path="/editar/animal/:postId"
-                element={<EditAnimalPostForm />}
-              />
-              <Route
-                path="/editar/colecta/:fundraisingId"
-                element={<EditFundraising />}
-              />
-              <Route
-                path="/editar/campania/:campaignId"
-                element={<EditCampaign />}
-              />
-              <Route
-                path="/publicar/colecta"
-                element={<PublishFundraising />}
-              />
+              <Route path="/editar/animal/:postId" element={<EditAnimalPostForm />} />
+              <Route path="/editar/colecta/:fundraisingId" element={<EditFundraising />} />
+              <Route path="/editar/campania/:campaignId" element={<EditCampaign />} />
+              <Route path="/publicar/colecta" element={<PublishFundraising />} />
               <Route path="/publicar/campania" element={<PublishCampaign />} />
               <Route path="/animales" element={<AllAnimalsPage />} />
               <Route path="/colectas" element={<Fundraising />} />
-              <Route
-                path="/colectas/:fundraisingId"
-                element={<FundraisingCampaignDetail />}
-              />
+              <Route path="/colectas/:fundraisingId" element={<FundraisingCampaignDetail />} />
               <Route path="/menu" element={<Menu />} />
-              <Route
-                path="/animal/detalle/:postId"
-                element={<AnimalPostDetail />}
-              />
+              <Route path="/animal/detalle/:postId" element={<AnimalPostDetail />} />
               <Route path="/mi-perfil" element={<Profile />} />
-              <Route
-                path="/mi-perfil/datos-personales"
-                element={<PersonalData />}
-              />
+              <Route path="/mi-perfil/datos-personales" element={<PersonalData />} />
               <Route path="/mi-perfil/seguridad" element={<Security />} />
               <Route path="/veterinarias" element={<Vets />} />
               <Route path="/casos-felices" element={<HappyCases />} />
-              <Route
-                path="/campanias/:campaignId"
-                element={<CampaignDetail />}
-              />
+              <Route path="/campanias/:campaignId" element={<CampaignDetail />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -22,7 +22,6 @@ export const Header = styled.header`
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
-
 `;
 
 export const BackButton = styled.button`
@@ -45,7 +44,6 @@ export const BackButton = styled.button`
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
   }
-
 `;
 
 export const TitlesContainer = styled.div`
@@ -122,7 +120,6 @@ export const PageTitle = styled.h1`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
   white-space: nowrap;
-
 `;
 
 export const PageSubtitle = styled.p`

@@ -1,33 +1,42 @@
-import { openWhatsApp } from '@/common/utils/Whatsapp';
-import * as S from './ContactCardDetails.styles';
-import { Phone } from '@/common/icons';
+import { openWhatsApp } from "@/common/utils/Whatsapp";
+import * as S from "./ContactCardDetails.styles";
+import { Phone } from "@/common/icons";
 
 interface ContactCardComponent {
-    phoneNumber: string,
-    areaCode: string,
-    number: string,
-    name?: string;
-    message?: string;
+  phoneNumber: string;
+  areaCode: string;
+  number: string;
+  name?: string;
+  message?: string;
 }
-function ContactCardComponent({ phoneNumber, areaCode, number, name, message }: ContactCardComponent) {
-
-    return (
-        <S.ContactCard>
-            <S.SectionTitle><Phone aria-hidden="true" />Contacto</S.SectionTitle>
-            <S.ContactRow>
-                <S.ContactNumber>{phoneNumber}</S.ContactNumber>
-                <S.ContactButton
-                    type="button"
-                    onClick={() => openWhatsApp(
-                        `${areaCode}${number}`,
-                        message || `¡Hola! Me gustaría consultar por la publicación de ${name}`,
-                    )}
-                >
-                    Contactar
-                </S.ContactButton>
-            </S.ContactRow>
-        </S.ContactCard>
-
-    )
+function ContactCardComponent({
+  phoneNumber,
+  areaCode,
+  number,
+  name,
+  message,
+}: ContactCardComponent) {
+  return (
+    <S.ContactCard>
+      <S.SectionTitle>
+        <Phone aria-hidden="true" />
+        Contacto
+      </S.SectionTitle>
+      <S.ContactRow>
+        <S.ContactNumber>{phoneNumber}</S.ContactNumber>
+        <S.ContactButton
+          type="button"
+          onClick={() =>
+            openWhatsApp(
+              `${areaCode}${number}`,
+              message || `¡Hola! Me gustaría consultar por la publicación de ${name}`,
+            )
+          }
+        >
+          Contactar
+        </S.ContactButton>
+      </S.ContactRow>
+    </S.ContactCard>
+  );
 }
 export default ContactCardComponent;

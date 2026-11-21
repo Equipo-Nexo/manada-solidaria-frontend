@@ -1,18 +1,10 @@
 import { useState } from "react";
-import {
-  CategorySelector,
-} from "@components/index.ts";
+import { CategorySelector } from "@components/index.ts";
 import { FilterIcon } from "@icons/index.ts";
 import * as S from "./allAnimalPosts.styles";
-import {
-  animalPostFilters,
-  type AnimalPostFilter,
-} from "@animals/app/types/AnimalPost.types";
+import { animalPostFilters, type AnimalPostFilter } from "@animals/app/types/AnimalPost.types";
 import { useGetAnimalPostsQuery } from "@animals/app/api/animalPostsApi";
-import {
-  ANIMAL_POST_FILTER_LABELS,
-  animalPostTypeToFilter,
-} from "@/animals/utils/AnimalFormUtils";
+import { ANIMAL_POST_FILTER_LABELS, animalPostTypeToFilter } from "@/animals/utils/AnimalFormUtils";
 import type { AnimalFilters as AnimalFiltersType } from "@animals/app/api/requests/animalPostRequests";
 import AnimalFilters from "@/animals/components/animal_filters/AnimalFilters";
 import Layout from "@/common/components/layout/Layout";
@@ -22,9 +14,7 @@ const PAGE_SIZE = 10;
 function AllAnimalsPage() {
   const [selectedCategory, setSelectedCategory] = useState<AnimalPostFilter>("");
   const [appliedFilters, setAppliedFilters] = useState<AnimalFiltersType>({});
-  const hasAppliedFilters = Object.values(appliedFilters).some(
-    (value) => value !== undefined,
-  );
+  const hasAppliedFilters = Object.values(appliedFilters).some((value) => value !== undefined);
 
   const [draftFilters, setDraftFilters] = useState<AnimalFiltersType>({});
 
@@ -60,7 +50,11 @@ function AllAnimalsPage() {
   return (
     <Layout
       title="Animales publicados"
-      subtitle={isLoading ? "Cargando resultados..." : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`}
+      subtitle={
+        isLoading
+          ? "Cargando resultados..."
+          : `${totalElements} ${totalElements === 1 ? "resultado" : "resultados"}`
+      }
       isLoading={isLoading}
       isError={isError}
       headerAction={
@@ -68,9 +62,11 @@ function AllAnimalsPage() {
           type="button"
           $hasAppliedFilters={hasAppliedFilters}
           onClick={handleOpenFilters}
-          aria-label={hasAppliedFilters
-            ? "Abrir filtros de animales, hay filtros aplicados"
-            : "Abrir filtros de animales"}
+          aria-label={
+            hasAppliedFilters
+              ? "Abrir filtros de animales, hay filtros aplicados"
+              : "Abrir filtros de animales"
+          }
         >
           <S.FilterButtonLabel>Filtros</S.FilterButtonLabel>
           <FilterIcon width={20} height={20} aria-hidden="true" />
@@ -87,8 +83,8 @@ function AllAnimalsPage() {
         />
       </S.FiltersContainer>
 
-      <AnimalPostList posts={posts}/>
-      
+      <AnimalPostList posts={posts} />
+
       <AnimalFilters
         isOpen={isFiltersOpen}
         filters={draftFilters}
@@ -97,7 +93,6 @@ function AllAnimalsPage() {
         onClose={() => setIsFiltersOpen(false)}
         onClear={handleClearFilters}
       />
-      
     </Layout>
   );
 }

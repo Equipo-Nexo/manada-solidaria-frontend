@@ -92,12 +92,7 @@ function VetGuardButton({
                 description
               ) : (
                 <>
-                  <Warning
-                    width="28"
-                    height="28"
-                    color="#797472"
-                    aria-hidden="true"
-                  />
+                  <Warning width="28" height="28" color="#797472" aria-hidden="true" />
                   {desktopReminder}
                 </>
               )}
@@ -105,11 +100,7 @@ function VetGuardButton({
           </S.Description>
         </S.DescriptionRow>
 
-        <S.ActionButton
-          type="button"
-          onClick={handleAction}
-          $isActive={isActive}
-        >
+        <S.ActionButton type="button" onClick={handleAction} $isActive={isActive}>
           <ActionIcon aria-hidden="true" />
           {actionLabel}
         </S.ActionButton>
@@ -126,29 +117,15 @@ function VetGuardButton({
             </S.ContactPhoneRow>
 
             <S.ContactReminderRow>
-              <Warning
-                width="24"
-                height="24"
-                color="#797472"
-                aria-hidden="true"
-              />
-              <S.ContactReminder $isActive={isActive}>
-                {desktopReminder}
-              </S.ContactReminder>
+              <Warning width="24" height="24" color="#797472" aria-hidden="true" />
+              <S.ContactReminder $isActive={isActive}>{desktopReminder}</S.ContactReminder>
             </S.ContactReminderRow>
           </>
         ) : (
           <>
-            <S.ContactReminder $isActive={isActive}>
-              {inactiveDescription}
-            </S.ContactReminder>
+            <S.ContactReminder $isActive={isActive}>{inactiveDescription}</S.ContactReminder>
 
-            <S.ActionButton
-              type="button"
-              onClick={handleAction}
-              $isActive={isActive}
-              $desktop
-            >
+            <S.ActionButton type="button" onClick={handleAction} $isActive={isActive} $desktop>
               <BriefcaseMedical aria-hidden="true" />
               {actionLabel}
             </S.ActionButton>

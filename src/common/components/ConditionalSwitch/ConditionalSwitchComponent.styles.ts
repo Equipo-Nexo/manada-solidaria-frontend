@@ -1,14 +1,14 @@
-import styled from 'styled-components'
-import { fieldFocusVisible } from '@styles/interactions'
+import styled from "styled-components";
+import { fieldFocusVisible } from "@styles/interactions";
 
-const BORDER_RADIUS = '12px'
-const TRANSITION_DURATION = '160ms'
+const BORDER_RADIUS = "12px";
+const TRANSITION_DURATION = "160ms";
 
 export const ConditionalSwitchSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-`
+`;
 
 export const SwitchGroup = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const SwitchGroup = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.stroke};
   border-radius: ${BORDER_RADIUS};
   background: ${({ theme }) => theme.colors.neutral};
-`
+`;
 
 export const SwitchRow = styled.label`
   display: flex;
@@ -28,7 +28,7 @@ export const SwitchRow = styled.label`
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
   ${({ theme }) => theme.typography.menuItem};
-`
+`;
 
 export const SwitchLabelContent = styled.span`
   display: inline-flex;
@@ -37,14 +37,14 @@ export const SwitchLabelContent = styled.span`
   svg {
     width: 18px;
     height: 18px;
-    margin-top:5px;
+    margin-top: 5px;
     color: ${({ theme }) => theme.colors.secondary};
   }
 
   svg path {
     fill: ${({ theme }) => theme.colors.secondary};
   }
-`
+`;
 
 export const SwitchInput = styled.input`
   position: absolute;
@@ -52,7 +52,7 @@ export const SwitchInput = styled.input`
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
-`
+`;
 
 export const SwitchControl = styled.span`
   position: relative;
@@ -63,7 +63,7 @@ export const SwitchControl = styled.span`
   background: ${({ theme }) => theme.colors.stroke};
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 3px;
     left: 3px;
@@ -86,19 +86,19 @@ export const SwitchControl = styled.span`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const SwitchHelpText = styled.p`
   margin: 0 52px 0 30px;
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.descriptive};
-`
+`;
 
 export const RewardField = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`
+`;
 
 export const RewardInputWrapper = styled.div`
   position: relative;
@@ -113,9 +113,9 @@ export const RewardInputWrapper = styled.div`
     color: ${({ theme }) => theme.colors.secondary};
   }
   svg path {
-    fill: #A95C28 !important;
+    fill: #a95c28 !important;
   }
-`
+`;
 
 export const RewardInput = styled.input`
   width: 100%;
@@ -131,4 +131,4 @@ export const RewardInput = styled.input`
     color: ${({ theme }) => theme.colors.darkColorMuted};
   }
   ${fieldFocusVisible}
-`
+`;

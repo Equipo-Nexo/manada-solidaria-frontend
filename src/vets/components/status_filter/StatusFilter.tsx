@@ -34,9 +34,7 @@ function StatusFilter({ value, onChange }: StatusFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = statusOptions.find(
-    (option) => option.value === value,
-  )!;
+  const selectedOption = statusOptions.find((option) => option.value === value)!;
 
   const handleSelect = (newValue: VetStatusFilter) => {
     onChange(newValue);
@@ -45,10 +43,7 @@ function StatusFilter({ value, onChange }: StatusFilterProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };

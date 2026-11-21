@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function Menu(props: SVGProps<SVGSVGElement>) {
   return (
@@ -12,7 +12,7 @@ function Menu(props: SVGProps<SVGSVGElement>) {
     >
       <path d="M0 12V10H18V12H0ZM0 7V5H18V7H0ZM0 2V0H18V2H0Z" fill="currentColor" />
     </svg>
-  )
+  );
 }
 
-export default Menu
+export default Menu;

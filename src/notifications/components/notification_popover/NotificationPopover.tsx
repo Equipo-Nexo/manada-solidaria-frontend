@@ -15,15 +15,10 @@ type NotificationsPopoverProps = {
   triggerRef: RefObject<HTMLButtonElement | null>;
 };
 
-function NotificationsPopover({
-  onClose,
-  triggerRef,
-}: NotificationsPopoverProps) {
+function NotificationsPopover({ onClose, triggerRef }: NotificationsPopoverProps) {
   const { userId } = useAuth();
   const popoverRef = useRef<HTMLDivElement>(null);
-  const { data, isLoading, isError, refetch } = useGetUserNotificationsQuery(
-    userId ?? skipToken,
-  );
+  const { data, isLoading, isError, refetch } = useGetUserNotificationsQuery(userId ?? skipToken);
   const [markAllNotificationsAsRead, { isLoading: isMarkingAll }] =
     useMarkAllNotificationsAsReadMutation();
 
@@ -37,10 +32,7 @@ function NotificationsPopover({
   useEffect(() => {
     const handleClickOutside = (event: PointerEvent) => {
       const target = event.target as Node;
-      if (
-        popoverRef.current?.contains(target) ||
-        triggerRef.current?.contains(target)
-      ) {
+      if (popoverRef.current?.contains(target) || triggerRef.current?.contains(target)) {
         return;
       }
       onClose();
@@ -66,20 +58,12 @@ function NotificationsPopover({
       <S.Header>
         <S.HeaderTop>
           <S.Title>Notificaciones</S.Title>
-          <S.CloseButton
-            type="button"
-            onClick={onClose}
-            aria-label="Cerrar notificaciones"
-          >
+          <S.CloseButton type="button" onClick={onClose} aria-label="Cerrar notificaciones">
             <X aria-hidden="true" />
           </S.CloseButton>
         </S.HeaderTop>
         {data?.hasUnreadNotification && (
-          <S.MarkAllButton
-            type="button"
-            onClick={handleMarkAllAsRead}
-            disabled={isMarkingAll}
-          >
+          <S.MarkAllButton type="button" onClick={handleMarkAllAsRead} disabled={isMarkingAll}>
             <Check aria-hidden="true" />
             {isMarkingAll ? "Marcando..." : "Marcar todas como leídas"}
           </S.MarkAllButton>
@@ -98,10 +82,7 @@ function NotificationsPopover({
             </S.RetryButton>
           </S.ErrorContainer>
         ) : (
-          <NotificationList
-            notifications={notifications}
-            onNotificationSelect={onClose}
-          />
+          <NotificationList notifications={notifications} onNotificationSelect={onClose} />
         )}
       </S.Content>
     </S.Popover>

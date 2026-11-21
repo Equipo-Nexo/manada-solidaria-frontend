@@ -10,15 +10,14 @@ import perroImage from "@images/Perro.png";
 import gatoImage from "@images/Gato.png";
 import otroImage from "@images/Otro.png";
 
-export const colors: Array<{ value: AnimalColor; label: string; hex: string }> =
-  [
-    { value: "GRAY", label: "Gris", hex: "#8C8C8C" },
-    { value: "BLACK", label: "Negro", hex: "#1A1A1A" },
-    { value: "BLONDE", label: "Rubio", hex: "#E9C98D" },
-    { value: "BROWN", label: "Marrón", hex: "#A0522D" },
-    { value: "WHITE", label: "Blanco", hex: "#FFFFFF" },
-    { value: "OTHER", label: "Otro", hex: "#FFFFFF" },
-  ];
+export const colors: Array<{ value: AnimalColor; label: string; hex: string }> = [
+  { value: "GRAY", label: "Gris", hex: "#8C8C8C" },
+  { value: "BLACK", label: "Negro", hex: "#1A1A1A" },
+  { value: "BLONDE", label: "Rubio", hex: "#E9C98D" },
+  { value: "BROWN", label: "Marrón", hex: "#A0522D" },
+  { value: "WHITE", label: "Blanco", hex: "#FFFFFF" },
+  { value: "OTHER", label: "Otro", hex: "#FFFFFF" },
+];
 
 const animalSizeDescription = (animalType?: AnimalType) => {
   if (!animalType)
@@ -89,19 +88,14 @@ export const ANIMAL_POST_FILTER_LABELS: Record<AnimalPostFilter, string> = {
   ["IN_STREET"]: "En la calle",
 };
 
-const animalPostTypeToFilterMap: Record<
-  AnimalPostFilter,
-  AnimalPostFilter | undefined
-> = {
+const animalPostTypeToFilterMap: Record<AnimalPostFilter, AnimalPostFilter | undefined> = {
   ADOPTION: "ADOPTION",
   LOST: "LOST",
   IN_STREET: "IN_STREET",
   "": undefined,
 };
 
-export const animalPostTypeToFilter = (
-  filter: AnimalPostFilter,
-): AnimalPostFilter | undefined => {
+export const animalPostTypeToFilter = (filter: AnimalPostFilter): AnimalPostFilter | undefined => {
   return animalPostTypeToFilterMap[filter];
 };
 

@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronRight } from "@/common/icons";
 import * as S from "./CarouselSlider.styles";
 import { useAutoAdvance } from "@/common/hooks/auto_advance/useAutoAdvance";
@@ -49,14 +43,10 @@ function CarouselSlider<T>({
         items.length,
         Math.max(1, Math.floor((carousel.clientWidth + gap + 1) / step)),
       );
-      const atEnd =
-        carousel.scrollWidth - carousel.clientWidth - carousel.scrollLeft <= 1;
+      const atEnd = carousel.scrollWidth - carousel.clientWidth - carousel.scrollLeft <= 1;
       const index = atEnd
         ? items.length - count
-        : Math.min(
-            items.length - count,
-            Math.max(0, Math.round(carousel.scrollLeft / step)),
-          );
+        : Math.min(items.length - count, Math.max(0, Math.round(carousel.scrollLeft / step)));
       setVisibleCount(count);
       setIndicatorIndex(index);
       if (syncNavigation) setActiveIndex(index);
@@ -69,16 +59,14 @@ function CarouselSlider<T>({
     if (!carousel) return;
     const observer = new ResizeObserver(() => updateSeenItems());
     observer.observe(carousel);
-    if (carousel.firstElementChild)
-      observer.observe(carousel.firstElementChild);
+    if (carousel.firstElementChild) observer.observe(carousel.firstElementChild);
     return () => observer.disconnect();
   }, [updateSeenItems]);
 
   useEffect(
     () => () => {
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-      if (scrollFrameRef.current !== null)
-        cancelAnimationFrame(scrollFrameRef.current);
+      if (scrollFrameRef.current !== null) cancelAnimationFrame(scrollFrameRef.current);
     },
     [],
   );
@@ -135,10 +123,7 @@ function CarouselSlider<T>({
   if (items.length === 0) return null;
 
   return (
-    <S.CarouselArea
-      $showArrowsOnHover={showArrowsOnHover}
-      $hideArrowsOnMobile={hideArrowsOnMobile}
-    >
+    <S.CarouselArea $showArrowsOnHover={showArrowsOnHover} $hideArrowsOnMobile={hideArrowsOnMobile}>
       <S.CarouselArrow
         type="button"
         $direction="previous"
@@ -151,10 +136,7 @@ function CarouselSlider<T>({
 
       <S.Carousel ref={carouselRef} onScroll={handleCarouselScroll}>
         {items.map((item, index) => (
-          <S.CarouselItem
-            key={index}
-            $visibleItems={Math.max(1, Math.floor(visibleItems) || 1)}
-          >
+          <S.CarouselItem key={index} $visibleItems={Math.max(1, Math.floor(visibleItems) || 1)}>
             {renderItem(item)}
           </S.CarouselItem>
         ))}
@@ -176,8 +158,7 @@ function CarouselSlider<T>({
             key={index}
             $active={
               indicatorMode === "seen"
-                ? index >= indicatorIndex &&
-                  index < indicatorIndex + visibleCount
+                ? index >= indicatorIndex && index < indicatorIndex + visibleCount
                 : index === indicatorIndex
             }
             aria-hidden="true"

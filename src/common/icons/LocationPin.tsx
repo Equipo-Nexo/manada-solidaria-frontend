@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function LocationPin(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function LocationPin(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default LocationPin
+export default LocationPin;

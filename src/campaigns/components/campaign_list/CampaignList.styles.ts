@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
-
 export const Content = styled.div`
   display: flex;
   gap: 16px;
   flex-direction: column;
   justify-content: center;
-`
+`;
 
 export const List = styled.div`
   display: flex;
@@ -18,7 +17,7 @@ export const List = styled.div`
     width: 100%;
   }
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 325px), 325px));
   }

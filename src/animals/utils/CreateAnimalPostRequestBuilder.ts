@@ -1,38 +1,39 @@
-import { parseRewardAmount } from "@/common/utils/rewardAmount"
-import type { BaseAnimalPostRequest, CreateAdoptionAnimalPostRequest, CreateLostAnimalPostRequest } from "../app/api/requests/animalPostRequests"
-import type { NewAnimalPostFormValues } from "../app/schemas/CreateAnimalPost.schema"
+import { parseRewardAmount } from "@/common/utils/rewardAmount";
+import type {
+  BaseAnimalPostRequest,
+  CreateAdoptionAnimalPostRequest,
+  CreateLostAnimalPostRequest,
+} from "../app/api/requests/animalPostRequests";
+import type { NewAnimalPostFormValues } from "../app/schemas/CreateAnimalPost.schema";
 
 export enum PublicationReason {
-  Adoption = 'ADOPTION',
-  Lost = 'LOST',
-  Street = 'STREET',
-  Transit = 'TRANSIT',
+  Adoption = "ADOPTION",
+  Lost = "LOST",
+  Street = "STREET",
+  Transit = "TRANSIT",
 }
 
 interface AnimalPostRequestBuilder {
   build(
     values: NewAnimalPostFormValues,
-    commonRequest: BaseAnimalPostRequest
-  ): CreateLostAnimalPostRequest | CreateAdoptionAnimalPostRequest
+    commonRequest: BaseAnimalPostRequest,
+  ): CreateLostAnimalPostRequest | CreateAdoptionAnimalPostRequest;
 }
 
-const animalPostRequestBuilders: Record<
-  PublicationReason,
-  AnimalPostRequestBuilder
-> = {
+const animalPostRequestBuilders: Record<PublicationReason, AnimalPostRequestBuilder> = {
   [PublicationReason.Lost]: {
     build: (values, commonRequest) => ({
       ...commonRequest,
-      type: 'LOST',
+      type: "LOST",
       hasOwner: true,
-      reward: parseRewardAmount(values.rewardAmount)
+      reward: parseRewardAmount(values.rewardAmount),
     }),
   },
 
   [PublicationReason.Street]: {
     build: (_, commonRequest) => ({
       ...commonRequest,
-      type: 'LOST',
+      type: "LOST",
       hasOwner: false,
       reward: undefined,
     }),
@@ -41,28 +42,25 @@ const animalPostRequestBuilders: Record<
   [PublicationReason.Adoption]: {
     build: (values, commonRequest) => ({
       ...commonRequest,
-      type: 'ADOPTION',
+      type: "ADOPTION",
       inTransit: false,
-      needTransport: values.needsTransport
+      needTransport: values.needsTransport,
     }),
   },
 
   [PublicationReason.Transit]: {
     build: (_, commonRequest) => ({
       ...commonRequest,
-      type: 'ADOPTION',
+      type: "ADOPTION",
       inTransit: true,
-      needTransport: false
+      needTransport: false,
     }),
   },
-}
+};
 
 export const buildRequest = (
   values: NewAnimalPostFormValues,
-  commonRequest: BaseAnimalPostRequest
+  commonRequest: BaseAnimalPostRequest,
 ) => {
-  return animalPostRequestBuilders[values.publicationReason].build(
-    values,
-    commonRequest
-  )
-}
+  return animalPostRequestBuilders[values.publicationReason].build(values, commonRequest);
+};

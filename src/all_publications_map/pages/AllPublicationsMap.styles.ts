@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Page = styled.section`
   display: flex;
@@ -7,17 +7,17 @@ export const Page = styled.section`
   flex-direction: column;
   gap: 20px;
   text-align: left;
-`
+`;
 
 export const Header = styled.header`
   display: flex;
   flex-direction: column;
   gap: 4px;
-`
+`;
 
 export const Description = styled.p`
   color: ${({ theme }) => theme.colors.darkColorMuted};
-`
+`;
 
 export const MapFrame = styled.div`
   width: 100%;
@@ -32,7 +32,6 @@ export const MapFrame = styled.div`
     height: calc(100svh - 300px);
     min-height: 360px;
   }
-`
+`;
 
-export const FiltersContainer = styled.div`
-`
+export const FiltersContainer = styled.div``;

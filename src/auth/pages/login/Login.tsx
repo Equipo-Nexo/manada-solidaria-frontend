@@ -10,10 +10,7 @@ import { useAppDispatch } from "@store/hooks";
 import { useAppPermissions } from "@hooks/permissions/useAppPermissions";
 import { useToast } from "@hooks/toast/useToast";
 import * as S from "./Login.styles";
-import {
-  loginSchema,
-  type LoginFormValues,
-} from "@auth/app/schemas/loginSchema";
+import { loginSchema, type LoginFormValues } from "@auth/app/schemas/loginSchema";
 import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 import { isWebAuthnSupported } from "@auth/app/webauthn/webAuthnAuthentication";
 import { usePasskeyLogin } from "@auth/hooks/usePasskeyLogin";
@@ -96,9 +93,7 @@ function Login() {
             ¡Qué bueno verte
             <S.TitleLineBreak /> de nuevo!
           </S.WelcomeTitle>
-          <S.WelcomeSubtitle>
-            Inicia sesión para seguir ayudando
-          </S.WelcomeSubtitle>
+          <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
         </S.TitlesContainer>
 
         <S.Form
@@ -118,17 +113,12 @@ function Login() {
                 placeholder="usuario"
                 autoComplete="username webauthn"
                 disabled={isAuthenticating}
-                aria-describedby={
-                  errors.username ? "username-error" : undefined
-                }
+                aria-describedby={errors.username ? "username-error" : undefined}
                 aria-invalid={Boolean(errors.username)}
                 $hasError={Boolean(errors.username)}
                 {...register("username")}
               />
-              <ErrorMessage
-                id="username-error"
-                message={errors.username?.message}
-              />
+              <ErrorMessage id="username-error" message={errors.username?.message} />
             </S.Field>
 
             <S.Field>
@@ -143,34 +133,21 @@ function Login() {
                   placeholder={showPassword ? "contraseña" : "********"}
                   autoComplete="current-password"
                   disabled={isAuthenticating}
-                  aria-describedby={
-                    errors.password ? "password-error" : undefined
-                  }
+                  aria-describedby={errors.password ? "password-error" : undefined}
                   aria-invalid={Boolean(errors.password)}
                   $hasError={Boolean(errors.password)}
                   {...register("password")}
                 />
                 <S.PasswordToggle
                   type="button"
-                  aria-label={
-                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-                  }
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   disabled={isAuthenticating}
-                  onClick={() =>
-                    setShowPassword((currentValue) => !currentValue)
-                  }
+                  onClick={() => setShowPassword((currentValue) => !currentValue)}
                 >
-                  {showPassword ? (
-                    <EyeOff aria-hidden="true" />
-                  ) : (
-                    <Eye aria-hidden="true" />
-                  )}
+                  {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
-              <ErrorMessage
-                id="password-error"
-                message={errors.password?.message}
-              />
+              <ErrorMessage id="password-error" message={errors.password?.message} />
             </S.Field>
 
             <S.RecoveryButton type="button" onClick={handleForgotPassword}>
@@ -191,9 +168,7 @@ function Login() {
                   disabled={isAuthenticating}
                   onClick={() => void loginWithPasskey()}
                 >
-                  {isPasskeyLoading
-                    ? "Esperando confirmación..."
-                    : "Ingresar con passkey"}
+                  {isPasskeyLoading ? "Esperando confirmación..." : "Ingresar con passkey"}
                 </S.PasskeyButton>
               </>
             )}
@@ -201,15 +176,12 @@ function Login() {
         </S.Form>
         <S.RegisterTextContainer>
           <S.RegisterText>
-            ¿No tienes cuenta?{" "}
-            <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
+            ¿No tienes cuenta? <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
           </S.RegisterText>
         </S.RegisterTextContainer>
       </S.LoginContainer>
       <S.FooterContainer>
-        <S.FooterText>
-          © 2026 Manada Solidaria - Cuidando huellas juntos
-        </S.FooterText>
+        <S.FooterText>© 2026 Manada Solidaria - Cuidando huellas juntos</S.FooterText>
         <S.FooterText>v{__APP_VERSION__}</S.FooterText>
       </S.FooterContainer>
     </S.LoginPanel>

@@ -1,38 +1,40 @@
-import { arrayBufferToBase64Url, base64UrlToArrayBuffer } from './webAuthnEncoding'
+import { arrayBufferToBase64Url, base64UrlToArrayBuffer } from "./webAuthnEncoding";
 import type {
   AuthenticationCredentialJSON,
   PublicKeyCredentialRequestOptionsJSON,
-} from './webAuthn.types'
+} from "./webAuthn.types";
 
 export function isWebAuthnSupported(): boolean {
-  return typeof window !== 'undefined'
-    && 'PublicKeyCredential' in window
-    && Boolean(navigator.credentials)
+  return (
+    typeof window !== "undefined" &&
+    "PublicKeyCredential" in window &&
+    Boolean(navigator.credentials)
+  );
 }
 
 export async function isConditionalMediationSupported(): Promise<boolean> {
   if (!isWebAuthnSupported()) {
-    return false
+    return false;
   }
 
   const credentialType = PublicKeyCredential as typeof PublicKeyCredential & {
-    isConditionalMediationAvailable?: () => Promise<boolean>
-  }
+    isConditionalMediationAvailable?: () => Promise<boolean>;
+  };
 
   return credentialType.isConditionalMediationAvailable
     ? credentialType.isConditionalMediationAvailable()
-    : false
+    : false;
 }
 
 export async function requestPasskeyCredential(
   options: PublicKeyCredentialRequestOptionsJSON,
   requestOptions: {
-    mediation?: CredentialMediationRequirement
-    signal?: AbortSignal
+    mediation?: CredentialMediationRequirement;
+    signal?: AbortSignal;
   } = {},
 ): Promise<AuthenticationCredentialJSON> {
   if (!isWebAuthnSupported()) {
-    throw new Error('WEBAUTHN_UNSUPPORTED')
+    throw new Error("WEBAUTHN_UNSUPPORTED");
   }
 
   const credential = await navigator.credentials.get({
@@ -46,15 +48,15 @@ export async function requestPasskeyCredential(
     },
     mediation: requestOptions.mediation,
     signal: requestOptions.signal,
-  })
+  });
 
   if (!(credential instanceof PublicKeyCredential)) {
-    throw new Error('PASSKEY_NOT_SELECTED')
+    throw new Error("PASSKEY_NOT_SELECTED");
   }
 
-  const response = credential.response
+  const response = credential.response;
   if (!(response instanceof AuthenticatorAssertionResponse)) {
-    throw new Error('INVALID_PASSKEY_RESPONSE')
+    throw new Error("INVALID_PASSKEY_RESPONSE");
   }
 
   return {
@@ -69,5 +71,5 @@ export async function requestPasskeyCredential(
     type: credential.type,
     clientExtensionResults: credential.getClientExtensionResults(),
     authenticatorAttachment: credential.authenticatorAttachment,
-  }
+  };
 }

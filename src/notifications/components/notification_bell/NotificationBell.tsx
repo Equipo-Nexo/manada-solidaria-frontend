@@ -52,12 +52,7 @@ function NotificationBell() {
         {hasUnreadNotifications && <S.UnreadDot aria-hidden="true" />}
       </S.BellButton>
 
-      {isPopoverOpen && (
-        <NotificationsPopover
-          onClose={handleClosePopover}
-          triggerRef={bellRef}
-        />
-      )}
+      {isPopoverOpen && <NotificationsPopover onClose={handleClosePopover} triggerRef={bellRef} />}
     </S.BellContainer>
   );
 }

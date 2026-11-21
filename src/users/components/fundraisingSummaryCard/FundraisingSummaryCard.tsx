@@ -1,12 +1,12 @@
-import type { FundraisingCampaignResponse } from '@/common/app/types/Campaign.types'
-import { campaignCategoryLabels } from '@/campaigns/utils/CampaignUtils'
-import PostSummaryCard from '../postSummaryCard/PostSummaryCard'
-import { CategoryBadge } from '../postSummaryCard/PostSummaryCard.styles'
+import type { FundraisingCampaignResponse } from "@/common/app/types/Campaign.types";
+import { campaignCategoryLabels } from "@/campaigns/utils/CampaignUtils";
+import PostSummaryCard from "../postSummaryCard/PostSummaryCard";
+import { CategoryBadge } from "../postSummaryCard/PostSummaryCard.styles";
 
 export type FundraisingSummaryCardProps = {
-  fundraising: FundraisingCampaignResponse
-  onViewMore?: () => void
-}
+  fundraising: FundraisingCampaignResponse;
+  onViewMore?: () => void;
+};
 
 function FundraisingSummaryCard({ fundraising, onViewMore }: FundraisingSummaryCardProps) {
   return (
@@ -18,7 +18,7 @@ function FundraisingSummaryCard({ fundraising, onViewMore }: FundraisingSummaryC
       badges={<CategoryBadge>{campaignCategoryLabels.FUNDRAISING}</CategoryBadge>}
       onViewMore={onViewMore}
     />
-  )
+  );
 }
 
-export default FundraisingSummaryCard
+export default FundraisingSummaryCard;

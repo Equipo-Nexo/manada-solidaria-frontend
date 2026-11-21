@@ -1,8 +1,8 @@
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css, keyframes } from "styled-components";
 
 type PlacementProps = {
-  $placement: 'mobile' | 'desktop'
-}
+  $placement: "mobile" | "desktop";
+};
 
 const backdropFadeIn = keyframes`
   from {
@@ -12,7 +12,7 @@ const backdropFadeIn = keyframes`
   to {
     opacity: 1;
   }
-`
+`;
 
 const mobileOptionsEnter = keyframes`
   from {
@@ -24,7 +24,7 @@ const mobileOptionsEnter = keyframes`
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
   }
-`
+`;
 
 const desktopOptionsEnter = keyframes`
   from {
@@ -36,7 +36,7 @@ const desktopOptionsEnter = keyframes`
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-`
+`;
 
 const optionEnter = keyframes`
   from {
@@ -48,7 +48,7 @@ const optionEnter = keyframes`
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-`
+`;
 
 export const OptionsBackdrop = styled.div`
   position: fixed;
@@ -56,7 +56,7 @@ export const OptionsBackdrop = styled.div`
   z-index: 60;
   background: rgb(0 0 0 / 34%);
   animation: ${backdropFadeIn} 160ms ease-out;
-`
+`;
 
 export const OptionsList = styled.div<PlacementProps>`
   position: fixed;
@@ -67,7 +67,7 @@ export const OptionsList = styled.div<PlacementProps>`
   transform-origin: bottom center;
 
   ${({ $placement }) =>
-    $placement === 'mobile'
+    $placement === "mobile"
       ? css`
           left: 50%;
           bottom: 132px;
@@ -80,7 +80,7 @@ export const OptionsList = styled.div<PlacementProps>`
           transform-origin: bottom right;
           animation: ${desktopOptionsEnter} 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
         `}
-`
+`;
 
 export const OptionItem = styled.button`
   width: 285px;
@@ -118,7 +118,7 @@ export const OptionItem = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const OptionIcon = styled.span`
   width: 53px;
@@ -140,7 +140,7 @@ export const OptionIcon = styled.span`
   svg path {
     fill: ${({ theme }) => theme.colors.neutral};
   }
-`
+`;
 
 export const OptionContent = styled.span`
   width: 220px;
@@ -152,7 +152,7 @@ export const OptionContent = styled.span`
   padding: 7px 12px;
   background: ${({ theme }) => theme.colors.secondary};
   box-shadow: 0 10px 22px rgb(89 65 55 / 18%);
-`
+`;
 
 export const OptionTitle = styled.span`
   overflow: hidden;
@@ -162,7 +162,7 @@ export const OptionTitle = styled.span`
   line-height: 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
-`
+`;
 
 export const OptionDescription = styled.span`
   display: -webkit-box;
@@ -173,4 +173,4 @@ export const OptionDescription = styled.span`
   line-height: 13px;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-`
+`;

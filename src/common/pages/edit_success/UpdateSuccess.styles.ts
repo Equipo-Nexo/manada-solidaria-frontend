@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
@@ -11,20 +11,20 @@ export const Container = styled.section`
   @media (max-height: 650px) {
     padding-top: 36px;
   }
-`
+`;
 
 export const Content = styled.div`
   width: min(100%, 440px);
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 export const ImageContainer = styled.div`
   position: relative;
   width: 136px;
   height: 136px;
-`
+`;
 
 export const SuccessBadge = styled.span`
   position: absolute;
@@ -44,7 +44,7 @@ export const SuccessBadge = styled.span`
     width: 22px;
     height: 22px;
   }
-`
+`;
 
 export const Copy = styled.div`
   margin-top: 48px;
@@ -53,26 +53,26 @@ export const Copy = styled.div`
   @media (max-height: 650px) {
     margin-top: 30px;
   }
-`
+`;
 
 export const Title = styled.h1`
   margin: 0;
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.header1};
   font-weight: ${({ theme }) => theme.fontWeights.extrabold};
-`
+`;
 
 export const Description = styled.p`
   max-width: 340px;
   margin: 6px auto 0;
   color: ${({ theme }) => theme.colors.darkColorMuted};
   ${({ theme }) => theme.typography.body};
-`
+`;
 
 export const AnimalName = styled.strong`
   color: ${({ theme }) => theme.colors.brand};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-`
+`;
 
 export const Actions = styled.div`
   width: 100%;
@@ -84,7 +84,7 @@ export const Actions = styled.div`
   @media (max-height: 650px) {
     margin-top: 36px;
   }
-`
+`;
 
 const ActionButton = styled.button`
   width: 100%;
@@ -108,7 +108,7 @@ const ActionButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const PrimaryButton = styled(ActionButton)`
   border: 2px solid ${({ theme }) => theme.colors.brand};
@@ -119,7 +119,7 @@ export const PrimaryButton = styled(ActionButton)`
     background: ${({ theme }) => theme.colors.brandHover};
     border-color: ${({ theme }) => theme.colors.brandHover};
   }
-`
+`;
 
 export const SecondaryButton = styled(ActionButton)`
   border: 2px solid transparent;
@@ -129,4 +129,4 @@ export const SecondaryButton = styled(ActionButton)`
   &:hover {
     border-color: ${({ theme }) => theme.colors.stroke};
   }
-`
+`;

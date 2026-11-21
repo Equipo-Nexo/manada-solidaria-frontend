@@ -1,10 +1,4 @@
-import {
-  useId,
-  useRef,
-  useState,
-  type MouseEvent,
-  type PointerEvent,
-} from "react";
+import { useId, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { AnimalPostStatus } from "@utils/AnimalPostUtils";
 import { Heart, LocationPin } from "../../icons";
@@ -57,16 +51,12 @@ function AnimalPostCard({
   const photoPointerType = useRef<string | null>(null);
   const [isRewardExpanded, setIsRewardExpanded] = useState(false);
 
-  const [heartAnimation, setHeartAnimation] = useState<HeartAnimation | null>(
-    null,
-  );
+  const [heartAnimation, setHeartAnimation] = useState<HeartAnimation | null>(null);
   const { toggleLike, giveLike, isUpdatingLike } = useAnimalPostLike({
     postId,
     reactedByMe,
   });
-  const handlePhotoLike = (
-    event: MouseEvent<HTMLElement> | PointerEvent<HTMLElement>,
-  ) => {
+  const handlePhotoLike = (event: MouseEvent<HTMLElement> | PointerEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -84,10 +74,7 @@ function AnimalPostCard({
     if (event.target instanceof Element && event.target.closest("button, a")) {
       return;
     }
-    if (
-      "pointerType" in event.nativeEvent &&
-      event.nativeEvent.pointerType !== "mouse"
-    ) {
+    if ("pointerType" in event.nativeEvent && event.nativeEvent.pointerType !== "mouse") {
       return;
     }
     handlePhotoLike(event);
@@ -102,10 +89,10 @@ function AnimalPostCard({
     reward > 0;
   const formattedReward = hasReward
     ? new Intl.NumberFormat("es-AR", {
-      style: "currency",
-      currency: "ARS",
-      maximumFractionDigits: 0,
-    }).format(reward)
+        style: "currency",
+        currency: "ARS",
+        maximumFractionDigits: 0,
+      }).format(reward)
     : undefined;
 
   const visibleActions = status
@@ -151,13 +138,7 @@ function AnimalPostCard({
           >
             <Heart filled fill={`url(#${heartGradientId})`}>
               <defs>
-                <linearGradient
-                  id={heartGradientId}
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="100%"
-                >
+                <linearGradient id={heartGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" />
                   <stop offset="65%" />
                 </linearGradient>
@@ -166,11 +147,7 @@ function AnimalPostCard({
           </S.PhotoHeart>
         )}
         <S.PostActionsContainer>
-          <PostActionsMenu
-            postId={postId}
-            type="ANIMAL_POST"
-            onShare={handleShareButton}
-          />
+          <PostActionsMenu postId={postId} type="ANIMAL_POST" onShare={handleShareButton} />
         </S.PostActionsContainer>
       </S.PhotoContainer>
 
@@ -213,10 +190,7 @@ function AnimalPostCard({
         )}
 
         <S.Description>{description}</S.Description>
-        <S.ViewMore
-          type="button"
-          onClick={() => navigate(`/animal/detalle/${postId}`)}
-        >
+        <S.ViewMore type="button" onClick={() => navigate(`/animal/detalle/${postId}`)}>
           Ver más información
         </S.ViewMore>
         <S.LikesContainer>
@@ -252,17 +226,14 @@ function AnimalPostCard({
                 $variant={variant}
                 onClick={() => {
                   if (to) {
-                    navigate(
-                      generatePath(to, { postId: encodeURIComponent(postId) }),
-                    );
+                    navigate(generatePath(to, { postId: encodeURIComponent(postId) }));
                     return;
                   }
                   onClick?.(
                     phoneNumber,
                     name,
                     location
-                      ? () =>
-                        handleViewOnMap(location.latitude, location.longitude)
+                      ? () => handleViewOnMap(location.latitude, location.longitude)
                       : undefined,
                   );
                 }}

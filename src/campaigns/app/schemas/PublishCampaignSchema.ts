@@ -4,11 +4,11 @@ import { locationSchema } from "@/common/utils/LocationUtils";
 import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
 
 export const campaignLocationSchema = locationSchema.shape({
-  street: yup.string().required('La calle y su altura es obligatoria'),
+  street: yup.string().required("La calle y su altura es obligatoria"),
   houseNumber: yup
     .number()
-    .typeError('La altura debe ser un número')
-    .required('La calle y su altura es obligatoria'),
+    .typeError("La altura debe ser un número")
+    .required("La calle y su altura es obligatoria"),
 });
 
 export const publishCampaignSchema = yup.object({
@@ -26,15 +26,11 @@ export const publishCampaignSchema = yup.object({
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de inicio.")
-        .test(
-          "not-before-today",
-          "La fecha de inicio no puede ser anterior a hoy.",
-          (value) => {
-            if (!value) return true;
-            const today = new Date().toISOString().split("T")[0];
-            return value >= today;
-          },
-        ),
+        .test("not-before-today", "La fecha de inicio no puede ser anterior a hoy.", (value) => {
+          if (!value) return true;
+          const today = new Date().toISOString().split("T")[0];
+          return value >= today;
+        }),
     otherwise: (schema) => schema.notRequired(),
   }),
 
@@ -43,15 +39,11 @@ export const publishCampaignSchema = yup.object({
     then: (schema) =>
       schema
         .required("Seleccioná una fecha de fin.")
-        .test(
-          "not-before-today",
-          "La fecha de fin no puede ser anterior a hoy.",
-          (value) => {
-            if (!value) return true;
-            const today = new Date().toISOString().split("T")[0];
-            return value >= today;
-          },
-        )
+        .test("not-before-today", "La fecha de fin no puede ser anterior a hoy.", (value) => {
+          if (!value) return true;
+          const today = new Date().toISOString().split("T")[0];
+          return value >= today;
+        })
         .test(
           "not-before-start-date",
           "La fecha de fin debe ser mayor o igual a la fecha de inicio.",
@@ -83,16 +75,15 @@ export const publishCampaignSchema = yup.object({
   location: campaignLocationSchema,
   donationNeeds: yup.array().when("category", {
     is: "DONATION",
-    then: (schema) =>
-      schema.min(1, "Seleccioná al menos un elemento para recolectar."),
+    then: (schema) => schema.min(1, "Seleccioná al menos un elemento para recolectar."),
     otherwise: (schema) => schema.notRequired(),
   }),
   accountAlias: yup.string().when("category", {
-    is: 'FUNDRAISING',
+    is: "FUNDRAISING",
     then: (schema) => schema.required().min(6).max(24),
-    otherwise: (schema) => schema.notRequired()
+    otherwise: (schema) => schema.notRequired(),
   }),
-  amountToBeCollected: yup.number().notRequired()
+  amountToBeCollected: yup.number().notRequired(),
 });
 
-export type PublishCampaignForm = yup.InferType<typeof publishCampaignSchema>
+export type PublishCampaignForm = yup.InferType<typeof publishCampaignSchema>;

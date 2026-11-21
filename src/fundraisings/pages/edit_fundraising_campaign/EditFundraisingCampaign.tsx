@@ -30,11 +30,7 @@ function EditFundraising() {
   const toaster = useToast();
   const navigate = useNavigate();
   const { fundraisingId } = useParams<{ fundraisingId: string }>();
-  const {
-    data: campaign,
-    isLoading,
-    isError,
-  } = useGetFundraisingByIdQuery(fundraisingId || "");
+  const { data: campaign, isLoading, isError } = useGetFundraisingByIdQuery(fundraisingId || "");
   const [updateFundraisingCampaign, { isLoading: isUpdating }] =
     useUpdateFundraisingCampaignMutation();
 
@@ -60,12 +56,11 @@ function EditFundraising() {
       setValue("phone", campaign.phoneNumber.number);
       setValue("imageId", campaign.imageId);
       setValue("location", {
-          ...campaign.location,
-          district: campaign.location.district ? campaign.location.district : undefined,
-          street: campaign.location.street ? campaign.location.street : undefined,
-          houseNumber: campaign.location.houseNumber ? campaign.location.houseNumber : undefined
-        }
-      );
+        ...campaign.location,
+        district: campaign.location.district ? campaign.location.district : undefined,
+        street: campaign.location.street ? campaign.location.street : undefined,
+        houseNumber: campaign.location.houseNumber ? campaign.location.houseNumber : undefined,
+      });
     }
   }, [isLoading, campaign, setValue]);
 
@@ -73,11 +68,10 @@ function EditFundraising() {
     control,
     name: "phoneAreaCode",
   });
-  const { field: phoneNumberField, fieldState: phoneNumberState } =
-    useController({
-      control,
-      name: "phone",
-    });
+  const { field: phoneNumberField, fieldState: phoneNumberState } = useController({
+    control,
+    name: "phone",
+  });
 
   const onSubmit = (data: EditFundraisingForm) => {
     const requestBody: UpdateFundraisingCampaignRequest = {
@@ -146,11 +140,7 @@ function EditFundraising() {
             <S.PublishLabel>
               Alias <S.RequiredMark>*</S.RequiredMark>
             </S.PublishLabel>
-            <S.PublishInput
-              type="text"
-              {...register("accountAlias")}
-              placeholder="maca.123.mp"
-            />
+            <S.PublishInput type="text" {...register("accountAlias")} placeholder="maca.123.mp" />
             <ErrorMessage message={errors.accountAlias?.message} />
           </S.PublishField>
 
@@ -226,13 +216,10 @@ function EditFundraising() {
               onPhoneNumberBlur={phoneNumberField.onBlur}
               areaCodeRef={areaCodeField.ref}
               phoneNumberRef={phoneNumberField.ref}
-              error={
-                areaCodeState.error?.message ?? phoneNumberState.error?.message
-              }
+              error={areaCodeState.error?.message ?? phoneNumberState.error?.message}
             />
             <S.HelpText>
-              El número es requerido para envío de comprobante de pago o para
-              consultas.
+              El número es requerido para envío de comprobante de pago o para consultas.
             </S.HelpText>
           </S.PublishField>
 
@@ -248,9 +235,7 @@ function EditFundraising() {
                     placeHolder="Podés indicar una ubicación aproximada, como la ciudad"
                     errors={errors.location}
                     onChange={(value) =>
-                      field.onChange(
-                        value ? mapGeolocationToLocation(value) : undefined,
-                      )
+                      field.onChange(value ? mapGeolocationToLocation(value) : undefined)
                     }
                   />
                   <ErrorMessage message={fieldState.error?.message} />

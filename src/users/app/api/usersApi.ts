@@ -58,10 +58,7 @@ export const usersApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ["userProfile"],
     }),
-    putUserLocation: builder.mutation<
-      void,
-      { latitude: number; longitude: number }
-    >({
+    putUserLocation: builder.mutation<void, { latitude: number; longitude: number }>({
       query: ({ latitude, longitude }) => ({
         url: "/users/save-location",
         method: "POST",

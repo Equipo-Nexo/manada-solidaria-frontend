@@ -6,10 +6,7 @@ import type {
   FundraisingCampaignPageResponse,
   FundraisingCampaignResponse,
 } from "@app/types/Campaign.types";
-import type {
-  CampaignFilter,
-  CreateCampaignRequest,
-} from "./requests/CreateCampaignRequest";
+import type { CampaignFilter, CreateCampaignRequest } from "./requests/CreateCampaignRequest";
 import type { CampaignType } from "../types/Campaign.types";
 import type {
   EditCampaignMutationRequest,
@@ -32,10 +29,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       invalidatesTags: ["userPosts", "Campaigns"],
     }),
 
-    getCampaigns: builder.query<
-      CampaignPageResponse,
-      GetCampaignsRequest | undefined
-    >({
+    getCampaigns: builder.query<CampaignPageResponse, GetCampaignsRequest | undefined>({
       query: (params) => ({
         url: "/campaigns",
         method: "GET",
@@ -43,10 +37,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       providesTags: ["Campaigns"],
     }),
-    getFundraisingCampaigns: builder.query<
-      FundraisingCampaignPageResponse,
-      void
-    >({
+    getFundraisingCampaigns: builder.query<FundraisingCampaignPageResponse, void>({
       query: () => ({
         url: "/campaigns/fundraising_campaigns",
         method: "GET",
@@ -95,10 +86,7 @@ export const campaignApi = baseAuthenticatedApi.injectEndpoints({
       }),
       invalidatesTags: ["Campaigns", "userPosts"],
     }),
-    updateCampaignStatus: builder.mutation<
-      CampaignDetailsResponse,
-      UpdateCampaignStatusRequest
-    >({
+    updateCampaignStatus: builder.mutation<CampaignDetailsResponse, UpdateCampaignStatusRequest>({
       query: ({ campaignId, status }) => ({
         url: `/campaigns/${campaignId}/status`,
         method: "PATCH",

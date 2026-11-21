@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { Background as PagePawsBackground } from '@/common/components/page_paws/PagePaws.styles';
+import { Background as PagePawsBackground } from "@/common/components/page_paws/PagePaws.styles";
 
 const revealDescription = keyframes`
   from {
@@ -101,16 +101,14 @@ export const Description = styled.p<{ $hasRecentCases: boolean }>`
     grid-area: description;
     display: flex;
     position: relative;
-    flex-direction: ${({ $hasRecentCases }) =>
-      $hasRecentCases ? "column" : "row"};
+    flex-direction: ${({ $hasRecentCases }) => ($hasRecentCases ? "column" : "row")};
     min-height: 420px;
     max-width: none;
     gap: ${({ $hasRecentCases }) => ($hasRecentCases ? "0" : "16px")};
     justify-content: center;
     margin: 0;
     padding: 36px;
-    align-items: ${({ $hasRecentCases }) =>
-      $hasRecentCases ? "flex-start" : "center"};
+    align-items: ${({ $hasRecentCases }) => ($hasRecentCases ? "flex-start" : "center")};
     box-sizing: border-box;
     overflow: hidden;
     color: ${({ theme }) => theme.colors.darkColor};
@@ -573,8 +571,7 @@ export const StatusBadge = styled.span<StatusBadgeProps>`
   padding: 0 12px;
   box-sizing: border-box;
   border-radius: 999px;
-  background: ${({ $status, theme }) =>
-    $status === "FOUND" ? "#ccf59b" : theme.colors.neutral};
+  background: ${({ $status, theme }) => ($status === "FOUND" ? "#ccf59b" : theme.colors.neutral)};
   color: ${({ $status, theme }) =>
     $status === "FOUND" ? theme.colors.success : theme.colors.secondary};
   box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
@@ -595,8 +592,7 @@ export const CaseArrow = styled.span<CaseArrowProps>`
   height: 32px;
   flex: 0 0 32px;
   transition: transform 0.2s ease;
-  transform: ${({ $expanded }) =>
-    $expanded ? "rotate(90deg)" : "rotate(0deg)"};
+  transform: ${({ $expanded }) => ($expanded ? "rotate(90deg)" : "rotate(0deg)")};
   svg {
     width: 6px;
     height: 10px;
