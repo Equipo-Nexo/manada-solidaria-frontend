@@ -48,9 +48,7 @@ export function canChangeFundraisingStatus(
   current: string,
   target: string,
 ): target is EditableFundraisingStatus {
-  return (
-    current === "CREATED" && (target === "COMPLETED" || target === "FINISHED")
-  );
+  return current === "CREATED" && (target === "COMPLETED" || target === "FINISHED");
 }
 
 export function hasFundraisingStatusActions(status: string) {

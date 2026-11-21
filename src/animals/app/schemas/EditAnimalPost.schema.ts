@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from "yup";
 import {
   animalAges,
   animalColors,
@@ -8,52 +8,37 @@ import {
   type AnimalColor,
   type AnimalSex,
   type AnimalSize,
-} from '@/animals/app/types/AnimalPost.types'
-import { PublicationReason } from '@/animals/utils/CreateAnimalPostRequestBuilder'
-import { phoneAreaCodeSchema, phoneNumberSchema } from '@/common/app/schemas/phoneNumber.schema'
-import { animalPostLocationSchema } from './CreateAnimalPost.schema'
+} from "@/animals/app/types/AnimalPost.types";
+import { PublicationReason } from "@/animals/utils/CreateAnimalPostRequestBuilder";
+import { phoneAreaCodeSchema, phoneNumberSchema } from "@/common/app/schemas/phoneNumber.schema";
+import { animalPostLocationSchema } from "./CreateAnimalPost.schema";
 
 export const editAnimalPostSchema = yup.object({
-    publicationReason: yup
-        .mixed<PublicationReason>()
-        .oneOf(Object.values(PublicationReason))
-        .required(),
-    imageId: yup.string().required('Seleccioná una foto del animal.'),
-    location: animalPostLocationSchema,
-    name: yup.string().trim().max(30, 'El nombre no puede superar los 30 caracteres.').default(''),
-    animalSex: yup
-        .mixed<AnimalSex>()
-        .oneOf(animalSexes)
-        .required('Seleccioná el sexo del animal.'),
-    animalAge: yup
-        .mixed<AnimalAge>()
-        .oneOf(animalAges)
-        .required('Seleccioná la edad del animal.'),
-    animalSize: yup
-        .mixed<AnimalSize>()
-        .oneOf(animalSizes)
-        .required('Seleccioná el tamaño del animal.'),
-    color: yup
-        .mixed<AnimalColor>()
-        .oneOf(animalColors)
-        .nullable()
-        .defined()
-        .default(null),
-    areaCode: phoneAreaCodeSchema
-        .when('publicationReason', {
-            is: PublicationReason.Street,
-            then: (schema) => schema,
-            otherwise: (schema) =>
-                schema.required('Ingresá la característica telefónica.'),
-        }),
-    phoneNumber: phoneNumberSchema
-        .when('publicationReason', {
-            is: PublicationReason.Street,
-            then: (schema) => schema,
-            otherwise: (schema) =>
-                schema.required('Ingresá el número de teléfono.'),
-        }),
-    story: yup.string().trim().required('Contanos la historia del animal.'),
-})
+  publicationReason: yup
+    .mixed<PublicationReason>()
+    .oneOf(Object.values(PublicationReason))
+    .required(),
+  imageId: yup.string().required("Seleccioná una foto del animal."),
+  location: animalPostLocationSchema,
+  name: yup.string().trim().max(30, "El nombre no puede superar los 30 caracteres.").default(""),
+  animalSex: yup.mixed<AnimalSex>().oneOf(animalSexes).required("Seleccioná el sexo del animal."),
+  animalAge: yup.mixed<AnimalAge>().oneOf(animalAges).required("Seleccioná la edad del animal."),
+  animalSize: yup
+    .mixed<AnimalSize>()
+    .oneOf(animalSizes)
+    .required("Seleccioná el tamaño del animal."),
+  color: yup.mixed<AnimalColor>().oneOf(animalColors).nullable().defined().default(null),
+  areaCode: phoneAreaCodeSchema.when("publicationReason", {
+    is: PublicationReason.Street,
+    then: (schema) => schema,
+    otherwise: (schema) => schema.required("Ingresá la característica telefónica."),
+  }),
+  phoneNumber: phoneNumberSchema.when("publicationReason", {
+    is: PublicationReason.Street,
+    then: (schema) => schema,
+    otherwise: (schema) => schema.required("Ingresá el número de teléfono."),
+  }),
+  story: yup.string().trim().required("Contanos la historia del animal."),
+});
 
-export type EditAnimalPostFormValues = yup.InferType<typeof editAnimalPostSchema>
+export type EditAnimalPostFormValues = yup.InferType<typeof editAnimalPostSchema>;

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const InstallPromptButton = styled.button<{ $isVisible: boolean }>`
   position: fixed;
@@ -18,10 +18,12 @@ export const InstallPromptButton = styled.button<{ $isVisible: boolean }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   line-height: 18px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  pointer-events: ${({ $isVisible }) => ($isVisible ? 'auto' : 'none')};
-  transform: ${({ $isVisible }) =>
-    $isVisible ? 'translate(-50%, 0)' : 'translate(-50%, 1.5rem)'};
-  transition: opacity 500ms ease-out, transform 500ms ease-out, box-shadow 160ms ease;
+  pointer-events: ${({ $isVisible }) => ($isVisible ? "auto" : "none")};
+  transform: ${({ $isVisible }) => ($isVisible ? "translate(-50%, 0)" : "translate(-50%, 1.5rem)")};
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out,
+    box-shadow 160ms ease;
   white-space: nowrap;
 
   &:hover {
@@ -36,4 +38,4 @@ export const InstallPromptButton = styled.button<{ $isVisible: boolean }>`
   @media (min-width: 768px) {
     bottom: 11rem;
   }
-`
+`;

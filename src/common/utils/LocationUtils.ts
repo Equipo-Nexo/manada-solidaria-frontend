@@ -15,23 +15,18 @@ export const locationSchema: ObjectSchema<Location> = yup.object({
 });
 
 export const getAddress = (location: Location) => {
-  const { street, houseNumber, district, city, country } = location
+  const { street, houseNumber, district, city, country } = location;
   const hasAddress = !!street?.trim() && houseNumber != null;
-  
-  if (hasAddress) return `${street} ${houseNumber}`
-  if (district) return `${district}, ${city}`
-  return `${city}, ${country}`
-}
 
+  if (hasAddress) return `${street} ${houseNumber}`;
+  if (district) return `${district}, ${city}`;
+  return `${city}, ${country}`;
+};
 
-export const getLocationErrorMessage = (
-  errors?: FieldErrors<Location>,
-): string | undefined => {
+export const getLocationErrorMessage = (errors?: FieldErrors<Location>): string | undefined => {
   if (!errors) return undefined;
 
-  const fieldErrors = Object.values(errors).filter(
-    (error) => error?.message,
-  );
+  const fieldErrors = Object.values(errors).filter((error) => error?.message);
 
   if (fieldErrors.length === 0) return undefined;
 

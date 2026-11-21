@@ -1,21 +1,21 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import * as Recovery from '../password_recovery_request/PasswordRecoveryEmail.styles'
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import * as Recovery from "../password_recovery_request/PasswordRecoveryEmail.styles";
 
-export const Page = Recovery.Page
-export const Panel = Recovery.Panel
-export const Footer = Recovery.Footer
+export const Page = Recovery.Page;
+export const Panel = Recovery.Panel;
+export const Footer = Recovery.Footer;
 export const Title = styled(Recovery.Title)`
   margin-top: 24px;
-`
-export const Description = Recovery.Description
+`;
+export const Description = Recovery.Description;
 
 export const Content = styled.div`
   width: min(100%, 284px);
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 export const SuccessIcon = styled.div`
   width: 100px;
@@ -42,14 +42,14 @@ export const SuccessIcon = styled.div`
       height: 48px;
     }
   }
-`
+`;
 
 export const Message = styled.div`
   margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-`
+`;
 
 export const LoginLink = styled(Link)`
   width: 100%;
@@ -65,7 +65,9 @@ export const LoginLink = styled(Link)`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: 20px;
   text-decoration: none;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
 
   &:hover {
     background: ${({ theme }) => theme.colors.brandHover};
@@ -84,4 +86,4 @@ export const LoginLink = styled(Link)`
   @media (max-height: 650px) {
     margin-top: 20px;
   }
-`
+`;

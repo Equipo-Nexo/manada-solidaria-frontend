@@ -1,10 +1,10 @@
-import useAuth from '@hooks/auth/useAuth'
-import { PawPrint } from '../../icons'
-import * as S from './NotFound.styles'
+import useAuth from "@hooks/auth/useAuth";
+import { PawPrint } from "../../icons";
+import * as S from "./NotFound.styles";
 
 function NotFound() {
-  const { isAuthenticated } = useAuth()
-  const destination = isAuthenticated ? '/home' : '/login'
+  const { isAuthenticated } = useAuth();
+  const destination = isAuthenticated ? "/home" : "/login";
 
   return (
     <S.Container aria-labelledby="not-found-title">
@@ -28,7 +28,7 @@ function NotFound() {
         <PawPrint aria-hidden="true" />
       </S.HomeLink>
     </S.Container>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;

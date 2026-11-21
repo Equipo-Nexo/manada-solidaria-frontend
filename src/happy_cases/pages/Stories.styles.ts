@@ -86,8 +86,7 @@ export const ProgressFill = styled.div<{
   $active: boolean;
   $completed: boolean;
 }>`
-  width: ${({ $active, $completed }) =>
-    $completed || $active ? "100%" : "0%"};
+  width: ${({ $active, $completed }) => ($completed || $active ? "100%" : "0%")};
   height: 100%;
   border-radius: inherit;
   background: white;
@@ -182,8 +181,7 @@ export const StatusBadge = styled.span<{ $status: string }>`
   padding: 6px 16px;
   margin-left: 21px;
   border-radius: 999px;
-  background: ${({ $status, theme }) =>
-    $status === "FOUND" ? "#ccf59b" : theme.colors.neutral};
+  background: ${({ $status, theme }) => ($status === "FOUND" ? "#ccf59b" : theme.colors.neutral)};
   color: ${({ $status, theme }) =>
     $status === "FOUND" ? theme.colors.success : theme.colors.secondary};
   font-family: ${({ theme }) => theme.fonts.body};

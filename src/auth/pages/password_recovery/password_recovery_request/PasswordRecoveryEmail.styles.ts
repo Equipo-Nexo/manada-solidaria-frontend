@@ -8,8 +8,7 @@ export const Page = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: max(16px, env(safe-area-inset-top)) 16px
-    max(17px, env(safe-area-inset-bottom));
+  padding: max(16px, env(safe-area-inset-top)) 16px max(17px, env(safe-area-inset-bottom));
   background: ${({ theme }) => theme.colors.neutral};
 
   @media (max-height: 650px) {
@@ -175,7 +174,10 @@ export const Label = styled.label`
   }
   @media (min-width: 768px) {
     font-size: 0.8125rem;
-    svg { width: 18px; height: 18px; }
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 `;
 export const Input = styled.input<{ $hasError: boolean }>`
@@ -183,9 +185,7 @@ export const Input = styled.input<{ $hasError: boolean }>`
   height: 48px;
   min-width: 0;
   padding: 12px 20px;
-  border: 2px solid
-    ${({ $hasError, theme }) =>
-      $hasError ? theme.colors.error : "transparent"};
+  border: 2px solid ${({ $hasError, theme }) => ($hasError ? theme.colors.error : "transparent")};
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.soft};
   color: ${({ theme }) => theme.colors.black};

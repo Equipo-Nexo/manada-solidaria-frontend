@@ -1,15 +1,15 @@
-import { arrayBufferToBase64Url, base64UrlToArrayBuffer } from './webAuthnEncoding'
-import { isWebAuthnSupported } from './webAuthnAuthentication'
+import { arrayBufferToBase64Url, base64UrlToArrayBuffer } from "./webAuthnEncoding";
+import { isWebAuthnSupported } from "./webAuthnAuthentication";
 import type {
   PublicKeyCredentialCreationOptionsJSON,
   RegistrationCredentialJSON,
-} from './webAuthn.types'
+} from "./webAuthn.types";
 
 export async function createPasskeyCredential(
   options: PublicKeyCredentialCreationOptionsJSON,
 ): Promise<RegistrationCredentialJSON> {
   if (!isWebAuthnSupported()) {
-    throw new Error('WEBAUTHN_UNSUPPORTED')
+    throw new Error("WEBAUTHN_UNSUPPORTED");
   }
 
   const credential = await navigator.credentials.create({
@@ -25,15 +25,15 @@ export async function createPasskeyCredential(
         id: base64UrlToArrayBuffer(descriptor.id),
       })),
     },
-  })
+  });
 
   if (!(credential instanceof PublicKeyCredential)) {
-    throw new Error('PASSKEY_NOT_CREATED')
+    throw new Error("PASSKEY_NOT_CREATED");
   }
 
-  const response = credential.response
+  const response = credential.response;
   if (!(response instanceof AuthenticatorAttestationResponse)) {
-    throw new Error('INVALID_PASSKEY_RESPONSE')
+    throw new Error("INVALID_PASSKEY_RESPONSE");
   }
 
   return {
@@ -47,5 +47,5 @@ export async function createPasskeyCredential(
     type: credential.type,
     clientExtensionResults: credential.getClientExtensionResults(),
     authenticatorAttachment: credential.authenticatorAttachment,
-  }
+  };
 }

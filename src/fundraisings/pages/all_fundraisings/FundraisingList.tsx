@@ -8,18 +8,13 @@ type FundraisingListProps = {
   fundraisings: FundraisingCardData[];
 };
 
-function FundraisingList({
-  fundraisings,
-}: FundraisingListProps) {
+function FundraisingList({ fundraisings }: FundraisingListProps) {
   const navigate = useNavigate();
 
   if (fundraisings.length === 0) {
     return (
       <S.MessageContainer>
-        <Message
-          message={publicationMessages.emptyUrgent}
-          iconName="pawPrint"
-        />
+        <Message message={publicationMessages.emptyUrgent} iconName="pawPrint" />
       </S.MessageContainer>
     );
   }
@@ -29,7 +24,7 @@ function FundraisingList({
       <Advice
         title="Información importante"
         advice="El progreso de la colecta no se actualiza en tiempo real. Se refleja cuando la rescatista verifica las transferencias."
-      />      
+      />
       <S.List>
         {fundraisings.map((fundraising) => (
           <FundraisingCard

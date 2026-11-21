@@ -31,13 +31,15 @@ export const ImageUploadButton = styled.button<{ $hasPreview: boolean }>`
   font-family: ${({ theme }) => theme.fonts.body};
   -webkit-tap-highlight-color: transparent;
 
-  ${({ $hasPreview }) => $hasPreview && css`
-    min-height: 0;
-    aspect-ratio: ${({ theme }) => theme.layout.publicationImageAspectRatio};
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-  `}
+  ${({ $hasPreview }) =>
+    $hasPreview &&
+    css`
+      min-height: 0;
+      aspect-ratio: ${({ theme }) => theme.layout.publicationImageAspectRatio};
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+    `}
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
@@ -85,7 +87,10 @@ export const EditImageIndicator = styled.span`
   box-shadow: 0 4px 14px ${({ theme }) => `${theme.colors.black}80`};
   pointer-events: none;
   backdrop-filter: blur(4px);
-  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
 
   svg {
     width: 20px;
@@ -115,7 +120,9 @@ export const RemoveImageButton = styled.button`
   box-shadow: 0 4px 14px ${({ theme }) => `${theme.colors.black}80`};
   cursor: pointer;
   backdrop-filter: blur(4px);
-  transition: transform 160ms ease, background-color 160ms ease;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
 
   svg {
     width: 20px;

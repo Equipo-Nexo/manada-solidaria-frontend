@@ -9,10 +9,7 @@ import {
   createAdoptionFormSchema,
   type AdoptionFormValues,
 } from "../../app/schemas/adoptionFormSchema";
-import type {
-  AdoptionCategory,
-  AdoptionQuestion,
-} from "../../app/types/AdoptionForm.types";
+import type { AdoptionCategory, AdoptionQuestion } from "../../app/types/AdoptionForm.types";
 import type { AdoptionFormRequest } from "../../app/api/requests/AdoptionFormRequest";
 import {
   useCreateAdoptionFormMutation,
@@ -30,11 +27,7 @@ function QuestionsFormPage() {
   return (
     <S.MainContainer>
       <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate(-1)}
-          aria-label="Volver"
-        >
+        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
       </S.Header>
@@ -49,13 +42,7 @@ function QuestionsFormPage() {
 }
 
 function QuestionsContent() {
-  const {
-    data: questions,
-    isLoading,
-    isError,
-    isFetching,
-    refetch,
-  } = useGetQuestionsQuery();
+  const { data: questions, isLoading, isError, isFetching, refetch } = useGetQuestionsQuery();
 
   if (isLoading) {
     return (
@@ -107,9 +94,7 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
   const form = useForm<AdoptionFormValues>({
     defaultValues: {
       answers: Object.fromEntries(
-        response.flatMap(({ questions }) =>
-          questions.map(({ id }) => [id, ""]),
-        ),
+        response.flatMap(({ questions }) => questions.map(({ id }) => [id, ""])),
       ),
       adoptionReason: "",
       phoneNumber: { areaCode: "", number: "" },
@@ -125,10 +110,7 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
 
   const handleFormSubmit = async (values: AdoptionFormValues) => {
     if (!postId) {
-      toast.error(
-        "Seleccioná una publicación",
-        "Abrí el formulario desde el botón Adoptar.",
-      );
+      toast.error("Seleccioná una publicación", "Abrí el formulario desde el botón Adoptar.");
       return;
     }
 
@@ -190,13 +172,9 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
         {response.map((category, categoryIndex) => (
           <S.CategoryContainer key={category.id}>
             <S.CategoryTitle>{category.category}</S.CategoryTitle>
-            <S.CategoryDescription>
-              {category.description}
-            </S.CategoryDescription>
+            <S.CategoryDescription>{category.description}</S.CategoryDescription>
             <S.QuestionsContainer>
-              {category.questions.map((question) =>
-                QuestionStructure(question),
-              )}
+              {category.questions.map((question) => QuestionStructure(question))}
               {categoryIndex === response.length - 1 &&
                 AdoptionQuestionsMock.map(QuestionStructure)}
             </S.QuestionsContainer>
@@ -211,11 +189,7 @@ function QuestionsForm({ response }: { response: AdoptionCategory[] }) {
           >
             Cancelar
           </S.ActionButton>
-          <S.ActionButton
-            type="submit"
-            $variant="submit"
-            disabled={isSubmitting}
-          >
+          <S.ActionButton type="submit" $variant="submit" disabled={isSubmitting}>
             {isSubmitting ? "Enviando..." : "Enviar"}
           </S.ActionButton>
         </S.FormActionsContainer>

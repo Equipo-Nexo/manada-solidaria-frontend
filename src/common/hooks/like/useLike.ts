@@ -36,10 +36,7 @@ export function useLike({
 
       return true;
     } catch {
-      toast.error(
-        shouldLike ? likeErrorMessage : dislikeErrorMessage,
-        "Intentá nuevamente.",
-      );
+      toast.error(shouldLike ? likeErrorMessage : dislikeErrorMessage, "Intentá nuevamente.");
 
       return false;
     } finally {

@@ -1,8 +1,6 @@
-import type { GeolocationResponse, Location } from '@services/responses/Location'
+import type { GeolocationResponse, Location } from "@services/responses/Location";
 
-export const mapGeolocationToLocation = (
-  geolocation: GeolocationResponse,
-): Location => ({
+export const mapGeolocationToLocation = (geolocation: GeolocationResponse): Location => ({
   country: geolocation.country,
   city: geolocation.city,
   formatted: geolocation.formatted,
@@ -11,4 +9,4 @@ export const mapGeolocationToLocation = (
   houseNumber: geolocation.housenumber ? Number(geolocation.housenumber) : undefined,
   latitude: geolocation.lat,
   longitude: geolocation.lon,
-})
+});

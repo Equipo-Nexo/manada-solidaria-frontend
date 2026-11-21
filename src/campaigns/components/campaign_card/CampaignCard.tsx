@@ -39,8 +39,7 @@ function CampaignCard({ campaign, className, onMoreInfo }: CampaignCardProps) {
   };
 
   const openCampaignDetail = (event: MouseEvent<HTMLElement>) => {
-    if (event.target instanceof Element && event.target.closest("button, a"))
-      return;
+    if (event.target instanceof Element && event.target.closest("button, a")) return;
     onMoreInfo?.(campaign);
   };
 
@@ -54,11 +53,7 @@ function CampaignCard({ campaign, className, onMoreInfo }: CampaignCardProps) {
       <S.ImageSection>
         <ImagePreview imageId={campaign.imageUrl} alt={campaign.title} />
         <S.PostActionsContainer>
-          <PostActionsMenu
-            postId={campaign.id}
-            type="CAMPAIGN"
-            onShare={handleShareButton}
-          />
+          <PostActionsMenu postId={campaign.id} type="CAMPAIGN" onShare={handleShareButton} />
         </S.PostActionsContainer>
       </S.ImageSection>
 
@@ -69,9 +64,7 @@ function CampaignCard({ campaign, className, onMoreInfo }: CampaignCardProps) {
             <span>{campaign.location?.city}</span>
           </S.Location>
           <S.TypeBadge $campaignType={campaign.type}>
-            {campaign.type == "OTHER"
-              ? "General"
-              : campaignCategoryLabels[campaign.type]}
+            {campaign.type == "OTHER" ? "General" : campaignCategoryLabels[campaign.type]}
           </S.TypeBadge>
         </S.MetaRow>
 

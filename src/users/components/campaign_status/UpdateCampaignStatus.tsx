@@ -44,19 +44,13 @@ export default function UpdateCampaignStatus({ post, onClose }: Props) {
 
       onClose();
     } catch (error) {
-      toast.error(
-        "No pudimos cambiar el estado",
-        getApiErrorMessage(error, "Intentá nuevamente."),
-      );
+      toast.error("No pudimos cambiar el estado", getApiErrorMessage(error, "Intentá nuevamente."));
     } finally {
       setPending(false);
     }
   };
 
-  if (
-    post.postType !== "campaign" ||
-    !hasCampaignStatusActions(post.status, post.type)
-  ) {
+  if (post.postType !== "campaign" || !hasCampaignStatusActions(post.status, post.type)) {
     return null;
   }
 
@@ -66,7 +60,5 @@ export default function UpdateCampaignStatus({ post, onClose }: Props) {
     onClose: close,
   });
 
-  return (
-    <UpdatePostStatusSheet {...sheetProps} isLoading={isLoading || pending} />
-  );
+  return <UpdatePostStatusSheet {...sheetProps} isLoading={isLoading || pending} />;
 }

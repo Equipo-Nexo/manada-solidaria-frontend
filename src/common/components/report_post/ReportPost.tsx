@@ -9,11 +9,7 @@ import { useToast } from "@/common/hooks/toast/useToast";
 type ReportPostProps = {
   postId: string;
   type: ReportPostType;
-  renderTrigger?: (
-    openReport: () => void,
-    disabled: boolean,
-    reported: boolean,
-  ) => ReactNode;
+  renderTrigger?: (openReport: () => void, disabled: boolean, reported: boolean) => ReactNode;
 };
 
 function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
@@ -24,15 +20,11 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
   const handleReport = async () => {
     try {
       await createReport({ postId, type }).unwrap();
-      toast.success(
-        "Reporte enviado correctamente. Gracias por tu colaboración.",
-      );
+      toast.success("Reporte enviado correctamente. Gracias por tu colaboración.");
       setReported(true);
     } catch (error) {
       const status =
-        typeof error === "object" && error !== null && "status" in error
-          ? error.status
-          : undefined;
+        typeof error === "object" && error !== null && "status" in error ? error.status : undefined;
 
       switch (status) {
         case 400:
@@ -64,11 +56,7 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
       {renderTrigger ? (
         renderTrigger(openReport, reported || isLoading, reported)
       ) : (
-        <S.ReportButton
-          type="button"
-          onClick={openReport}
-          disabled={reported || isLoading}
-        >
+        <S.ReportButton type="button" onClick={openReport} disabled={reported || isLoading}>
           <Warning aria-hidden="true" />
           {reported ? "Publicación reportada" : "Reportar publicación"}
         </S.ReportButton>
@@ -90,29 +78,19 @@ function ReportPost({ postId, type, renderTrigger }: ReportPostProps) {
               aria-labelledby="report-title"
               aria-describedby="report-description"
             >
-              <S.Title id="report-title">
-                ¿Querés reportar esta publicación?
-              </S.Title>
+              <S.Title id="report-title">¿Querés reportar esta publicación?</S.Title>
 
               <S.Description id="report-description">
-                Si considerás que esta publicación incumple las normas de la
-                comunidad, podés enviarnos un reporte para su revisión.
+                Si considerás que esta publicación incumple las normas de la comunidad, podés
+                enviarnos un reporte para su revisión.
               </S.Description>
 
               <S.Actions>
-                <S.CancelButton
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  disabled={isLoading}
-                >
+                <S.CancelButton type="button" onClick={() => setIsOpen(false)} disabled={isLoading}>
                   Cancelar
                 </S.CancelButton>
 
-                <S.ConfirmButton
-                  type="button"
-                  onClick={handleReport}
-                  disabled={isLoading}
-                >
+                <S.ConfirmButton type="button" onClick={handleReport} disabled={isLoading}>
                   {isLoading ? "Enviando..." : "Enviar reporte"}
                 </S.ConfirmButton>
               </S.Actions>

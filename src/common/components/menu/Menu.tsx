@@ -13,7 +13,7 @@ import {
   PawPrint,
   User,
   Users,
-  File
+  File,
 } from "@icons/index.ts";
 import { useLocation } from "react-router-dom";
 import { Modal } from "@components/index.ts";
@@ -131,8 +131,7 @@ function Menu({ onNavigate }: MenuProps) {
   const { isLoggingOut, performLogout } = useLogout();
   const { email, username, profileImage } = useCurrentUserProfile();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const activePath =
-    (location.state as MenuLocationState | null)?.from ?? location.pathname;
+  const activePath = (location.state as MenuLocationState | null)?.from ?? location.pathname;
   const closeLogoutModal = () => setIsLogoutModalOpen(false);
   const confirmLogout = async () => {
     const didLogout = await performLogout();
@@ -142,12 +141,7 @@ function Menu({ onNavigate }: MenuProps) {
   return (
     <MenuRoot aria-label={"Men\u00fa principal"}>
       <Profile>
-        <Avatar
-          src={profileImage}
-          alt={`Foto de perfil de ${username}`}
-          width="50"
-          height="50"
-        />
+        <Avatar src={profileImage} alt={`Foto de perfil de ${username}`} width="50" height="50" />
         <UserData>
           <Username>{username}</Username>
           <Email>{email}</Email>

@@ -1,12 +1,5 @@
 import type { ReactNode } from "react";
-import {
-  Check,
-  Calendar,
-  ColorPalet,
-  Gender,
-  PawPrint,
-  Ruler,
-} from "@common/icons";
+import { Check, Calendar, ColorPalet, Gender, PawPrint, Ruler } from "@common/icons";
 import {
   animalTypes,
   animalTypeLabels,
@@ -39,10 +32,7 @@ function AnimalFilters({
   onClose,
   onClear,
 }: AnimalFiltersProps) {
-  const toggleFilter = <K extends keyof AnimalFiltersType>(
-    key: K,
-    value: AnimalFiltersType[K],
-  ) => {
+  const toggleFilter = <K extends keyof AnimalFiltersType>(key: K, value: AnimalFiltersType[K]) => {
     onChange({
       ...filters,
       [key]: filters[key] === value ? undefined : value,
@@ -107,11 +97,7 @@ function AnimalFilters({
               Sexo
             </S.GroupTitle>
             <S.OptionsContainer>
-              {renderOptions(
-                "animalGender",
-                filterableAnimalSexes,
-                animalSexLabels,
-              )}
+              {renderOptions("animalGender", filterableAnimalSexes, animalSexLabels)}
             </S.OptionsContainer>
           </S.FilterGroup>
 

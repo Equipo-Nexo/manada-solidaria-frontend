@@ -16,9 +16,7 @@ function HappyCases() {
   const recentCases = happyCases.filter(({ isRecent }) => isRecent);
   const visibleCases = happyCases.filter(({ isRecent }) => !isRecent);
   const [expandedCaseId, setExpandedCaseId] = useState<string | null>(null);
-  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(
-    null,
-  );
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(null);
 
   const hasRecentCases = recentCases.length > 0;
   if (isLoading) {
@@ -47,8 +45,8 @@ function HappyCases() {
           </S.DescriptionIcon>
 
           <S.DescriptionText $hasRecentCases={hasRecentCases}>
-            Celebramos las segundas oportunidades. Conocé las historias de éxito
-            que llenan de alegría a nuestra comunidad.
+            Celebramos las segundas oportunidades. Conocé las historias de éxito que llenan de
+            alegría a nuestra comunidad.
           </S.DescriptionText>
         </S.Description>
 
@@ -67,16 +65,12 @@ function HappyCases() {
                   <S.FeaturedInfo>
                     <S.FeaturedName>{happyCase.name}</S.FeaturedName>
 
-                    <S.FeaturedDescription>
-                      {happyCase.description}
-                    </S.FeaturedDescription>
+                    <S.FeaturedDescription>{happyCase.description}</S.FeaturedDescription>
 
                     <S.StoryButton
                       type="button"
                       onClick={() => {
-                        const index = recentCases.findIndex(
-                          ({ id }) => id === happyCase.id,
-                        );
+                        const index = recentCases.findIndex(({ id }) => id === happyCase.id);
 
                         setSelectedStoryIndex(index);
                       }}
@@ -106,9 +100,7 @@ function HappyCases() {
             <S.HappyCaseCard
               type="button"
               onClick={() =>
-                setExpandedCaseId((currentId) =>
-                  currentId === happyCase.id ? null : happyCase.id,
-                )
+                setExpandedCaseId((currentId) => (currentId === happyCase.id ? null : happyCase.id))
               }
             >
               <S.CaseImage
@@ -130,10 +122,7 @@ function HappyCases() {
                     {ANIMAL_POST_STATUS_LABELS[happyCase.status]}
                   </S.StatusBadge>
 
-                  <S.CaseArrow
-                    $expanded={expandedCaseId === happyCase.id}
-                    aria-hidden="true"
-                  >
+                  <S.CaseArrow $expanded={expandedCaseId === happyCase.id} aria-hidden="true">
                     <ChevronRight />
                   </S.CaseArrow>
                 </S.CaseFooter>
@@ -161,9 +150,7 @@ function HappyCases() {
                       Publicado por <strong>{happyCase.owner.username}</strong>
                     </S.OwnerName>
 
-                    <S.OwnerRole>
-                      {getOwnerRole(happyCase.owner.roles)}
-                    </S.OwnerRole>
+                    <S.OwnerRole>{getOwnerRole(happyCase.owner.roles)}</S.OwnerRole>
                   </S.OwnerInfo>
                 </S.Owner>
               </S.ExpandedContent>

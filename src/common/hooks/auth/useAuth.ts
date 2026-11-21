@@ -1,7 +1,7 @@
-import { useAppSelector } from '@store/hooks'
+import { useAppSelector } from "@store/hooks";
 
 function useAuth() {
-  return useAppSelector((state) => state.auth)
+  return useAppSelector((state) => state.auth);
 }
 
-export default useAuth
+export default useAuth;

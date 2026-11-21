@@ -12,9 +12,7 @@ import Check from "@/common/icons/Check";
 function NotificationPage() {
   const navigate = useNavigate();
   const { userId } = useAuth();
-  const { data, isLoading, isError, refetch } = useGetUserNotificationsQuery(
-    userId ?? skipToken,
-  );
+  const { data, isLoading, isError, refetch } = useGetUserNotificationsQuery(userId ?? skipToken);
   const [markAllNotificationsAsRead, { isLoading: isMarkingAll }] =
     useMarkAllNotificationsAsReadMutation();
   const notifications = data?.notifications ?? [];
@@ -29,11 +27,7 @@ function NotificationPage() {
   return (
     <S.Page>
       <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate("/home")}
-          aria-label="Volver al inicio"
-        >
+        <S.BackButton type="button" onClick={() => navigate("/home")} aria-label="Volver al inicio">
           <Arrow aria-hidden="true" />
         </S.BackButton>
 

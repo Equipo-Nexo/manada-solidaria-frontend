@@ -43,9 +43,7 @@ function FundraisingCard({
   const collected = fundraising.amountCollected ?? 0;
   const hasGoal = goal != null && goal > 0;
   const { copied, copy } = useCopyToClipboard();
-  const progress = hasGoal
-    ? Math.min(100, Math.round((collected / goal) * 100))
-    : 0;
+  const progress = hasGoal ? Math.min(100, Math.round((collected / goal) * 100)) : 0;
   const handleCopyAlias = () => {
     void copy(fundraising.accountAlias);
   };
@@ -53,22 +51,13 @@ function FundraisingCard({
     <S.Card className={className} $showAlias={showAlias}>
       <S.CaseCard onClick={() => onViewStory?.(fundraising)}>
         <S.ImageContainer>
-          <ImagePreview
-            imageId={fundraising.imageUrl}
-            alt={fundraising.title}
-            variant="fill"
-          />
+          <ImagePreview imageId={fundraising.imageUrl} alt={fundraising.title} variant="fill" />
         </S.ImageContainer>
 
         <S.CaseContent>
           <S.Title>{fundraising.title}</S.Title>
-          <S.Description $hasGoal={hasGoal}>
-            {fundraising.description}
-          </S.Description>
-          <S.StoryButton
-            type="button"
-            onClick={() => onViewStory?.(fundraising)}
-          >
+          <S.Description $hasGoal={hasGoal}>{fundraising.description}</S.Description>
+          <S.StoryButton type="button" onClick={() => onViewStory?.(fundraising)}>
             {storyLabel}
           </S.StoryButton>
         </S.CaseContent>

@@ -39,11 +39,7 @@ function ReceivedFormList() {
   return (
     <S.MainContainer>
       <S.Header>
-        <S.BackButton
-          type="button"
-          onClick={() => navigate(-1)}
-          aria-label="Volver"
-        >
+        <S.BackButton type="button" onClick={() => navigate(-1)} aria-label="Volver">
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
 
@@ -67,10 +63,7 @@ function ReceivedFormList() {
       <S.CardsContainer $hasSingleCard={currentData?.forms?.length === 1}>
         {!isFetching && !isError && currentData?.forms?.length === 0 && (
           <S.QueryState role="status">
-            <Message
-              message="No hay formularios para esta categoría."
-              iconName="pawPrint"
-            />
+            <Message message="No hay formularios para esta categoría." iconName="pawPrint" />
           </S.QueryState>
         )}
 
@@ -83,17 +76,13 @@ function ReceivedFormList() {
             <S.Info>
               <S.FirstLine>
                 <S.Name>{form.applicantName}</S.Name>
-                <S.Status $isRead={form.isRead}>
-                  {form.isRead ? "Revisado" : "Pendiente"}
-                </S.Status>
+                <S.Status $isRead={form.isRead}>{form.isRead ? "Revisado" : "Pendiente"}</S.Status>
               </S.FirstLine>
               <S.CreationDate>
                 <Calendar aria-hidden="true" />
                 Enviado el {formatDateShort(form.createdAt)}
               </S.CreationDate>
-              <S.Description>
-                {form.description?.trim() || "Sin descripción"}
-              </S.Description>
+              <S.Description>{form.description?.trim() || "Sin descripción"}</S.Description>
               {form.animalName?.trim() && (
                 <S.LastLine>
                   <S.AnimalName>

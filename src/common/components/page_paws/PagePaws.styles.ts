@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { PawPrint } from '@/common/icons';
+import styled from "styled-components";
+import { PawPrint } from "@/common/icons";
 
 export const Background = styled.div`
   position: fixed;

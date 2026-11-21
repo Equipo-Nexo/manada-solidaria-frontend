@@ -16,9 +16,7 @@ function ProgressBar({
   label = "Progreso",
   className,
 }: ProgressBarProps) {
-  const safeProgress = Number.isFinite(progress)
-    ? Math.min(100, Math.max(0, progress))
-    : 0;
+  const safeProgress = Number.isFinite(progress) ? Math.min(100, Math.max(0, progress)) : 0;
 
   return (
     <S.ProgressTrack

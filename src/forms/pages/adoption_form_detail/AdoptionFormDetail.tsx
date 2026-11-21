@@ -53,10 +53,7 @@ export default function AdoptionFormDetail() {
     try {
       await markAdoptionFormAsRead(adoptionFormId).unwrap();
     } catch {
-      toast.error(
-        "No pudimos marcar el formulario como revisado",
-        "Intentá nuevamente.",
-      );
+      toast.error("No pudimos marcar el formulario como revisado", "Intentá nuevamente.");
     }
   };
 
@@ -77,11 +74,7 @@ export default function AdoptionFormDetail() {
   return (
     <S.Page>
       <S.Summary>
-        <S.BackButton
-          type="button"
-          aria-label="Volver"
-          onClick={() => navigate(-1)}
-        >
+        <S.BackButton type="button" aria-label="Volver" onClick={() => navigate(-1)}>
           <ArrowLeft aria-hidden="true" />
         </S.BackButton>
         <S.SummaryFrame>
@@ -96,9 +89,7 @@ export default function AdoptionFormDetail() {
           </S.Header>
           <S.ApplicantCard>
             {hasApplicantName && (
-              <S.Avatar aria-hidden="true">
-                {getInitials(response.applicantName)}
-              </S.Avatar>
+              <S.Avatar aria-hidden="true">{getInitials(response.applicantName)}</S.Avatar>
             )}
             <S.ApplicantInfo>
               <S.ApplicantHeading>
@@ -118,10 +109,7 @@ export default function AdoptionFormDetail() {
       </S.Summary>
       <S.Categories>
         {response.categories.map((category, index) => (
-          <S.Category
-            key={category.categoryId}
-            aria-labelledby={`category-${category.categoryId}`}
-          >
+          <S.Category key={category.categoryId} aria-labelledby={`category-${category.categoryId}`}>
             <S.CategoryTitle id={`category-${category.categoryId}`}>
               {category.categoryName}
             </S.CategoryTitle>
@@ -133,19 +121,18 @@ export default function AdoptionFormDetail() {
                 </S.AnswerGroup>
               ))}
 
-              {index === response.categories.length - 1 &&
-                adoptionReasonQuestion && (
-                  <S.AnswerGroup>
-                    <Answer
-                      question={{
-                        questionId: adoptionReasonQuestion.id,
-                        questionTitle: adoptionReasonQuestion.title,
-                        iconName: adoptionReasonQuestion.iconName,
-                        answer: response.description,
-                      }}
-                    />
-                  </S.AnswerGroup>
-                )}
+              {index === response.categories.length - 1 && adoptionReasonQuestion && (
+                <S.AnswerGroup>
+                  <Answer
+                    question={{
+                      questionId: adoptionReasonQuestion.id,
+                      questionTitle: adoptionReasonQuestion.title,
+                      iconName: adoptionReasonQuestion.iconName,
+                      answer: response.description,
+                    }}
+                  />
+                </S.AnswerGroup>
+              )}
             </S.Answers>
           </S.Category>
         ))}

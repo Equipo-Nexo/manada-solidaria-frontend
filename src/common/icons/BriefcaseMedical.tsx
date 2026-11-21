@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function BriefcaseMedical(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function BriefcaseMedical(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default BriefcaseMedical
+export default BriefcaseMedical;

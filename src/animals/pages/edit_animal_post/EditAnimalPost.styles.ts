@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { MainContainer as BaseMainContainer } from '../create_animal_post/CreateAnimalPost.styles'
-import { fieldFocusVisible } from '@styles/interactions'
+import styled from "styled-components";
+import { MainContainer as BaseMainContainer } from "../create_animal_post/CreateAnimalPost.styles";
+import { fieldFocusVisible } from "@styles/interactions";
 
 export const MainContainer = styled(BaseMainContainer)`
   input,
@@ -14,15 +14,15 @@ export const MainContainer = styled(BaseMainContainer)`
     color: ${({ theme }) => theme.colors.darkColorMuted};
     opacity: 1;
   }
-`
+`;
 
 const FORM_STYLE_VALUES = {
-  borderRadius: '12px',
-  contentPadding: '16px',
-  contentGap: '16px',
-  controlHeight: '56px',
-  transitionDuration: '160ms',
-} as const
+  borderRadius: "12px",
+  contentPadding: "16px",
+  contentGap: "16px",
+  controlHeight: "56px",
+  transitionDuration: "160ms",
+} as const;
 
 export const Page = styled.section`
   width: min(100%, 560px);
@@ -32,8 +32,10 @@ export const Page = styled.section`
   color: ${({ theme }) => theme.colors.darkColor};
   background: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.fonts.body};
-  @media (min-width: 600px) { padding: 28px 24px 48px; }
-`
+  @media (min-width: 600px) {
+    padding: 28px 24px 48px;
+  }
+`;
 
 export const Header = styled.header`
   min-height: 48px;
@@ -41,7 +43,7 @@ export const Header = styled.header`
   align-items: center;
   gap: 2px;
   margin-bottom: ${FORM_STYLE_VALUES.contentGap};
-`
+`;
 
 export const BackButton = styled.button`
   width: 40px;
@@ -69,35 +71,35 @@ export const PageTitle = styled.h1`
   font-size: ${({ theme }) => theme.typography.header2.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: left;
-`
+`;
 
 export const FieldGroup = styled.div`
-  display: flex; 
-  flex-direction: column; 
-  gap: ${FORM_STYLE_VALUES.contentGap}
-;`
+  display: flex;
+  flex-direction: column;
+  gap: ${FORM_STYLE_VALUES.contentGap};
+`;
 
 export const CompactSelectorsContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8px;
-`
+`;
 
 export const Label = styled.label`
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-`
+`;
 export const Required = styled.span`
-  color: ${({ theme }) => theme.colors.brand
-  };`
+  color: ${({ theme }) => theme.colors.brand};
+`;
 
 export const OptionsGroup = styled.div`
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   align-items: left;
-  gap: 8px
-;`
+  gap: 8px;
+`;
 
 export const Input = styled.input`
   width: 100%;
@@ -108,20 +110,32 @@ export const Input = styled.input`
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
-  &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; }
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+  }
   ${fieldFocusVisible}
-`
+`;
 export const IconInputWrapper = styled.div`
   position: relative;
-  svg { position: absolute; z-index: 1; top: 18px; left: 12px; width: 20px; height: 20px; color: ${({ theme }) => theme.colors.darkColor}; }
-  ${Input} { padding-left: 42px; }
-`
+  svg {
+    position: absolute;
+    z-index: 1;
+    top: 18px;
+    left: 12px;
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.colors.darkColor};
+  }
+  ${Input} {
+    padding-left: 42px;
+  }
+`;
 export const MapContainer = styled.div`
-  display: flex; 
-  flex-direction: column; 
-  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 8px;
-`
+`;
 export const MapPlaceholder = styled.div`
   position: relative;
   width: 100%;
@@ -129,64 +143,78 @@ export const MapPlaceholder = styled.div`
   overflow: hidden;
   border-radius: 10px;
   background:
-    linear-gradient(28deg, transparent 46%, ${({ theme }) => theme.colors.stroke} 47% 49%, transparent 50%),
-    linear-gradient(145deg, transparent 42%, ${({ theme }) => theme.colors.tertiary} 43% 46%, transparent 47%),
+    linear-gradient(
+      28deg,
+      transparent 46%,
+      ${({ theme }) => theme.colors.stroke} 47% 49%,
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      transparent 42%,
+      ${({ theme }) => theme.colors.tertiary} 43% 46%,
+      transparent 47%
+    ),
     ${({ theme }) => theme.colors.neutral};
-`
+`;
 export const Suggestion = styled.p`
-  margin: 0 4px; 
-  color: ${({ theme }) => theme.colors.darkColor}; 
+  margin: 0 4px;
+  color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.descriptive};
-  text-align: left
-;`
-
+  text-align: left;
+`;
 
 //Colors component
 export const ColorsContainer = styled.div`
-  display: flex; 
-  justify-content: space-between; 
+  display: flex;
+  justify-content: space-between;
   padding: 0 2px;
-`
+`;
 export const ColorItem = styled.div`
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   flex: 0 0 40px;
-`
+`;
 
 export const ColorName = styled.span<{ $selected: boolean }>`
-  margin-top: 6px; 
-  color: ${({ theme }) => theme.colors.black}; 
+  margin-top: 6px;
+  color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: ${({ $selected, theme }) => ($selected ? '13px' : theme.typography.descriptive.fontSize)};
+  font-size: ${({ $selected, theme }) => ($selected ? "13px" : theme.typography.descriptive.fontSize)};
   font-weight: ${({ $selected, theme }) => ($selected ? theme.fontWeights.semibold : theme.fontWeights.medium)};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
-  transition: font-size ${FORM_STYLE_VALUES.transitionDuration} ease, font-weight ${FORM_STYLE_VALUES.transitionDuration} ease;
-`
+  transition:
+    font-size ${FORM_STYLE_VALUES.transitionDuration} ease,
+    font-weight ${FORM_STYLE_VALUES.transitionDuration} ease;
+`;
 
-export const Color = styled.button.attrs({ type: 'button' }) <{ $color: string; $selected: boolean }>`
+export const Color = styled.button.attrs({ type: "button" })<{
+  $color: string;
+  $selected: boolean;
+}>`
   width: 40px;
   height: 40px;
   display: inline-flex;
-  cursor:pointer;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
-  border: 2px solid ${({ $color, theme }) => $color === '#FFFFFF' ? theme.colors.stroke : $color};
+  border: 2px solid ${({ $color, theme }) => ($color === "#FFFFFF" ? theme.colors.stroke : $color)};
   border-radius: 50%;
   padding: 0;
   background: ${({ $color }) => $color};
   color: ${({ theme }) => theme.colors.darkColor};
   box-shadow: ${({ $color, $selected, theme }) =>
     $selected
-      ? `0 0 0 3px ${theme.colors.background}, 0 0 0 6px ${$color === '#FFFFFF' ? theme.colors.stroke : $color}`
-      : 'none'};
+      ? `0 0 0 3px ${theme.colors.background}, 0 0 0 6px ${$color === "#FFFFFF" ? theme.colors.stroke : $color}`
+      : "none"};
   transition: box-shadow ${FORM_STYLE_VALUES.transitionDuration} ease;
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 7px;
   }
-`
+`;
 
 export const TextArea = styled.textarea`
   width: 100%;
@@ -197,9 +225,11 @@ export const TextArea = styled.textarea`
   padding: ${FORM_STYLE_VALUES.contentPadding};
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.body};
-  &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; }
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+  }
   ${fieldFocusVisible}
-`
+`;
 export const SubmitButton = styled.button`
   width: 100%;
   height: 56px;

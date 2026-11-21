@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const DetailImage = styled.img`
   display: block;
@@ -8,4 +8,4 @@ export const DetailImage = styled.img`
   object-position: center;
   border-radius: 12px;
   max-width: 600px;
-`
+`;

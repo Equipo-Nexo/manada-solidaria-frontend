@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const FloatingButton = styled.button<{ $showText?: boolean }>`
   position: fixed;
@@ -11,7 +11,7 @@ export const FloatingButton = styled.button<{ $showText?: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: ${props => props.$showText ? '0 20px' : '0px'};
+  padding: ${(props) => (props.$showText ? "0 20px" : "0px")};
   border: 0;
   border-radius: 999px;
   background: ${({ theme }) => theme.colors.secondary};
@@ -21,7 +21,10 @@ export const FloatingButton = styled.button<{ $showText?: boolean }>`
   font-size: ${({ theme }) => theme.typography.floatingAction.fontSize};
   font-weight: ${({ theme }) => theme.typography.floatingAction.fontWeight};
   line-height: ${({ theme }) => theme.typography.floatingAction.lineHeight};
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
@@ -44,4 +47,4 @@ export const FloatingButton = styled.button<{ $showText?: boolean }>`
     height: 30px;
     flex: 0 0 30px;
   }
-`
+`;

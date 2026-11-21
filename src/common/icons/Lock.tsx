@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function Lock(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function Lock(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default Lock
+export default Lock;

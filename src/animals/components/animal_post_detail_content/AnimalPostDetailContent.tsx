@@ -1,142 +1,185 @@
-import type { ComponentType } from 'react'
-import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from '@/common/icons'
-import { Advice, ImagePreview } from '@components/index.ts'
-import GenderIcon from '@/common/icons/Gender'
-import BookIcon from '@/common/icons/Book'
-import { animalAgeLabels, animalColorLabels, animalSexLabels, animalSizeLabels, getAnimalName, type AnimalPost, type AnimalPostType } from '@/animals/app/types/AnimalPost.types'
-import { animalKinds } from '@/animals/utils/AnimalFormUtils'
-import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from '@utils/CommonUtils'
-import * as S from './AnimalPostDetailContent.styles'
-import { AnimalPostStatus } from '@/common/utils/AnimalPostUtils'
-import getOwnerRole from '@/common/utils/GetRoles'
-import { formatDateLong } from '@/common/utils/DateTime'
-import MapDetailsComponent from '@/common/components/map_details_component/MapDetailsComponent'
-import ContactCardComponent from '@/common/components/contact_details_component/ContactCardDetails'
-import { shareUrl } from '@/common/utils/HandleShare'
-import { getAddress } from '@/common/utils/LocationUtils'
+import type { ComponentType } from "react";
+import { Calendar, Clock, ColorPalet, Money, PawPrint, Ruler, Share } from "@/common/icons";
+import { Advice, ImagePreview } from "@components/index.ts";
+import GenderIcon from "@/common/icons/Gender";
+import BookIcon from "@/common/icons/Book";
+import {
+  animalAgeLabels,
+  animalColorLabels,
+  animalSexLabels,
+  animalSizeLabels,
+  getAnimalName,
+  type AnimalPost,
+  type AnimalPostType,
+} from "@/animals/app/types/AnimalPost.types";
+import { animalKinds } from "@/animals/utils/AnimalFormUtils";
+import { normalizeImageUrl, NOT_FOUND_IMAGE_URL } from "@utils/CommonUtils";
+import * as S from "./AnimalPostDetailContent.styles";
+import { AnimalPostStatus } from "@/common/utils/AnimalPostUtils";
+import getOwnerRole from "@/common/utils/GetRoles";
+import { formatDateLong } from "@/common/utils/DateTime";
+import MapDetailsComponent from "@/common/components/map_details_component/MapDetailsComponent";
+import ContactCardComponent from "@/common/components/contact_details_component/ContactCardDetails";
+import { shareUrl } from "@/common/utils/HandleShare";
+import { getAddress } from "@/common/utils/LocationUtils";
 
 export default function AnimalPostDetailContent({ postData }: { postData: AnimalPost }) {
+  const PHONE_NUMBER = postData?.phoneNumber
+    ? `${postData?.phoneNumber.areaCode}${postData?.phoneNumber.number}`
+    : "";
+  const name = getAnimalName(postData.name, postData.animal.type);
+  const animalKind =
+    animalKinds.find(({ value }) => value === postData.animal.type)?.label ?? "No informado";
+  const status = AnimalPostStatus[postData.status];
 
+  const feature = (Icon: ComponentType, label: string, value: string) => (
+    <S.FeatureCard>
+      <S.FeatureIcon aria-hidden="true">
+        <Icon />
+      </S.FeatureIcon>
+      <S.FeatureText>
+        <S.FeatureLabel>{label}</S.FeatureLabel>
+        <S.FeatureValue>{value}</S.FeatureValue>
+      </S.FeatureText>
+    </S.FeatureCard>
+  );
 
-    const PHONE_NUMBER = postData?.phoneNumber ? `${postData?.phoneNumber.areaCode}${postData?.phoneNumber.number}` : ""
-    const name = getAnimalName(postData.name, postData.animal.type)
-    const animalKind = (animalKinds.find(({ value }) => value === postData.animal.type)?.label ?? 'No informado')
-    const status = AnimalPostStatus[postData.status]
+  const adviceDescriptionSelector = (type: AnimalPostType): string => {
+    switch (type) {
+      case "LOST":
+        return "Contactá si tenés información sobre el animal perdido.";
 
+      case "ADOPTION":
+        return "Contactá para coordinar una visita o saber más sobre el proceso de tránsito o adopción.";
 
-    const feature = (Icon: ComponentType, label: string, value: string) => (
-        <S.FeatureCard>
-            <S.FeatureIcon aria-hidden="true"><Icon /></S.FeatureIcon>
-            <S.FeatureText><S.FeatureLabel>{label}</S.FeatureLabel><S.FeatureValue>{value}</S.FeatureValue></S.FeatureText>
-        </S.FeatureCard>
-    )
-
-    const adviceDescriptionSelector = (type: AnimalPostType): string => {
-        switch (type) {
-            case 'LOST':
-                return 'Contactá si tenés información sobre el animal perdido.'
-
-            case 'ADOPTION':
-                return 'Contactá para coordinar una visita o saber más sobre el proceso de tránsito o adopción.'
-
-            case 'IN_STREET':
-                return 'Contactá si querés colaborar de alguna forma con el animal en la calle'
-        }
+      case "IN_STREET":
+        return "Contactá si querés colaborar de alguna forma con el animal en la calle";
     }
+  };
 
-    const handleShareButton = (imageUrl: string) => {
-        shareUrl({
-            path: `?redirect=${window.location.pathname}`,
-            text: 'Mirá este animalito para ayudar.',
-            imageUrl: normalizeImageUrl(imageUrl, true),
-        })
-    }
+  const handleShareButton = (imageUrl: string) => {
+    shareUrl({
+      path: `?redirect=${window.location.pathname}`,
+      text: "Mirá este animalito para ayudar.",
+      imageUrl: normalizeImageUrl(imageUrl, true),
+    });
+  };
 
-    return (
-        <S.DetailContentContainer>
-            <S.InformationContent>
-                <S.AnimalPostInformationContainer>
-                    <S.HeroLayout>
-                        <S.PhotoContainer>
-                            <S.Photo
-                                src={normalizeImageUrl(postData.imageUrl)}
-                                alt={name}
-                                onError={({ currentTarget }) => { currentTarget.onerror = null; currentTarget.src = NOT_FOUND_IMAGE_URL }}
-                            />
-                        </S.PhotoContainer>
-                        <S.DetailsColumn>
-                            <S.GeneralDataContainer>
-                                <S.GeneralData>
-                                    <S.Name>{name}</S.Name>
-                                    {status && (
-                                        <S.Status $backgroundColor={status.backgroundColor} $fontColor={status.fontColor}>
-                                            {status.text ?? postData.status}
-                                        </S.Status>
-                                    )}
-                                </S.GeneralData>
-                                <S.TimeContainer>
-                                    <Clock aria-hidden="true" />
-                                    <span>Publicado el {formatDateLong(postData.createdAt)}</span>
-                                </S.TimeContainer>
-                                {postData.reward != null && postData.reward > 0 && (
-                                    <S.InfoContainer $variant="reward">
-                                        <S.RewardIconContainer><Money aria-hidden="true" /></S.RewardIconContainer>
-                                        <S.ValuesContainer>
-                                            <S.Label>Recompensa ofrecida</S.Label>
-                                            <S.Info>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(postData.reward)}</S.Info>
-                                        </S.ValuesContainer>
-                                    </S.InfoContainer>
-                                )}
-                                <S.InfoContainer $variant="author">
-                                    <S.UserProfileContainer>
-                                        <ImagePreview
-                                            imageId={postData.owner.profileImageURL}
-                                            alt={`Foto de perfil de ${postData.owner.username}`}
-                                            variant="round"
-                                        />
-                                    </S.UserProfileContainer>
-                                    <S.ValuesContainer>
-                                        <S.Label>Publicado por <strong>{postData.owner.username}</strong></S.Label>
-                                        <S.AuthorRole>{getOwnerRole(postData.owner.roles)}</S.AuthorRole>
-                                    </S.ValuesContainer>
-                                </S.InfoContainer>
-                            </S.GeneralDataContainer>
-                            <MapDetailsComponent
-                                location={postData.location.city}
-                                address={getAddress(postData.location)}
-                                locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
-                            />
-                            <S.FeaturesGrid aria-label={`Características de ${name}`}>
-                                {feature(PawPrint, 'Especie', animalKind)}
-                                {feature(GenderIcon, 'Sexo', animalSexLabels[postData.animal.gender])}
-                                {feature(Ruler, 'Tamaño', animalSizeLabels[postData.animal.size])}
-                                {feature(Calendar, 'Edad', animalAgeLabels[postData.animal.age])}
-                                {feature(ColorPalet, 'Color predominante', postData.animal.color ? animalColorLabels[postData.animal.color] : 'No informado')}
-                            </S.FeaturesGrid>
-                            <S.StorySection>
-                                <S.SectionTitle>
-                                    <BookIcon />Su historia</S.SectionTitle>
-                                <S.StoryText>{postData.description}</S.StoryText>
-                            </S.StorySection>
-                        </S.DetailsColumn>
-                    </S.HeroLayout>
-                </S.AnimalPostInformationContainer>
-            </S.InformationContent>
-            <S.ContactContent>
-                {PHONE_NUMBER != "" && (
-                    <>
-                        <ContactCardComponent phoneNumber={PHONE_NUMBER} areaCode={postData!.phoneNumber!.areaCode} number={postData!.phoneNumber!.number} name={postData?.name ?? ""} />
-                        <S.AdviceArea>
-                            <Advice title="" advice={adviceDescriptionSelector(postData.type)} />
-                        </S.AdviceArea>
-                    </>
+  return (
+    <S.DetailContentContainer>
+      <S.InformationContent>
+        <S.AnimalPostInformationContainer>
+          <S.HeroLayout>
+            <S.PhotoContainer>
+              <S.Photo
+                src={normalizeImageUrl(postData.imageUrl)}
+                alt={name}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = NOT_FOUND_IMAGE_URL;
+                }}
+              />
+            </S.PhotoContainer>
+            <S.DetailsColumn>
+              <S.GeneralDataContainer>
+                <S.GeneralData>
+                  <S.Name>{name}</S.Name>
+                  {status && (
+                    <S.Status
+                      $backgroundColor={status.backgroundColor}
+                      $fontColor={status.fontColor}
+                    >
+                      {status.text ?? postData.status}
+                    </S.Status>
+                  )}
+                </S.GeneralData>
+                <S.TimeContainer>
+                  <Clock aria-hidden="true" />
+                  <span>Publicado el {formatDateLong(postData.createdAt)}</span>
+                </S.TimeContainer>
+                {postData.reward != null && postData.reward > 0 && (
+                  <S.InfoContainer $variant="reward">
+                    <S.RewardIconContainer>
+                      <Money aria-hidden="true" />
+                    </S.RewardIconContainer>
+                    <S.ValuesContainer>
+                      <S.Label>Recompensa ofrecida</S.Label>
+                      <S.Info>
+                        {new Intl.NumberFormat("es-AR", {
+                          style: "currency",
+                          currency: "ARS",
+                          maximumFractionDigits: 0,
+                        }).format(postData.reward)}
+                      </S.Info>
+                    </S.ValuesContainer>
+                  </S.InfoContainer>
                 )}
-                <S.ShareButton type="button" aria-label={`Compartir publicación de ${name}`} onClick={() => handleShareButton(postData.imageUrl)}>
-                    <Share aria-hidden="true" />
-                    Compartir Publicación
-                </S.ShareButton>
-            </S.ContactContent>
-        </S.DetailContentContainer>
-
-    )
+                <S.InfoContainer $variant="author">
+                  <S.UserProfileContainer>
+                    <ImagePreview
+                      imageId={postData.owner.profileImageURL}
+                      alt={`Foto de perfil de ${postData.owner.username}`}
+                      variant="round"
+                    />
+                  </S.UserProfileContainer>
+                  <S.ValuesContainer>
+                    <S.Label>
+                      Publicado por <strong>{postData.owner.username}</strong>
+                    </S.Label>
+                    <S.AuthorRole>{getOwnerRole(postData.owner.roles)}</S.AuthorRole>
+                  </S.ValuesContainer>
+                </S.InfoContainer>
+              </S.GeneralDataContainer>
+              <MapDetailsComponent
+                location={postData.location.city}
+                address={getAddress(postData.location)}
+                locationPath={`/mapa?latitude=${postData.location.latitude}&longitude=${postData.location.longitude}`}
+              />
+              <S.FeaturesGrid aria-label={`Características de ${name}`}>
+                {feature(PawPrint, "Especie", animalKind)}
+                {feature(GenderIcon, "Sexo", animalSexLabels[postData.animal.gender])}
+                {feature(Ruler, "Tamaño", animalSizeLabels[postData.animal.size])}
+                {feature(Calendar, "Edad", animalAgeLabels[postData.animal.age])}
+                {feature(
+                  ColorPalet,
+                  "Color predominante",
+                  postData.animal.color ? animalColorLabels[postData.animal.color] : "No informado",
+                )}
+              </S.FeaturesGrid>
+              <S.StorySection>
+                <S.SectionTitle>
+                  <BookIcon />
+                  Su historia
+                </S.SectionTitle>
+                <S.StoryText>{postData.description}</S.StoryText>
+              </S.StorySection>
+            </S.DetailsColumn>
+          </S.HeroLayout>
+        </S.AnimalPostInformationContainer>
+      </S.InformationContent>
+      <S.ContactContent>
+        {PHONE_NUMBER != "" && (
+          <>
+            <ContactCardComponent
+              phoneNumber={PHONE_NUMBER}
+              areaCode={postData!.phoneNumber!.areaCode}
+              number={postData!.phoneNumber!.number}
+              name={postData?.name ?? ""}
+            />
+            <S.AdviceArea>
+              <Advice title="" advice={adviceDescriptionSelector(postData.type)} />
+            </S.AdviceArea>
+          </>
+        )}
+        <S.ShareButton
+          type="button"
+          aria-label={`Compartir publicación de ${name}`}
+          onClick={() => handleShareButton(postData.imageUrl)}
+        >
+          <Share aria-hidden="true" />
+          Compartir Publicación
+        </S.ShareButton>
+      </S.ContactContent>
+    </S.DetailContentContainer>
+  );
 }

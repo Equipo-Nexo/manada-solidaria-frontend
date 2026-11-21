@@ -1,20 +1,20 @@
 export const publicationMessages = {
-  loading: 'Cargando publicaciones...',
-  loadError: 'No pudimos cargar las publicaciones.',
-  empty: 'No hay publicaciones para mostrar.',
-  emptyCategory: 'No hay publicaciones para esta categoría.',
-  emptyAnimals: 'No hay publicaciones de animales para mostrar.',
-  emptyCampaigns: 'No hay campañas para mostrar.',
-  emptyUrgent: 'No hay casos urgentes para mostrar.',
-  noPosts: 'El usuario no tiene publicaciones creadas para esta categoría.',
-} as const
+  loading: "Cargando publicaciones...",
+  loadError: "No pudimos cargar las publicaciones.",
+  empty: "No hay publicaciones para mostrar.",
+  emptyCategory: "No hay publicaciones para esta categoría.",
+  emptyAnimals: "No hay publicaciones de animales para mostrar.",
+  emptyCampaigns: "No hay campañas para mostrar.",
+  emptyUrgent: "No hay casos urgentes para mostrar.",
+  noPosts: "El usuario no tiene publicaciones creadas para esta categoría.",
+} as const;
 
 export const getPublishedAtDescription = (daysAgo: number) => {
   if (daysAgo === 0) {
-    return 'hoy'
+    return "hoy";
   } else if (daysAgo === 1) {
-    return 'ayer'
+    return "ayer";
   } else {
-    return `hace ${daysAgo} días`
+    return `hace ${daysAgo} días`;
   }
-}
+};

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { fieldFocusVisible, focusVisible } from '@styles/interactions'
+import styled from "styled-components";
+import { fieldFocusVisible, focusVisible } from "@styles/interactions";
 
 export const Page = styled.section`
   width: min(100%, 560px);
@@ -14,7 +14,7 @@ export const Page = styled.section`
   @media (min-width: 600px) {
     padding: 28px 24px 48px;
   }
-`
+`;
 
 export const Header = styled.header`
   min-height: 48px;
@@ -22,7 +22,7 @@ export const Header = styled.header`
   align-items: center;
   gap: 2px;
   margin-bottom: 16px;
-`
+`;
 
 export const BackButton = styled.button`
   width: 40px;
@@ -44,7 +44,7 @@ export const BackButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
 export const Title = styled.h2`
   margin: 0;
@@ -53,7 +53,7 @@ export const Title = styled.h2`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.header2.lineHeight};
   text-align: left;
-`
+`;
 
 export const Form = styled.form`
   width: 100%;
@@ -61,7 +61,7 @@ export const Form = styled.form`
   flex-direction: column;
   gap: 16px;
   background: ${({ theme }) => theme.colors.background};
-`
+`;
 
 export const Field = styled.div`
   display: flex;
@@ -69,21 +69,21 @@ export const Field = styled.div`
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
 
-  > [role='alert'] {
+  > [role="alert"] {
     margin-top: 12px;
   }
-`
+`;
 
 export const Label = styled.label`
   color: ${({ theme }) => theme.colors.black};
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   font-size: ${({ theme }) => theme.typography.header3.fontSize};
-`
+`;
 
 export const Required = styled.span`
   color: ${({ theme }) => theme.colors.brand};
-`
+`;
 
 export const Input = styled.input`
   width: 100%;
@@ -103,7 +103,7 @@ export const Input = styled.input`
   }
 
   ${fieldFocusVisible}
-`
+`;
 
 export const TextArea = styled.textarea`
   min-height: 155px;
@@ -123,20 +123,19 @@ export const TextArea = styled.textarea`
   }
 
   ${fieldFocusVisible}
-`
+`;
 
 export const TwoColumns = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 8px;
-`
+`;
 
 export const PhoneFields = styled.div`
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 8px;
-`
-
+`;
 
 export const InputWithIcon = styled.div`
   position: relative;
@@ -144,7 +143,7 @@ export const InputWithIcon = styled.div`
   input {
     padding-left: 50px;
   }
-`
+`;
 
 export const FieldIcon = styled.span`
   position: absolute;
@@ -160,7 +159,7 @@ export const FieldIcon = styled.span`
     width: 20px;
     height: 20px;
   }
-`
+`;
 
 export const HelpText = styled.p`
   margin: 0;
@@ -168,7 +167,7 @@ export const HelpText = styled.p`
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   font-weight: ${({ theme }) => theme.typography.descriptive.fontWeight};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
-`
+`;
 
 export const MapPreview = styled.div`
   height: 201px;
@@ -178,12 +177,27 @@ export const MapPreview = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
   background:
-    linear-gradient(35deg, transparent 48%, ${({ theme }) => theme.colors.stroke} 49% 51%, transparent 52%),
-    linear-gradient(145deg, transparent 46%, ${({ theme }) => theme.colors.secondary} 47% 49%, transparent 50%),
-    linear-gradient(8deg, transparent 48%, ${({ theme }) => theme.colors.stroke} 49% 51%, transparent 52%),
+    linear-gradient(
+      35deg,
+      transparent 48%,
+      ${({ theme }) => theme.colors.stroke} 49% 51%,
+      transparent 52%
+    ),
+    linear-gradient(
+      145deg,
+      transparent 46%,
+      ${({ theme }) => theme.colors.secondary} 47% 49%,
+      transparent 50%
+    ),
+    linear-gradient(
+      8deg,
+      transparent 48%,
+      ${({ theme }) => theme.colors.stroke} 49% 51%,
+      transparent 52%
+    ),
     ${({ theme }) => theme.colors.neutral};
   opacity: 0.86;
-`
+`;
 
 export const SubmitButton = styled.button`
   width: 100%;
@@ -206,9 +220,9 @@ export const SubmitButton = styled.button`
     cursor: wait;
     opacity: 0.7;
   }
-`
+`;
 
 export const Loading = styled.p`
   color: ${({ theme }) => theme.colors.darkColor};
   text-align: center;
-`
+`;

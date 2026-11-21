@@ -1,7 +1,10 @@
 import type { Location } from "@services/responses/Location";
-import type { CampaignCategory, CampaignType, DonationItem } from "@/campaigns/app/types/Campaign.types";
+import type {
+  CampaignCategory,
+  CampaignType,
+  DonationItem,
+} from "@/campaigns/app/types/Campaign.types";
 import type { PhoneNumber } from "../services/responses/PhoneNumber";
-
 
 export interface CampaignLocation extends Location {
   street: string;
@@ -27,7 +30,7 @@ export type FundraisingCampaignResponse = CampaignResponse & {
   phoneNumber: PhoneNumber;
   campaignEndDate: string;
   location: CampaignLocation;
-}
+};
 
 export type CampaignPageResponse = {
   content: CampaignResponse[];

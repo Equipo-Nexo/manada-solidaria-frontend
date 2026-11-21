@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function Bell(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function Bell(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default Bell
+export default Bell;

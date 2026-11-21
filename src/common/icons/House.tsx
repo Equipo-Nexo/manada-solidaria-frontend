@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function House(props: SVGProps<SVGSVGElement>) {
   return (
@@ -10,12 +10,9 @@ function House(props: SVGProps<SVGSVGElement>) {
       fill="none"
       {...props}
     >
-      <path
-        d="M0 18V6L8 0L16 6V18H10V11H6V18H0Z"
-        fill="currentColor"
-      />
+      <path d="M0 18V6L8 0L16 6V18H10V11H6V18H0Z" fill="currentColor" />
     </svg>
-  )
+  );
 }
 
-export default House
+export default House;

@@ -39,10 +39,7 @@ function Home() {
     isError: isCampaignsError,
     isLoading: isCampaignsLoading,
     refetch: refetchCampaigns,
-  } = useGetCampaignsQuery(
-    { size: MAX_POSTS_PER_SECTION },
-    { refetchOnMountOrArgChange: true },
-  );
+  } = useGetCampaignsQuery({ size: MAX_POSTS_PER_SECTION }, { refetchOnMountOrArgChange: true });
   const {
     data: fundraisingData,
     isLoading: isFundraisingLoading,
@@ -71,59 +68,43 @@ function Home() {
       >
         {isFundraisingLoading && (
           <S.MessageContainer>
-            <Message
-              message={publicationMessages.loading}
-              iconName="pawPrint"
-            />
+            <Message message={publicationMessages.loading} iconName="pawPrint" />
           </S.MessageContainer>
         )}
 
         {!isFundraisingLoading && isFundraisingError && (
           <S.MessageContainer role="alert">
-            <Message
-              message={publicationMessages.loadError}
-              iconName="pawPrint"
-            />
-            <S.RetryButton
-              type="button"
-              onClick={() => void refetchFundraisings()}
-            >
+            <Message message={publicationMessages.loadError} iconName="pawPrint" />
+            <S.RetryButton type="button" onClick={() => void refetchFundraisings()}>
               Reintentar
             </S.RetryButton>
           </S.MessageContainer>
         )}
 
-        {!isFundraisingLoading &&
-          !isFundraisingError &&
-          fundraisings.length === 0 && (
-            <S.MessageContainer>
-              <Message
-                message={publicationMessages.emptyUrgent}
-                iconName="pawPrint"
+        {!isFundraisingLoading && !isFundraisingError && fundraisings.length === 0 && (
+          <S.MessageContainer>
+            <Message message={publicationMessages.emptyUrgent} iconName="pawPrint" />
+          </S.MessageContainer>
+        )}
+        {!isFundraisingLoading && !isFundraisingError && fundraisings.length > 0 && (
+          <CarouselSlider
+            items={fundraisings}
+            visibleItems={4}
+            indicatorMode="seen"
+            autoAdvance={false}
+            showArrowsOnHover
+            hideArrowsOnMobile
+            renderItem={(fundraising) => (
+              <FundraisingCard
+                fundraising={mapFundraisingToCardData(fundraising)}
+                showAlias={false}
+                onViewStory={(fundraising) => {
+                  navigate(`/colectas/${fundraising.id}`);
+                }}
               />
-            </S.MessageContainer>
-          )}
-        {!isFundraisingLoading &&
-          !isFundraisingError &&
-          fundraisings.length > 0 && (
-            <CarouselSlider
-              items={fundraisings}
-              visibleItems={4}
-              indicatorMode="seen"
-              autoAdvance={false}
-              showArrowsOnHover
-              hideArrowsOnMobile
-              renderItem={(fundraising) => (
-                <FundraisingCard
-                  fundraising={mapFundraisingToCardData(fundraising)}
-                  showAlias={false}
-                  onViewStory={(fundraising) => {
-                    navigate(`/colectas/${fundraising.id}`);
-                  }}
-                />
-              )}
-            />
-          )}
+            )}
+          />
+        )}
       </Carousel>
 
       <Carousel
@@ -134,18 +115,12 @@ function Home() {
       >
         {isLoading && (
           <S.MessageContainer>
-            <Message
-              message={publicationMessages.loading}
-              iconName="pawPrint"
-            />
+            <Message message={publicationMessages.loading} iconName="pawPrint" />
           </S.MessageContainer>
         )}
         {!isLoading && isError && (
           <S.MessageContainer role="alert">
-            <Message
-              message={publicationMessages.loadError}
-              iconName="pawPrint"
-            />
+            <Message message={publicationMessages.loadError} iconName="pawPrint" />
             <S.RetryButton type="button" onClick={() => void refetch()}>
               Reintentar
             </S.RetryButton>
@@ -153,10 +128,7 @@ function Home() {
         )}
         {!isLoading && !isError && recentAnimals.length === 0 && (
           <S.MessageContainer>
-            <Message
-              message={publicationMessages.emptyAnimals}
-              iconName="pawPrint"
-            />
+            <Message message={publicationMessages.emptyAnimals} iconName="pawPrint" />
           </S.MessageContainer>
         )}
         {!isLoading && !isError && recentAnimals.length > 0 && (
@@ -182,32 +154,20 @@ function Home() {
       >
         {isCampaignsLoading && (
           <S.MessageContainer>
-            <Message
-              message={publicationMessages.loading}
-              iconName="pawPrint"
-            />
+            <Message message={publicationMessages.loading} iconName="pawPrint" />
           </S.MessageContainer>
         )}
         {!isCampaignsLoading && isCampaignsError && (
           <S.MessageContainer role="alert">
-            <Message
-              message={publicationMessages.loadError}
-              iconName="pawPrint"
-            />
-            <S.RetryButton
-              type="button"
-              onClick={() => void refetchCampaigns()}
-            >
+            <Message message={publicationMessages.loadError} iconName="pawPrint" />
+            <S.RetryButton type="button" onClick={() => void refetchCampaigns()}>
               Reintentar
             </S.RetryButton>
           </S.MessageContainer>
         )}
         {!isCampaignsLoading && !isCampaignsError && campaigns.length === 0 && (
           <S.MessageContainer>
-            <Message
-              message={publicationMessages.emptyCampaigns}
-              iconName="pawPrint"
-            />
+            <Message message={publicationMessages.emptyCampaigns} iconName="pawPrint" />
           </S.MessageContainer>
         )}
 

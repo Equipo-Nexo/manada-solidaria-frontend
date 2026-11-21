@@ -20,9 +20,7 @@ export const openGmail = (email: string, subject: string, body: string) => {
 
   if (isIOS) {
     window.location.href =
-      `googlegmail://co?to=${encodedEmail}` +
-      `&subject=${encodedSubject}` +
-      `&body=${encodedBody}`;
+      `googlegmail://co?to=${encodedEmail}` + `&subject=${encodedSubject}` + `&body=${encodedBody}`;
 
     return;
   }

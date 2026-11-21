@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import { NavLink } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 export const MenuRoot = styled.section`
   width: 100%;
@@ -15,14 +15,14 @@ export const MenuRoot = styled.section`
   @media (min-width: 768px) {
     padding-bottom: 0;
   }
-`
+`;
 
 export const Profile = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 24px 24px 18px;
-`
+`;
 
 export const Avatar = styled.img`
   width: 50px;
@@ -30,25 +30,25 @@ export const Avatar = styled.img`
   flex: 0 0 50px;
   border-radius: 999px;
   object-fit: cover;
-`
+`;
 
 export const UserData = styled.div`
   min-width: 0;
-`
+`;
 
 const UserText = styled.p`
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-`
+`;
 
 export const Username = styled(UserText)`
   color: ${({ theme }) => theme.colors.brand};
   font-size: ${({ theme }) => theme.typography.profileName.fontSize};
   font-weight: ${({ theme }) => theme.typography.profileName.fontWeight};
   line-height: ${({ theme }) => theme.typography.profileName.lineHeight};
-`
+`;
 
 export const Email = styled(UserText)`
   margin-top: 2px;
@@ -56,13 +56,13 @@ export const Email = styled(UserText)`
   font-size: ${({ theme }) => theme.typography.metadata.fontSize};
   font-weight: ${({ theme }) => theme.typography.metadata.fontWeight};
   line-height: ${({ theme }) => theme.typography.metadata.lineHeight};
-`
+`;
 
 export const MenuNav = styled.nav`
   display: flex;
   flex-direction: column;
   padding: 0 0 24px;
-`
+`;
 
 export const MenuSectionBlock = styled.div`
   position: relative;
@@ -75,7 +75,7 @@ export const MenuSectionBlock = styled.div`
   }
 
   & + &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     right: 24px;
@@ -83,7 +83,7 @@ export const MenuSectionBlock = styled.div`
     height: 1px;
     background: ${({ theme }) => theme.colors.stroke};
   }
-`
+`;
 
 export const SectionTitle = styled.h2`
   margin: 0;
@@ -94,14 +94,14 @@ export const SectionTitle = styled.h2`
   letter-spacing: 0;
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
   text-transform: uppercase;
-`
+`;
 
 export const Items = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 6px;
-`
+`;
 
 const menuItemStyles = css`
   position: relative;
@@ -123,7 +123,9 @@ const menuItemStyles = css`
   text-decoration: none;
   text-align: left;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
   border-radius: 12px;
 
   &:hover {
@@ -143,38 +145,37 @@ const menuItemStyles = css`
     stroke-width: 2.25;
   }
 
-  svg[data-icon='users'] {
+  svg[data-icon="users"] {
     width: 20px;
     height: 20px;
     flex-basis: 20px;
     transform: scale(1.35, 1.1);
     transform-origin: center;
   }
-`
+`;
 
 export const MenuItemLink = styled(NavLink)<{ $isSelected: boolean }>`
   ${menuItemStyles}
   color: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : theme.colors.darkColor)};
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 8px;
     bottom: 8px;
     left: -8px;
     width: 4px;
     border-radius: 0;
-    background: ${({ $isSelected, theme }) =>
-      $isSelected ? theme.colors.brand : 'transparent'};
+    background: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.brand : "transparent")};
     transition: background 160ms ease;
   }
-`
+`;
 
 export const LogoutButton = styled.button`
   ${menuItemStyles}
   margin-top: 4px;
   color: ${({ theme }) => theme.colors.error};
-`
+`;
 
 export const ItemContent = styled.span`
   min-width: 0;
@@ -187,4 +188,4 @@ export const ItemContent = styled.span`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-`
+`;

@@ -1,9 +1,9 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "styled-components";
 
 const bounce = keyframes`
   0%, 100% { transform: rotate(90deg) translateX(0); }
   50% { transform: rotate(90deg) translateX(4px); }
-`
+`;
 
 export const Hint = styled.button`
   position: fixed;
@@ -49,4 +49,4 @@ export const Hint = styled.button`
       transform: rotate(90deg);
     }
   }
-`
+`;

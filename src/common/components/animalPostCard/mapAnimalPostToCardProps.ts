@@ -1,12 +1,7 @@
-import {
-  getAnimalName,
-  type AnimalPost,
-} from "@/animals/app/types/AnimalPost.types";
+import { getAnimalName, type AnimalPost } from "@/animals/app/types/AnimalPost.types";
 import type { AnimalPostCardProps } from "./animalPostCard";
 
-export const mapAnimalPostToCardProps = (
-  post: AnimalPost,
-): AnimalPostCardProps => {
+export const mapAnimalPostToCardProps = (post: AnimalPost): AnimalPostCardProps => {
   return {
     postId: post.id,
     name: getAnimalName(post.name, post.animal.type),

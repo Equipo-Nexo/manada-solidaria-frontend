@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function PawPrint(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function PawPrint(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default PawPrint
+export default PawPrint;

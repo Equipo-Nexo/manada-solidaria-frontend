@@ -27,8 +27,7 @@ export default function PasswordRecoveryEmail() {
     },
   });
 
-  const [requestPasswordRecovery, { isLoading }] =
-    useRequestPasswordRecoveryMutation();
+  const [requestPasswordRecovery, { isLoading }] = useRequestPasswordRecoveryMutation();
 
   const handleRequest = (values: PasswordRecoveryRequestValues) => {
     if (isLoading) return;
@@ -42,10 +41,7 @@ export default function PasswordRecoveryEmail() {
         });
       })
       .catch(() => {
-        toast.error(
-          "No pudimos enviar el código",
-          "Revisá el correo e intentá nuevamente.",
-        );
+        toast.error("No pudimos enviar el código", "Revisá el correo e intentá nuevamente.");
       });
   };
 
@@ -59,15 +55,11 @@ export default function PasswordRecoveryEmail() {
         <S.Introduction>
           <S.Title id="recovery-title">Recuperar Contraseña</S.Title>
           <S.Description>
-            Ingresá tu correo electrónico y te enviaremos un código de
-            verificación para que puedas crear una nueva contraseña.
+            Ingresá tu correo electrónico y te enviaremos un código de verificación para que puedas
+            crear una nueva contraseña.
           </S.Description>
         </S.Introduction>
-        <S.Form
-          onSubmit={handleSubmit(handleRequest)}
-          aria-busy={isLoading}
-          noValidate
-        >
+        <S.Form onSubmit={handleSubmit(handleRequest)} aria-busy={isLoading} noValidate>
           <S.Field>
             <S.Label htmlFor="recovery-email">
               <Mail aria-hidden="true" />
@@ -80,16 +72,11 @@ export default function PasswordRecoveryEmail() {
               autoComplete="email"
               placeholder="nombre@ejemplo.com"
               aria-invalid={Boolean(errors.email)}
-              aria-describedby={
-                errors.email ? "recovery-email-error" : undefined
-              }
+              aria-describedby={errors.email ? "recovery-email-error" : undefined}
               $hasError={Boolean(errors.email)}
               {...register("email")}
             />
-            <ErrorMessage
-              id="recovery-email-error"
-              message={errors.email?.message}
-            />
+            <ErrorMessage id="recovery-email-error" message={errors.email?.message} />
           </S.Field>
           <S.SubmitButton type="submit" disabled={isLoading}>
             {isLoading ? "Enviando..." : "Enviar Código"}

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const LoginPanel = styled.section`
   width: 100%;
@@ -20,7 +20,7 @@ export const LoginPanel = styled.section`
   @media (max-width: 767px) and (max-height: 650px) {
     padding-top: max(4px, env(safe-area-inset-top));
   }
-`
+`;
 
 export const LoginContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
@@ -41,7 +41,7 @@ export const LoginContainer = styled.div`
     width: min(100%, 340px);
     min-height: min(88dvh, 625px);
   }
-`
+`;
 
 export const FooterContainer = styled.div`
   flex: 0 0 auto;
@@ -53,7 +53,7 @@ export const FooterContainer = styled.div`
   margin-top: 5px;
 
   @media (min-width: 768px) {
-    min-height: 30px;    
+    min-height: 30px;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -63,7 +63,7 @@ export const FooterContainer = styled.div`
   @media (max-width: 767px) and (max-height: 670px) {
     min-height: 28px;
   }
-`
+`;
 
 export const FooterText = styled.p`
   @media (min-width: 768px) {
@@ -79,11 +79,11 @@ export const FooterText = styled.p`
     font-size: 0.625rem;
     line-height: 1.2;
   }
-`
+`;
 
 export const TitleLineBreak = styled.br`
   display: none;
-`
+`;
 
 export const AppLogo = styled.img`
   margin-top: 2rem;
@@ -128,7 +128,7 @@ export const AppTitle = styled.h1`
   }
 
   @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 1.8rem;
+    font-size: 1.8rem;
   }
 
   @media (max-width: 767px) and (max-height: 850px) {
@@ -146,7 +146,7 @@ export const AppTitle = styled.h1`
   @media (max-width: 767px) and (max-height: 650px) {
     display: none;
   }
-`
+`;
 
 export const AppDescription = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.normal};
@@ -159,7 +159,7 @@ export const AppDescription = styled.p`
   }
 
   @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
+    font-size: 0.8rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -171,7 +171,7 @@ export const AppDescription = styled.p`
   @media (max-width: 767px) and (max-height: 670px) {
     display: none;
   }
-`
+`;
 
 export const TitlesContainer = styled.div`
   margin-top: 1.5rem;
@@ -183,7 +183,7 @@ export const TitlesContainer = styled.div`
     margin-top: 1rem;
   }
   @media (max-width: 1300px) and (max-height: 720px) {
-   margin-top: 0.625rem;
+    margin-top: 0.625rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -193,21 +193,20 @@ export const TitlesContainer = styled.div`
   @media (max-width: 767px) and (max-height: 670px) {
     margin-top: 0.375rem;
   }
-`
+`;
 
 export const WelcomeTitle = styled.h2`
-  font-size: ${({theme}) => theme.fontSizes.subtitle};
-  font-weight: ${({theme}) => theme.fontWeights.bold};
-  color: ${({theme}) => theme.colors.black};
+  font-size: ${({ theme }) => theme.fontSizes.subtitle};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  color: ${({ theme }) => theme.colors.black};
 
   @media (min-width: 768px) {
     font-size: 1.25rem;
     line-height: 1.2;
   }
 
-
   @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 1.2rem;
+    font-size: 1.2rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -219,21 +218,20 @@ export const WelcomeTitle = styled.h2`
     font-size: 0.9rem;
     line-height: 1.1;
   }
-`
+`;
 
 export const WelcomeSubtitle = styled.p`
-  font-size: ${({theme}) => theme.fontSizes.normal};
-  font-weight: ${({theme}) => theme.fontWeights.regular};
-  color: ${({theme}) => theme.colors.black};
+  font-size: ${({ theme }) => theme.fontSizes.normal};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.black};
 
   @media (min-width: 768px) {
     font-size: 0.8125rem;
     line-height: 1.35;
   }
 
-  
   @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
+    font-size: 0.8rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -244,7 +242,7 @@ export const WelcomeSubtitle = styled.p`
   @media (max-width: 767px) and (max-height: 650px) {
     font-size: 0.75rem;
   }
-`
+`;
 
 export const Form = styled.form`
   display: flex;
@@ -272,7 +270,7 @@ export const Form = styled.form`
     padding-right: 1.5rem;
     padding-left: 1.5rem;
   }
-`
+`;
 export const FormFields = styled.div`
   display: flex;
   flex-direction: column;
@@ -283,9 +281,8 @@ export const FormFields = styled.div`
     gap: 0.75rem;
   }
 
-  
   @media (max-width: 1300px) and (max-height: 720px) {
-   gap: 0.7rem;
+    gap: 0.7rem;
   }
 
   @media (max-width: 767px) and (max-height: 750px) {
@@ -295,7 +292,7 @@ export const FormFields = styled.div`
   @media (max-width: 767px) and (max-height: 650px) {
     gap: 0.375rem;
   }
-`
+`;
 
 export const Field = styled.div`
   display: flex;
@@ -307,7 +304,7 @@ export const Field = styled.div`
   @media (max-width: 767px) and (max-height: 650px) {
     gap: 2px;
   }
-`
+`;
 
 export const FieldLabelContainer = styled.div`
   display: flex;
@@ -326,28 +323,28 @@ export const FieldLabelContainer = styled.div`
   }
 
   @media (max-width: 1300px) and (max-height: 720px) {
-   gap: 6px;
+    gap: 6px;
   }
-`
+`;
 
 export const FieldLabel = styled.label`
-  color: ${({ theme }) => theme.colors.darkColor };
-  font-size: ${({ theme }) => theme.fontSizes.normal };
-  font-weight: ${({ theme }) => theme.fontWeights.semibold };
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.fontSizes.normal};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
 
   @media (min-width: 768px) {
     font-size: 0.8125rem;
   }
 
   @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.88rem;
+    font-size: 0.88rem;
   }
-`
+`;
 
 export const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
   padding: 1rem 1.5rem;
-  background: ${({theme}) => theme.colors.soft};
+  background: ${({ theme }) => theme.colors.soft};
   border: none;
   border-radius: 12px;
 
@@ -357,12 +354,12 @@ export const Input = styled.input<{ $hasError?: boolean }>`
     border-radius: 10px;
     font-size: 0.875rem;
   }
-  
+
   @media (max-width: 1300px) and (max-height: 720px) {
     padding-top: 0.75rem;
-    padding-bottom: 0.75rem;   
+    padding-bottom: 0.75rem;
   }
-  
+
   @media (max-width: 767px) and (max-height: 750px) {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -372,7 +369,7 @@ export const Input = styled.input<{ $hasError?: boolean }>`
     min-height: 44px;
     padding: 0.625rem 1.25rem;
   }
-`
+`;
 
 export const PasswordInputWrapper = styled.div`
   position: relative;
@@ -387,7 +384,7 @@ export const PasswordInputWrapper = styled.div`
       padding-right: 44px;
     }
   }
-`
+`;
 
 export const PasswordToggle = styled.button`
   position: absolute;
@@ -434,7 +431,7 @@ export const PasswordToggle = styled.button`
       height: 18px;
     }
   }
-`
+`;
 
 export const RecoveryButton = styled.button`
   align-self: center;
@@ -472,14 +469,16 @@ export const RecoveryButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const LoginButton = styled.button`
   width: 100%;
   height: 3rem;
   border-radius: 9999px;
   border: none;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.white};
   font-size: 1rem;
@@ -502,7 +501,7 @@ export const LoginButton = styled.button`
   @media (max-width: 767px) and (max-height: 670px) {
     max-height: 32px;
   }
-`
+`;
 
 export const LoginDivider = styled.div`
   width: 100%;
@@ -522,12 +521,12 @@ export const LoginDivider = styled.div`
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     height: 1px;
     flex: 1;
     background: ${({ theme }) => theme.colors.stroke};
   }
-`
+`;
 
 export const PasskeyButton = styled(LoginButton)`
   border: 2px solid ${({ theme }) => theme.colors.secondary};
@@ -537,7 +536,7 @@ export const PasskeyButton = styled(LoginButton)`
   &:hover {
     background: ${({ theme }) => theme.colors.neutral};
   }
-`
+`;
 
 export const RegisterTextContainer = styled.div`
   margin-top: 1rem;
@@ -555,7 +554,7 @@ export const RegisterTextContainer = styled.div`
   @media (max-width: 767px) and (max-height: 650px) {
     margin-top: 0.375rem;
   }
-`
+`;
 
 export const RegisterText = styled.p`
   color: ${({ theme }) => theme.colors.darkColor};
@@ -567,13 +566,13 @@ export const RegisterText = styled.p`
   }
 
   @media (max-width: 1300px) and (max-height: 720px) {
-   font-size: 0.8rem;
+    font-size: 0.8rem;
   }
 
   @media (max-width: 767px) and (max-height: 650px) {
     font-size: 0.875rem;
   }
-`
+`;
 
 export const RegisterLink = styled.a`
   color: ${({ theme }) => theme.colors.brand};
@@ -587,4 +586,4 @@ export const RegisterLink = styled.a`
   @media (max-width: 767px) and (max-height: 650px) {
     font-size: 0.875rem;
   }
-`
+`;

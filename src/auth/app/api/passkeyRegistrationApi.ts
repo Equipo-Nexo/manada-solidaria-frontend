@@ -1,35 +1,30 @@
-import { baseAuthenticatedApi } from '@app/services/base/baseAuthenticatedApi'
+import { baseAuthenticatedApi } from "@app/services/base/baseAuthenticatedApi";
 import type {
   PublicKeyCredentialCreationOptionsJSON,
   RegisterPasskeyRequest,
   RegisterPasskeyResponse,
-} from '@auth/app/webauthn/webAuthn.types'
+} from "@auth/app/webauthn/webAuthn.types";
 
 export const passkeyRegistrationApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
-    getPasskeyRegistrationOptions: builder.mutation<
-      PublicKeyCredentialCreationOptionsJSON,
-      void
-    >({
+    getPasskeyRegistrationOptions: builder.mutation<PublicKeyCredentialCreationOptionsJSON, void>({
       query: () => ({
-        url: '/webauthn/register/options',
-        method: 'POST',
-        credentials: 'include',
+        url: "/webauthn/register/options",
+        method: "POST",
+        credentials: "include",
       }),
     }),
     registerPasskey: builder.mutation<RegisterPasskeyResponse, RegisterPasskeyRequest>({
       query: (body) => ({
-        url: '/webauthn/register',
-        method: 'POST',
+        url: "/webauthn/register",
+        method: "POST",
         body,
-        credentials: 'include',
+        credentials: "include",
       }),
     }),
   }),
   overrideExisting: false,
-})
+});
 
-export const {
-  useGetPasskeyRegistrationOptionsMutation,
-  useRegisterPasskeyMutation,
-} = passkeyRegistrationApi
+export const { useGetPasskeyRegistrationOptionsMutation, useRegisterPasskeyMutation } =
+  passkeyRegistrationApi;
