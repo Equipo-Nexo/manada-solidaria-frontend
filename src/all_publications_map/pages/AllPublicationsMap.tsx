@@ -11,11 +11,10 @@ import MapPublicationsSheetContent from "../components/publications_sheet/MapPub
 import { MapFilters, type MapFilter } from "../utils/AllPublicationMapUtils";
 
 function AllPublicationsMap() {
-  
   const theme = useTheme();
   const { data } = useGetMapQuery();
   const [selection, setSelection] = useState<{ items: MapItem[]; groupId: string } | null>(null);
-  const [filter, setFilter] = useState<MapFilter>('all');
+  const [filter, setFilter] = useState<MapFilter>("all");
   const [searchParams] = useSearchParams();
 
   const point = useMemo(() => {
@@ -31,49 +30,51 @@ function AllPublicationsMap() {
     };
   }, [searchParams]);
 
-
-
-  const clusterGroups = useMemo<(MapClusterGroup<MapItem> & { label: string })[]>(() => [
-    {
-      id: "lostAnimals",
-      label: "Perdidos",
-      color: theme.colors.statusLostBackground,
-      marker: {
-        icon: PawPrint,
-        iconColor: theme.colors.statusSearchingtext,
-        borderColor: theme.colors.statusSearchingtext,
-      },
-      items: data?.lostAnimals ?? [],
-    },
-    {
-      id: "inStreetAnimals",
-      label: "En la calle",
-      color: theme.colors.statusStreetBackground,
-      marker: {
-        icon: PawPrint,
-        iconColor: theme.colors.statusStreetText,
-        borderColor: theme.colors.statusStreetText,
-      },
-      items: data?.inStreetAnimals ?? [],
-    },
-    {
-      id: "vets",
-      label: "Veterinarias",
-      color: theme.colors.neutral,
-      marker: {
-        icon: BriefcaseMedical,
-        iconColor: theme.colors.brand,
-        borderColor: theme.colors.brand,
-      },
-      items: data?.vets ?? [],
-    },
-  ].map(({ id, label, color, marker, items }) => ({
-    id,
-    label,
-    color,
-    marker,
-    points: items.map((item) => ({ lat: item.latitude, lng: item.longitude, data: item })),
-  })), [data, theme]);
+  const clusterGroups = useMemo<(MapClusterGroup<MapItem> & { label: string })[]>(
+    () =>
+      [
+        {
+          id: "lostAnimals",
+          label: "Perdidos",
+          color: theme.colors.statusLostBackground,
+          marker: {
+            icon: PawPrint,
+            iconColor: theme.colors.statusSearchingtext,
+            borderColor: theme.colors.statusSearchingtext,
+          },
+          items: data?.lostAnimals ?? [],
+        },
+        {
+          id: "inStreetAnimals",
+          label: "En la calle",
+          color: theme.colors.statusStreetBackground,
+          marker: {
+            icon: PawPrint,
+            iconColor: theme.colors.statusStreetText,
+            borderColor: theme.colors.statusStreetText,
+          },
+          items: data?.inStreetAnimals ?? [],
+        },
+        {
+          id: "vets",
+          label: "Veterinarias",
+          color: theme.colors.neutral,
+          marker: {
+            icon: BriefcaseMedical,
+            iconColor: theme.colors.brand,
+            borderColor: theme.colors.brand,
+          },
+          items: data?.vets ?? [],
+        },
+      ].map(({ id, label, color, marker, items }) => ({
+        id,
+        label,
+        color,
+        marker,
+        points: items.map((item) => ({ lat: item.latitude, lng: item.longitude, data: item })),
+      })),
+    [data, theme],
+  );
 
   const selectedGroup = clusterGroups.find((group) => group.id === selection?.groupId);
   const closeSheet = useCallback(() => setSelection(null), []);
@@ -92,18 +93,27 @@ function AllPublicationsMap() {
         <h1>Mapa</h1>
       </S.Header>
       <S.FiltersContainer>
-        <CategorySelector 
+        <CategorySelector
           categories={MapFilters.map(({ id }) => id)}
-          selectedCategory={filter ?? ''}
+          selectedCategory={filter ?? ""}
           onCategoryChange={(category) => setFilter(category)}
-          getCategoryLabel={(category) => MapFilters.find((filter) => filter.id === category)?.label ?? category}
+          getCategoryLabel={(category) =>
+            MapFilters.find((filter) => filter.id === category)?.label ?? category
+          }
           ariaLabel="Filtrar publicaciones por categoría"
         />
       </S.FiltersContainer>
       <S.MapFrame>
         <Map
-          clusterGroups={filter !== 'all' ? clusterGroups.filter((group) => group.id === filter) : clusterGroups}
-          legends={clusterGroups.map((group) => ({ id: group.id, label: group.label, icon: group.marker?.icon, iconColor: group.marker?.iconColor }))}
+          clusterGroups={
+            filter !== "all" ? clusterGroups.filter((group) => group.id === filter) : clusterGroups
+          }
+          legends={clusterGroups.map((group) => ({
+            id: group.id,
+            label: group.label,
+            icon: group.marker?.icon,
+            iconColor: group.marker?.iconColor,
+          }))}
           enableMarkerOnClick={false}
           center={point}
           markPoint={point}

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const FormErrorMessage = styled.div`
   width: 100%;
   max-width: 100%;
@@ -28,11 +27,17 @@ export const FormErrorMessage = styled.div`
   }
 
   @keyframes error-message-enter {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
-`
+`;

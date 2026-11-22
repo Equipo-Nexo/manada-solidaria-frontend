@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export const Container = styled.section`
   width: min(100%, 560px);
@@ -11,14 +11,14 @@ export const Container = styled.section`
   justify-content: center;
   gap: 28px;
   text-align: center;
-`
+`;
 
 export const Illustration = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 export const ErrorCode = styled.span`
   color: ${({ theme }) => theme.colors.neutral};
@@ -26,7 +26,7 @@ export const ErrorCode = styled.span`
     `${theme.fontWeights.extrabold} clamp(88px, 24vw, 152px)/0.8 ${theme.fonts.body}`};
   letter-spacing: -0.08em;
   user-select: none;
-`
+`;
 
 export const PawBadge = styled.span`
   position: absolute;
@@ -45,14 +45,14 @@ export const PawBadge = styled.span`
     width: 28px;
     height: 28px;
   }
-`
+`;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-`
+`;
 
 export const Eyebrow = styled.span`
   padding: 6px 12px;
@@ -63,17 +63,17 @@ export const Eyebrow = styled.span`
     `${theme.fontWeights.bold} ${theme.typography.descriptive.fontSize}/${theme.typography.descriptive.lineHeight} ${theme.fonts.body}`};
   letter-spacing: 0.04em;
   text-transform: uppercase;
-`
+`;
 
 export const Title = styled.h1`
   max-width: 480px;
   color: ${({ theme }) => theme.colors.darkColor};
-`
+`;
 
 export const Description = styled.p`
   max-width: 420px;
   color: ${({ theme }) => theme.colors.darkColorMuted};
-`
+`;
 
 export const HomeLink = styled(Link)`
   min-height: 48px;
@@ -88,7 +88,9 @@ export const HomeLink = styled(Link)`
   font: ${({ theme }) =>
     `${theme.typography.action.fontWeight} ${theme.typography.action.fontSize}/${theme.typography.action.lineHeight} ${theme.fonts.body}`};
   text-decoration: none;
-  transition: box-shadow 160ms ease, transform 160ms ease;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
 
   svg {
     width: 20px;
@@ -108,4 +110,4 @@ export const HomeLink = styled(Link)`
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
-`
+`;

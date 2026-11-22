@@ -57,8 +57,7 @@ export function useDoubleTap({
       activeTap.pointerId !== event.pointerId ||
       !event.isPrimary ||
       event.timeStamp - activeTap.startedAt > maxTapDuration ||
-      Math.hypot(event.clientX - activeTap.x, event.clientY - activeTap.y) >
-        maxMovement ||
+      Math.hypot(event.clientX - activeTap.x, event.clientY - activeTap.y) > maxMovement ||
       (event.target instanceof Element && event.target.closest("button, a"))
     ) {
       resetTap();
@@ -77,10 +76,7 @@ export function useDoubleTap({
 
     const isNearPreviousTap =
       previousPosition !== null &&
-      Math.hypot(
-        position.x - previousPosition.x,
-        position.y - previousPosition.y,
-      ) <= maxDistance;
+      Math.hypot(position.x - previousPosition.x, position.y - previousPosition.y) <= maxDistance;
 
     if (timeBetweenTaps > 0 && timeBetweenTaps <= delay && isNearPreviousTap) {
       resetTap();
@@ -101,10 +97,7 @@ export function useDoubleTap({
       if (
         activeTap &&
         activeTap.pointerId === event.pointerId &&
-        Math.hypot(
-          event.clientX - activeTap.x,
-          event.clientY - activeTap.y,
-        ) > maxMovement
+        Math.hypot(event.clientX - activeTap.x, event.clientY - activeTap.y) > maxMovement
       ) {
         resetTap();
       }

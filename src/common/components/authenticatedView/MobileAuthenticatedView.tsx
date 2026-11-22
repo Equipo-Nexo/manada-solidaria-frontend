@@ -30,8 +30,8 @@ function MobileAuthenticatedView() {
     location.pathname.startsWith("/formulario-adopcion/") ||
     location.pathname === "/mi-perfil/datos-personales" ||
     location.pathname === "/formularios-recibidos";
-  
-    const showHeader =
+
+  const showHeader =
     location.pathname !== "/menu" &&
     (!hideNavigation ||
       location.pathname === "/mis-publicaciones" ||
@@ -39,7 +39,7 @@ function MobileAuthenticatedView() {
       location.pathname === "/veterinarias") &&
     location.pathname !== "/editar/exito";
 
-  console.log('showHeader', showHeader)
+  console.log("showHeader", showHeader);
   return (
     <MobileViewChrome>
       {showHeader && <Header />}

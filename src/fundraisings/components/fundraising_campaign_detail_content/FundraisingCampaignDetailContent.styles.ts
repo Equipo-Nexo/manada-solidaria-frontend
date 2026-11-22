@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export { DetailImage as FundraisingImage } from '@/common/components/detailImage/DetailImage.styles'
+export { DetailImage as FundraisingImage } from "@/common/components/detailImage/DetailImage.styles";
 
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 export const InformationContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,20 +16,20 @@ export const InformationContent = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`
+`;
 
 export const ContactContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 export const FundraisingInformationContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
-`
+`;
 
 export const PhotoContainer = styled.div`
   display: flex;
@@ -46,21 +46,80 @@ export const FundraisingInfo = styled.section`
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 `;
 
-
+export const InfoContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  height: 72px;
+  background: ${({ theme }) => theme.colors.neutral};
+`;
+export const TimeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: 11px;
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+`;
+export const AuthorCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+  justify-content: center;
+`;
+export const AuthorRole = styled.p`
+  margin: 4px 0 0;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`;
+export const UserProfileContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: none;
+`;
+export const ValuesContainer = styled.div`
+  min-width: 0;
+  text-align: left;
+`;
+export const Label = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  line-height: 17px;
+  strong {
+    color: ${({ theme }) => theme.colors.black};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+  }
+`;
 export const Title = styled.h2<{
   $iconColor?: "black" | "secondary";
 }>`
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   color: ${({ theme }) => theme.colors.black};
   text-align: left;
   font-size: 18px;
-  line-height: 22px;
+  line-height: 16px;
   svg {
     color: ${({ $iconColor, theme }) =>
-    $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
+      $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
   }
 `;
 
@@ -165,10 +224,8 @@ export const CopyButton = styled.button<{
   padding: 6px 4px;
   border: 1px solid ${({ theme }) => theme.colors.brand};
   border-radius: 10px;
-  background: ${({ $copied, theme }) =>
-    $copied ? theme.colors.brand : theme.colors.background};
-  color: ${({ $copied, theme }) =>
-    $copied ? theme.colors.background : theme.colors.brand};
+  background: ${({ $copied, theme }) => ($copied ? theme.colors.brand : theme.colors.background)};
+  color: ${({ $copied, theme }) => ($copied ? theme.colors.background : theme.colors.brand)};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -226,7 +283,6 @@ export const ProgressTrack = styled.div`
   background: rgb(234 95 9 / 35%);
 `;
 
-
 export const ProgressValue = styled.div<{
   $progress: number;
 }>`
@@ -272,72 +328,105 @@ export const FundraisingDescription = styled.p`
 `;
 
 export const LocationCard = styled.section`
-  min-height: 107px; 
-  display: grid; 
-  text-align:left;
-  grid-template-columns: 1fr 1fr; 
-  overflow: hidden; 
-  margin-top: 14px; 
+  min-height: 107px;
+  display: grid;
+  text-align: left;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  margin-top: 14px;
   border-radius: 10px;
-  width:100%;
-  background: ${({ theme }) => theme.colors.background}; 
+  width: 100%;
+  background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(55 37 28 / 18%);
   margin-bottom: 24px;
   @media (min-width: 768px) {
     min-height: 140px;
     margin-top: 0;
   }
-`
+`;
 
 export const MapPreview = styled.div`
-  position: relative; overflow: hidden;
-  background: linear-gradient(34deg, transparent 42%, rgb(255 255 255 / 75%) 43% 47%, transparent 48%),
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(34deg, transparent 42%, rgb(255 255 255 / 75%) 43% 47%, transparent 48%),
     linear-gradient(94deg, transparent 54%, rgb(255 255 255 / 70%) 55% 59%, transparent 60%),
     repeating-linear-gradient(25deg, transparent 0 15px, rgb(223 192 143 / 48%) 16px 18px), #c1ddd7;
-  &::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 48%, rgb(111 174 197 / 28%) 49% 57%, transparent 58%); }
-`
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 48%,
+      rgb(111 174 197 / 28%) 49% 57%,
+      transparent 58%
+    );
+  }
+`;
 
 export const MapMarker = styled.span`
-  position: absolute; z-index: 1; top: 46%; left: 52%; width: 10px; height: 10px; border: 3px solid ${({ theme }) => theme.colors.background};
-  border-radius: 50% 50% 50% 0; background: ${({ theme }) => theme.colors.brand}; box-shadow: 0 1px 3px rgb(0 0 0 / 28%); transform: rotate(-45deg);
-`
+  position: absolute;
+  z-index: 1;
+  top: 46%;
+  left: 52%;
+  width: 10px;
+  height: 10px;
+  border: 3px solid ${({ theme }) => theme.colors.background};
+  border-radius: 50% 50% 50% 0;
+  background: ${({ theme }) => theme.colors.brand};
+  box-shadow: 0 1px 3px rgb(0 0 0 / 28%);
+  transform: rotate(-45deg);
+`;
 
 export const LocationContent = styled.div`
-  display: flex; flex-direction: column; justify-content: center; padding: 14px 8px;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 14px 8px;
+`;
 
 export const LocationTitle = styled.h3`
-  margin: 0; color: ${({ theme }) => theme.colors.black}; 
-  font-size: 18px; 
-  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 18px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 17px;
-`
+`;
 
 export const LocationAddress = styled.p`
-  margin: 0; 
-  color: ${({ theme }) => theme.colors.black}; 
-  font-size: 14px; 
-  font-weight: ${({ theme }) => theme.fontWeights.semibold}; 
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 14px;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: 17px;
-`
+`;
 
 export const MapLink = styled.button`
-  display: inline-flex; 
-  align-items: center; 
-  gap: 8px; 
-  margin-top: 8px; 
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
   color: ${({ theme }) => theme.colors.brand};
-  width: fit-content; padding: 0; border: 0; 
-  background: transparent; 
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  font-size: 12px; 
-  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
-  line-height: 16px; 
+  font-size: 12px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 16px;
   text-decoration: underline;
-  svg { width: 24px; height: 24px; flex: 0 0 auto; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
-`
-
+  svg {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+  }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 
 export const ContactSection = styled.section`
   width: 100%;

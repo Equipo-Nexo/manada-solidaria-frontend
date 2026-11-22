@@ -72,7 +72,7 @@ export const PublishField = styled.div<{
   gap: 4px;
   color: ${({ theme }) => theme.colors.black};
 
-  > [role='alert'] {
+  > [role="alert"] {
     margin-top: 12px;
   }
 `;
@@ -151,8 +151,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   padding: 8px 18px;
   border-radius: 999px;
   border: 2px solid
-    ${({ theme, $isSelected }) =>
-    $isSelected ? theme.colors.secondary : theme.colors.stroke};
+    ${({ theme, $isSelected }) => ($isSelected ? theme.colors.secondary : theme.colors.stroke)};
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.secondary : theme.colors.background};
   color: ${({ theme, $isSelected }) =>
@@ -175,7 +174,7 @@ export const CategoryOption = styled.button<{ $isSelected: boolean }>`
   &:hover:not(:disabled) {
     border-color: ${({ theme }) => theme.colors.secondary};
     background: ${({ theme, $isSelected }) =>
-    $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
+      $isSelected ? theme.colors.secondary : theme.colors.secondaryHoverSoft};
   }
 `;
 
@@ -204,9 +203,9 @@ export const MapWrapper = styled.div`
     height: calc(100svh - 600px);
     min-height: 360px;
   }
-`
+`;
 
-export const IconInput = styled(PublishInput) <{
+export const IconInput = styled(PublishInput)<{
   $hasLeftIcon?: boolean;
   $hasRightIcon?: boolean;
 }>`
@@ -346,4 +345,3 @@ export const UploadHint = styled.span`
   font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
   line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
 `;
-

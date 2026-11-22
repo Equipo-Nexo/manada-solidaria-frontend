@@ -7,17 +7,12 @@ type NotificationListProps = {
   onNotificationSelect?: () => void;
 };
 
-function NotificationList({
-  notifications,
-  onNotificationSelect,
-}: NotificationListProps) {
+function NotificationList({ notifications, onNotificationSelect }: NotificationListProps) {
   if (notifications.length === 0) {
     return (
       <S.EmptyState>
         <S.EmptyTitle>No tienes notificaciones</S.EmptyTitle>
-        <S.EmptyDescription>
-          Cuando tengas novedades, van a aparecer acá.
-        </S.EmptyDescription>
+        <S.EmptyDescription>Cuando tengas novedades, van a aparecer acá.</S.EmptyDescription>
       </S.EmptyState>
     );
   }

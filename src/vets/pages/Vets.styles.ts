@@ -102,7 +102,7 @@ export const VetContainer = styled.div<{ $selected: boolean }>`
     ${({ $selected }) =>
       $selected &&
       css`
-        outline: 2px solid #EA5F09;
+        outline: 2px solid #ea5f09;
         outline-offset: -2px;
       `}
   }
@@ -210,12 +210,9 @@ export const DistanceButton = styled.button<{
   justify-content: center;
   gap: 7px;
   padding: 8px 12px;
-  border: 1px solid
-    ${({ $active, theme }) =>
-      $active ? theme.colors.brand : theme.colors.stroke};
+  border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.brand : theme.colors.stroke)};
   border-radius: 10px;
-  background: ${({ $active, theme }) =>
-    $active ? theme.colors.neutral : theme.colors.background};
+  background: ${({ $active, theme }) => ($active ? theme.colors.neutral : theme.colors.background)};
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 14px;

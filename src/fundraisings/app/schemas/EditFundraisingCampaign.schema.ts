@@ -7,4 +7,4 @@ export const editFundraisingSchema = publishFundraisingSchema.shape({
     .notRequired()
     .typeError("Ingresá un monto.")
     .positive("El monto recaudado debe ser mayor a 0."),
-})
+});

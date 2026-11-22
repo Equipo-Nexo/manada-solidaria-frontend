@@ -12,7 +12,7 @@ export const MainContainer = styled.div`
   border: 1px dashed ${({ theme }) => theme.colors.stroke};
   border-radius: 12px;
   color: ${({ theme }) => theme.colors.secondary};
-`
+`;
 
 export const Message = styled.p`
   max-width: 460px;
@@ -22,7 +22,7 @@ export const Message = styled.p`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: ${({ theme }) => theme.typography.body.lineHeight};
   text-align: center;
-`
+`;
 
 export const Icon = styled.span`
   display: inline-flex;
@@ -40,5 +40,4 @@ export const Icon = styled.span`
     width: 18px;
     height: 18px;
   }
-`
-
+`;

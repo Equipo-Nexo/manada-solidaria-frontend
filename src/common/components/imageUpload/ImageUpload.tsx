@@ -17,29 +17,39 @@ type ImageUploadProps = {
   onImageSelected?: (savedImageId: string) => void;
 };
 
-function ImageUpload({
-  imageUrl,
-  label = "Seleccionar foto",
-  onImageSelected
-}: ImageUploadProps) {
+function ImageUpload({ imageUrl, label = "Seleccionar foto", onImageSelected }: ImageUploadProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { capturedPhoto, takePhoto, chooseFromGallery, capturePhoto, cameraDevices, focusAtPoint,
-    setZoom, stopCamera, stream, supportsFocus, switchCamera, zoom, zoomRange } = useCamera();
-  const [ getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl } ] = useGetPresignedUrlMutation();
-  const [ uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage } ] = useUploadImageMutation();
+  const {
+    capturedPhoto,
+    takePhoto,
+    chooseFromGallery,
+    capturePhoto,
+    cameraDevices,
+    focusAtPoint,
+    setZoom,
+    stopCamera,
+    stream,
+    supportsFocus,
+    switchCamera,
+    zoom,
+    zoomRange,
+  } = useCamera();
+  const [getPresignedUrl, { isLoading: isLoadingPresignedUrl, isError: errorGetPresignedUrl }] =
+    useGetPresignedUrlMutation();
+  const [uploadImage, { isLoading: isLoadingUploadImage, isError: errorUploadImage }] =
+    useUploadImageMutation();
   const closeSheet = () => setIsSheetOpen(false);
   const [updated, setUpdated] = useState(false);
   const [isImageRemoved, setIsImageRemoved] = useState(false);
-  const toaster = useToast()
-
+  const toaster = useToast();
 
   const preview = isImageRemoved
     ? undefined
     : updated
       ? capturedPhoto?.url
-      : imageUrl ?? capturedPhoto?.url;
-  const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage
-  const isError: boolean = errorUploadImage || errorGetPresignedUrl
+      : (imageUrl ?? capturedPhoto?.url);
+  const isLoading: boolean = isLoadingPresignedUrl || isLoadingUploadImage;
+  const isError: boolean = errorUploadImage || errorGetPresignedUrl;
 
   const handleTakePhoto = async () => {
     closeSheet();
@@ -51,7 +61,7 @@ function ImageUpload({
     if (!photo || !photo.file) return null;
     setIsImageRemoved(false);
     setUpdated(true);
-    uploadPhoto({ file: photo.file })
+    uploadPhoto({ file: photo.file });
   };
 
   const handleChooseGallery = async () => {
@@ -59,7 +69,7 @@ function ImageUpload({
     if (!photo || !photo.file) return null;
     setIsImageRemoved(false);
     setUpdated(true);
-    uploadPhoto({ file: photo.file })
+    uploadPhoto({ file: photo.file });
   };
 
   const handleCameraGallery = () => {
@@ -67,25 +77,23 @@ function ImageUpload({
     void handleChooseGallery();
   };
 
-  const uploadPhoto = async (photo: {
-    file: File
-  }) => {
-    const request = { contentType: photo.file.type, fileSize: photo.file.size}
+  const uploadPhoto = async (photo: { file: File }) => {
+    const request = { contentType: photo.file.type, fileSize: photo.file.size };
     getPresignedUrl(request)
       .unwrap()
       .then((response) => {
         uploadImage({ url: response.uploadUrl, image: photo.file, contentType: photo.file.type })
           .unwrap()
           .catch(() => {
-            toaster.error("Hubo un error subiendo la imagen")          
-          })
+            toaster.error("Hubo un error subiendo la imagen");
+          });
         onImageSelected?.(response.imageId);
       })
       .catch(() => {
-        toaster.error("Hubo un error al obtener el ID de la imagen")          
+        toaster.error("Hubo un error al obtener el ID de la imagen");
       })
-      .finally(() => closeSheet())
-  }
+      .finally(() => closeSheet());
+  };
 
   const handleRemoveImage = () => {
     setIsImageRemoved(true);
@@ -97,7 +105,7 @@ function ImageUpload({
       <S.ImageUploadLoadingState aria-busy="true">
         <PawLoader label="Cargando imagen..." />
       </S.ImageUploadLoadingState>
-    )
+    );
   }
 
   return (
@@ -121,33 +129,23 @@ function ImageUpload({
                 <CameraIcon aria-hidden="true" />
               </S.ImageUploadIcon>
 
-                <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
-              </>
-            )}
+              <S.ImageUploadLabel>{label}</S.ImageUploadLabel>
+            </>
+          )}
         </S.ImageUploadButton>
 
         {preview && !isError && (
-          <S.RemoveImageButton
-            type="button"
-            aria-label="Eliminar foto"
-            onClick={handleRemoveImage}
-          >
+          <S.RemoveImageButton type="button" aria-label="Eliminar foto" onClick={handleRemoveImage}>
             <Trash aria-hidden="true" />
           </S.RemoveImageButton>
         )}
       </S.ImageUploadContainer>
 
-      <BottomSheet
-        isOpen={isSheetOpen}
-        ariaLabel="Seleccionar origen de foto"
-        onClose={closeSheet}
-      >
+      <BottomSheet isOpen={isSheetOpen} ariaLabel="Seleccionar origen de foto" onClose={closeSheet}>
         <S.PhotoSheetHeader>
           <S.PhotoSheetTitle>Seleccionar origen</S.PhotoSheetTitle>
 
-          <S.PhotoSheetDescription>
-            ¿Desde dónde quieres subir la foto?
-          </S.PhotoSheetDescription>
+          <S.PhotoSheetDescription>¿Desde dónde quieres subir la foto?</S.PhotoSheetDescription>
         </S.PhotoSheetHeader>
 
         <S.PhotoSheetActions>
@@ -173,9 +171,7 @@ function ImageUpload({
             </S.PhotoSheetActionIcon>
 
             <S.PhotoSheetActionCopy>
-              <S.PhotoSheetActionTitle>
-                Elegir de la galería
-              </S.PhotoSheetActionTitle>
+              <S.PhotoSheetActionTitle>Elegir de la galería</S.PhotoSheetActionTitle>
 
               <S.PhotoSheetActionDescription>
                 Busca en tus fotos guardadas

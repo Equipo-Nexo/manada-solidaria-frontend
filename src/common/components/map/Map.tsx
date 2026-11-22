@@ -1,4 +1,11 @@
-import { MapCN, MapCNCluster, MapCNControls, MapCNMarker, type MapCNClusterProps, type MapCNMarkerProps } from "../mapCN";
+import {
+  MapCN,
+  MapCNCluster,
+  MapCNControls,
+  MapCNMarker,
+  type MapCNClusterProps,
+  type MapCNMarkerProps,
+} from "../mapCN";
 import * as S from "./Map.styles";
 import * as MarkerStyles from "../mapCN/MapCN.styles";
 import { Heart } from "../../icons";
@@ -43,7 +50,7 @@ function Map<TItem = unknown>({
   onPointSelect,
   onClusterClick,
   onMarkerClick,
-  legends = []
+  legends = [],
 }: MapProps<TItem>) {
   const { coordinates, requestCoordinates, status } = useGeolocation();
   const [map, setMap] = useState<MapLibreMap | null>(null);
@@ -91,8 +98,7 @@ function Map<TItem = unknown>({
   }, [requestCoordinates]);
 
   useEffect(() => {
-    if (!map || markPointLat === undefined || markPointLng === undefined)
-      return;
+    if (!map || markPointLat === undefined || markPointLng === undefined) return;
 
     if (!map.getBounds().contains([markPointLng, markPointLat])) {
       map.easeTo({
@@ -173,14 +179,15 @@ function Map<TItem = unknown>({
           />
         ))}
         {markPoints?.map(({ lng, lat }, index) => (
-          <MapCNMarker
-            key={`${lng}-${lat}-${index}`}
-            longitude={lng}
-            latitude={lat}
-          />
+          <MapCNMarker key={`${lng}-${lat}-${index}`} longitude={lng} latitude={lat} />
         ))}
         {markPoint && (
-          <MapCNMarker longitude={markPoint.lng} latitude={markPoint.lat} highlighted={highlightMarkPoint} icon={highlightMarkPoint ? Heart : undefined} />
+          <MapCNMarker
+            longitude={markPoint.lng}
+            latitude={markPoint.lat}
+            highlighted={highlightMarkPoint}
+            icon={highlightMarkPoint ? Heart : undefined}
+          />
         )}
       </MapCN>
     </S.MapFrame>

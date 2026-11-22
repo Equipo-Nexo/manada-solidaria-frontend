@@ -97,10 +97,8 @@ export const RequirementIcon = styled.span<{ $met: boolean }>`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: ${({ $met, theme }) =>
-    $met ? "0" : `1px solid ${theme.colors.stroke}`};
-  background: ${({ $met, theme }) =>
-    $met ? theme.colors.success : "transparent"};
+  border: ${({ $met, theme }) => ($met ? "0" : `1px solid ${theme.colors.stroke}`)};
+  background: ${({ $met, theme }) => ($met ? theme.colors.success : "transparent")};
   color: ${({ theme }) => theme.colors.white};
   svg {
     width: 12px;

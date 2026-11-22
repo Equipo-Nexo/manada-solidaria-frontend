@@ -1,19 +1,9 @@
 import type { Maybe } from "yup";
-import type {
-  CampaignCategory,
-  CampaignType,
-  DonationItem,
-} from "../../types/Campaign.types";
+import type { CampaignCategory, CampaignType, DonationItem } from "../../types/Campaign.types";
 import type { Location } from "@/common/app/services/responses/Location";
 import type { PhoneNumber } from "@/common/app/services/responses/PhoneNumber";
 
-export const campaignFilters = [
-  "",
-  "DONATION",
-  "CASTRATION",
-  "VACCINATION",
-  "DEWORMING",
-] as const;
+export const campaignFilters = ["", "DONATION", "CASTRATION", "VACCINATION", "DEWORMING"] as const;
 export type CampaignFilter = (typeof campaignFilters)[number];
 
 export interface BaseCreateCampaignRequest {
@@ -45,6 +35,4 @@ export interface DonationCampaignRequest extends BaseCreateCampaignRequest {
 }
 
 export type CreateCampaignRequest =
-  | CreateNewsCampaignRequest
-  | FundraisingCampaignRequest
-  | DonationCampaignRequest;
+  CreateNewsCampaignRequest | FundraisingCampaignRequest | DonationCampaignRequest;

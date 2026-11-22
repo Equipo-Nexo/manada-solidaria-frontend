@@ -1,16 +1,16 @@
-import type { ReactNode } from 'react'
-import { createPortal } from 'react-dom'
-import { ActionButton, Actions, Backdrop, Body, Card, Content, Title } from './Modal.styles'
+import type { ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { ActionButton, Actions, Backdrop, Body, Card, Content, Title } from "./Modal.styles";
 
 type ModalProps = {
-  isOpen: boolean
-  title: string
-  primaryLabel: string
-  secondaryLabel: string
-  onPrimaryAction: () => void
-  onSecondaryAction: () => void
-  children: ReactNode
-}
+  isOpen: boolean;
+  title: string;
+  primaryLabel: string;
+  secondaryLabel: string;
+  onPrimaryAction: () => void;
+  onSecondaryAction: () => void;
+  children: ReactNode;
+};
 
 function Modal({
   isOpen,
@@ -22,7 +22,7 @@ function Modal({
   children,
 }: ModalProps) {
   if (!isOpen) {
-    return null
+    return null;
   }
 
   return createPortal(
@@ -44,7 +44,7 @@ function Modal({
       </Card>
     </Backdrop>,
     document.body,
-  )
+  );
 }
 
-export default Modal
+export default Modal;

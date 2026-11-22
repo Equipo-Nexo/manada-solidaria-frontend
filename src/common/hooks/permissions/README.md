@@ -5,18 +5,18 @@ Hook de orquestacion para permisos generales de la aplicacion.
 ## Import
 
 ```tsx
-import { useAppPermissions } from '../../hooks/permissions/useAppPermissions'
+import { useAppPermissions } from "../../hooks/permissions/useAppPermissions";
 ```
 
 ## Uso en login
 
 ```tsx
-const { requestLoginPermissions } = useAppPermissions()
+const { requestLoginPermissions } = useAppPermissions();
 
 const handleLoginSuccess = () => {
-  void requestLoginPermissions()
-  navigate('/home', { replace: true })
-}
+  void requestLoginPermissions();
+  navigate("/home", { replace: true });
+};
 ```
 
 ## API

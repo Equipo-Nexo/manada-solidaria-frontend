@@ -3,12 +3,10 @@ import useAuth from "../auth/useAuth";
 import { normalizeImageUrl } from "@/common/utils/CommonUtils";
 
 function useCurrentUserProfile() {
-
   const { userId } = useAuth();
   const { data: userData } = useGetUserProfileQuery(userId);
 
-  const storedProfileImage =
-    userData?.profile.profileImageURL ?? '';
+  const storedProfileImage = userData?.profile.profileImageURL ?? "";
 
   const profileImage = normalizeImageUrl(storedProfileImage);
 
@@ -16,7 +14,7 @@ function useCurrentUserProfile() {
     email: userData?.profile.email,
     username: userData?.username,
     profileImage,
-  }
+  };
 }
 
-export default useCurrentUserProfile
+export default useCurrentUserProfile;

@@ -11,12 +11,8 @@ export default function PasswordResetSuccess() {
           </S.SuccessIcon>
           <S.Title>¡Listo!</S.Title>
           <S.Message>
-            <S.Description>
-              Tu contraseña fue modificada correctamente.
-            </S.Description>
-            <S.Description>
-              Ya podés iniciar sesión con tu nueva contraseña.
-            </S.Description>
+            <S.Description>Tu contraseña fue modificada correctamente.</S.Description>
+            <S.Description>Ya podés iniciar sesión con tu nueva contraseña.</S.Description>
           </S.Message>
           <S.LoginLink to="/login" replace>
             Ir al inicio de sesión

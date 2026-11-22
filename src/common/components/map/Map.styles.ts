@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const MapFrame = styled.div`
   position: relative;
@@ -10,7 +10,7 @@ export const MapFrame = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.stroke};
   border-radius: 16px;
   box-shadow: 0 8px 24px rgb(89 65 55 / 12%);
-`
+`;
 
 export const Legend = styled.ul`
   position: absolute;
@@ -24,13 +24,13 @@ export const Legend = styled.ul`
   margin: 5px 2px;
   padding: 4px 12px;
   border-radius: 12px;
-  border: 1px solid #E5E7EBB2;
+  border: 1px solid #e5e7ebb2;
   pointer-events: none;
   list-style: none;
   color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.descriptive};
   background: ${({ theme }) => theme.colors.background};
-`
+`;
 
 export const LegendItem = styled.li<{ $color?: string }>`
   display: flex;
@@ -46,7 +46,7 @@ export const LegendItem = styled.li<{ $color?: string }>`
   }
 
   &:not(:first-child)::before {
-    content: '';
+    content: "";
     display: block;
     width: 6px;
     height: 6px;
@@ -61,7 +61,7 @@ export const LegendItem = styled.li<{ $color?: string }>`
       margin: 0 1px;
     }
   }
-`
+`;
 
 export const LegendMarker = styled.span`
   display: block;
@@ -73,4 +73,4 @@ export const LegendMarker = styled.span`
     transform: scale(0.36);
     transform-origin: top left;
   }
-`
+`;

@@ -16,10 +16,10 @@ export const adoptionFormsApi = baseAuthenticatedApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (_result, error) => error ? [] : ["AnimalPosts"],
+      invalidatesTags: (_result, error) => (error ? [] : ["AnimalPosts"]),
     }),
 
-    getForms: builder.query<FormResponse, { filter: string, status: string }>({
+    getForms: builder.query<FormResponse, { filter: string; status: string }>({
       query: ({ filter, status }) => ({
         url: "/users/adoption-forms",
         params: { filter, status },

@@ -19,8 +19,7 @@ export default function NewPassword() {
   const toast = useToast();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const resetToken =
-    typeof state?.resetToken === "string" ? state.resetToken : "";
+  const resetToken = typeof state?.resetToken === "string" ? state.resetToken : "";
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -94,32 +93,19 @@ export default function NewPassword() {
                 placeholder={showPassword ? "Nueva contraseña" : "********"}
                 $hasError={Boolean(errors.password)}
                 aria-invalid={Boolean(errors.password)}
-                aria-describedby={
-                  errors.password ? `${passwordId}-error` : undefined
-                }
+                aria-describedby={errors.password ? `${passwordId}-error` : undefined}
                 {...register("password")}
               />
               <S.Toggle
                 type="button"
-                aria-label={
-                  showPassword
-                    ? "Ocultar nueva contraseña"
-                    : "Mostrar nueva contraseña"
-                }
+                aria-label={showPassword ? "Ocultar nueva contraseña" : "Mostrar nueva contraseña"}
                 aria-pressed={showPassword}
                 onClick={() => setShowPassword((visible) => !visible)}
               >
-                {showPassword ? (
-                  <EyeOff aria-hidden="true" />
-                ) : (
-                  <Eye aria-hidden="true" />
-                )}
+                {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
               </S.Toggle>
             </S.PasswordWrapper>
-            <ErrorMessage
-              id={`${passwordId}-error`}
-              message={errors.password?.message}
-            />
+            <ErrorMessage id={`${passwordId}-error`} message={errors.password?.message} />
             <S.Requirements aria-label="Requisitos de la contraseña">
               {requirements.map(({ key, label, met }) => (
                 <S.Requirement key={key}>
@@ -127,9 +113,7 @@ export default function NewPassword() {
                     {met && <Check aria-hidden="true" />}
                   </S.RequirementIcon>
                   <span>{label}</span>
-                  <S.AccessibleStatus>
-                    {met ? "Cumplido" : "Pendiente"}
-                  </S.AccessibleStatus>
+                  <S.AccessibleStatus>{met ? "Cumplido" : "Pendiente"}</S.AccessibleStatus>
                 </S.Requirement>
               ))}
             </S.Requirements>
@@ -141,31 +125,19 @@ export default function NewPassword() {
                 id={confirmationId}
                 type={showConfirmation ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder={
-                  showConfirmation ? "Repetir contraseña" : "********"
-                }
+                placeholder={showConfirmation ? "Repetir contraseña" : "********"}
                 $hasError={Boolean(errors.confirmPassword)}
                 aria-invalid={Boolean(errors.confirmPassword)}
-                aria-describedby={
-                  errors.confirmPassword ? `${confirmationId}-error` : undefined
-                }
+                aria-describedby={errors.confirmPassword ? `${confirmationId}-error` : undefined}
                 {...register("confirmPassword")}
               />
               <S.Toggle
                 type="button"
-                aria-label={
-                  showConfirmation
-                    ? "Ocultar confirmación"
-                    : "Mostrar confirmación"
-                }
+                aria-label={showConfirmation ? "Ocultar confirmación" : "Mostrar confirmación"}
                 aria-pressed={showConfirmation}
                 onClick={() => setShowConfirmation((visible) => !visible)}
               >
-                {showConfirmation ? (
-                  <EyeOff aria-hidden="true" />
-                ) : (
-                  <Eye aria-hidden="true" />
-                )}
+                {showConfirmation ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
               </S.Toggle>
             </S.PasswordWrapper>
             <ErrorMessage

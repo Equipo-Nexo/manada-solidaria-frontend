@@ -27,26 +27,11 @@ export const registerSchema = yup.object({
   password: yup
     .string()
     .required("Ingresá tu contraseña.")
-    .min(
-      passwordRules.minLength,
-      "La contraseña debe tener al menos 8 caracteres.",
-    )
-    .max(
-      passwordRules.maxLength,
-      "La contraseña no puede superar los 64 caracteres.",
-    )
-    .matches(
-      passwordRules.uppercase,
-      "La contraseña debe contener al menos una letra mayúscula.",
-    )
-    .matches(
-      passwordRules.lowercase,
-      "La contraseña debe contener al menos una letra minúscula.",
-    )
-    .matches(
-      passwordRules.number,
-      "La contraseña debe contener al menos un número.",
-    )
+    .min(passwordRules.minLength, "La contraseña debe tener al menos 8 caracteres.")
+    .max(passwordRules.maxLength, "La contraseña no puede superar los 64 caracteres.")
+    .matches(passwordRules.uppercase, "La contraseña debe contener al menos una letra mayúscula.")
+    .matches(passwordRules.lowercase, "La contraseña debe contener al menos una letra minúscula.")
+    .matches(passwordRules.number, "La contraseña debe contener al menos un número.")
     .matches(
       passwordRules.specialCharacter,
       "La contraseña debe contener al menos un carácter especial.",

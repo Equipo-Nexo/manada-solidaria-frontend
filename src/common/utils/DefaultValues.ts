@@ -1,5 +1,5 @@
-import type { DefaultValues } from 'react-hook-form'
-import type { NewAnimalPostFormValues } from '../../animals/app/schemas/CreateAnimalPost.schema'
+import type { DefaultValues } from "react-hook-form";
+import type { NewAnimalPostFormValues } from "../../animals/app/schemas/CreateAnimalPost.schema";
 
 export const newAnimalPostDefaultValues: DefaultValues<NewAnimalPostFormValues> = {
   imageId: undefined,
@@ -10,11 +10,11 @@ export const newAnimalPostDefaultValues: DefaultValues<NewAnimalPostFormValues> 
   animalAge: undefined,
   animalSize: undefined,
   color: null,
-  name: '',
+  name: "",
   areaCode: undefined,
   phoneNumber: undefined,
-  story: '',
+  story: "",
   needsTransport: false,
   offersReward: false,
-  rewardAmount: '',
-}
+  rewardAmount: "",
+};

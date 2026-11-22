@@ -5,8 +5,8 @@ import { useAppDispatch } from '@store/hooks'
 import { persistor } from '@store/store'
 
 export function useLogout() {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const performLogout = useCallback(async (
     returnTo?: Pick<Location, 'pathname' | 'search' | 'hash'>,
@@ -29,5 +29,5 @@ export function useLogout() {
     return true
   }, [dispatch, navigate])
 
-  return { isLoggingOut: false, performLogout }
+  return { isLoggingOut: false, performLogout };
 }

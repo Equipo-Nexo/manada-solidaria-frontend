@@ -10,15 +10,7 @@ const DAY_NAMES: Record<string, string> = {
   SUNDAY: "Domingo",
 };
 
-const DAYS_ORDER = [
-  "MONDAY",
-  "TUESDAY",
-  "WEDNESDAY",
-  "THURSDAY",
-  "FRIDAY",
-  "SATURDAY",
-  "SUNDAY",
-];
+const DAYS_ORDER = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
 
 const formatTime = (time: string) => time.slice(0, 5);
 
@@ -31,23 +23,12 @@ const formatTimeRange = (entry: VetCalendarEntry) =>
   `${formatTime(entry.openingTime)} - ${formatTime(entry.closingTime)}`;
 
 export const getCurrentDayOfWeek = () => {
-  const days = [
-    "SUNDAY",
-    "MONDAY",
-    "TUESDAY",
-    "WEDNESDAY",
-    "THURSDAY",
-    "FRIDAY",
-    "SATURDAY",
-  ];
+  const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
   return days[new Date().getDay()];
 };
 
-export const getTodayHours = (
-  calendar: VetCalendarEntry[],
-  dayOfWeek: string,
-) => {
+export const getTodayHours = (calendar: VetCalendarEntry[], dayOfWeek: string) => {
   const todayEntries = getDayEntries(calendar, dayOfWeek);
 
   if (todayEntries.length === 0) {
@@ -57,19 +38,13 @@ export const getTodayHours = (
   return `Hoy ${todayEntries.map(formatTimeRange).join(" | ")} hs`;
 };
 
-export const formatSchedule = (
-  calendar: VetCalendarEntry[],
-  currentDay: string,
-) => {
+export const formatSchedule = (calendar: VetCalendarEntry[], currentDay: string) => {
   return DAYS_ORDER.map((day) => {
     const entries = getDayEntries(calendar, day);
 
     return {
       day: DAY_NAMES[day],
-      hours:
-        entries.length > 0
-          ? `${entries.map(formatTimeRange).join(" | ")}`
-          : "Cerrado",
+      hours: entries.length > 0 ? `${entries.map(formatTimeRange).join(" | ")}` : "Cerrado",
       isToday: day === currentDay,
     };
   });

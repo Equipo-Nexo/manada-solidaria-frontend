@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-import { createPagePaws } from '@/common/utils/PagePawUtils';
-import * as S from './PagePaws.styles';
+import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { createPagePaws } from "@/common/utils/PagePawUtils";
+import * as S from "./PagePaws.styles";
 
 type PagePawsProps = {
   edgesOnly?: boolean;
@@ -12,9 +12,7 @@ function PagePaws({ edgesOnly = false, opacityMultiplier = 1 }: PagePawsProps) {
   const { key } = useLocation();
   const paws = useMemo(() => {
     const positions = createPagePaws(key);
-    return edgesOnly
-      ? positions.filter(({ left }) => left < 25 || left > 75)
-      : positions;
+    return edgesOnly ? positions.filter(({ left }) => left < 25 || left > 75) : positions;
   }, [key, edgesOnly]);
 
   return (

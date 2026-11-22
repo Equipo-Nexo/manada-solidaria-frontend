@@ -75,8 +75,7 @@ export const Status = styled.span<{ $isOpen: boolean }>`
   background: ${({ $isOpen, theme }) =>
     `color-mix(in srgb, ${$isOpen ? theme.colors.success : theme.colors.error} 15%, transparent)`};
 
-  color: ${({ $isOpen, theme }) =>
-    $isOpen ? theme.colors.success : theme.colors.error};
+  color: ${({ $isOpen, theme }) => ($isOpen ? theme.colors.success : theme.colors.error)};
 
   font-size: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -90,8 +89,7 @@ export const StatusDot = styled.span<{ $isOpen: boolean }>`
   flex-shrink: 0;
   border-radius: 50%;
 
-  background: ${({ $isOpen, theme }) =>
-    $isOpen ? theme.colors.success : theme.colors.error};
+  background: ${({ $isOpen, theme }) => ($isOpen ? theme.colors.success : theme.colors.error)};
   opacity: 0.75;
 `;
 export const InformationRow = styled.div`
@@ -249,8 +247,7 @@ export const ScheduleRow = styled.div<{ $isToday: boolean }>`
   padding: 0.25rem 0.5rem;
   border-radius: 0.375rem;
 
-  background: ${({ $isToday, theme }) =>
-    $isToday ? theme.colors.neutral : "transparent"};
+  background: ${({ $isToday, theme }) => ($isToday ? theme.colors.neutral : "transparent")};
 `;
 
 export const DayInfo = styled.div`

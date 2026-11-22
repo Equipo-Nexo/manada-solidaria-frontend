@@ -200,13 +200,11 @@ export const FilterOption = styled.button<{ $selected: boolean }>`
   min-height: 44px;
   padding: 10px 12px;
   border: 1px solid
-    ${({ $selected, theme }) =>
-      $selected ? theme.colors.secondary : theme.colors.stroke};
+    ${({ $selected, theme }) => ($selected ? theme.colors.secondary : theme.colors.stroke)};
   border-radius: 20px;
   background: ${({ $selected, theme }) =>
     $selected ? theme.colors.neutral : theme.colors.background};
-  color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.secondary : theme.colors.darkColor};
+  color: ${({ $selected, theme }) => ($selected ? theme.colors.secondary : theme.colors.darkColor)};
   ${({ theme }) => theme.typography.descriptive};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   cursor: pointer;
@@ -320,8 +318,7 @@ export const ApplyButton = styled(ActionButton)`
 
   @media (min-width: 768px) and (hover: hover) {
     &:hover {
-      background: ${({ theme }) =>
-        `color-mix(in srgb, ${theme.colors.brand} 90%, black 10%)`};
+      background: ${({ theme }) => `color-mix(in srgb, ${theme.colors.brand} 90%, black 10%)`};
       box-shadow: 0 2px 6px rgb(0 0 0 / 8%);
     }
   }

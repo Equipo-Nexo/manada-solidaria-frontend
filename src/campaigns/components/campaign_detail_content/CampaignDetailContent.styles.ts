@@ -2,13 +2,13 @@ import styled from "styled-components";
 import type { CampaignCategory } from "@/campaigns/app/types/Campaign.types";
 import { campaignCategoryColors } from "@/campaigns/utils/CampaignUtils";
 
-export { DetailImage as CampaignImage } from '@/common/components/detailImage/DetailImage.styles'
+export { DetailImage as CampaignImage } from "@/common/components/detailImage/DetailImage.styles";
 
 export const CampaignDetailContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 export const CampaignInformation = styled.section`
   display: flex;
@@ -19,14 +19,31 @@ export const CampaignInformation = styled.section`
     flex-direction: row;
     justify-content: space-between;
   }
-`
+`;
 
 export const ContactContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
-
+`;
+export const UserProfileContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: none;
+`;
+export const ValuesContainer = styled.div`
+  min-width: 0;
+  text-align: left;
+`;
+export const AuthorRole = styled.p`
+  margin: 4px 0 0;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: ${({ theme }) => theme.typography.descriptive.fontSize};
+  line-height: ${({ theme }) => theme.typography.descriptive.lineHeight};
+`;
 
 export const Page = styled.div`
   display: flex;
@@ -58,25 +75,31 @@ export const Header = styled.header`
 `;
 
 export const BackButton = styled.button`
-  width: 40px; height: 40px; 
-  display: grid; 
-  flex: 0 0 auto; 
-  place-items: center; 
+  width: 40px;
+  height: 40px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
   border: 0;
-  border-radius: 50%; 
-  background: ${({ theme }) => theme.colors.background}; 
-  color: ${({ theme }) => theme.colors.black}; 
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
-  svg { width: 22px; height: 22px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; 
-  outline-offset: 2px; }
-`
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 export const FormTitle = styled.h1`
-    margin: 0;
-    color: ${({ theme }) => theme.colors.black};
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    text-align: left;
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
 `;
 export const Content = styled.div`
   width: 100%;
@@ -131,11 +154,11 @@ export const BottomInfoRow = styled.section`
 `;
 
 export const CampaignInfo = styled.section`
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-  gap:12px;
+  gap: 12px;
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
@@ -146,18 +169,17 @@ type TitleProps = {
 };
 export const Title = styled.h2<TitleProps>`
   display: flex;
-  width:208px;
   align-items: center;
   gap: 8px;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   color: ${({ theme }) => theme.colors.black};
   text-align: left;
-  font-size: ${({ theme }) => theme.typography.header2};
-  font-weight:${({ theme }) => theme.fontWeights.semibold};
-  line-height: 22px;
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  line-height: 20px;
   svg {
     color: ${({ $iconColor, theme }) =>
-    $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
+      $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
   }
 `;
 export const CampaignEndDate = styled.div`
@@ -189,7 +211,49 @@ export const EndDateLabel = styled.p`
   line-height: 14px;
   color: ${({ theme }) => theme.colors.black};
 `;
-
+export const Label = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.body.fontSize};
+  line-height: 17px;
+  strong {
+    color: ${({ theme }) => theme.colors.black};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+  }
+`;
+export const InfoContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  height: 72px;
+  background: ${({ theme }) => theme.colors.neutral};
+`;
+export const TimeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  font-size: 11px;
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+`;
+export const AuthorCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+  justify-content: center;
+`;
 export const EndDateValue = styled.p`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.medium};
@@ -216,7 +280,7 @@ export const DescriptionSection = styled.section`
 
 export const MapContainer = styled.section`
   margin-bottom: 23px;
-`
+`;
 
 export const CampaignDescription = styled.p`
   margin: 0;
@@ -257,9 +321,11 @@ export const CampaignHeading = styled.div`
   h2 {
     margin: 0;
   }
-`
+`;
 
-export const CampaignTypeBadge = styled.span<{ $campaignType: CampaignCategory }>`
+export const CampaignTypeBadge = styled.span<{
+  $campaignType: CampaignCategory;
+}>`
   height: 28px;
   box-sizing: border-box;
   flex: 0 0 auto;
@@ -273,5 +339,4 @@ export const CampaignTypeBadge = styled.span<{ $campaignType: CampaignCategory }
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 20px;
-  display: flex;
-`
+`;

@@ -27,8 +27,7 @@ const confirmationConfig = {
   },
   FINISHED: {
     title: "¿Finalizar la donación?",
-    description:
-      "La donación se cerrará definitivamente y no podrás volver a cambiar su estado.",
+    description: "La donación se cerrará definitivamente y no podrás volver a cambiar su estado.",
     primaryLabel: "Sí, finalizar",
     secondaryLabel: "No, volver",
   },
@@ -56,15 +55,12 @@ export function CampaignStatusLogic({
 }: CampaignStatusLogicParams): UpdatePostStatusSheetProps<CampaignStatus> {
   const donation = isDonationCampaign(post.type);
 
-  const targets: CampaignStatus[] = donation
-    ? ["FINISHED", "COMPLETED"]
-    : ["CANCELLED"];
+  const targets: CampaignStatus[] = donation ? ["FINISHED", "COMPLETED"] : ["CANCELLED"];
 
   const possibleStatus = targets
     .filter(
       (status) =>
-        post.postType === "campaign" &&
-        canChangeCampaignStatus(post.status, status, post.type),
+        post.postType === "campaign" && canChangeCampaignStatus(post.status, status, post.type),
     )
     .map((status) => {
       const confirmation = confirmationConfig[status];

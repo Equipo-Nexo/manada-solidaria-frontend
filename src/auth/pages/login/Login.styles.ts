@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const LoginPanel = styled.section`
   width: 100%;
@@ -60,7 +60,7 @@ export const HeaderTextContainer = styled.div`
   @media(min-width: 1000px) {
     gap: 8px;
   }
-`
+`;
 
 export const FooterContainer = styled.div`
   flex: 0 0 auto;
@@ -120,7 +120,7 @@ export const AppTitle = styled.h1`
   @media(min-width: 1000px) {
     font-size: 2rem;
   }
-`
+`;
 
 export const AppDescription = styled.p`
   font-size: 0.8rem;
@@ -132,7 +132,7 @@ export const AppDescription = styled.p`
   @media(min-width: 1000px) {
     font-size: 1.2rem;
   }
-`
+`;
 
 export const TitlesContainer = styled.div`
   margin-top: 1.5rem;
@@ -163,7 +163,7 @@ export const Form = styled.form`
   @media(min-width: 1000px) {
     flex: 1;
   }
-`
+`;
 export const FormFields = styled.div`
   display: flex;
   flex-direction: column;
@@ -199,12 +199,12 @@ export const FieldLabel = styled.label`
   @media (min-width: 768px) and (max-height: 720px) {
     line-height: 18px;
   }
-`
+`;
 
 export const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
   padding: 1rem 1.5rem;
-  background: ${({theme}) => theme.colors.soft};
+  background: ${({ theme }) => theme.colors.soft};
   border: none;
   border-radius: 12px;
 `
@@ -263,7 +263,7 @@ export const PasswordToggle = styled.button`
       height: 18px;
     }
   }
-`
+`;
 
 export const RecoveryButton = styled.button`
   align-self: center;
@@ -298,14 +298,16 @@ export const RecoveryButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 
 export const LoginButton = styled.button`
   width: 100%;
   height: 2.5rem;
   border-radius: 9999px;
   border: none;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.white};
   font-size: 0.8rem;
@@ -321,7 +323,7 @@ export const LoginButton = styled.button`
     height: 4rem;
     font-size: 1rem;
   }
-`
+`;
 
 export const LoginDivider = styled.div`
   width: 100%;
@@ -341,12 +343,12 @@ export const LoginDivider = styled.div`
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     height: 1px;
     flex: 1;
     background: ${({ theme }) => theme.colors.stroke};
   }
-`
+`;
 
 export const PasskeyButton = styled(LoginButton)`
   border: 2px solid ${({ theme }) => theme.colors.secondary};
@@ -356,7 +358,7 @@ export const PasskeyButton = styled(LoginButton)`
   &:hover {
     background: ${({ theme }) => theme.colors.neutral};
   }
-`
+`;
 
 export const RegisterTextContainer = styled.div`
   margin-top: 1rem;

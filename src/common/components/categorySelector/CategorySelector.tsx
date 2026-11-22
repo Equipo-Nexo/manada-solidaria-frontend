@@ -1,24 +1,24 @@
-import * as S from './CategorySelector.styles'
+import * as S from "./CategorySelector.styles";
 
 type CategorySelectorProps<T extends string> = {
-  categories: readonly T[]
-  selectedCategory: T
-  onCategoryChange: (category: T) => void
-  getCategoryLabel?: (category: T) => string
-  ariaLabel?: string
-}
+  categories: readonly T[];
+  selectedCategory: T;
+  onCategoryChange: (category: T) => void;
+  getCategoryLabel?: (category: T) => string;
+  ariaLabel?: string;
+};
 
 function CategorySelector<T extends string>({
   categories,
   selectedCategory,
   onCategoryChange,
   getCategoryLabel = (category) => category,
-  ariaLabel = 'Filtrar por categoría',
+  ariaLabel = "Filtrar por categoría",
 }: CategorySelectorProps<T>) {
   return (
     <S.Filters aria-label={ariaLabel}>
       {categories.map((category) => {
-        const isActive = category === selectedCategory
+        const isActive = category === selectedCategory;
 
         return (
           <S.FilterButton
@@ -30,10 +30,10 @@ function CategorySelector<T extends string>({
           >
             {getCategoryLabel(category)}
           </S.FilterButton>
-        )
+        );
       })}
     </S.Filters>
-  )
+  );
 }
 
-export default CategorySelector
+export default CategorySelector;

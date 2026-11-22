@@ -35,17 +35,17 @@ export default function Layout({
         <S.ButtonAndTitleContainer>
           <S.BackButton
             type="button"
-            onClick={() => navigate(backTo || '/home')}
+            onClick={() => navigate(backTo || "/home")}
             aria-label="Volver"
           >
             <Arrow aria-hidden="true" />
           </S.BackButton>
           <S.TitleContainer>
             <S.PageTitle>{title}</S.PageTitle>
-            { subtitle && <S.Subtitle>{subtitle}</S.Subtitle> }
+            {subtitle && <S.Subtitle>{subtitle}</S.Subtitle>}
           </S.TitleContainer>
         </S.ButtonAndTitleContainer>
-        { headerAction }
+        {headerAction}
       </S.Header>
       <S.LayoutContent>
         {isLoading && (
@@ -61,5 +61,5 @@ export default function Layout({
         {!isLoading && !isError && children}
       </S.LayoutContent>
     </S.LayoutContainer>
-  )
+  );
 }

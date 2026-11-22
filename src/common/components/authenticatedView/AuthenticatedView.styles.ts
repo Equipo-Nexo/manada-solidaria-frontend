@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const MobileViewChrome = styled.div`
   position: sticky;
@@ -8,7 +8,7 @@ export const MobileViewChrome = styled.div`
   @media (min-width: 768px) {
     display: none;
   }
-`
+`;
 
 export const DesktopViewChrome = styled.div`
   position: sticky;
@@ -19,4 +19,4 @@ export const DesktopViewChrome = styled.div`
   @media (min-width: 768px) {
     display: block;
   }
-`
+`;

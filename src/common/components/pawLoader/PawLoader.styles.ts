@@ -1,11 +1,11 @@
-import styled, { keyframes } from 'styled-components'
-import type { PawLoaderSize } from './PawLoader'
+import styled, { keyframes } from "styled-components";
+import type { PawLoaderSize } from "./PawLoader";
 
 const pawSize: Record<PawLoaderSize, string> = {
-  small: '18px',
-  medium: '26px',
-  large: '34px',
-}
+  small: "18px",
+  medium: "26px",
+  large: "34px",
+};
 
 const step = keyframes`
   0%, 100% {
@@ -17,7 +17,7 @@ const step = keyframes`
     opacity: 1;
     transform: translateY(-3px) scale(1);
   }
-`
+`;
 
 export const Loader = styled.div<{ $size: PawLoaderSize }>`
   display: inline-flex;
@@ -32,13 +32,13 @@ export const Loader = styled.div<{ $size: PawLoaderSize }>`
     width: ${({ $size }) => pawSize[$size]};
     height: ${({ $size }) => pawSize[$size]};
   }
-`
+`;
 
 export const PawTrail = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-`
+`;
 
 export const Paw = styled.span`
   display: inline-flex;
@@ -60,10 +60,10 @@ export const Paw = styled.span`
     opacity: 1;
     transform: none;
   }
-`
+`;
 
 export const Label = styled.span`
   font-size: ${({ theme }) => theme.typography.body.fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   line-height: ${({ theme }) => theme.typography.body.lineHeight};
-`
+`;

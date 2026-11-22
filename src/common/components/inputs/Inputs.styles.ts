@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { fieldFocusVisible } from "@styles/interactions";
 
-
 export const Input = styled.input`
   width: 100%;
   height: 56px;
@@ -11,23 +10,46 @@ export const Input = styled.input`
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.body};
-  &::placeholder { color: ${({ theme }) => theme.colors.darkColorMuted}; }
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.darkColorMuted};
+  }
   ${fieldFocusVisible}
-`
+`;
 
 export const PhoneNumberContainer = styled.div`
-  display: flex; 
+  display: flex;
   gap: 6px;
-`
+`;
 export const AreaCodeWrapper = styled.div`
-  position: relative; 
+  position: relative;
   flex: 0 0 110px;
-`
-export const PhoneGlyph = styled.span`position: absolute; z-index: 1; top: 18px; left: 12px; color: ${({ theme }) => theme.colors.darkColor}; svg { width: 18px; height: 18px; }`
-export const AreaCode = styled(Input)`width: 100%; padding-left: 40px;`
-export const PhoneNumber = styled(Input)`min-width: 0;`
+`;
+export const PhoneGlyph = styled.span`
+  position: absolute;
+  z-index: 1;
+  top: 18px;
+  left: 12px;
+  color: ${({ theme }) => theme.colors.darkColor};
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+export const AreaCode = styled(Input)`
+  width: 100%;
+  padding-left: 40px;
+`;
+export const PhoneNumber = styled(Input)`
+  min-width: 0;
+`;
 
-export const SelectField = styled.div`min-width: 0; width: 100%; display: flex; flex-direction: column; gap: 8px;`
+export const SelectField = styled.div`
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
 export const Select = styled.select<{ $hasValue: boolean }>`
   width: 100%;
   height: 56px;
@@ -47,7 +69,7 @@ export const Select = styled.select<{ $hasValue: boolean }>`
     outline: none;
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }
-`
+`;
 
 export const OptionLabel = styled.label<{ $selected: boolean }>`
   min-height: 62px;
@@ -55,10 +77,11 @@ export const OptionLabel = styled.label<{ $selected: boolean }>`
   text-align: left;
   grid-template-columns: minmax(0, 1fr) 22px;
   align-items: center;
-  border: 2px solid ${({ $selected, theme }) => $selected ? theme.colors.stroke : theme.colors.stroke};
+  border: 2px solid
+    ${({ $selected, theme }) => ($selected ? theme.colors.stroke : theme.colors.stroke)};
   border-radius: 12px;
   padding: 0px 16px 0px 16px;
-  background: ${({ $selected, theme }) => $selected ? theme.colors.neutral : theme.colors.background};
+  background: ${({ $selected, theme }) => ($selected ? theme.colors.neutral : theme.colors.background)};
   cursor: pointer;
 
   &:focus-within,
@@ -66,32 +89,30 @@ export const OptionLabel = styled.label<{ $selected: boolean }>`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
   }
-`
+`;
 export const RadioInput = styled.input`
-  position: absolute; 
-  width: 1px; 
-  height:1px;
-  overflow: hidden; 
-`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+`;
 export const OptionItem = styled.span`
-  min-width: 0; 
-  display: flex; 
-  flex-direction: column; 
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   gap: 2px;
-`
+`;
 export const Title = styled.span`
-  color: ${({ theme }) => theme.colors.darkColor}; 
+  color: ${({ theme }) => theme.colors.darkColor};
   ${({ theme }) => theme.typography.header3};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-;`
+`;
 
 export const Description = styled.span`
-  color: ${({ theme }) => theme.colors.secondary}; 
+  color: ${({ theme }) => theme.colors.secondary};
   ${({ theme }) => theme.typography.descriptive};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
- 
-`
-
+`;
 
 export const SelectionIndicator = styled.span`
   width: 20px;
@@ -102,9 +123,12 @@ export const SelectionIndicator = styled.span`
   border: 2px solid ${({ theme }) => theme.colors.secondary};
   border-radius: 50%;
   color: ${({ theme }) => theme.colors.secondary};
-  
-  ${OptionLabel}[data-selected='true'] & { background: ${({ theme }) => theme.colors.secondary}; color: ${({ theme }) => theme.colors.background}; }
-`
+
+  ${OptionLabel}[data-selected='true'] & {
+    background: ${({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.background};
+  }
+`;
 
 export const FormErrorMessage = styled.div`
   width: 100%;
@@ -133,11 +157,17 @@ export const FormErrorMessage = styled.div`
   }
 
   @keyframes error-message-enter {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
-`
+`;

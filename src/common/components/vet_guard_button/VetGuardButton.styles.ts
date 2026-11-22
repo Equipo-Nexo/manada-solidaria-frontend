@@ -31,8 +31,7 @@ export const Card = styled.article<VariantProps>`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: ${({ $isActive }) =>
-    $isActive ? "21px 16px 10px" : "11px 16px 10px"};
+  padding: ${({ $isActive }) => ($isActive ? "21px 16px 10px" : "11px 16px 10px")};
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow:
@@ -109,8 +108,7 @@ export const StatusDot = styled.span<VariantProps>`
   height: 8px;
   flex: 0 0 8px;
   border-radius: 999px;
-  background: ${({ $isActive, theme }) =>
-    $isActive ? theme.colors.success : theme.colors.error};
+  background: ${({ $isActive, theme }) => ($isActive ? theme.colors.success : theme.colors.error)};
 `;
 
 export const DescriptionRow = styled.div<VariantProps>`
@@ -171,8 +169,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
   gap: 12px;
   border: 0;
   border-radius: 12px;
-  background: ${({ $isActive, theme }) =>
-    $isActive ? theme.colors.error : theme.colors.neutral};
+  background: ${({ $isActive, theme }) => ($isActive ? theme.colors.error : theme.colors.neutral)};
   color: ${({ $isActive, theme }) =>
     $isActive ? theme.colors.background : theme.colors.secondary};
   font-family: ${({ theme }) => theme.typography.action.fontFamily};

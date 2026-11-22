@@ -1,5 +1,5 @@
-import styled, { keyframes } from 'styled-components'
-import type { ToastType } from './Toaster'
+import styled, { keyframes } from "styled-components";
+import type { ToastType } from "./Toaster";
 
 const toastEnter = keyframes`
   from {
@@ -11,7 +11,7 @@ const toastEnter = keyframes`
     opacity: 1;
     transform: translateY(0);
   }
-`
+`;
 
 export const ToastRegion = styled.div`
   position: fixed;
@@ -26,7 +26,7 @@ export const ToastRegion = styled.div`
     top: 12px;
     width: calc(100% - 24px);
   }
-`
+`;
 
 export const ToastCard = styled.section<{ $type: ToastType }>`
   position: relative;
@@ -52,7 +52,7 @@ export const ToastCard = styled.section<{ $type: ToastType }>`
     min-height: 72px;
     padding: 12px 14px;
   }
-`
+`;
 
 export const ToastIcon = styled.div<{ $type: ToastType }>`
   width: 48px;
@@ -75,11 +75,11 @@ export const ToastIcon = styled.div<{ $type: ToastType }>`
     width: 44px;
     height: 44px;
   }
-`
+`;
 
 export const ToastContent = styled.div`
   min-width: 0;
-`
+`;
 
 export const ToastTitle = styled.h2`
   margin: 0;
@@ -87,7 +87,7 @@ export const ToastTitle = styled.h2`
   font-size: ${({ theme }) => theme.typography.toastTitle.fontSize};
   font-weight: ${({ theme }) => theme.typography.toastTitle.fontWeight};
   line-height: ${({ theme }) => theme.typography.toastTitle.lineHeight};
-`
+`;
 
 export const ToastDescription = styled.p`
   margin: 3px 0 0;
@@ -95,4 +95,4 @@ export const ToastDescription = styled.p`
   font-size: ${({ theme }) => theme.typography.toastDescription.fontSize};
   font-weight: ${({ theme }) => theme.typography.toastDescription.fontWeight};
   line-height: ${({ theme }) => theme.typography.toastDescription.lineHeight};
-`
+`;

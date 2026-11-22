@@ -1,6 +1,6 @@
 export interface AdoptionQuestion {
   id: string;
-  type: 'TEXT' | 'SELECTION' | 'PHONE';
+  type: "TEXT" | "SELECTION" | "PHONE";
   iconName: string;
   title: string;
   placeHolder: string;
@@ -14,4 +14,3 @@ export interface AdoptionCategory {
   description: string;
   questions: AdoptionQuestion[];
 }
-

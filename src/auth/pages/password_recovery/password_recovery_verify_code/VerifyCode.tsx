@@ -10,10 +10,7 @@ import {
   useVerifyCodeMutation,
 } from "@/auth/app/api/passwordRecoveryApi";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  verifyCodeSchema,
-  type VerifyCodeValues,
-} from "@/auth/app/schemas/verifyCodeSchema";
+import { verifyCodeSchema, type VerifyCodeValues } from "@/auth/app/schemas/verifyCodeSchema";
 import { Controller, useForm } from "react-hook-form";
 import CodeInput from "@/common/components/code_input/CodeInput";
 
@@ -24,8 +21,7 @@ export default function VerifyCode() {
   const toast = useToast();
   const email = typeof state?.email === "string" ? state.email : "";
   const hasEmail = Boolean(email);
-  const [resend, { isLoading: isResending }] =
-    useRequestPasswordRecoveryMutation();
+  const [resend, { isLoading: isResending }] = useRequestPasswordRecoveryMutation();
   const [verifyCode, { isLoading: isVerifying }] = useVerifyCodeMutation();
 
   const {
@@ -92,10 +88,7 @@ export default function VerifyCode() {
         );
       })
       .catch(() => {
-        toast.error(
-          "No pudimos reenviar el código",
-          "Intentá nuevamente en unos instantes.",
-        );
+        toast.error("No pudimos reenviar el código", "Intentá nuevamente en unos instantes.");
       });
   };
 
@@ -122,11 +115,7 @@ export default function VerifyCode() {
           <S.Description>
             Ingresá el código de 6 dígitos que enviamos a tu correo electrónico.
           </S.Description>
-          <S.Form
-            noValidate
-            aria-busy={isVerifying}
-            onSubmit={handleSubmit(handleVerify)}
-          >
+          <S.Form noValidate aria-busy={isVerifying} onSubmit={handleSubmit(handleVerify)}>
             <Controller
               name="code"
               control={control}
@@ -156,9 +145,7 @@ export default function VerifyCode() {
                   {resendLabel}
                 </S.ResendButton>
               ) : (
-                <S.BackLink to="/recuperar-contrasena">
-                  Ingresar correo nuevamente
-                </S.BackLink>
+                <S.BackLink to="/recuperar-contrasena">Ingresar correo nuevamente</S.BackLink>
               )}
             </S.ResendArea>
             <S.SubmitButton type="submit" disabled={isVerifying}>

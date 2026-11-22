@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { focusVisible } from '@styles/interactions';
+import styled from "styled-components";
+import { focusVisible } from "@styles/interactions";
 
 export const Container = styled.section`
   position: relative;
@@ -49,14 +49,14 @@ export const Thanks = styled.p`
   margin: 6px 0 0;
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.descriptive};
-  font-weight:${({ theme }) => theme.fontWeights.medium}
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
 export const Description = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.typography.descriptive};
-  font-weight:${({ theme }) => theme.fontWeights.medium}
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
 export const AnimalName = styled.strong`

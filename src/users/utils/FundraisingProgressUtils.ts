@@ -9,7 +9,11 @@ export function getFundraisingProgress({
   amountCollected,
   status,
 }: FundraisingProgressParams): number | null {
-  if (amountToBeCollected == null || !Number.isFinite(amountToBeCollected) || amountToBeCollected <= 0) {
+  if (
+    amountToBeCollected == null ||
+    !Number.isFinite(amountToBeCollected) ||
+    amountToBeCollected <= 0
+  ) {
     return null;
   }
 
@@ -17,11 +21,8 @@ export function getFundraisingProgress({
     return 100;
   }
 
-  const collected = amountCollected != null && Number.isFinite(amountCollected)
-    ? amountCollected : 0;
+  const collected =
+    amountCollected != null && Number.isFinite(amountCollected) ? amountCollected : 0;
 
-  return Math.min(
-    100,
-    Math.max(0, Math.round((collected / amountToBeCollected) * 100)),
-  );
+  return Math.min(100, Math.max(0, Math.round((collected / amountToBeCollected) * 100)));
 }

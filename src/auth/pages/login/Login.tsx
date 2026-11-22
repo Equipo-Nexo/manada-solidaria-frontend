@@ -10,10 +10,7 @@ import { useAppDispatch } from "@store/hooks";
 import { useAppPermissions } from "@hooks/permissions/useAppPermissions";
 import { useToast } from "@hooks/toast/useToast";
 import * as S from "./Login.styles";
-import {
-  loginSchema,
-  type LoginFormValues,
-} from "@auth/app/schemas/loginSchema";
+import { loginSchema, type LoginFormValues } from "@auth/app/schemas/loginSchema";
 import { scrollToFirstFormError } from "@utils/scrollToFirstFormError";
 import { isWebAuthnSupported } from "@auth/app/webauthn/webAuthnAuthentication";
 import { usePasskeyLogin } from "@auth/hooks/usePasskeyLogin";
@@ -87,6 +84,16 @@ function Login() {
           </S.HeaderTextContainer>
         </S.LoginHeader>
 
+<<<<<<< HEAD
+=======
+        <S.TitlesContainer>
+          <S.WelcomeTitle>
+            ¡Qué bueno verte
+            <S.TitleLineBreak /> de nuevo!
+          </S.WelcomeTitle>
+          <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
+        </S.TitlesContainer>
+>>>>>>> dev
 
         <S.Form
           onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)}
@@ -105,16 +112,11 @@ function Login() {
                 placeholder="usuario"
                 autoComplete="username webauthn"
                 disabled={isAuthenticating}
-                aria-describedby={
-                  errors.username ? "username-error" : undefined
-                }
+                aria-describedby={errors.username ? "username-error" : undefined}
                 aria-invalid={Boolean(errors.username)}
                 {...register("username")}
               />
-              <ErrorMessage
-                id="username-error"
-                message={errors.username?.message}
-              />
+              <ErrorMessage id="username-error" message={errors.username?.message} />
             </S.Field>
 
             <S.Field>
@@ -129,33 +131,20 @@ function Login() {
                   placeholder={showPassword ? "contraseña" : "********"}
                   autoComplete="current-password"
                   disabled={isAuthenticating}
-                  aria-describedby={
-                    errors.password ? "password-error" : undefined
-                  }
+                  aria-describedby={errors.password ? "password-error" : undefined}
                   aria-invalid={Boolean(errors.password)}
                   {...register("password")}
                 />
                 <S.PasswordToggle
                   type="button"
-                  aria-label={
-                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-                  }
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   disabled={isAuthenticating}
-                  onClick={() =>
-                    setShowPassword((currentValue) => !currentValue)
-                  }
+                  onClick={() => setShowPassword((currentValue) => !currentValue)}
                 >
-                  {showPassword ? (
-                    <EyeOff aria-hidden="true" />
-                  ) : (
-                    <Eye aria-hidden="true" />
-                  )}
+                  {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
                 </S.PasswordToggle>
               </S.PasswordInputWrapper>
-              <ErrorMessage
-                id="password-error"
-                message={errors.password?.message}
-              />
+              <ErrorMessage id="password-error" message={errors.password?.message} />
             </S.Field>
 
             <S.RecoveryButton type="button" onClick={handleForgotPassword}>
@@ -164,6 +153,7 @@ function Login() {
 
             <S.ButtonsContainer>
 
+<<<<<<< HEAD
               <S.LoginButton type="submit" disabled={isAuthenticating}>
                 {isLoading ? "Ingresando..." : "Iniciar Sesión"}
               </S.LoginButton>
@@ -185,6 +175,22 @@ function Login() {
                 </>
               )}
             </S.ButtonsContainer>
+=======
+            {passkeySupported && (
+              <>
+                <S.LoginDivider>
+                  <span>o</span>
+                </S.LoginDivider>
+                <S.PasskeyButton
+                  type="button"
+                  disabled={isAuthenticating}
+                  onClick={() => void loginWithPasskey()}
+                >
+                  {isPasskeyLoading ? "Esperando confirmación..." : "Ingresar con passkey"}
+                </S.PasskeyButton>
+              </>
+            )}
+>>>>>>> dev
           </S.FormFields>
           <S.RegisterTextContainer>
             <S.RegisterText>
@@ -193,13 +199,25 @@ function Login() {
             </S.RegisterText>
           </S.RegisterTextContainer>
         </S.Form>
+<<<<<<< HEAD
 
+=======
+        <S.RegisterTextContainer>
+          <S.RegisterText>
+            ¿No tienes cuenta? <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
+          </S.RegisterText>
+        </S.RegisterTextContainer>
+>>>>>>> dev
       </S.LoginContainer>
 
       <S.FooterContainer>
+<<<<<<< HEAD
         <S.FooterText>
           © 2026 Manada Solidaria
         </S.FooterText>
+=======
+        <S.FooterText>© 2026 Manada Solidaria - Cuidando huellas juntos</S.FooterText>
+>>>>>>> dev
         <S.FooterText>v{__APP_VERSION__}</S.FooterText>
       </S.FooterContainer>
     </S.LoginPanel>

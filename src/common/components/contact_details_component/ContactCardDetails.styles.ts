@@ -1,5 +1,4 @@
-import styled from "styled-components"
-
+import styled from "styled-components";
 
 export const ContactCard = styled.div`
   display: flex;
@@ -16,7 +15,7 @@ export const ContactCard = styled.div`
   @media (max-width: 359px) {
     padding: 16px;
   }
-`
+`;
 
 export const ContactRow = styled.div`
   display: flex;
@@ -36,7 +35,7 @@ export const ContactRow = styled.div`
     gap: 8px;
     padding: 12px;
   }
-`
+`;
 
 export const ContactNumber = styled.span`
   flex: 1 1 auto;
@@ -47,7 +46,7 @@ export const ContactNumber = styled.span`
   line-height: ${({ theme }) => theme.typography.header3.lineHeight};
   overflow-wrap: anywhere;
   text-align: left;
-`
+`;
 
 export const ContactButton = styled.button`
   flex: 0 0 auto;
@@ -66,14 +65,20 @@ export const ContactButton = styled.button`
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 2px;
   }
-`
+`;
 
 export const SectionTitle = styled.h2`
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-  margin: 0; 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
   color: ${({ theme }) => theme.colors.black};
-  font-size: 20px; font-weight: ${({ theme }) => theme.fontWeights.bold}; line-height: 28px;
-  svg { width: 22px; height: 22px; flex: 0 0 auto; }
-`
+  font-size: 20px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 28px;
+  svg {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+  }
+`;

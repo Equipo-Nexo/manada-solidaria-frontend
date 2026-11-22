@@ -22,10 +22,7 @@ function AnimalPostSummaryCard({
 }: AnimalPostSummaryCardProps) {
   const statusInfo = status ? AnimalPostStatus[status] : undefined;
   const formattedReward =
-    status === "SEARCHING" &&
-    typeof reward === "number" &&
-    Number.isFinite(reward) &&
-    reward > 0
+    status === "SEARCHING" && typeof reward === "number" && Number.isFinite(reward) && reward > 0
       ? new Intl.NumberFormat("es-AR", {
           style: "currency",
           currency: "ARS",
@@ -48,10 +45,7 @@ function AnimalPostSummaryCard({
             </S.RewardInfo>
           )}
           {statusInfo && (
-            <StatusContainer
-              $color={statusInfo.fontColor}
-              $background={statusInfo.backgroundColor}
-            >
+            <StatusContainer $color={statusInfo.fontColor} $background={statusInfo.backgroundColor}>
               {statusInfo.text}
             </StatusContainer>
           )}

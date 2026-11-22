@@ -1,9 +1,9 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export type AuthTokens = {
   userId: string;
-  accessToken: string
-}
+  accessToken: string;
+};
 
 export type SessionStatus =
   | 'checking'
@@ -17,14 +17,14 @@ export type AuthState = AuthTokens & {
 }
 
 const initialState: AuthState = {
-  userId: '',
-  accessToken: '',
+  userId: "",
+  accessToken: "",
   isAuthenticated: false,
   sessionStatus: 'unauthenticated',
 }
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     loginSuccess: (_state, action: PayloadAction<AuthTokens>) => {
@@ -50,10 +50,10 @@ const authSlice = createSlice({
       state.sessionStatus = 'verification-failed'
     },
     logout: () => {
-      return initialState
+      return initialState;
     },
   },
-})
+});
 
 export const {
   loginSuccess,

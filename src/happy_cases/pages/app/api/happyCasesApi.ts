@@ -5,18 +5,16 @@ import type { Page } from "@/common/app/types/Page";
 
 export const happyCasesApi = baseAuthenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
-    getHappyCases: builder.query<Page<HappyCaseResponse>, GetHappyCasesRequest>(
-      {
-        query: ({ page = 0, size = 10 }) => ({
-          url: "/animal-posts/happy-cases",
-          params: {
-            page,
-            size,
-          },
-        }),
-        providesTags: ["AnimalPosts"],
-      },
-    ),
+    getHappyCases: builder.query<Page<HappyCaseResponse>, GetHappyCasesRequest>({
+      query: ({ page = 0, size = 10 }) => ({
+        url: "/animal-posts/happy-cases",
+        params: {
+          page,
+          size,
+        },
+      }),
+      providesTags: ["AnimalPosts"],
+    }),
   }),
   overrideExisting: false,
 });

@@ -1,8 +1,4 @@
-import {
-  combineReducers,
-  configureStore,
-  createListenerMiddleware,
-} from "@reduxjs/toolkit";
+import { combineReducers, configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
 import {
   FLUSH,
   PAUSE,

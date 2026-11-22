@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 function User(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,7 +15,7 @@ function User(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
 
-export default User
+export default User;

@@ -40,10 +40,7 @@ const baseQueryWithSessionRefresh: BaseQueryFn<
   const requestAccessToken = (api.getState() as RootState).auth.accessToken;
   let result = await rawBaseQuery(args, api, extraOptions);
 
-  if (
-    result.error?.status === 401 &&
-    (api.getState() as RootState).auth.isAuthenticated
-  ) {
+  if (result.error?.status === 401 && (api.getState() as RootState).auth.isAuthenticated) {
     const currentAccessToken = (api.getState() as RootState).auth.accessToken;
 
     if (currentAccessToken !== requestAccessToken) {

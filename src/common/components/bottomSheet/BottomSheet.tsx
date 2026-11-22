@@ -12,13 +12,7 @@ type BottomSheetProps = {
   onClose: () => void;
 };
 
-function BottomSheet({
-  className,
-  children,
-  isOpen,
-  ariaLabel,
-  onClose,
-}: BottomSheetProps) {
+function BottomSheet({ className, children, isOpen, ariaLabel, onClose }: BottomSheetProps) {
   useEffect(() => {
     if (!isOpen) {
       return undefined;
@@ -53,11 +47,7 @@ function BottomSheet({
         <S.BottomSheetHandle aria-hidden="true" />
         <S.BottomSheetContent>
           <S.BottomSheetCloseButtonContainer>
-            <S.BottomSheetCloseButton
-              type="button"
-              aria-label="Cerrar"
-              onClick={onClose}
-            >
+            <S.BottomSheetCloseButton type="button" aria-label="Cerrar" onClick={onClose}>
               <X aria-hidden="true" />
             </S.BottomSheetCloseButton>
           </S.BottomSheetCloseButtonContainer>

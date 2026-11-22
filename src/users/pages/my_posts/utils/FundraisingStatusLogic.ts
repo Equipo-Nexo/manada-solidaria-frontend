@@ -1,9 +1,6 @@
 import type { UpdatePostStatusSheetProps } from "@users/components/animal_post_status_sheet/UpdatePostStatusSheet.types";
 
-import {
-  fundraisingStatusConfig,
-  canChangeFundraisingStatus,
-} from "./FundraisingStatusConfig";
+import { fundraisingStatusConfig, canChangeFundraisingStatus } from "./FundraisingStatusConfig";
 
 import type { FundraisingStatus, EditableFundraisingStatus } from "./FundraisingStatusConfig";
 
@@ -16,8 +13,7 @@ interface FundraisingStatusLogicParams {
 const confirmationConfig = {
   FINISHED: {
     title: "¿Finalizar la colecta?",
-    description:
-      "La colecta se cerrará definitivamente y no podrás volver a cambiar su estado.",
+    description: "La colecta se cerrará definitivamente y no podrás volver a cambiar su estado.",
     primaryLabel: "Sí, finalizar",
     secondaryLabel: "No, volver",
   },
@@ -46,9 +42,7 @@ export function FundraisingStatusLogic({
         label: fundraisingStatusConfig[target].text,
         title: fundraisingStatusConfig[target].text,
         description:
-          target === "FINISHED"
-            ? "Finalizar la colecta"
-            : "Se alcanzó el objetivo de la colecta",
+          target === "FINISHED" ? "Finalizar la colecta" : "Se alcanzó el objetivo de la colecta",
         backendValue: target,
         isFinalStatus: true,
         confirmationTitle: confirmation.title,
@@ -56,10 +50,7 @@ export function FundraisingStatusLogic({
         primaryButton: {
           label: confirmation.primaryLabel,
           handleClick: (selectedStatus: FundraisingStatus) => {
-            if (
-              selectedStatus === "COMPLETED" ||
-              selectedStatus === "FINISHED"
-            ) {
+            if (selectedStatus === "COMPLETED" || selectedStatus === "FINISHED") {
               return onChangeStatus(selectedStatus);
             }
           },

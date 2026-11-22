@@ -19,10 +19,7 @@ export default function CodeInput({
   errorId,
 }: CodeInputProps) {
   const inputs = useRef<Array<HTMLInputElement | null>>([]);
-  const digits = Array.from(
-    { length },
-    (_, index) => value[index]?.trim() || "",
-  );
+  const digits = Array.from({ length }, (_, index) => value[index]?.trim() || "");
 
   const updateDigits = (index: number, inputValue: string) => {
     const numbers = inputValue.replace(/\D/g, "").slice(0, length);
@@ -48,10 +45,7 @@ export default function CodeInput({
     }
   };
 
-  const handleKeyDown = (
-    index: number,
-    event: KeyboardEvent<HTMLInputElement>,
-  ) => {
+  const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Backspace") {
       event.preventDefault();
       if (digits[index]) {

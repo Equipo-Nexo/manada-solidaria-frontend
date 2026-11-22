@@ -30,25 +30,31 @@ export const Header = styled.header`
 `;
 
 export const BackButton = styled.button`
-  width: 40px; height: 40px; 
-  display: grid; 
-  flex: 0 0 auto; 
-  place-items: center; 
+  width: 40px;
+  height: 40px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
   border: 0;
-  border-radius: 50%; 
-  background: ${({ theme }) => theme.colors.background}; 
-  color: ${({ theme }) => theme.colors.black}; 
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
-  svg { width: 22px; height: 22px; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; 
-  outline-offset: 2px; }
-`
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 export const FormTitle = styled.h1`
-    margin: 0;
-    color: ${({ theme }) => theme.colors.black};
-    font-size: ${({ theme }) => theme.typography.header2.fontSize};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    text-align: left;
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.typography.header2.fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  text-align: left;
 `;
 export const Content = styled.div`
   width: 100%;
@@ -87,8 +93,7 @@ export const PhotoContainer = styled.div<{ $cropped: boolean }>`
   border-radius: 12px;
 
   @media (min-width: 768px) {
-    height: ${({ $cropped }) =>
-      $cropped ? "clamp(360px, 42vw, 580px)" : "auto"};
+    height: ${({ $cropped }) => ($cropped ? "clamp(360px, 42vw, 580px)" : "auto")};
     align-self: start;
   }
 `;
@@ -128,7 +133,7 @@ export const Title = styled.h2<TitleProps>`
   line-height: 22px;
   svg {
     color: ${({ $iconColor, theme }) =>
-    $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
+      $iconColor === "black" ? theme.colors.black : theme.colors.secondary};
   }
 `;
 export const FundraisingEndDate = styled.div`
@@ -225,10 +230,8 @@ export const CopyButton = styled.button<CopyButtonProps>`
   padding: 6px 4px;
   border: 1px solid ${({ theme }) => theme.colors.brand};
   border-radius: 10px;
-  background: ${({ $copied, theme }) =>
-    $copied ? theme.colors.brand : theme.colors.background};
-  color: ${({ $copied, theme }) =>
-    $copied ? theme.colors.background : theme.colors.brand};
+  background: ${({ $copied, theme }) => ($copied ? theme.colors.brand : theme.colors.background)};
+  color: ${({ $copied, theme }) => ($copied ? theme.colors.background : theme.colors.brand)};
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -323,72 +326,105 @@ export const FundraisingDescription = styled.p`
 `;
 
 export const LocationCard = styled.section`
-  min-height: 107px; 
-  display: grid; 
-  text-align:left;
-  grid-template-columns: 1fr 1fr; 
-  overflow: hidden; 
-  margin-top: 14px; 
+  min-height: 107px;
+  display: grid;
+  text-align: left;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  margin-top: 14px;
   border-radius: 10px;
-  width:100%;
-  background: ${({ theme }) => theme.colors.background}; 
+  width: 100%;
+  background: ${({ theme }) => theme.colors.background};
   box-shadow: 0 2px 8px rgb(55 37 28 / 18%);
   margin-bottom: 24px;
   @media (min-width: 768px) {
     min-height: 140px;
     margin-top: 0;
   }
-`
+`;
 
 export const MapPreview = styled.div`
-  position: relative; overflow: hidden;
-  background: linear-gradient(34deg, transparent 42%, rgb(255 255 255 / 75%) 43% 47%, transparent 48%),
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(34deg, transparent 42%, rgb(255 255 255 / 75%) 43% 47%, transparent 48%),
     linear-gradient(94deg, transparent 54%, rgb(255 255 255 / 70%) 55% 59%, transparent 60%),
     repeating-linear-gradient(25deg, transparent 0 15px, rgb(223 192 143 / 48%) 16px 18px), #c1ddd7;
-  &::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 48%, rgb(111 174 197 / 28%) 49% 57%, transparent 58%); }
-`
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 48%,
+      rgb(111 174 197 / 28%) 49% 57%,
+      transparent 58%
+    );
+  }
+`;
 
 export const MapMarker = styled.span`
-  position: absolute; z-index: 1; top: 46%; left: 52%; width: 10px; height: 10px; border: 3px solid ${({ theme }) => theme.colors.background};
-  border-radius: 50% 50% 50% 0; background: ${({ theme }) => theme.colors.brand}; box-shadow: 0 1px 3px rgb(0 0 0 / 28%); transform: rotate(-45deg);
-`
+  position: absolute;
+  z-index: 1;
+  top: 46%;
+  left: 52%;
+  width: 10px;
+  height: 10px;
+  border: 3px solid ${({ theme }) => theme.colors.background};
+  border-radius: 50% 50% 50% 0;
+  background: ${({ theme }) => theme.colors.brand};
+  box-shadow: 0 1px 3px rgb(0 0 0 / 28%);
+  transform: rotate(-45deg);
+`;
 
 export const LocationContent = styled.div`
-  display: flex; flex-direction: column; justify-content: center; padding: 14px 8px;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 14px 8px;
+`;
 
 export const LocationTitle = styled.h3`
-  margin: 0; color: ${({ theme }) => theme.colors.black}; 
-  font-size: 18px; 
-  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 18px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 17px;
-`
+`;
 
 export const LocationAddress = styled.p`
-  margin: 0; 
-  color: ${({ theme }) => theme.colors.black}; 
-  font-size: 14px; 
-  font-weight: ${({ theme }) => theme.fontWeights.semibold}; 
+  margin: 0;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 14px;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   line-height: 17px;
-`
+`;
 
 export const MapLink = styled.button`
-  display: inline-flex; 
-  align-items: center; 
-  gap: 8px; 
-  margin-top: 8px; 
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
   color: ${({ theme }) => theme.colors.brand};
-  width: fit-content; padding: 0; border: 0; 
-  background: transparent; 
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  font-size: 12px; 
-  font-weight: ${({ theme }) => theme.fontWeights.bold}; 
-  line-height: 16px; 
+  font-size: 12px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 16px;
   text-decoration: underline;
-  svg { width: 24px; height: 24px; flex: 0 0 auto; }
-  &:focus-visible { outline: 3px solid ${({ theme }) => theme.colors.focus}; outline-offset: 2px; }
-`
-
+  svg {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+  }
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focus};
+    outline-offset: 2px;
+  }
+`;
 
 export const ContactSection = styled.section`
   width: 100%;
