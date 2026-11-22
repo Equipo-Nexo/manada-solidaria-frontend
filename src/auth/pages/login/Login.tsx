@@ -84,16 +84,6 @@ function Login() {
           </S.HeaderTextContainer>
         </S.LoginHeader>
 
-<<<<<<< HEAD
-=======
-        <S.TitlesContainer>
-          <S.WelcomeTitle>
-            ¡Qué bueno verte
-            <S.TitleLineBreak /> de nuevo!
-          </S.WelcomeTitle>
-          <S.WelcomeSubtitle>Inicia sesión para seguir ayudando</S.WelcomeSubtitle>
-        </S.TitlesContainer>
->>>>>>> dev
 
         <S.Form
           onSubmit={handleSubmit(handleLogin, scrollToFirstFormError)}
@@ -153,7 +143,6 @@ function Login() {
 
             <S.ButtonsContainer>
 
-<<<<<<< HEAD
               <S.LoginButton type="submit" disabled={isAuthenticating}>
                 {isLoading ? "Ingresando..." : "Iniciar Sesión"}
               </S.LoginButton>
@@ -175,22 +164,6 @@ function Login() {
                 </>
               )}
             </S.ButtonsContainer>
-=======
-            {passkeySupported && (
-              <>
-                <S.LoginDivider>
-                  <span>o</span>
-                </S.LoginDivider>
-                <S.PasskeyButton
-                  type="button"
-                  disabled={isAuthenticating}
-                  onClick={() => void loginWithPasskey()}
-                >
-                  {isPasskeyLoading ? "Esperando confirmación..." : "Ingresar con passkey"}
-                </S.PasskeyButton>
-              </>
-            )}
->>>>>>> dev
           </S.FormFields>
           <S.RegisterTextContainer>
             <S.RegisterText>
@@ -199,25 +172,12 @@ function Login() {
             </S.RegisterText>
           </S.RegisterTextContainer>
         </S.Form>
-<<<<<<< HEAD
-
-=======
-        <S.RegisterTextContainer>
-          <S.RegisterText>
-            ¿No tienes cuenta? <S.RegisterLink href="/registro">Registrate</S.RegisterLink>
-          </S.RegisterText>
-        </S.RegisterTextContainer>
->>>>>>> dev
       </S.LoginContainer>
 
       <S.FooterContainer>
-<<<<<<< HEAD
         <S.FooterText>
           © 2026 Manada Solidaria
         </S.FooterText>
-=======
-        <S.FooterText>© 2026 Manada Solidaria - Cuidando huellas juntos</S.FooterText>
->>>>>>> dev
         <S.FooterText>v{__APP_VERSION__}</S.FooterText>
       </S.FooterContainer>
     </S.LoginPanel>
