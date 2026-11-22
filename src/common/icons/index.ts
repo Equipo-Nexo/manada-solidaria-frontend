@@ -8,6 +8,7 @@ export { default as Error } from "./Error";
 export { default as Eye } from "./Eye";
 export { default as EyeOff } from "./EyeOff";
 export { default as FilterIcon } from "./FilterIcon";
+export { default as Fingerprint } from "./Fingerprint";
 export { default as HandHeart } from "./HandHeart";
 export { default as Heart } from "./Heart";
 export { default as House } from "./House";

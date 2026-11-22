@@ -2,9 +2,10 @@ import { useCallback } from "react";
 import {
   useGetPasskeyRegistrationOptionsMutation,
   useRegisterPasskeyMutation,
-} from "@auth/app/api/passkeyRegistrationApi";
-import { createPasskeyCredential } from "@auth/app/webauthn/webAuthnRegistration";
-import { useToast } from "@hooks/toast/useToast";
+} from '@auth/app/api/passkeyRegistrationApi'
+import { createPasskeyCredential } from '@auth/app/webauthn/webAuthnRegistration'
+import { setPasskeyPreferred } from '@auth/services/passkeyPreference'
+import { useToast } from '@hooks/toast/useToast'
 
 function isUserCancellation(error: unknown): boolean {
   return (
@@ -33,7 +34,12 @@ export function usePasskeyRegistration() {
         throw new Error("PASSKEY_REGISTRATION_REJECTED");
       }
 
-      toast.success("Passkey configurada", "Ya podés usarla para iniciar sesión sin contraseña.");
+      setPasskeyPreferred()
+
+      toast.success(
+        'Passkey configurada',
+        'Ya podés usarla para iniciar sesión sin contraseña.',
+      )
     } catch (error) {
       if (isUserCancellation(error)) {
         toast.information(

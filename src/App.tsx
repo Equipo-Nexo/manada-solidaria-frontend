@@ -1,11 +1,11 @@
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { AppContent, AppShell } from "./App.styles";
 import {
   DesktopAuthenticatedView,
   MobileAuthenticatedView,
   InstallButton,
 } from "@components/index.ts";
-import Login from "./auth/pages/login/Login";
+import AuthEntry, { PasskeyAuthEntry } from "./auth/components/AuthEntry";
 import PasswordRecoveryEmail from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryEmail";
 import PasswordRecoveryCodeSent from "./auth/pages/password_recovery/password_recovery_request/PasswordRecoveryCodeSent";
 import VerifyCode from "./auth/pages/password_recovery/password_recovery_verify_code/VerifyCode";
@@ -42,7 +42,6 @@ import Community from "./users/pages/community/Community";
 import QuestionsFormPage from "./forms/pages/send_form_page/QuestionsFormPage";
 import AdoptionFormDetail from "./forms/pages/adoption_form_detail/AdoptionFormDetail";
 import AdoptionFormSuccess from "./forms/pages/adoption_form_success/AdoptionFormSuccess";
-import { useEffect } from "react";
 import UserProfile from "./users/pages/user_profile/userProfile";
 import ReceivedFormList from "./forms/pages/received_forms_list/receivedFormList";
 import NotificationPage from "./notifications/pages/NotificationPage";
@@ -51,7 +50,6 @@ import { usePushSubscriptionSync } from "@hooks/notifications/usePushSubscriptio
 function App() {
   usePushSubscriptionSync();
   const location = useLocation();
-  const navigate = useNavigate();
   const actualPath = location.pathname;
   const { isAuthenticated } = useAuth();
   const isFullScreenPublish =
@@ -72,7 +70,9 @@ function App() {
   const isAdoptionFormSuccess = actualPath.startsWith("/formulario-adopcion/enviado/");
 
   const usesFullScreenLayout =
+    actualPath === "/" ||
     actualPath === "/login" ||
+    actualPath.startsWith("/login/") ||
     actualPath === "/registro" ||
     isPasswordRecovery ||
     isFullScreenPublish ||
@@ -82,21 +82,6 @@ function App() {
 
   const showAuthenticatedShell =
     isAuthenticated && (!usesFullScreenLayout || isMobileMenu) && !isProfileSection;
-
-  const params = new URLSearchParams(location.search);
-  const redirect = params.get("redirect");
-
-  useEffect(() => {
-    if (!isAuthenticated && redirect) {
-      navigate(`/login?redirect=${encodeURIComponent(redirect)}`, {
-        replace: true,
-      });
-    }
-
-    if (isAuthenticated && redirect) {
-      navigate(redirect);
-    }
-  }, [isAuthenticated, redirect, navigate]);
 
   return (
     <>
@@ -110,8 +95,9 @@ function App() {
         )}
         <AppContent $isFullScreen={usesFullScreenLayout}>
           <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<AuthEntry />} />
+            <Route path="/login" element={<AuthEntry />} />
+            <Route path="/login/passkey" element={<PasskeyAuthEntry />} />
             <Route path="/registro" element={<Register />} />
 
             <Route path="/recuperar-contrasena/verificar-codigo" element={<VerifyCode />} />
